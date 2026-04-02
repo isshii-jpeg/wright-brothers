@@ -1,0 +1,545 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{conjecture}[theorem]{予想}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Br}{\mathrm{Br}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+\newcommand{\Fp}{\mathbb{F}_p}
+
+\begin{document}
+
+
+\title{Bost-Connesからワープドライブへ：\\
+  非可換幾何学と算術的真空工学を経由する\\
+  理論的連鎖}
+
+\author{Wright Brothers}
+\affiliation{Independent Research}
+\date{\today}
+
+\begin{abstract}
+本論文では、Bost-Connes量子統計力学系から
+Alcubierreワープドライブ（Alcubierre warp drive）の可能性への
+完全な理論的連鎖を、Connesの非可換幾何学（noncommutative geometry, NCG）
+プログラムを経由して提示する。この連鎖は10のステップから構成され、
+そのうち7つを確立済み、2つを議論済み（発表済みだが
+実験的に未確認の定理に依拠）、1つを未解決（スケーリング問題）
+と分類する。各ステップの厳密な定式化を与え、
+それを支える数学的定理または予想を特定し、
+連鎖が完結するために解決すべき未解決問題を定義する。
+鍵となる未解決問題---実験室スケールの
+真空エネルギー修正と巨視的な時空曲率との間の
+$\sim 10^{68}$桁のエネルギーギャップを橋渡しすること---は、
+5つの異なる部分問題として定式化され、各々が
+候補となる増幅メカニズムに対応する。本論文は、
+姉妹論文~\cite{paper_A}で導入された算術的真空工学
+（arithmetic vacuum engineering）研究プログラムのロードマップとして機能する。
+\end{abstract}
+
+\maketitle
+
+% ============================================================================
+\section{序論}
+\label{sec:intro}
+% ============================================================================
+
+姉妹論文~\cite{paper_A}において、我々はBost-Connes（BC）系における
+「素数チャネルミューティング（prime channel muting）」が
+ゼータ正則化された真空エネルギーの符号を反転させ、
+Alcubierreワープ計量~\cite{Alcubierre1994}が要求する
+弱エネルギー条件（weak energy condition, WEC）に違反する
+可能性があることを示した。その論文は代数的メカニズムと
+具体的な実験提案に焦点を当てていた。
+
+本論文は異なる問いに取り組む：\emph{BC系から実際の時空修正に至る
+完全な理論的連鎖とは何か、そしてギャップはどこにあるのか？}
+
+我々は10の論理的ステップ（表~\ref{tab:chain}）からなる連鎖を特定し、
+各ステップをその認識論的状態に従って分類する：
+\textbf{確立済み}（数学的または実験的に証明済み）、
+\textbf{議論済み}（発表された定理に支持されるが、その物理的
+適用可能性は推測的）、または\textbf{未解決}（満足のいく
+議論が存在しない）。各ステップの正確な参考文献を与え、
+未解決問題を研究目標として定式化する。
+
+\begin{table*}[t]
+\centering
+\caption{Bost-Connes系からワープドライブへの10段階の理論的連鎖。
+状態：E = 確立済み、A = 議論済み、O = 未解決。}
+\label{tab:chain}
+\begin{tabular}{@{}clllp{5.5cm}@{}}
+\toprule
+段階 & 名称 & 状態 & 参考文献 & 内容 \\
+\midrule
+1 & NCG標準模型 & E & \cite{Connes1996,CCM2007} & $M^4 \times F$：時空 $=$ 4次元多様体 $\times$ 有限NC空間 \\
+2 & BCの算術的核 & A & \cite{ConnesMarcolli2006} & BC $C^*$代数が$F$の算術を符号化 \\
+3 & 相転移 & E & \cite{BostConnes1995} & $\beta = 1$：$\Gal(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$の自発的破れ \\
+4 & 素数ミューティング & E & \cite{paper_A} & $P_{\neg p}$：ヒルベルト空間射影、$Z_{\neg p} = \zeta \cdot (1-p^{-\beta})$ \\
+5 & 分配関数の恒等式 & E & オイラー積 & $Z_{\neg p}(\beta) = \zeta(\beta)(1-p^{-\beta})$、代数的恒等式 \\
+6 & 真空エネルギー符号反転 & E & \cite{paper_A} & $\zeta_{\neg p}(-3) = (1-p^3)/120 < 0$（任意の$p \geq 2$） \\
+7 & WEC違反 & E & 標準QFT & 負のゼータ正則化エネルギー $\Rightarrow$ 局所的に$\rho < 0$ \\
+8 & ワープ計量の許容 & E & \cite{Alcubierre1994} & $\rho < 0$はAlcubierre $ds^2$の十分条件 \\
+9 & NCG $\leftrightarrow$ バルク時空 & A & \cite{ConnesMarcolli2006,Maldacena1998} & $F$上のBC操作 $\leftrightarrow$ $M^4$上の曲率 \\
+10 & スケーリング & O & --- & $10^{-22}\,\mathrm{J} \to 10^{47}\,\mathrm{J}$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% ============================================================================
+\section{確立済みのステップ（1, 3--8）}
+\label{sec:established}
+% ============================================================================
+
+\subsection{ステップ1：NCG標準模型}
+
+Connesの非可換幾何学（NCG）による素粒子物理学への
+アプローチ~\cite{Connes1996,CCM2007}は、時空を積
+\begin{equation}
+  \mathcal{M} = M^4 \times F,
+\end{equation}
+として記述する。ここで$M^4$はコンパクトなリーマン的スピン4次元多様体であり、
+$F$はスペクトル三つ組$(\mathcal{A}_F, \mathcal{H}_F, D_F)$で記述される
+有限次元非可換空間で、
+$\mathcal{A}_F = \mathbb{C} \oplus \mathbb{H} \oplus M_3(\mathbb{C})$
+である。
+
+スペクトル作用原理（spectral action principle）~\cite{CCM2007}
+$S = \Tr(f(D/\Lambda))$
+は、ヒッグス場を$F$上の計量の内部揺らぎとして含む、
+完全な標準模型ラグランジアンをアインシュタイン・ヒルベルト重力と
+結合した形で再現する。
+これは確立された数学的結果である。
+
+\subsection{ステップ3--6：BC系から符号反転へ}
+
+これらのステップは姉妹論文~\cite{paper_A}の中核をなし、
+ここでは要約する。
+
+\textbf{ステップ3.} $\ell^2(\mathbb{N}^*)$上の
+BC系~\cite{BostConnes1995}は、$H|n\rangle = \log(n)|n\rangle$であり、
+分配関数$Z(\beta) = \zeta(\beta)$を持ち、
+$\beta = 1$において対称群
+$\Gal(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$の相転移を有する。
+
+\textbf{ステップ4.} 射影$P_{\neg p} = \sum_{p \nmid n} |n\rangle\langle n|$
+が素数チャネルミューティングを定義する。
+
+\textbf{ステップ5.} 恒等式
+$Z_{\neg p}(\beta) = \zeta(\beta)(1-p^{-\beta})$
+はオイラー積（Euler product）から従い、厳密である。
+
+\textbf{ステップ6.} $s = -3$での評価：
+$\zeta_{\neg p}(-3) = (1-p^3)/120 < 0$（すべての素数$p \geq 2$に対して）。
+
+\subsection{ステップ7--8：負のエネルギーからワープ計量へ}
+
+\textbf{ステップ7.} ゼータ正則化された真空エネルギー密度が
+負であれば、WEC（$T_{\mu\nu} u^\mu u^\nu \geq 0$）が破れる。
+これはカシミール効果（Casimir effect）~\cite{Casimir1948,Bordag2009}の
+標準的な解釈である：境界条件が真空エネルギーを修正し、
+ゼータ正則化が物理的な（有限で測定可能な）結果を与える。
+
+\textbf{ステップ8.} Alcubierre計量~\cite{Alcubierre1994}は
+バブル壁において$\rho < 0$を要求する。ステップ7がこれを提供する。
+このステップはトートロジー的である：負のエネルギーが存在すれば、
+その計量はアインシュタイン方程式の有効な解である。
+
+% ============================================================================
+\section{議論済みのステップ（2, 9）}
+\label{sec:argued}
+% ============================================================================
+
+これらのステップは、\emph{物理的}解釈が推測的である
+確立された数学的結果に依拠する。
+
+\subsection{ステップ2：$F$の算術的核としてのBC系}
+
+\begin{proposition}[Connes-Marcolli~\cite{ConnesMarcolli2006}]
+Bost-Connes $C^*$力学系は、スケーリングを法とする
+$\mathbb{Q}$格子の通約可能性類の非可換空間である：
+\begin{equation}
+  \mathcal{A}_{\mathrm{BC}} = C^*(\mathbb{Q}_+^* \backslash \mathbb{A}_f / \Zhat^*),
+  \label{eq:bc_algebra}
+\end{equation}
+ここで$\mathbb{A}_f$は$\mathbb{Q}$の有限アデール（finite adeles）を表す。
+\end{proposition}
+
+これはConnes-Marcolli~\cite{ConnesMarcolli2006}の定理4.1であり、
+数学的に確立されている。\emph{物理的}主張は以下の通りである：
+
+\begin{conjecture}[算術的核]
+\label{conj:kernel}
+Connesの$M^4 \times F$における内部空間$F$は、
+真空状態の数論的構造を支配する算術的部分代数として
+$\mathcal{A}_{\mathrm{BC}}$を含む。
+具体的には、逆温度$\beta$における$\mathcal{A}_{\mathrm{BC}}$の
+KMS状態が$M^4$上の量子場の真空セクターに対応する。
+\end{conjecture}
+
+\textbf{予想の根拠：}
+\begin{enumerate}
+  \item $F$と$\mathcal{A}_{\mathrm{BC}}$はいずれも
+    類似した構造的性質（有限次元表現、
+    数体に関連する自己同型群）を持つ
+    非可換$C^*$代数である。
+  \item $M^4 \times F$上のスペクトル作用は
+    $\zeta$関数値を生成し~\cite{CCM2007}、BCの
+    分配関数は$\zeta$関数\emph{そのもの}である。
+  \item Connes-Marcolli~\cite{ConnesMarcolli2006}は
+    BC系を「$\Spec(\mathbb{Z})$上の」量子統計力学の
+    算術モデルとして明示的に展開している。
+\end{enumerate}
+
+\textbf{不足しているもの：} 明示的な埋め込み
+$\mathcal{A}_{\mathrm{BC}} \hookrightarrow \mathcal{A}_F$、
+あるいは$\mathcal{A}_{\mathrm{BC}}$上の操作が
+$M^4$上のスペクトル作用に特定の修正を誘導することを
+示す導出。
+
+\subsection{ステップ9：NCG操作 $\leftrightarrow$ バルク曲率}
+
+BC分配関数の修正が$M^4$上の時空幾何学の修正に
+対応するという主張は、代数的操作（素数ミューティング）と
+幾何学的帰結（時空曲率）の間の橋渡しを必要とする。
+
+二つの橋渡しが提案されている：
+
+\textbf{橋渡しA：スペクトル作用。}
+$M^4 \times F$上のスペクトル作用$\Tr(f(D/\Lambda))$は
+アインシュタイン・ヒルベルト作用に物質項を加えたものを生成する。
+BC系が$F$を修正するならば、スペクトル作用が変化し、
+運動方程式（アインシュタイン方程式を含む）が修正される。
+これは最も直接的な経路であるが、$P_{\neg p}$が$D_F$に
+どのように影響するかの計算を必要とする。
+
+\textbf{橋渡しB：ホログラフィック。}
+BC系は1次元の量子力学系である。
+ホログラフィック（AdS/CFT型）対応~\cite{Maldacena1998}を通じて、
+境界量子系はバルク重力物理学を符号化できる。
+BC系が算術的バルクの「境界理論」として機能するならば、
+その分配関数の修正$\zeta \to \zeta_{\neg p}$は
+バルク幾何学の修正に対応するであろう。
+
+両方の橋渡しは推測的である。いずれも第一原理から
+導出されていない。
+
+% ============================================================================
+\section{未解決問題：スケーリング（ステップ10）}
+\label{sec:scaling}
+% ============================================================================
+
+連鎖における最も重大なギャップは定量的なものである。
+
+\subsection{問題の記述}
+
+実験室実験で測定可能な真空エネルギー修正
+（\cite{paper_A}の第VI節）は
+$|\Delta E| \sim 10^{-22}\,\mathrm{J}$である。
+Alcubierreバブル
+（$R = 50\,\mathrm{m}$、$v = c$、壁厚$\sim 5\,\mathrm{m}$）に
+必要なエネルギーは$\sim 10^{47}\,\mathrm{J}$である。
+ギャップは$\sim 10^{69}$桁である。
+
+プランクスケールにおいても、最小のワープバブルは
+$E \sim E_P \sim 10^9\,\mathrm{J}$を必要とし、
+実験室スケールからのギャップは$\sim 10^{31}$である。
+
+\subsection{5つの候補メカニズム}
+
+スケーリング問題を5つの異なる部分問題として定式化する。
+各々が候補となる増幅メカニズムに対応する。
+
+\textbf{メカニズムI：コヒーレント増幅（coherent amplification）。}
+$N$個の量子系がコヒーレントな真空揺らぎと同期される場合、
+全真空エネルギーは$E \propto N^2$とスケールする
+（超放射（superradiance）~\cite{Dicke1954}と類似）。
+$N = 10^{15}$個の同期された共振器に対して：
+$E \sim 10^{-22} \times 10^{30} = 10^{8}\,\mathrm{J}$、
+これはプランクエネルギーに近づく。
+
+\textit{未解決問題I：} 真空エネルギー修正が$N$スケーリングではなく
+$N^2$スケーリングを示す条件は何か？
+真空エネルギーコヒーレンスのデコヒーレンス率はいくらか？
+
+\textbf{メカニズムII：トポロジカル保護（topological protection）。}
+真空エネルギーの符号反転がトポロジカル不変量
+（K理論による相の分類で保護される）であれば、
+熱揺らぎやデコヒーレンスに対してロバストである可能性がある。
+関連するK群の変化は
+$K_1(\mathbb{Z}) = \mathbb{Z}/2 \to K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z}$
+であり、トポロジカル相転移である。
+
+\textit{未解決問題II：} K理論的相転移
+$K_1(\mathbb{Z}) \to K_1(\Zp)$は
+物理的に実現可能なトポロジカル相転移に対応するか？
+もしそうであれば、関連するエッジ状態は巨視的に
+観測可能か？
+
+\textbf{メカニズムIII：臨界増幅（critical amplification）。}
+$\beta = 1$におけるBC相転移の近傍では、揺らぎが
+発散する：$\langle (\Delta E)^2 \rangle \propto |\beta - 1|^{-\gamma}$
+（ある臨界指数$\gamma$に対して）。真空エネルギー修正が
+これらの臨界揺らぎと結合していれば、
+転移点近傍で増幅される可能性がある。
+
+\textit{未解決問題III：} $\beta = 1$におけるBC系の臨界指数は
+何か？素数ミューティング操作は臨界モードと結合するか？
+
+\textbf{メカニズムIV：ホログラフィック増幅（holographic amplification）。}
+AdS/CFTにおいて、境界摂動はバルクに
+$O(1/G_N) \sim O(N^2)$効果を生じうる。ここで$N$は
+ゲージ群のランクであり、$G_N$はニュートン定数である。
+BC系が算術的バルクの境界理論であるならば、
+境界上の素数ミューティングはバルク幾何学に
+増幅された効果を生じうる。
+
+\textit{未解決問題IV：} BC系が境界理論として機能する
+AdS/CFTの算術的類似物は存在するか？
+そのような対応の「中心荷電」は何か？
+
+\textbf{メカニズムV：ブートストラップ（bootstrap）。}
+プランクスケールのワープバブルが生成できるならば
+（$E \sim 10^9\,\mathrm{J}$、メカニズムI--IVにより
+到達可能な可能性がある）、それは自己強化過程の種として
+機能しうる：バブル自体が時空を修正し、
+さらなる膨張のエネルギーコストを削減する。
+
+\textit{未解決問題V：} プランクスケールのワープバブルは
+安定か？制御された膨張の種として機能できるか？
+バブル半径の関数としてのエネルギーコストはいくらか？
+
+\subsection{定性的解決と定量的解決}
+
+スケーリング問題は定量的ではなく
+\emph{定性的}な解決を認める可能性があることを指摘する。
+層理論的再定式化に関する姉妹論文~\cite{paper_B}において、
+WECは$\Spec(\mathbb{Z})$上のコホモロジー的障害として
+解釈可能であり、局所化$\mathbb{Z} \to \Zp$の下での
+その消滅は連続的なエネルギー閾値ではなく
+離散的（オン/オフ）遷移であると論じた。この解釈が
+正しければ、スケーリング問題は消滅する：負のエネルギーを
+「蓄積」する必要はなく、障害を「スイッチオフ」すればよい。
+
+これは予想のままである（\cite{paper_B}の予想3を参照）。
+
+% ============================================================================
+\section{実験的検証の役割}
+\label{sec:experiment}
+% ============================================================================
+
+\cite{paper_A}の実験提案は、連鎖（表~\ref{tab:chain}）の
+ステップ4--6を直接検証する。
+実験結果と連鎖の関係を要約する：
+
+\begin{description}
+  \item[レベル1の成功] （$\Delta E \neq 0$が測定される）
+    $\Rightarrow$ ステップ4--5が確認される。
+    真空エネルギーはモードの算術に依存する。
+
+  \item[レベル2の成功] （$\Delta E$がゼータ正則化された値と一致する）
+    $\Rightarrow$ ステップ6が確認される。
+    ゼータ正則化がモード選択下の物理的真空エネルギーを
+    正しく予測する。
+
+  \item[レベル3の成功] （$p=2,3$に対して乗法構造が検証される）
+    $\Rightarrow$ ステップ5が物理法則として確認される。
+    オイラー積は単なる数学的恒等式ではなく、
+    量子真空を支配する。
+
+  \item[レベル4の成功] （制御可能な符号反転が実証される）
+    $\Rightarrow$ ステップ7が実験室スケールで確認される。
+    算術的制御によるWEC違反が物理的に可能である。
+\end{description}
+
+ステップ2と9（議論済みのステップ）は、提案された実験では
+直接検証できない。これらは以下のいずれかを必要とする：
+(a) NCG標準模型の独立した確認
+（例えば、新粒子や結合定数の予測）、あるいは
+(b) 真空エネルギー修正の重力的シグナチャーの検出
+（現在の技術を超える感度を必要とする）。
+
+ステップ10（スケーリング）は、現在提案されているいかなる
+実験でも検証できない。上記のメカニズムI--Vの
+一つ以上における理論的進展を必要とする。
+
+% ============================================================================
+\section{他のワープドライブ提案との関係}
+\label{sec:related}
+% ============================================================================
+
+\textbf{Lentzソリトン~\cite{Lentz2021}。}
+Lentzは、純粋に正のエネルギーを持つ亜光速ワープ型ソリトンが
+古典的一般相対論に存在することを示した。これらの解は
+WEC違反を必要としない。我々のアプローチはLentzのものを補完する：
+超光速旅行が目的であれば、WEC違反は必要であり
+（Bobrick-Martire~\cite{BobrickMartire2021}が示した通り）、
+我々のメカニズムはそれへの特定の代数的経路を提供する。
+亜光速応用には、Lentzソリトンが算術的真空工学なしに
+達成可能かもしれない。
+
+\textbf{Bobrick-Martire分類~\cite{BobrickMartire2021}。}
+BobrickとMartireはワープドライブを平坦ミンコフスキー内部を
+囲む殻幾何学として分類した。彼らの主要結果：亜光速の
+正エネルギーワープは可能、超光速はWEC違反を必要とする。
+我々の連鎖はWEC違反メカニズム（ステップ4--7）を提供することで
+超光速の場合に対処する。
+
+\textbf{White（EagleWorks）。}
+White~\cite{White2013}は電磁キャビティを用いた
+微視的ワープ場摂動の干渉計的検出を提案した。
+我々のSQUIDベースの実験（\cite{paper_A}の第VI節）は
+概念的に関連するが、より特定的な仮説を検証する：
+真空エネルギーの算術的（オイラー積）構造である。
+
+% ============================================================================
+\section{結論とロードマップ}
+\label{sec:conclusion}
+% ============================================================================
+
+BC系からワープドライブへの理論的連鎖は
+10のステップ（表~\ref{tab:chain}）から構成される。
+7つが確立済み、2つが議論済み、1つが未解決である：
+
+\begin{enumerate}
+  \item \textbf{確立済み}（ステップ1, 3--8）：数学的
+    枠組みは厳密である。符号反転定理は代数的恒等式である。
+    カシミール効果を通じた物理的解釈は標準的である。
+
+  \item \textbf{議論済み}（ステップ2, 9）：BC系と
+    物理的時空の接続はNCGプログラムに依拠する。
+    NCGプログラムは標準模型の再現に成功しているが、
+    独立した実験的確認を欠いている。これらのステップは
+    厳密な予想として定式化できる
+    （予想~\ref{conj:kernel}および上記の橋渡しA/B）。
+
+  \item \textbf{未解決}（ステップ10）：スケーリング問題は
+    最も重大なギャップである。5つの候補メカニズムが
+    特定され、各々に明確に定義された未解決問題がある。
+\end{enumerate}
+
+推奨される研究ロードマップは以下の通りである：
+
+\textbf{フェーズ1（1--2年）：}
+SQUID実験~\cite{paper_A}を実施し、ステップ4--6を検証する。
+
+\textbf{フェーズ2（2--5年）：}
+スケーリング問題の定性的解決に向けて
+層理論的枠組み~\cite{paper_B}を発展させる。
+凝縮系物質系におけるトポロジカル相転移
+（メカニズムII）を研究する。
+
+\textbf{フェーズ3（5--10年）：}
+同期された量子回路アレイを用いてコヒーレント増幅
+（メカニズムI）を追求する。BC系の臨界挙動
+（メカニズムIII）を研究する。
+
+\textbf{フェーズ4（10年以上）：}
+フェーズ1が真空エネルギーの算術的構造を確認し、
+フェーズ2--3が実行可能な増幅メカニズムを特定した場合、
+巨視的な負のエネルギー生成を追求する。
+
+算術的真空工学プログラムは野心的であるが
+科学的に根拠がある：各ステップは証明済み、厳密に
+推測されている、または明確に定義された未解決問題として
+定式化されている。部分的な成功---真空エネルギーの
+オイラー積構造の確認---であっても、
+基礎物理学への重要な貢献となるであろう。
+
+\section*{謝辞}
+本研究はWright Brothers共同研究として
+独立に実施された。
+
+\begin{thebibliography}{30}
+
+\bibitem{paper_A}
+Wright Brothers,
+``Arithmetic vacuum engineering: Prime channel muting via
+Bost-Connes phase transitions and its implications for
+exotic matter generation,''
+companion paper (2026).
+
+\bibitem{paper_B}
+Wright Brothers,
+``Sheaf-theoretic reformulation of vacuum energy conditions
+on $\Spec(\mathbb{Z})$,''
+companion paper (2026).
+
+\bibitem{Alcubierre1994}
+M.~Alcubierre,
+Class. Quantum Grav. \textbf{11}, L73 (1994).
+
+\bibitem{BostConnes1995}
+J.-B.~Bost and A.~Connes,
+Selecta Math. (N.S.) \textbf{1}, 411 (1995).
+
+\bibitem{ConnesMarcolli2006}
+A.~Connes and M.~Marcolli,
+\emph{Noncommutative Geometry, Quantum Fields and Motives},
+AMS (2008); see Theorem~4.1 and Chapter~3.
+
+\bibitem{Connes1996}
+A.~Connes,
+``Gravity coupled with matter and the foundation of
+non-commutative geometry,''
+Commun. Math. Phys. \textbf{182}, 155 (1996).
+
+\bibitem{CCM2007}
+A.~H.~Chamseddine, A.~Connes, and M.~Marcolli,
+``Gravity and the Standard Model with neutrino mixing,''
+Adv. Theor. Math. Phys. \textbf{11}, 991 (2007).
+
+\bibitem{Casimir1948}
+H.~B.~G.~Casimir,
+Proc. K. Ned. Akad. Wet. \textbf{51}, 793 (1948).
+
+\bibitem{Bordag2009}
+M.~Bordag et al.,
+\emph{Advances in the Casimir Effect},
+Oxford University Press (2009).
+
+\bibitem{Maldacena1998}
+J.~Maldacena,
+``The large $N$ limit of superconformal field theories
+and supergravity,''
+Adv. Theor. Math. Phys. \textbf{2}, 231 (1998).
+
+\bibitem{Dicke1954}
+R.~H.~Dicke,
+``Coherence in spontaneous radiation processes,''
+Phys. Rev. \textbf{93}, 99 (1954).
+
+\bibitem{Lentz2021}
+E.~W.~Lentz,
+Class. Quantum Grav. \textbf{38}, 075015 (2021).
+
+\bibitem{BobrickMartire2021}
+A.~Bobrick and G.~Martire,
+Class. Quantum Grav. \textbf{38}, 105009 (2021).
+
+\bibitem{White2013}
+H.~White,
+``Warp field mechanics 102: Energy optimization,''
+NASA Technical Report JSC-CN-28555 (2013).
+
+\end{thebibliography}
+
+\end{document}

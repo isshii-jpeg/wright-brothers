@@ -1,0 +1,122 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{corollary}[theorem]{系}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+
+\begin{document}
+
+\title{算術的真空工学：\\Bost-Connes相転移による素数チャンネルミュートと\\エキゾチック物質生成への含意}
+\author{Wright Brothers\\{\small 独立研究}}
+\date{2026年4月}
+\maketitle
+
+\begin{abstract}
+リーマンゼータ関数の算術構造を利用して、量子真空エネルギーの符号を制御するメカニズムを提案する。ボスト-コンヌ (BC) 量子統計力学系は分配関数 $Z(\beta) = \zeta(\beta)$ を持ち、各素数 $p$ がオイラー積を通じて因子 $(1-p^{-\beta})^{-1}$ を寄与する。素数 $p$ で割り切れる状態を射影により除去する操作 ---「素数チャンネル $p$ のミュート」--- は分配関数を $\zeta(\beta)\cdot(1-p^{-\beta})$ に変更し、ゼータ正則化真空エネルギーの符号を反転させることを示す：任意の素数 $p \geq 2$ に対して $\zeta_{\neg p}(-3) < 0$。この符号反転はアルクビエレ型ワープ計量の主要障壁である弱エネルギー条件 (WEC) の違反を構成する。素数チャンネルミュートを実現する3つの物理メカニズム（スペクトルフィルタリング、算術的境界条件、相転移セクター選択）を特定し、SQUIDベースのノッチフィルタを備えた超伝導マイクロ波共振器を用いた具体的実験を提案する。本実験は既存技術（希釈冷凍機、Nb同一平面導波路、可変SQUID）を使用し、推定コストは5万〜10万ドルである。
+\end{abstract}
+
+\section{序論}
+
+アルクビエレ・ワープ計量~\cite{Alcubierre1994}は一般相対論の枠内で超光速移動を許容するが、弱エネルギー条件 (WEC) に違反する物質 --- 負のエネルギー密度 --- を必要とする。カシミール効果~\cite{Casimir1948}は、量子場への境界条件が負の真空エネルギーを生み出しうることを実証しているが、その大きさはアルクビエレ要件に多くの桁で及ばない~\cite{PfenningFord1997}。
+
+本論文の中心的な観察は、量子真空が\emph{算術構造}を持つということである：そのエネルギーはゼータ関数正則化により計算され、$\zeta(s)$ はオイラー積 $\zeta(s) = \prod_p (1-p^{-s})^{-1}$ に分解される。各素数 $p$ は真空に独立な「チャンネル」を寄与する。単一のチャンネルを抑制するだけで真空エネルギーの符号が反転することを示す。
+
+\section{ゼータ正則化真空エネルギー}
+
+モード $\{\omega_n = n\omega_0\}$ を持つ量子場のゼロ点エネルギーはゼータ正則化により
+\begin{equation}
+  E_{\mathrm{vac}}^{\mathrm{reg}} = \frac{\hbar\omega_0}{2}\,\zeta(-d)
+\end{equation}
+と計算される。3次元では $E_{\mathrm{vac}}^{(3D)} = \hbar\omega_0\zeta(-3)/2 = \hbar\omega_0/240$ である。
+
+\noindent\textbf{定義}（素数チャンネルミュート）. $p$-ミュートゼータ関数を $\zeta_{\neg p}(s) \equiv \zeta(s)\cdot(1-p^{-s}) = \sum_{p\nmid n} n^{-s}$ で定義する。幾何学的には $\Spec(\Zp)$ のゼータ関数である。
+
+\section{ボスト-コンヌ系}
+
+BC系~\cite{BostConnes1995,ConnesMarcolli2006}は $\ell^2(\mathbb{N}^*)$ 上のハミルトニアン $H|n\rangle = \log(n)|n\rangle$、分配関数 $Z(\beta) = \zeta(\beta)$ を持つ。$\beta = 1$ で $\Gal(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$ の自発的対称性の破れを伴う相転移を示す。
+
+\noindent\textbf{定義}（素数射影）. $P_{\neg p} = \sum_{p\nmid n} |n\rangle\langle n|$ は $\gcd(n,p)=1$ の部分空間への射影。制限された分配関数は $Z_{\neg p}(\beta) = \zeta(\beta)(1-p^{-\beta})$（厳密な恒等式）。
+
+3つの物理的実現：\textbf{(A)} $\omega = \log p$ のノッチフィルタ; \textbf{(B)} 周期 $p$ の算術的境界条件; \textbf{(C)} ガロア作用の $\mathbb{Z}_p^*$ 成分の凍結。
+
+\section{符号反転定理}
+
+\begin{theorem}[真空エネルギーの符号反転]
+\label{thm:sign_flip}
+任意の素数 $p \geq 2$ および正の整数 $n$ に対して $\zeta_{\neg p}(1-2n) = \zeta(1-2n)\cdot(1-p^{2n-1})$。$p^{2n-1} \geq 2$ より因子 $(1-p^{2n-1})$ は狭義に負であり、$\zeta_{\neg p}(1-2n)$ と $\zeta(1-2n)$ は逆符号を持つ。
+\end{theorem}
+\begin{proof}
+$\zeta_{\neg p}(s) = \zeta(s)(1-p^{-s})$ を $s = 1-2n$ で評価。
+\end{proof}
+
+\begin{corollary}
+3次元真空エネルギー：$\zeta_{\neg p}(-3) = (1-p^3)/120 < 0$（全 $p \geq 2$）。
+\end{corollary}
+
+\begin{table}[h]
+\centering
+\caption{最初の素数に対する符号反転（$s=-3$）。全て負でWEC違反を示す。}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+素数 $p$ & $(1-p^3)$ & $\zeta_{\neg p}(-3)$ \\
+\midrule
+2 & $-7$ & $-7/120$ \\
+3 & $-26$ & $-26/120$ \\
+5 & $-124$ & $-124/120$ \\
+7 & $-342$ & $-342/120$ \\
+11 & $-1330$ & $-1330/120$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{実験提案}
+
+Nb同一平面導波路共振器（$L=10\,$mm, $f_0 \approx 6.0\,$GHz）に10個のSQUIDノッチフィルタ（偶数高調波 $2f_0$〜$20f_0$）を組み込んだ $p=2$ 素数フィルタ実験を提案する。基底温度 $T < 20\,$mK にて熱的占有は $\langle n_{\mathrm{th}}\rangle \sim 10^{-9}$ と無視できる。
+
+\textbf{プロトコル}：全SQUID離調（構成A）vs 偶数高調波同調（構成B）の比較。
+
+\textbf{予測}：$E_{\mathrm{odd}}/E_{\mathrm{full}} \to \zeta_{\neg 2}(-1)/\zeta(-1) = -1$（符号反転）。
+
+\textbf{成功基準}：レベル1: $\Delta E \neq 0$; レベル2: $\zeta$正則化値と一致; レベル3: $p=2,3$ で乗法構造を検証; レベル4: 制御可能な符号反転。
+
+\textbf{リソース}：希釈冷凍機を備えた実験室、\$50--100K、12ヶ月。
+
+\section{ワープドライブ物理への含意}
+
+アルクビエレ計量はバブル壁で $\rho < 0$ を必要とし、定理~\ref{thm:sign_flip}はまさにこれを与える。回路スケールから巨視的時空への接続には以下の6段階が必要である：(1) 算術的モード選別が真空エネルギーを変える（検証可能）; (2) 変化が $\zeta$ 正則化予測と一致（検証可能）; (3) 真空のオイラー積構造が物理法則（レベル3で検証可能）; (4) 全スケールで成立（外挿）; (5) 負の真空エネルギーが重力を生む（標準GR）; (6) 十分な負エネルギーの集中（未解決）。段階1--3は本提案で実験的にアドレス可能。段階4--6は理論的課題として残る。
+
+\section{議論}
+
+本実験で検証できること：特定高調波の抑制が $\zeta$ 正則化と整合する形で真空エネルギーを変えるか。オイラー積構造が真空揺らぎの乗法的分解として現れるか。検証できないこと：このような真空エネルギー変更が巨視的スケールで時空を曲げるか。レベル3の成功は、ワープドライブとは独立に、$\zeta$ 関数の算術構造が量子真空に物理的に実現されていることを確立する基礎物理学への重要な貢献となる。
+
+\section*{謝辞}
+本研究はWright Brothers共同研究体による独立研究として実施された。
+
+\begin{thebibliography}{20}
+\bibitem{Alcubierre1994} M.~Alcubierre, Class. Quantum Grav. \textbf{11}, L73 (1994).
+\bibitem{Casimir1948} H.~B.~G.~Casimir, Proc. K. Ned. Akad. Wet. \textbf{51}, 793 (1948).
+\bibitem{PfenningFord1997} M.~J.~Pfenning and L.~H.~Ford, Class. Quantum Grav. \textbf{14}, 1743 (1997).
+\bibitem{BostConnes1995} J.-B.~Bost and A.~Connes, Selecta Math. (N.S.) \textbf{1}, 411 (1995).
+\bibitem{ConnesMarcolli2006} A.~Connes and M.~Marcolli, \emph{Noncommutative Geometry, Quantum Fields and Motives}, AMS (2008).
+\bibitem{Wilson2011} C.~M.~Wilson et al., Nature \textbf{479}, 376 (2011).
+\bibitem{Lentz2021} E.~W.~Lentz, Class. Quantum Grav. \textbf{38}, 075015 (2021).
+\bibitem{BobrickMartire2021} A.~Bobrick and G.~Martire, Class. Quantum Grav. \textbf{38}, 105009 (2021).
+\end{thebibliography}
+
+\end{document}

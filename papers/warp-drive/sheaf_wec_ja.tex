@@ -1,0 +1,482 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{conjecture}[theorem]{予想}
+\newtheorem{lemma}[theorem]{補題}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Br}{\mathrm{Br}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Gm}{\mathbb{G}_m}
+
+\begin{document}
+
+
+\title{$\Spec(\mathbb{Z})$上の真空エネルギー条件の\\
+  層理論的再定式化}
+
+\author{Wright Brothers}
+\affiliation{Independent Research}
+\date{\today}
+
+\begin{abstract}
+本論文では、ゼータ正則化された真空エネルギーおよび弱エネルギー条件
+(weak energy condition, WEC)を、算術的スキーム$\Spec(\mathbb{Z})$上の
+層（sheaf）とコホモロジーの言語で再定式化する。
+$\Spec(\mathbb{Z})$上に「エネルギー層」(energy sheaf) $\mathcal{F}$を
+構成し、その大域切断がリーマンゼータ関数をエンコードし、
+開部分スキーム$\Spec(\Zp)$への制限が$p$-除去ゼータ関数
+$\zeta_{\neg p}(s) = \zeta(s)(1-p^{-s})$をエンコードすることを示す。
+エタールコホモロジー (\'etale cohomology) の局所化完全列 (localization exact sequence) を用いて、
+局所コホモロジー$H^2_{(p)}(\Spec(\mathbb{Z}), \Gm) \cong \Qp/\mathbb{Z}_p$
+が「$p$成分のすべてのコホモロジー的障害」を担い、
+局所化によりこの成分が除去されることを示す。
+ボレル調整子 (Borel regulator) $\mathrm{reg}: K_{2n}(\mathbb{Z}) \to \mathbb{R}$
+は$\zeta(1-2n)$に写像されるが、すべての素数$p$およびすべての$n \geq 1$に対して
+局所化$\mathbb{Z} \to \Zp$の下で符号が反転することを証明する。
+この符号反転が弱エネルギー条件の破れに対応すると予想し、
+WECは連続的なエネルギー閾値ではなく、
+「調整子の向き」(regulator orientation)---離散的な位相不変量---であると
+提唱する。
+これが正しければ、関連論文~\cite{paper_A,paper_C}で特定された
+スケーリング問題は解消される：エネルギーを蓄積する必要はなく、
+向きを反転させればよいのである。
+局所化$\mathbb{Z} \to \Zp$の五つの物理的解釈
+（ゲージ化、カルツァ--クライン、相転移、トポス論理変更、
+およびアデール成分除去）を特定し、
+トポロジカル材料におけるK理論的相転移が最も有望な
+実験的実現であると提案する。
+\end{abstract}
+
+\maketitle
+
+% ============================================================================
+\section{序論}
+\label{sec:intro}
+% ============================================================================
+
+関連論文~\cite{paper_A}において、「素数チャネル除去」(prime channel muting)
+---素数$p$で割り切れるモードを射影除去する操作---が、
+ゼータ正則化された真空エネルギーの符号を反転させることを示した：
+すべての$p \geq 2$に対して$\zeta_{\neg p}(-3) < 0$である。
+\cite{paper_C}では、この結果をボスト--コンヌ系 (Bost-Connes system) から
+ワープドライブに至る十段階の理論的連鎖の中に位置づけ、
+約$10^{69}$桁のスケーリング問題が未解決であることを特定した。
+
+本論文では、同じ物理を$\Spec(\mathbb{Z})$上の代数幾何学と
+層コホモロジーの言語で再定式化する。
+動機は二つある：
+\begin{enumerate}
+  \item オイラー積$\zeta(s) = \prod_p (1-p^{-s})^{-1}$は
+    単なる公式ではなく、\emph{スキーム}$\Spec(\mathbb{Z})$のゼータ関数であり、
+    素数除去は\emph{局所化} (localization) という幾何学的操作に対応する。
+  \item スケーリング問題は質的な解決を許容しうる：
+    もしWECがエネルギー閾値（連続的）ではなく
+    コホモロジー的障害（オン／オフ）であるならば、
+    「反転」に比例するエネルギーは不要である。
+\end{enumerate}
+
+主張(2)は\emph{予想}であり、定理ではないことを強調する。
+本論文はこの予想のための数学的枠組みを構築し、
+それを確立するために何を証明する必要があるかを特定する。
+
+% ============================================================================
+\section{$\Spec(\mathbb{Z})$上のエネルギー層}
+\label{sec:sheaf}
+% ============================================================================
+
+\subsection{構成}
+
+$\Spec(\mathbb{Z})$上のザリスキ位相は、
+$n \in \mathbb{Z} \setminus \{0\}$に対する
+区別開集合$D(n) = \Spec(\mathbb{Z}[1/n])$を基底として持つ。
+以下を定義する：
+
+\begin{proposition}[エネルギー前層]
+\label{prop:presheaf}
+$\mathrm{Re}(s) > 1$なる$s \in \mathbb{C}$を固定する。
+割り当て
+\begin{equation}
+  \mathcal{F}(D(n)) = \zeta(s) \cdot \prod_{p | n} (1 - p^{-s})
+  \label{eq:energy_sheaf}
+\end{equation}
+および制限写像
+$\mathrm{res}_{D(m) \to D(n)}: f \mapsto f \cdot \prod_{p|n,\, p \nmid m} (1-p^{-s})$
+（$D(n) \subseteq D(m)$のとき）は、
+$\Spec(\mathbb{Z})$上の$\mathbb{C}$値関数の前層を定義する。
+\end{proposition}
+
+\begin{proof}
+前層の公理を検証する。(i) $\mathrm{res}_{U \to U} = \mathrm{id}$：
+$m = n$のとき$\{p | n,\, p \nmid m\}$上の積は空である。
+(ii) 推移性：$D(\ell) \subseteq D(n) \subseteq D(m)$に対して、
+素因数が互いに素な集合に分解するため、因子は正しく合成される。
+\end{proof}
+
+前層$\mathcal{F}$は実際には\emph{層}（sheaf）である：
+互いに素な素数集合上のオイラー積が因数分解するため、
+貼り合わせ条件が成立する。
+
+$\mathcal{F}(\Spec(\mathbb{Z})) = \zeta(s)$（大域切断）
+および$\mathcal{F}(D(p)) = \zeta_{\neg p}(s)$（閉点$(p)$の
+補集合上の切断）であることに注意する。
+
+\subsection{解析接続}
+
+$\mathrm{Re}(s) > 1$に対して$\mathcal{F}$は明確に定義される。
+$\zeta(s)$の解析接続により、$\mathcal{F}$を
+$s \in \mathbb{C}$をパラメータとする
+$\Spec(\mathbb{Z})$上の有理型関数の層に拡張する。
+負の奇数整数$s = 1 - 2n$における値が、
+物理に関連する真空エネルギー値である。
+
+% ============================================================================
+\section{局所化完全列}
+\label{sec:localization}
+% ============================================================================
+
+基本的な道具はエタールコホモロジーの局所化完全列である。
+$i: \{(p)\} \hookrightarrow \Spec(\mathbb{Z})$
+および$j: D(p) \hookrightarrow \Spec(\mathbb{Z})$を
+それぞれ閉包含および開包含とする。
+任意のエタール層$\mathcal{G}$に対して：
+\begin{equation}
+  \cdots \to H^n_{(p)} \to H^n(\Spec(\mathbb{Z}), \mathcal{G})
+  \to H^n(D(p), \mathcal{G}) \to H^{n+1}_{(p)} \to \cdots
+  \label{eq:les}
+\end{equation}
+ここで$H^n_{(p)} = H^n_{(p)}(\Spec(\mathbb{Z}), \mathcal{G})$
+は$(p)$に台を持つ局所コホモロジーである。
+
+$\mathcal{G} = \Gm$（乗法群層）に対して：
+
+\begin{proposition}
+\label{prop:local_cohom}
+\begin{align}
+  H^0(\Spec(\mathbb{Z}), \Gm) &= \mathbb{Z}^* = \{\pm 1\}, \\
+  H^0(D(p), \Gm) &= \Zp^* = \{\pm 1\} \times \langle p \rangle, \\
+  H^1(\Spec(\mathbb{Z}), \Gm) &= \mathrm{Pic}(\mathbb{Z}) = 0, \\
+  H^2_{(p)}(\Spec(\mathbb{Z}), \Gm) &\cong \Qp/\mathbb{Z}_p.
+  \label{eq:local_cohom}
+\end{align}
+\end{proposition}
+
+$n=2$の段階における完全列は次を与える：
+\begin{equation}
+  0 \to \Qp/\mathbb{Z}_p \to \Br(\mathbb{Z})
+  \to \Br(\Zp) \to 0.
+  \label{eq:brauer_ses}
+\end{equation}
+
+\textbf{物理的解釈。}
+$\Qp/\mathbb{Z}_p$は「$p$-局所的障害」の群である。
+局所化$\mathbb{Z} \to \Zp$はこの群全体を
+ブラウアー群 (Brauer group) から除去する。
+$p$成分が非自明な任意の障害は、$p$の除去により弱められるか破壊される。
+
+% ============================================================================
+\section{K理論と調整子}
+\label{sec:ktheory}
+% ============================================================================
+
+\subsection{$\mathbb{Z}$と$\Zp$のK群}
+
+$\mathbb{Z}$の代数的K群（Quillen~\cite{Quillen1973}）は：
+\begin{align}
+  K_0(\mathbb{Z}) &= \mathbb{Z}, \quad K_1(\mathbb{Z}) = \mathbb{Z}/2, \\
+  K_2(\mathbb{Z}) &= \mathbb{Z}/2 \quad \text{(Milnor~\cite{Milnor1971})}。
+\end{align}
+
+局所化の下で、$K_1$は自由部分を獲得する：
+\begin{equation}
+  K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z},
+  \label{eq:k1_local}
+\end{equation}
+ここで新しい$\mathbb{Z}$因子は$p \in \Zp^*$により生成される。
+これはK群の\emph{位相的型}の変化であり：
+除去された各素数に対して自由ランクが1増加する。
+
+\subsection{ボレル調整子とゼータ値}
+
+ボレル調整子~\cite{Borel1977}は準同型写像
+\begin{equation}
+  \mathrm{reg}: K_{2n-1}(\mathbb{Z}) \to \mathbb{R}^{d_n}
+\end{equation}
+であり、その像は格子をなし、その余体積は
+$|\zeta(n)|$に（有理因子と$\pi$の冪を除いて）関連する。
+
+本研究における鍵となる関係は：
+\begin{equation}
+  \zeta(1-2n) \sim \frac{|K_{2n-2}(\mathbb{Z})|}{|K_{2n-1}(\mathbb{Z})|} \cdot (\text{$\pi$の冪}),
+  \label{eq:lichtenbaum}
+\end{equation}
+Lichtenbaum~\cite{Lichtenbaum1973}により確立され、
+Voevodsky~\cite{Voevodsky2003}により（2-進の場合に）証明された。
+
+\subsection{調整子の符号反転}
+
+\begin{theorem}[調整子の符号反転]
+\label{thm:reg_flip}
+任意の素数$p \geq 2$および任意の正整数$n$に対して、
+「局所化された調整子値」
+$\zeta_{\neg p}(1-2n) = \zeta(1-2n) \cdot (1 - p^{2n-1})$
+は$\zeta(1-2n)$と反対の符号を持つ。
+\end{theorem}
+
+\begin{proof}
+$p \geq 2$, $n \geq 1$のとき$1 - p^{2n-1} < 0$である。
+\end{proof}
+
+数値的な内容は\cite{paper_A}の符号反転定理と同一であるが、
+K理論的解釈は新しい：
+
+\begin{conjecture}[調整子の向き]
+\label{conj:reg}
+$\zeta(1-2n)$の符号は位相不変量である：
+$\mathbb{R}^{d_n}$におけるボレル調整子格子の\emph{向き}（orientation）である。
+局所化$\mathbb{Z} \to \Zp$はこの向きを反転させる。
+物理的には、この向きが真空エネルギーの正（WEC充足）または
+負（WEC破れ）を決定する。
+\end{conjecture}
+
+予想~\ref{conj:reg}が正しければ、WECは算術的スキームの
+離散的（オン／オフ）不変量であり、連続的なエネルギー閾値ではない。
+WECを「破る」とは調整子の向きを反転させることを意味し、
+それは単一の局所化操作により達成される。
+
+% ============================================================================
+\section{局所化の物理的解釈}
+\label{sec:physics}
+% ============================================================================
+
+操作$\mathbb{Z} \to \Zp$は、数学的に等価な五つの
+異なる物理的解釈を許容する：
+
+\textbf{(1) $\mathbb{Z}/p\mathbb{Z}$対称性のゲージ化。}
+$\Zp$において$p$は単元であり、したがって$|n\rangle$と$|pn\rangle$は
+ゲージ同値となる。独立な自由度はゲージ軌道
+$\{n \cdot p^k : k \in \mathbb{Z}\}$であり、
+$p$と互いに素な整数でラベルされる。
+
+\textbf{(2) カルツァ--クライン非コンパクト化。}
+各素数$p$は有効半径$R_p \propto 1/\log(p)$の
+コンパクト余剰次元に対応する
+（BCハミルトニアン$H|n\rangle = \log(n)|n\rangle$より）。
+$p$での局所化はこの次元を非コンパクト化し（$R_p \to \infty$）、
+エネルギースペクトルに対するKK制約を解放する。
+
+\textbf{(3) 相転移。}
+オイラー因子$(1-p^{-\beta})^{-1}$は素数$p$に対する秩序パラメータである。
+局所化は$\beta_p \to \infty$（選択的凍結）に対応し、
+部分的な相転移である。
+
+\textbf{(4) トポス論理変更。}
+$\Spec(\mathbb{Z})$と$\Spec(\Zp)$は異なる
+エタールトポスを定義し、異なる内部論理（ハイティング代数）を持つ。
+命題（WECなど）は異なるトポスにおいて異なる真理値を持ちうる。
+
+\textbf{(5) アデール成分除去。}
+アデール環$\mathbb{A}_\mathbb{Q} = \mathbb{R} \times \prod'_p \Qp$。
+局所化は$\Qp$成分を除去する：真空はその量子揺らぎの
+「$p$進チャネル」を失う。
+
+五つの解釈はすべて同じ数学的操作を記述する。
+実験的に最もアクセスしやすいのは\textbf{(1)}：
+離散ゲージ理論は超伝導量子ビット配列で実現可能であること、
+および\textbf{(3)}：BCハミルトニアンの量子シミュレータで
+相転移を誘起できることである。
+
+% ============================================================================
+\section{境界：壁の物理}
+\label{sec:boundary}
+% ============================================================================
+
+局所化が空間の\emph{有限領域}に適用される場合、
+$\Spec(\mathbb{Z})$（外部、WEC = 真）と
+$\Spec(\Zp)$（内部、WEC = 偽）の間の境界は
+閉点$V(p) = \Spec(\Fp)$である。
+
+\subsection{壁のデータとしての局所コホモロジー}
+
+局所コホモロジー$H^2_{(p)} \cong \Qp/\mathbb{Z}_p$
+（命題~\ref{prop:local_cohom}）は壁の上に台を持つ。
+$\Qp/\mathbb{Z}_p$は階層的構造を持つ無限群である：
+\begin{equation}
+  \Qp/\mathbb{Z}_p = \bigcup_{n=1}^{\infty} p^{-n}\mathbb{Z}_p / \mathbb{Z}_p
+  \cong \bigcup_{n=1}^{\infty} \mathbb{Z}/p^n\mathbb{Z}.
+\end{equation}
+
+各レベル$n$は$p^n$個の「壁モード」を担う。
+これらは\emph{算術的エッジ状態}(arithmetic edge states)：
+二つの算術的相の界面に局在する境界自由度である。
+
+\subsection{トポロジカルエッジ状態との類似}
+
+トポロジカル絶縁体において、異なるK理論不変量を持つ
+二つの相の間の境界はギャップレスエッジ状態を支える
+（バルク--境界対応~\cite{Kitaev2009}）。
+
+ここで、$K_1(\mathbb{Z}) = \mathbb{Z}/2$および
+$K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z}$：
+K群の差は$\Delta K_1 = \mathbb{Z}$である。
+バルク--境界対応により、壁は無限のエッジ状態の塔を
+支えるはずである---これはまさに$\Qp/\mathbb{Z}_p$により
+数え上げられるモードである。
+
+\subsection{壁における予測現象}
+
+\begin{enumerate}
+  \item \textbf{算術的エッジ状態}：$\Qp/\mathbb{Z}_p$により
+    数え上げられる境界局在モード。
+  \item \textbf{輻射}：壁における対生成（ホーキング輻射に類似）、
+    温度$T_{\mathrm{wall}} \sim \hbar\omega_0 \log(p) / (2\pi k_B)$。
+  \item \textbf{屈折率不連続}：壁を横切るとモード密度が
+    $\sqrt{1-1/p}$倍変化し、
+    有効屈折率比$n_{\mathrm{in}}/n_{\mathrm{out}} = \sqrt{1-1/p}$を与える。
+  \item \textbf{安定性}：壁はトポロジカルに保護される
+    （異なるK理論相は連続的に変形できない）が、
+    標数$p$における暴分岐を支え、
+    最小壁厚に制限を課す。
+\end{enumerate}
+
+これらの予測は数学的枠組みの帰結であり、
+\cite{paper_A}の算術的真空工学プログラムが
+レベル3以上で成功した場合に検証可能である。
+
+% ============================================================================
+\section{議論}
+\label{sec:discussion}
+% ============================================================================
+
+\subsection{層の再定式化は予測能力を向上させるか？}
+
+本論文の数値的予測は\cite{paper_A}のものと同一である：
+$\zeta_{\neg p}(-3) = (1-p^3)/120$。
+しかし、層理論的枠組みは以下を提供する：
+\begin{enumerate}
+  \item 符号反転の\emph{質的}解釈としての
+    調整子の向きの反転（予想~\ref{conj:reg}）。
+    これが正しければスケーリング問題は解消される。
+  \item 新しい実験的予測：K理論的相転移
+    $K_1(\mathbb{Z}) \to K_1(\Zp)$は、
+    凝縮系アナログにおけるトポロジカル相転移として
+    観測可能なはずである。
+  \item 壁の物理の枠組み：局所コホモロジー
+    $\Qp/\mathbb{Z}_p$は具体的な境界現象を予測する。
+\end{enumerate}
+
+\subsection{未解決の予想}
+
+\begin{enumerate}
+  \item 予想~\ref{conj:reg}：WECと調整子の向きの同一視は
+    証明されていない。
+  \item 壁の現象（第~\ref{sec:boundary}節）は、
+    数学的なバルク--境界対応が物理的な対応物を持つことを仮定している。
+  \item スケーリング問題が「解消される」という主張は、
+    完全に予想~\ref{conj:reg}に依存する。
+    もしWECが離散的（位相的）条件ではなく
+    本質的に連続的（エネルギー的）条件であるならば、
+    スケーリング問題は残る。
+\end{enumerate}
+
+% ============================================================================
+\section{結論}
+\label{sec:conclusion}
+% ============================================================================
+
+$\Spec(\mathbb{Z})$上にリーマンゼータ関数のオイラー積構造を
+エンコードするエネルギー層$\mathcal{F}$を構成し、
+エタールコホモロジーを用いてその局所化特性を計算し、
+すべての素数$p$に対して
+$\mathbb{Z} \to \Zp$の下でボレル調整子が符号反転を
+起こすことを示した。
+
+この符号反転は離散的な位相不変量---調整子格子の向き---であり、
+弱エネルギー条件の充足または破れに対応すると予想する。
+これが正しければ、WECは$\Spec(\mathbb{Z})$の算術幾何学的性質として
+再構成され、所望の効果に比例するエネルギーを必要とせず
+局所化により「切り替え」可能となる。
+
+局所化の物理的実現は五つの等価な解釈を許容し、
+そのうちK理論的トポロジカル相転移と離散ゲージ理論シミュレーションが
+実験的に最もアクセスしやすい。
+二つの算術的相の境界は局所コホモロジー$\Qp/\mathbb{Z}_p$により
+特徴づけられ、具体的なエッジ状態現象を予測する。
+
+この枠組みはスケーリング問題を、定量的課題
+（$10^{69}$桁のエネルギーの蓄積）から定性的課題
+（調整子の向きを反転させるトポロジカル相転移の実現）へと
+変換する。この定性的解決が物理的に妥当であるか否かが、
+中心的な未解決問題として残る。
+
+\section*{謝辞}
+本研究はWright Brothers共同研究グループにより
+独立研究として遂行された。
+
+\begin{thebibliography}{30}
+
+\bibitem{paper_A}
+Wright Brothers,
+``Arithmetic vacuum engineering: Prime channel muting via
+Bost-Connes phase transitions,''
+companion paper (2026).
+
+\bibitem{paper_C}
+Wright Brothers,
+``From Bost-Connes to warp drive: A theoretical chain,''
+companion paper (2026).
+
+\bibitem{Quillen1973}
+D.~Quillen,
+in \emph{Algebraic $K$-theory I}, Springer LNM \textbf{341},
+pp.~85--147 (1973).
+
+\bibitem{Milnor1971}
+J.~Milnor,
+\emph{Introduction to Algebraic $K$-theory},
+Princeton University Press (1971).
+
+\bibitem{Borel1977}
+A.~Borel,
+``Cohomologie de $\mathrm{SL}_n$ et valeurs de fonctions z\^eta
+aux points entiers,''
+Ann. Scuola Norm. Sup. Pisa \textbf{4}, 613 (1977).
+
+\bibitem{Lichtenbaum1973}
+S.~Lichtenbaum,
+``Values of zeta-functions, \'etale cohomology, and algebraic
+$K$-theory,''
+in \emph{Algebraic $K$-theory II}, Springer LNM \textbf{342},
+pp.~489--501 (1973).
+
+\bibitem{Voevodsky2003}
+V.~Voevodsky,
+``Motivic cohomology with $\mathbb{Z}/2$-coefficients,''
+Publ. Math. IHES \textbf{98}, 59 (2003).
+
+\bibitem{Kitaev2009}
+A.~Kitaev,
+AIP Conf. Proc. \textbf{1134}, 22 (2009).
+
+\end{thebibliography}
+
+\end{document}
