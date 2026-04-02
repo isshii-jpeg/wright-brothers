@@ -1,0 +1,507 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage[margin=2.5cm]{geometry}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+
+\begin{document}
+
+\title{Physical Implementation of Prime Channel Muting:\\
+  Ten Experimental Platforms for Arithmetic Vacuum Engineering}
+
+\author{Wright Brothers\\{\small Independent Research}}
+\date{April 2026}
+\maketitle
+
+\begin{abstract}
+The companion paper~\cite{paper_A} established that suppressing
+vacuum modes at multiples of a prime $p$ (``prime channel muting'')
+flips the sign of zeta-regularized vacuum energy, and proposed a
+single experimental platform (superconducting circuits with SQUID
+notch filters). The present paper systematically surveys
+\emph{all} viable physical platforms for implementing prime
+channel muting, organized by the three mechanisms identified in
+the Bost-Connes framework: (A)~spectral filtering,
+(B)~arithmetic boundary conditions, and (C)~phase transition
+sector selection. We identify ten distinct implementation
+candidates, assess each on five criteria (technology readiness,
+number of primes addressable, directness of vacuum energy
+measurement, cost, and timeline), and propose three
+experiments executable with minimal resources: an acoustic
+resonator proof-of-concept (\$100, 1~day), a quantum computer
+simulation of the Bost-Connes Hamiltonian (\$0, 1~week on
+cloud quantum hardware), and an optical frequency comb
+experiment with Fabry-P\'erot filtering (\$10K, 6~months).
+These complement the SQUID experiment of~\cite{paper_A} by
+providing independent tests of the arithmetic structure of
+vacuum energy across different physical domains.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+In~\cite{paper_A}, we proved that muting any single prime $p$
+flips the sign of zeta-regularized vacuum energy:
+$\zeta_{\neg p}(-3) = (1-p^3)/120 < 0$.
+Three physical mechanisms were identified for implementing the
+projection $P_{\neg p} = \sum_{p \nmid n} |n\rangle\langle n|$:
+\begin{itemize}
+\item[(A)] Spectral filtering: absorb modes at frequencies
+  that are multiples of $p$.
+\item[(B)] Arithmetic boundary conditions: impose boundary
+  conditions that permit only modes $n$ with $\gcd(n,p)=1$.
+\item[(C)] Phase transition sector selection: select KMS states
+  of the Bost-Connes system invariant under $\mathbb{Z}_p^*$.
+\end{itemize}
+
+Paper~\cite{paper_A} developed mechanism~(A) into a detailed
+SQUID-based experiment. The present paper surveys all mechanisms
+systematically and identifies nine additional platforms, including
+three that can be executed immediately with minimal resources.
+
+% ============================================================================
+\section{Mechanism A: Spectral Filtering}
+\label{sec:mech_a}
+% ============================================================================
+
+Mechanism~A suppresses modes at multiples of $p$ by absorbing
+the corresponding frequency components. We distinguish two
+sub-cases depending on the spectrum of the physical system.
+
+\subsection{A1: Logarithmic spectrum systems}
+
+In the Bost-Connes system, $E_n = \log(n)$. A single notch
+filter at $\omega = \log(p)$ removes all $p$-divisible states,
+because any $n$ with $p \mid n$ has $\log(n) \ni \log(p)$ in
+its prime factorization contribution.
+
+\textbf{Platform 1: Charged wire with logarithmic potential.}
+A 2D charged wire creates potential $V(r) = V_0 \log(r/a)$.
+In the WKB approximation, the bound-state energies scale as
+$E_n \sim \log(n)$. A particle confined in this potential with
+a frequency-selective absorber at $\omega = \log(p)$ would
+realize the BC Hamiltonian with prime muting.
+
+Technology readiness: low (requires custom trap geometry).
+Timeline: 3--5 years.
+
+\subsection{A2: Uniform spectrum systems}
+
+Standard cavities have $\omega_n = n\omega_0$ (uniform spacing).
+To mute prime $p$, one must suppress modes at $p\omega_0$,
+$2p\omega_0$, $3p\omega_0$, etc.\ --- a \emph{periodic comb filter}
+with period $p\omega_0$.
+
+\textbf{Platform 2: Superconducting circuit with SQUID filters}
+(detailed in~\cite{paper_A}). Coplanar waveguide resonator
+($f_0 \approx 6$\,GHz) with SQUID-based notch filters tuned to
+each even harmonic. Technology readiness: high.
+Cost: \$50--100K. Timeline: 12 months.
+
+\textbf{Platform 3: Optical frequency comb with Fabry-P\'erot.}
+A mode-locked laser generates a frequency comb
+$f_n = f_{\mathrm{CEO}} + n f_{\mathrm{rep}}$ with
+$f_{\mathrm{rep}} \sim 100$\,MHz.
+A Fabry-P\'erot cavity with free spectral range
+$\mathrm{FSR} = p \cdot f_{\mathrm{rep}}$ transmits only modes
+at multiples of $p$ and reflects all others.
+
+The \emph{reflected} beam contains exactly the modes coprime to $p$:
+$\{n : p \nmid n\}$. This is the $p$-muted spectrum.
+
+Measurement: the quantum noise (shot noise) of the reflected beam
+encodes the vacuum fluctuations of the filtered mode set.
+Comparing noise power between filtered and unfiltered beams
+tests whether vacuum fluctuation energy depends on the arithmetic
+of mode selection.
+
+Technology readiness: high (frequency combs are Nobel Prize
+technology~\cite{Hansch2005}; Fabry-P\'erot cavities are standard).
+Cost: \$10--50K. Timeline: 6 months.
+
+\textbf{Platform 4: Acoustic resonator with absorbers.}
+A tube of length $L$ supports standing waves at $f_n = nv/(2L)$.
+Inserting an absorbing material at position $x = L/(2p)$
+preferentially damps modes whose spatial profile has an antinode
+at that position.
+
+For $p = 2$: absorber at $L/4$ damps odd modes (antinode)
+while even modes have a node there and survive.
+This gives the \emph{complement} of $p$-muting (even modes survive
+instead of being removed), but the principle is identical and
+the complementary measurement is equally informative.
+
+Technology readiness: trivial (acrylic tube, speaker, microphone).
+Cost: \$100. Timeline: 1 day. This is the minimum-cost
+proof-of-concept for arithmetic mode selection.
+
+\textbf{Platform 5: Piezoelectric resonator array.}
+Piezoelectric crystals (quartz, PZT) have sharp mechanical
+resonances. An array of $N$ crystals with resonant frequencies
+$f_n = n f_0$ and selective damping at multiples of $p$ provides
+a solid-state platform for acoustic prime muting.
+
+Technology readiness: moderate. Cost: \$5K. Timeline: 3 months.
+
+% ============================================================================
+\section{Mechanism B: Arithmetic Boundary Conditions}
+\label{sec:mech_b}
+% ============================================================================
+
+Mechanism~B imposes boundary conditions that geometrically
+select modes coprime to $p$, analogous to how conducting plates
+select modes fitting between them in the Casimir effect.
+
+\textbf{Platform 6: Semiconductor superlattice.}
+A GaAs/AlGaAs superlattice with period $d = p \cdot a_0$
+(where $a_0$ is the fundamental lattice constant) opens
+minibands with gaps at mode numbers that are multiples of $p$.
+Electrons in the allowed minibands occupy only modes
+with $\gcd(n, p) = 1$.
+
+For $p = 2$: $a_0 = 5$\,nm, $d = 10$\,nm, gap energy $\sim 0.1$\,eV.
+Even-numbered minibands are gapped; odd ones propagate.
+
+Technology readiness: high (MBE growth is mature technology).
+Cost: \$50K. Timeline: 1 year.
+
+\textbf{Platform 7: Electromagnetic metamaterial.}
+A 3D metamaterial with split-ring resonators at period $p \cdot a$
+opens electromagnetic band gaps at multiples of $p$.
+Three independent lattice directions can address three independent
+primes: period $2a$ along $x$, $3a$ along $y$, $5a$ along $z$
+simultaneously mutes $p = 2, 3, 5$.
+
+Technology readiness: moderate. Cost: \$200K. Timeline: 2 years.
+
+\textbf{Platform 8: Euler product crystal.}
+The most ambitious version of Mechanism~B: stack multiple
+Bragg gratings, each with a different period $p_i \cdot a$
+for primes $p_1, p_2, p_3, \ldots$
+
+Layer 1 (period $2a$): gaps at multiples of 2.
+Layer 2 (period $3a$): gaps at multiples of 3.
+Layer 3 (period $5a$): gaps at multiples of 5.
+
+The combination is a physical \emph{sieve of Eratosthenes}:
+only prime-numbered modes (plus $n = 1$) survive all layers.
+The effective zeta function becomes
+$\zeta(s) \prod_{i} (1 - p_i^{-s})$, removing multiple
+Euler factors simultaneously.
+
+Numerical estimate: with the first three primes ($2, 3, 5$),
+77\% of modes below $n = 100$ are removed.
+
+Technology readiness: low (multi-layer interference is challenging).
+Cost: \$500K. Timeline: 3--5 years.
+
+% ============================================================================
+\section{Mechanism C: Phase Transition Sector Selection}
+\label{sec:mech_c}
+% ============================================================================
+
+Mechanism~C implements prime muting by manipulating the
+Bost-Connes phase transition directly, selecting KMS states
+invariant under $\mathbb{Z}_p^*$.
+
+\textbf{Platform 9: Quantum computer simulation.}
+The BC Hamiltonian $H|n\rangle = \log(n)|n\rangle$ on
+$\ell^2(\{1, \ldots, 2^N\})$ can be implemented on $N$ qubits.
+The prime-muting perturbation
+$H' = H + \Delta \sum_{p|n} |n\rangle\langle n|$
+gaps out $p$-divisible states in the limit $\Delta \to \infty$.
+
+Protocol:
+(1) Prepare the ground state of $H$ via VQE or adiabatic preparation.
+(2) Measure $\langle H \rangle$.
+(3) Add perturbation $H'$ with increasing $\Delta$.
+(4) Measure $\langle H' \rangle$ as a function of $\Delta$.
+(5) Verify that $\langle H' \rangle \to \zeta_{\neg p}(-1)$
+in the $\Delta \to \infty$ limit.
+
+This can be run on IBM Quantum or Google Cirq cloud platforms
+with 5--10 qubits, covering the first 32--1024 modes.
+
+Technology readiness: high (quantum simulation is standard).
+Cost: \$0 (cloud free tier). Timeline: 1 week.
+
+\textbf{Platform 10: Cold atom optical lattice.}
+Load ultracold atoms into a 1D optical lattice with
+site-dependent potential $V_n = V_0 \log(n)$
+(approximated by a shaped laser beam).
+A secondary lattice of period $p$ with depth $\Delta$
+shifts the energy of $p$-divisible sites.
+
+For $p = 2$: the secondary lattice has wavelength
+$\lambda_2 = 2 \times \lambda_1 = 1064$\,nm (Nd:YAG fundamental).
+For $p = 3$: $\lambda_3 = 3 \times \lambda_1 = 1596$\,nm.
+For $p = 5$: $\lambda_5 = 5 \times \lambda_1 = 2660$\,nm.
+All are standard laser wavelengths.
+
+The cold-atom platform can address thousands of lattice sites
+and multiple primes simultaneously, making it the most scalable
+analog quantum simulator for the BC system.
+
+A closely related platform uses Bose-Einstein condensates (BECs)
+with spatially modulated speed of sound. Since BEC phonons
+realize ``analog gravity''~\cite{Unruh1981}, a BEC with
+arithmetic modulation would implement
+\emph{analog gravity in an arithmetically modified vacuum} ---
+the most direct bridge from our algebraic mechanism to
+spacetime physics.
+
+Technology readiness: moderate (optical lattice experiments
+are mature; the logarithmic potential is non-standard).
+Cost: \$500K (existing lab) to \$2M (new setup).
+Timeline: 2--3 years.
+
+% ============================================================================
+\section{Comparative Assessment}
+\label{sec:comparison}
+% ============================================================================
+
+Table~\ref{tab:comparison} summarizes all ten platforms.
+
+\begin{table*}[t]
+\centering
+\caption{Ten implementation platforms for prime channel muting.
+  TRL = technology readiness (1--5 scale).
+  $N_p$ = number of primes simultaneously addressable.
+  Measurement: D = direct vacuum energy, I = indirect (spectrum).}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}rlcccccc@{}}
+\toprule
+\# & Platform & Mechanism & TRL & $N_p$ & Meas.\ & Cost & Timeline \\
+\midrule
+1 & Logarithmic potential trap & A1 & 2 & 1--2 & I & \$100K & 3--5 yr \\
+2 & SC circuit + SQUID~\cite{paper_A} & A2 & 4 & 2--5 & D & \$100K & 1 yr \\
+3 & Frequency comb + Fabry-P\'erot & A2 & 4 & 1--3 & I & \$10--50K & 6 mo \\
+4 & Acoustic resonator & A2 & 5 & 1--2 & I & \$100 & 1 day \\
+5 & Piezoelectric array & A2 & 4 & 1--2 & I & \$5K & 3 mo \\
+6 & Semiconductor superlattice & B & 4 & 1--2 & I & \$50K & 1 yr \\
+7 & EM metamaterial & B & 3 & 1--3 & I & \$200K & 2 yr \\
+8 & Euler product crystal & B & 2 & 3--5 & I & \$500K & 3--5 yr \\
+9 & Quantum computer (cloud) & C & 5 & many & I & \$0 & 1 wk \\
+10 & Cold atom optical lattice & C & 3 & 3--5 & D & \$500K & 2--3 yr \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% ============================================================================
+\section{Three Immediately Executable Experiments}
+\label{sec:immediate}
+% ============================================================================
+
+We highlight three experiments that can begin immediately,
+complementing the SQUID experiment of~\cite{paper_A}.
+
+\subsection{Experiment $\alpha$: Acoustic resonator (\$100, 1 day)}
+
+\textbf{Materials}: acrylic tube ($L = 1$\,m), loudspeaker, microphone, PC with FFT software.
+
+\textbf{Protocol}:
+(1) Drive the tube with white noise.
+(2) Record the resonance spectrum via FFT: peaks at
+$f_n = nv/(2L) \approx n \times 172$\,Hz.
+(3) Insert absorbing foam at $L/2$: odd modes (antinode at $L/2$)
+are damped; even modes (node at $L/2$) survive.
+(4) Insert foam at $L/3$: modes not divisible by 3 that have
+an antinode there are further damped.
+(5) Compare spectral peak heights before and after insertion.
+
+\textbf{What it tests}: That physical absorbers at arithmetic
+positions selectively remove modes based on divisibility.
+This is a classical (non-quantum) demonstration of
+arithmetic mode selection.
+
+\textbf{Limitation}: Does not probe vacuum energy
+(classical acoustics). But establishes the principle that
+physical geometry implements arithmetic filtering.
+
+\subsection{Experiment $\beta$: Quantum simulation (\$0, 1 week)}
+
+\textbf{Platform}: IBM Quantum (free cloud access) or Google Cirq.
+
+\textbf{Protocol}:
+(1) Encode the BC Hamiltonian $H|n\rangle = \log(n)|n\rangle$
+on 5--10 qubits using diagonal gates.
+(2) Prepare the thermal state at inverse temperature $\beta$
+via variational quantum eigensolver (VQE).
+(3) Measure $\langle H \rangle = -\partial_\beta \log Z(\beta)$.
+(4) Add perturbation $\Delta \sum_{p|n} |n\rangle\langle n|$
+for $p = 2$ with increasing $\Delta$.
+(5) Measure $\langle H \rangle$ as function of $\Delta$.
+(6) Verify convergence to $\zeta_{\neg 2}(-1) = +1/12$ as
+$\Delta \to \infty$ (sign flip from $\zeta(-1) = -1/12$).
+
+\textbf{What it tests}: That the BC system with prime muting
+reproduces the predicted partition function modification.
+This is a \emph{digital} quantum simulation, not an analog
+experiment, but validates the algebraic mechanism on
+actual quantum hardware.
+
+\textbf{Limitation}: Simulates the BC system, not the
+physical vacuum. Does not prove that physical vacuum
+has BC structure.
+
+\subsection{Experiment $\gamma$: Frequency comb (\$10--50K, 6 months)}
+
+\textbf{Materials}: Mode-locked laser ($f_{\mathrm{rep}} \sim 100$\,MHz),
+Fabry-P\'erot cavity ($\mathrm{FSR} = 2 f_{\mathrm{rep}}$),
+balanced homodyne detector.
+
+\textbf{Protocol}:
+(1) Generate frequency comb: $f_n = f_{\mathrm{CEO}} + n f_{\mathrm{rep}}$.
+(2) Pass through Fabry-P\'erot with $\mathrm{FSR} = 2 f_{\mathrm{rep}}$:
+transmitted beam contains only even modes ($p = 2$ multiples);
+reflected beam contains only odd modes ($p = 2$ muted).
+(3) Measure quantum noise power of reflected beam
+(shot noise limit = vacuum fluctuation energy).
+(4) Compare to unfiltered beam noise.
+(5) Repeat with $\mathrm{FSR} = 3 f_{\mathrm{rep}}$ (mute $p = 3$)
+and $\mathrm{FSR} = 5 f_{\mathrm{rep}}$ (mute $p = 5$).
+(6) Test multiplicative structure:
+noise ratio $R(p_1, p_2) = R(p_1) \times R(p_2)$?
+
+\textbf{What it tests}: Whether vacuum fluctuation noise of
+a filtered mode set depends on the arithmetic of the
+filter in a manner consistent with the Euler product.
+
+\textbf{Limitation}: Measures vacuum \emph{fluctuations},
+not vacuum \emph{energy} directly. The connection between
+noise power and zeta-regularized energy requires the
+quantum optics formalism relating shot noise to zero-point
+energy~\cite{Caves1981}.
+
+% ============================================================================
+\section{Scaling Considerations}
+\label{sec:scaling}
+% ============================================================================
+
+In~\cite{paper_B}, we conjectured that the weak energy condition
+is a discrete topological invariant (regulator orientation)
+rather than a continuous energy threshold. If correct, scaling
+is not needed: a single localization $\mathbb{Z} \to \Zp$
+flips the WEC regardless of energy scale.
+
+Independent of this conjecture, we note that each platform
+has a natural scaling path:
+\begin{itemize}
+\item Platform 2 (SQUID): arrays of $N$ synchronized resonators,
+  $E \propto N^2$ if vacuum energy modifications are coherent.
+\item Platform 6 (superlattice): bulk material scales with volume.
+\item Platform 8 (Euler product crystal): 3D structure, energy
+  density scales with the number of Euler factors removed.
+\item Platform 10 (optical lattice/BEC): $\sim 10^6$ sites
+  in current experiments; phonon-mediated interactions provide
+  natural long-range coherence.
+\end{itemize}
+
+The BEC platform (variant of Platform~10) is particularly
+promising for scaling because: (a) BEC phonons are an
+established analog gravity platform~\cite{Unruh1981};
+(b) Feshbach resonances allow precise tuning of the speed
+of sound, enabling spatial modulation at arithmetic periods;
+(c) the number of modes in a BEC ($\sim 10^6$) far exceeds
+what is achievable in microwave circuits ($\sim 20$).
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+The ten platforms span four orders of magnitude in cost
+(\$0 to \$2M) and five orders in timeline (1 day to 5 years).
+They address all three mechanisms (A, B, C) and both spectral
+regimes (microwave and optical).
+
+We recommend a multi-pronged experimental strategy:
+\begin{enumerate}
+\item \textbf{Immediate} (month 1):
+  Execute Experiments $\alpha$ (acoustic, principle verification)
+  and $\beta$ (quantum simulation, BC system verification)
+  simultaneously. Cost: \$100 + \$0 = \$100.
+\item \textbf{Short-term} (months 1--6):
+  Pursue Experiment $\gamma$ (frequency comb, vacuum fluctuation test).
+  Cost: \$10--50K.
+\item \textbf{Medium-term} (months 6--18):
+  Execute the SQUID experiment of~\cite{paper_A}
+  (Platform 2, direct vacuum energy measurement).
+  Cost: \$50--100K.
+\item \textbf{Long-term} (years 2--5):
+  Develop semiconductor superlattice (Platform 6) or
+  cold atom (Platform 10) for multi-prime muting and scaling studies.
+\end{enumerate}
+
+If Experiments $\alpha$ and $\beta$ succeed (confirming the
+principle and the BC algebraic structure), and Experiment $\gamma$
+shows arithmetic dependence of vacuum noise, the case for the
+more expensive Platforms 2, 6, and 10 becomes compelling.
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+We have identified ten physical platforms for implementing
+prime channel muting, spanning acoustic, electromagnetic,
+superconducting, semiconductor, metamaterial, quantum computing,
+and cold-atom technologies. Three experiments can begin
+immediately at minimal cost (\$100, \$0, and \$10K respectively),
+providing independent tests of the arithmetic vacuum energy
+hypothesis across classical acoustics, digital quantum simulation,
+and quantum optics.
+
+The diversity of platforms is a strength of the arithmetic
+vacuum engineering program: if the Euler product structure
+of vacuum energy is a physical law (not just a regularization
+artifact), it should manifest across \emph{all} physical systems
+with quantized mode spectra, regardless of the specific
+physical substrate. Multi-platform confirmation would provide
+the strongest possible evidence.
+
+\begin{thebibliography}{20}
+
+\bibitem{paper_A}
+Wright Brothers,
+``Arithmetic vacuum engineering: Prime channel muting via
+Bost-Connes phase transitions,''
+companion paper (2026).
+
+\bibitem{paper_B}
+Wright Brothers,
+``Sheaf-theoretic reformulation of vacuum energy conditions
+on $\Spec(\mathbb{Z})$,''
+companion paper (2026).
+
+\bibitem{Hansch2005}
+T.~W.~H\"ansch,
+``Nobel Lecture: Passion for precision,''
+Rev. Mod. Phys. \textbf{78}, 1297 (2006).
+
+\bibitem{Unruh1981}
+W.~G.~Unruh,
+``Experimental black-hole evaporation?''
+Phys. Rev. Lett. \textbf{46}, 1351 (1981).
+
+\bibitem{Caves1981}
+C.~M.~Caves,
+``Quantum-mechanical noise in an interferometer,''
+Phys. Rev. D \textbf{23}, 1693 (1981).
+
+\bibitem{Wilson2011}
+C.~M.~Wilson et al.,
+Nature \textbf{479}, 376 (2011).
+
+\end{thebibliography}
+
+\end{document}
