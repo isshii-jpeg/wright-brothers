@@ -291,6 +291,40 @@ $\Spec(\mathbb{Z})$ and $\Spec(\Zp)$ define different
 \'etale topoi with different internal logic (Heyting algebras).
 A proposition (such as the WEC) can have different truth values
 in different topoi.
+This interpretation deserves special emphasis because it connects
+to the deepest feature of quantum mechanics: \emph{contextuality}.
+The Kochen-Specker theorem~\cite{KochenSpecker1967} establishes
+that quantum observables have no context-independent values.
+D\"oring and Isham~\cite{DoeringIsham2008} reformulated quantum
+mechanics in topos-theoretic language, where propositions have
+truth values in a Heyting algebra (not $\{0,1\}$) that depend
+on the \emph{context} (a commutative subalgebra of observables).
+
+In our setting, the ``context'' is the choice of arithmetic
+ground ring: $\mathbb{Z}$ or $\Zp$. Each defines an \'etale
+topos $\mathrm{Sh}(\Spec(R)_{\mathrm{\acute{e}t}})$ with its
+own internal logic. The WEC, as a proposition about energy
+density, is evaluated \emph{within} this topos:
+\begin{itemize}
+\item In $\mathrm{Sh}(\Spec(\mathbb{Z})_{\mathrm{\acute{e}t}})$:
+  WEC = TRUE (all Euler factors present, regulator positive).
+\item In $\mathrm{Sh}(\Spec(\Zp)_{\mathrm{\acute{e}t}})$:
+  WEC = FALSE (Euler factor at $p$ removed, regulator sign flipped).
+\end{itemize}
+This is not a change in energy; it is a change in
+\emph{the logic by which physical propositions are evaluated}.
+Localization $\mathbb{Z} \to \Zp$ is a morphism of topoi ---
+a ``recompilation'' of the logical framework --- under which
+the truth value of WEC changes.
+
+The D\"oring-Isham framework and our arithmetic
+framework can be unified: the combined topos
+$\mathrm{Sh}(\mathcal{V}(N)) \times \mathrm{Sh}(\Spec(\mathbb{Z})_{\mathrm{\acute{e}t}})$
+would describe a quantum system whose propositions depend on
+\emph{both} the quantum context (which observables are measured)
+and the arithmetic context (which primes are ``active'').
+The WEC would then be a proposition whose truth value depends
+on the arithmetic context, controlled by localization.
 
 \textbf{(5) Adelic component removal.}
 The adele ring $\mathbb{A}_\mathbb{Q} = \mathbb{R} \times \prod'_p \Qp$.
@@ -480,6 +514,16 @@ Publ. Math. IHES \textbf{98}, 59 (2003).
 \bibitem{Kitaev2009}
 A.~Kitaev,
 AIP Conf. Proc. \textbf{1134}, 22 (2009).
+
+\bibitem{KochenSpecker1967}
+S.~Kochen and E.~P.~Specker,
+``The problem of hidden variables in quantum mechanics,''
+J. Math. Mech. \textbf{17}, 59 (1967).
+
+\bibitem{DoeringIsham2008}
+A.~D\"oring and C.~J.~Isham,
+``A topos foundation for theories of physics,''
+J. Math. Phys. \textbf{49}, 053515 (2008).
 
 \end{thebibliography}
 
