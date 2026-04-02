@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wright Brothers - Rewriting the Source Code of Reality</title>
+<style>
+/* ============================================================
+   CSS RESET & BASE
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a1a;--bg2:#0f0f2a;--bg3:#14143a;
+  --text:#e0e0f0;--text2:#a0a0c0;--accent:#00d4ff;
+  --accent2:#ff6b6b;--accent3:#ffd93d;--accent4:#6bff8d;
+  --glow:0 0 30px rgba(0,212,255,.3);
+  --card-bg:rgba(15,15,42,.85);
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--font);color:var(--text);
+  background:var(--bg);overflow-x:hidden;line-height:1.7;
+}
+a{color:var(--accent);text-decoration:none;transition:.2s}
+a:hover{color:#fff;text-shadow:var(--glow)}
+
+/* ============================================================
+   STARFIELD CANVAS
+   ============================================================ */
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ============================================================
+   HEADER / HERO
+   ============================================================ */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:2rem;
+}
+.hero h1{
+  font-size:clamp(2rem,6vw,4.5rem);font-weight:800;
+  letter-spacing:-.02em;
+  background:linear-gradient(135deg,var(--accent),var(--accent3),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:glow-pulse 4s ease-in-out infinite alternate;
+}
+@keyframes glow-pulse{
+  0%{filter:brightness(1)drop-shadow(0 0 10px rgba(0,212,255,.3))}
+  100%{filter:brightness(1.15)drop-shadow(0 0 25px rgba(0,212,255,.5))}
+}
+.hero .subtitle{
+  font-size:clamp(1rem,2.5vw,1.5rem);color:var(--text2);
+  margin-top:1rem;max-width:700px;
+}
+.lang-toggle{
+  position:fixed;top:1rem;right:1rem;z-index:100;
+  background:var(--card-bg);border:1px solid rgba(0,212,255,.3);
+  border-radius:2rem;padding:.4rem .8rem;
+  display:flex;gap:.5rem;backdrop-filter:blur(10px);
+}
+.lang-toggle button{
+  background:none;border:none;color:var(--text2);
+  font-size:.9rem;cursor:pointer;padding:.3rem .8rem;
+  border-radius:1.5rem;transition:.2s;font-family:var(--font);
+}
+.lang-toggle button.active{background:var(--accent);color:var(--bg);font-weight:700}
+.scroll-hint{
+  position:absolute;bottom:2rem;
+  animation:bounce 2s infinite;color:var(--text2);font-size:1.5rem;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,26,.9);backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(0,212,255,.15);
+  padding:.8rem 2rem;display:flex;justify-content:center;
+  gap:1.5rem;flex-wrap:wrap;
+}
+nav a{
+  font-size:.85rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--text2);padding:.3rem .6rem;
+  border-radius:.3rem;transition:.2s;
+}
+nav a:hover{color:var(--accent);background:rgba(0,212,255,.08)}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section{
+  position:relative;z-index:1;
+  max-width:1100px;margin:0 auto;padding:5rem 2rem;
+}
+.section-header{
+  text-align:center;margin-bottom:3rem;
+}
+.section-header h2{
+  font-size:clamp(1.5rem,4vw,2.5rem);font-weight:800;
+  margin-bottom:.5rem;
+}
+.section-header .tag{
+  display:inline-block;font-size:.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.15em;
+  padding:.3rem .8rem;border-radius:2rem;
+}
+.tag-plasma{background:rgba(0,212,255,.15);color:var(--accent)}
+.tag-car{background:rgba(255,107,107,.15);color:var(--accent2)}
+.tag-math{background:rgba(255,217,61,.15);color:var(--accent3)}
+.tag-hw{background:rgba(107,255,141,.15);color:var(--accent4)}
+.tag-fiction{background:rgba(180,130,255,.15);color:#b482ff}
+
+/* ============================================================
+   PROJECT CARDS
+   ============================================================ */
+.card{
+  background:var(--card-bg);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:1rem;padding:2rem;margin-bottom:2rem;
+  backdrop-filter:blur(10px);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0;transition:.3s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+  border-color:rgba(0,212,255,.2);
+}
+.card:hover::before{opacity:1}
+.card h3{font-size:1.3rem;margin-bottom:.5rem}
+.card .desc{color:var(--text2);margin-bottom:1rem}
+.card .meta{
+  display:flex;gap:1rem;flex-wrap:wrap;align-items:center;
+  font-size:.8rem;color:var(--text2);
+}
+.card .meta .pill{
+  background:rgba(255,255,255,.06);padding:.2rem .6rem;
+  border-radius:1rem;font-family:var(--mono);font-size:.75rem;
+}
+.card .links{margin-top:1rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.card .links a{
+  display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.85rem;font-weight:600;
+  padding:.4rem 1rem;border-radius:2rem;
+  border:1px solid rgba(0,212,255,.3);
+  transition:.2s;
+}
+.card .links a:hover{
+  background:var(--accent);color:var(--bg);
+  border-color:var(--accent);
+}
+
+/* highlight card variants */
+.card.plasma{border-left:3px solid var(--accent)}
+.card.car{border-left:3px solid var(--accent2)}
+.card.math{border-left:3px solid var(--accent3)}
+.card.hw{border-left:3px solid var(--accent4)}
+.card.fiction{border-left:3px solid #b482ff}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline{
+  position:relative;padding-left:2rem;
+  border-left:2px solid rgba(0,212,255,.2);
+}
+.timeline .event{
+  position:relative;margin-bottom:2rem;padding-left:1.5rem;
+}
+.timeline .event::before{
+  content:'';position:absolute;left:-2.55rem;top:.4rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 10px rgba(0,212,255,.5);
+}
+.timeline .event h4{font-size:1rem;color:var(--accent)}
+.timeline .event p{color:var(--text2);font-size:.9rem}
+
+/* ============================================================
+   STATS BAR
+   ============================================================ */
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;margin:3rem 0;
+}
+.stat{
+  text-align:center;padding:1.5rem;
+  background:var(--card-bg);border-radius:1rem;
+  border:1px solid rgba(255,255,255,.05);
+}
+.stat .num{
+  font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.stat .label{font-size:.8rem;color:var(--text2);margin-top:.3rem}
+
+/* ============================================================
+   EQUATION DISPLAY
+   ============================================================ */
+.equation{
+  text-align:center;font-family:var(--mono);
+  font-size:1.1rem;color:var(--accent);
+  padding:1.5rem;margin:1.5rem 0;
+  background:rgba(0,212,255,.04);border-radius:.5rem;
+  border:1px solid rgba(0,212,255,.1);
+  overflow-x:auto;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:3rem 2rem;
+  border-top:1px solid rgba(255,255,255,.05);
+  color:var(--text2);font-size:.85rem;
+}
+
+/* ============================================================
+   LANG SWITCHING
+   ============================================================ */
+[data-lang="ja"]{display:none}
+body.ja [data-lang="ja"]{display:block}
+body.ja [data-lang="en"]{display:none}
+body.ja [data-lang-inline="ja"]{display:inline}
+body.ja [data-lang-inline="en"]{display:none}
+[data-lang-inline="ja"]{display:none}
+[data-lang-inline="en"]{display:inline}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:600px){
+  section{padding:3rem 1rem}
+  .card{padding:1.5rem}
+  nav{gap:.8rem;padding:.6rem 1rem}
+  nav a{font-size:.75rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ======== STARFIELD ======== -->
+<canvas id="stars"></canvas>
+
+<!-- ======== LANGUAGE TOGGLE ======== -->
+<div class="lang-toggle">
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="btn-ja" onclick="setLang('ja')">JA</button>
+</div>
+
+<!-- ======== HERO ======== -->
+<header class="hero">
+  <h1>WRIGHT BROTHERS</h1>
+  <p class="subtitle" data-lang="en">
+    From plasma physics to spacetime engineering.<br>
+    Rewriting the source code of reality, one experiment at a time.
+  </p>
+  <p class="subtitle" data-lang="ja">
+    プラズマ物理学から時空間エンジニアリングへ。<br>
+    現実のソースコードを、一つの実験ずつ書き換えていく。
+  </p>
+  <div class="scroll-hint">&#8595;</div>
+</header>
+
+<!-- ======== NAV ======== -->
+<nav>
+  <a href="#ehd"><span data-lang-inline="en">EHD Propulsion</span><span data-lang-inline="ja">EHD推進</span></a>
+  <a href="#plasma"><span data-lang-inline="en">Plasma Sim</span><span data-lang-inline="ja">プラズマSim</span></a>
+  <a href="#flyingcar"><span data-lang-inline="en">Flying Car</span><span data-lang-inline="ja">空飛ぶ車</span></a>
+  <a href="#spacetime"><span data-lang-inline="en">Spacetime</span><span data-lang-inline="ja">時空間</span></a>
+  <a href="#more"><span data-lang-inline="en">More</span><span data-lang-inline="ja">その他</span></a>
+</nav>
+
+<!-- ======== STATS ======== -->
+<section>
+  <div class="stats">
+    <div class="stat"><div class="num">7</div><div class="label" data-lang="en">Research Papers</div><div class="label" data-lang="ja">研究論文</div></div>
+    <div class="stat"><div class="num">72</div><div class="label" data-lang="en">References</div><div class="label" data-lang="ja">参考文献</div></div>
+    <div class="stat"><div class="num">6</div><div class="label" data-lang="en">Phase Roadmap</div><div class="label" data-lang="ja">フェーズ計画</div></div>
+    <div class="stat"><div class="num">&yen;200K</div><div class="label" data-lang="en">To Start Phase 0</div><div class="label" data-lang="ja">Phase 0 開始費用</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EHD PROPULSION
+     ============================================================ -->
+<section id="ehd">
+  <div class="section-header">
+    <span class="tag tag-plasma">Plasma Physics</span>
+    <h2 data-lang="en">EHD Propulsion &amp; FPGA Control</h2>
+    <h2 data-lang="ja">EHD推進 &amp; FPGA制御</h2>
+  </div>
+
+  <div class="card plasma">
+    <h3 data-lang="en">FPGA GHz Feedback Control as Maxwell's Demon</h3>
+    <h3 data-lang="ja">マクスウェルの悪魔としてのFPGA GHzフィードバック制御</h3>
+    <p class="desc" data-lang="en">
+      A rigorous theoretical framework proving that FPGA-based GHz-rate feedback control can suppress entropy production in EHD ion drift layers, extending the laminar operating envelope beyond natural stability boundaries. Derives the scaling law Re<sub>max</sub> &prop; &Pi;<sub>ctrl</sub><sup>2/3</sup>, demonstrating that control bandwidth superlinearly expands the thrust envelope.
+    </p>
+    <p class="desc" data-lang="ja">
+      FPGAベースGHzレートフィードバック制御がEHDイオンドリフト層のエントロピー生成を抑制し、自然安定境界を超えて層流動作範囲を拡大できることを厳密に証明。スケーリング則 Re<sub>max</sub> &prop; &Pi;<sub>ctrl</sub><sup>2/3</sup> を導出し、制御帯域幅が推力包絡線を超線形的に拡大することを示す。
+    </p>
+    <div class="equation">Re<sub>max</sub> &prop; &Pi;<sub>ctrl</sub><sup>2/3</sup> &nbsp;&mdash;&nbsp; Thermodynamic leverage &Lambda; &asymp; 3.6 &times; 10<sup>10</sup></div>
+    <div class="meta">
+      <span class="pill">7&ndash;9 clock cycles &le; 9 ns</span>
+      <span class="pill">Kalman filter + LQR</span>
+      <span class="pill">Landauer limit</span>
+    </div>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/ehd-propulsion/fpga_ghz_feedback_control.pdf">PDF</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/ehd-propulsion/paper.pdf">Theory (EN)</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/ehd-propulsion/paper_japanese.pdf">Theory (JA)</a>
+    </div>
+  </div>
+
+  <div class="card plasma">
+    <h3 data-lang="en">Experiment &amp; Simulation Plans</h3>
+    <h3 data-lang="ja">実験計画 &amp; シミュレーション計画</h3>
+    <p class="desc" data-lang="en">
+      A hands-on guide to building an EHD lifter from scratch (Phase 1: &yen;5,000), quantitative thrust measurement (Phase 2), and FPGA feedback control implementation (Phase 3). Plus a computational simulation plan for validating the theory on GPU.
+    </p>
+    <p class="desc" data-lang="ja">
+      EHDリフターをゼロから構築する実践ガイド（Phase 1: 5,000円）、推力の定量計測（Phase 2）、FPGA制御実装（Phase 3）。GPUでの理論検証のためのシミュレーション計画も含む。
+    </p>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/ehd-propulsion/experiment_plan.pdf">Experiment</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/ehd-propulsion/simulation_plan.pdf">Simulation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PLASMA SIMULATOR
+     ============================================================ -->
+<section id="plasma">
+  <div class="section-header">
+    <span class="tag tag-plasma">Computational Physics</span>
+    <h2 data-lang="en">Autonomous Plasma Simulator</h2>
+    <h2 data-lang="ja">自律進化型プラズマシミュレータ</h2>
+  </div>
+
+  <div class="card plasma">
+    <h3 data-lang="en">Design Proposal v1.0 &amp; v2.0</h3>
+    <h3 data-lang="ja">設計提案書 v1.0 &amp; v2.0</h3>
+    <p class="desc" data-lang="en">
+      A next-generation plasma simulation platform bridging 10<sup>8</sup> scales of spacetime &mdash; from electron gyro-motion (~10<sup>-11</sup> s) to MHD instabilities (~10<sup>-3</sup> s). Three pillars: Adaptive Micro-Macro Coupling (AMMC), Physics-Informed Neural Operators (PINO) with symplectic correction, and an AI-driven auto-research loop. v2.0 addresses the JAX migration strategy, including the static-shape vs dynamic-mesh tension and gradient checkpointing for VRAM management.
+    </p>
+    <p class="desc" data-lang="ja">
+      電子ジャイロ運動（~10<sup>-11</sup> s）からMHD不安定性（~10<sup>-3</sup> s）まで10<sup>8</sup>の時空間スケールを橋渡しする次世代プラズマシミュレーション基盤。3本柱：適応的ミクロ-マクロ結合（AMMC）、シンプレクティック補正付きPINO、AI駆動自律進化ループ。v2.0ではJAX移行戦略、静的Shape vs 動的メッシュ問題、VRAMの勾配チェックポイント戦略を扱う。
+    </p>
+    <div class="equation">O(N<sup>6</sup>) &rarr; O(N<sup>2</sup>) via PINO &nbsp;|&nbsp; AMMC + AMR + Hilbert curve load balancing</div>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/plasma-simulator/plasma_simulator_proposal.md">v1.0</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/plasma-simulator/plasma_simulator_proposal_v2.md">v2.0</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FLYING CAR
+     ============================================================ -->
+<section id="flyingcar">
+  <div class="section-header">
+    <span class="tag tag-car">Moonshot</span>
+    <h2 data-lang="en">EHD Flying Car Roadmap</h2>
+    <h2 data-lang="ja">EHD空飛ぶ車ロードマップ</h2>
+  </div>
+
+  <div class="card car">
+    <h3 data-lang="en">From Akihabara to the Sky</h3>
+    <h3 data-lang="ja">秋葉原から空へ</h3>
+    <p class="desc" data-lang="en">
+      A 6-phase roadmap to build a solid-state flying car with zero moving parts. Micro-electrode arrays (1mm gap) + FPGA GHz control could achieve ~187 kW &mdash; comparable to a Tesla Model 3 motor. Each phase has quantitative Go/No-Go gates. Phase 0 starts with a &yen;200K PC from Akihabara.
+    </p>
+    <p class="desc" data-lang="ja">
+      可動部品ゼロの完全固体推進飛行車両を実現する6フェーズ・ロードマップ。マイクロ電極アレイ（1mmギャップ）+ FPGA GHz制御で~187 kW（Tesla Model 3と同等）を達成可能。各フェーズに定量的Go/No-Goゲート。Phase 0は秋葉原で20万円のPCから始まる。
+    </p>
+
+    <div class="timeline" style="margin-top:1.5rem">
+      <div class="event">
+        <h4>Phase 0 &mdash; <span data-lang-inline="en">Simulation Foundation</span><span data-lang-inline="ja">計算基盤構築</span></h4>
+        <p>3 months / &yen;200K &mdash; RTX 3090 + JAX + Landau damping</p>
+      </div>
+      <div class="event">
+        <h4>Phase 1 &mdash; <span data-lang-inline="en">Scaling Validation</span><span data-lang-inline="ja">スケーリング検証</span></h4>
+        <p>6 months / &yen;50K &mdash; F/A &prop; V<sup>2</sup>/d<sup>2</sup> verification</p>
+      </div>
+      <div class="event">
+        <h4>Phase 2 &mdash; <span data-lang-inline="en">Micro-electrode Prototype</span><span data-lang-inline="ja">マイクロ電極試作</span></h4>
+        <p>12 months / &yen;500K &mdash; 1mm gap, PCB electrode arrays</p>
+      </div>
+      <div class="event">
+        <h4>Phase 3 &mdash; <span data-lang-inline="en">Drone Scale</span><span data-lang-inline="ja">ドローンスケール</span></h4>
+        <p>18 months / &yen;3M &mdash; 1kg autonomous hover</p>
+      </div>
+      <div class="event">
+        <h4>Phase 4 &mdash; <span data-lang-inline="en">Human Flight</span><span data-lang-inline="ja">有人プロトタイプ</span></h4>
+        <p>24 months / &yen;50M &mdash; 70kg, the flying carpet</p>
+      </div>
+      <div class="event">
+        <h4>Phase 5 &mdash; <span data-lang-inline="en">Flying Car</span><span data-lang-inline="ja">空飛ぶ車</span></h4>
+        <p>36+ months / &yen;100M+ &mdash; 1,500kg, 200kW, silent</p>
+      </div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/flying-car/flying_car_roadmap.pdf">PDF Roadmap</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/guides/akihabara_build_guide.md">PC Build Guide</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SPACETIME
+     ============================================================ -->
+<section id="spacetime">
+  <div class="section-header">
+    <span class="tag tag-math">Fundamental Physics</span>
+    <h2 data-lang="en">Arithmetic Geometry as the Source Code of Spacetime</h2>
+    <h2 data-lang="ja">数論幾何学による時空間のソースコード設計</h2>
+  </div>
+
+  <div class="card math">
+    <h3 data-lang="en">Topos Theory &middot; IUT Theory &middot; Noncommutative Geometry</h3>
+    <h3 data-lang="ja">トポス論 &middot; IUT理論 &middot; 非可換幾何学</h3>
+    <p class="desc" data-lang="en">
+      Just as Riemannian geometry became the language of general relativity, can modern arithmetic geometry &mdash; Grothendieck's topos theory, Mochizuki's Inter-universal Teichm&uuml;ller theory, Connes' noncommutative geometry &mdash; become the language of quantum gravity? This paper explores four axes: topos quantum mechanics, IUT-multiverse analogies, motivic Galois groups in renormalization, and adelic spacetime. 72 references from Grothendieck to Kitaev.
+    </p>
+    <p class="desc" data-lang="ja">
+      リーマン幾何学が一般相対性理論の言語になったように、現代数論幾何学&mdash;グロタンディークのトポス論、望月のIUT理論、コンヌの非可換幾何学&mdash;は量子重力の言語になりうるか？4つの軸から探究する：トポス量子力学、IUT-マルチバースのアナロジー、繰り込みにおける動機的ガロア群、アデール的時空。グロタンディークからキタエフまで72件の参考文献。
+    </p>
+    <div class="equation">
+      A<sub>&infin;</sub>(s,t) &middot; &prod;<sub>p:prime</sub> A<sub>p</sub>(s,t) = 1 &nbsp;&mdash;&nbsp; Adelic Product Formula (Freund&ndash;Witten 1987)
+    </div>
+    <div class="meta">
+      <span class="pill">Grothendieck</span>
+      <span class="pill">Mochizuki</span>
+      <span class="pill">Connes</span>
+      <span class="pill">Spec(Z)</span>
+    </div>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/arithmetic-geometry/arithmetic_geometry_spacetime_en.pdf">English PDF</a>
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/arithmetic-geometry/arithmetic_geometry_spacetime.pdf">Japanese PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MORE PROJECTS
+     ============================================================ -->
+<section id="more">
+  <div class="section-header">
+    <h2 data-lang="en">More Projects</h2>
+    <h2 data-lang="ja">その他のプロジェクト</h2>
+  </div>
+
+  <div class="card hw">
+    <span class="tag tag-hw" style="margin-bottom:.8rem;display:inline-block">Hardware</span>
+    <h3 data-lang="en">IoT Excretion Care System</h3>
+    <h3 data-lang="ja">IoT排泄ケアシステム</h3>
+    <p class="desc" data-lang="en">
+      An open-source IoT device for elderly care: STM32 firmware, gas/humidity/temperature sensors, Dempster&ndash;Shafer evidence fusion algorithm, and 1D-CNN inference for excretion event detection. Full schematics, BOM, and build guide included.
+    </p>
+    <p class="desc" data-lang="ja">
+      高齢者ケア用オープンソースIoTデバイス：STM32ファームウェア、ガス/湿度/温度センサー、Dempster-Shafer証拠融合アルゴリズム、排泄イベント検出用1D-CNN推論。回路図、BOM、組立ガイド付き。
+    </p>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/tree/main/hardware/excretion-care-system">Source Code</a>
+    </div>
+  </div>
+
+  <div class="card fiction">
+    <span class="tag tag-fiction" style="margin-bottom:.8rem;display:inline-block">Fiction</span>
+    <h3 data-lang="en">Homological Mystery &mdash; Mathematical Crime Fiction</h3>
+    <h3 data-lang="ja">ホモロジカル・ミステリー &mdash; 数学犯罪小説</h3>
+    <p class="desc" data-lang="en">
+      A murder mystery series where crimes are solved using homological algebra, category theory, and ring theory. Episode I: "The Commutative Diagram of Death." Episode II: "Spectral Sequences of Deceit." Episode III: "Murder Over Rings."
+    </p>
+    <p class="desc" data-lang="ja">
+      ホモロジー代数、圏論、環論を駆使して犯罪を解決するミステリーシリーズ。第1話「死の可換図式」、第2話「欺瞞のスペクトル系列」、第3話「環上の殺人」。
+    </p>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/tree/main/fiction/homological-mystery">Read</a>
+    </div>
+  </div>
+
+  <div class="card plasma">
+    <span class="tag tag-plasma" style="margin-bottom:.8rem;display:inline-block">Neuroscience &times; Economics</span>
+    <h3>Econo-neurodynamics</h3>
+    <p class="desc" data-lang="en">
+      A theoretical framework bridging neural dynamics and economic behavior through coupled differential equations.
+    </p>
+    <p class="desc" data-lang="ja">
+      結合微分方程式による神経ダイナミクスと経済行動を橋渡しする理論的枠組み。
+    </p>
+    <div class="links">
+      <a href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/econoneurodynamics/econoneurodynamics.pdf">PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer>
+  <p data-lang="en">
+    <strong>Wright Brothers</strong> &mdash; bsbraveshine777@gmail.com<br>
+    "In the spirit of Kitty Hawk: from a bicycle shop to the sky."<br>
+    <a href="https://github.com/isshii-jpeg/wright-brothers" style="margin-top:.5rem;display:inline-block">GitHub Repository</a>
+  </p>
+  <p data-lang="ja">
+    <strong>Wright Brothers</strong> &mdash; bsbraveshine777@gmail.com<br>
+    「キティホークの精神で：自転車屋から空へ。」<br>
+    <a href="https://github.com/isshii-jpeg/wright-brothers" style="margin-top:.5rem;display:inline-block">GitHub Repository</a>
+  </p>
+</footer>
+
+<!-- ======== SCRIPTS ======== -->
+<script>
+// ---- Starfield ----
+(function(){
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  let w,h,stars=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight;init()}
+  function init(){
+    stars=[];
+    for(let i=0;i<300;i++)
+      stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.3,s:Math.random()*.3+.05,a:Math.random()});
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    for(const s of stars){
+      s.a+=.005;
+      const o=.3+.7*Math.abs(Math.sin(s.a));
+      x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);
+      x.fillStyle=`rgba(200,220,255,${o})`;x.fill();
+      s.y+=s.s;if(s.y>h){s.y=0;s.x=Math.random()*w}
+    }
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize',resize);resize();draw();
+})();
+
+// ---- Language toggle ----
+function setLang(lang){
+  document.body.classList.toggle('ja',lang==='ja');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-ja').classList.toggle('active',lang==='ja');
+  localStorage.setItem('lang',lang);
+  document.documentElement.lang=lang;
+}
+(function(){
+  const saved=localStorage.getItem('lang');
+  const browser=navigator.language.startsWith('ja')?'ja':'en';
+  setLang(saved||browser);
+})();
+</script>
+</body>
+</html>
