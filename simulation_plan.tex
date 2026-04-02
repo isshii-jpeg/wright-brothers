@@ -1,0 +1,652 @@
+% ============================================================================
+%  EHD推進 計算シミュレーション実験計画書
+% ============================================================================
+\documentclass[12pt,a4paper]{ltjsarticle}
+
+\usepackage{luatexja-fontspec}
+\setmainjfont{HaranoAjiMincho-Regular}[BoldFont=HaranoAjiMincho-Bold]
+\setsansjfont{HaranoAjiGothic-Medium}[BoldFont=HaranoAjiGothic-Bold]
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.geometric,positioning,calc}
+
+\tcbuselibrary{skins,breakable}
+
+\definecolor{tier1}{RGB}{52,152,219}
+\definecolor{tier2}{RGB}{230,126,34}
+\definecolor{tier3}{RGB}{142,68,173}
+\definecolor{info}{RGB}{0,123,255}
+\definecolor{success}{RGB}{40,167,69}
+\definecolor{warning}{RGB}{255,193,7}
+\definecolor{cloud}{RGB}{0,150,136}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+\newtcolorbox{infobox}[1][]{
+  colback=info!8, colframe=info!70,
+  fonttitle=\bfseries\sffamily, title={#1}, breakable
+}
+\newtcolorbox{successbox}[1][]{
+  colback=success!8, colframe=success!70,
+  fonttitle=\bfseries\sffamily, title={#1}, breakable
+}
+\newtcolorbox{warningbox}[1][]{
+  colback=warning!15, colframe=warning!80!black,
+  fonttitle=\bfseries\sffamily, title={#1}, breakable
+}
+\newtcolorbox{tierbox}[2][]{
+  colback=#2!8, colframe=#2!80,
+  fonttitle=\bfseries\sffamily\Large, title={#1}, breakable,
+  before upper={\parindent=0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\small EHD推進 計算シミュレーション実験計画書}
+\fancyhead[R]{\sffamily\small v1.0}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+% ============================================================================
+%  TITLE
+% ============================================================================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\sffamily\bfseries
+EHD推進の\\[8pt]
+計算シミュレーション\\[8pt]
+実験計画書
+}
+
+\vspace{1cm}
+
+{\Large\sffamily
+--- プラズマを仮想空間で再現し、制御する ---
+}
+
+\vspace{2cm}
+
+\begin{tikzpicture}[scale=0.9]
+  % Grid/mesh representation
+  \foreach \x in {0,0.5,...,6} {
+    \draw[gray!30, thin] (\x,0) -- (\x,4);
+  }
+  \foreach \y in {0,0.5,...,4} {
+    \draw[gray!30, thin] (0,\y) -- (6,\y);
+  }
+
+  % Density contour (fake)
+  \fill[blue!30, opacity=0.5, rounded corners=3pt] (1,1) -- (2,0.5) -- (4,0.8) -- (5,1.5) -- (4.5,3) -- (2.5,3.5) -- (1,2.5) -- cycle;
+  \fill[red!40, opacity=0.5, rounded corners=3pt] (2,1.2) -- (3,1) -- (4,1.5) -- (3.5,2.5) -- (2.5,2.8) -- cycle;
+  \fill[yellow!50, opacity=0.6, rounded corners=2pt] (2.5,1.5) -- (3.2,1.3) -- (3.5,2) -- (3,2.3) -- cycle;
+
+  % Labels
+  \node[font=\sffamily\small, white] at (3,1.8) {\textbf{プラズマ}};
+  \node[font=\sffamily\tiny, blue!70!black] at (1.5,3) {$n_i$};
+  \node[font=\sffamily\tiny, red!70!black] at (4.2,2.8) {$\mathbf{E}$};
+
+  % Electrodes
+  \draw[very thick, blue] (0.2,4) -- (5.8,4);
+  \draw[very thick, orange!80!black] (0.2,0) -- (5.8,0);
+  \node[above, font=\sffamily\small, blue] at (3,4) {エミッター};
+  \node[below, font=\sffamily\small, orange!80!black] at (3,0) {コレクター};
+
+  % GPU icon
+  \node[draw, thick, fill=success!20, rounded corners=4pt,
+    font=\sffamily\small, minimum width=1.5cm] at (8,2) {GPU};
+  \draw[-{Stealth}, thick, gray] (6.3,2) -- (7.2,2);
+
+  % Monitor
+  \draw[thick, rounded corners=2pt] (9.5,0.5) rectangle (12.5,3.5);
+  \draw[thick] (10.5,0.5) -- (10.5,0) -- (11.5,0) -- (11.5,0.5);
+  \node[font=\sffamily\tiny] at (11,2) {リアルタイム};
+  \node[font=\sffamily\tiny] at (11,1.5) {可視化};
+\end{tikzpicture}
+
+\vspace{2cm}
+
+{\large\sffamily
+対象：プログラミング経験のある方\\
+予算：無料（クラウド）〜 約60万円（自作PC）\\
+物理実験の危険なし --- 全てPC上で完結
+}
+
+\vspace{1cm}
+{\sffamily\small 2026年3月}
+\end{titlepage}
+
+% ============================================================================
+%  OVERVIEW
+% ============================================================================
+\section{この計画書でやること}
+
+\subsection{目的}
+
+論文で提案したEHD推進のプラズマ制御理論を、
+\textbf{物理実験なし}で計算機上に再現し検証します。
+
+\begin{center}
+\begin{tikzpicture}[
+  stepbox/.style={draw, rounded corners=6pt, minimum width=3.8cm,
+    minimum height=1.6cm, font=\sffamily\small, align=center, thick},
+  arr/.style={-{Stealth[length=5pt]}, thick, gray}
+]
+  \node[stepbox, fill=tier1!15, draw=tier1] (s1) at (0,0)
+    {\textbf{Step 1}\\2Dコロナ放電\\シミュレーション};
+  \node[stepbox, fill=tier2!15, draw=tier2] (s2) at (5,0)
+    {\textbf{Step 2}\\不安定性解析\\成長率の計算};
+  \node[stepbox, fill=tier3!15, draw=tier3] (s3) at (10,0)
+    {\textbf{Step 3}\\フィードバック\\制御の実装};
+  \draw[arr] (s1) -- (s2);
+  \draw[arr] (s2) -- (s3);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Isaac Simは使えるか？}
+
+\begin{warningbox}[結論：プラズマシミュレーションにはIsaac Simは不向き]
+NVIDIA Isaac Simはロボティクス向けであり、プラズマ物理（電離、
+イオンドリフト、コロナ放電）の第一原理ソルバーを持ちません。
+PhysXは剛体/関節力学、Flowは煙・炎のビジュアル用簡易流体であり、
+ナビエ-ストークス--マクスウェル連成方程式は解けません。
+
+\textbf{代わりに使うべきツール：}
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{ZAPDOS}（無料）--- 低温プラズマ流体の本命
+  \item \textbf{WarpX}（無料）--- GPU加速PICコード
+  \item \textbf{OpenFOAM + interEHDFoam}（無料）--- EHD流体
+  \item \textbf{COMSOL Plasma Module}（有料）--- 最も完成度の高い商用ツール
+\end{itemize}
+\end{warningbox}
+
+% ============================================================================
+%  SOFTWARE
+% ============================================================================
+\newpage
+\section{シミュレーションソフトウェア選択ガイド}
+
+\subsection{用途別フローチャート}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.2cm,
+  q/.style={draw, diamond, aspect=2.5, inner sep=2pt,
+    font=\sffamily\small, align=center, thick, fill=lightgray},
+  a/.style={draw, rounded corners=4pt, font=\sffamily\small,
+    align=center, thick, minimum width=3cm},
+  arr/.style={-{Stealth[length=4pt]}, thick}
+]
+  \node[q] (q1) {やりたいこと};
+
+  \node[a, fill=tier1!20, below left=1.5cm and 2cm of q1] (a1)
+    {\textbf{ZAPDOS}\\(無料・FEM)};
+  \node[a, fill=tier2!20, below=1.5cm of q1] (a2)
+    {\textbf{WarpX}\\(無料・GPU PIC)};
+  \node[a, fill=tier3!20, below right=1.5cm and 2cm of q1] (a3)
+    {\textbf{OpenFOAM}\\(無料・CFD)};
+
+  \draw[arr] (q1) -- node[left, font=\sffamily\tiny, align=right]
+    {コロナ放電\\プラズマ流体} (a1);
+  \draw[arr] (q1) -- node[right, font=\sffamily\tiny, align=center]
+    {粒子運動論\\PIC計算} (a2);
+  \draw[arr] (q1) -- node[right, font=\sffamily\tiny, align=left]
+    {EHD流体\\CFD連成} (a3);
+\end{tikzpicture}
+\end{center}
+
+\subsection{ソフトウェア比較表}
+
+\begin{table}[h]
+\centering\sffamily\small
+\caption{プラズマ/EHDシミュレーションソフトウェア一覧}
+\begin{tabular}{@{}p{2cm}p{1.5cm}p{2.5cm}p{2cm}p{3cm}@{}}
+\toprule
+\textbf{ソフト} & \textbf{費用} & \textbf{手法} & \textbf{GPU対応} & \textbf{得意分野} \\
+\midrule
+\textbf{ZAPDOS} & 無料 & FEM（MOOSE） & CPU中心 & コロナ放電、DBD、低温プラズマ流体 \\
+\textbf{WarpX} & 無料 & PIC & CUDA/HIP & 粒子運動論、大規模プラズマ \\
+\textbf{OpenFOAM} & 無料 & 有限体積法 & CPU中心 & EHD二相流、CFD \\
+\textbf{FEniCS} & 無料 & FEM & CPU & カスタムPDE、ドリフト拡散 \\
+\textbf{FiPy} & 無料 & 有限体積(Python) & CPU & プロトタイプ実装 \\
+\textbf{COMSOL} & 有料 & FEM & CPU & 最も完成度の高い商用ツール \\
+\textbf{ANSYS} & 有料 & FEM/FVM & CPU+GPU & DBDアクチュエータ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{各ソフトの詳細}
+
+\subsubsection{ZAPDOS --- 本計画の中核ツール（推奨）}
+
+\begin{successbox}[最も推奨：EHDプラズマシミュレーションの最適解]
+\begin{itemize}[leftmargin=2em]
+  \item 米国Idaho国立研究所（INL）開発のオープンソース低温プラズマソルバー
+  \item MOOSEフレームワーク上で動作（自動微分、並列FEM、メッシュ適応）
+  \item \textbf{CRANE}（プラズマ化学）と\textbf{ELK}（電磁場）と連成可能
+  \item 電子・イオンのドリフト-拡散-反応方程式を直接解ける
+  \item 論文の式(5)--(6)をそのまま実装可能
+  \item GitHub: \texttt{github.com/shannon-lab/zapdos}
+  \item OS: Linux推奨、macOS/Windows(WSL)も可
+\end{itemize}
+\end{successbox}
+
+\subsubsection{WarpX --- GPU加速PICコード}
+
+\begin{infobox}[粒子レベルのプラズマ物理を見たい場合]
+\begin{itemize}[leftmargin=2em]
+  \item 2022年ACM Gordon Bell賞受賞の最先端PICコード
+  \item CUDA（NVIDIA）、HIP（AMD）、DPC++（Intel）全対応
+  \item 単一GPU〜Exascaleスパコンまでスケール
+  \item 最低VRAM: 8GB（小規模2D）、推奨: 24GB以上
+  \item GitHub: \texttt{github.com/BLAST-WarpX/warpx}
+\end{itemize}
+\end{infobox}
+
+\subsubsection{OpenFOAM + interEHDFoam --- EHD流体}
+
+EHDの体積力項（$\mathbf{f}_{\mathrm{EHD}} = \rho_q \mathbf{E}$）を
+含むCFDシミュレーション。OpenFOAM自体は広く使われており
+日本語の情報も豊富。
+
+\begin{itemize}[leftmargin=2em]
+  \item \texttt{github.com/ntofighi/interEHDFoam}（二相EHD流れ）
+  \item \texttt{github.com/silviomcandido/interIsoFoamEHD}（高解像度版）
+  \item 日本語資料：OpenFOAM JP Wiki、CFD-Onlineフォーラム
+\end{itemize}
+
+\subsubsection{COMSOL Plasma Module --- 商用最高峰}
+
+\begin{itemize}[leftmargin=2em]
+  \item コロナ放電、DBD、グロー放電をGUIで構築可能
+  \item アカデミック年間ライセンス: 約\$1,495（約22万円）
+  \item 個人には高価だが、TSUBAME経由なら月4ポイント（約250円）で利用可
+  \item 日本法人あり：comsol.com/japan
+\end{itemize}
+
+% ============================================================================
+%  HARDWARE
+% ============================================================================
+\newpage
+\section{ハードウェア：PC構成ガイド}
+
+\subsection{3段階のPC構成}
+
+\begin{tierbox}[Tier 1：エントリー --- 2Dシミュレーション入門]{tier1}
+\textbf{予算：17〜25万円} \quad
+\textbf{対象：}ZAPDOSで2Dコロナ放電を試す
+
+\medskip\centering
+\centering\sffamily\small
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{パーツ} & \textbf{推奨品} & \textbf{価格目安} \\
+\midrule
+CPU & AMD Ryzen 9 7900X (12C/24T) & 40,000〜55,000円 \\
+GPU & NVIDIA RTX 4070 Ti Super (16GB) & 70,000〜100,000円 \\
+RAM & DDR5-5600 32GB (16$\times$2) & 20,000〜35,000円 \\
+SSD & NVMe 1TB PCIe 4.0 & 10,000〜15,000円 \\
+マザーボード & AMD AM5 ATX & 20,000〜30,000円 \\
+電源 & 850W 80+ Gold & 12,000〜18,000円 \\
+\midrule
+\textbf{合計} & & \textbf{17〜25万円} \\
+\bottomrule
+\end{tabular}
+\medskip
+
+\textbf{できること：}
+ZAPDOS 1D/2D、FEniCS/FiPyカスタム実装、WarpX小規模2D PIC（\textasciitilde 10M粒子）
+\end{tierbox}
+
+\vspace{0.5cm}
+
+\begin{tierbox}[Tier 2：推奨 --- 2D軸対称＋フィードバック制御]{tier2}
+\textbf{予算：48〜63万円} \quad
+\textbf{対象：}論文の理論を本格的に検証する
+
+\medskip\centering
+\centering\sffamily\small
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{パーツ} & \textbf{推奨品} & \textbf{価格目安} \\
+\midrule
+CPU & AMD Ryzen 9 9950X (16C/32T) & 75,000〜90,000円 \\
+GPU & \textbf{NVIDIA RTX 4090 (24GB)} & 290,000〜350,000円 \\
+RAM & DDR5-6000 64GB (32$\times$2) & 40,000〜70,000円 \\
+SSD & NVMe 2TB + HDD 4TB & 20,000〜30,000円 \\
+マザーボード & AMD X670E ATX & 30,000〜45,000円 \\
+電源 & 1000W 80+ Platinum & 18,000〜25,000円 \\
+CPUクーラー & 360mm AIO水冷 & 12,000〜20,000円 \\
+\midrule
+\textbf{合計} & & \textbf{48〜63万円} \\
+\bottomrule
+\end{tabular}
+\medskip
+
+\textbf{できること：}
+WarpX 2D〜小規模3D PIC（\textasciitilde 100M粒子）、ZAPDOS+ELK連成、
+フィードバック制御の数値実験、COMSOL（TSUBAME経由）
+\end{tierbox}
+
+\vspace{0.5cm}
+
+\begin{tierbox}[Tier 3：ハイエンド --- フル3Dシミュレーション]{tier3}
+\textbf{予算：90〜200万円} \quad
+\textbf{対象：}3D完全シミュレーション
+
+\medskip\centering
+\centering\sffamily\small
+\begin{tabular}{@{}llr@{}}
+\toprule
+\textbf{パーツ} & \textbf{推奨品} & \textbf{価格目安} \\
+\midrule
+CPU & AMD Threadripper PRO 7965WX (24C) & 250,000〜400,000円 \\
+GPU & \textbf{RTX 5090 (32GB)} or RTX 6000 Ada (48GB) & 400,000〜800,000円 \\
+RAM & DDR5-6400 ECC 128GB & 63,000〜100,000円 \\
+SSD & NVMe 4TB PCIe 5.0 + 2TB secondary & 60,000〜100,000円 \\
+マザーボード & TRX50 (Threadripper対応) & 80,000〜150,000円 \\
+電源 & 1600W 80+ Titanium & 35,000〜55,000円 \\
+CPUクーラー & 420mm AIO or カスタム水冷 & 20,000〜50,000円 \\
+\midrule
+\textbf{合計} & & \textbf{90〜200万円} \\
+\bottomrule
+\end{tabular}
+\medskip
+
+\textbf{できること：}
+WarpX/PIConGPU完全3D PIC（\textasciitilde 1B粒子）、ZAPDOS+CRANE+ELK 3D連成
+\end{tierbox}
+
+\subsection{パーツ購入先（日本国内）}
+
+\begin{table}[h]
+\centering\sffamily\small
+\caption{PCパーツ購入先一覧}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{店舗} & \textbf{特徴} & \textbf{URL} \\
+\midrule
+ツクモ (Tsukumo) & 自作PC専門、秋葉原に実店舗 & shop.tsukumo.co.jp \\
+ドスパラ (Dospara) & BTO対応、全国に店舗 & dospara.co.jp \\
+パソコン工房 & BTO対応、サポート充実 & pc-koubou.jp \\
+Amazon.co.jp & 品揃え豊富、即日配送 & amazon.co.jp \\
+ソフマップ & 中古パーツも扱う & sofmap.com \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{warningbox}[2026年3月現在の注意]
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{DDR5 RAM}：AI需要の急増により世界的に不足中。
+        ツクモ等で購入制限・価格高騰が発生。早めの確保を推奨
+  \item \textbf{RTX 5090}：2025年1月発売後、抽選販売が続いた。
+        2025年6月以降398,000円以下の製品も出始めたが依然入手困難。
+        \textbf{RTX 4090の中古（20万円〜）}も有力な選択肢
+\end{itemize}
+\end{warningbox}
+
+% ============================================================================
+%  CLOUD
+% ============================================================================
+\newpage
+\section{クラウド計算：PCを買わない選択肢}
+
+\begin{infobox}[PCを自作せずにプラズマシミュレーションを始める方法]
+高性能GPUを持っていなくても、クラウドサービスを使えば
+\textbf{今日から}シミュレーションを始められます。
+\end{infobox}
+
+\subsection{サービス比較}
+
+\begin{table}[h]
+\centering\sffamily\small
+\caption{クラウドGPU計算サービス比較}
+\begin{tabular}{@{}p{2.5cm}p{2cm}p{2cm}p{2cm}p{3cm}@{}}
+\toprule
+\textbf{サービス} & \textbf{GPU} & \textbf{月額/時間} & \textbf{最低費用} & \textbf{備考} \\
+\midrule
+\textbf{Google Colab Pro} & T4/V100/A100 & 約1,500円/月 & 1,500円 & 最も手軽。ZAPDOS/FiPy向き \\
+\textbf{Colab Pro+} & A100優先 & 約7,500円/月 & 7,500円 & 長時間連続実行可能 \\
+\textbf{AWS EC2 g5} & A10G (24GB) & 約150円/時 & --- & WarpX小〜中規模 \\
+\textbf{AWS EC2 p4d} & A100$\times$8 & 約5,000円/時 & --- & 大規模3D PIC \\
+\textbf{ABCI 3.0} & H200$\times$8 & 3,520円/時 & 22万円 & 国内最強。研究機関限定 \\
+\textbf{TSUBAME 4.0} & H100相当 & 極めて安価 & 学内無料 & 東京科学大学所属者 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{おすすめルート}
+
+\begin{center}
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=6pt, minimum width=4.5cm,
+    minimum height=1.8cm, font=\sffamily\small, align=center, thick},
+  arr/.style={-{Stealth[length=5pt]}, thick, gray}
+]
+  \node[box, fill=success!15, draw=success] (free) at (0,0)
+    {\textbf{無料〜月1,500円}\\Google Colab Pro\\+ ZAPDOS/FiPy};
+  \node[box, fill=tier2!15, draw=tier2] (mid) at (6,0)
+    {\textbf{月5千〜5万円}\\AWS スポットGPU\\+ WarpX};
+  \node[box, fill=tier3!15, draw=tier3] (high) at (12,0)
+    {\textbf{大学所属者}\\ABCI / TSUBAME\\+ COMSOL};
+
+  \node[below, font=\sffamily\tiny] at (free.south) {誰でも今すぐ};
+  \node[below, font=\sffamily\tiny] at (mid.south) {本格計算};
+  \node[below, font=\sffamily\tiny] at (high.south) {最高性能};
+
+  \draw[arr] (free) -- (mid);
+  \draw[arr] (mid) -- (high);
+\end{tikzpicture}
+\end{center}
+
+\begin{successbox}[大学・研究機関所属者は圧倒的に有利]
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{TSUBAME 4.0}（東京科学大学）：学生は実質無料でH100クラスGPU利用可。
+        COMSOLも月250円相当で利用可能
+  \item \textbf{ABCI 3.0}（産総研）：H200$\times$6,128基。
+        産官学の研究機関が対象。最低22万円から
+  \item \textbf{mdx}（9国立大連携）：IaaSクラウド。所属大学経由でアクセス
+  \item いずれも商用クラウドより\textbf{桁違いに安い}
+\end{itemize}
+\end{successbox}
+
+% ============================================================================
+%  SIMULATION PLAN
+% ============================================================================
+\newpage
+\section{シミュレーション実験の手順}
+
+\subsection{Step 1：2Dコロナ放電シミュレーション}
+
+\begin{tierbox}[Step 1 --- 基本的なEHDプラズマの再現]{tier1}
+\textbf{ツール：}ZAPDOS（推奨）or FiPy \quad
+\textbf{所要時間：}1〜2週間 \quad
+\textbf{計算資源：}Colab Pro or Tier 1 PC
+\end{tierbox}
+
+\subsubsection{セットアップ}
+
+\begin{enumerate}[leftmargin=2em]
+  \item MOOSEフレームワークのインストール（mooseframework.inl.gov）
+  \item ZAPDOSのビルド（GitHub: shannon-lab/zapdos）
+  \item チュートリアル問題の実行（1Dグロー放電）
+\end{enumerate}
+
+\subsubsection{EHDコロナ放電モデルの構築}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{計算領域：}2D軸対称、電極間ギャップ$d = 1$\,cm
+  \item \textbf{エミッター：}曲率半径$r = 0.1$\,mm（高電場を模擬）
+  \item \textbf{コレクター：}平板電極
+  \item \textbf{ガス：}大気圧空気（$N_2$/O$_2$ = 79/21）
+  \item \textbf{印加電圧：}$V = 10$--$30$\,kV（パラメトリックスイープ）
+  \item \textbf{種：}$e^-$, $\mathrm{N}_2^+$, $\mathrm{O}_2^-$（3種モデル）
+\end{itemize}
+
+\subsubsection{解くべき方程式（論文との対応）}
+
+論文の式(5)--(6)に直接対応する種輸送方程式：
+\begin{align}
+  \frac{\partial n_i}{\partial t}
+  + \nabla \cdot (n_i \mathbf{v} + n_i \mu_i \mathbf{E} - D_i \nabla n_i)
+  &= \alpha_T |\Gamma_e| - \beta_{\mathrm{rec}} n_i n_e \\
+  \frac{\partial n_e}{\partial t}
+  + \nabla \cdot (n_e \mathbf{v} - n_e \mu_e \mathbf{E} - D_e \nabla n_e)
+  &= \alpha_T |\Gamma_e| - \beta_{\mathrm{rec}} n_i n_e
+\end{align}
+ポアソン方程式（式4の静電近似）：
+\begin{equation}
+  \nabla^2 \phi = -\frac{e(n_i - n_e)}{\varepsilon_0}
+\end{equation}
+
+\subsubsection{検証項目}
+
+\begin{table}[h]
+\centering\sffamily\small
+\begin{tabular}{@{}p{4cm}p{4cm}p{3.5cm}@{}}
+\toprule
+\textbf{測定量} & \textbf{期待される結果} & \textbf{論文との対応} \\
+\midrule
+コロナ開始電圧 & 空気中10〜15\,kV & 既知の実験値と比較 \\
+電流-電圧特性 & $I \propto V(V - V_{\mathrm{onset}})$ & Townsendの関係 \\
+イオン密度分布 & ドリフト領域で$n_i \sim 10^{18}\,\mathrm{m}^{-3}$ & 論文の仮定値 \\
+EHD体積力分布 & $f = \rho_q E$ & 式(1) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Step 2：不安定性解析}
+
+\begin{tierbox}[Step 2 --- 成長率の計算と論文予測の検証]{tier2}
+\textbf{ツール：}ZAPDOS + Python（後処理） \quad
+\textbf{所要時間：}2〜4週間 \quad
+\textbf{計算資源：}Tier 1〜2 PC
+\end{tierbox}
+
+\subsubsection{線形安定性解析}
+
+\begin{enumerate}[leftmargin=2em]
+  \item Step 1で得た定常解を基本状態$\mathbf{U}_0$とする
+  \item 小さな摂動を加えて時間発展を追跡
+  \item 摂動の指数関数的成長率$\gamma$を抽出
+  \item 論文の予測値と比較：
+    \begin{itemize}
+      \item $\gamma_{\mathrm{ion}} \lesssim 10^9\,\mathrm{s}^{-1}$（式15）
+      \item $\gamma_{\mathrm{EHD}} \lesssim 5 \times 10^7\,\mathrm{s}^{-1}$（式14）
+    \end{itemize}
+\end{enumerate}
+
+\begin{infobox}[論文の予測が上界推定であることの検証]
+論文では$\gamma_{\mathrm{ion}} \sim 10^9\,\mathrm{s}^{-1}$と推定していますが、
+これは電子拡散・再結合・衝突減衰を無視した上界です。
+シミュレーションではこれらの効果が自動的に含まれるため、
+\textbf{実効的な成長率は論文の予測より小さくなるはず}です。
+この差の定量化が重要な検証ポイントです。
+\end{infobox}
+
+\subsection{Step 3：フィードバック制御の実装}
+
+\begin{tierbox}[Step 3 --- 制御による安定範囲拡大の検証]{tier3}
+\textbf{ツール：}ZAPDOS + Python制御ループ \quad
+\textbf{所要時間：}1〜3ヶ月 \quad
+\textbf{計算資源：}Tier 2 PC以上
+\end{tierbox}
+
+\subsubsection{制御ループの実装}
+
+\begin{enumerate}[leftmargin=2em]
+  \item コレクター電極を4セグメントに分割（計算メッシュ上で）
+  \item 各セグメントの電流密度を「センサー」として読み取り
+  \item PythonスクリプトからZAPDOSを呼び出す外側ループ：
+    \begin{itemize}
+      \item 現在の電流分布を取得
+      \item 摂動を検出（基準値からの偏差）
+      \item 電極電圧を微調整（PID制御 or LQR制御）
+      \item 次のタイムステップを実行
+    \end{itemize}
+  \item \textbf{制御なし}と\textbf{制御あり}でアーク遷移電圧を比較
+\end{enumerate}
+
+\subsubsection{検証すべき論文の予測}
+
+\begin{table}[h]
+\centering\sffamily\small
+\begin{tabular}{@{}p{4.5cm}p{4cm}p{3cm}@{}}
+\toprule
+\textbf{論文の予測} & \textbf{シミュレーションで確認} & \textbf{対応箇所} \\
+\midrule
+制御で安定範囲が拡大 & $V_{\mathrm{arc}}^{\mathrm{ctrl}} > V_{\mathrm{arc}}^{\mathrm{open}}$ & 命題1 \\
+$\mathrm{Re}_{\max} \propto f_s^{2/3}$ & 制御帯域幅を変えてスケーリング確認 & 命題5 \\
+エントロピーがドリフト領域から電極へ移動 & $\Omega_d$と$\Omega_c$のエントロピー生成比較 & 命題1(ii) \\
+4セグメントで十分 & セグメント数 vs 安定化効果 & 系4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+%  PYTHON STARTER
+% ============================================================================
+\newpage
+\section{すぐ始められるPythonコード}
+
+ZAPDOSのセットアップに時間がかかる場合、まず\textbf{FiPy}（Python有限体積法ライブラリ）で
+簡易版を動かすことをお勧めします。
+
+\begin{successbox}[5分で始める：pip install fipy]
+\texttt{pip install fipy numpy matplotlib}
+
+FiPyで1Dドリフト-拡散方程式を解き、イオン密度の時間発展を可視化できます。
+コロナ放電の基本物理を理解するための第一歩として最適です。
+
+\vspace{0.5cm}
+学習リソース：
+\begin{itemize}[leftmargin=2em]
+  \item FiPy公式ドキュメント: \texttt{www.ctcms.nist.gov/fipy/}
+  \item PlasmaPy（プラズマ物理ユーティリティ）: \texttt{www.plasmapy.org}
+  \item Plasma Simulations by Example: \texttt{www.plasmasimulationsbyexample.com}
+  \item PICチュートリアル（ゼロから実装）: \texttt{www.particleincell.com}
+\end{itemize}
+\end{successbox}
+
+% ============================================================================
+%  SUMMARY
+% ============================================================================
+\section{全体まとめ}
+
+\begin{table}[h]
+\centering\sffamily\small
+\caption{予算・目的別クイックリファレンス}
+\begin{tabular}{@{}p{3cm}p{3.5cm}p{5cm}@{}}
+\toprule
+\textbf{予算} & \textbf{構成} & \textbf{できること} \\
+\midrule
+無料〜月1,500円 & Colab Pro + FiPy & 1D/2Dプロトタイプ、基本物理の理解 \\
+17〜25万円 & Tier 1 自作PC & ZAPDOS 2D、WarpX小規模2D \\
+48〜63万円 & Tier 2 自作PC & 本格2D軸対称、フィードバック制御実験 \\
+90〜200万円 & Tier 3 自作PC & フル3Dシミュレーション \\
+大学所属 & TSUBAME/ABCI & 最高性能 + COMSOL（実質無料〜） \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{infobox}[最初の一歩]
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{今日}：Google Colabで \texttt{pip install fipy} を実行し、1Dドリフト拡散を解く
+  \item \textbf{今週}：ZAPDOSをインストールし、チュートリアル（1Dグロー放電）を動かす
+  \item \textbf{今月}：2Dコロナ放電モデルを構築し、電流-電圧特性を計算する
+  \item \textbf{3ヶ月後}：フィードバック制御を実装し、安定範囲の拡大を検証する
+\end{enumerate}
+物理実験の危険なし。必要なのはPC（またはクラウドアカウント）と好奇心だけです。
+\end{infobox}
+
+\end{document}

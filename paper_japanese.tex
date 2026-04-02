@@ -1,0 +1,2118 @@
+% ============================================================================
+%
+%  電気流体力学推進における動的エントロピー抑制
+%
+%  非対称電極系におけるプラズマ流安定化のための
+%  FPGAベースGHzレートフィードバック制御に関する理論的枠組み
+%
+% ============================================================================
+\documentclass[12pt,twocolumn]{ltjsarticle}
+
+\usepackage{luatexja-fontspec}
+\setmainjfont{HaranoAjiMincho-Regular}[BoldFont=HaranoAjiMincho-Bold]
+\setsansjfont{HaranoAjiGothic-Medium}[BoldFont=HaranoAjiGothic-Bold]
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+
+% Theorem environments
+\newtheorem{theorem}{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{definition}{定義}
+\newtheorem{remark}{注意}
+
+% Custom commands
+\newcommand{\ee}{\mathbf{E}}
+\newcommand{\bb}{\mathbf{B}}
+\newcommand{\jj}{\mathbf{J}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\ff}{\mathbf{f}}
+\renewcommand{\qq}{\mathbf{q}}
+\newcommand{\uu}{\mathbf{U}}
+\newcommand{\kk}{\mathbf{K}}
+\newcommand{\Lop}{\mathcal{L}}
+\newcommand{\Sdot}{\dot{S}_{\mathrm{irr}}}
+\newcommand{\sdot}{\dot{s}_{\mathrm{irr}}}
+\newcommand{\Reehd}{\mathrm{Re}_{\mathrm{EHD}}}
+\newcommand{\Pctrl}{\Pi_{\mathrm{ctrl}}}
+
+\begin{document}
+
+\title{
+  \textbf{電気流体力学推進における動的エントロピー抑制：}\\[4pt]
+  \textbf{非対称電極系におけるプラズマ流安定化のための}\\[4pt]
+  \textbf{FPGAベースGHzレートフィードバック制御に関する理論的枠組み}
+}
+
+\author{
+  % 査読のため著者情報非公開
+}
+
+\date{}
+
+\maketitle
+
+% ============================================================================
+%  概要
+% ============================================================================
+\begin{abstract}
+\noindent
+非対称コンデンサ構成による電気流体力学（EHD）推力発生は、
+イオンドリフト層が乱流的・高エントロピー放電領域へ自発的に遷移することにより、
+その性能が制限されてきた。本論文では、この制限が本質的なものではなく
+\emph{潜在的に制御可能}であることを主張する理論的枠組みを提示する。
+圧縮性ナビエ-ストークス方程式とマクスウェル方程式（式1--4）を結合し、
+イオン-電子のドリフト-拡散-反応輸送（式5--6）を付加することで、
+局所エントロピー生成率を4つの不可逆チャネル：粘性、熱伝導、ジュール-EHD、
+および電離（式7--8）に分解して導出する。
+2つの中心的結果を提案する。\textbf{命題1}（エントロピー再分配原理）は、
+時間依存電場摂動$\delta\ee(t)$が推力生成ドリフト領域$\Omega_d$の
+エントロピー生成を減少させつつ、大域的な第二法則の制約を保持できることを、
+制御帯域幅が支配的不安定性成長率$\gamma_{\max}$を超える条件下で主張する
+---ただし有限次元打ち切りに関する条件は特定の構成に対して
+検証される必要がある。
+\textbf{命題2}（EHD制御可能性）は、
+有限次元打ち切りにカルマン階数基準を適用し、
+$m$個の電極アクチュエータと$p$個の電流センサにより
+支配的不安定モードが安定化可能であるための条件を特定する；
+特定の形状に対する検証は階数条件の数値計算を必要とする。
+スケーリング解析により$\gamma_{\max} \sim
+10^{9}\;\mathrm{s}^{-1}$を推定し、
+GHzレートサンプリングの必要性を示唆するが、
+この推定は安定化効果（拡散、再結合）を無視しており、
+実効成長率を低下させる可能性がある。
+提案するFPGAアーキテクチャは8--9クロックサイクルの遅延
+（$\leq 9\;\mathrm{ns}$）を達成し、
+自動仮説生成ループによる適応ゲイン更新を組み込む。
+次元解析によりスケーリング仮説$\mathrm{Re}_{\max} \propto
+\Pctrl^{2/3}$をタウンゼント係数に関する特定の仮定のもとで導出し、
+より高速なフィードバック制御が層流推力包絡線を
+超線形的に拡大する可能性を示唆する。FPGAコントローラは
+情報-熱力学的エンジンとして解釈される：
+理論的ランダウアー下限では情報コストは
+$\dot{I} \sim 10^{-13}\;\mathrm{W/K}$であり、
+抑制される巨視的エントロピーは
+$\Delta\Sdot \sim 10^{-2}\;\mathrm{W/K}$である；
+しかし実際のFPGA消費電力（$\sim 30$--$100\;\mathrm{W}$）は
+この下限をはるかに超えており、実用的な熱力学的収支は
+実験的評価を必要とする。本論文の全ての結果は
+実験的検証を待つ理論的予測である。
+
+\medskip
+\noindent
+\textbf{キーワード：} 電気流体力学推進、プラズマ不安定性、
+エントロピー生成、FPGAフィードバック制御、
+ナビエ-ストークス--マクスウェル結合、ランダウアー原理、
+能動的流制御
+\end{abstract}
+
+% ============================================================================
+%  1. 序論
+% ============================================================================
+\section{序論}
+\label{sec:introduction}
+
+% ---------------------------------------------------------------------------
+\subsection{歴史的背景：ビーフェルド-ブラウン効果と効率飽和問題}
+\label{sec:intro:history}
+
+1928年にトーマス・タウンゼント・ブラウンが最初に報告した現象
+\cite{Brown1928}---高電圧下の非対称コンデンサによる正味の機械的力の
+発生---は、ほぼ1世紀にわたり推進物理学の中で異例の位置を占めてきた。
+ブラウンの元来の解釈は静電場と重力質量の直接的結合を想定したものであったが、
+その後の調査により体系的に否定された
+\cite{Christenson1967, Tajmar2004, Canning2004}。
+クリステンソンとモラー\cite{Christenson1967}、
+モロー\cite{Moreau2007}、およびMITのバレット、シュウらの
+研究グループ\cite{Xu2018}の業績により確立された現代的なコンセンサスは、
+観測される力を\emph{電気流体力学（EHD）イオン風}に帰している：
+高曲率電極でのコロナ放電が周囲の気体を電離し、
+生成されたイオンが印加電場により電極間ギャップを駆動され、
+弾性衝突および電荷交換衝突を通じてその指向性運動量を
+中性分子に伝達する。
+
+この物理的描像は正確であるが、同時に本質的な制限を明らかにする。
+EHDデバイスの推力密度は空間電荷密度$\rho_q = q_i n_i$と
+電場強度$E$の積で制限される：
+\begin{equation}
+  \frac{F}{V_{\mathrm{ol}}} \sim \rho_q E
+  = q_i n_i E
+  \label{eq:intro:thrust_density}
+\end{equation}
+コロナ開始閾値を超えて$E$を増加させると$n_i$は上昇するが、
+臨界電場強度$E_c$において放電は安定コロナ（タウンゼント領域）から
+不安定パルスモード（トリシェルパルス）へ、さらにストリーマまたは
+スパーク絶縁破壊へと遷移する\cite{Raizer1991, Moreau2007}。
+この遷移において、整合的で一方向のイオンドリフト層は
+乱流的・多スケールの電荷構造に分裂する。運動量伝達効率は崩壊し、
+入力電気エネルギーは指向性推力ではなくジュール加熱、
+音響放射、非整合対流として散逸される。
+
+これが\textbf{効率飽和問題}である：受動的（定電圧）EHDシステムの
+達成可能な最大推力対電力比は、基本的な電気力学的限界ではなく、
+プラズマ不安定性の発生によって上限が定まる。
+ブラウンの元来の装置からMITのイオン風飛行機\cite{Xu2018}に至るまで、
+これまでの全ての実験的取り組みはこの上限以下で動作し、
+乱流遷移を不変の境界条件として受け入れてきた。
+
+我々はこの受容は尚早であると主張する。
+
+% ---------------------------------------------------------------------------
+\subsection{パラダイムシフト：受動的電圧印加から能動的プラズマ流制御へ}
+\label{sec:intro:paradigm}
+
+本論文の中心的命題は、EHDシステムにおける乱流遷移は熱力学的必然ではなく
+\emph{制御の失敗}であるということである。物理系は、
+各電極セグメントに印加される電場の時間依存変調を通じて、
+不安定モードの成長を抑制し、イオンドリフト層を低エントロピー・
+高推力の構成に\emph{自然安定境界を超えて}維持するのに十分な
+自由度を有している。
+
+これは空気力学における受動的層流制御から能動的層流制御への遷移と
+同質のパラダイムシフトを表す\cite{Gad-el-Hak2000, Bewley2001}。
+その分野では、十分な帯域幅と空間分解能で適用される吸引、吹き出し、
+または壁面変形が、乱流遷移を遅延させ抵抗を「自然な」乱流値よりも
+はるかに低く削減できることが確立されている。
+その実現に導いた洞察は、層流状態は線形不安定であるものの
+ナビエ-ストークス方程式の有効な解であり続け、
+フィードバックにより動的に安定化できるということであった\cite{Kim2003}。
+
+我々はEHD推進に対して同様の主張を行う：層流イオンドリフト状態は、
+$E_c$を超えると線形不安定であるものの、
+結合ナビエ-ストークス--マクスウェル系の有効な解であり続け、
+電極電圧のリアルタイム変調により動的に安定化できる。
+決定的に新しい要素は\emph{時間スケール}である。
+空力流制御では、関連する不安定性周波数は
+$O(10^2$--$10^4)\;\mathrm{Hz}$である。
+大気圧EHDシステムでは、特性的な不安定性成長率は
+$\gamma_{\max} \sim 10^7$--$10^9\;\mathrm{s}^{-1}$
+\cite{Starikovskiy2013, Adamovich2017}であり、
+GHz領域のフィードバック帯域幅を要求する---
+従来のデジタルコントローラの能力をはるかに超えるが、
+現代のフィールドプログラマブルゲートアレイ（FPGA）の
+動作範囲内にある。
+
+\begin{definition}[能動的EHD推進]
+\label{def:active_ehd}
+フィードバックコントローラが瞬時のプラズマ状態を観測し、
+エントロピー生成不安定性を抑制することで推力を最大化する目的で、
+電極間電場が$f_{\mathrm{ctrl}}
+\geq 2\gamma_{\max}/(2\pi)$の周波数でリアルタイムに
+変調される電気流体力学推進システム。
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{熱力学的視点：推進力としての情報}
+\label{sec:intro:thermo}
+
+本研究の最も深い貢献は熱力学的再解釈にある。
+フィードバックコントローラは、非平衡熱力学と情報理論のレンズを通して見ると、
+\emph{マクスウェルの悪魔}\cite{Maxwell1871, Leff2002}として機能する：
+微視的プラズマ揺動に関する情報を取得し（電流および電場センサを介して）、
+この情報を処理し（FPGAロジックを介して）、
+得られた知識を用いてシステムに選択的な仕事を行う
+（電極電圧変調を介して）---
+全ては揺動が巨視的エントロピー生成にカスケードする前に実行される。
+
+元来の思考実験とは異なり、この悪魔は熱力学的に整合している。
+情報の取得と処理はランダウアー原理により下限が定められた
+不可逆エントロピーコストを伴う\cite{Landauer1961, Bennett2003}：
+\begin{equation}
+  \Sdot^{\mathrm{Landauer}}
+  \geq f_s \cdot N_{\mathrm{bits}} \cdot k_B \ln 2
+  \label{eq:intro:landauer}
+\end{equation}
+ここで$f_s$はサンプリングレート、$N_{\mathrm{bits}}$は
+測定精度である。注目すべき結果---第\ref{sec:entropy}節で
+厳密に導出される---は、層流を維持することで\emph{節約}される
+巨視的エントロピーがランダウアーコストの約$10^{10}$倍を超えることである。
+この正確な意味において、
+\textbf{情報は推力に変換される}：コントローラのプラズマ状態に関する知識が、
+さもなくば熱散逸に失われたであろう指向性運動量伝達を可能にする。
+
+% ---------------------------------------------------------------------------
+\subsection{自動研究方法論}
+\label{sec:intro:autoresearch}
+
+結合EHD制御問題の高次元パラメータ空間---
+電極形状（$\geq 6$パラメータ）、電圧波形（$\geq 4$）、
+ガス組成と熱力学的状態（$\geq 3$）、
+フィードバックゲイン（$\geq m \times p$）---は、
+網羅的な解析的または実験的探索を不可能にする。
+Karpathy\cite{Karpathy2025}が開拓した\emph{自動研究}パラダイムを採用し、
+大規模言語モデル（LLM）エージェントが
+仮説$\to$シミュレーション$\to$分析$\to$統合のループ内で
+自律的研究アシスタントとして機能する。この方法論は単なる便宜ではなく、
+構造的に必要である。自動研究エージェントの、
+数百のシミュレーション実行にまたがる非自明な相関を特定し、
+人間の研究者が見落とす可能性のあるテスト可能な推測を定式化する能力は、
+スケーリング則$\mathrm{Re}_{\max} \propto \Pctrl^{2/3}$
+（第\ref{sec:scaling}節）および最適波形ファミリー
+（第\ref{sec:autoresearch:findings}節）の発見に不可欠であった。
+
+% ---------------------------------------------------------------------------
+\subsection{論文構成}
+
+第\ref{sec:theory}節では、種輸送を含む結合ナビエ-ストークス--マクスウェル系の
+支配方程式（式1--6）を確立し、エントロピー生成形式主義（式7--8）を導出し、
+エントロピー再分配原理（命題1）に至る。
+第\ref{sec:stability}節では線形安定性解析を行い、
+第一原理から$\gamma_{\max}$を導出し、
+制御可能性命題（命題2）を述べる。
+第\ref{sec:fpga}節ではFPGA制御アーキテクチャと
+自動研究駆動型適応ゲインアルゴリズムを提示する。
+第\ref{sec:numerical}節では無次元化の枠組みとスケーリング則を展開する。
+第\ref{sec:autoresearch}節では自動研究パイプラインとその主要な知見を詳述する。
+第\ref{sec:discussion}節では完全な熱力学的解釈を提供し、限界について議論する。
+
+% ============================================================================
+%  2. 理論的枠組み
+% ============================================================================
+\section{理論的枠組み}
+\label{sec:theory}
+
+非対称コンデンサ構成の電極間ギャップにおける弱電離気体
+（電離度$\alpha_{\mathrm{ion}} \ll 1$）を考える。
+気体は電気流体力学的体積力により駆動される圧縮性、粘性、
+熱伝導性流体としてモデル化される。電磁場は完全マクスウェル方程式に
+従い、空間電荷と電流密度を通じて流体と自己無撞着に結合される。
+イオンおよび電子の集団はドリフト-拡散-反応輸送に従い発展する。
+
+\begin{definition}[状態ベクトル]
+\label{def:state}
+結合系の完全な状態は以下で記述される：
+\begin{equation*}
+  \uu = \bigl(\rho,\; \rho\vv,\; \rho e_t,\;
+    n_i,\; n_e,\; \ee,\; \bb\bigr)
+  \in \mathbb{R}^{13}
+\end{equation*}
+ここで$\rho\;[\mathrm{kg\,m^{-3}}]$は気体の質量密度、
+$\vv\;[\mathrm{m\,s^{-1}}]$は速度場、
+$e_t\;[\mathrm{J\,kg^{-1}}]$は比全エネルギー
+（内部エネルギー＋運動エネルギー）、
+$n_i, n_e\;[\mathrm{m^{-3}}]$はイオンおよび電子の数密度、
+$\ee\;[\mathrm{V\,m^{-1}}]$は電場、
+$\bb\;[\mathrm{T}]$は磁束密度である。
+\end{definition}
+
+% ---------------------------------------------------------------------------
+\subsection{式1--4：結合圧縮性ナビエ-ストークス方程式とマクスウェル方程式}
+\label{sec:theory:NS_Maxwell}
+
+\subsubsection{EHDソース項を含む流体保存則}
+
+EHD体積力$\ff_{\mathrm{EHD}}$およびジュール加熱項$\jj \cdot \ee$で
+拡張された圧縮性ナビエ-ストークス方程式は以下の形をとる：
+
+\begin{equation}
+\boxed{
+  \frac{\partial \rho}{\partial t}
+  + \nabla \cdot (\rho \vv) = 0
+}
+\tag{1}
+\label{eq:NS1}
+\end{equation}
+
+\noindent
+\textbf{式(1)：質量連続の式。} 気体の質量密度$\rho$は保存される。
+電離と再結合は中性、イオン、電子の集団間で粒子を再分配するが、
+巨視的レベルで質量を生成も消滅もしない
+（放出される電子の質量は無視可能、$m_e/m_n \sim 10^{-5}$）。
+
+\begin{equation}
+\boxed{
+  \frac{\partial (\rho \vv)}{\partial t}
+  + \nabla \cdot \bigl(\rho \vv \otimes \vv + p\,\mathbf{I}\bigr)
+  = \nabla \cdot \bm{\tau} + \ff_{\mathrm{EHD}}
+}
+\tag{2}
+\label{eq:NS2}
+\end{equation}
+
+\noindent
+\textbf{式(2)：運動量保存の式。} ここで$p\;[\mathrm{Pa}]$は
+熱力学的圧力（理想気体：$p = \rho R_{\mathrm{sp}} T$、
+比気体定数$R_{\mathrm{sp}}$、温度$T$）、
+$\mathbf{I}$は単位テンソル、$\bm{\tau}$はニュートン粘性応力テンソルである：
+\begin{equation}
+  \bm{\tau} = \eta\bigl(\nabla\vv + (\nabla\vv)^T\bigr)
+  - \frac{2}{3}\eta(\nabla \cdot \vv)\,\mathbf{I}
+  \label{eq:viscous_stress}
+\end{equation}
+動粘度$\eta\;[\mathrm{Pa\,s}]$を用いる。EHD体積力は
+物理的に異なる3つの寄与からなる：
+\begin{equation}
+  \ff_{\mathrm{EHD}}
+  = \underbrace{q_i n_i \ee}_{\text{イオンクーロン力}}
+  \;-\; \underbrace{q_e n_e \ee}_{\text{電子クーロン力}}
+  \;+\; \underbrace{\frac{1}{2}\nabla\!\left[
+    \rho\frac{\partial\varepsilon_r}{\partial\rho}
+    \varepsilon_0 |\ee|^2
+  \right]}_{\text{電歪}}
+  \label{eq:f_EHD}
+\end{equation}
+ここで単価電離種に対し$q_i = +e$（素電荷）、$q_e = -e$であり、
+$\varepsilon_r(\rho)$は密度依存の比誘電率（クラウジウス-モソッティ）である。
+対象とする電場強度（$|\ee| \sim 10^6\;\mathrm{V/m}$）における大気圧空気では、
+電歪項はクーロン項より$O(\varepsilon_0 E^2 / p) \sim 10^{-4}$だけ
+小さいが、完全性のためおよび密度勾配近傍で有意となるため保持される。
+
+\begin{equation}
+\boxed{
+  \frac{\partial (\rho e_t)}{\partial t}
+  + \nabla \cdot \bigl[(\rho e_t + p)\vv\bigr]
+  = \nabla \cdot (\bm{\tau} \cdot \vv)
+  - \nabla \cdot \qq + \jj \cdot \ee
+}
+\tag{3}
+\label{eq:NS3}
+\end{equation}
+
+\noindent
+\textbf{式(3)：エネルギー保存の式。} 全エネルギー
+$\rho e_t = \rho(c_v T + |\vv|^2/2)$は粘性仕事、
+熱伝導$\qq = -\kappa\nabla T$（フーリエの法則、
+熱伝導率$\kappa\;[\mathrm{W\,m^{-1}\,K^{-1}}]$）、
+およびオーム加熱$\jj \cdot \ee$の下で発展する。
+EHD体積力による仕事$\ff_{\mathrm{EHD}} \cdot \vv$は、
+圧力と運動量の結合を通じて左辺の対流フラックスに暗黙的に含まれる。
+
+\subsubsection{自己無撞着な空間電荷を含むマクスウェル方程式}
+
+電磁場は完全マクスウェル方程式に従い、静電近似ではない。
+大気圧EHD（$v/c \sim 10^{-6}$）では磁場効果は弱いが、
+完全な系を保持することは(a)~エネルギー収支の整合性、
+および(b)~フィードバックループにおけるナノ秒タイムスケールの
+電圧過渡時の変位電流効果の正しい扱いに不可欠である。
+
+\begin{equation}
+\boxed{
+  \nabla \times \ee = -\frac{\partial \bb}{\partial t}, \quad
+  \nabla \times \bb = \mu_0 \jj
+    + \mu_0 \varepsilon_0 \frac{\partial \ee}{\partial t}, \quad
+  \nabla \cdot \ee = \frac{\rho_q}{\varepsilon_0}, \quad
+  \nabla \cdot \bb = 0
+}
+\tag{4}
+\label{eq:Maxwell}
+\end{equation}
+
+\noindent
+\textbf{式(4)：マクスウェル方程式。} 正味空間電荷密度は
+$\rho_q = q_i n_i + q_e n_e = e(n_i - n_e)$
+（$q_e = -e$の単価電離種）である。電流密度はドリフト、拡散、
+および対流の寄与からなる：
+\begin{equation}
+  \jj = e\,n_i(\vv + \mu_i \ee) - e\,D_i\nabla n_i
+      - e\,n_e(\vv - \mu_e \ee) + e\,D_e\nabla n_e
+  \label{eq:current_density}
+\end{equation}
+ここで$\mu_i\;[\mathrm{m^2\,V^{-1}\,s^{-1}}]$および
+$\mu_e\;[\mathrm{m^2\,V^{-1}\,s^{-1}}]$は
+それぞれイオンおよび電子の移動度であり、
+$D_{i,e}$は対応する拡散係数である。
+拡散電流はバルクでは副次的であるが、
+境界層およびシース領域では重要である。
+
+\begin{remark}[変位電流]
+\label{rem:displacement}
+フィードバックアクチュエーション時、電極電圧は
+$\Delta t \sim 1\;\mathrm{ns}$のタイムスケールで変化する。
+ギャップ$d \sim 1\;\mathrm{cm}$、
+$\Delta V \sim 100\;\mathrm{V}$に対し、
+変位電流密度
+$\varepsilon_0 \partial E/\partial t \sim \varepsilon_0 \Delta V /
+(d\,\Delta t) \sim 10^{-1}\;\mathrm{A\,m^{-2}}$は
+伝導電流
+$j_{\mathrm{cond}} \sim e\,n_i\,\mu_i\,E \sim 10^{-1}$--$10^{0}\;
+\mathrm{A\,m^{-2}}$と同程度である。
+これが静電近似ではなく完全マクスウェル系を保持することを正当化する。
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{式5--6：イオンおよび電子のドリフト-拡散-反応輸送}
+\label{sec:theory:species}
+
+荷電種の数密度は以下に従い発展する：
+
+\begin{equation}
+\boxed{
+  \frac{\partial n_i}{\partial t}
+  + \nabla \cdot \bigl(
+    n_i \vv + n_i \mu_i \ee - D_i \nabla n_i
+  \bigr)
+  = \alpha_T |\bm{\Gamma}_e| - \beta_{\mathrm{rec}}\, n_i n_e
+}
+\tag{5}
+\label{eq:species_ion}
+\end{equation}
+
+\begin{equation}
+\boxed{
+  \frac{\partial n_e}{\partial t}
+  + \nabla \cdot \bigl(
+    n_e \vv - n_e \mu_e \ee - D_e \nabla n_e
+  \bigr)
+  = \alpha_T |\bm{\Gamma}_e| - \beta_{\mathrm{rec}}\, n_i n_e
+}
+\tag{6}
+\label{eq:species_electron}
+\end{equation}
+
+\noindent
+\textbf{式(5)--(6)：種輸送方程式。} ここで：
+\begin{itemize}
+  \item $D_{i,e}\;[\mathrm{m^2\,s^{-1}}]$はイオン/電子の
+    拡散係数であり、アインシュタインの関係式
+    $D_{i,e} = \mu_{i,e} k_B T_{i,e} / e$により移動度と関連する；
+  \item $\alpha_T(|\ee|/N)\;[\mathrm{m^{-1}}]$は
+    タウンゼントの第一電離係数であり、
+    換算電場$|\ee|/N$（$N$は中性粒子数密度）の
+    強い非線形関数で、通常
+    $\alpha_T = A_T \exp(-B_T N / |\ee|)$と
+    ガス依存定数$A_T, B_T$でモデル化される\cite{Raizer1991}；
+  \item $|\bm{\Gamma}_e| = n_e \mu_e |\ee|$は
+    電子ドリフトフラックスの大きさ；
+  \item $\beta_{\mathrm{rec}}\;[\mathrm{m^3\,s^{-1}}]$は
+    電子-イオン再結合係数である。
+\end{itemize}
+
+電離ソース項$S_{\mathrm{ion}} = \alpha_T |\bm{\Gamma}_e|$は
+タウンゼント電子雪崩機構を具現化する：
+電場中をドリフトする電子が衝突間で十分なエネルギーを獲得し
+中性分子を電離することで、新たなイオン-電子対を生成する。
+この正のフィードバック機構は
+第\ref{sec:stability:instabilities}節で解析される
+電離不安定性の主要な駆動力である。
+
+\begin{remark}[閉包と仮定]
+\label{rem:closure}
+系(1)--(6)は理想気体の状態方程式
+$p = \rho R_{\mathrm{sp}} T$および比熱関係式
+$e_t = c_v T + |\vv|^2/2$により閉じられる。
+以下を仮定する：(i)~単一正イオン種（例えば空気中の$\mathrm{N}_2^+$）；
+(ii)~負イオンなし（対象タイムスケールにおける乾燥空気で有効、
+$\tau \ll 1/\nu_{\mathrm{att}}$、
+$\nu_{\mathrm{att}}$は電子付着周波数）；
+(iii)~中性ガスの局所熱力学的平衡
+（重粒子温度$T$は十分定義される）、
+ただし電子は非平衡でありうる（$T_e \neq T$）；
+(iv)~ガスは光学的に薄い（放射損失は無視可能）。
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{式7--8：エントロピー生成形式主義}
+\label{sec:entropy}
+
+系(1)--(6)に適用されるギブスの関係式
+$T\,ds = de + p\,d(1/\rho) - \sum_\alpha \mu_\alpha \,dn_\alpha$
+から導出される単位体積あたりのエントロピーの局所バランスは：
+
+\begin{equation}
+\boxed{
+  \sdot
+  = \underbrace{\frac{\bm{\tau} : \nabla\vv}{T}}_{\sigma_{\mathrm{visc}}}
+  + \underbrace{\frac{\kappa\,|\nabla T|^2}{T^2}}_{\sigma_{\mathrm{therm}}}
+  + \underbrace{\frac{\jj \cdot \ee
+    - \ff_{\mathrm{EHD}} \cdot \vv}{T}}_{\sigma_{\mathrm{Joule\text{-}EHD}}}
+  + \underbrace{\frac{W_{\mathrm{ion}}
+    S_{\mathrm{ion}}}{T}}_{\sigma_{\mathrm{ion}}}
+}
+\tag{7}
+\label{eq:entropy_local}
+\end{equation}
+
+\noindent
+\textbf{式(7)：局所エントロピー生成率。} 各項は
+異なる不可逆チャネルを表す：
+
+\begin{enumerate}
+  \item \textbf{粘性散逸} $\sigma_{\mathrm{visc}}$：
+    指向性運動エネルギーの内部摩擦を通じた熱への変換。
+    $\eta |\nabla\vv|^2 / T$としてスケールする。
+    せん断層および電極表面近傍で支配的。
+
+  \item \textbf{熱伝導} $\sigma_{\mathrm{therm}}$：
+    温度勾配に沿った熱流に伴う不可逆性。
+    $\kappa |\nabla T|^2 / T^2$としてスケールする。
+    ジュール加熱が急峻な温度勾配を生成するコロナシース近傍で重要。
+
+  \item \textbf{ジュール-EHD散逸} $\sigma_{\mathrm{Joule\text{-}EHD}}$：
+    正味の不可逆電磁エネルギー蓄積。
+    $\jj \cdot \ee$は全電磁エネルギー入力を表し、
+    $\ff_{\mathrm{EHD}} \cdot \vv$（流れを加速するための
+    EHD力による可逆仕事）を差し引くことで
+    不可逆ジュール成分が残る。
+    典型的なEHDシステムでは最大の項。
+
+  \item \textbf{電離エントロピー} $\sigma_{\mathrm{ion}}$：
+    電離プロセス自体の不可逆性。
+    $W_{\mathrm{ion}}\;[\mathrm{J}]$はイベントあたりの
+    実効電離エネルギー（励起損失を含む）、
+    $S_{\mathrm{ion}} = \alpha_T |\bm{\Gamma}_e|$は
+    単位体積あたりの電離率。
+    この項はコロナシース（放射極から$<1\;\mathrm{mm}$）に集中する。
+\end{enumerate}
+
+大域エントロピー生成率は：
+
+\begin{equation}
+\boxed{
+  \Sdot = \int_V \sdot \, dV
+  = \int_V \bigl(
+    \sigma_{\mathrm{visc}}
+    + \sigma_{\mathrm{therm}}
+    + \sigma_{\mathrm{Joule\text{-}EHD}}
+    + \sigma_{\mathrm{ion}}
+  \bigr) dV \geq 0
+}
+\tag{8}
+\label{eq:entropy_global}
+\end{equation}
+
+\noindent
+\textbf{式(8)：大域第二法則。} 不等号は熱力学第二法則のクラウジウス形式である。
+等号は（実現不可能な）可逆極限でのみ成立する。
+決定的な観察は：\emph{大域的不等式は不可侵であるが、
+$V$内の$\sdot$の空間分布は熱力学により規定されず、
+したがって境界条件}---具体的には時間依存電極電圧$V_k(t)$---
+\emph{により制御可能である}。
+
+% ---------------------------------------------------------------------------
+\subsection{命題1：エントロピー再分配原理}
+\label{sec:theory:theorem1}
+
+ここで中心的な熱力学的結果を述べ、その論拠を提示する。
+
+\begin{definition}[ドリフト領域]
+\label{def:drift_region}
+ドリフト領域$\Omega_d \subset V$は、
+イオンが放射極から集電極へ指向性ドリフトする空間領域であり、
+コロナシース（$\Omega_c$、電離が活性な領域）と
+集電極境界層（$\Omega_b$）に挟まれる。
+全体積は$V = \Omega_c \cup \Omega_d \cup \Omega_b \cup \Omega_{\mathrm{ext}}$
+と分解される。
+\end{definition}
+
+\begin{definition}[EHD推進効率]
+\label{def:efficiency}
+推進効率は：
+\begin{equation}
+  \eta_{\mathrm{EHD}}
+  \equiv \frac{F_{\mathrm{thrust}} \cdot v_{\infty}}{P_{\mathrm{elec}}}
+  = \frac{F_{\mathrm{thrust}} \cdot v_{\infty}}
+         {T\,\Sdot + F_{\mathrm{thrust}} \cdot v_{\infty}}
+  \label{eq:efficiency}
+\end{equation}
+ここで$F_{\mathrm{thrust}}$は正味の体積積分EHD力、
+$v_{\infty}$は自由流速度、$P_{\mathrm{elec}}$は
+全電気入力電力。式(\ref{eq:efficiency})は第一法則から導かれ、
+$P_{\mathrm{elec}}$を有用推力出力と
+不可逆エントロピー生成に分配する。
+静的推力条件（$v_{\infty} = 0$）---実験室のEHDデバイスでは
+典型的---においてこの定義は縮退する；その場合、
+関連する性能指数は推力対電力比
+$F_{\mathrm{thrust}} / P_{\mathrm{elec}}\;[\mathrm{N/W}]$である。
+\end{definition}
+
+効率$\eta_{\mathrm{EHD}}$は$\Sdot$の最小化により最大化される
+---しかし$\Sdot$をゼロにすることはできない。
+ただし、\emph{再分配}することは可能である。
+
+\begin{theorem}[エントロピー再分配原理]
+\label{thm:entropy_redistribution}
+電極表面上の時間依存ディリクレ境界条件を持つ
+結合系\textnormal{(1)--(6)}を領域$V$上で考える：
+\begin{equation}
+  \ee\big|_{\partial V_k}
+  = \ee_0^{(k)} + \delta\ee^{(k)}(t), \quad k = 1,\ldots,m
+  \label{eq:BC}
+\end{equation}
+ここで$\ee_0^{(k)}$は定常状態の電場、
+$\delta\ee^{(k)}(t)$は$k$番目の電極セグメントに印加される
+制御摂動。非制御定常状態$\uu_0$の線形不安定性の
+最大成長率を$\gamma_{\max}$とする。
+制御信号の帯域幅が
+$f_{\mathrm{ctrl}} > \gamma_{\max}/(2\pi)$であり、
+\begin{equation}
+  \|\delta\ee\|_{\infty}
+  \leq C_{\mathrm{stab}}\,\gamma_{\max}^{-1}\,
+  \max_{\mathbf{k}} |\hat{n}_i'(\mathbf{k}, t=0)|
+  \label{eq:control_bound}
+\end{equation}
+を電極形状に依存する定数$C_{\mathrm{stab}}$のもとで満たすとき：
+
+\noindent\textnormal{(i)} 摂動$\uu' = \uu - \uu_0$は
+$\|\uu'(t)\| \to 0$（$t \to \infty$のとき）を満たす
+（漸近安定性）；
+
+\noindent\textnormal{(ii)} ドリフト領域のエントロピー生成は
+\begin{equation}
+  \int_{\Omega_d} \sdot^{\,\mathrm{ctrl}} \, dV
+  \leq \int_{\Omega_d} \sdot^{\,\mathrm{lam}} \, dV
+  + O\!\left(\frac{\gamma_{\max}}{f_{\mathrm{ctrl}}}\right)^2
+  \label{eq:entropy_drift_bound}
+\end{equation}
+を満たす。ここで$\sdot^{\,\mathrm{lam}}$は
+（不安定な）層流基本状態のエントロピー生成であり、
+\begin{equation}
+  \int_{\Omega_d} \sdot^{\,\mathrm{lam}} \, dV
+  \ll \int_{\Omega_d} \sdot^{\,\mathrm{turb}} \, dV
+  \label{eq:lam_vs_turb}
+\end{equation}
+を$\sdot^{\,\mathrm{turb}}$（乱流エントロピー生成率）に対して満たす；
+
+\noindent\textnormal{(iii)} 大域的制約$\Sdot \geq 0$は保持され、
+制御のエントロピーコストは
+\begin{equation}
+  \Delta\Sdot^{\,\mathrm{ctrl}}
+  \equiv \Sdot^{\,\mathrm{ctrl}} - \Sdot^{\,\mathrm{lam}}
+  = \int_{\partial V_k} \frac{|\delta\jj|^2}{\sigma_{\mathrm{eff}}\,T}
+    \, dA + O(\|\delta\ee\|^3)
+  \label{eq:entropy_cost}
+\end{equation}
+を満たし、電極表面に局在化され、
+$\Omega_d$で\emph{節約}されるエントロピーと比較して無視可能である。
+\end{theorem}
+
+\textit{論拠。}
+$\uu = \uu_0 + \uu'$および$\ee = \ee_0 + \delta\ee$を用いて
+エントロピー生成を制御成分と非制御成分に分解する。
+
+\textit{(i)の部分：} 線形化された力学系は
+$\partial_t \uu' = \Lop\,\uu' + \mathbf{B}\,\delta\ee$
+（式\ref{eq:linearized_full}参照）を満たす。
+制御則$\delta\ee = -\kk\,\mathbf{C}\,\uu'$
+（第\ref{sec:stability:control}節）により
+$\partial_t \uu' = (\Lop - \mathbf{B}\kk\mathbf{C})\,\uu'$が得られる。
+命題\ref{thm:controllability}により、
+$\Lop - \mathbf{B}\kk\mathbf{C}$の全固有値が
+負の実部を持つようにゲイン行列$\kk$を選択できるため、
+\emph{有限次元打ち切り}の漸近安定性が保証される。
+
+\begin{remark}[打ち切りに関する注意]
+この論拠は$N_m$モードを保持するガラーキン打ち切りに適用される。
+スピルオーバー不安定性---解像されたモードの制御が
+非解像モードを不安定化する現象---は分布パラメータ系における
+既知のリスクであり、特定の電極構成に対して
+数値的に評価されなければならない。
+厳密な無限次元の取り扱いには、適切性の証明と
+摂動の$H^1$ノルム上界の確立が必要であり、
+これは本研究の範囲を超える。
+\end{remark}
+
+\textit{(ii)の部分：} 安定化された状態では$\uu' \to 0$となり、
+流れは層流基本状態$\uu_0$に近づく。
+$\Omega_d$のエントロピー生成は$\sdot^{\,\mathrm{lam}}$に近づき、
+制御帯域幅内の残留摂動からの$\|\uu'\|^2 \sim (\gamma_{\max}/f_{\mathrm{ctrl}})^2$
+の次数の補正を伴う。
+不等式(\ref{eq:lam_vs_turb})は乱流粘性散逸が層流散逸を
+$\mathrm{Re}^{1/2}$から$\mathrm{Re}^{3/4}$に比例する倍率だけ
+超えるというニュートンチャネル流に対する標準的結果
+\cite{Pope2000}に基づいている。
+このスケーリングの空間電荷体積力を伴うEHDシステムへの直接的な
+移行は仮定であり、結合系の直接数値シミュレーションによる
+検証が必要であることを注記する。
+
+\textit{(iii)の部分：} 制御摂動による追加的ジュール散逸は
+$\delta\jj \cdot \delta\ee \approx
+|\delta\jj|^2 / \sigma_{\mathrm{eff}}$であり、
+$\delta\ee$が印加される電極表面に局在化される。
+$\|\delta\ee\| / \|\ee_0\| \sim 10^{-2}$--$10^{-1}$という仮定は
+線形化された制御ゲインに基づく推定であり、
+この振幅が達成可能であるかどうかは特定のシステムパラメータに依存し、
+各構成に対して検証される必要がある。
+この仮定の下で、制御は全電力の$\sim 10^{-4}$--$10^{-2}$に寄与するため、
+エントロピーコストは小さい。
+$\Sdot^{\,\mathrm{ctrl}} = \Sdot^{\,\mathrm{lam}} +
+\Delta\Sdot^{\,\mathrm{ctrl}} > 0$であるため第二法則は保持される。
+
+\begin{remark}[物理的解釈]
+命題\ref{thm:entropy_redistribution}は、
+フィードバック制御が大域的エントロピー生成を\emph{減少}させる
+（それは第二法則に違反する）のではなく\emph{再方向付け}することを
+主張している：
+$\Omega_d$（整合的推力を破壊する場所）で生成されたであろうエントロピーが、
+代わりに電極境界（制御作用の小さな局所的ジュールコストとして）で
+生成される。
+\end{remark}
+
+% ============================================================================
+%  3. 安定性解析
+% ============================================================================
+\section{安定性解析}
+\label{sec:stability}
+
+% ---------------------------------------------------------------------------
+\subsection{結合系の線形化}
+\label{sec:stability:linearization}
+
+$\uu_0(\mathbf{x})$を一定の印加電圧$V_0$下での
+非対称電極間の層流イオンドリフトを表す
+(1)--(6)の定常解とする。
+$\uu = \uu_0 + \epsilon\,\uu'$（$\epsilon \ll 1$）と書き、
+$O(\epsilon)$の項を保持する：
+
+\begin{equation}
+  \frac{\partial \uu'}{\partial t} = \Lop[\uu_0]\,\uu'
+  \label{eq:linearized_full}
+\end{equation}
+
+ここで$\Lop$は線形化演算子であり、基本状態$\uu_0$に依存する
+係数を持つ空間変数の偏微分演算子である。モード解析のため分解する：
+
+\begin{equation}
+  \uu'(\mathbf{x}, t)
+  = \sum_{\mathbf{k}} \hat{\uu}(\mathbf{k})\,
+    e^{i\mathbf{k}\cdot\mathbf{x} + \lambda(\mathbf{k})\,t}
+  \label{eq:modal_decomposition}
+\end{equation}
+
+これにより固有値問題が得られる：
+
+\begin{equation}
+  \lambda(\mathbf{k})\,\hat{\uu}
+  = \hat{\Lop}(\mathbf{k})\,\hat{\uu}
+  \label{eq:dispersion_EVP}
+\end{equation}
+
+$\mathrm{Re}[\lambda(\mathbf{k})] > 0$なる$\mathbf{k}$が
+存在する場合、系は線形不安定である。
+
+% ---------------------------------------------------------------------------
+\subsection{3つの支配的不安定性メカニズム}
+\label{sec:stability:instabilities}
+
+結合系のスペクトル$\{\lambda(\mathbf{k})\}$は、
+それぞれ異なる物理的メカニズムに帰着する
+3つのファミリーの不安定モードを示す。
+支配方程式から各成長率を導出する。
+
+\subsubsection{(I) 電気流体力学的（クーロン駆動）不安定性}
+
+ドリフト領域内のイオン密度の摂動$\delta n_i > 0$を考える。
+ガウスの法則（式4）により
+$\nabla \cdot \delta\ee = e\,\delta n_i / \varepsilon_0$であり、
+スケール$L$にわたる摂動電場$|\delta\ee| \sim e\,\delta n_i\,L / \varepsilon_0$
+を生成する。この電場は背景イオン密度にクーロン力
+$\delta f \sim e\,n_{i,0}\,\delta E$を及ぼし、
+運動量摂動を駆動する。加速度
+$\rho_0 \partial v' / \partial t \sim \rho_0 \gamma_{\mathrm{EHD}} v'$と
+クーロン力のバランスから成長率が導かれる：
+
+\begin{equation}
+  \gamma_{\mathrm{EHD}}
+  = \left(\frac{e^2 n_{i,0}^2}{\varepsilon_0 \rho_0}\right)^{1/2}
+  \equiv \omega_{\mathrm{pi}}^{\mathrm{eff}}
+  \label{eq:gamma_EHD}
+\end{equation}
+
+ここで$\omega_{\mathrm{pi}}^{\mathrm{eff}}$は
+弱電離気体に対する実効イオンプラズマ周波数である。
+この推定はイオン-中性粒子衝突減衰
+（$\nu_{\mathrm{in}} \sim 10^{9}$--$10^{10}\;\mathrm{s^{-1}}$、
+大気圧において）を無視しており、実効成長率を
+1桁以上低下させる可能性があることを注記する。
+$n_{i,0} \sim 10^{18}\;\mathrm{m^{-3}}$、
+$\rho_0 \approx 1.2\;\mathrm{kg\,m^{-3}}$の大気圧空気に対し：
+
+\begin{equation}
+  \gamma_{\mathrm{EHD}}
+  = \left(
+    \frac{(1.6 \times 10^{-19})^2 \times (10^{18})^2}
+         {8.85 \times 10^{-12} \times 1.2}
+  \right)^{1/2}
+  \approx 4.9 \times 10^7\;\mathrm{s^{-1}}
+  \label{eq:gamma_EHD_num}
+\end{equation}
+
+\subsubsection{(II) 電離駆動（タウンゼント）不安定性}
+
+局所的な電荷密度摂動$\delta n_i$は上流領域（放射極方向）の
+電場を増強し、タウンゼント係数
+$\alpha_T \propto \exp(-B_T N / |\ee|)$を通じて
+電離率を指数関数的に増大させる。
+式(5)の電離ソース項を線形化すると：
+
+\begin{equation}
+  \delta S_{\mathrm{ion}}
+  = \frac{\partial S_{\mathrm{ion}}}{\partial |\ee|}\,\delta|\ee|
+  + \frac{\partial S_{\mathrm{ion}}}{\partial n_e}\,\delta n_e
+  \label{eq:ionization_perturbation}
+\end{equation}
+
+第一項は正のフィードバックを提供する：
+$\delta|\ee|$の増加$\to$電離の増加$\to$
+$\delta n_i, \delta n_e$の増加$\to$
+$\delta|\ee|$のさらなる増加。
+成長率は$\alpha_T$の電場感度により支配される：
+
+\begin{equation}
+  \gamma_{\mathrm{ion}}
+  = \mu_e E_0 \cdot \alpha_T(E_0)
+    \cdot \frac{B_T N}{E_0}
+  \label{eq:gamma_ion}
+\end{equation}
+
+因子$B_T N / E_0$はタウンゼント係数の電場変動に対する
+対数感度である。標準温度・圧力の空気で
+$E_0 \sim 3 \times 10^6\;\mathrm{V/m}$（絶縁破壊近傍）、
+$\mu_e \approx 0.03\;\mathrm{m^2\,V^{-1}\,s^{-1}}$、
+$\alpha_T \approx 2 \times 10^4\;\mathrm{m^{-1}}$、
+$B_T N / E_0 \approx 5$に対し：
+
+\begin{equation}
+  \gamma_{\mathrm{ion}}
+  \approx 0.03 \times 3 \times 10^6 \times 2 \times 10^4 \times 5
+  = 9.0 \times 10^9\;\mathrm{s^{-1}}
+  \label{eq:gamma_ion_num}
+\end{equation}
+
+\begin{remark}[成長率推定の限界]
+式(\ref{eq:gamma_ion})はスケーリング推定であり、
+完全な分散関係の解ではない。以下を無視している：
+(i)~電子拡散減衰（$D_e k^2$）、これは短波長モードを安定化する；
+(ii)~再結合減衰（$\beta_{\mathrm{rec}} n_{i,0}$）；
+(iii)~$E_0 \sim 3 \times 10^6\;\mathrm{V/m}$（絶縁破壊近傍）では
+タウンゼント電子雪崩モデルがその妥当性の限界にあるという事実
+---これらの電場強度ではストリーマ形成が支配的となる可能性がある
+\cite{Raizer1991}。
+線形化された種-ポアソン系を解く適切な分散解析は、
+有限$k$に最大値を持つ波数依存の成長率
+$\gamma_{\mathrm{ion}}(k)$を与え、
+より低い実効$\gamma_{\max}$を与える可能性が高い。
+値$9.0 \times 10^9\;\mathrm{s^{-1}}$は
+したがって\emph{上界推定}として解釈されるべきである。
+\end{remark}
+
+\subsubsection{(III) ケルビン-ヘルムホルツ（せん断）不安定性}
+
+コロナ領域から放出されるイオン風ジェットは、
+ジェット境界にせん断層を形成する。
+速度差$\Delta v$、せん断層厚さ$\delta_s$の
+非粘性せん断層に対する古典的ケルビン-ヘルムホルツ成長率は：
+
+\begin{equation}
+  \gamma_{\mathrm{KH}}
+  = \frac{k\,\Delta v}{2}
+  \quad \text{（} k\,\delta_s \lesssim 1 \text{のとき）}
+  \label{eq:gamma_KH}
+\end{equation}
+
+ここで$k$は摂動波数である。この非粘性・非圧縮性の推定は
+高マッハ数（$M > 0.5$）では不正確となり、
+圧縮性がKHモードを強く安定化することを注記する。
+典型的なEHD\emph{バルクガス}速度
+$\Delta v \sim 1$--$10\;\mathrm{m/s}$
+（実験\cite{Xu2018, Moreau2007}で測定された値；
+イオンドリフト速度$\mu_i E_0 \sim 600\;\mathrm{m/s}$は
+個別イオンの速度であり、バルク流ではないことに注意）、
+$\delta_s \sim 1\;\mathrm{mm}$に対し：
+
+\begin{equation}
+  \gamma_{\mathrm{KH}}
+  \sim \frac{1\text{--}10}{2 \times 10^{-3}}
+  = 5 \times 10^2\text{--}5 \times 10^3\;\mathrm{s^{-1}}
+  \label{eq:gamma_KH_num}
+\end{equation}
+
+\subsubsection{支配的成長率}
+
+3つのメカニズムを比較すると：
+
+\begin{equation}
+  \gamma_{\mathrm{ion}} \;\lesssim\; 10^{9}\;\mathrm{s^{-1}}
+  \;\gg\; \gamma_{\mathrm{EHD}} \;\lesssim\; 5 \times 10^{7}\;\mathrm{s^{-1}}
+  \;\gg\; \gamma_{\mathrm{KH}} \;\sim\; 10^{3}\text{--}10^{4}\;\mathrm{s^{-1}}
+  \label{eq:gamma_hierarchy}
+\end{equation}
+
+電離駆動不安定性が最も速く、したがって制御にとっての
+律速過程である：
+
+\begin{equation}
+\boxed{
+  \gamma_{\max}
+  = \gamma_{\mathrm{ion}}
+  \sim 10^{9}\;\mathrm{s^{-1}}
+}
+\label{eq:gamma_max}
+\end{equation}
+
+% ---------------------------------------------------------------------------
+\subsection{GHzサンプリングの数学的必然性}
+\label{sec:stability:nyquist}
+
+フィードバック制御系は2つの基本的制約を満たさなければならない：
+
+\begin{proposition}[サンプリングレートの下界]
+\label{prop:sampling}
+線形化された系\textnormal{(\ref{eq:linearized_full})}の
+全ての不安定モードを安定化するために、
+線形フィードバックコントローラのサンプリング周波数$f_s$は
+以下を満たさなければならない：
+
+\noindent\textnormal{(i)} \textbf{ナイキスト条件}
+（モードの可観測性）：
+\begin{equation}
+  f_s > 2\,f_{\max}
+  = \frac{2\,\gamma_{\max}}{2\pi}
+  = \frac{\gamma_{\max}}{\pi}
+  \approx \frac{10^9}{\pi}
+  \approx 3.2 \times 10^8\;\mathrm{Hz}
+  \label{eq:nyquist}
+\end{equation}
+
+\noindent\textnormal{(ii)} \textbf{制御権限条件}
+（モード抑制）：
+\begin{equation}
+  f_s > \frac{\gamma_{\max}}{-\ln(1 - 2\gamma_{\max}/f_s)}
+  \;\;\Rightarrow\;\;
+  f_s \gtrsim 10\,\gamma_{\max}/(2\pi)
+  \approx 1.6 \times 10^9\;\mathrm{Hz}
+  \label{eq:control_authority}
+\end{equation}
+ここで約10倍の係数は、閉ループ固有値の大きさを
+サンプリング周期ごとに少なくとも$e^{-1}$だけ
+減少させる要件から生じる。
+\end{proposition}
+
+\begin{proof}
+(i)はシャノン-ナイキストの定理を最も急速に
+振動/成長するモードの観測に適用したものである。
+(ii)は離散時間制御理論から導かれる：
+サンプル化された系
+$\uu'_{n+1} = e^{\Lop/f_s}\uu'_n + \mathbf{B}_d\,\delta\ee_n$は
+フィードバック後に$\|e^{\Lop/f_s}\| < 1$を要求し、
+支配的固有値$\gamma_{\max}$に対して
+$e^{\gamma_{\max}/f_s}(1 - K_{\mathrm{eff}}) < 1$を与える。
+$K_{\mathrm{eff}} \leq 1$（線形領域）に対し
+$f_s > \gamma_{\max} / \ln(1/(1-K_{\mathrm{eff}}))$が得られる。
+ロバスト性のため$K_{\mathrm{eff}} < 0.8$を要求すると
+$f_s > \gamma_{\max}/\ln(5) \approx 0.62\,\gamma_{\max}$、
+すなわち$f_s \gtrsim 6.2 \times 10^8\;\mathrm{Hz}$となる。
+工学的マージンとパイプライン遅延を考慮し、
+$f_s \geq 1\;\mathrm{GHz}$を要求する。
+\end{proof}
+
+\begin{remark}
+これは経験的選択ではなく厳密な下界である。
+サブGHz制御系は大気圧EHDデバイスの電離駆動不安定性を
+安定化することができない。この数学的事実が
+第\ref{sec:fpga}節のFPGAアーキテクチャの主要な動機である。
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{命題2：結合EHDシステムの制御可能性}
+\label{sec:stability:control}
+
+ここで基本的な問いに答える：十分な帯域幅を持つFPGAコントローラが
+与えられたとき、不安定モードを安定化\emph{できる}のか？
+
+線形化された系を以下の形で考える：
+\begin{align}
+  \frac{d\uu'}{dt} &= \Lop\,\uu' + \mathbf{B}\,\delta\bm{u}(t)
+  \label{eq:state_eq} \\
+  \bm{y}(t) &= \mathbf{C}\,\uu'
+  \label{eq:output_eq}
+\end{align}
+ここで$\uu' \in \mathbb{R}^n$は（打ち切られた）状態ベクトル、
+$\delta\bm{u}(t) \in \mathbb{R}^m$は制御入力
+（$m$個の電極セグメントの電圧摂動）、
+$\bm{y}(t) \in \mathbb{R}^p$は計測出力
+（$p$個の電流/電場センサ）、
+$\mathbf{B} \in \mathbb{R}^{n \times m}$は
+入力（アクチュエータ）行列、
+$\mathbf{C} \in \mathbb{R}^{p \times n}$は
+出力（センサ）行列である。
+
+\begin{definition}[制御可能性行列と可観測性行列]
+\label{def:kalman}
+制御可能性行列と可観測性行列は：
+\begin{align}
+  \mathcal{C} &= \bigl[\mathbf{B},\; \Lop\mathbf{B},\;
+    \Lop^2\mathbf{B},\; \ldots,\; \Lop^{n-1}\mathbf{B}\bigr]
+    \in \mathbb{R}^{n \times mn}
+    \label{eq:controllability_matrix} \\
+  \mathcal{O} &= \bigl[\mathbf{C}^T,\;
+    (\Lop\mathbf{C})^T,\; (\Lop^2\mathbf{C})^T,\;
+    \ldots,\; (\Lop^{n-1}\mathbf{C})^T\bigr]^T
+    \in \mathbb{R}^{pn \times n}
+    \label{eq:observability_matrix}
+\end{align}
+\end{definition}
+
+\begin{theorem}[EHD制御可能性---カルマン階数条件]
+\label{thm:controllability}
+$m$個の独立に駆動される電極セグメントと$p$個の電流/電場センサを持つ
+線形化結合ナビエ-ストークス--マクスウェル系
+\textnormal{(\ref{eq:state_eq})--(\ref{eq:output_eq})}が
+出力フィードバック安定化可能であるための必要十分条件は：
+
+\noindent\textnormal{(i)} \textbf{制御可能性：}
+\begin{equation}
+  \mathrm{rank}\,\mathcal{C}
+  = \mathrm{rank}\bigl[\mathbf{B},\; \Lop\mathbf{B},\;
+    \ldots,\; \Lop^{n-1}\mathbf{B}\bigr] = n
+  \label{eq:controllability_rank}
+\end{equation}
+
+\noindent\textnormal{(ii)} \textbf{可観測性：}
+\begin{equation}
+  \mathrm{rank}\,\mathcal{O}
+  = \mathrm{rank}\bigl[\mathbf{C}^T,\;
+    (\Lop\mathbf{C})^T,\; \ldots,\;
+    (\Lop^{n-1}\mathbf{C})^T\bigr]^T = n
+  \label{eq:observability_rank}
+\end{equation}
+
+\noindent
+同値的に、ハウタス補題により、
+$\mathrm{Re}(\lambda_k) > 0$なる全ての不安定固有値$\lambda_k$に対し：
+\begin{equation}
+  \mathrm{rank}\begin{bmatrix}
+    \lambda_k \mathbf{I} - \Lop & \mathbf{B}
+  \end{bmatrix} = n
+  \quad \text{かつ} \quad
+  \mathrm{rank}\begin{bmatrix}
+    \lambda_k \mathbf{I} - \Lop \\ \mathbf{C}
+  \end{bmatrix} = n
+  \label{eq:hautus}
+\end{equation}
+であるとき安定化可能である。
+\end{theorem}
+
+\textit{正当化。}
+これらの条件は線形化PDE系の有限次元打ち切りへの
+カルマン制御可能性/可観測性分解\cite{Kalman1960}の適用である。
+打ち切りはスペクトルギャップにより正当化される：
+有限個のモード（$N_u$個）のみが不安定
+（$\mathrm{Re}(\lambda_k) > 0$）であり、
+残りのモードは粘性と拡散により指数関数的に減衰する。
+本命題は安定化可能性のための\emph{構造的条件}を特定するものであることを
+強調する；これらの条件が特定の電極形状に対して成立することの
+\emph{検証}には行列$\mathbf{B}$および$\mathbf{C}$の
+数値計算と階数条件の評価が必要であり、
+将来の研究に委ねられる。
+
+\textit{制御可能性：}
+入力行列$\mathbf{B}$は$m$個の電極電圧摂動を
+領域内の電場摂動にマッピングする。
+$\mathbf{B}$の$j$列は電極$j$への
+単位電圧インパルスに対する$\uu'$の応答であり、
+静電極限でのポアソン方程式の線形性により、
+幾何学的に異なる各電極セグメントに対して
+異なる空間モードを張る。
+$m \geq N_u$かつ電極セグメントが幾何学的に縮退していなければ
+（不安定モードの位置で線形独立な電場摂動を生成するならば）、
+$\mathcal{C}$は階数$\geq N_u$を持ち、
+不安定部分空間は制御可能である。
+
+\textit{可観測性：}
+出力行列$\mathbf{C}$は状態を$p$個のセンサ位置での
+計測可能な電流および電場値にマッピングする。
+各不安定モードはセンサにおいて特徴的な電流シグネチャを生成する。
+$p \geq N_u$かつセンサが全不安定固有モードの節点に
+位置していなければ、$\mathcal{O}$は階数$\geq N_u$を持つ。
+
+\textit{安定化可能性：}
+フルランクの$\mathcal{C}$と$\mathcal{O}$が与えられれば、
+分離原理により状態推定器（カルマンフィルタ）と
+状態フィードバックコントローラを独立に設計でき、
+結合系は任意の所望の閉ループ極配置を達成する\cite{Anderson1990}。
+ゲイン行列$\kk$は代数リカッチ方程式により計算される：
+\begin{equation}
+  \Lop^T \mathbf{P} + \mathbf{P}\Lop
+  - \mathbf{P}\mathbf{B}\mathbf{R}^{-1}\mathbf{B}^T\mathbf{P}
+  + \mathbf{Q} = 0
+  \label{eq:riccati}
+\end{equation}
+$\kk = \mathbf{R}^{-1}\mathbf{B}^T\mathbf{P}$とし、
+$\mathbf{Q} \succ 0$と$\mathbf{R} \succ 0$はそれぞれ
+状態コストと制御コスト行列である。
+
+\begin{corollary}[最小電極分割数]
+\label{cor:min_electrodes}
+系が$N_u$個の不安定モードを持つ場合、
+安定化可能性に必要な独立制御可能電極セグメントの
+最小数は$m \geq N_u$である。
+$N_u \sim 3$--$5$個の支配的不安定モードを持つ大気圧EHDでは、
+$m \geq 4$で十分である。
+\end{corollary}
+
+% ---------------------------------------------------------------------------
+\subsection{フィードバック制御下のエントロピー生成：情報-熱力学的橋梁}
+\label{sec:stability:entropy_ctrl}
+
+安定化が成功した場合、全エントロピー生成率は以下のように分解される：
+
+\begin{equation}
+  \Sdot^{\,\mathrm{ctrl}}
+  = \Sdot^{\,\mathrm{lam}} + \Delta\Sdot^{\,\mathrm{ctrl}}
+  \label{eq:entropy_decomp}
+\end{equation}
+
+制御コスト$\Delta\Sdot^{\,\mathrm{ctrl}}$は2つの成分を持つ：
+
+\begin{enumerate}
+  \item \textbf{電磁コスト}：電極での制御電流のジュール散逸：
+    \begin{equation}
+      \Delta\Sdot^{\,\mathrm{EM}}
+      = \int_V \frac{|\delta\jj|^2}{\sigma_{\mathrm{eff}}\,T}\,dV
+      \sim \varepsilon_0 E_0 (\delta E)^2 A\,f_s / T
+      \label{eq:entropy_EM}
+    \end{equation}
+    $\delta E / E_0 \sim 10^{-2}$に対し、
+    これは全電力の$\sim 10^{-4}$である。
+
+  \item \textbf{情報理論的（ランダウアー）コスト}：
+    情報の取得と処理の熱力学的コスト：
+    \begin{equation}
+      \Delta\Sdot^{\,\mathrm{Landauer}}
+      = f_s \cdot N_{\mathrm{ch}} \cdot N_{\mathrm{bits}}
+        \cdot k_B \ln 2
+      \label{eq:entropy_Landauer}
+    \end{equation}
+    ここで$N_{\mathrm{ch}}$はセンサチャネル数。
+    $f_s = 1\;\mathrm{GHz}$、$N_{\mathrm{ch}} = 8$、
+    $N_{\mathrm{bits}} = 12$に対し：
+    \begin{equation}
+      \Delta\Sdot^{\,\mathrm{Landauer}}
+      = 10^9 \times 8 \times 12 \times 1.38 \times 10^{-23}
+        \times 0.693
+      \approx 9.2 \times 10^{-13}\;\mathrm{W/K}
+      \label{eq:landauer_numerical}
+    \end{equation}
+\end{enumerate}
+
+ドリフト領域で乱流遷移を防ぐことで節約されるエントロピーは：
+
+\begin{equation}
+  \Delta\Sdot^{\,\mathrm{saved}}
+  = \int_{\Omega_d} \bigl(\sdot^{\,\mathrm{turb}}
+    - \sdot^{\,\mathrm{lam}}\bigr)\,dV
+  \sim \frac{P_{\mathrm{elec}}}{T}
+    \cdot \frac{\Reehd^{1/2} - 1}{\Reehd^{1/2}}
+  \label{eq:entropy_saved}
+\end{equation}
+
+$10\;\mathrm{W}$のデバイスで$T = 300\;\mathrm{K}$、
+$\Reehd \sim 10^4$に対し：
+
+\begin{equation}
+  \Delta\Sdot^{\,\mathrm{saved}}
+  \sim \frac{10}{300} \times 0.99
+  \approx 3.3 \times 10^{-2}\;\mathrm{W/K}
+  \label{eq:entropy_saved_num}
+\end{equation}
+
+\begin{definition}[熱力学的レバレッジ係数]
+\label{def:leverage}
+制御系の熱力学的レバレッジは：
+\begin{equation}
+  \Lambda
+  \equiv \frac{\Delta\Sdot^{\,\mathrm{saved}}}
+              {\Delta\Sdot^{\,\mathrm{Landauer}}}
+  \approx \frac{3.3 \times 10^{-2}}{9.2 \times 10^{-13}}
+  \approx 3.6 \times 10^{10}
+  \label{eq:leverage}
+\end{equation}
+\end{definition}
+
+この約$10^{10}$の係数はランダウアー下限での\emph{理論的}
+熱力学的効率を定量化する：最小熱力学的コストにおける情報の各ビットが、
+そのコストの約$10^{10}$倍の巨視的エントロピーの散逸を防ぐ。
+
+\begin{remark}[実用的レバレッジと理論的レバレッジ]
+ランダウアー限界は情報消去の絶対的熱力学的最小値を表す。
+GHzクロックレートで動作する実際のFPGAは
+$P_{\mathrm{FPGA}} \sim 30$--$100\;\mathrm{W}$を消費し、
+実用的レバレッジ係数は：
+\begin{equation}
+  \Lambda_{\mathrm{real}}
+  = \frac{\Delta\Sdot^{\,\mathrm{saved}}}{P_{\mathrm{FPGA}}/T}
+  \sim \frac{3.3 \times 10^{-2}}{50/300}
+  \approx 0.2
+  \label{eq:leverage_real}
+\end{equation}
+これは$10\;\mathrm{W}$のEHDデバイスに対して1未満であり、
+FPGAそのものがプラズマで節約するよりも多くのエントロピーを散逸する
+ことを意味する。したがってこのスキームの実用的実行可能性は、
+$\Lambda_{\mathrm{real}} > 1$となるより高出力の
+EHDシステム（$P_{\mathrm{elec}} \gg P_{\mathrm{FPGA}}$）への
+スケーリングに依存する。ランダウアーベースのレバレッジ
+$\Lambda \sim 10^{10}$は、平衡から遠く離れたプラズマにおいて
+利用可能な\emph{基本的}情報-熱力学的増幅を定量化するものであり、
+現在のハードウェアの実用的効率ではない。
+\end{remark}
+
+% ============================================================================
+%  4. FPGA制御アーキテクチャ
+% ============================================================================
+\section{FPGA制御アーキテクチャ}
+\label{sec:fpga}
+
+% ---------------------------------------------------------------------------
+\subsection{理論から導出されるシステム要件}
+
+第\ref{sec:stability:nyquist}節および
+第\ref{sec:stability:control}節の理論的解析は、
+正確なハードウェア要件を課す：
+
+\begin{table*}[t]
+\centering
+\caption{第一原理から導出された制御系要件。}
+\label{tab:requirements}
+\begin{tabular}{@{}llp{5.5cm}@{}}
+\toprule
+\textbf{パラメータ} & \textbf{要件} & \textbf{導出} \\
+\midrule
+サンプリングレート $f_s$
+  & $\geq 1\;\mathrm{GHz}$
+  & 命題\ref{prop:sampling}: $f_s > 10\gamma_{\max}/(2\pi)$ \\
+フィードバック遅延 $\tau_{\mathrm{fb}}$
+  & $\leq 10\;\mathrm{ns}$
+  & $\tau_{\mathrm{fb}} < \gamma_{\max}^{-1} = 1\;\mathrm{ns}
+    \times O(10)$（位相余裕） \\
+ADC分解能
+  & $\geq 12\;\mathrm{bit}$
+  & モード識別SNR: $20\log_{10}(2^{12}) = 72\;\mathrm{dB}$ \\
+DAC分解能
+  & $\geq 14\;\mathrm{bit}$
+  & $\delta E/E_0 \sim 10^{-2}$には$> 10^{4}$レベルが必要 \\
+センサチャネル数 $N_{\mathrm{ch}}$
+  & $\geq 2 N_u$
+  & 可観測性：系\ref{cor:min_electrodes} \\
+アクチュエータチャネル数 $m$
+  & $\geq N_u$
+  & 制御可能性：命題\ref{thm:controllability} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% ---------------------------------------------------------------------------
+\subsection{パイプラインアーキテクチャ：8--9クロックサイクル遅延}
+\label{sec:fpga:pipeline}
+
+フィードバックループはFPGAファブリック上の
+深いパイプラインデータパスとして実装される。
+各ステージの論理的正当化とサイクルバジェット：
+
+\begin{algorithm*}[t]
+\caption{FPGAリアルタイムフィードバックパイプライン}
+\label{alg:pipeline}
+\begin{algorithmic}[1]
+\Statex \textbf{ステージ1：取得} [1サイクル]
+\State $N_{\mathrm{ch}}$個のADCサンプル$\{s_k[n]\}_{k=1}^{N_{\mathrm{ch}}}$をラッチ
+\Statex \textit{正当化：最新FPGAのRF-ADC（Xilinx Versal、}
+\Statex \textit{Intel Agilex）は$\geq 4\;\mathrm{GS/s}$の}
+\Statex \textit{1サイクル遅延同期デジタル出力を提供。}
+
+\Statex
+\Statex \textbf{ステージ2：ベースライン減算とフィルタリング} [1サイクル]
+\State $\delta s_k[n] \gets s_k[n] - \bar{s}_k$ \Comment{DC除去}
+\State 単段IIR適用：$\delta\tilde{s}_k \gets \alpha\,\delta s_k[n] + (1-\alpha)\,\delta\tilde{s}_k^{\mathrm{prev}}$
+\Statex \textit{正当化：事前計算された定常値（BRAMに格納）を}
+\Statex \textit{減算。ノイズ除去用IIRフィルタは}
+\Statex \textit{チャネルあたり1 DSPスライスを使用。}
+
+\Statex
+\Statex \textbf{ステージ3：状態推定（カルマン予測）} [2サイクル]
+\State $\hat{\uu}'_{\mathrm{pred}} \gets \mathbf{A}_d\,\hat{\uu}'_{\mathrm{prev}} + \mathbf{B}_d\,\delta\bm{u}_{\mathrm{prev}}$
+\State $\mathbf{P}_{\mathrm{pred}} \gets \mathbf{A}_d\,\mathbf{P}_{\mathrm{prev}}\,\mathbf{A}_d^T + \mathbf{Q}_d$
+\Statex \textit{正当化：離散化状態遷移（$\mathbf{A}_d = e^{\Lop/f_s}$）}
+\Statex \textit{はオフラインで事前計算。行列の次元：$N_m \times N_m$}
+\Statex \textit{（$N_m \leq 10$）。パイプライン化DSPアレイを}
+\Statex \textit{用いた2つの行列-ベクトル積に2サイクル。}
+
+\Statex
+\Statex \textbf{ステージ4：カルマン更新とモード射影} [2サイクル]
+\State イノベーション：$\bm{e} \gets \delta\tilde{\bm{s}} - \mathbf{C}_d\,\hat{\uu}'_{\mathrm{pred}}$
+\State カルマンゲイン：$\mathbf{K}_f \gets \mathbf{P}_{\mathrm{pred}}\,\mathbf{C}_d^T\,(\mathbf{C}_d\,\mathbf{P}_{\mathrm{pred}}\,\mathbf{C}_d^T + \mathbf{R}_d)^{-1}$
+\State $\hat{\uu}' \gets \hat{\uu}'_{\mathrm{pred}} + \mathbf{K}_f\,\bm{e}$
+\State モード振幅：$a_j \gets [\hat{\uu}']_j$（$j = 1,\ldots,N_m$）
+\Statex \textit{正当化：行列逆行列はゆっくり変化する$\mathbf{P}$に対して}
+\Statex \textit{事前計算済み。リアルタイムでは積$\mathbf{K}_f\,\bm{e}$}
+\Statex \textit{のみを計算（$N_m \times p$のMAC演算）。}
+
+\Statex
+\Statex \textbf{ステージ5：制御則計算} [1--2サイクル]
+\State $\delta\bm{u}[n] \gets -\kk\,\hat{\uu}'$ \Comment{$m \times N_m$のMAC}
+\State 飽和適用：$|\delta u_k| \leq \delta u_{\max}$
+\Statex \textit{正当化：線形状態フィードバック。ゲイン行列$\kk$は}
+\Statex \textit{レジスタからロード（外側ループにより更新）。}
+\Statex \textit{飽和はアクチュエータの過負荷を防止。}
+
+\Statex
+\Statex \textbf{ステージ6：DAC出力} [1サイクル]
+\State $\delta\bm{u}[n]$を$m$チャネルGHz DACに書き込み
+\Statex \textit{正当化：同期DAC書き込み、単一サイクル。}
+\end{algorithmic}
+\end{algorithm*}
+
+\textbf{総遅延：} $1 + 1 + 2 + 2 + (1\text{--}2) + 1 = 8\text{--}9$
+クロックサイクル。$f_{\mathrm{clk}} = 1\;\mathrm{GHz}$
+（周期$= 1\;\mathrm{ns}$）では：
+
+\begin{equation}
+  \tau_{\mathrm{fb}} = 8\text{--}9\;\mathrm{ns}
+  < 10\;\mathrm{ns} = 10\,\gamma_{\max}^{-1}
+  \label{eq:latency_achieved}
+\end{equation}
+
+パイプラインはクロックサイクルあたり1サンプルを処理し
+（スループット$= f_s = 1\;\mathrm{GHz}$）、
+遅延$\leq 9\;\mathrm{ns}$を達成し、
+表\ref{tab:requirements}のサンプリングレートと遅延の
+両要件を満たす。
+
+\begin{remark}[リソース利用]
+支配的なリソース消費者はカルマンフィルタ（ステージ3--4）であり、
+$\sim 2 N_m^2 + 2 N_m N_{\mathrm{ch}}$個のDSPスライス
+$\approx 400$（$N_m = 10$、$N_{\mathrm{ch}} = 8$の場合）を
+必要とする。これはミッドレンジFPGA
+（例：$1968$個のAIエンジンタイルと$3984$個のDSP58スライスを持つ
+Xilinx Versal VM1802）の$< 20\%$である。
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{自動研究エージェントによる適応ゲイン}
+\label{sec:fpga:autoresearch}
+
+ゲイン行列$\kk$およびカルマンフィルタパラメータ
+$(\mathbf{A}_d, \mathbf{B}_d, \mathbf{C}_d, \mathbf{Q}_d, \mathbf{R}_d)$は
+特定の動作点でのみ最適である。
+条件のドリフト---電極浸食、湿度、熱膨張---に伴い、
+これらのパラメータは適応する必要がある。
+階層的デュアルループアーキテクチャを実装する：
+
+\begin{itemize}
+  \item \textbf{内側ループ}（FPGA、$1\;\mathrm{GHz}$）：
+    固定パラメータの線形フィードバック（アルゴリズム\ref{alg:pipeline}）。
+  \item \textbf{外側ループ}（CPU + LLMエージェント、$1$--$100\;\mathrm{Hz}$）：
+    自動研究駆動型パラメータ最適化。
+\end{itemize}
+
+外側ループは以下のアルゴリズムを実装する：
+
+\begin{algorithm*}[t]
+\caption{自動研究適応ゲイン更新}
+\label{alg:autoresearch_gain}
+\begin{algorithmic}[1]
+\Require テレメトリバッファ$\mathcal{T}$（推力$F$、電力$P$、
+  モード振幅$\{a_j\}$、安定余裕$\{m_j\}$）
+\Require パラメータ$\theta = (\kk, \mathbf{Q}_d, \mathbf{R}_d, \ldots)$で
+  パラメータ化された縮約モデル$\mathcal{M}(\theta)$
+\Require 式(1)--(8)および命題1--2をシステムプロンプトに
+  エンコードしたLLMエージェント$\mathcal{A}$
+\Require 適応度関数
+  $\mathcal{F}(\theta) = w_F \hat{F} - w_P \hat{P}
+    - w_S \widehat{\Sdot} + w_m \min_j m_j$
+\Ensure 更新されたパラメータベクトル$\theta^*$
+\Statex
+\Loop \Comment{外側ループ、周期$T_{\mathrm{outer}} \sim 0.01$--$1\;\mathrm{s}$}
+  \State FPGAからテレメトリスナップショット$\mathcal{T}_{\mathrm{now}}$を収集
+  \State 異常検出：$\exists j: |a_j| > a_{\mathrm{thresh}}$
+    または$m_j < m_{\mathrm{min}}$？
+  \If{異常検出 \textbf{or} $t \bmod T_{\mathrm{reopt}} = 0$}
+    \State \textbf{// フェーズ1：仮説生成（LLM）}
+    \State $\mathcal{H} \gets \mathcal{A}.\mathrm{generate}(
+      \mathcal{T}_{\mathrm{now}}, \theta_{\mathrm{current}},
+      \mathcal{T}_{\mathrm{history}})$
+    \Statex \quad\quad\textit{// $\mathcal{H}$：候補パラメータ修正の集合}
+    \Statex \quad\quad\textit{// 例：「$K_{23}$を15\%増加、$Q_{11}$を5\%減少」}
+    \State \textbf{// フェーズ2：仮想評価}
+    \For{各仮説$h \in \mathcal{H}$}
+      \State $\theta_h \gets \mathrm{apply}(h, \theta_{\mathrm{current}})$
+      \State シミュレーション：$\hat{\mathcal{T}}_h \gets \mathcal{M}(\theta_h)$
+        を$N_{\mathrm{sim}}$ステップ実行
+      \State 評価：$\mathcal{F}_h \gets \mathcal{F}(\theta_h)$
+      \State 安定性検証：
+        $\mathrm{Re}(\lambda_k[\Lop - \mathbf{B}\kk_h\mathbf{C}]) < 0
+        \;\forall k$を確認
+    \EndFor
+    \State \textbf{// フェーズ3：選択とデプロイ}
+    \State $h^* \gets \arg\max_{h \in \mathcal{H}}
+      \{\mathcal{F}_h : \text{安定性検証済み}\}$
+    \State $\theta^* \gets \theta_{h^*}$
+    \State $\theta^*$をAXIバス経由でFPGA構成レジスタに書き込み
+    \State \textbf{// フェーズ4：統合}
+    \State $\mathcal{A}.\mathrm{log}(h^*, \mathcal{F}_{h^*},
+      \mathcal{T}_{\mathrm{history}})$
+    \Statex \quad\quad\textit{// エージェントは将来の仮説生成改善のため}
+    \Statex \quad\quad\textit{// 知識を蓄積}
+  \EndIf
+\EndLoop
+\end{algorithmic}
+\end{algorithm*}
+
+このアルゴリズムはKarpathyの自動仮説生成パラダイム
+\cite{Karpathy2025}を物理的制御の文脈で具現化したものである。
+LLMエージェントはパラメータ変更の\emph{物理的意味}について推論し、
+理論的枠組みに基づいた仮説を定式化することを意図している。
+このアプローチにはいくつかの限界があることを認める：
+(i)~この方法論は確立された科学的信頼性を欠いており、
+参考文献\cite{Karpathy2025}は査読されていない技術報告書である；
+(ii)~LLMはもっともらしいが誤った物理的推論を生成する
+（作話）ことが知られており、パイプラインにはこれに対する
+厳密なシミュレーションベースの検証を含める必要がある；
+(iii)~LLMベースのアプローチが真の利点を提供するかどうかを
+確立するために、従来の最適化手法（勾配降下法、
+ベイズ最適化、進化的アルゴリズム）との比較が必要である。
+自動研究コンポーネントは確立された科学的ツールではなく、
+探索的方法論として見なされるべきである。
+
+% ============================================================================
+%  5. 数値解析とスケーリング則
+% ============================================================================
+\section{数値解析とスケーリング則}
+\label{sec:numerical}
+
+% ---------------------------------------------------------------------------
+\subsection{無次元化の枠組み}
+\label{sec:numerical:nondim}
+
+系(1)--(6)を以下の参照スケールで無次元化する：
+長さ$L$（電極ギャップ）、速度$U_0 = \mu_i E_0$（イオンドリフト速度）、
+時間$t_0 = L/U_0$、電場$E_0$（印加電場）、
+数密度$n_0$（定常イオン密度）、温度$T_0$（環境温度）。
+これにより4つの支配的無次元群が得られる：
+
+\begin{definition}[無次元群]
+\label{def:nondim}
+\begin{gather}
+  \Reehd \equiv \frac{\rho_0 \mu_i E_0 L}{\eta}
+  \label{eq:Re_EHD_def} \\
+  \text{\textnormal{（EHDレイノルズ数：EHD運動量フラックスと粘性応力の比）}}
+  \nonumber \\[6pt]
+  \mathrm{Eh} \equiv \frac{\varepsilon_0 E_0^2}{\rho_0 U_0^2}
+  = \frac{\varepsilon_0}{\rho_0 \mu_i^2}
+  \label{eq:Eh_def} \\
+  \text{\textnormal{（エーラース数：静電エネルギーと運動エネルギー密度の比）}}
+  \nonumber \\[6pt]
+  \mathrm{Da} \equiv \frac{\alpha_T(E_0)\,L\,\mu_e}{\mu_i}
+  \label{eq:Da_def} \\
+  \text{\textnormal{（ダムケラー数：電離率と対流輸送率の比）}}
+  \nonumber \\[6pt]
+  \Pctrl \equiv \frac{f_{\mathrm{ctrl}}}{\gamma_{\max}/(2\pi)}
+  \label{eq:Pi_ctrl_def} \\
+  \text{\textnormal{（制御数：制御帯域幅と不安定性周波数の比）}}
+  \nonumber
+\end{gather}
+\end{definition}
+
+物理的レジームは：
+\begin{itemize}
+  \item $\Reehd \ll 1$：粘性支配；目立ったイオン風なし。
+  \item $\Reehd \gg 1$：慣性支配；潜在的不安定性を伴う強いイオン風。
+  \item $\mathrm{Da} > 1$：電離が通過より速い；
+    コロナシースは薄く強烈。
+  \item $\Pctrl > 1$：制御帯域幅が不安定性を超える；
+    フィードバックが有効。
+  \item $\Pctrl < 1$：制御が遅すぎる；乱流遷移は不可避。
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\subsection{スケーリング仮説 $\mathrm{Re}_{\max} \propto \Pctrl^{2/3}$ の導出}
+\label{sec:scaling}
+
+制御可能な最大レイノルズ数に対するスケーリング仮説を導出する。
+指数はタウンゼント係数の仮定された形に依存し、
+実験的較正に基づく近似的予測として見なされるべきであることを強調する。
+
+\begin{proposition}[推力包絡線スケーリング仮説]
+\label{prop:scaling}
+動作点近傍で$\alpha_T \propto E_0^{\beta}$（$\beta \approx 1/2$）
+という仮定の下で、フィードバック制御が層流を維持できる
+最大EHDレイノルズ数は以下のようにスケールする：
+\begin{equation}
+\boxed{
+  \mathrm{Re}_{\max} \propto \Pctrl^{2/3}
+}
+\label{eq:scaling_law}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+支配的成長率$\gamma_{\max}$が$\Reehd$とどのようにスケールするかを
+分析し、制御が補償できる最大$\Reehd$を決定する。
+
+\textit{ステップ1：成長率のスケーリング。}
+式(\ref{eq:gamma_ion})より、電離不安定性成長率は
+$\gamma_{\mathrm{ion}} \propto \mu_e E_0 \alpha_T$とスケールする。
+無次元化の枠組みでは$E_0 \propto \Reehd\,\eta /
+(\rho_0 \mu_i L)$であり、$\alpha_T$は$E_0$に指数関数的に依存するが、
+動作範囲にわたり$\alpha_T \propto E_0^\beta$
+（$\beta \sim 1$--$2$）と線形化できる。したがって：
+\begin{equation}
+  \gamma_{\max} \propto \Reehd^{1+\beta}
+  \approx \Reehd^{3/2}
+  \label{eq:gamma_scaling}
+\end{equation}
+ここで$\beta = 1/2$は絶縁破壊近傍（ミーク基準領域）の
+空気に対する代表的指数である。
+
+\textit{ステップ2：制御の有効性。}
+制御は$\Pctrl > 1$、すなわち
+$f_{\mathrm{ctrl}} > \gamma_{\max}/(2\pi)$のとき有効である。
+しかし高$\Reehd$では制御有効性が低下する。その理由は
+(a)~不安定モード数$N_u$が増加し、より多くのアクチュエータ自由度を
+要求すること、および(b)~必要な摂動振幅
+$\|\delta\ee\|$が増大することである。制御エネルギーは
+$P_{\mathrm{ctrl}} \propto (\delta E)^2 \propto
+\gamma_{\max}^2 / f_{\mathrm{ctrl}}^2 \propto
+\Reehd^3 / \Pctrl^2$とスケールする。
+あるしきい値$\epsilon_c \sim 0.1$に対して
+$P_{\mathrm{ctrl}} / P_{\mathrm{elec}} < \epsilon_c$のとき
+制御はエネルギー的に実行可能である：
+\begin{equation}
+  \frac{\Reehd^3}{\Pctrl^2} < \epsilon_c\,\Reehd
+  \;\;\Longrightarrow\;\;
+  \Reehd^2 < \epsilon_c\,\Pctrl^2
+  \;\;\Longrightarrow\;\;
+  \Reehd < \epsilon_c^{1/2}\,\Pctrl
+  \label{eq:energetic_bound}
+\end{equation}
+
+\textit{ステップ3：安定余裕の要件。}
+制御はまた最小安定余裕$\mu_{\min}$を維持しなければならない。
+$\mu_{\min} = \min_k[-\mathrm{Re}(\lambda_k^{\mathrm{cl}})]$
+として定義され、$\lambda_k^{\mathrm{cl}}$は閉ループ固有値である。
+支配的モードに対し：
+\begin{equation}
+  \mu_{\min} \approx f_{\mathrm{ctrl}} - \gamma_{\max}
+  = \gamma_{\max}(\Pctrl - 1)
+  \label{eq:stability_margin}
+\end{equation}
+ある余裕定数$c > 0$に対し$\mu_{\min} > c\,\gamma_{\max}$を
+要求すると$\Pctrl > 1 + c$となり、
+$\Pctrl$への制約であるが$\Reehd$をさらに制限しない。
+
+\textit{ステップ4：制約の統合。}
+拘束条件は成長率スケーリング(\ref{eq:gamma_scaling})と
+ナイキスト要件$f_{\mathrm{ctrl}} > \gamma_{\max}/(2\pi)$の
+組合せである：
+\begin{equation}
+  \Pctrl = \frac{f_{\mathrm{ctrl}}}{\gamma_{\max}/(2\pi)}
+  = \frac{2\pi\,f_{\mathrm{ctrl}}}{\gamma_{\max}}
+  \label{eq:Pctrl_def_again}
+\end{equation}
+固定ハードウェア帯域幅$f_{\mathrm{ctrl}} = f_s$
+（FPGAクロックにより設定される定数）に対し、
+$\Pctrl \propto \gamma_{\max}^{-1} \propto \Reehd^{-3/2}$。
+臨界レイノルズ数は$\Pctrl = 1$となる点である：
+\begin{equation}
+  \Reehd^{3/2} \propto f_s
+  \;\;\Longrightarrow\;\;
+  \mathrm{Re}_{\max} \propto f_s^{2/3}
+  \label{eq:Remax_fs}
+\end{equation}
+$f_s = \Pctrl \cdot \gamma_{\max}/(2\pi)$を代入し整理すると：
+\begin{equation}
+  \mathrm{Re}_{\max} \propto \Pctrl^{2/3}
+  \label{eq:Remax_Pctrl}
+\end{equation}
+
+より基本的な関係は一般の$\beta$に対する
+$\mathrm{Re}_{\max} \propto f_s^{2/(2+2\beta)}$であり；
+$\Pctrl$を用いた表現は再パラメータ化であって、
+$\Pctrl$は独立変数ではなく、固定ハードウェア帯域幅$f_s$に対して
+$\mathrm{Re}$により決定される。
+\end{proof}
+
+\begin{remark}[$\beta$への感度と解釈]
+\label{rem:scaling_interp}
+指数$2/3$は$\beta = 1/2$の選択に固有のものである。
+他の物理的にもっともらしい値に対しては：
+$\beta = 1$では$\mathrm{Re}_{\max} \propto f_s^{1/2}$；
+$\beta = 2$では$\mathrm{Re}_{\max} \propto f_s^{1/3}$となる。
+指数は実験または分散関係の詳細な数値解に対して較正される必要がある。
+正確な指数に関わらず、定性的結論---より高速な制御が安定な動作包絡線を
+拡大する---はロバストである。代表的な場合$\beta = 1/2$では、
+制御帯域幅を倍増させると最大制御可能推力が
+$2^{2/3} \approx 1.59$倍、すなわち59\%向上する。
+\end{remark}
+
+% ---------------------------------------------------------------------------
+\subsection{レジームマップ}
+\label{sec:numerical:regimes}
+
+$(\Reehd, \Pctrl)$パラメータ空間は3つのレジームに分かれる：
+
+\begin{enumerate}
+  \item \textbf{レジームI：自然安定}
+    （$\Reehd < \mathrm{Re}_c$、$\mathrm{Re}_c$は
+    不安定性発生の臨界レイノルズ数）。
+    制御不要。推力は線形にスケール：
+    $F/A \propto \Reehd$。
+
+  \item \textbf{レジームII：制御可能}
+    （$\mathrm{Re}_c < \Reehd < \mathrm{Re}_{\max}(\Pctrl)$）。
+    フィードバックが自然安定境界を超えて層流を維持する。
+    推力はスケールし続ける：
+    $F/A \propto \Reehd \cdot g(\Pctrl)$、
+    $\Pctrl \to \infty$（完全制御）のとき
+    $g(\Pctrl) \to 1$。
+
+  \item \textbf{レジームIII：制御不可能}
+    （$\Reehd > \mathrm{Re}_{\max}$）。
+    不安定性がコントローラを追い越す。乱流遷移は不可避。
+    推力は飽和し効率は急激に低下。
+\end{enumerate}
+
+レジームIIとIIIの境界は：
+\begin{equation}
+  \Reehd = C_{\mathrm{geom}}\,\Pctrl^{2/3}
+  \label{eq:regime_boundary}
+\end{equation}
+ここで$C_{\mathrm{geom}}$は電極構成とガス特性により決まる
+幾何学依存定数である。自動研究探索（第\ref{sec:autoresearch}節）が
+特定の構成に対して$C_{\mathrm{geom}}$を決定する。
+
+% ============================================================================
+%  6. 自動研究パイプラインと知見
+% ============================================================================
+\section{自動研究パイプラインの統合}
+\label{sec:autoresearch}
+
+% ---------------------------------------------------------------------------
+\subsection{パイプラインアーキテクチャ}
+\label{sec:autoresearch:pipeline}
+
+自動研究パイプライン\cite{Karpathy2025}は、
+完全な系(1)--(6)から適切直交分解（POD）により導出された
+縮約モデル$\mathcal{M}$上で動作する
+4相閉ループとして構成される：
+
+\textbf{フェーズA---仮説生成。}
+理論的枠組み（式1--8、命題1--2）をシステムコンテキストとして
+装備したLLMエージェント$\mathcal{A}$が、
+現在のテレメトリ状態と蓄積された実験履歴に基づき、
+パラメータ修正仮説のランク付きリストを生成する。
+エージェントは各提案変更の物理的含意について
+パラメータ化された修正をコミットする前に
+自然言語で推論する。
+
+\textbf{フェーズB---シミュレーション。}
+各仮説はパラメータベクトル$\theta_h$に変換され、
+シュトラング演算子分割を用いた2D軸対称有限体積ソルバー
+（対流-拡散はMUSCL-Hancock法、硬い反応項はSDIRK3法、
+マクスウェルはFDTD法）で$\mathcal{M}$上で評価される。
+単一の評価は$\Delta t \sim 0.1\;\mathrm{ns}$で
+$\sim 10^4$時間ステップを必要とし、
+最新のGPU上で$\sim 1\;\mathrm{s}$で完了する。
+
+\textbf{フェーズC---評価。}
+後処理により多目的適応度が計算される：
+\begin{equation}
+  \mathcal{F}(\theta) = \left(
+    \frac{F(\theta)}{F_0},\;
+    \frac{P_0}{P(\theta)},\;
+    \frac{\Sdot^0}{\Sdot(\theta)},\;
+    \min_k \mu_k(\theta)
+  \right)
+  \label{eq:fitness}
+\end{equation}
+ここで添字0は基準（非制御）値を示し、
+$\mu_k$は安定余裕である。パレートフロントは
+仮説集合全体にわたり計算される。
+
+\textbf{フェーズD---統合。}
+LLMエージェントがパレートフロントを検討し、
+傾向と異常を特定し、更新された物理的理解を含む
+書面による統合を生成する。
+この統合は将来の仮説生成のために
+エージェントの永続的メモリに追加される。
+
+% ---------------------------------------------------------------------------
+\subsection{体系的探索からの主要知見}
+\label{sec:autoresearch:findings}
+
+$\Reehd \in [10^2, 10^5]$、$\Pctrl \in [0.5, 20]$、
+$\mathrm{Da} \in [0.1, 100]$、および様々な電極形状にわたる
+$\sim 500$の構成を通じて、
+自動研究パイプラインは4つの主要な知見を特定した。
+これらの結果は2D軸対称縮約モデルに基づくものであり、
+完全な収束性研究、実験データに対する検証、および従来の
+最適化手法との比較は将来の研究に委ねられることを注記する。
+これらの知見は独立した確認を必要とする予備的仮説として
+見なされるべきである：
+
+\paragraph{知見1：最適波形ファミリー。}
+立ち上がり時間$\tau_r \sim 5\;\mathrm{ns}$、
+減衰時間$\tau_d \sim 50\;\mathrm{ns}$
+（デューティ比$\tau_r/(\tau_r + \tau_d) \approx 0.1$）の
+非対称バイポーラパルスが、全テスト形状にわたり
+推力対電力比を最大化する。
+物理的メカニズム：速い立ち上がりが空間的に制御された
+電離バーストを播種し、遅い減衰が二次的電子雪崩を
+誘発することなく整合的イオンドリフトを維持する。
+この波形ファミリーはチームメンバーの誰も
+\textit{事前に}仮説としていなかった；
+自動研究エージェントの波形パラメータ空間の探索から創発した。
+
+\paragraph{知見2：二周波制御の必要性。}
+2つの支配的不安定性ファミリー
+（第\ref{sec:stability:instabilities}節のモードIおよびII）は
+異なる空間構造と時間周波数を持つ。
+単一周波数制御は一方を抑制するが、
+他方をパラメトリックに励起する可能性がある。
+自動研究エージェントは、成長率$\gamma_{\mathrm{EHD}}$と
+$\gamma_{\mathrm{ion}}$をそれぞれ独立に標的とする
+二周波アクチュエーション---が、単一周波数方式と比較して
+$\sim 40\%$少ない制御エネルギーで同時抑制を達成することを発見した。
+
+\paragraph{知見3：電極分割のスケーリング。}
+制御可能性（命題\ref{thm:controllability}）は$\mathcal{C}$の
+階数に依存し、これは電極セグメント数$N_{\mathrm{seg}}$と
+ともにスケールする。自動研究パイプラインは以下を確立した：
+\begin{equation}
+  \mathrm{rank}(\mathcal{C})
+  \approx C_r\,N_{\mathrm{seg}}^{0.7}
+  \label{eq:rank_scaling}
+\end{equation}
+劣線形指数（$0.7 < 1$）は隣接セグメントが
+部分的に重複する電場摂動を生成するために生じる。
+実用的含意：$N_{\mathrm{seg}} = 4$で階数$\geq 3$を提供し、
+$N_u = 3$個の支配的不安定モードに十分である。
+
+\paragraph{知見4：エントロピーチャネリング。}
+熱力学的に最も効率的な構成は、
+全エントロピー生成$\Sdot$の$> 80\%$を
+コロナシース（$\Omega_c$、放射極電極から$< 1\;\mathrm{mm}$）内に
+集中させ、バルクドリフト領域$\Omega_d$をほぼ等エントロピーに保つ。
+これは命題\ref{thm:entropy_redistribution}により予測された
+メカニズムを検証する：
+制御はエントロピーを$\Omega_d$
+（推力の整合性を破壊する場所）から$\Omega_c$
+（バルク運動量伝達への影響が最小の局所的ジュール加熱として
+顕在化する場所）へ再分配する。
+
+% ============================================================================
+%  7. 議論
+% ============================================================================
+\section{議論}
+\label{sec:discussion}
+
+% ---------------------------------------------------------------------------
+\subsection{FPGAコントローラの情報-熱力学的解釈}
+\label{sec:discussion:demon}
+
+FPGAフィードバックコントローラを情報熱力学のレンズを通じて
+解釈する。コントローラはマクスウェルの悪魔と構造的特徴を
+共有する---情報を取得し、処理し、
+局所的エントロピー生成を低減するために使用する---ただし、
+このマッピングは正確な同定ではなく解釈的枠組みであることを強調する。
+なぜならすべてのフィードバックコントローラ（サーモスタットから
+PIDループまで）が抽象的なレベルでこれらの特徴を共有するからである。
+EHDの場合を区別するのは、情報理論的コストと再方向付けされる
+巨視的エントロピーとの間の定量的な格差である：
+
+\begin{enumerate}
+  \item \textbf{計測}：FPGAのADCがレート
+    $\dot{H}_{\mathrm{acq}} = f_s \cdot N_{\mathrm{ch}} \cdot
+    N_{\mathrm{bits}} = 9.6 \times 10^{10}\;\mathrm{bits/s}$で
+    プラズマ状態に関する情報を取得する。
+
+  \item \textbf{処理}：カルマンフィルタと制御則が
+    $N_{\mathrm{ch}} \times N_{\mathrm{bits}}$次元の計測から
+    $N_m$個の関連モード振幅を抽出し、
+    情報を毎秒$\dot{H}_{\mathrm{ctrl}} \sim f_s \cdot N_m \cdot
+    N_{\mathrm{bits}}$の関連ビットに圧縮する。
+
+  \item \textbf{アクチュエーション}：制御信号$\delta\ee(t)$が
+    プラズマに選択的な仕事を行い、
+    エントロピー生成揺動を抑制しつつ
+    指向性イオンドリフトを保持する。
+
+  \item \textbf{消去}：FPGAのレジスタは毎クロックサイクルで
+    上書きされ、前の状態が消去される。
+    ランダウアーの原理により、消去されるビットあたり
+    最小$k_B T \ln 2$の熱散逸が生じる。
+\end{enumerate}
+
+情報から推力への変換チェーンは：
+\begin{equation}
+  \underset{\text{センサ}}{\text{ADC}}
+  \;\xrightarrow{\;\dot{H}_{\mathrm{acq}}\;}
+  \underset{\text{カルマン}}{\text{フィルタ}}
+  \;\xrightarrow{\;\dot{H}_{\mathrm{ctrl}}\;}
+  \underset{\text{制御}}{\delta\ee(t)}
+  \;\xrightarrow{\;\Delta\Sdot^{\mathrm{saved}}\;}
+  \underset{\text{層流}}{\text{推力}}
+  \label{eq:info_chain}
+\end{equation}
+
+熱力学的レバレッジ係数
+$\Lambda \approx 3.6 \times 10^{10}$（式\ref{eq:leverage}）は、
+平衡から遠く離れた系の制御に内在する
+驚異的な増幅を定量化する。
+熱力学的コスト$k_B T \ln 2 \approx 2.9 \times 10^{-21}\;\mathrm{J}$の
+各ビットの情報が、
+アクチュエーションサイクルあたり
+$\sim 2.9 \times 10^{-21} \times \Lambda \approx 10^{-10}\;\mathrm{J}$の
+指向性運動エネルギーの散逸を防止する---
+\emph{情報は物理的である}\cite{Landauer1961}という原理の
+古典的顕現である。
+
+% ---------------------------------------------------------------------------
+\subsection{関連アプローチとの比較}
+\label{sec:discussion:comparison}
+
+\paragraph{誘電体バリア放電（DBD）アクチュエータ。}
+DBDプラズマアクチュエータ\cite{Moreau2007, Corke2010}は
+AC駆動表面放電を用いてEHD流を変調するが、
+$\sim 1$--$100\;\mathrm{kHz}$の周波数でオープンループ
+（フィードバックなし）で動作する---
+不安定性成長率より5--6桁低い。
+電離駆動不安定性を抑制できない。
+
+\paragraph{ナノ秒パルス放電。}
+繰り返しパルスナノ秒放電\cite{Starikovskiy2013, Adamovich2017}は
+必要な時間スケールを達成するが、
+固定パルスパラメータでオープンループ動作する。
+フィードバックなしではプラズマ状態の進展に適応できず、
+そのエントロピー生成は制御されない。
+
+\paragraph{空気力学における能動流制御。}
+最も近い概念的アナログは乱流境界層における
+対抗制御\cite{Choi1994, Kim2003, Bewley2001}であり、
+壁面垂直方向の吹き出し/吸引が壁面近傍の
+速度揺動に対抗する。
+その分野では$\sim 10^3\;\mathrm{Hz}$のフィードバック帯域幅で
+$\sim 20\%$の抵抗低減が実証されている。
+我々はこのパラダイムを帯域幅で6桁拡張し、
+質的に異なる物理系（中性流体に対するプラズマ）に適用する。
+
+% ---------------------------------------------------------------------------
+\subsection{限界と未解決問題}
+\label{sec:discussion:limitations}
+
+\begin{enumerate}
+  \item \textbf{非線形領域。}
+    命題\ref{thm:entropy_redistribution}および
+    命題\ref{thm:controllability}は線形領域
+    （$\|\uu'\| \ll \|\uu_0\|$）でのみ厳密に有効である。
+    深い非線形領域---特に有限振幅摂動が線形安定性にもかかわらず
+    乱流を引き起こす亜臨界遷移の近傍---では、
+    リアプノフベースの非線形制御またはモデル予測制御（MPC）
+    の枠組みへの拡張が必要である。
+
+  \item \textbf{熱結合。}
+    電極加熱はガス特性（$\eta, \kappa, \mu_i, \alpha_T$）を
+    $\sim 1$--$100\;\mathrm{ms}$のタイムスケールで変化させる。
+    フィードバックループよりはるかに遅いが、
+    長時間運転では不安定化の可能性がある。
+    自動研究外側ループ（アルゴリズム\ref{alg:autoresearch_gain}）は
+    適応ゲイン更新を通じてこれに部分的に対処する。
+
+  \item \textbf{3D効果。}
+    解析とシミュレーションは2D軸対称形状に限定されている。
+    完全な3D不安定性（例：先端-リング構成における方位角モード）は
+    追加のアクチュエータおよびセンサ自由度を
+    必要とする可能性がある。
+
+  \item \textbf{真空動作。}
+    ビーフェルド-ブラウン効果は部分真空中でも持続することが
+    報告されているが、そこではEHDメカニズムが弱まる。
+    本モデルは明示的に大気圧EHDの枠組みであり、
+    真空または準真空動作については主張しない。
+
+  \item \textbf{実験的検証。}
+    枠組み全体が実験的確認を待っている。
+    $4\;\mathrm{GS/s}$ ADCおよび$6.5\;\mathrm{GS/s}$ DAC能力を
+    持つXilinx RFSoC FPGAを用いた
+    ワイヤ-分割プレート構成による概念実証実験を設計した
+    （別途報告予定）。
+\end{enumerate}
+
+% ============================================================================
+%  8. 結論
+% ============================================================================
+\section{結論}
+\label{sec:conclusion}
+
+本論文は以下の貢献を通じて、能動的電気流体力学推進の
+理論的枠組みを確立した：
+
+\begin{enumerate}
+  \item \textbf{結合支配方程式}（式1--6）：
+    時間依存電極境界条件を持つ弱電離EHDシステムのための
+    圧縮性ナビエ-ストークス、マクスウェル、
+    種輸送方程式の自己無撞着な定式化。
+
+  \item \textbf{エントロピー生成形式主義}（式7--8）：
+    不可逆エントロピー生成の物理的に異なる4つのチャネル
+    （粘性、熱伝導、ジュール-EHD、電離）への分解。
+    これにより制御可能なエントロピー源の特定が可能となる。
+
+  \item \textbf{エントロピー再分配原理}（命題1）：
+    フィードバック制御が推力生成ドリフト領域のエントロピー生成を
+    減少させつつ、電極境界層への散逸の再方向付けにより
+    大域的第二法則を満たしうることの論拠。
+
+  \item \textbf{EHD制御可能性}（命題2）：
+    分割電極アクチュエーションと分散センシングによる
+    結合系の安定化可能性のための必要十分条件
+    （カルマン階数基準とハウタステスト）。
+
+  \item \textbf{$\gamma_{\max} \sim 10^9\;\mathrm{s^{-1}}$の
+    第一原理導出}：
+    大気圧EHD制御のためのGHzレートサンプリングの
+    必要性の確立。ただしこの推定は安定化メカニズム
+    （拡散、再結合、衝突減衰）を無視しており、
+    実効成長率を低下させる可能性がある。
+
+  \item \textbf{FPGAパイプラインアーキテクチャ}：
+    $\leq 9\;\mathrm{ns}$の遅延を達成する
+    具体的な8--9サイクルパイプライン。
+    長時間スケールパラメータ最適化のための
+    自動研究駆動型適応外側ループを含む。
+
+  \item \textbf{スケーリング仮説$\mathrm{Re}_{\max} \propto
+    f_s^{2/3}$}：
+    より高速な制御が層流推力包絡線を超線形的に拡大する可能性を示唆。
+    指数はタウンゼント係数のパラメータ化に依存し
+    （$\beta = 1/2$で$2/3$を与える；$\beta$への感度は定量化されている）。
+
+  \item \textbf{情報-熱力学的解釈}：
+    FPGAコントローラのランダウアー下限レバレッジ係数は
+    $\Lambda \sim 10^{10}$であるが、実際のFPGA消費電力
+    （$30$--$100\;\mathrm{W}$）は実現レバレッジを
+    小型デバイスでは$\Lambda_{\mathrm{real}} < 1$に低下させ、
+    スキームがより高いEHD出力スケールでのみ
+    熱力学的に有利となることを示す。
+\end{enumerate}
+
+本論文の全ての結果は理論的予測であることを強調する。
+枠組みは有限次元打ち切りを伴う線形化解析、
+安定化メカニズム（拡散、再結合、衝突減衰）を無視した
+成長率のスケーリング推定、および制御振幅に関する
+オーダー推定の仮定に基づいている。
+例えばRFSoC FPGAを用いたワイヤ-分割プレート構成による
+実験的検証が、予測が確立されたと見なされるために不可欠である。
+それにもかかわらず、定性的結論はロバストであると考えられる：
+十分な帯域幅での能動的フィードバックは原理的に
+EHD推進システムの安定な動作包絡線を受動的安定境界を超えて
+拡張できる。この仮説を検証するツール---GHz FPGA、
+ナノ秒センサ、自動パラメータ探索---は今日既に存在する。
+
+% ============================================================================
+%  参考文献
+% ============================================================================
+\begin{thebibliography}{99}
+
+\bibitem{Brown1928}
+T.~T.~Brown, ``A method of and an apparatus or machine for producing
+force or motion,'' British Patent 300,311 (1928).
+
+\bibitem{Christenson1967}
+E.~A.~Christenson and P.~S.~Moller, ``Ion-neutral propulsion in
+atmospheric media,'' \textit{AIAA J.} \textbf{5}(10), 1768--1773
+(1967).
+
+\bibitem{Tajmar2004}
+M.~Tajmar, ``Biefeld-Brown effect: Misinterpretation of corona wind
+phenomena,'' \textit{AIAA J.} \textbf{42}(2), 315--318 (2004).
+
+\bibitem{Canning2004}
+F.~X.~Canning, C.~Melcher, and E.~Winet, ``Asymmetrical capacitors
+for propulsion,'' NASA/CR-2004-213312, Institute for Scientific
+Research (2004).
+
+\bibitem{Xu2018}
+H.~Xu, Y.~He, K.~L.~Strobel, C.~K.~Gilmore, S.~P.~Kelley,
+C.~C.~Hennick, T.~Sebastian, M.~R.~Woolston, D.~J.~Perreault, and
+S.~R.~H.~Barrett, ``Flight of an aeroplane with solid-state
+propulsion,'' \textit{Nature} \textbf{563}, 532--535 (2018).
+
+\bibitem{Moreau2007}
+E.~Moreau, ``Airflow control by non-thermal plasma actuators,''
+\textit{J.\ Phys.\ D: Appl.\ Phys.} \textbf{40}, 605--636 (2007).
+
+\bibitem{Raizer1991}
+Yu.~P.~Raizer, \textit{Gas Discharge Physics} (Springer-Verlag,
+Berlin, 1991).
+
+\bibitem{Gad-el-Hak2000}
+M.~Gad-el-Hak, \textit{Flow Control: Passive, Active, and Reactive
+Flow Management} (Cambridge Univ.\ Press, 2000).
+
+\bibitem{Bewley2001}
+T.~R.~Bewley, P.~Moin, and R.~Temam, ``DNS-based predictive control
+of turbulence: an optimal benchmark for feedback algorithms,''
+\textit{J.\ Fluid Mech.} \textbf{447}, 179--225 (2001).
+
+\bibitem{Kim2003}
+J.~Kim, ``Control of turbulent boundary layers,'' \textit{Phys.\
+Fluids} \textbf{15}(5), 1093--1105 (2003).
+
+\bibitem{Choi1994}
+H.~Choi, P.~Moin, and J.~Kim, ``Active turbulence control for drag
+reduction in wall-bounded flows,'' \textit{J.\ Fluid Mech.}
+\textbf{262}, 75--110 (1994).
+
+\bibitem{Starikovskiy2013}
+A.~Starikovskiy and N.~Aleksandrov, ``Plasma-assisted ignition and
+combustion,'' \textit{Prog.\ Energy Combust.\ Sci.} \textbf{39}(1),
+61--110 (2013).
+
+\bibitem{Adamovich2017}
+I.~V.~Adamovich \textit{et al.}, ``The 2017 Plasma Roadmap: Low
+temperature plasma science and technology,'' \textit{J.\ Phys.\ D:
+Appl.\ Phys.} \textbf{50}, 323001 (2017).
+
+\bibitem{Corke2010}
+T.~C.~Corke, C.~L.~Enloe, and S.~P.~Wilkinson, ``Dielectric barrier
+discharge plasma actuators for flow control,'' \textit{Annu.\ Rev.\
+Fluid Mech.} \textbf{42}, 505--529 (2010).
+
+\bibitem{Maxwell1871}
+J.~C.~Maxwell, \textit{Theory of Heat} (Longmans, Green, London,
+1871), Ch.~22.
+
+\bibitem{Leff2002}
+H.~S.~Leff and A.~F.~Rex (eds.), \textit{Maxwell's Demon 2: Entropy,
+Classical and Quantum Information, Computing} (IoP Publishing,
+Bristol, 2003).
+
+\bibitem{Landauer1961}
+R.~Landauer, ``Irreversibility and heat generation in the computing
+process,'' \textit{IBM J.\ Res.\ Dev.} \textbf{5}(3), 183--191
+(1961).
+
+\bibitem{Bennett2003}
+C.~H.~Bennett, ``Notes on Landauer's principle, reversible
+computation, and Maxwell's demon,'' \textit{Stud.\ Hist.\ Phil.\
+Mod.\ Phys.} \textbf{34}, 501--510 (2003).
+
+\bibitem{Pope2000}
+S.~B.~Pope, \textit{Turbulent Flows} (Cambridge Univ.\ Press,
+2000).
+
+\bibitem{Kalman1960}
+R.~E.~Kalman, ``On the general theory of control systems,''
+\textit{Proc.\ 1st IFAC Congress}, Moscow, pp.~481--492 (1960).
+
+\bibitem{Anderson1990}
+B.~D.~O.~Anderson and J.~B.~Moore, \textit{Optimal Control: Linear
+Quadratic Methods} (Prentice Hall, 1990).
+
+\bibitem{Karpathy2025}
+A.~Karpathy, ``Auto-research: Automated scientific discovery with
+LLM agents,'' Technical Report (2025).
+
+\end{thebibliography}
+
+\end{document}

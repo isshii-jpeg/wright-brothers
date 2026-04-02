@@ -1,0 +1,697 @@
+% ============================================================================
+%  EHD推進 実験計画書 - 素人向け実践ガイド
+% ============================================================================
+\documentclass[12pt,a4paper]{ltjsarticle}
+
+\usepackage{luatexja-fontspec}
+\setmainjfont{HaranoAjiMincho-Regular}[BoldFont=HaranoAjiMincho-Bold]
+\setsansjfont{HaranoAjiGothic-Medium}[BoldFont=HaranoAjiGothic-Bold]
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.geometric,positioning,calc}
+
+\tcbuselibrary{skins,breakable}
+
+% Colors
+\definecolor{danger}{RGB}{220,53,69}
+\definecolor{warning}{RGB}{255,193,7}
+\definecolor{success}{RGB}{40,167,69}
+\definecolor{info}{RGB}{0,123,255}
+\definecolor{phase1}{RGB}{52,152,219}
+\definecolor{phase2}{RGB}{230,126,34}
+\definecolor{phase3}{RGB}{142,68,173}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% Custom boxes
+\newtcolorbox{dangerbox}{
+  colback=danger!10, colframe=danger!80,
+  fonttitle=\bfseries\sffamily, title={\Large !} 危険・絶対厳守,
+  breakable
+}
+
+\newtcolorbox{warningbox}{
+  colback=warning!15, colframe=warning!80!black,
+  fonttitle=\bfseries\sffamily, title={注意},
+  breakable
+}
+
+\newtcolorbox{infobox}{
+  colback=info!8, colframe=info!70,
+  fonttitle=\bfseries\sffamily,
+  breakable
+}
+
+\newtcolorbox{successbox}{
+  colback=success!8, colframe=success!70,
+  fonttitle=\bfseries\sffamily,
+  breakable
+}
+
+\newtcolorbox{phasebox}[2][]{
+  colback=#2!8, colframe=#2!80,
+  fonttitle=\bfseries\sffamily\Large,
+  title={#1},
+  breakable,
+  before upper={\parindent=0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\small EHD推進 実験計画書}
+\fancyhead[R]{\sffamily\small v1.0}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+% ============================================================================
+%  TITLE PAGE
+% ============================================================================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\sffamily\bfseries
+電気流体力学（EHD）推進\\[12pt]
+実験計画書
+}
+
+\vspace{1cm}
+
+{\Large\sffamily
+--- イオン風で物体を浮かせ、制御する ---
+}
+
+\vspace{2cm}
+
+\begin{tikzpicture}[scale=1.2]
+  % Emitter wire (top)
+  \draw[thick, blue] (-3,2) -- (3,2);
+  \node[above, blue, font=\sffamily\small] at (0,2.1) {放射極（細線）+極};
+
+  % Collector foil (bottom)
+  \draw[very thick, orange!80!black, fill=orange!20]
+    (-3,0) -- (-3,0.8) -- (-2.8,0) -- (-2.6,0.8) -- (-2.4,0)
+    -- (-2.2,0.8) -- (-2.0,0) -- (-1.8,0.8) -- (-1.6,0)
+    -- (-1.4,0.8) -- (-1.2,0) -- (-1.0,0.8) -- (-0.8,0)
+    -- (-0.6,0.8) -- (-0.4,0) -- (-0.2,0.8) -- (0,0)
+    -- (0.2,0.8) -- (0.4,0) -- (0.6,0.8) -- (0.8,0)
+    -- (1.0,0.8) -- (1.2,0) -- (1.4,0.8) -- (1.6,0)
+    -- (1.8,0.8) -- (2.0,0) -- (2.2,0.8) -- (2.4,0)
+    -- (2.6,0.8) -- (2.8,0) -- (3.0,0.8) -- (3.0,0) -- cycle;
+  \node[below, orange!80!black, font=\sffamily\small] at (0,-0.1) {集電極（アルミスカート）$-$極};
+
+  % Ion wind arrows
+  \foreach \x in {-2.5,-1.5,-0.5,0.5,1.5,2.5} {
+    \draw[-{Stealth[length=4pt]}, thick, green!60!black]
+      (\x,1.9) -- (\x,1.0);
+  }
+  \node[right, green!60!black, font=\sffamily\small] at (3.2,1.4) {イオン風};
+
+  % Thrust arrow
+  \draw[-{Stealth[length=6pt]}, very thick, red] (0,-0.5) -- (0,-1.5);
+  \node[right, red, font=\sffamily\bfseries] at (0.2,-1.0) {推力};
+
+  % High voltage
+  \draw[thick, red!70!black] (-4,2) -- (-4,-0.4) node[midway, left, font=\sffamily\small] {30kV DC};
+  \draw[thick, red!70!black] (-4,2) -- (-3,2);
+  \draw[thick, red!70!black] (-4,-0.4) -- (-3,-0.4);
+  \node[draw, thick, red!70!black, font=\sffamily\small, minimum width=1.5cm] at (-4,0.8) {HV};
+\end{tikzpicture}
+
+\vspace{2cm}
+
+{\large\sffamily
+対象：電子工作経験のある方 \\
+所要期間：Phase 1のみで約1〜2週間 \\
+予算：Phase 1 約5,000〜15,000円
+}
+
+\vspace{1cm}
+
+{\sffamily\small 2026年3月}
+
+\end{titlepage}
+
+% ============================================================================
+%  SAFETY FIRST
+% ============================================================================
+\section*{\color{danger} はじめに読むこと：安全について}
+
+\begin{dangerbox}
+\textbf{\Large 30kV / 1mAの電流は人を殺します。}
+
+\begin{itemize}[leftmargin=2em]
+  \item 心臓を横断する方向（左手$\to$右手）への感電は特に致命的
+  \item \textbf{絶対に一人で実験しない}（救助者を必ず確保）
+  \item 通電中は回路に一切触れない
+  \item 電源OFF後もコンデンサに残留電荷あり$\to$\textbf{必ず放電棒で放電してから触る}
+  \item 万一の感電時は即119番通報、AED使用
+\end{itemize}
+\end{dangerbox}
+
+\begin{warningbox}
+\textbf{コロナ放電はオゾン（O$_3$）とNOxを発生させます。}
+\begin{itemize}[leftmargin=2em]
+  \item 必ず換気扇のある部屋、または屋外に近い環境で実験
+  \item 長時間の密閉空間での実験は絶対に避ける
+  \item 目や喉に刺激を感じたら直ちに実験を中止し換気
+\end{itemize}
+\end{warningbox}
+
+% ============================================================================
+%  OVERVIEW
+% ============================================================================
+\newpage
+\section{実験の全体像}
+
+\subsection{何をやるのか}
+
+高電圧をかけた非対称な電極（細い線 + アルミのスカート）の間で
+\textbf{イオン風}を発生させ、それによる\textbf{推力}で物体を浮上させます。
+これが電気流体力学（EHD）推進の基本原理です。
+
+\subsection{3つのフェーズ}
+
+\begin{center}
+\begin{tikzpicture}[
+  phase/.style={draw, rounded corners=8pt, minimum width=4.5cm,
+    minimum height=2.2cm, font=\sffamily, align=center, thick},
+  arr/.style={-{Stealth[length=6pt]}, thick, gray}
+]
+  \node[phase, fill=phase1!20, draw=phase1] (p1) at (0,0)
+    {\textbf{\large Phase 1}\\基本リフター\\の製作と浮上};
+  \node[phase, fill=phase2!20, draw=phase2] (p2) at (5.5,0)
+    {\textbf{\large Phase 2}\\計測系の構築\\推力・電流の定量化};
+  \node[phase, fill=phase3!20, draw=phase3] (p3) at (11,0)
+    {\textbf{\large Phase 3}\\フィードバック\\制御の実装};
+
+  \draw[arr] (p1) -- (p2);
+  \draw[arr] (p2) -- (p3);
+
+  \node[below, font=\sffamily\small, phase1] at (p1.south) {予算: 5千〜1.5万円};
+  \node[below, font=\sffamily\small, phase2] at (p2.south) {予算: 3万〜8万円};
+  \node[below, font=\sffamily\small, phase3] at (p3.south) {予算: 5万〜15万円};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{infobox}[title={この実験で検証できること}]
+\begin{enumerate}[leftmargin=2em]
+  \item EHDイオン風による推力の発生（Phase 1）
+  \item 電圧と推力・電流の関係の定量化（Phase 2）
+  \item 電圧波形の能動制御による推力増大の可能性（Phase 3）
+\end{enumerate}
+論文の理論的予測---「フィードバック制御により安定動作範囲を拡大できる」---の
+第一歩の実験的検証を目指します。
+\end{infobox}
+
+% ============================================================================
+%  PHASE 1
+% ============================================================================
+\newpage
+\section{Phase 1：基本リフターの製作と浮上}
+
+\begin{phasebox}[Phase 1 --- 目標：イオン風で三角形を浮かせる]{phase1}
+\textbf{所要時間：}1〜3日 \quad
+\textbf{難易度：}初級 \quad
+\textbf{予算：}5,000〜15,000円
+\end{phasebox}
+
+\subsection{買い物リスト}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\caption{Phase 1 必要部品一覧}
+\begin{tabular}{@{}p{3.5cm}p{3cm}p{2.5cm}p{3cm}@{}}
+\toprule
+\textbf{部品} & \textbf{仕様} & \textbf{価格目安} & \textbf{購入先} \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 電極材料 ---}} \\
+細い銅線またはSUS線 & 直径0.05〜0.1mm & 300〜1,000円 & モノタロウ、楽天 \\
+アルミホイル & 市販品でOK & 100〜200円 & スーパー、100均 \\
+バルサ材（角棒） & 3mm角 $\times$ 30cm $\times$ 3本 & 300〜500円 & 東急ハンズ、ホームセンター \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 高圧電源 ---}} \\
+高電圧発生モジュール & 入力3.6〜6V $\to$ 出力〜20kV & 500〜1,500円 & Amazon.co.jp \\
+乾電池ボックス（単3 $\times$ 4） & 6V出力 & 100〜300円 & 秋月電子、Amazon \\
+単3乾電池 & 4本 & 400円 & コンビニ \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 工具・その他 ---}} \\
+瞬間接着剤 & --- & 100〜300円 & 100均 \\
+セロハンテープ & --- & 100円 & 100均 \\
+ワニ口クリップ付きリード線 & 2本 & 200〜400円 & 秋月電子、Amazon \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 安全装備（必須） ---}} \\
+放電用抵抗（10M$\Omega$） & 高電圧用 & 100〜300円 & 秋月電子 \\
+安全メガネ & --- & 500〜1,000円 & ホームセンター \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{warningbox}
+Amazon.co.jpで「高電圧発生モジュール」「アーク放電モジュール」等で検索すると、
+入力DC3.6〜6Vで出力20kV程度の小型モジュールが500〜1,500円で入手できます。
+ただし出力が不安定な製品もあるため、レビューを確認してから購入してください。
+\textbf{30kV以上の安定電源}が必要な場合はPhase 2で本格的な電源を導入します。
+\end{warningbox}
+
+\subsection{製作手順}
+
+\subsubsection{ステップ1：三角形フレームの製作}
+
+\begin{enumerate}[leftmargin=2em]
+  \item バルサ材を3本、各辺\textbf{30cm}に切り出す
+  \item 瞬間接着剤で\textbf{正三角形}に組む
+  \item 各頂点は確実に接着し、歪みがないことを確認
+\end{enumerate}
+
+\subsubsection{ステップ2：コレクター（集電極）の取り付け}
+
+\begin{enumerate}[leftmargin=2em]
+  \item アルミホイルを\textbf{幅4cm}の帯に切る（長さは三角形の周囲分＝約90cm）
+  \item バルサ材フレームの\textbf{外側}に、上半分をバルサに貼り付け、
+        下半分を\textbf{スカート状に垂らす}
+  \item セロハンテープでしっかり固定
+  \item 3辺すべてにアルミスカートを貼り終えたら、
+        アルミ同士が各頂点で\textbf{電気的に接続されている}ことを確認
+\end{enumerate}
+
+\subsubsection{ステップ3：エミッター（放射極）の取り付け}
+
+\begin{enumerate}[leftmargin=2em]
+  \item 各頂点の\textbf{上方3cm}の位置にバルサ材の支柱を立てる
+        （3mm角 $\times$ 3cmのバルサ片を接着）
+  \item 細い銅線を3つの支柱の頂点を結ぶように\textbf{三角形に張る}
+  \item 銅線は\textbf{ピンと張る}こと（たるみがあると放電が不均一になる）
+  \item 銅線とアルミスカートが\textbf{平行}になっていることを確認
+\end{enumerate}
+
+\subsubsection{ステップ4：配線と浮上テスト}
+
+\begin{enumerate}[leftmargin=2em]
+  \item 高電圧モジュールの\textbf{+出力}をワニ口クリップで\textbf{銅線（エミッター）}に接続
+  \item 高電圧モジュールの\textbf{$-$出力（GND）}を\textbf{アルミスカート（コレクター）}に接続
+  \item リフターを平らな絶縁面（木の机やアクリル板）の上に置く
+  \item \textbf{全員が1m以上離れていることを確認}
+  \item 乾電池ボックスをモジュールに接続$\to$電源ON
+  \item コロナ放電の「シュー」という音が聞こえたら正常動作
+  \item うまくいけば\textbf{リフターが浮上する}
+\end{enumerate}
+
+\begin{successbox}[title={成功の判定基準}]
+\begin{itemize}[leftmargin=2em]
+  \item リフターが机から離れて浮上する（数mm〜数cm）
+  \item 暗所でコロナ放電の青紫色の光が銅線周囲に見える
+  \item 下向きのイオン風を手で感じられる
+        （\textbf{※通電中は手を近づけすぎない！}）
+\end{itemize}
+\end{successbox}
+
+\begin{warningbox}
+\textbf{浮上しない場合のチェックリスト：}
+\begin{itemize}[leftmargin=2em]
+  \item 銅線とアルミスカートの距離（3cmが目安。近すぎるとアーク、遠すぎると推力不足）
+  \item 銅線がピンと張られているか（たるみ$\to$不均一放電）
+  \item アルミスカートが全周で電気的に接続されているか
+  \item 機体が軽いか（バルサ+アルミ+銅線で3〜5gが目標）
+  \item 電圧が十分か（20kV以上が望ましい）
+\end{itemize}
+\end{warningbox}
+
+% ============================================================================
+%  PHASE 2
+% ============================================================================
+\newpage
+\section{Phase 2：計測系の構築}
+
+\begin{phasebox}[Phase 2 --- 目標：推力と電流を定量的に測定する]{phase2}
+\textbf{所要時間：}1〜2週間 \quad
+\textbf{難易度：}中級 \quad
+\textbf{予算：}30,000〜80,000円
+\end{phasebox}
+
+\subsection{買い物リスト}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\caption{Phase 2 追加部品一覧}
+\begin{tabular}{@{}p{3.2cm}p{3.3cm}p{2.2cm}p{3.5cm}@{}}
+\toprule
+\textbf{部品} & \textbf{仕様} & \textbf{価格目安} & \textbf{購入先} \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 電源のアップグレード ---}} \\
+安定化高圧電源 & DC 0〜30kV可変、1mA & 3〜10万円 & 松定プレシジョン、中古計測器 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 推力測定 ---}} \\
+精密電子天秤 & 0.01g (10mg)精度 & 1,500〜3,000円 & Amazon.co.jp \\
+（より精密な場合） & 0.001g (1mg)精度 & 3,000〜8,000円 & Amazon、モノタロウ \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 電気測定 ---}} \\
+デジタルマルチメータ & $\mu$Aレンジ対応 & 2,000〜5,000円 & 秋月電子、Amazon \\
+高電圧プローブ & 1000:1、〜40kV & 1〜3万円(中古) & モノタロウ、レンタル \\
+シャント抵抗 & 1k$\Omega$、1W & 100円 & 秋月電子 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- データ記録 ---}} \\
+Arduino Uno & --- & 3,000〜4,000円 & 秋月電子、Amazon \\
+INA219モジュール & I2C電流センサー & 200〜500円 & Amazon.co.jp \\
+microSDカードモジュール & データログ用 & 300〜500円 & 秋月電子 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 安全装備追加 ---}} \\
+絶縁手袋 & JIS T8112準拠 & 3,000〜8,000円 & モノタロウ \\
+放電棒 & 絶縁ハンドル付き & 2,000〜5,000円 & モノタロウ \\
+絶縁マット & ゴム製 & 3,000〜10,000円 & モノタロウ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{推力の測定方法}
+
+\begin{infobox}[title={逆さ吊り法（推奨・簡単）}]
+\begin{enumerate}[leftmargin=2em]
+  \item 精密天秤の上に\textbf{絶縁台}（アクリル板など）を置く
+  \item その上にリフターを\textbf{逆さに}置く（コレクターが上、エミッターが下）
+  \item この状態で天秤をゼロリセット
+  \item 高電圧をON$\to$イオン風が\textbf{上向き}に吹くので天秤の読みが\textbf{減少}する
+  \item 読みの減少分 [g] $\times$ 9.81 = 推力 [mN]
+\end{enumerate}
+\textbf{例：}読みが0.15g減少 $\to$ 推力 = 0.15 $\times$ 9.81 $\approx$ 1.47 mN
+\end{infobox}
+
+\subsection{測定すべきデータ}
+
+以下のデータを電圧を段階的に変えながら記録します：
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\caption{測定データシート（例）}
+\begin{tabular}{@{}ccccl@{}}
+\toprule
+\textbf{印加電圧 [kV]} & \textbf{電流 [$\mu$A]} & \textbf{推力 [mN]}
+& \textbf{推力/電力 [mN/W]} & \textbf{備考} \\
+\midrule
+10 & --- & --- & --- & コロナ未発生 \\
+15 & 50 & 0.3 & 0.40 & コロナ開始 \\
+20 & 150 & 1.0 & 0.33 & 安定動作 \\
+25 & 400 & 2.5 & 0.25 & パチパチ音あり \\
+30 & --- & --- & --- & アーク発生、即停止 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{successbox}[title={Phase 2の成功基準}]
+\begin{itemize}[leftmargin=2em]
+  \item 電圧 vs 推力のグラフが描ける
+  \item 電圧 vs 電流のグラフが描ける
+  \item コロナ開始電圧とアーク放電電圧を特定できる
+  \item 推力/電力比（効率の指標）のピークが見つかる
+  \item 論文の式(1) $F/V_{\mathrm{ol}} \sim \rho_q E$ のスケーリングと
+        定性的に一致するか確認
+\end{itemize}
+\end{successbox}
+
+% ============================================================================
+%  PHASE 3
+% ============================================================================
+\newpage
+\section{Phase 3：フィードバック制御の実装}
+
+\begin{phasebox}[Phase 3 --- 目標：能動制御で安定動作範囲を拡大する]{phase3}
+\textbf{所要時間：}1〜3ヶ月 \quad
+\textbf{難易度：}上級 \quad
+\textbf{予算：}50,000〜150,000円
+\end{phasebox}
+
+\begin{warningbox}
+Phase 3は電子工学・プログラミングの経験がある方向けです。
+FPGA開発（Verilog/VHDL）またはマイコン（C/C++）の
+基礎知識が必要です。
+\end{warningbox}
+
+\subsection{買い物リスト}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\caption{Phase 3 追加部品一覧}
+\begin{tabular}{@{}p{3.5cm}p{3cm}p{2.2cm}p{3.5cm}@{}}
+\toprule
+\textbf{部品} & \textbf{仕様} & \textbf{価格目安} & \textbf{購入先} \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 制御ボード ---}} \\
+FPGA開発ボード（入門） & Tang Nano 9K & 2,980円 & 秋月電子通商 \\
+FPGA開発ボード（推奨） & BASYS 3 (Artix-7) & 34,000円 & 秋月電子、DigiKey.jp \\
+FPGA開発ボード（本格） & ARTY A7-35T & 53,710円 & 秋月電子、DigiKey.jp \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- ADC/DAC ---}} \\
+高速ADCモジュール & 12bit, 1〜10 MSPS & 2,000〜8,000円 & 秋月電子、DigiKey.jp \\
+高速DACモジュール & 12bit以上 & 2,000〜5,000円 & 秋月電子、DigiKey.jp \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{--- 高圧アクチュエータ ---}} \\
+高圧アンプ/ドライバ & 0〜数kVの電圧制御 & 1〜5万円 & 松定プレシジョン \\
+分割電極（自作） & アルミ箔を4分割 & 材料費のみ & --- \\
+電流センサー(複数ch) & INA226 $\times$ 4 & 2,000円 & Amazon.co.jp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{制御システムの構成}
+
+\begin{center}
+\begin{tikzpicture}[
+  block/.style={draw, rounded corners=4pt, minimum width=2.5cm,
+    minimum height=1.2cm, font=\sffamily\small, align=center, thick},
+  arr/.style={-{Stealth[length=5pt]}, thick},
+  label/.style={font=\sffamily\tiny, midway}
+]
+  % Blocks
+  \node[block, fill=phase1!20] (sensor) at (0,0) {電流\\センサー};
+  \node[block, fill=info!20] (adc) at (3,0) {ADC\\12bit};
+  \node[block, fill=phase3!20] (fpga) at (6,0) {FPGA\\制御演算};
+  \node[block, fill=info!20] (dac) at (9,0) {DAC\\14bit};
+  \node[block, fill=phase2!20] (hv) at (12,0) {高圧\\ドライバ};
+  \node[block, fill=success!20] (ehd) at (6,-2.5) {EHDリフター\\（分割電極）};
+
+  % Arrows
+  \draw[arr] (ehd.west) -| (sensor.south) node[label, left, pos=0.7] {電流};
+  \draw[arr] (sensor) -- (adc) node[label, above] {アナログ};
+  \draw[arr] (adc) -- (fpga) node[label, above] {デジタル};
+  \draw[arr] (fpga) -- (dac) node[label, above] {制御信号};
+  \draw[arr] (dac) -- (hv) node[label, above] {電圧};
+  \draw[arr] (hv.south) |- (ehd.east) node[label, right, pos=0.3] {電極電圧};
+\end{tikzpicture}
+\end{center}
+
+\subsection{段階的な実装}
+
+\subsubsection{Step 3-A：電極の分割（ハードウェア）}
+
+コレクター（アルミスカート）を\textbf{4つの独立セグメント}に分割します。
+各セグメントは互いに絶縁し、個別に電圧を印加できるようにします。
+
+\begin{itemize}[leftmargin=2em]
+  \item 三角形の各辺を4等分するのではなく、3辺+中央部の4分割が扱いやすい
+  \item 各セグメントに独立したリード線を接続
+  \item セグメント間のギャップは2〜3mm（絶縁テープで分離）
+\end{itemize}
+
+\subsubsection{Step 3-B：センシングと制御ループ（ソフトウェア）}
+
+\begin{enumerate}[leftmargin=2em]
+  \item 各セグメントの電流をINA226で計測（I2C経由でFPGA/マイコンに送信）
+  \item FPGAで電流の揺らぎを検出
+  \item 揺らぎが閾値を超えたら、該当セグメントの電圧を微調整
+  \item 目標：\textbf{電流の安定化}$\to$コロナ放電の安定化$\to$推力の安定化
+\end{enumerate}
+
+\begin{infobox}[title={論文との対応}]
+論文の命題1（エントロピー再分配原理）は、
+「フィードバック制御により不安定性を抑制し、安定動作範囲を拡大できる」
+と予測しています。Phase 3で検証すべきは：
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{制御なし}でアーク放電が発生する電圧 $V_{\mathrm{arc}}^{\mathrm{open}}$
+  \item \textbf{制御あり}でアーク放電が発生する電圧 $V_{\mathrm{arc}}^{\mathrm{ctrl}}$
+  \item $V_{\mathrm{arc}}^{\mathrm{ctrl}} > V_{\mathrm{arc}}^{\mathrm{open}}$ なら、
+        論文の予測を支持する実験的証拠
+\end{itemize}
+
+ただし論文ではGHz帯域の制御が必要と予測していますが、
+大気圧EHDの不安定性は低い周波数成分も持つため、
+kHz〜MHz帯域の制御でも部分的な効果が期待できます。
+\end{infobox}
+
+% ============================================================================
+%  TIMELINE
+% ============================================================================
+\newpage
+\section{スケジュールと全体予算}
+
+\subsection{推奨タイムライン}
+
+\begin{center}
+\begin{tikzpicture}[
+  week/.style={draw, minimum width=1.2cm, minimum height=0.7cm,
+    font=\sffamily\tiny, align=center},
+  pbar/.style={minimum height=0.7cm, font=\sffamily\small, align=center}
+]
+  % Header
+  \foreach \w [count=\i] in {1,2,3,4,5,6,7,8} {
+    \node[week, fill=lightgray] at (\i*1.4, 0) {Week \w};
+  }
+
+  % Phase 1
+  \node[pbar, fill=phase1!30, minimum width=2.8cm, draw=phase1]
+    at (1.4*1.5, -1) {Phase 1};
+  \node[left, font=\sffamily\small] at (0.3, -1) {部品購入〜浮上};
+
+  % Phase 2
+  \node[pbar, fill=phase2!30, minimum width=4.2cm, draw=phase2]
+    at (1.4*3.5, -2) {Phase 2};
+  \node[left, font=\sffamily\small] at (0.3, -2) {計測系構築};
+
+  % Phase 3
+  \node[pbar, fill=phase3!30, minimum width=5.6cm, draw=phase3]
+    at (1.4*6, -3) {Phase 3};
+  \node[left, font=\sffamily\small] at (0.3, -3) {制御実装};
+\end{tikzpicture}
+\end{center}
+
+\subsection{全体予算まとめ}
+
+\begin{table}[h]
+\centering
+\sffamily
+\caption{予算サマリー}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+\textbf{Phase} & \textbf{主な費用項目} & \textbf{最小構成} & \textbf{推奨構成} \\
+\midrule
+Phase 1 & 電極材料、HVモジュール、工具 & 5,000円 & 15,000円 \\
+Phase 2 & 天秤、計測器、安全装備 & 30,000円 & 80,000円 \\
+Phase 3 & FPGA、ADC/DAC、高圧ドライバ & 50,000円 & 150,000円 \\
+\midrule
+\textbf{合計} & & \textbf{85,000円} & \textbf{245,000円} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{infobox}[title={コスト削減のヒント}]
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{高圧電源}：中古のオシロスコープ用高圧電源や
+        CRTモニター用フライバックトランスで代用可能（安全に注意）
+  \item \textbf{計測器}：大学や研究機関との連携で借用できる場合あり
+  \item \textbf{FPGA}：まずArduino（3,000円）でプロトタイプし、
+        必要と判断してからFPGAに移行
+  \item \textbf{高電圧プローブ}：
+        オリックスレンテックで月額レンタル可能
+\end{itemize}
+\end{infobox}
+
+% ============================================================================
+%  EXPECTED RESULTS
+% ============================================================================
+\section{期待される結果と論文の検証}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\caption{論文の理論予測と実験での検証項目}
+\begin{tabular}{@{}p{3.5cm}p{4cm}p{4cm}@{}}
+\toprule
+\textbf{論文の予測} & \textbf{実験で測定するもの} & \textbf{検証方法} \\
+\midrule
+推力 $\propto \rho_q E$
+& 電圧 vs 推力のグラフ
+& 推力が電圧の2〜3乗に比例するか確認 \\[6pt]
+臨界電圧でコロナ$\to$アーク遷移
+& アーク発生電圧の特定
+& 電流の急増をモニターして遷移点を決定 \\[6pt]
+フィードバックで安定範囲拡大
+& 制御あり/なしのアーク発生電圧
+& $V_{\mathrm{arc}}^{\mathrm{ctrl}} > V_{\mathrm{arc}}^{\mathrm{open}}$ か \\[6pt]
+推力/電力比がピークを持つ
+& 各電圧での推力/電力
+& ピーク値とその電圧を特定 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+%  APPENDIX: STORE LIST
+% ============================================================================
+\newpage
+\section*{付録A：購入先一覧}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\begin{tabular}{@{}p{3.5cm}p{4cm}p{4.5cm}@{}}
+\toprule
+\textbf{店舗名} & \textbf{得意分野} & \textbf{URL / 所在地} \\
+\midrule
+秋月電子通商 & 電子部品全般、FPGA & akizukidenshi.com（秋葉原） \\
+モノタロウ & 工具、安全装備、計測器 & monotaro.com \\
+Amazon.co.jp & 汎用部品、天秤 & amazon.co.jp \\
+DigiKey Japan & FPGA、半導体、ADC & digikey.jp \\
+Mouser Japan & Intel/Altera系FPGA & mouser.jp \\
+マルツオンライン & 電子部品 & marutsu.co.jp \\
+松定プレシジョン & 高圧電源（業務用） & matsusada.co.jp \\
+アズワン AXEL & 実験機材、安全装備 & axel.as-1.co.jp \\
+オリックスレンテック & 計測器レンタル・中古 & orixrentec.jp \\
+東急ハンズ/ホームセンター & バルサ材、工具 & 各店舗 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{付録B：トラブルシューティング}
+
+\begin{table}[h]
+\centering
+\sffamily\small
+\begin{tabular}{@{}p{3.5cm}p{4cm}p{4.5cm}@{}}
+\toprule
+\textbf{症状} & \textbf{原因} & \textbf{対策} \\
+\midrule
+全く浮かない & 電圧不足 & より高出力のHVモジュール \\
+& 機体が重すぎる & バルサ材を薄くする \\
+& 銅線が太すぎる & 0.05mm以下を使用 \\
+\midrule
+すぐアーク放電する & 電極間距離が近すぎる & 間隔を4〜5cmに広げる \\
+& 鋭い突起がある & 電極表面を滑らかに \\
+\midrule
+浮くが不安定 & 気流の影響 & 風防を設置 \\
+& 放電が不均一 & 銅線の張力を均一化 \\
+\midrule
+オゾン臭がひどい & 換気不足 & 換気扇をONにする \\
+& 放電電流が過大 & 電圧を下げる \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{1cm}
+
+\begin{dangerbox}
+繰り返しになりますが、高電圧実験は\textbf{命に関わります}。
+\begin{itemize}[leftmargin=2em]
+  \item 必ず2人以上で実験すること
+  \item 放電棒による残留電荷の放電を忘れないこと
+  \item 少しでも「おかしい」と思ったら即座に電源を切ること
+  \item 感電事故の際は119番通報$\to$AED使用
+\end{itemize}
+安全第一で、楽しい実験を！
+\end{dangerbox}
+
+\end{document}

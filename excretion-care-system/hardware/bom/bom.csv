@@ -1,0 +1,22 @@
+Item,Component,Specification,Quantity,Supplier_Example,Est_Cost_USD,Notes
+1,MCU Board,STM32F103C8T6 Blue Pill,1,AliExpress/LCSC,3.00,72MHz Cortex-M3 64KB Flash
+2,Temp/Humidity Sensor,SHT30-DIS-B (I2C),1,DigiKey/Mouser,4.50,±0.3°C accuracy - medical grade preferred
+3,Gas Sensor,MQ-135 module (NH3/CO2),1,AliExpress/Amazon,3.00,Needs 24h burn-in; calibration required
+4,Suction Pump,12V DC diaphragm pump,1,Amazon/AliExpress,12.00,Min -20kPa; food-grade silicone tubing
+5,Water Pump,12V peristaltic pump,1,Amazon/AliExpress,10.00,Flow rate ~100ml/min
+6,PTC Heater,12V 50W PTC ceramic heater,1,AliExpress,5.00,Self-regulating temperature
+7,Blower Fan,5015 12V centrifugal blower,1,AliExpress,3.00,For drying phase
+8,Motor Driver,L298N dual H-bridge module,1,Amazon/AliExpress,3.00,Controls suction + water pumps
+9,MOSFET Module,IRF520 MOSFET module x2,2,AliExpress,2.00,For heater + fan PWM control
+10,Power Supply,12V 5A switching adapter,1,Amazon,8.00,60W sufficient for all loads
+11,Voltage Regulator,AMS1117-3.3V module,1,AliExpress,0.50,12V -> 3.3V for MCU
+12,Thermal Fuse,73°C thermal cutoff,1,DigiKey,1.00,Safety: water heater backup
+13,Pressure Relief Valve,Adjustable -20kPa,1,AliExpress/McMaster,5.00,Safety: suction limit
+14,Silicone Tubing,Food-grade 6mm ID x 2m,1,Amazon,4.00,Suction and water lines
+15,TPU Filament,Shore 60A 1.75mm 500g,1,Amazon/Matterhackers,25.00,For 3D-printed receiver
+16,Wiring Kit,22AWG silicone wire assorted,1,Amazon,5.00,Heat resistant
+17,Connectors,JST-XH 2.54mm kit,1,Amazon,3.00,Modular connections
+18,PCB Prototype,Custom PCB or perfboard 7x9cm,1,JLCPCB/perfboard,2.00,Main controller board
+19,Enclosure,3D-printed PLA housing,1,Self-printed,3.00,STL files in /hardware/3d-models/
+20,Emergency Stop,NC pushbutton red 12mm,1,Amazon,2.00,Hardwired safety cutoff
+,,,,TOTAL (estimated),103.00,

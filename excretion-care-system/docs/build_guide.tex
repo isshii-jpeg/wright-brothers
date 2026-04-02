@@ -1,0 +1,639 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=25mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Osaka-Mono}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!70!black}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{amssymb}
+
+\definecolor{warn}{RGB}{180,60,20}
+\definecolor{safe}{RGB}{20,120,60}
+\definecolor{codebg}{RGB}{245,245,245}
+
+\newtcolorbox{warningbox}{colback=red!5!white,colframe=red!60!black,title={\textbf{安全警告}},fonttitle=\sffamily}
+\newtcolorbox{tipbox}{colback=blue!5!white,colframe=blue!40!black,title={\textbf{ヒント}},fonttitle=\sffamily}
+\newtcolorbox{checklistbox}{colback=green!5!white,colframe=green!40!black,fonttitle=\sffamily}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  framerule=0.5pt,
+  rulecolor=\color{gray!50},
+  breaklines=true,
+  columns=fullflexible,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\small Open Excretion Care System --- 実践ビルドガイド}
+\fancyhead[R]{\sffamily\small v0.1}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\Large\sffamily\bfseries}{第\thesection 章}{1em}{}
+\titleformat{\subsection}{\large\sffamily\bfseries}{\thesubsection}{1em}{}
+
+\title{\vspace{-10mm}\sffamily\bfseries
+Open Excretion Care System (OECS)\\[4pt]
+\Large 実践ビルドガイド\\[2pt]
+\large --- 排泄自動検知・洗浄システムを自作する ---}
+\author{Based on Hu \& Chen et al., \textit{Healthcare} 2023, 11(3), 388}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{warningbox}
+本ガイドは教育・研究・個人利用を目的としています。医療機器としての認証は取得していません。実際の介護現場での使用前に、必ず医療従事者に相談し、各国の医療機器規制を確認してください。電気・水・人体接触を伴うため、安全対策を最優先にしてください。
+\end{warningbox}
+
+\vspace{3mm}
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{プロジェクト概要}
+%======================================================================
+
+\subsection{何を作るのか}
+
+本システムは、おむつ内に設置したセンサーで排泄を自動検知し、吸引$\to$温水洗浄$\to$温風乾燥のサイクルを自動実行する装置です。
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{検知方式}: 温湿度＋アンモニアガスの多センサー融合（Dempster--Shafer証拠理論）
+  \item \textbf{識別精度}: 約90\%（単純閾値方式の約70\%から大幅向上）
+  \item \textbf{尿/便の識別}: ガスセンサーにより区別し、便の場合は洗浄時間を延長
+  \item \textbf{推定部品コスト}: \$45--100 USD
+\end{itemize}
+
+\subsection{システム構成の全体像}
+
+\begin{verbatim}
+┌─────────────┐     ┌──────────────┐     ┌──────────────┐
+│ センサー層   │ --> │  判定ロジック  │ --> │ アクチュエータ │
+│ SHT30(温湿度)│     │  D-S証拠理論  │     │  吸引ポンプ   │
+│ MQ-135(NH3) │     │  (or 1D-CNN) │     │  温水ポンプ   │
+└─────────────┘     └──────────────┘     │  ヒーター+ファン│
+       │                   │              └──────────────┘
+       └───────────────────┴──────────────────────┘
+                    STM32F103 MCU
+\end{verbatim}
+
+\subsection{本ガイドの構成}
+
+\begin{enumerate}
+  \item 部品の調達（BOM）
+  \item 回路の組み立て
+  \item レシーバーの3Dプリント
+  \item ファームウェアの書き込み
+  \item アルゴリズムの校正
+  \item 組み立てと動作テスト
+  \item AI拡張（オプション）
+  \item トラブルシューティング
+\end{enumerate}
+
+\newpage
+%======================================================================
+\section{部品の調達}
+%======================================================================
+
+\subsection{必須部品リスト (BOM)}
+
+\begin{longtable}{@{}clllr@{}}
+\toprule
+\textbf{\#} & \textbf{部品} & \textbf{型番/仕様} & \textbf{数量} & \textbf{目安価格} \\
+\midrule
+\endhead
+1  & マイコンボード     & STM32F103C8T6 (Blue Pill)  & 1 & \$3  \\
+2  & 温湿度センサー     & SHT30-DIS-B (I2C)         & 1 & \$5  \\
+3  & ガスセンサー       & MQ-135モジュール            & 1 & \$3  \\
+4  & 吸引ポンプ         & 12Vダイアフラムポンプ       & 1 & \$12 \\
+5  & 温水ポンプ         & 12Vペリスタルティックポンプ  & 1 & \$10 \\
+6  & ヒーター           & PTC セラミックヒーター 12V 50W & 1 & \$5  \\
+7  & 送風ファン         & 5015ブロワーファン 12V       & 1 & \$3  \\
+8  & モータードライバ   & L298N デュアルHブリッジ      & 1 & \$3  \\
+9  & MOSFETモジュール   & IRF520                     & 2 & \$2  \\
+10 & 電源アダプタ       & 12V 5A スイッチング         & 1 & \$8  \\
+11 & 電圧レギュレータ   & AMS1117-3.3V               & 1 & \$1  \\
+12 & 温度ヒューズ       & 73°C サーマルカットオフ      & 1 & \$1  \\
+13 & 圧力リリーフバルブ & 調整式 $-20$\,kPa           & 1 & \$5  \\
+14 & シリコンチューブ   & 食品グレード 内径6mm 2m      & 1 & \$4  \\
+15 & TPUフィラメント     & Shore 60A 1.75mm 500g      & 1 & \$25 \\
+16 & 配線キット         & 22AWG シリコン被覆          & 1 & \$5  \\
+17 & コネクタ           & JST-XH 2.54mm              & 1 & \$3  \\
+18 & 基板               & ユニバーサル基板 7$\times$9cm & 1 & \$2  \\
+19 & 筐体               & PLA 3Dプリント              & 1 & \$3  \\
+20 & 緊急停止ボタン     & NC プッシュボタン 赤 12mm   & 1 & \$2  \\
+\midrule
+   & & & \textbf{合計} & \textbf{\$\,\raisebox{0pt}{\~{}}103} \\
+\bottomrule
+\end{longtable}
+
+\subsection{調達先の目安}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{AliExpress}: STM32 Blue Pill, MQ-135, IRF520, L298N, ポンプ類（安価だが納期2--4週間）
+  \item \textbf{Amazon}: 電源アダプタ、シリコンチューブ、配線（即日配送可）
+  \item \textbf{DigiKey/Mouser}: SHT30、温度ヒューズ（高精度部品、データシート確認用）
+  \item \textbf{LCSC/JLCPCB}: PCBを本格製作する場合
+\end{itemize}
+
+\begin{tipbox}
+最初のプロトタイプでは、SHT30の代わりにDHT22（\$2）でも始められます。精度は劣りますが、動作確認には十分です。
+\end{tipbox}
+
+\newpage
+%======================================================================
+\section{回路の組み立て}
+%======================================================================
+
+\subsection{ピンアサイン表}
+
+\begin{longtable}{@{}llll@{}}
+\toprule
+\textbf{STM32ピン} & \textbf{機能} & \textbf{接続先} & \textbf{備考} \\
+\midrule
+\endhead
+PA0  & ADC1\_CH0   & MQ-135 アナログ出力 & 0--3.3V \\
+PA8  & GPIO出力    & L298N IN1（吸引ポンプ） & \\
+PA9  & GPIO出力    & L298N IN3（温水ポンプ） & ※開発時はUART TX \\
+PA10 & GPIO出力    & IRF520 \#1（ヒーター）  & ※開発時はUART RX \\
+PA11 & GPIO出力    & IRF520 \#2（ファン）    & \\
+PA12 & GPIO入力    & 緊急停止ボタン          & 外部プルダウン \\
+PB6  & I2C1\_SCL   & SHT30 SCL & 4.7k$\Omega$プルアップ$\to$3.3V \\
+PB7  & I2C1\_SDA   & SHT30 SDA & 4.7k$\Omega$プルアップ$\to$3.3V \\
+PC13 & GPIO出力    & ステータスLED & オンボード（アクティブLow） \\
+\bottomrule
+\end{longtable}
+
+\subsection{電源配線}
+
+\begin{verbatim}
+12V 5A ACアダプタ
+├── L298N VCC (12V)
+│   ├── OUT1/2 → 吸引ポンプ
+│   └── OUT3/4 → 温水ポンプ
+├── IRF520 #1 VCC (12V)
+│   └── PTC ヒーター ── 73℃温度ヒューズ（直列）
+├── IRF520 #2 VCC (12V)
+│   └── ブロワーファン
+└── AMS1117-3.3V
+    ├── STM32 3.3V
+    ├── SHT30 VCC
+    └── (MQ-135ヒーターは5Vが必要 → L298Nの5V出力を利用)
+\end{verbatim}
+
+\subsection{組み立て手順}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{電源系を最初に}: AMS1117-3.3Vレギュレータを基板に実装し、12V入力から3.3Vが正しく出力されることをテスターで確認。
+  \item \textbf{MCUの動作確認}: Blue PillにUSB経由で給電し、PC13のLEDが点滅するテストファームを書き込む。
+  \item \textbf{センサー接続}:
+    \begin{itemize}
+      \item SHT30: I2Cバス（PB6/PB7）に接続。4.7k$\Omega$プルアップ抵抗を忘れずに。
+      \item MQ-135: アナログ出力をPA0に接続。\textbf{初回は24時間のバーンイン（通電エージング）が必要。}
+    \end{itemize}
+  \item \textbf{アクチュエータ接続}: L298NとIRF520を接続し、各モーター/ヒーター/ファンが個別にON/OFFできることを確認。
+  \item \textbf{安全装置}: 緊急停止ボタンとサーマルヒューズを最後に配線。
+\end{enumerate}
+
+\begin{warningbox}
+\textbf{必ず守ること}:
+\begin{itemize}[leftmargin=1.5em]
+  \item ヒーターには必ず73°Cサーマルヒューズを直列に入れる
+  \item 吸引系には圧力リリーフバルブ（$-20$\,kPa）を取り付ける
+  \item 温水の温度は38°C以下に制限（火傷防止）
+  \item すべてのアクチュエータをOFFにしてから配線作業を行う
+\end{itemize}
+\end{warningbox}
+
+\newpage
+%======================================================================
+\section{レシーバーの3Dプリント}
+%======================================================================
+
+\subsection{設計コンセプト}
+
+レシーバーは患者の肌に直接触れる部品であり、以下の要件を満たす必要があります：
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{素材}: TPU（Shore 60A）--- 柔軟で肌への負担が少ない
+  \item \textbf{気密性}: リップシール構造で漏れを防止
+  \item \textbf{ポート}: 吸引口（6mmバーブ）、給水口（6mmバーブ）、センサーポケット
+  \item \textbf{サイズ展開}: S/M/Lのパラメトリック設計
+\end{itemize}
+
+\subsection{プリント設定}
+
+\begin{longtable}{@{}ll@{}}
+\toprule
+\textbf{パラメータ} & \textbf{推奨値} \\
+\midrule
+レイヤー高さ & 0.2mm \\
+インフィル & 20\% ジャイロイド \\
+ウォール数 & 3 \\
+プリント速度 & 25mm/s（TPUは遅めに） \\
+リトラクション & ダイレクトドライブ推奨 \\
+ベッド温度 & 50°C \\
+ノズル温度 & 220--230°C \\
+サポート & ツリーサポート \\
+\bottomrule
+\end{longtable}
+
+\subsection{筐体（コントローラケース）}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{素材}: PLAまたはPETG
+  \item \textbf{設計}: 換気スロット付き、メンテナンス用の脱着式蓋
+  \item \textbf{プリント}: 0.2mm層高、30\%インフィル、60mm/s
+  \item STLファイルは \texttt{hardware/3d-models/} に配置
+\end{itemize}
+
+\begin{tipbox}
+TPU印刷に不慣れな場合、まずPLAでレシーバーのモックアップを印刷し、フィッティングを確認してからTPUで本番印刷すると材料の無駄を減らせます。
+\end{tipbox}
+
+\newpage
+%======================================================================
+\section{ファームウェアの書き込み}
+%======================================================================
+
+\subsection{開発環境のセットアップ}
+
+\textbf{方法A: STM32CubeIDE（推奨・初心者向け）}
+
+\begin{enumerate}[leftmargin=2em]
+  \item ST公式サイトからSTM32CubeIDEをダウンロード・インストール
+  \item 新規STM32プロジェクトを作成（ターゲット: STM32F103C8T6）
+  \item CubeMXでピン設定をセクション3のピンアサイン通りに設定
+  \item 生成されたプロジェクトに本リポジトリの \texttt{firmware/Core/} と \texttt{algorithm/c/} のファイルをコピー
+\end{enumerate}
+
+\textbf{方法B: コマンドライン（上級者向け）}
+
+\begin{lstlisting}[language=bash]
+# ARM GCCツールチェーンのインストール
+# macOS:
+brew install arm-none-eabi-gcc
+# Ubuntu:
+sudo apt install gcc-arm-none-eabi
+
+# ビルド
+cd firmware
+make
+
+# 書き込み (ST-Linkアダプタ使用)
+make flash
+\end{lstlisting}
+
+\subsection{ST-Linkでの書き込み}
+
+\begin{enumerate}[leftmargin=2em]
+  \item ST-Link V2（クローン可、\$3程度）をBlue Pillに接続:
+    \begin{itemize}
+      \item SWDIO $\to$ PA13
+      \item SWCLK $\to$ PA14
+      \item GND $\to$ GND
+      \item 3.3V $\to$ 3.3V（USBから給電しない場合のみ）
+    \end{itemize}
+  \item Blue PillのBOOT0ジャンパを0（通常動作）に設定
+  \item \texttt{st-flash write build/oecs\_firmware.bin 0x8000000} で書き込み
+\end{enumerate}
+
+\subsection{デバッグ出力の確認}
+
+UART1（115200bps）をUSB-シリアルアダプタ経由でPCに接続すると、以下のようなログが表示されます：
+
+\begin{lstlisting}
+=== OECS Firmware v0.1 ===
+Open Excretion Care System initialized.
+[DETECT] URINE (T=35.8 H=88.0 NH3=18.0)
+[CYCLE] Starting cleaning cycle
+[PHASE] Suction complete -> Washing
+[PHASE] Washing complete -> Drying
+[PHASE] Drying complete -> Cycle finished
+[CYCLE] Returning to monitoring
+\end{lstlisting}
+
+\newpage
+%======================================================================
+\section{アルゴリズムの校正}
+%======================================================================
+
+\subsection{D-S証拠理論の概要}
+
+本システムは、単純な閾値判定ではなく、\textbf{Dempster--Shafer（D-S）証拠理論}による多センサー融合を使用しています。
+
+\textbf{処理フロー}:
+
+\begin{verbatim}
+温度データ → temp_to_bpa() → m_temp ─┐
+                                       ├→ ds_combine() → m_12 ─┐
+湿度データ → hum_to_bpa()  → m_hum  ─┘                         │
+                                                                 ├→ ds_combine() → 最終判定
+NH3データ  → nh3_to_bpa()  → m_nh3  ───────────────────────────┘
+\end{verbatim}
+
+各センサーから「正常/尿/便である確率」を算出し、D-S合成則で統合します。
+
+\subsection{基本確率割り当て（BPA）テーブル}
+
+\textbf{温度（基準: 33°C）}:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{変化量} & \textbf{正常} & \textbf{尿} & \textbf{便} & \textbf{不確実} \\
+\midrule
+$< 0.5$°C  & 0.70 & 0.05 & 0.05 & 0.20 \\
+$0.5$--$2.0$°C & 0.30 & 0.20 & 0.20 & 0.30 \\
+$2.0$--$4.0$°C & 0.05 & 0.50 & 0.20 & 0.25 \\
+$> 4.0$°C  & 0.02 & 0.55 & 0.25 & 0.18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{湿度}:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{湿度} & \textbf{正常} & \textbf{尿} & \textbf{便} & \textbf{不確実} \\
+\midrule
+$< 60\%$    & 0.75 & 0.05 & 0.05 & 0.15 \\
+$60$--$75\%$  & 0.30 & 0.25 & 0.15 & 0.30 \\
+$75$--$85\%$  & 0.05 & 0.45 & 0.25 & 0.25 \\
+$> 85\%$    & 0.02 & 0.60 & 0.20 & 0.18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{NH3ガス}:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{NH3濃度} & \textbf{正常} & \textbf{尿} & \textbf{便} & \textbf{不確実} \\
+\midrule
+$< 5$\,ppm    & 0.80 & 0.05 & 0.02 & 0.13 \\
+$5$--$15$\,ppm  & 0.10 & 0.50 & 0.15 & 0.25 \\
+$15$--$30$\,ppm & 0.03 & 0.50 & 0.25 & 0.22 \\
+$> 30$\,ppm   & 0.02 & 0.10 & 0.70 & 0.18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Pythonシミュレータでの校正}
+
+実際のセンサーを接続する前に、Python実装で動作を確認できます。
+
+\begin{lstlisting}[language=bash]
+cd algorithm/python
+pip install numpy
+
+# デモ実行（6パターンのテストケース）
+python ds_evidence.py --demo
+
+# カスタム値でテスト
+python ds_evidence.py --temp 35.2 --humidity 85.0 --nh3 18.0
+\end{lstlisting}
+
+\textbf{デモ出力例}:
+
+\begin{lstlisting}
+--- Urine event ---
+  Input:  T=35.8 C  RH=88.0%  NH3=18.0ppm
+  Belief: Normal=0.010  Urine=0.828  Feces=0.142  Uncertain=0.020
+  Result: URINE
+  Action: Urine detected: suction -> rinse -> dry
+
+--- Feces event ---
+  Input:  T=35.0 C  RH=82.0%  NH3=42.0ppm
+  Belief: Normal=0.020  Urine=0.399  Feces=0.548  Uncertain=0.033
+  Result: FECES
+  Action: Feces detected: extended suction -> thorough rinse -> dry
+\end{lstlisting}
+
+\subsection{校正の手順}
+
+実環境でのBPA値チューニング手順：
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{ベースライン測定}: センサーをおむつ内に設置し、30分間のNormal状態を記録。温度・湿度・NH3の平均値と分散を取得。
+  \item \textbf{尿イベント記録}: 尿が発生した際のセンサー変化パターンを10件以上記録。
+  \item \textbf{便イベント記録}: 便が発生した際のパターンを同様に記録。
+  \item \textbf{BPA調整}: 記録データに基づき、\texttt{ds\_evidence.py}内の \texttt{temperature\_to\_bpa()}, \texttt{humidity\_to\_bpa()}, \texttt{nh3\_to\_bpa()} 各関数の閾値と確率値を調整。
+  \item \textbf{C実装への反映}: Python側で確定した値を \texttt{algorithm/c/ds\_evidence.c} のQ16固定小数点定数に変換。
+\end{enumerate}
+
+\begin{tipbox}
+Q16固定小数点への変換: 小数値 $\times$ 65536 で整数化。例: $0.70 \times 65536 = 45875$
+\end{tipbox}
+
+\newpage
+%======================================================================
+\section{組み立てと動作テスト}
+%======================================================================
+
+\subsection{組み立て順序}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Phase 1: 電子系の確認}（机上テスト）
+    \begin{itemize}
+      \item ファームウェアを書き込んだBlue Pillに、SHT30とMQ-135を接続
+      \item UART出力でセンサー値が正常に読めることを確認
+      \item アクチュエータ（ポンプ・ヒーター・ファン）を個別にON/OFFテスト
+    \end{itemize}
+  \item \textbf{Phase 2: 水系の確認}
+    \begin{itemize}
+      \item シリコンチューブでポンプを接続し、水の吸引・送水を確認
+      \item 温水温度が38°C以下であることを温度計で実測
+      \item 圧力リリーフバルブの動作を確認
+    \end{itemize}
+  \item \textbf{Phase 3: レシーバー統合}
+    \begin{itemize}
+      \item 3DプリントしたTPUレシーバーにチューブとセンサーを取り付け
+      \item 気密性テスト（水を入れて漏れ確認）
+    \end{itemize}
+  \item \textbf{Phase 4: 統合テスト}
+    \begin{itemize}
+      \item レシーバーに温水を注入し（尿シミュレート）、自動検知$\to$吸引$\to$洗浄$\to$乾燥の全サイクルが動くことを確認
+      \item 緊急停止ボタンですべてのアクチュエータが即座にOFFになることを確認
+    \end{itemize}
+\end{enumerate}
+
+\subsection{テストチェックリスト}
+
+\begin{checklistbox}
+\begin{itemize}[leftmargin=1.5em, label=$\square$]
+  \item SHT30から温度・湿度が読める（UART出力で確認）
+  \item MQ-135から安定したADC値が読める（24時間バーンイン後）
+  \item 吸引ポンプがON/OFFできる
+  \item 温水ポンプがON/OFFできる
+  \item ヒーターがON/OFFできる（温度ヒューズ通電確認済み）
+  \item ファンがON/OFFできる
+  \item 温水を注入した際に「URINE」として検知される
+  \item NH3源を近づけた際に「FECES」として検知される
+  \item 正常時に誤検知しない（30分間の安定稼働）
+  \item 緊急停止ボタンで全アクチュエータが即時停止する
+  \item 洗浄水温が38°C以下である
+  \item 吸引圧力がリリーフバルブで$-20$\,kPa以下に制限されている
+  \item 全サイクル（吸引$\to$洗浄$\to$乾燥）が自動で完了する
+\end{itemize}
+\end{checklistbox}
+
+\newpage
+%======================================================================
+\section{AI拡張（オプション）}
+%======================================================================
+
+\subsection{D-S理論 vs 1D-CNN}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{D-S証拠理論} & \textbf{1D-CNN} \\
+\midrule
+精度         & $\sim$90\%     & $>$95\%（十分なデータがあれば） \\
+学習データ   & 不要           & 必要（100件以上推奨） \\
+計算コスト   & 極めて低い     & 中程度（STM32でも動作可） \\
+解釈性       & 高い           & 低い（ブラックボックス） \\
+時系列認識   & なし           & あり（パターン認識可能） \\
+予測機能     & なし           & 可能（排泄パターン学習） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{1D-CNNモデルの概要}
+
+\begin{verbatim}
+入力: (batch, 3ch, 60 samples) -- 温度/湿度/NH3の60秒分の時系列
+  ↓
+Conv1D(3→16, k=5) → BatchNorm → ReLU → MaxPool(2)
+  ↓
+Conv1D(16→32, k=3) → BatchNorm → ReLU → MaxPool(2)
+  ↓
+Conv1D(32→32, k=3) → BatchNorm → ReLU → GlobalAvgPool
+  ↓
+FC(32→16) → ReLU → Dropout(0.3) → FC(16→3)
+  ↓
+出力: [P(正常), P(尿), P(便)]
+
+総パラメータ数: 約3,500（STM32のSRAMに余裕で収まる）
+\end{verbatim}
+
+\subsection{トレーニング手順}
+
+\begin{lstlisting}[language=bash]
+cd ai/training
+pip install torch numpy onnx
+
+# 合成データで学習（初回テスト用）
+python train_1dcnn.py --synthetic --epochs 100
+
+# 学習済みモデルをONNXエクスポート
+# → oecs_model.onnx が生成される
+
+# STM32への展開:
+# 1. ST X-CUBE-AI でONNXをCコードに変換
+# 2. または TensorFlow Lite Micro で量子化→展開
+\end{lstlisting}
+
+\subsection{実データ収集のコツ}
+
+\begin{enumerate}[leftmargin=2em]
+  \item D-S理論ベースで最初のプロトタイプを稼働させる
+  \item UART経由でセンサーデータ（1秒間隔）をPCにログ出力
+  \item 介護者が排泄イベント時にタイムスタンプを記録（ラベリング）
+  \item 100件以上のラベル付きデータが集まったらCNNの学習を試みる
+\end{enumerate}
+
+\newpage
+%======================================================================
+\section{トラブルシューティング}
+%======================================================================
+
+\begin{longtable}{@{}p{4.5cm}p{4.5cm}p{5cm}@{}}
+\toprule
+\textbf{症状} & \textbf{原因の可能性} & \textbf{対処法} \\
+\midrule
+\endhead
+センサー値が読めない & I2C配線ミス、プルアップ抵抗なし & PB6/PB7の配線確認、4.7k$\Omega$追加 \\
+\addlinespace
+MQ-135の値が不安定 & バーンイン不足 & 24時間以上通電してエージング \\
+\addlinespace
+常に「NORMAL」判定 & センサーがレシーバー内にない、閾値が高すぎる & センサー位置確認、BPA閾値を下げる \\
+\addlinespace
+誤検知が多い & 汗・体温による誤反応 & デバウンスカウントを増やす（3→5）、閾値を上げる \\
+\addlinespace
+ポンプが動かない & L298Nのイネーブルピン未接続 & ENAとENBをHIGH（ジャンパ接続）に \\
+\addlinespace
+温水が熱すぎる & ヒーター制御の問題 & サーマルヒューズの動作確認、PWMデューティ調整 \\
+\addlinespace
+吸引力が弱い & チューブの折れ、リーク & チューブの取り回し確認、接続部のシール \\
+\addlinespace
+ファームが書き込めない & BOOT0設定、ST-Link接続 & BOOT0=0確認、SWDIO/SWCLKの結線確認 \\
+\addlinespace
+緊急停止が効かない & \textcolor{warn}{\textbf{直ちに電源を切る}} & GPIO入力の極性確認、ハードワイヤード回路の追加を検討 \\
+\bottomrule
+\end{longtable}
+
+\newpage
+%======================================================================
+\section{安全設計の補足}
+%======================================================================
+
+\begin{warningbox}
+本システムは\textbf{水・電気・人体}が関わります。以下の安全対策は\textbf{省略不可}です。
+\end{warningbox}
+
+\subsection{多重安全機構}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{ソフトウェア制限}: ファームウェア内で温水38°C上限、吸引圧$-20$\,kPa上限
+  \item \textbf{ハードウェア制限}: サーマルヒューズ（73°C）、圧力リリーフバルブ
+  \item \textbf{物理的遮断}: 緊急停止ボタン（電源ライン直接遮断を推奨）
+  \item \textbf{電気的隔離}: 患者接触部分と高電圧部分はオプトカプラで絶縁
+\end{enumerate}
+
+\subsection{推奨される追加安全策}
+
+\begin{itemize}[leftmargin=2em]
+  \item 漏電ブレーカーの設置（感電防止）
+  \item 水系統にIPX4以上の防水処理
+  \item 定期的な気密性テスト（週1回）
+  \item センサーの定期校正（月1回）
+\end{itemize}
+
+\vspace{10mm}
+
+%======================================================================
+\section{付録: リソースとリンク}
+%======================================================================
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{原論文}: Hu, B.; Chen, Z.; et al. ``Research of System Design and Automatic Detection Method for Excretion Nursing Equipment.'' \textit{Healthcare} 2023, 11(3), 388. \\ \url{https://doi.org/10.3390/healthcare11030388}
+  \item \textbf{GitHubリポジトリ}: \texttt{excretion-care-system/} --- 本ガイドに対応するすべてのソースコード
+  \item \textbf{STM32 HALドキュメント}: ST公式 STM32CubeF1パッケージ
+  \item \textbf{SHT30データシート}: Sensirion公式
+  \item \textbf{MQ-135データシート}: Winsen公式
+  \item \textbf{D-S証拠理論}: Shafer, G. \textit{A Mathematical Theory of Evidence}. Princeton UP, 1976.
+\end{itemize}
+
+\vfill
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}\\[6pt]
+{\small 本ガイドはオープンソースです。改善提案やフィードバックをお待ちしています。}\\
+{\small CERN-OHL-S-2.0 (Hardware) / GPLv3 (Software)}
+\end{center}
+
+\end{document}

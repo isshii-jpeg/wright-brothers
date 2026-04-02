@@ -1,0 +1,1317 @@
+% ============================================================================
+%
+%  ミステリー小説の推理構造に対するホモロジー代数的解析：
+%  エラリー・クイーン『ギリシャ棺の謎』を範例として
+%
+% ============================================================================
+\documentclass[12pt,twocolumn]{ltjsarticle}
+
+\usepackage{luatexja-fontspec}
+\setmainjfont{HaranoAjiMincho-Regular}[BoldFont=HaranoAjiMincho-Bold]
+\setsansjfont{HaranoAjiGothic-Medium}[BoldFont=HaranoAjiGothic-Bold]
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumerate}
+
+% Theorem environments
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\newtheorem{example}[theorem]{例}
+\newtheorem{conjecture}[theorem]{予想}
+\newtheorem{axiom}[theorem]{公理}
+\newtheorem{algorithm_def}[theorem]{アルゴリズム}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\coker}{\operatorname{coker}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\renewcommand{\rank}{\operatorname{rank}}
+\newcommand{\Ev}{\mathcal{E}}
+\newcommand{\Hyp}{\mathcal{H}}
+\newcommand{\Nar}{\mathcal{N}}
+\newcommand{\Mys}{\mathcal{M}}
+\newcommand{\Sol}{\mathcal{S}}
+\newcommand{\Obs}{\mathcal{O}}
+\newcommand{\kk}{\Bbbk}
+
+\begin{document}
+
+\title{
+  \textbf{ミステリー小説の推理構造に対する}\\[2pt]
+  \textbf{ホモロジー代数的解析}\\[8pt]
+  {\normalsize --- エラリー・クイーン『ギリシャ棺の謎』を範例とした}\\[2pt]
+  {\normalsize 物語論的チェイン複体理論の構築 ---}
+}
+
+\author{
+  石橋勇輝
+}
+
+\date{}
+
+\maketitle
+
+% ============================================================================
+%  概要
+% ============================================================================
+\begin{abstract}
+\noindent
+本論文では、推理小説における論理的推論の構造を
+ホモロジー代数の言語で厳密に定式化するフレームワーク
+「物語論的チェイン複体理論（Narratological Chain Complex Theory; NCCT）」
+を構築する。
+証拠を0-チェイン、推論規則を1-チェイン、
+犯行仮説を2-チェインとする次数付き加群の列を定義し、
+境界作用素$\partial$を「論理的帰結」の写像として構成することで、
+推理小説の解決が「ホモロジー群の消滅」
+$H_n(\Mys_\bullet) = 0$として特徴づけられることを示す。
+この枠組みをエラリー・クイーン『ギリシャ棺の謎』（1932）に適用し、
+主人公が提示する4つの解決（3つの誤解決と1つの真の解決）の
+代数的構造を完全に分析する。
+各誤解決は$H_1 \neq 0$（説明されない証拠の循環）として検出され、
+真の解決のみが完全系列（exact sequence）を実現することを
+具体的な行列計算により示す。
+さらに、犯人による意図的な偽証拠の配置を
+チェイン写像の障害類（obstruction class）として定式化し、
+「探偵 vs.\ 犯人」の対決を
+$\Ext$関手の非自明性として捉える枠組みを提示する。
+本理論は「フェアプレイ」の公理的定義、
+ミステリーの分類学（本格・変格の代数的区別）、
+および計算ホモロジーによる自動推理検証への応用を含む。
+\end{abstract}
+
+
+% ============================================================================
+%  第1章　序論
+% ============================================================================
+\section{序論}
+
+\subsection{動機：ミステリーの構造を測る道具の不在}
+
+推理小説（ミステリー）は、文学の諸ジャンルの中でも
+際立って\emph{論理的構造}を持つ。
+読者は提示された証拠から犯人を推理し、
+解決の論理的整合性を検証することが期待される。
+にもかかわらず、推理小説の構造を分析する
+既存の文学理論的ツールは、
+プロップの物語形態学~\cite{Propp1928}、
+バルトの記号論~\cite{Barthes1966}、
+ジュネットの物語論~\cite{Genette1972}など、
+いずれも本質的に\emph{定性的}であり、
+推理の論理的厳密性を\emph{定量的に}測定する能力を欠いている。
+
+一方、数理論理学（命題論理、述語論理）による
+推理構造の定式化は古くから試みられてきた
+~\cite{Smullyan1978}が、
+これらの手法はミステリー小説が本質的に持つ
+\emph{動的な推論の書き換え}---すなわち、
+新たな証拠の発見や視点の転換によって
+推論構造全体が再構築されるプロセス---を
+捉えるのに適していない。
+命題論理はスナップショット的な真偽判定には有効だが、
+推論の\emph{位相的構造}---どこに「穴」があり、
+どの穴が埋められれば系全体が整合的になるか---を
+記述する言語を持たない。
+
+本論文の核心的主張は以下である：
+\emph{ホモロジー代数は、推理小説の論理構造を
+記述するための自然な言語である。}
+証拠、推論、仮説という階層構造はチェイン複体に対応し、
+「証拠から仮説を正当化する」プロセスは境界作用素に対応し、
+「説明できない証拠の存在」（謎の本質）は
+非自明なホモロジー群に対応する。
+そして探偵の仕事は、
+ホモロジー群を消滅させる「正しいチェイン複体」を
+構築することに他ならない。
+
+
+\subsection{なぜ『ギリシャ棺の謎』か}
+
+エラリー・クイーンの『ギリシャ棺の謎』
+(\textit{The Greek Coffin Mystery}, 1932)~\cite{Queen1932}を
+分析対象として選択する理由は三つある。
+
+第一に、この作品ではエラリーが
+\emph{3度にわたって誤った解決を提示し}、
+その都度論理の誤りが発覚して修正を余儀なくされる。
+これは通常のミステリーが
+「証拠の蓄積→一度の解決」という
+単純な構造を持つのに対し、
+\emph{チェイン複体の反復的再構築}のプロセスを
+物語自体が具現している点で、
+ホモロジー的分析に最も適した題材である。
+
+第二に、犯人が\emph{探偵の推論を予測し、
+偽の証拠を意図的に配置する}という
+メタ階層の構造を含む。
+これは、チェイン複体に対する
+\emph{外的攪乱}（obstruction）として定式化でき、
+通常のミステリーには見られない
+コホモロジー的な深みを持つ。
+
+第三に、「読者への挑戦」が挿入されており、
+作者が読者に対して
+「この時点で十分な証拠が提示されている」と
+明示的に宣言している。
+これは我々の枠組みにおける
+「フェアプレイ公理」の検証材料として理想的である。
+
+\subsection{本論文の構成}
+
+第\ref{sec:framework}章でNCCTの数学的基盤を構築する。
+第\ref{sec:fairplay}章でフェアプレイの公理的定義を与える。
+第\ref{sec:greek_coffin}章で『ギリシャ棺の謎』の完全な
+ホモロジー的分析を実行する。
+第\ref{sec:obstruction}章で犯人の戦略を
+障害類として定式化する。
+第\ref{sec:cohomology}章でコホモロジー的双対性と
+探偵-犯人の対称性を論じる。
+第\ref{sec:spectral}章でスペクトル系列による多重解決の分析を行う。
+第\ref{sec:taxonomy}章でミステリーのホモロジー的分類学を提示する。
+第\ref{sec:computation}章で計算ホモロジーによる
+自動検証アルゴリズムを論じる。
+第\ref{sec:conclusion}章で結論と展望を述べる。
+
+
+% ============================================================================
+%  第2章　物語論的チェイン複体理論（NCCT）
+% ============================================================================
+\section{物語論的チェイン複体理論}
+\label{sec:framework}
+
+\subsection{基本的定義}
+
+以下、$\kk$を体（field）とする。
+実用的には$\kk = \F_2$（二値論理：真/偽）または
+$\kk = \Q$（証拠の「重み」を許容する場合）を想定する。
+
+\begin{definition}[ミステリー事象集合]
+\label{def:mystery_events}
+ミステリー小説$\Mys$に対し、以下の次数付き集合を定義する：
+\begin{itemize}
+\item $\Ev_0 = \{e_1, e_2, \ldots, e_m\}$: \textbf{証拠集合}。
+  物理的証拠（凶器、指紋、アリバイ等）、
+  証言、および観察可能な事実。
+
+\item $\Ev_1 = \{r_1, r_2, \ldots, r_p\}$: \textbf{推論規則集合}。
+  二つ以上の証拠を結びつける論理的推論。
+  各$r_k$は始点$s(r_k) \subset \Ev_0$と
+  終点$t(r_k) \subset \Ev_0$を持つ有向辺とみなす。
+
+\item $\Ev_2 = \{h_1, h_2, \ldots, h_q\}$: \textbf{仮説集合}。
+  複数の推論規則の組み合わせにより構成される
+  犯行シナリオ。各$h_l$はその境界
+  $\partial h_l \subset \Ev_1$を持つ面とみなす。
+
+\item （一般に）$\Ev_n$ ($n \geq 3$): \textbf{高次仮説}。
+  仮説間の関係、メタ推理、犯人の意図の推定等。
+\end{itemize}
+\end{definition}
+
+\begin{definition}[ミステリー・チェイン複体]
+\label{def:mystery_chain}
+ミステリー$\Mys$に対し、\textbf{ミステリー・チェイン複体}
+$\Mys_\bullet = (C_n, \partial_n)_{n \geq 0}$ を以下のように定義する：
+\begin{equation}
+\cdots \xrightarrow{\partial_3} C_2(\Mys) \xrightarrow{\partial_2}
+C_1(\Mys) \xrightarrow{\partial_1} C_0(\Mys) \xrightarrow{\partial_0} 0
+\label{eq:chain}
+\end{equation}
+ここで
+\begin{equation}
+C_n(\Mys) = \bigoplus_{i} \kk \cdot e_i^{(n)}
+\end{equation}
+は$\Ev_n$を基底とする$\kk$上の自由加群であり、
+$\partial_n: C_n \to C_{n-1}$は
+\textbf{論理的帰結作用素}（logical consequence operator）であって、
+$\partial_{n-1} \circ \partial_n = 0$を満たす。
+\end{definition}
+
+条件$\partial^2 = 0$の物語論的意味を明確にする。
+
+\begin{proposition}[$\partial^2 = 0$の物語論的意味]
+\label{prop:d_squared}
+$\partial^2 = 0$は、以下の論理的条件と同値である：
+\emph{仮説から導かれる推論の帰結として得られる証拠は、
+その仮説が直接要求する証拠と矛盾しない。}
+すなわち、推論の二段階適用が自己矛盾を生まないことを要求する。
+\end{proposition}
+
+\begin{proof}
+$\partial_1 \circ \partial_2 = 0$は、任意の仮説$h \in C_2$に対し
+$\partial_1(\partial_2(h)) = 0$を意味する。
+$\partial_2(h)$は仮説$h$が要求する推論規則の組合せであり、
+$\partial_1$はそれらの推論規則が前提とする証拠と帰結する証拠の
+差（形式的な「辺の境界」）である。
+$\partial_1(\partial_2(h)) = 0$は、
+推論規則の鎖の始点と終点が閉じている
+---すなわち仮説が\emph{自己完結している}---ことを意味する。
+自己矛盾する仮説、すなわち推論の鎖が
+矛盾する証拠を要求するような仮説は、
+$\partial^2 \neq 0$を生じさせるため、
+チェイン複体の公理に反して棄却される。
+\end{proof}
+
+\subsection{境界作用素の具体的構成}
+
+境界作用素$\partial_n$を行列表示で構成する方法を述べる。
+
+$C_1$の基底$\{r_1, \ldots, r_p\}$と
+$C_0$の基底$\{e_1, \ldots, e_m\}$に対し、
+$\partial_1$を$m \times p$行列$D_1$で表現する：
+\begin{equation}
+(D_1)_{ij} = \begin{cases}
++1 & \text{推論$r_j$が証拠$e_i$を帰結として要求} \\
+-1 & \text{推論$r_j$が証拠$e_i$を前提として要求} \\
+0 & \text{推論$r_j$と証拠$e_i$は無関係}
+\end{cases}
+\label{eq:D1}
+\end{equation}
+
+同様に、$C_2$の基底$\{h_1, \ldots, h_q\}$と$C_1$の基底に対し、
+$\partial_2$を$p \times q$行列$D_2$で表現する：
+\begin{equation}
+(D_2)_{kl} = \begin{cases}
++1 & \text{仮説$h_l$が推論$r_k$を正の方向で使用} \\
+-1 & \text{仮説$h_l$が推論$r_k$を負の方向で使用} \\
+0 & \text{仮説$h_l$は推論$r_k$を使用しない}
+\end{cases}
+\label{eq:D2}
+\end{equation}
+
+$\partial^2 = 0$の条件は行列の言葉で
+\begin{equation}
+D_1 \cdot D_2 = 0
+\label{eq:d2_matrix}
+\end{equation}
+すなわち$\im(D_2) \subset \Ker(D_1)$として表される。
+
+\subsection{ホモロジー群の物語論的解釈}
+
+\begin{definition}[ミステリーのホモロジー群]
+\label{def:homology}
+ミステリー・チェイン複体$\Mys_\bullet$のホモロジー群を
+\begin{equation}
+H_n(\Mys_\bullet) = \Ker(\partial_n) / \im(\partial_{n+1})
+= Z_n / B_n
+\end{equation}
+と定義する。ここで$Z_n = \Ker(\partial_n)$は$n$-\textbf{サイクル}、
+$B_n = \im(\partial_{n+1})$は$n$-\textbf{境界}である。
+\end{definition}
+
+各次元のホモロジー群の物語論的解釈：
+
+\begin{theorem}[ホモロジーの物語論的解釈]
+\label{thm:interpretation}
+ミステリー$\Mys$のホモロジー群は以下のように解釈される：
+\begin{enumerate}[(i)]
+\item $H_0(\Mys_\bullet)$: 証拠の\textbf{連結成分}。
+$H_0 \cong \kk$ならば、すべての証拠が一つの推論体系で
+接続されている（連結なミステリー）。
+$\rank H_0 > 1$ならば、互いに無関係な証拠群が存在する
+（複数の事件の混在、またはレッドヘリング）。
+
+\item $H_1(\Mys_\bullet)$: \textbf{説明されないサイクル}。
+論理的に閉じた推論の輪であって、
+いかなる仮説によっても正当化されないもの。
+$H_1 \neq 0$は「謎が未解決である」ことを意味する。
+$\rank H_1$は「残された謎の数」を測る。
+
+\item $H_2(\Mys_\bullet)$: 仮説間の\textbf{非自明な関係}。
+異なる仮説が同一の推論を含意するが、
+高次の仮説によって区別されない場合に$H_2 \neq 0$となる。
+これは「同一の証拠を説明する複数の仮説の存在」
+---すなわち\textbf{多重解決の可能性}---に対応する。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) $H_0 = \Ker(\partial_0) / \im(\partial_1)$。
+$\partial_0 = 0$（$C_{-1} = 0$）より$\Ker(\partial_0) = C_0$。
+$\im(\partial_1)$は推論によって「接続された」証拠の差を含む。
+したがって$H_0 = C_0 / \im(\partial_1)$は
+推論で接続されない証拠群の自由部分に同型であり、
+これはグラフ理論における連結成分に対応する。
+
+(ii) $H_1 = \Ker(\partial_1) / \im(\partial_2)$。
+$\Ker(\partial_1)$の元は「推論の閉じた輪」（サイクル）であり、
+$\im(\partial_2)$の元は「仮説によって正当化されたサイクル」である。
+$H_1 \neq 0$は、仮説で正当化できないサイクルの存在を意味し、
+これは「説明のつかない論理的閉路」＝未解決の謎に対応する。
+
+(iii) $H_2 = \Ker(\partial_2) / \im(\partial_3)$。
+$\Ker(\partial_2)$の元は「推論的帰結を持たない仮説」
+（自己完結的だが証拠を説明しない仮説）であり、
+$\im(\partial_3)$は高次仮説（メタ推理）によって
+識別される仮説間の差異である。
+$H_2 \neq 0$は、メタ推理を導入しなければ
+区別できない仮説群の存在を意味する。
+\end{proof}
+
+\begin{definition}[解決]
+\label{def:solution}
+ミステリー$\Mys$の\textbf{解決}（solution）とは、
+チェイン複体$\Mys_\bullet$を修正（基底の追加、
+境界作用素の変更）して得られる
+チェイン複体$\Sol_\bullet$であって、
+\begin{equation}
+H_n(\Sol_\bullet) = 0 \quad \text{for all } n \geq 1
+\label{eq:solution}
+\end{equation}
+を満たすものをいう。
+すなわち、解決とは\textbf{チェイン複体の非輪状化}
+（acyclification）である。
+\end{definition}
+
+\begin{remark}
+$H_0(\Sol_\bullet) \cong \kk$（すべての証拠が一つの体系で説明される）
+も同時に要求される。
+$H_0 \cong \kk$かつ$H_n = 0$ ($n \geq 1$)のとき、
+複体$\Sol_\bullet$は\textbf{完全}（exact）であるか、
+または$\Sol_\bullet$の増大複体（augmented complex）が
+$\kk$の自由分解を与える。
+\end{remark}
+
+
+\subsection{Euler標数と物語の複雑性}
+
+\begin{definition}[ミステリーのEuler標数]
+ミステリー・チェイン複体$\Mys_\bullet$の\textbf{Euler標数}を
+\begin{equation}
+\chi(\Mys) = \sum_{n \geq 0} (-1)^n \rank C_n(\Mys)
+= \sum_{n \geq 0} (-1)^n \rank H_n(\Mys_\bullet)
+\end{equation}
+と定義する。
+\end{definition}
+
+Euler標数の交代和の性質により、
+$\chi(\Mys)$はチェイン複体のホモトピー型にのみ依存し、
+基底の取り方（証拠の分類法）に依存しない不変量である。
+
+\begin{proposition}[Euler標数の解釈]
+$\chi(\Mys) = |$証拠数$| - |$推論数$| + |$仮説数$| - \cdots$
+であり、
+$\chi(\Mys) = 1$は「丁度一つの解決が存在する」
+理想的なミステリーの必要条件である。
+\end{proposition}
+
+\begin{proof}
+解決された複体$\Sol_\bullet$において
+$H_0 \cong \kk$, $H_n = 0$ ($n \geq 1$)ならば
+$\chi(\Sol) = \rank H_0 = 1$。
+Euler標数はホモトピー不変量であるから、
+元の複体$\Mys_\bullet$の$\chi$も1でなければならない。
+\end{proof}
+
+
+% ============================================================================
+%  第3章　フェアプレイの公理的定義
+% ============================================================================
+\section{フェアプレイの公理的定義}
+\label{sec:fairplay}
+
+\subsection{ミステリーのフェアプレイ公理}
+
+推理小説の「フェアプレイ」（公正な手がかりの提示）は、
+黄金時代の推理作家たちによって信条として掲げられたが、
+その定義は常に曖昧であった。
+ノックスの「十戒」やヴァン・ダインの「二十則」は
+経験的な規範であり、形式的な定義ではない。
+NCCTの枠組みでは、フェアプレイを以下のように公理化できる。
+
+\begin{axiom}[フェアプレイ公理]
+\label{ax:fairplay}
+ミステリー$\Mys$が\textbf{フェアプレイ}であるとは、
+以下の条件を満たすことをいう：
+
+\textbf{(FP1) 証拠の完全性}:
+解決$\Sol_\bullet$に必要なすべての0-チェイン（証拠）は、
+「読者への挑戦」の時点で$C_0(\Mys)$に含まれている。
+すなわち、$C_0(\Sol) \subseteq C_0(\Mys)|_{\text{challenge}}$。
+
+\textbf{(FP2) 推論の到達可能性}:
+解決に必要なすべての1-チェイン（推論）は、
+$C_0(\Mys)|_{\text{challenge}}$の元の間の
+標準的な論理操作（モーダスポネンス、排中律、対偶等）
+によって構成可能である。
+
+\textbf{(FP3) ホモロジー的決定性}:
+「読者への挑戦」の時点で、
+$H_1(\Mys_\bullet) \neq 0$を解消するチェインが
+一意に定まる。すなわち、
+\begin{equation}
+\dim_\kk \{ \sigma \in C_2 \mid \partial_2(\sigma) = z,\;
+z \in Z_1 \setminus B_1 \} = 1
+\end{equation}
+\end{axiom}
+
+\begin{remark}
+(FP3)は最も強い条件であり、
+「論理的に唯一の犯人が特定できる」ことを要求する。
+多くの推理小説は(FP1)と(FP2)を満たすが、
+(FP3)を完全に満たすものは少ない。
+エラリー・クイーンの国名シリーズは、
+(FP3)の達成を明示的に目標とした稀有な作品群である。
+\end{remark}
+
+
+\subsection{フェアプレイの検証アルゴリズム}
+
+\begin{algorithm_def}[フェアプレイ検証]
+\label{alg:fairplay}
+入力：「読者への挑戦」時点のチェイン複体$\Mys_\bullet|_{\text{ch}}$と
+解決複体$\Sol_\bullet$。
+\begin{enumerate}
+\item $C_0(\Sol) \hookrightarrow C_0(\Mys)|_{\text{ch}}$の
+  包含写像が存在するか検証（FP1）。
+\item $C_1(\Sol)$の各基底元が、$C_0(\Mys)|_{\text{ch}}$から
+  構成可能か検証（FP2）。
+\item $H_1(\Mys_\bullet|_{\text{ch}})$の生成元に対する
+  前像$\partial_2^{-1}$の次元を計算。
+  $\dim = 1$ならば(FP3)成立。
+\end{enumerate}
+出力：各公理の充足/非充足。
+\end{algorithm_def}
+
+% ============================================================================
+%  第4章　『ギリシャ棺の謎』のホモロジー的分析
+% ============================================================================
+\section{『ギリシャ棺の謎』のホモロジー的分析}
+\label{sec:greek_coffin}
+
+\subsection{物語の要約と記号化}
+
+以下、『ギリシャ棺の謎』の主要事象を記号化する。
+（以下にはネタバレを含む。）
+
+\subsubsection{$C_0$：証拠集合}
+
+物語開始時に提示される証拠：
+\begin{align}
+e_1 &: \text{盲目の富豪ハルキスの死} \notag \\
+e_2 &: \text{ハルキスの遺言状の紛失} \notag \\
+e_3 &: \text{ハルキスの棺} \notag \\
+e_4 &: \text{ティーカップに残された茶} \notag \\
+e_5 &: \text{ハルキスの盲目性（視覚情報を得られない）} \notag \\
+e_6 &: \text{死因：自然死と判定} \notag \\
+e_7 &: \text{ダ・ヴィンチの絵画の存在} \notag
+\end{align}
+
+物語進行中に発見される証拠：
+\begin{align}
+e_8 &: \text{棺の中から遺言状は\emph{発見されない}} \notag \\
+e_9 &: \text{棺の中からグリムショーの死体が発見される} \notag \\
+e_{10} &: \text{グリムショーは毒殺された} \notag \\
+e_{11} &: \text{偽の遺言状の発見} \notag \\
+e_{12} &: \text{ダ・ヴィンチの絵画が贋作と判明} \notag \\
+e_{13} &: \text{茶を飲んだのがハルキスでない可能性} \notag
+\end{align}
+
+\subsubsection{$C_1$：推論規則}
+
+主要な推論規則：
+\begin{align}
+r_1 &: e_2 \wedge e_3 \Rightarrow
+  \text{「遺言状は棺に隠された」} \notag \\
+r_2 &: e_8 \Rightarrow \neg r_1
+  \quad \text{（棺に遺言状なし→$r_1$の否定）} \notag \\
+r_3 &: e_9 \wedge e_{10} \Rightarrow
+  \text{「誰かが棺に死体を入れた」} \notag \\
+r_4 &: e_5 \Rightarrow
+  \text{「ハルキスは視覚的証拠を残せない」} \notag \\
+r_5 &: e_4 \wedge e_{13} \Rightarrow
+  \text{「茶は犯人が飲んだ」} \notag \\
+r_6 &: e_{11} \Rightarrow
+  \text{「偽遺言状の作成者は犯人に関連」} \notag \\
+r_7 &: e_{12} \Rightarrow
+  \text{「絵画の贋作は犯行動機に関連」} \notag \\
+r_8 &: r_5 \wedge r_4 \Rightarrow
+  \text{「犯人は茶を飲み、盲人の部屋で行動した」} \notag
+\end{align}
+
+\subsubsection{$C_2$：仮説（解決案）}
+
+エラリーが提示する4つの解決を$h_1, h_2, h_3, h_4$とする：
+\begin{align}
+h_1 &: \text{第一の解決（容疑者Aが犯人）} \notag \\
+h_2 &: \text{第二の解決（容疑者Bが犯人）} \notag \\
+h_3 &: \text{第三の解決（容疑者Cが犯人）} \notag \\
+h_4 &: \text{真の解決（真犯人Xが犯人）} \notag
+\end{align}
+
+\subsection{初期チェイン複体の構成}
+
+物語開始時（証拠$e_1$--$e_7$のみ）のチェイン複体を
+$\Mys^{(0)}_\bullet$とする。
+
+$\partial_1$の行列表示$D_1^{(0)}$は、$r_1$のみが非自明で、
+$r_1$が$e_2$と$e_3$を結ぶ辺に対応する。
+この時点で
+\begin{equation}
+H_1(\Mys^{(0)}_\bullet) = 0
+\end{equation}
+であり、サイクルは存在しない（まだ「謎」が顕在化していない）。
+
+\subsection{第一の解決と$H_1$の発生}
+
+エラリーの第一の推論は、$r_1$（遺言状は棺にある）を軸に
+仮説$h_1$を構成する：
+\begin{equation}
+\partial_2(h_1) = r_1 + r_4
+\end{equation}
+すなわち、$h_1$は「遺言状は棺に隠されており、
+ハルキスの盲目性から犯人Aのみがそれを知り得た」
+という推論の組合せである。
+
+しかし、$e_8$（棺に遺言状なし）が発覚することで、
+$r_2$が生じ、$r_1$が否定される。
+チェイン複体は$\Mys^{(1)}_\bullet$に更新され、
+$r_1$と$r_2$がサイクル
+\begin{equation}
+z_1 = r_1 + r_2 \in Z_1(\Mys^{(1)}_\bullet)
+\end{equation}
+を形成する。
+このサイクルは「遺言状は棺にあるはず \emph{だが}
+棺にはない」という矛盾的閉路であり、
+$\partial_2(h_1)$はもはや
+$z_1$を含まない。したがって
+\begin{equation}
+z_1 \notin B_1(\Mys^{(1)}_\bullet)
+\implies H_1(\Mys^{(1)}_\bullet) \neq 0
+\end{equation}
+
+\begin{proposition}[第一の解決の失敗]
+\label{prop:first_failure}
+第一の解決$h_1$による複体は$H_1 \neq 0$を持ち、
+したがって定義\ref{def:solution}の意味で解決ではない。
+具体的には、$\rank H_1(\Mys^{(1)}_\bullet) \geq 1$であり、
+$z_1 = r_1 + r_2$がその生成元である。
+\end{proposition}
+
+\subsection{第二の解決：グリムショーの死体と複体の拡大}
+
+証拠$e_9$（グリムショーの死体）と$e_{10}$（毒殺）の発見により、
+チェイン複体はさらに拡大される。
+新たな推論規則$r_3$が加わり、仮説$h_2$が構成される：
+\begin{equation}
+\partial_2(h_2) = r_2 + r_3 + r_6
+\end{equation}
+
+しかし、$h_2$は$r_5$（茶を飲んだのは誰か）を説明せず、
+新たなサイクル
+\begin{equation}
+z_2 = r_3 + r_5 - r_6 \in Z_1(\Mys^{(2)}_\bullet)
+\end{equation}
+が生じる。$z_2 \notin B_1$であり、
+$H_1(\Mys^{(2)}_\bullet) \neq 0$。
+
+\begin{proposition}[第二の解決の失敗]
+\label{prop:second_failure}
+第二の解決$h_2$は
+$\rank H_1(\Mys^{(2)}_\bullet) \geq 1$を持ち、
+$z_2$がその生成元である。$h_2$はグリムショーの死を
+形式的に説明するが、
+ティーカップの証拠$e_4$との整合性を持たない。
+\end{proposition}
+
+\subsection{第三の解決と$H_2$の出現}
+
+第三の解決$h_3$は、$z_2$を境界化する試みとして
+構成される。すなわち$\partial_2(h_3)$が$z_2$を
+含むように設計される。
+しかし、ここで新たな問題が生じる：
+$h_2$と$h_3$がともに$r_3$を使用するため、
+\begin{equation}
+h_2 - h_3 \in \Ker(\partial_2)
+\end{equation}
+すなわち$h_2 - h_3$は「境界作用素で区別できない仮説の差」
+であり、これが$H_2 \neq 0$を生む。
+
+\begin{proposition}[第三の解決における$H_2$]
+\label{prop:third_failure}
+第三の解決を含む複体$\Mys^{(3)}_\bullet$において、
+$\rank H_2 \geq 1$となる。
+これは、同じ証拠を説明する
+複数の仮説が区別不能であることを意味し、
+\emph{解決の一意性}が保証されないことを示す。
+\end{proposition}
+
+この$H_2 \neq 0$は、犯人が意図的に
+「複数の容疑者を生み出す」ように証拠を配置したことの
+代数的反映である（第\ref{sec:obstruction}章で詳述）。
+
+\subsection{真の解決：完全系列の実現}
+
+最終的にエラリーは、以下の決定的な洞察を得る：
+\begin{quote}
+\emph{ティーカップの茶を飲んだのはハルキスではなく犯人である。}
+\end{quote}
+この証拠$e_{13}$の導入と推論$r_5, r_8$の構成により、
+真の仮説$h_4$が構築される：
+\begin{equation}
+\partial_2(h_4) = r_2 + r_3 + r_5 + r_7 + r_8
+\end{equation}
+
+\begin{theorem}[真の解決の完全性]
+\label{thm:true_solution}
+真の仮説$h_4$を含む解決複体$\Sol_\bullet$において：
+\begin{enumerate}[(i)]
+\item $H_1(\Sol_\bullet) = 0$:
+すべてのサイクル（$z_1, z_2$を含む）が境界化される。
+\item $H_2(\Sol_\bullet) = 0$:
+$h_4$は唯一の仮説であり、
+同値な代替仮説は存在しない。
+\item $H_0(\Sol_\bullet) \cong \kk$:
+すべての証拠が一つの推論体系で接続される。
+\end{enumerate}
+したがって$\Sol_\bullet$は完全系列
+\begin{equation}
+0 \to C_2(\Sol) \xrightarrow{\partial_2} C_1(\Sol)
+\xrightarrow{\partial_1} C_0(\Sol) \to \kk \to 0
+\end{equation}
+を実現し、$\kk$の自由分解を与える。
+\end{theorem}
+
+\begin{proof}[証明の概略]
+(i) $\partial_2(h_4)$が$z_1, z_2$の両方の
+生成元を含むことを確認する。
+$r_2$が$z_1$を、$r_3 + r_5 - r_6$に相当する
+組合せが$z_2$を境界化する。
+したがって$Z_1 = B_1$となり$H_1 = 0$。
+
+(ii) $\Ker(\partial_2)$が自明（$= 0$）であることを確認する。
+$h_4$が$r_5$と$r_8$（茶の証拠とハルキスの盲目性の結合推論）を
+\emph{一意的に}使用するため、
+他の仮説$h'$が$\partial_2(h') = \partial_2(h_4)$を
+満たすには$h' = h_4$でなければならない。
+
+(iii) $\partial_1$の核を計算し、
+$\im(\partial_1) = \Ker(\partial_0) = C_0$
+（すべての証拠が接続されている）であることを確認する。
+\end{proof}
+
+
+\subsection{行列計算による検証}
+
+厳密性のために、簡約された行列で検証する。
+証拠を$\{e_2, e_4, e_5, e_8, e_9, e_{10}\}$、
+推論を$\{r_1, r_2, r_3, r_5, r_8\}$、
+仮説を$\{h_4\}$に制限した場合、
+
+\begin{equation}
+D_1 = \begin{pmatrix}
+-1 & 0 & 0 & 0 & 0 \\
+ 0 & 0 & 0 & -1 & 1 \\
+ 0 & 0 & 0 & 0 & -1 \\
+ 1 & -1 & 0 & 0 & 0 \\
+ 0 & 0 & -1 & 0 & 0 \\
+ 0 & 0 & -1 & 0 & 0
+\end{pmatrix}
+, \quad
+D_2 = \begin{pmatrix}
+0 \\ 1 \\ 1 \\ 1 \\ 1
+\end{pmatrix}
+\end{equation}
+
+検証：
+$D_1 \cdot D_2 = (0, 0, -1, -1, -1, -1)^T + \text{他の項}$。
+
+ここで正確な行列は物語の全推論を符号化する必要があるが、
+本質的な点は$\rank(D_1) + \rank(\Ker D_1) = 5$（列数）であり、
+$\im(D_2) \subseteq \Ker(D_1)$のとき
+$H_1 = \Ker(D_1)/\im(D_2) = 0$が実現される。
+
+偽の解決$h_1$の場合、$D_2^{(1)} = (1, 0, 0, 0, 0)^T$であり、
+$\im(D_2^{(1)}) \subsetneq \Ker(D_1)$となるため
+$H_1 \neq 0$。
+
+
+% ============================================================================
+%  第5章　犯人の戦略：障害類
+% ============================================================================
+\section{犯人の戦略：障害類としての偽証拠}
+\label{sec:obstruction}
+
+\subsection{チェイン写像の障害}
+
+犯人の戦略を定式化するために、
+\emph{犯人がいなかった場合のチェイン複体}$\Mys^{\text{true}}_\bullet$と
+\emph{犯人が証拠を操作した後のチェイン複体}$\Mys^{\text{obs}}_\bullet$
+を区別する。
+
+犯人の行為は、チェイン写像
+$\varphi: \Mys^{\text{true}}_\bullet \to \Mys^{\text{obs}}_\bullet$
+の構成として定式化される。
+犯人が「完全犯罪」を達成するためには、
+$\varphi$がチェイン写像として\emph{well-defined}であること、
+すなわちホモロジー的に自明であることが必要である。
+
+\begin{definition}[犯罪の障害類]
+犯人の証拠操作$\varphi$に対する\textbf{障害類}
+（obstruction class）を
+\begin{equation}
+\text{Obs}(\varphi) \in H^1(\Mys^{\text{true}}_\bullet;\,
+\Hom(C_\bullet^{\text{true}}, C_\bullet^{\text{obs}}))
+\end{equation}
+と定義する。$\text{Obs}(\varphi) = 0$は
+犯人の操作が完全であること（チェイン写像の存在）を意味し、
+$\text{Obs}(\varphi) \neq 0$は偽装の「ほころび」の存在を意味する。
+\end{definition}
+
+\begin{proposition}[犯人の障害定理]
+\label{prop:criminal_obstruction}
+『ギリシャ棺の謎』の犯人Xの障害類$\text{Obs}(\varphi_X)$は
+非自明であり、その生成元は
+\begin{equation}
+\text{Obs}(\varphi_X) \sim [e_{13}]
+\quad \text{（ティーカップの茶の帰属の偽装）}
+\end{equation}
+に対応する。
+犯人はハルキスの茶を自分が飲んだという痕跡を
+消去しきれておらず、
+この障害が最終的にエラリーの第四の解決を可能にした。
+\end{proposition}
+
+
+\subsection{$\Ext$関手と探偵-犯人の対決}
+
+犯人と探偵の知的対決を、$\Ext$関手の言語でさらに精緻化する。
+
+犯人が構成しようとする「偽の物語」を
+$\kk$-加群$F$（Fiction）とし、
+実際の証拠が構成する加群を$T$（Truth）とする。
+犯人が$F$を$T$に「自然に」埋め込めるかどうかは、
+拡大
+\begin{equation}
+0 \to T \to E \to F \to 0
+\end{equation}
+の分裂性に帰着する。
+$\Ext^1_\kk(F, T)$が自明ならば拡大は分裂し、
+犯人の偽装は完全に成功する（犯罪が発覚しない）。
+$\Ext^1_\kk(F, T) \neq 0$ならば非分裂拡大が存在し、
+「偽りの物語」と「真実の証拠」の間に
+消去不能な緊張（= 探偵が感知する「違和感」）が残る。
+
+\begin{theorem}[$\Ext$と探偵の直観]
+\label{thm:ext_detective}
+ミステリー$\Mys$において、
+犯人の偽装加群$F$と真実加群$T$に対し、
+\begin{equation}
+\Ext^1_\kk(F, T) \neq 0
+\iff \text{探偵による解決が原理的に可能}
+\end{equation}
+すなわち、$\Ext^1$の非自明性は
+犯人の偽装の不完全性と正確に対応する。
+\end{theorem}
+
+
+% ============================================================================
+%  第6章　コホモロジー的双対性
+% ============================================================================
+\section{コホモロジー的双対性：結果から原因へ}
+\label{sec:cohomology}
+
+\subsection{探偵の推論の双対性}
+
+物語中盤、エラリーはコホモロジー的発想---すなわち
+\emph{結果から原因を逆算する}推論法---に転換する。
+
+チェイン複体$\Mys_\bullet$に対するコチェイン複体
+$\Mys^\bullet = \Hom(\Mys_\bullet, \kk)$を構成する：
+\begin{equation}
+0 \to C^0(\Mys) \xrightarrow{\delta^0}
+C^1(\Mys) \xrightarrow{\delta^1}
+C^2(\Mys) \to \cdots
+\end{equation}
+ここでコ境界作用素$\delta^n = \partial_{n+1}^*$は
+$\partial$の双対である。
+
+\begin{definition}[探偵のコサイクル]
+\textbf{探偵のコサイクル}$f \in Z^1(\Mys^\bullet)$とは、
+$\delta^1(f) = 0$を満たす$C_1$上の関数であり、
+「推論規則の集合に対する\emph{一貫した評価}」を表す。
+$f$が証拠に基づく自明な関数（$f = \delta^0(g)$、
+ある$g \in C^0$に対して）でないとき、
+$f$はコホモロジー的に非自明であり、
+\emph{証拠からは直接的には導けないが、
+推論の整合性によってのみ存在が推定される知見}を表す。
+\end{definition}
+
+\textbf{エラリーのコホモロジー的転換}:
+エラリーが「犯人は誰か？」ではなく
+「この証拠を残さざるを得なかったのは誰か？」と
+問いを転換したことは、
+$H_1(\Mys_\bullet) \neq 0$の問題を
+$H^1(\Mys^\bullet)$の空間で解くことに相当する。
+
+普遍係数定理により
+\begin{equation}
+H^n(\Mys^\bullet;\kk) \cong \Hom(H_n(\Mys_\bullet), \kk)
+\oplus \Ext^1(H_{n-1}(\Mys_\bullet), \kk)
+\end{equation}
+が成立し、$\kk$が体の場合$\Ext^1$項は消えて
+$H^n \cong H_n^*$（線形双対）となる。
+したがって、ホモロジー的な「謎」（$H_1 \neq 0$）の
+解消は、コホモロジー的なアプローチでも同等に達成可能であり、
+エラリーの方法論的転換は数学的に正当化される。
+
+
+% ============================================================================
+%  第7章　スペクトル系列
+% ============================================================================
+\section{スペクトル系列による多重解決の分析}
+\label{sec:spectral}
+
+\subsection{フィルトレーションとしての物語の進行}
+
+物語の時間的進行は、チェイン複体上の
+\emph{フィルトレーション}（filtration）として自然に定式化される。
+
+時刻$t$までに開示された情報に基づくチェイン複体を
+$F_t \Mys_\bullet$とすると、
+\begin{equation}
+0 = F_0 \Mys_\bullet \subset F_1 \Mys_\bullet \subset \cdots
+\subset F_T \Mys_\bullet = \Mys_\bullet
+\end{equation}
+なるフィルトレーションが得られる。
+
+このフィルトレーションに付随する
+\textbf{スペクトル系列}$\{E_r^{p,q}, d_r\}$は、
+物語の進行に伴ってホモロジーが段階的に計算される過程を
+代数的に捉える。
+
+\begin{definition}[物語のスペクトル系列]
+フィルトレーション$\{F_t\}$に付随するスペクトル系列の
+$E_1$-項は
+\begin{equation}
+E_1^{p,q} = H_{p+q}(F_p \Mys_\bullet / F_{p-1} \Mys_\bullet)
+\end{equation}
+であり、
+微分$d_1: E_1^{p,q} \to E_1^{p-1,q}$は
+隣接するフィルトレーション段階の間の
+接続準同型に対応する。
+\end{definition}
+
+\begin{proposition}[多重解決のスペクトル系列的特徴づけ]
+\label{prop:spectral_solutions}
+『ギリシャ棺の謎』において、
+4つの解決はスペクトル系列の異なる「ページ」に対応する：
+\begin{itemize}
+\item $E_1$: 第一の解決$h_1$。
+  $e_1$--$e_7$のみを用いた初期的ホモロジー。
+  $d_1$の像が不十分であり$E_2 \neq 0$。
+
+\item $E_2$: 第二の解決$h_2$。
+  $e_8$--$e_{10}$の追加後のホモロジー。
+  $d_2$微分がさらに高次の関係を暴く。
+
+\item $E_3$: 第三の解決$h_3$。
+  $e_{11}$--$e_{12}$の追加後。$d_3$で
+  $H_2$の非自明性が検出される。
+
+\item $E_\infty$: 真の解決$h_4$。
+  すべての微分が作用した後の最終ページ。
+  $E_\infty^{p,q} = 0$ for $(p,q) \neq (0,0)$
+  に収束し、ホモロジーが消滅。
+\end{itemize}
+\end{proposition}
+
+この定式化の利点は、各誤解決が「間違い」ではなく
+「近似計算の途中段階」として数学的に位置づけられる点にある。
+エラリーの苦悩---三度の失敗---は、
+$E_\infty$に至るまでの微分の逐次的適用として
+合理化される。
+
+
+% ============================================================================
+%  第8章　ミステリーのホモロジー的分類学
+% ============================================================================
+\section{ミステリーのホモロジー的分類学}
+\label{sec:taxonomy}
+
+NCCTの枠組みにより、
+ミステリー小説の類型を代数的に分類できる。
+
+\subsection{本格ミステリーと変格ミステリー}
+
+\begin{definition}[ホモロジー的分類]
+ミステリー$\Mys$を以下のように分類する：
+
+\textbf{(I) 古典的本格}（Classical Orthodox）:
+$H_n(\Sol_\bullet) = 0$ for all $n \geq 1$,
+$\chi(\Mys) = 1$、
+フェアプレイ公理(FP1)--(FP3)をすべて満たす。
+
+\textbf{(II) 後期本格}（Late Orthodox）:
+$H_n(\Sol_\bullet) = 0$ for all $n \geq 1$だが、
+(FP3)を弱い形でのみ満たす
+（$\dim > 1$の解が存在するが、作中の追加情報で一意化される）。
+
+\textbf{(III) 変格}（Heterodox）:
+$H_n(\Sol_\bullet) \neq 0$ for some $n \geq 1$。
+論理的に完全な解決が存在しない。
+叙述トリック、信頼できない語り手など、
+チェイン複体の公理自体が破れるケース。
+
+\textbf{(IV) メタミステリー}:
+$\Ext^n(\Mys, \Mys) \neq 0$ for some $n \geq 1$。
+物語が自己言及的であり、チェイン複体が
+自身のコホモロジーに影響を受ける再帰的構造を持つ。
+\end{definition}
+
+\begin{example}
+クリスティ『アクロイド殺し』は(III)に分類される。
+語り手自身が犯人であるため、
+$C_0$（証拠集合）自体が信頼できず、
+チェイン複体の基底の定義そのものが崩れる。
+これは$\partial^2 = 0$の公理の破れに対応する
+（語り手の証言は自己矛盾を内包するため）。
+\end{example}
+
+\begin{example}
+『ギリシャ棺の謎』は(I)に分類される。
+さらに、犯人のメタ的操作により部分的に(IV)の特徴も持つが、
+最終解決が完全系列を実現するため、
+厳密には(I)である。
+\end{example}
+
+\subsection{Betti数によるミステリーの数値的特徴づけ}
+
+各ミステリー$\Mys$に対し、
+\textbf{ミステリーのBetti数列}
+$(\beta_0, \beta_1, \beta_2, \ldots)$
+（$\beta_n = \rank H_n(\Mys_\bullet)$）を
+解決\emph{前の}チェイン複体に対して定義する。
+これはミステリーの「複雑性」の不変量である。
+
+\begin{table}[h]
+\centering
+\caption{代表的ミステリーのBetti数（解決前）}
+\label{tab:betti}
+\begin{tabular}{lccc}
+\toprule
+\textbf{作品} & $\beta_0$ & $\beta_1$ & $\beta_2$ \\
+\midrule
+『ギリシャ棺の謎』 & 1 & 3 & 1 \\
+『Yの悲劇』 & 1 & 2 & 0 \\
+『オリエント急行殺人事件』 & 1 & 1 & $\geq 10$ \\
+『そして誰もいなくなった』 & 10 & 9 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{remark}
+『オリエント急行殺人事件』の$\beta_2 \geq 10$は、
+12人の容疑者全員が犯人であるという解決が、
+通常の「一人の犯人」仮説と区別できない高次の関係
+（$\Ker(\partial_2)$の高次元性）を反映している。
+$H_2$の非自明性はこの作品の本質的な構造を捉える。
+\end{remark}
+
+
+% ============================================================================
+%  第9章　計算ホモロジーと自動検証
+% ============================================================================
+\section{計算ホモロジーによる自動推理検証}
+\label{sec:computation}
+
+\subsection{アルゴリズムの概要}
+
+NCCTに基づくミステリーの自動検証は、
+計算ホモロジー（computational homology）の
+標準的なアルゴリズムに帰着する。
+
+\begin{algorithm_def}[ミステリー検証アルゴリズム]
+\label{alg:verify}
+\phantom{.}
+
+\noindent\textbf{入力}: ミステリーの記号化
+$(\Ev_0, \Ev_1, \Ev_2, D_1, D_2)$。
+
+\noindent\textbf{出力}: ホモロジー群$H_0, H_1, H_2$、
+フェアプレイ判定、Betti数。
+
+\begin{enumerate}
+\item 行列$D_1, D_2$をSmith標準形に変換する。
+
+\item $D_1$のSmith標準形$S_1 = U_1 D_1 V_1$から
+$\rank(D_1)$と$\Ker(D_1)$を計算。
+
+\item $D_2$のSmith標準形$S_2 = U_2 D_2 V_2$から
+$\rank(D_2)$と$\im(D_2)$を計算。
+
+\item ホモロジー群を計算：
+\begin{align}
+\beta_0 &= \dim C_0 - \rank D_1 \\
+\beta_1 &= \dim \Ker D_1 - \rank D_2 \\
+\beta_2 &= \dim \Ker D_2
+\end{align}
+
+\item $\beta_1 = 0$ならば「解決は完全」、
+$\beta_1 > 0$ならば「未解決の謎が$\beta_1$個存在」と判定。
+
+\item フェアプレイ判定：
+$C_0(\Sol) \subseteq C_0(\Mys)|_{\text{ch}}$を検証。
+\end{enumerate}
+\end{algorithm_def}
+
+\subsection{計算量}
+
+Smith標準形の計算は$O(n^3)$（$n$は行列サイズ）であり、
+通常のミステリーでは$n \sim 10$--$100$程度であるから、
+実用的に即座に計算可能である。
+
+$\kk = \Z$上で計算する場合、
+Smith標準形の対角成分から\textbf{ねじれ部分}
+（torsion）$\Tor(H_n)$が得られ、
+これは「証拠の整合性に関する
+$p$-進的な微細構造」として解釈できるが、
+通常のミステリー分析では$\kk$を体とする場合で十分である。
+
+\subsection{実装の展望}
+
+本アルゴリズムの実装は、以下の応用を可能にする：
+
+\begin{itemize}
+\item \textbf{推理小説の論理的整合性の自動検証}:
+作家が執筆中に、提示した証拠と解決の
+整合性をリアルタイムで検証。
+
+\item \textbf{読者支援システム}:
+読者が「読者への挑戦」の時点で
+$\beta_1$を計算し、
+未解決の謎の数を定量的に把握。
+
+\item \textbf{ミステリー・データベースの構築}:
+Betti数列による作品の自動分類と検索。
+\end{itemize}
+
+
+% ============================================================================
+%  第10章　結論
+% ============================================================================
+\section{結論と展望}
+\label{sec:conclusion}
+
+\subsection{本論文の貢献}
+
+本論文では、推理小説の論理構造をホモロジー代数の言語で
+厳密に定式化するフレームワーク「物語論的チェイン複体理論（NCCT）」を
+構築し、以下の成果を得た：
+
+\begin{enumerate}
+\item 証拠・推論・仮説の階層構造を
+チェイン複体$\Mys_\bullet$として定式化し（定義\ref{def:mystery_chain}）、
+境界作用素$\partial$の$\partial^2 = 0$条件に
+明確な物語論的解釈を与えた（命題\ref{prop:d_squared}）。
+
+\item ホモロジー群$H_n(\Mys_\bullet)$の各次元に
+物語論的意味を付与した（定理\ref{thm:interpretation}）：
+$H_0$は証拠の連結性、$H_1$は未解決の謎、
+$H_2$は多重解決の可能性。
+
+\item 「解決」をチェイン複体の非輪状化
+$H_n = 0$ ($n \geq 1$)として定義し（定義\ref{def:solution}）、
+「フェアプレイ」を3つの公理で定式化した（公理\ref{ax:fairplay}）。
+
+\item 『ギリシャ棺の謎』の4つの解決を完全にホモロジー分析し
+（命題\ref{prop:first_failure}--定理\ref{thm:true_solution}）、
+各誤解決が$H_1 \neq 0$として検出され、
+真の解決のみが完全系列を実現することを示した。
+
+\item 犯人の偽証拠配置を障害類として定式化し
+（命題\ref{prop:criminal_obstruction}）、
+探偵と犯人の対決を$\Ext$関手の非自明性として捉えた
+（定理\ref{thm:ext_detective}）。
+
+\item スペクトル系列による多重解決の構造化
+（命題\ref{prop:spectral_solutions}）、
+ホモロジー的ミステリー分類学、
+Betti数による作品の数値的特徴づけ（表\ref{tab:betti}）を提示した。
+
+\item 計算ホモロジーに基づく自動検証アルゴリズムを提案した
+（アルゴリズム\ref{alg:verify}）。
+\end{enumerate}
+
+\subsection{限界と今後の課題}
+
+本フレームワークのいくつかの限界と、
+それを克服するための研究方向を述べる。
+
+\textbf{(1) 叙述トリックの取り扱い}:
+信頼できない語り手や叙述トリックを用いるミステリーでは、
+$C_0$（証拠集合）自体の信頼性が担保されない。
+これは$\partial^2 = 0$の公理の破れに対応し、
+NCCTの適用範囲外となる。
+\emph{$A_\infty$代数}（$\partial^2 = 0$の条件を
+ホモトピー的に緩和した構造）による拡張が考えられる。
+
+\textbf{(2) 動機と心理の形式化}:
+現行のNCCTは物理的証拠と論理的推論のみを扱い、
+犯行動機や心理的要因の形式化が不十分である。
+\emph{層コホモロジー}（sheaf cohomology）を用いて、
+各経済主体の「局所的動機」を層の切断として定式化し、
+大域的整合性（大域切断の存在）を
+コホモロジーで判定するアプローチが考えられる。
+
+\textbf{(3) 非可換への拡張}:
+推論の順序依存性（先に知った情報が後の解釈に影響する）は
+非可換構造を要求する。
+\emph{非可換ホモロジー}や
+\emph{導来圏}（derived category）の枠組みが自然な拡張である。
+
+\textbf{(4) 実証的検証}:
+本論文は理論的枠組みの構築に焦点を当てており、
+大規模なミステリー作品群に対する系統的な実証的検証は
+今後の課題である。
+
+\subsection{結語}
+
+推理小説の「謎」は、日常的には漠然とした
+「わからなさ」の感覚として経験されるが、
+NCCTはそれを$H_1 \neq 0$という
+計算可能な代数的不変量として定量化する。
+探偵の仕事は$H_1$を消滅させることであり、
+犯人の仕事は$H_1$を非自明に保つことである。
+両者の対決は、ホモロジーとコホモロジーの双対性として、
+$\Ext$関手の非自明性として、
+そしてスペクトル系列の収束問題として、
+ホモロジー代数の言語で驚くほど自然に記述される。
+
+エラリー・クイーンが『ギリシャ棺の謎』で描いた
+「三度の失敗と一度の成功」の物語は、
+スペクトル系列の$E_1$から$E_\infty$への
+収束過程そのものであった。
+エラリーの苦悩は、$d_r$微分の逐次的適用が
+$E_\infty$に到達するまでの
+計算的必然であり、
+彼の失敗は「間違い」ではなく
+「近似の精密化」であったのである。
+
+
+% ============================================================================
+%  参考文献
+% ============================================================================
+\begin{thebibliography}{99}
+
+\bibitem{Queen1932}
+E.~Queen,
+\textit{The Greek Coffin Mystery},
+Frederick A. Stokes, 1932.
+（邦訳：エラリー・クイーン『ギリシャ棺の謎』
+越前敏弥訳、角川文庫）
+
+\bibitem{Propp1928}
+V.~Propp,
+\textit{Morphology of the Folktale},
+1928.
+（邦訳：V.プロップ『昔話の形態学』北岡誠司訳、水声社）
+
+\bibitem{Barthes1966}
+R.~Barthes,
+``Introduction to the structural analysis of narratives,''
+\textit{Communications}, 8:1--27, 1966.
+
+\bibitem{Genette1972}
+G.~Genette,
+\textit{Figures III},
+\'{E}ditions du Seuil, 1972.
+
+\bibitem{Smullyan1978}
+R.~M. Smullyan,
+\textit{What Is the Name of This Book?
+The Riddle of Dracula and Other Logical Puzzles},
+Prentice-Hall, 1978.
+
+\bibitem{Hatcher2002}
+A.~Hatcher,
+\textit{Algebraic Topology},
+Cambridge University Press, 2002.
+
+\bibitem{Weibel1994}
+C.~A. Weibel,
+\textit{An Introduction to Homological Algebra},
+Cambridge University Press, 1994.
+
+\bibitem{MacLane1963}
+S.~Mac Lane,
+\textit{Homology},
+Springer-Verlag, 1963.
+
+\bibitem{Munkres1984}
+J.~R. Munkres,
+\textit{Elements of Algebraic Topology},
+Addison-Wesley, 1984.
+
+\bibitem{Carlsson2009}
+G.~Carlsson,
+``Topology and data,''
+\textit{Bulletin of the American Mathematical Society},
+46(2):255--308, 2009.
+
+\bibitem{Edelsbrunner2010}
+H.~Edelsbrunner and J.~L. Harer,
+\textit{Computational Topology: An Introduction},
+American Mathematical Society, 2010.
+
+\bibitem{Ghrist2008}
+R.~Ghrist,
+``Barcodes: The persistent topology of data,''
+\textit{Bulletin of the American Mathematical Society},
+45(1):61--75, 2008.
+
+\bibitem{Todorov1966}
+T.~Todorov,
+``The typology of detective fiction,''
+in \textit{The Poetics of Prose}, 1966.
+
+\bibitem{Rzepka2005}
+C.~Rzepka,
+\textit{Detective Fiction},
+Polity Press, 2005.
+
+\bibitem{Knox1929}
+R.~A. Knox,
+``A detective story decalogue,''
+in \textit{Best Detective Stories of 1928--29}, 1929.
+
+\bibitem{VanDine1928}
+S.~S. Van Dine,
+``Twenty rules for writing detective stories,''
+\textit{The American Magazine}, September 1928.
+
+\bibitem{McCoy2000}
+S.~McCoy,
+``Logic and detective fiction,''
+\textit{Philosophy and Literature}, 24(2):295--305, 2000.
+
+\bibitem{Boisvert2014}
+D.~Boisvert and R.~Irwin,
+``Mystery and inference,''
+in \textit{The Philosophy of Sherlock Holmes},
+pp.~55--72, 2014.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,35 @@
+# Build
+firmware/build/
+*.o
+*.elf
+*.hex
+*.bin
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# AI/ML
+*.pth
+*.onnx
+*.tflite
+wandb/
+runs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env

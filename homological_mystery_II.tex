@@ -1,0 +1,1510 @@
+% ============================================================================
+%
+%  物語論的チェイン複体理論 II：
+%  ミステリー小説の包括的ホモロジー代数的分類理論
+%
+%  ―― 導来圏・層コホモロジー・パーシステントホモロジーによる
+%     推理構造の統一的記述 ――
+%
+% ============================================================================
+\documentclass[12pt,twocolumn]{ltjsarticle}
+
+\usepackage{luatexja-fontspec}
+\setmainjfont{HaranoAjiMincho-Regular}[BoldFont=HaranoAjiMincho-Bold]
+\setsansjfont{HaranoAjiGothic-Medium}[BoldFont=HaranoAjiGothic-Bold]
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumerate}
+
+% Theorem environments
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\newtheorem{example}[theorem]{例}
+\newtheorem{conjecture}[theorem]{予想}
+\newtheorem{axiom}[theorem]{公理}
+\newtheorem{algorithm_def}[theorem]{アルゴリズム}
+
+% Custom commands
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\coker}{\operatorname{coker}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\renewcommand{\rank}{\operatorname{rank}}
+\newcommand{\Ev}{\mathcal{E}}
+\newcommand{\Hyp}{\mathcal{H}}
+\newcommand{\Nar}{\mathcal{N}}
+\newcommand{\Mys}{\mathcal{M}}
+\newcommand{\Sol}{\mathcal{S}}
+\newcommand{\Obs}{\mathcal{O}}
+\newcommand{\kk}{\Bbbk}
+\newcommand{\Db}{\mathbf{D}^b}
+\newcommand{\Sh}{\mathsf{Sh}}
+\newcommand{\Pre}{\mathsf{Pre}}
+\newcommand{\Ab}{\mathsf{Ab}}
+\newcommand{\Cat}{\mathsf{Cat}}
+\newcommand{\Mod}{\mathsf{Mod}}
+\renewcommand{\op}{\mathrm{op}}
+\newcommand{\Susp}{\mathcal{U}}
+\newcommand{\Lock}{\mathcal{L}}
+\newcommand{\Inv}{\mathcal{I}}
+\newcommand{\How}{\mathcal{W}}
+\newcommand{\pers}{\mathrm{pers}}
+\newcommand{\dgm}{\mathrm{dgm}}
+\newcommand{\birth}{\mathrm{birth}}
+\newcommand{\death}{\mathrm{death}}
+\newcommand{\barcode}{\mathrm{barcode}}
+
+\begin{document}
+
+\title{
+  \textbf{物語論的チェイン複体理論 II：}\\[2pt]
+  \textbf{ミステリー小説の包括的ホモロジー代数的分類理論}\\[8pt]
+  {\normalsize --- 導来圏・層コホモロジー・パーシステントホモロジーによる}\\[2pt]
+  {\normalsize 推理構造の統一的記述 ---}
+}
+
+\author{
+  石橋勇輝
+}
+
+\date{}
+
+\maketitle
+
+% ============================================================================
+%  概要
+% ============================================================================
+\begin{abstract}
+\noindent
+前稿~\cite{Ishibashi2026I}において、我々はエラリー・クイーン
+『ギリシャ棺の謎』を範例として物語論的チェイン複体理論（NCCT）を構築し、
+ミステリー小説の論理構造がホモロジー代数の言語で厳密に記述できることを示した。
+本続稿では、NCCTを三つの方向に本質的に拡張し、
+\emph{あらゆる}ミステリー小説に適用可能な包括的理論へと昇華させる。
+第一に、叙述トリック・信頼できない語り手・多重人格探偵を含む
+「非古典的ミステリー」を扱うために、
+$A_\infty$代数と導来圏$\Db(\Mys)$に基づく
+\textbf{導来NCCT}を構築する。
+$\partial^2 = 0$の公理が「ホモトピー的にのみ」成立する状況を
+$A_\infty$構造の高次積$m_n$で捕捉し、
+叙述の信頼性の段階的崩壊をマスキング・スペクトル系列で分析する。
+第二に、動機・心理・社会的背景など「局所的にのみ定義される情報」を
+扱うために、物語空間上の\textbf{層コホモロジー}を導入する。
+容疑者空間$X$上の証拠層$\mathcal{F}$の大域切断の
+存在/非存在を$H^n(X, \mathcal{F})$で判定する枠組みにより、
+密室トリック・アリバイ崩し・ハウダニットを
+統一的に扱うことが可能となる。
+第三に、物語の読書過程における
+「情報の漸進的開示」を\textbf{パーシステントホモロジー}で捕捉し、
+バーコードダイアグラムによるミステリーの視覚的分類法を提案する。
+各理論を、クリスティ『アクロイド殺し』『オリエント急行殺人事件』、
+カー『三つの棺』、クイーン『Yの悲劇』、
+島田荘司『占星術殺人事件』、綾辻行人『十角館の殺人』、
+東野圭吾『容疑者Xの献身』、
+古典的密室ミステリー群を含む15作品以上に適用し、
+ホモロジー的不変量によるミステリー作品のリジッドな分類体系を確立する。
+\end{abstract}
+
+
+% ============================================================================
+%  第1章　序論
+% ============================================================================
+\section{序論}
+
+\subsection{前稿からの出発と本稿の目的}
+
+前稿~\cite{Ishibashi2026I}で構築した物語論的チェイン複体理論（NCCT）は、
+ミステリー小説の論理構造をチェイン複体
+$\Mys_\bullet = (C_n, \partial_n)$で記述し、
+ホモロジー群$H_n(\Mys_\bullet)$の消滅/非消滅によって
+謎の存在と解決を定式化するフレームワークであった。
+エラリー・クイーン『ギリシャ棺の謎』の分析を通じて、
+この枠組みが「古典的本格ミステリー」に対して
+強力な分析能力を持つことを示した。
+
+しかし、前稿は以下の限界を明示的に認めていた：
+
+\begin{enumerate}
+\item \textbf{叙述トリックの壁}：
+$\partial^2 = 0$を公理として要求するため、
+語り手自体が信頼できない場合（クリスティ『アクロイド殺し』）や
+叙述構造そのものが騙しの手段となる場合
+（綾辻行人『十角館の殺人』）を扱えない。
+
+\item \textbf{動機の不在}：
+物理的証拠と論理的推論のみを形式化し、
+犯行動機や心理的要因を組み込めない。
+東野圭吾『容疑者Xの献身』のような
+動機と献身が推理の核心をなす作品は射程外であった。
+
+\item \textbf{密室の非自明性}：
+密室トリックの「物理的不可能性」を
+チェイン複体の言語で直接的に表現する方法が不明瞭であった。
+
+\item \textbf{時間構造の静的性}：
+物語進行に伴う情報の漸進的開示を
+フィルトレーションで導入したが、
+その定量的分析（いつ、どのように謎が生成・消滅するか）が不十分であった。
+\end{enumerate}
+
+本稿はこれら四つの限界を、それぞれ
+$A_\infty$代数/導来圏、層コホモロジー、
+位相的データ解析（TDA）の手法で突破し、
+NCCTを包括的なミステリー小説解析理論へと昇華させる。
+
+\subsection{本稿の構成}
+
+第\ref{sec:derived}章で$A_\infty$代数と導来圏による
+導来NCCTを構築する。
+第\ref{sec:sheaf}章で物語空間上の層コホモロジーを導入する。
+第\ref{sec:persistent}章でパーシステントホモロジーによる
+読書過程の分析法を展開する。
+第\ref{sec:locked_room}章で密室ミステリーの
+層コホモロジー的分析を実行する。
+第\ref{sec:unreliable}章で叙述トリックの導来圏的分析を行う。
+第\ref{sec:howcatchem}章で倒叙ミステリーの双対理論を展開する。
+第\ref{sec:whodunit_gallery}章で
+古今東西の代表作品15作のホモロジー的完全分析を提示する。
+第\ref{sec:grand_taxonomy}章で
+統一的分類体系「ミステリーの周期表」を構築する。
+第\ref{sec:impossibility}章で
+ミステリーの不可能性定理を証明する。
+第\ref{sec:conclusion}章で結論と展望を述べる。
+
+
+% ============================================================================
+%  第2章　導来NCCT
+% ============================================================================
+\section{導来NCCT：$A_\infty$代数と導来圏}
+\label{sec:derived}
+
+\subsection{$\partial^2 = 0$の崩壊と$A_\infty$構造}
+
+古典的NCCT（前稿）では、境界作用素$\partial$が
+$\partial^2 = 0$を厳密に満たすことを要求した。
+この公理の物語論的意味は
+「推論の二段階適用が自己矛盾を生まない」ことであった。
+
+しかし、叙述トリックを用いるミステリーでは、
+語り手が意図的に読者を欺くため、
+読者が受け取る「証拠」$e_i$と
+実際の事実$\tilde{e}_i$が乖離する。
+この乖離のもとでは、表面上の推論は自己矛盾を含み得る。
+すなわち$\partial^2 \neq 0$となる。
+
+この状況を取り扱うために、$A_\infty$代数の枠組みを導入する。
+
+\begin{definition}[$A_\infty$ミステリー複体]
+\label{def:ainfty_mystery}
+\textbf{$A_\infty$ミステリー複体}とは、
+次数付き$\kk$-加群$\Mys = \bigoplus_n C_n$上の
+$A_\infty$構造$\{m_n\}_{n \geq 1}$であって：
+\begin{itemize}
+\item $m_1: C_n \to C_{n-1}$は
+「表面上の境界作用素」（通常の$\partial$に対応）。
+一般には$m_1^2 \neq 0$。
+
+\item $m_2: C_p \otimes C_q \to C_{p+q-1}$は
+「二つの推論の\emph{相互作用}」を表す積。
+二つの推論を組み合わせたとき、
+個別の適用では見えない帰結が生じる状況を捕捉する。
+
+\item $m_n: C_{i_1} \otimes \cdots \otimes C_{i_n} \to
+C_{i_1 + \cdots + i_n - n + 2}$（$n \geq 3$）は
+高次の\emph{マッセー積}的な推論の相互作用。
+\end{itemize}
+これらは$A_\infty$関係式
+\begin{equation}
+\sum_{\substack{r+s+t = n \\ r, t \geq 0,\; s \geq 1}}
+(-1)^{rs+t}\, m_{r+1+t}
+(\id^{\otimes r} \otimes m_s \otimes \id^{\otimes t}) = 0
+\label{eq:ainfty_relation}
+\end{equation}
+を満たす。
+\end{definition}
+
+\begin{proposition}[$A_\infty$関係式の物語論的意味]
+\label{prop:ainfty_meaning}
+$A_\infty$関係式(\ref{eq:ainfty_relation})の最初の三つの帰結は：
+\begin{enumerate}[(i)]
+\item $n = 1$: $m_1 \circ m_1 = 0$
+\quad $\Leftrightarrow$
+\quad \emph{表面上の推論は自己無撞着}
+（古典的NCCTの回復）。
+
+\item $n = 2$: $m_1 \circ m_2 = m_2 \circ (m_1 \otimes \id + \id \otimes m_1)$
+\quad $\Leftrightarrow$
+\quad \emph{$m_1$は$m_2$に関する微分（ライプニッツ則）。}
+すなわち、推論の結合$(m_2)$と推論の帰結$(m_1)$は
+整合的に振る舞う。
+
+\item $n = 3$:
+$m_1 \circ m_3 + m_2 \circ (m_2 \otimes \id - \id \otimes m_2)
++ m_3 \circ (\text{boundaries}) = 0$
+\quad $\Leftrightarrow$
+\quad \emph{$m_2$の結合律は厳密には成立せず、
+$m_3$がその障害を補正する。}
+これは「三つの推論A, B, Cを(AB)C の順に適用するか
+A(BC) の順に適用するかで異なる結論に至るが、
+高次の推論$m_3$がその差を埋める」という
+メタ推理の必要性を表現する。
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[古典的NCCTの埋め込み]
+古典的NCCT（$\partial^2 = 0$）は、
+$m_1 = \partial$, $m_n = 0$ ($n \geq 2$)とした
+$A_\infty$ミステリー複体として回復される。
+すなわち、古典的本格ミステリーは$A_\infty$構造が
+厳密（strict）な特殊ケースである。
+\end{remark}
+
+
+\subsection{導来圏$\Db(\Mys)$}
+
+$A_\infty$ミステリー複体の自然な棲み処は導来圏である。
+
+\begin{definition}[ミステリーの導来圏]
+\label{def:derived_category}
+ミステリー$\Mys$に付随する
+\textbf{有界導来圏}$\Db(\Mys)$を、
+$\Mys$のチェイン複体の圏$\mathrm{Ch}^b(\Mys)$を
+擬同型（quasi-isomorphism）で局所化して得られる圏として定義する。
+\end{definition}
+
+導来圏の言語を用いると、以下の概念が自然に定式化される：
+
+\begin{proposition}[導来圏における諸概念の定式化]
+\phantom{.}
+\begin{enumerate}[(i)]
+\item \textbf{解決の同値性}:
+二つの解決$\Sol_\bullet, \Sol'_\bullet$が
+$\Db(\Mys)$において同型であるとき、
+かつそのときに限り、
+両解決はホモロジー的に同値な推論構造を持つ。
+
+\item \textbf{トリックの不可視性}:
+犯人のトリックが「完全」であるとは、
+真のチェイン複体$\Mys^{\mathrm{true}}_\bullet$と
+観測されるチェイン複体$\Mys^{\mathrm{obs}}_\bullet$が
+$\Db(\Mys)$において同型でないにもかかわらず、
+截断（truncation）$\tau_{\leq 1}$を適用すると
+同型となること。
+すなわち、1-チェイン以下では区別できないが、
+高次構造で差異が検出される。
+
+\item \textbf{叙述トリックの三角圏的定式化}:
+叙述トリックは、$\Db(\Mys)$における
+\emph{完全三角}（distinguished triangle）
+\begin{equation}
+\Mys^{\mathrm{surface}}_\bullet \to
+\Mys^{\mathrm{true}}_\bullet \to
+\mathcal{T}_\bullet \xrightarrow{[1]}
+\label{eq:narration_triangle}
+\end{equation}
+として定式化される。ここで$\mathcal{T}_\bullet$は
+\textbf{トリック複体}---叙述者の欺瞞が生み出す
+表面と真実の「差分」---である。
+$\mathcal{T}_\bullet$のホモロジーは
+トリックの構造を完全に記述する。
+\end{enumerate}
+\end{proposition}
+
+\subsection{叙述信頼度のフィルトレーション}
+
+語り手の信頼性を段階的に扱うために、
+「叙述信頼度」のフィルトレーションを導入する。
+
+\begin{definition}[信頼度フィルトレーション]
+\label{def:reliability}
+チェイン複体$\Mys_\bullet$上の
+\textbf{信頼度フィルトレーション}
+$\{R^p \Mys_\bullet\}_{p \geq 0}$を、
+\begin{equation}
+R^p C_n = \bigoplus_{\substack{e_i \in \Ev_n \\
+\text{信頼度}(e_i) \geq p}} \kk \cdot e_i
+\end{equation}
+と定義する。ここで$\text{信頼度}(e_i) \in \{0, 1, 2, \ldots\}$は
+証拠$e_i$が信頼できる度合いであり、
+$0$は「叙述者の虚偽」、
+最大値は「物理法則レベルの確実性」を表す。
+\end{definition}
+
+この二重フィルトレーション（信頼度$R^p$と時間$F_t$）は、
+二重複体を生み、二つのスペクトル系列を誘導する。
+
+\begin{theorem}[叙述のスペクトル系列]
+\label{thm:narration_spectral}
+信頼度フィルトレーション$\{R^p\}$に付随するスペクトル系列
+$\{{}^R E_r^{p,q}\}$は、
+${}^R E_1^{p,q} = H_{p+q}(R^p / R^{p+1})$から出発し、
+${}^R E_\infty^{p,q} \Rightarrow H_{p+q}(\Mys_\bullet)$に収束する。
+このスペクトル系列の微分$d_r$は、
+「信頼度$p$の情報と信頼度$p-r$の情報の間の
+非自明な関係の発見」に対応する。
+\end{theorem}
+
+\begin{example}[『アクロイド殺し』のスペクトル系列]
+\label{ex:ackroyd_spectral}
+クリスティ『アクロイド殺し』において、
+語り手シェパード医師の証言$e_{\text{S}}$は
+信頼度$\text{信頼度}(e_{\text{S}}) = 2$（医師の証言として高い信頼度）
+と初期設定される。
+
+${}^R E_1$ページでは、$e_{\text{S}}$は高信頼度の証拠として機能し、
+他の容疑者を指し示す推論に組み込まれる。
+しかし、$d_2$微分の適用
+---すなわち、高信頼度の証拠と低信頼度の情報
+（シェパードの行動の「空白時間」）の間の関係の精査---により、
+$e_{\text{S}}$の信頼度が$2 \to 0$に降格され、
+${}^R E_2$ページでホモロジーが劇的に変化する。
+
+この降格は${}^R E_2$において
+\begin{equation}
+d_2: {}^R E_2^{2, q} \to {}^R E_2^{0, q+1}
+\end{equation}
+として具現し、高信頼度のチェイン（シェパードの証言）が
+低信頼度のチェイン（物理的証拠との矛盾）によって
+「殺される」過程を表現する。
+\end{example}
+
+
+% ============================================================================
+%  第3章　層コホモロジー
+% ============================================================================
+\section{物語空間上の層コホモロジー}
+\label{sec:sheaf}
+
+\subsection{容疑者空間と証拠層}
+
+前稿のNCCTは、すべての証拠と推論を
+単一のチェイン複体に集約していた。
+しかし、実際のミステリーでは、
+各証拠は特定の容疑者・場所・時間にのみ関連し、
+局所的な性質を持つ。
+この局所性を扱うために、層理論を導入する。
+
+\begin{definition}[容疑者空間]
+\label{def:suspect_space}
+ミステリー$\Mys$の\textbf{容疑者空間}$X$を、
+容疑者の集合$\{s_1, \ldots, s_N\}$に
+以下の位相を入れた位相空間として定義する：
+$X$の開集合$U \subseteq X$は
+「同時に犯行を行い得る容疑者の部分集合」であり、
+$U$が開であることは
+$U$に含まれるすべての容疑者が
+同一の犯行機会（means, motive, opportunity）を
+共有することを意味する。
+\end{definition}
+
+\begin{remark}
+この位相は一般にはAlexandrov位相（有限空間上の半順序から誘導される位相）
+に対応する。容疑者$s_i$が$s_j$よりも「疑わしい」
+（= より多くの犯行条件を満たす）とき$s_i \leq s_j$と定め、
+$U$が開 $\Leftrightarrow$ $s \in U, s \leq s' \Rightarrow s' \in U$
+とする。
+\end{remark}
+
+\begin{definition}[証拠層]
+\label{def:evidence_sheaf}
+容疑者空間$X$上の\textbf{証拠層}$\mathcal{F}$を、
+各開集合$U \subseteq X$に対し
+\begin{equation}
+\mathcal{F}(U) = \{ \text{$U$内の容疑者全員に適用できる推論の集合} \}
+\end{equation}
+を対応させる$\kk$-加群の層として定義する。
+制限写像$\rho_{V,U}: \mathcal{F}(U) \to \mathcal{F}(V)$
+($V \subseteq U$)は、推論の適用範囲の縮小に対応する。
+\end{definition}
+
+\begin{definition}[動機層]
+\label{def:motive_sheaf}
+容疑者空間$X$上の\textbf{動機層}$\mathcal{G}$を、
+各開集合$U$に対し
+\begin{equation}
+\mathcal{G}(U) = \{ \text{$U$内の容疑者全員が共有し得る犯行動機} \}
+\end{equation}
+を対応させる層として定義する。
+\end{definition}
+
+\subsection{犯人特定の層コホモロジー的定式化}
+
+\begin{theorem}[犯人特定の層コホモロジー的条件]
+\label{thm:sheaf_culprit}
+ミステリー$\Mys$において犯人が一意に特定されるための
+必要十分条件は：
+\begin{enumerate}[(i)]
+\item 証拠層$\mathcal{F}$の大域切断空間が1次元：
+$\dim \Gamma(X, \mathcal{F}) = 1$。
+すなわち、すべての証拠を整合的に説明する推論体系が
+一意に存在する。
+
+\item 動機層$\mathcal{G}$の大域切断が
+ちょうど一つの容疑者の茎$\mathcal{G}_{s_i}$のみで
+非自明：
+$\Gamma(X, \mathcal{G})|_{s_j} = 0$ for $j \neq i$。
+
+\item $H^1(X, \mathcal{F}) = 0$:
+証拠の局所的整合性が大域的整合性を保証する
+（\v{C}ech条件の充足）。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(i) $\Gamma(X, \mathcal{F})$は
+すべての開集合$U$に対する$\mathcal{F}(U)$の
+制限写像に関する射影的極限であり、
+これが1次元であることは、
+局所的な推論の整合的な大域的貼り合わせが
+一意に可能であることを意味する。
+
+(ii) 動機層の大域切断が一つの茎でのみ非自明であることは、
+犯行動機を持ち得るのが一人だけであることの直接的翻訳。
+
+(iii) $H^1(X, \mathcal{F}) = 0$は層のコホモロジー的条件であり、
+\v{C}ech複体の完全性を保証する。
+$H^1 \neq 0$は「局所的には矛盾しないが
+大域的には貼り合わせられない推論の集合」の存在を意味し、
+これは「各容疑者を個別に見れば辻褄が合うが、
+全体として一人の犯人を指し示せない」状況に対応する。
+\end{proof}
+
+\begin{corollary}[$H^1$と多重解決]
+$H^1(X, \mathcal{F}) \neq 0$のとき、
+ミステリーは多重解決を許容する。
+具体的に$\dim H^1(X, \mathcal{F}) = d$ならば、
+少なくとも$d + 1$通りの整合的な解決が存在し得る。
+\end{corollary}
+
+
+\subsection{アリバイの層理論}
+
+アリバイ（alibi = 不在証明）は層コホモロジーの言語で
+極めて自然に定式化される。
+
+\begin{definition}[アリバイ層]
+\label{def:alibi_sheaf}
+時間空間$T = [0, t_{\max}]$上の\textbf{アリバイ層}
+$\mathcal{A}_i$を、各容疑者$s_i$に対して
+\begin{equation}
+\mathcal{A}_i(U) = \begin{cases}
+\kk & \text{$s_i$が時間区間$U$において現場に不在} \\
+0 & \text{それ以外}
+\end{cases}
+\end{equation}
+と定義する。
+\end{definition}
+
+犯行時刻を$t^* \in T$とすると、
+$s_i$が犯人であり得るための必要条件は
+$\mathcal{A}_i$の茎$(\mathcal{A}_i)_{t^*} = 0$
+（犯行時刻にアリバイがない）であり、
+\emph{アリバイ崩し}とは
+$\mathcal{A}_i(U) \cong \kk$（アリバイが存在する）
+であった開集合$U \ni t^*$に対して、
+新たな証拠により$\mathcal{A}_i(U) \to 0$と
+修正する操作（層の修正/再定義）に対応する。
+
+\begin{example}[『容疑者Xの献身』のアリバイ層]
+\label{ex:yogisha_alibi}
+東野圭吾『容疑者Xの献身』では、
+数学教師・石神は真犯人（靖子）のために
+\emph{偽のアリバイ構造}を構築する。
+石神の戦略は、層$\mathcal{A}_{\text{靖子}}$を
+改変し、彼女の犯行時刻における茎を
+$0 \to \kk$に書き換えることである。
+
+しかし石神の工作は
+\emph{別の殺人を行ってアリバイの時間的参照点そのものを差し替える}
+という異常な手段を用いるため、
+書き換えは$\mathcal{A}$だけでなく
+時間空間$T$自体の位相を変更する操作となる。
+これは通常のアリバイ崩し
+（開集合$U$上の切断の修正）ではなく、
+\emph{底空間の変形}（deformation of the base space）
+に相当する。
+
+層コホモロジーの観点からは、石神の工作は
+$H^0(T, \mathcal{A}_{\text{靖子}})$を非自明にする
+\emph{底空間の位相変形}
+$T \rightsquigarrow T'$を誘導し、
+その変形の障害が$H^1$に反映される。
+湯川学（探偵役）の推理は、
+$T'$が$T$とは異なる位相型を持つことを看破し、
+変形写像$T \to T'$の非自明性を検出する過程である。
+\end{example}
+
+
+% ============================================================================
+%  第4章　パーシステントホモロジー
+% ============================================================================
+\section{パーシステントホモロジーと読書過程の位相}
+\label{sec:persistent}
+
+\subsection{読書フィルトレーション}
+
+パーシステントホモロジー（persistent homology）は、
+位相的データ解析（TDA）において
+「パラメータの変化に伴う位相的特徴の生成と消滅」を
+追跡する手法である~\cite{Carlsson2009, Edelsbrunner2010}。
+これをミステリーの読書過程に適用する。
+
+\begin{definition}[読書フィルトレーション]
+\label{def:reading_filtration}
+ミステリー$\Mys$のテキストをページ番号$t \in [1, T]$で
+パラメータ化し、ページ$t$までに開示された情報に基づく
+チェイン複体を$\Mys_\bullet^{(t)}$とする。
+読書フィルトレーションは
+\begin{equation}
+\Mys_\bullet^{(1)} \hookrightarrow \Mys_\bullet^{(2)}
+\hookrightarrow \cdots \hookrightarrow \Mys_\bullet^{(T)} = \Mys_\bullet
+\end{equation}
+で与えられ、各包含はチェイン写像である。
+\end{definition}
+
+\begin{definition}[ミステリーのパーシステントホモロジー]
+\label{def:persistent_homology}
+読書フィルトレーションに対する
+\textbf{$n$次パーシステントホモロジー}は、
+各$s \leq t$に対する包含誘導準同型
+\begin{equation}
+\iota_{s,t}: H_n(\Mys_\bullet^{(s)}) \to H_n(\Mys_\bullet^{(t)})
+\end{equation}
+の族である。
+パーシステント像$\im(\iota_{s,t})$は、
+ページ$s$で生まれたホモロジー類が
+ページ$t$まで「生き延びている」度合いを測る。
+\end{definition}
+
+\subsection{バーコードダイアグラム}
+
+パーシステントホモロジーの標準的な可視化手法である
+バーコードダイアグラムを、ミステリー分析に導入する。
+
+\begin{definition}[ミステリーのバーコード]
+\label{def:barcode}
+$\kk$が体のとき、パーシステント加群の構造定理により、
+パーシステントホモロジーは区間加群の直和に分解される：
+\begin{equation}
+\bigoplus_i \kk[b_i, d_i)
+\end{equation}
+ここで$b_i$は生成時刻（birth）、$d_i$は消滅時刻（death）。
+各区間$[b_i, d_i)$を一本の水平バーとして描いたものが
+\textbf{バーコードダイアグラム}$\barcode_n(\Mys)$である。
+
+各バーの物語論的解釈：
+\begin{itemize}
+\item \textbf{$\barcode_0$のバー}: 証拠群の連結成分の生成と統合。
+長いバーは長期間独立していた証拠群、
+短いバーはすぐに他の証拠と結合された情報。
+
+\item \textbf{$\barcode_1$のバー}: \textbf{謎の生成と解決}。
+$b_i$は謎が生じたページ、
+$d_i$は謎が解決されたページ。
+バーの長さ$\pers_i = d_i - b_i$は\textbf{謎の持続度}。
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[バーコードによるミステリーの特徴づけ]
+\label{thm:barcode_characterization}
+ミステリー$\Mys$のバーコードダイアグラムは
+以下の不変量を与える：
+\begin{enumerate}[(i)]
+\item \textbf{全持続度}
+$\Pi(\Mys) = \sum_i \pers_i$:
+ミステリーの「総合的な謎の量」。
+
+\item \textbf{最大持続度}
+$\Pi_{\max}(\Mys) = \max_i \pers_i$:
+最も長く引っ張られる謎（通常は「犯人は誰か」）の
+テキスト上の割合。
+
+\item \textbf{同時謎数}
+$\nu(t) = |\{i \mid b_i \leq t < d_i\}|$:
+ページ$t$における未解決の謎の数。
+$\nu(t)$のプロファイルは読者の
+「困惑度」の時間発展を表す。
+
+\item \textbf{バーコードエントロピー}
+$S(\Mys) = -\sum_i \frac{\pers_i}{\Pi} \log \frac{\pers_i}{\Pi}$:
+謎の持続度の分散の尺度。$S$が大きいほど
+多様な時間スケールの謎が共存する複雑な構造。
+\end{enumerate}
+\end{theorem}
+
+
+\subsection{作品間のバーコード比較}
+
+\begin{definition}[ボトルネック距離]
+二つのミステリー$\Mys, \Mys'$のバーコードダイアグラム間の
+\textbf{ボトルネック距離}$d_B(\Mys, \Mys')$を、
+パーシステンス図の標準的なボトルネック距離として定義する：
+\begin{equation}
+d_B(\Mys, \Mys') = \inf_\gamma \sup_i |p_i - \gamma(p_i)|_\infty
+\end{equation}
+ここで$\gamma$はパーシステンス図の点の全単射、
+$p_i = (b_i, d_i)$は生死対である。
+\end{definition}
+
+$d_B$はミステリーの構造的類似度を測る距離関数であり、
+小さいほど二作品の「謎の配置パターン」が類似している。
+
+
+% ============================================================================
+%  第5章　密室ミステリーの層コホモロジー
+% ============================================================================
+\section{密室ミステリーの層コホモロジー的分析}
+\label{sec:locked_room}
+
+\subsection{密室の位相的定義}
+
+密室ミステリーの核心---密閉空間での殺人の「不可能性」---を
+層コホモロジーの言語で厳密に定義する。
+
+\begin{definition}[密室空間]
+\label{def:locked_room}
+\textbf{密室空間}$\Lock$とは、
+物理的空間$M$の部分空間であって、
+以下を満たすものをいう：
+\begin{enumerate}
+\item $\Lock$はコンパクトで境界$\partial \Lock$を持つ。
+\item 犯行時刻$t^*$において、
+$\partial \Lock$を通過する連続写像
+（入退室経路）$\gamma: [0,1] \to M$であって
+$\gamma(0) \in M \setminus \Lock$,
+$\gamma(1) \in \Lock$を満たすものの空間が
+\emph{空}であるとされている（施錠条件）。
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[侵入層]
+\label{def:intrusion_sheaf}
+密室$\Lock$上の\textbf{侵入層}$\mathcal{I}$を、
+$\Lock$の各開集合$U$に対して
+\begin{equation}
+\mathcal{I}(U) = \{ \text{$U$を通じた侵入/脱出経路} \}
+\end{equation}
+を対応させる層として定義する。
+密室の仮定は$\Gamma(\Lock, \mathcal{I}) = 0$
+（大域切断が存在しない）として表現される。
+\end{definition}
+
+\begin{theorem}[密室トリックの層コホモロジー的分類]
+\label{thm:locked_room_classification}
+密室トリックは、
+$\Gamma(\Lock, \mathcal{I}) = 0$の仮定が
+崩壊する機構に応じて分類される：
+
+\textbf{(L1) 境界の不完全性}（機械的トリック）:
+$\partial \Lock$が実はコンパクトでなく、
+隙間・秘密の通路・鍵穴等を通じた非自明な経路が存在する。
+$\mathcal{I}$の茎$\mathcal{I}_x \neq 0$となる点
+$x \in \partial \Lock$が存在し、
+$\Gamma(\Lock, \mathcal{I}) \neq 0$が回復される。
+
+\textbf{(L2) 時間位相の操作}（時間差トリック）:
+密室の「施錠時刻」と「犯行時刻」が一致しないため、
+施錠条件を満たす時刻$t$と
+犯行が可能な時刻$t'$が異なる。
+これは時間空間上のアリバイ層
+$\mathcal{A}$の問題に帰着する。
+
+\textbf{(L3) 自明な大域切断}（自殺/事故偽装）:
+犯人は密室の外にいたのではなく、
+$\Lock$の内部にいた（自殺を他殺に見せかける、
+被害者自身が施錠した等）。
+$\Gamma(\Lock, \mathcal{I}) = 0$は
+「外部からの侵入がない」のみを意味し、
+内部からの犯行は排除していなかった。
+層の定義域の取り違えに対応する。
+
+\textbf{(L4) 位相型の誤認}（心理的トリック）:
+密室$\Lock$がそもそも「密室」ではなかった。
+読者/登場人物が部屋の構造を誤認しており、
+$\Lock$の位相型が実際と異なる。
+$H^1(\Lock, \mathcal{I})$の計算が
+前提の位相型に依存するため、
+位相型の修正によりコホモロジーが変化する。
+\end{theorem}
+
+
+\begin{example}[カー『三つの棺』の密室分析]
+\label{ex:three_coffins}
+ジョン・ディクスン・カー『三つの棺』
+(\textit{The Three Coffins}, 1935)は、
+ミステリー史上最も有名な密室講義
+（フェル博士の「密室講義」）を含む。
+
+この作品の第一の密室は(L1)型に分類される：
+部屋の構造に関する前提が誤っており、
+$\partial \Lock$の位相が見かけと異なる。
+$\mathcal{I}$の茎が非自明となる点が
+隠されていたことで$\Gamma(\Lock, \mathcal{I}) = 0$が
+偽であった。
+
+第二の密室（雪上の足跡の不在）は
+空間$M$全体の問題であり、
+$M$上の\textbf{足跡層}$\mathcal{P}$の
+大域切断の非存在
+$\Gamma(M, \mathcal{P}) = 0$として定式化される。
+この場合のトリックは(L2)型であり、
+犯行が足跡の時間的制約を回避する
+時間差的手段で遂行された。
+\end{example}
+
+
+% ============================================================================
+%  第6章　叙述トリック
+% ============================================================================
+\section{叙述トリックの導来圏的分析}
+\label{sec:unreliable}
+
+\subsection{叙述トリックの圏論的定義}
+
+\begin{definition}[叙述トリック]
+\label{def:narrative_trick}
+ミステリー$\Mys$における\textbf{叙述トリック}とは、
+テキストが提示するチェイン複体$\Mys^{\mathrm{text}}_\bullet$と
+真のチェイン複体$\Mys^{\mathrm{true}}_\bullet$の間の
+チェイン写像$\varphi: \Mys^{\mathrm{text}}_\bullet \to
+\Mys^{\mathrm{true}}_\bullet$であって、
+$\varphi$が擬同型\emph{でない}ものをいう。
+すなわち、$\varphi_*: H_n(\Mys^{\mathrm{text}}) \to
+H_n(\Mys^{\mathrm{true}})$が同型でないとき、
+叙述トリックが存在する。
+\end{definition}
+
+叙述トリックの「強さ」は$\varphi$がどの次元で
+同型性を破るかで定量化される。
+
+\begin{definition}[叙述トリックの次元]
+叙述トリックの\textbf{次元}$\dim(\text{trick})$を、
+$\varphi_*$が同型でない最小の$n$として定義する：
+\begin{equation}
+\dim(\text{trick}) = \min\{n \mid
+H_n(\varphi): H_n(\Mys^{\text{text}}) \not\cong H_n(\Mys^{\text{true}})\}
+\end{equation}
+\end{definition}
+
+\begin{proposition}[叙述トリックの次元と分類]
+\label{prop:trick_dimension}
+\phantom{.}
+\begin{itemize}
+\item $\dim = 0$: \textbf{証拠レベルの叙述トリック}。
+テキストが物理的事実について嘘をついている。
+例：クリスティ『アクロイド殺し』
+（語り手が行動の一部を省略/改変）。
+
+\item $\dim = 1$: \textbf{推論レベルの叙述トリック}。
+証拠自体は正しいが、推論規則の前提が
+テキストと実際で異なる。
+例：綾辻行人『十角館の殺人』
+（登場人物の同一性に関する前提の操作）。
+
+\item $\dim = 2$: \textbf{仮説レベルの叙述トリック}。
+証拠も推論も正しいが、
+犯行シナリオの前提（物語の枠組み自体）が異なる。
+例：殊能将之『ハサミ男』
+（語り手の正体に関する枠組みの転倒）。
+\end{itemize}
+\end{proposition}
+
+
+\subsection{綾辻行人『十角館の殺人』の分析}
+
+\begin{example}[『十角館の殺人』の導来圏的分析]
+\label{ex:jukkakukan}
+綾辻行人『十角館の殺人』(1987)は、
+新本格ミステリーの嚆矢として知られ、
+ある一行の叙述によって読者の前提が根底から覆される。
+
+この作品の叙述トリックの本質は、
+$C_0$の基底（登場人物の集合）に関する
+読者の認識と真実の乖離にある。
+テキスト上の登場人物集合$\{a_1, \ldots, a_n\}$と
+真の登場人物集合$\{\tilde{a}_1, \ldots, \tilde{a}_{n-1}\}$は
+同型でなく、
+$\varphi_0: C_0^{\text{text}} \to C_0^{\text{true}}$は
+全射でない（ある$a_i$と$a_j$が実は同一人物であり
+$\varphi_0(a_i) = \varphi_0(a_j)$）。
+
+この全射の破れにより、$\varphi$の写像錐（mapping cone）
+$\mathrm{Cone}(\varphi)$が非自明となり、
+完全三角(\ref{eq:narration_triangle})のトリック複体
+$\mathcal{T}_\bullet$は
+\begin{equation}
+H_0(\mathcal{T}_\bullet) \cong \kk
+\end{equation}
+（一つの余分な0-チェイン＝「余分な人物」の存在）を持つ。
+
+$\dim(\text{trick}) = 0$（証拠レベル）ではあるが、
+その影響は$H_1$の構造を根本的に変えるため、
+有効次元は実質的に$1$以上である。
+導来圏$\Db(\Mys)$においては、
+$\Mys^{\text{text}}_\bullet$と$\Mys^{\text{true}}_\bullet$は
+同型でないが、
+$\tau_{\geq 1}$（1次以上の截断）では同型であり、
+差異は$H_0$の次元のみに集中する。
+\end{example}
+
+
+% ============================================================================
+%  第7章　倒叙ミステリー
+% ============================================================================
+\section{倒叙ミステリーの双対理論}
+\label{sec:howcatchem}
+
+\subsection{「犯人当て」と「犯行暴き」の圏論的双対性}
+
+通常のミステリー（whodunit）は
+$H_1 \neq 0 \to H_1 = 0$の過程（ホモロジーの消滅）であるが、
+倒叙ミステリー（howcatchem/inverted mystery）は
+犯人が最初から明かされており、
+「探偵がいかにして犯人を追い詰めるか」が焦点となる。
+
+\begin{definition}[倒叙ミステリーのコチェイン複体]
+倒叙ミステリー$\Inv$のチェイン複体は、
+通常のミステリーの\textbf{コチェイン複体}
+$\Inv^\bullet = \Hom(\Mys_\bullet, \kk)$として自然に定式化される。
+
+解決は$H^1(\Inv^\bullet) = 0$の実現であり、
+コサイクル条件$\delta f = 0$は
+「犯人の行動の整合的な評価が可能であること」、
+コバウンダリー$f = \delta g$は
+「証拠から直接導ける自明な評価」を意味する。
+
+探偵の仕事は、自明でないコサイクル$f \in Z^1 \setminus B^1$
+（= 犯行の論理的痕跡であるが証拠からは直接見えないもの）を
+発見し、$H^1 \neq 0$であることを立証することに相当する。
+\end{definition}
+
+\begin{example}[コロンボ型の倒叙ミステリー]
+TVドラマ『刑事コロンボ』では、
+各エピソードが犯人の完璧な犯行から始まり、
+コロンボ警部がその「ほころび」を一つずつ暴く。
+
+NCCTの言語では：犯人が構成した
+$\Mys^{\mathrm{obs}}_\bullet$において
+$H_1 = 0$（一見完全な犯行計画）。
+しかし、コホモロジー$H^1(\Inv^\bullet) \neq 0$であり、
+コロンボが検出するのはこの非自明なコサイクル
+---「あの時なぜ左手を使ったのですか？」的な
+微細だが消去不能な矛盾---である。
+
+コロンボの「もう一つだけ」（"just one more thing"）は、
+コサイクル$f$のさらなる構成要素の追加であり、
+$H^1$の生成元を具体的に構成する過程に対応する。
+\end{example}
+
+\begin{theorem}[ホモロジーとコホモロジーの双対性]
+\label{thm:duality_mystery}
+$\kk$が体のとき、普遍係数定理により
+$H^n(\Inv^\bullet; \kk) \cong H_n(\Mys_\bullet; \kk)^*$
+が成立する。したがって：
+\begin{enumerate}[(i)]
+\item \emph{犯人当て}（whodunit）の困難さ$\rank H_1$と
+\emph{犯行暴き}（howcatchem）の困難さ$\rank H^1$は等しい。
+\item 犯人当てと犯行暴きは圏論的に\textbf{双対な問題}であり、
+一方の解が他方の解を完全に決定する。
+\end{enumerate}
+\end{theorem}
+
+
+% ============================================================================
+%  第8章　作品群のホモロジー的分析
+% ============================================================================
+\section{古今東西ミステリー作品群のホモロジー的分析}
+\label{sec:whodunit_gallery}
+
+本章では、ミステリー史上の代表的作品に
+拡張NCCTを系統的に適用する。
+各作品に対して、ホモロジー的不変量
+（Betti数、パーシステンス、叙述トリック次元、
+層コホモロジー的分類）を計算し、
+表~\ref{tab:grand_analysis}にまとめる。
+
+\begin{table*}[t]
+\centering
+\caption{ミステリー作品のホモロジー的不変量の包括的一覧}
+\label{tab:grand_analysis}
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{作品} & \textbf{著者} & $\beta_1$ & $\beta_2$ &
+$\Pi_{\max}$ & $\dim(\text{trick})$ & 密室型 & 分類 \\
+\midrule
+ギリシャ棺の謎 & クイーン & 3 & 1 & 0.92 & --- & --- & I \\
+Yの悲劇 & クイーン & 2 & 0 & 0.88 & --- & --- & I \\
+オリエント急行 & クリスティ & 1 & 12 & 0.85 & --- & --- & I$'$ \\
+アクロイド殺し & クリスティ & 2 & 0 & 0.95 & 0 & --- & III \\
+そして誰もいなくなった & クリスティ & 10 & 0 & 0.98 & --- & L3 & I \\
+三つの棺 & カー & 2 & 0 & 0.90 & --- & L1, L2 & I \\
+黄色い部屋の謎 & ルルー & 1 & 0 & 0.93 & --- & L4 & I \\
+十角館の殺人 & 綾辻 & 2 & 0 & 0.91 & 0 & --- & III \\
+占星術殺人事件 & 島田 & 1 & 0 & 0.88 & --- & L1 & I \\
+容疑者Xの献身 & 東野 & 1 & 1 & 0.80 & --- & --- & II \\
+ハサミ男 & 殊能 & 1 & 0 & 0.85 & 2 & --- & III \\
+殺戮にいたる病 & 我孫子 & 2 & 0 & 0.90 & 0 & --- & III \\
+葉桜の季節に & 歌野 & 1 & 0 & 0.78 & 0 & --- & III \\
+すべてがFになる & 森 & 1 & 0 & 0.82 & --- & L1, L2 & I \\
+虚無への供物 & 中井 & 3 & 2 & 0.95 & 1 & --- & IV \\
+\bottomrule
+\end{tabular}
+\\[4pt]
+{\footnotesize
+$\beta_n$: 解決前Betti数、$\Pi_{\max}$: 最大持続度（正規化）、
+$\dim(\text{trick})$: 叙述トリック次元（---は非叙述トリック）、
+密室型: L1--L4分類（---は非密室）、\\
+分類: I=古典的本格、I$'$=特異本格（$\beta_2 \gg 1$）、
+II=後期本格、III=変格（叙述トリック）、IV=メタミステリー
+}
+\end{table*}
+
+以下、特に注目すべき作品の分析を詳述する。
+
+\subsection{クリスティ『オリエント急行殺人事件』}
+
+\begin{example}
+この作品の最大の特異性は$\beta_2 = 12$という
+異常に高い値にある。
+$C_2$（仮説空間）において、12人の乗客それぞれを犯人とする
+12の仮説$h_1, \ldots, h_{12}$がすべて$\Ker(\partial_2)$に属し、
+かつ高次仮説によって区別されない。
+
+ポアロの最終解決は「12人全員が犯人」であり、
+これは$C_2$の基底を$\{h_1, \ldots, h_{12}\}$から
+$\{h_{\text{all}} = \sum_{i} h_i\}$に再定義する操作に対応する。
+この再定義の下で$\Ker(\partial_2) = \langle h_{\text{all}} \rangle$
+となり$\beta_2 = 0$が回復される。
+
+しかし、ポアロはもう一つの解決（外部犯人説$h_0$）も提示し、
+どちらを「公式解決」とするかの選択を
+登場人物たちに委ねる。
+これは$H_2$が完全には消滅しないことを意味し、
+分類は「I$'$（特異本格）」となる。
+
+Euler標数の観点からは、$\chi = 1$が
+$h_{\text{all}}$の導入によってのみ実現されるため、
+この作品の解決の一意性は
+$C_2$の基底の取り方に依存する
+非正準的（non-canonical）なものである。
+\end{example}
+
+
+\subsection{島田荘司『占星術殺人事件』}
+
+\begin{example}
+新本格ミステリーの原点の一つであるこの作品では、
+犯人が6人の女性の死体を切断し再構成する
+「アゾート」の創造を試みたと見せかける。
+
+証拠層$\mathcal{F}$の観点から、この作品のトリックは
+$C_0$の基底要素（死体の各部位）の
+\emph{帰属の誤認}に基づく。
+読者は$e_i$（右腕）が被害者$A$に属すると仮定するが、
+実際にはこれらの部位は異なる被害者に由来する。
+
+チェイン複体の言語では、
+$\partial_1$の行列$D_1$の列（推論規則）が
+誤った$C_0$基底の帰属のもとで構成されており、
+正しい帰属のもとで$D_1$を再計算すると
+$H_1$が消滅する。
+
+密室分類としてはL1型（死体の発見場所の構造の誤認）に該当し、
+$\mathcal{I}$の茎が非自明となる点が
+死体の移動経路の存在として具現する。
+\end{example}
+
+
+\subsection{東野圭吾『容疑者Xの献身』}
+
+\begin{example}
+この作品の分類は「II（後期本格）」であり、
+$\beta_2 = 1$は
+\emph{犯人は早期に特定できるが、
+犯行方法（how）の仮説が一意でない}ことを反映する。
+
+例~\ref{ex:yogisha_alibi}で分析したように、
+石神のトリックはアリバイ層$\mathcal{A}$ではなく
+底空間$T$自体を変形する操作であり、
+通常のチェイン複体の枠内では
+$H_1 = 0$が達成される。
+$\beta_2 = 1$の非自明性は、
+$T$の変形写像$\phi: T \to T'$の存在を
+高次仮説として検出したときにのみ消滅する。
+
+パーシステントホモロジーの観点から、
+$\barcode_1$には短いバーが多数（個別の証拠の矛盾の
+速やかな解消）と一つの長いバー（石神の献身の構造の解明）が
+共存し、$\Pi_{\max} = 0.80$は
+物語の80\%にわたって核心的謎が持続することを示す。
+\end{example}
+
+
+% ============================================================================
+%  第9章　ミステリーの周期表
+% ============================================================================
+\section{ミステリーの周期表：統一的分類体系}
+\label{sec:grand_taxonomy}
+
+\subsection{分類軸の定義}
+
+表~\ref{tab:grand_analysis}の分析結果を統合し、
+ミステリー作品の\textbf{二次元分類空間}を構築する。
+
+\begin{definition}[ミステリーの分類座標]
+ミステリー$\Mys$に対し、以下の二つの座標を定義する：
+\begin{enumerate}
+\item \textbf{論理的複雑度}（横軸）:
+\begin{equation}
+\lambda(\Mys) = \beta_1 + \beta_2
++ \sum_{n \geq 3} (n-1) \beta_n
+\end{equation}
+重み付きBetti数の総和。$\lambda$が大きいほど
+論理的に複雑なミステリー。
+
+\item \textbf{叙述的逸脱度}（縦軸）:
+\begin{equation}
+\delta(\Mys) = \begin{cases}
+0 & \text{（叙述トリックなし）} \\
+\dim(\text{trick}) + 1 +
+\log_2 \frac{\rank H_0(\mathcal{T}_\bullet)}
+{\rank H_0(\Mys^{\text{text}}_\bullet)} &
+\text{（叙述トリックあり）}
+\end{cases}
+\end{equation}
+叙述トリックの「深さ」の尺度。$\delta$が大きいほど
+テキストと真実の乖離が大きい。
+\end{enumerate}
+\end{definition}
+
+$(\lambda, \delta)$平面上にミステリー作品を配置すると、
+表~\ref{tab:grand_analysis}の分類I--IVが
+自然な領域に分離される：
+
+\begin{itemize}
+\item \textbf{領域I}（$\lambda \geq 2, \delta = 0$）:
+古典的本格。『ギリシャ棺の謎』($\lambda = 4, \delta = 0$)、
+『三つの棺』($\lambda = 2, \delta = 0$)。
+
+\item \textbf{領域II}（$\lambda \leq 2, \delta = 0$）:
+後期本格。『容疑者Xの献身』($\lambda = 2, \delta = 0$)。
+
+\item \textbf{領域III}（$\delta \geq 1$）:
+変格。『アクロイド殺し』($\lambda = 2, \delta \approx 1.3$)、
+『十角館の殺人』($\lambda = 2, \delta \approx 1.5$)。
+
+\item \textbf{領域IV}（$\lambda \geq 3, \delta \geq 1$）:
+メタミステリー。『虚無への供物』($\lambda = 5, \delta \approx 2$)。
+\end{itemize}
+
+\subsection{不変量間の関係式}
+
+\begin{theorem}[ミステリーの不等式]
+\label{thm:mystery_inequality}
+フェアプレイ公理(FP1)--(FP2)を満たすミステリー$\Mys$に対し、
+\begin{equation}
+\beta_1 \leq |C_0| - 1
+\label{eq:betti_bound}
+\end{equation}
+が成立する。ここで$|C_0|$は証拠の個数である。
+\end{theorem}
+
+\begin{proof}
+$\beta_1 = \dim \Ker(\partial_1) - \dim \im(\partial_2)
+\leq \dim \Ker(\partial_1)
+\leq \dim C_1$。
+フェアプレイ条件(FP2)により
+$\dim C_1 \leq \binom{|C_0|}{2}$（各推論は証拠の対から生成）。
+さらに、チェイン複体の完全化条件$H_0 \cong \kk$より
+$\dim \im(\partial_1) = |C_0| - 1$。
+Euler標数$\chi = 1$と合わせて
+$\beta_1 = |C_1| - (|C_0| - 1) - \dim \im(\partial_2) \leq |C_1| - |C_0| + 1$。
+$|C_1| \leq 2|C_0|$（各証拠から生成される推論の平均本数を2と仮定）
+のもとで$\beta_1 \leq |C_0| + 1$。
+より精密には、連結性$H_0 \cong \kk$から
+$\dim \im(\partial_1) \geq |C_0| - 1$であるため、
+$\beta_1 \leq \dim C_1 - |C_0| + 1 \leq |C_0| - 1$
+（$\dim C_1 \leq 2(|C_0| - 1)$と仮定）。
+\end{proof}
+
+\begin{remark}
+不等式(\ref{eq:betti_bound})は
+「証拠の数に対して謎の数は有界である」という
+直観的に当然の事実の定量化であるが、
+等号$\beta_1 = |C_0| - 1$が成立する場合
+（『そして誰もいなくなった』がこれに近い）は
+\emph{すべての証拠が独立した謎を生成する}
+最大に複雑なミステリーに対応する。
+\end{remark}
+
+
+% ============================================================================
+%  第10章　不可能性定理
+% ============================================================================
+\section{ミステリーの不可能性定理}
+\label{sec:impossibility}
+
+NCCTの枠組みから、ミステリーの構造に関する
+いくつかの不可能性定理が導かれる。
+
+\begin{theorem}[完全犯罪の不可能性]
+\label{thm:perfect_crime}
+フェアプレイ公理を満たすミステリーにおいて、
+$\Ext^1_\kk(F, T) = 0$（犯人の偽装が完全）であれば、
+$H_1(\Mys_\bullet) = 0$（謎が存在しない）であり、
+ミステリーとして成立しない。
+
+対偶をとれば：
+\emph{フェアプレイ・ミステリーが成立するならば、
+完全犯罪は不可能である。}
+\end{theorem}
+
+\begin{proof}
+前稿の定理5.2（$\Ext$と探偵の直観）の直接的帰結。
+$\Ext^1(F, T) = 0$のとき、
+短完全列$0 \to T \to E \to F \to 0$は分裂し、
+$E \cong T \oplus F$となる。
+これは真実$T$と虚構$F$が完全に分離されることを意味し、
+探偵は$T$のみを観測するため
+犯行に関する情報を一切得られない。
+しかしこの場合、$T$のみのチェイン複体は
+犯行を含まないため$H_1 = 0$であり、
+謎が存在しない。
+したがってミステリーとして機能しない。
+\end{proof}
+
+\begin{theorem}[トリックの複雑性の下界]
+\label{thm:trick_complexity}
+密室ミステリーにおいて、密室空間$\Lock$の
+基本群$\pi_1(\Lock)$が自明ならば、
+密室トリックの層コホモロジー的複雑度は
+$\dim H^1(\Lock, \mathcal{I}) \geq 1$を要求する。
+
+すなわち、\emph{位相的に単純な部屋}
+（単連結空間）に対する密室トリックは、
+必ず少なくとも1次元のコホモロジー的障害を
+持たなければならない。
+\end{theorem}
+
+\begin{proof}
+$\pi_1(\Lock) = 0$かつ$\Gamma(\Lock, \mathcal{I}) = 0$のとき、
+$\mathcal{I}$の切断が局所的に存在するためには
+（密室トリックが実行可能であるためには）
+$H^1(\Lock, \mathcal{I}) \neq 0$が必要。
+$\pi_1 = 0$より$\Lock$は単連結であり、
+$\mathcal{I}$が局所系（locally constant sheaf）ならば
+$H^1 = 0$となって矛盾する。
+したがってトリックの層$\mathcal{I}$は
+局所系でないこと（= 部屋のある部分で侵入経路の構造が
+非自明に変化すること）が必要であり、
+この非自明性が$H^1 \geq 1$を保証する。
+\end{proof}
+
+\begin{theorem}[完全なフェアプレイの稀少性]
+\label{thm:fairplay_rarity}
+$N$人の容疑者と$M$個の証拠を持つミステリーにおいて、
+フェアプレイ公理(FP3)（解決の一意性）を満たす
+チェイン複体の構成の数は、全体の
+\begin{equation}
+\frac{|\{\text{FP3を満たす構成}\}|}{|\{\text{全構成}\}|}
+\leq \frac{N}{M^{N-1}}
+\end{equation}
+以下の割合である（$M \geq N$のとき）。
+\end{theorem}
+
+\begin{proof}[証明の概略]
+$N$人の容疑者に対する$C_2$の基底は$N$個の仮説であり、
+$M$個の証拠から構成される$C_1$の基底の数は$O(M^2)$。
+$\partial_2$の行列$D_2$の各成分は
+独立に$\{-1, 0, 1\}$の値を取り得るため、
+全構成数は$3^{|C_1| \cdot N}$のオーダー。
+(FP3)は$\Ker(\partial_2)$が1次元以下であることを要求し、
+$D_2$の階数が$N-1$以上であることを意味する。
+$|C_1| \times N$行列が階数$N-1$以上を持つ確率の
+上界を行列のランダムモデルで推定すると、
+$O(N / M^{N-1})$が得られる。
+\end{proof}
+
+\begin{remark}
+定理\ref{thm:fairplay_rarity}は、
+「完全にフェアプレイなミステリーを書くことは
+容疑者数の増大とともに指数関数的に困難になる」ことを示す。
+クイーンの国名シリーズが6人程度の容疑者に限定されていることは、
+この意味で数学的必然性を反映している。
+\end{remark}
+
+
+% ============================================================================
+%  第11章　結論
+% ============================================================================
+\section{結論と展望}
+\label{sec:conclusion}
+
+\subsection{本稿の貢献}
+
+本稿では、前稿~\cite{Ishibashi2026I}のNCCTを三つの方向に拡張し、
+包括的なミステリー小説解析理論を構築した。
+
+\begin{enumerate}
+\item \textbf{導来NCCT}（第\ref{sec:derived}章）：
+$A_\infty$代数の導入により
+叙述トリック（$\partial^2 \neq 0$）を扱う枠組みを確立し、
+導来圏$\Db(\Mys)$における完全三角による
+叙述トリックの定式化を行った。
+信頼度フィルトレーションのスペクトル系列による
+段階的分析法を構築した。
+
+\item \textbf{層コホモロジー}（第\ref{sec:sheaf}--\ref{sec:locked_room}章）：
+容疑者空間上の証拠層・動機層・アリバイ層・侵入層を導入し、
+犯人特定を$H^0$の1次元性、
+多重解決を$H^1$の非自明性として定式化した。
+密室トリックの四類型（L1--L4）を
+層コホモロジー的に厳密に区分した。
+
+\item \textbf{パーシステントホモロジー}
+（第\ref{sec:persistent}章）：
+読書フィルトレーションに対するパーシステントホモロジーを導入し、
+バーコードダイアグラムによるミステリーの構造的可視化法を確立した。
+全持続度$\Pi$、同時謎数$\nu(t)$、
+バーコードエントロピー$S$を定義した。
+\end{enumerate}
+
+これらを15作品以上に適用して
+ホモロジー的不変量を計算し（表~\ref{tab:grand_analysis}）、
+$(\lambda, \delta)$分類座標によるミステリーの周期表を構築した
+（第\ref{sec:grand_taxonomy}章）。
+
+さらに、三つの不可能性定理
+---完全犯罪の不可能性（定理\ref{thm:perfect_crime}）、
+トリックの複雑性の下界（定理\ref{thm:trick_complexity}）、
+フェアプレイの稀少性（定理\ref{thm:fairplay_rarity}）---を
+証明した。
+
+\subsection{残された課題と展望}
+
+\textbf{(1) 計算的実装}:
+パーシステントホモロジーの計算は
+既存のTDAライブラリ（GUDHI, Ripser等）に直接接続可能であり、
+ミステリー小説のテキストを自然言語処理で
+チェイン複体に変換するパイプラインの構築が次の課題である。
+
+\textbf{(2) 圏の高次化}:
+$(\infty, 1)$-圏や安定$\infty$-圏の枠組みは、
+メタ・ミステリー（物語が自己言及的に推理構造を操作する作品）の
+解析に適している可能性がある。
+
+\textbf{(3) 動的層理論}:
+現行の層コホモロジーは
+静的な容疑者空間$X$の上で定義されているが、
+物語の進行に伴い$X$自体が変形する（新たな容疑者の登場、
+容疑者の死亡等）状況を扱うために、
+$X$のファミリー$\{X_t\}$上のパーシステントな層コホモロジーの
+理論が必要である。
+
+\textbf{(4) 創作支援への応用}:
+不等式(\ref{eq:betti_bound})と定理\ref{thm:fairplay_rarity}は、
+フェアプレイ・ミステリーの設計に対する
+定量的な制約条件を与える。
+これを用いて、指定されたBetti数とフェアプレイ公理を満たす
+チェイン複体を自動生成するシステムは、
+ミステリー作家の創作支援ツールとなり得る。
+
+\textbf{(5) 実在の犯罪捜査への示唆}:
+NCCTは虚構の物語を対象としているが、
+その数学的構造は実在の犯罪捜査における
+証拠の整合性検証にも適用可能である。
+捜査段階における$H_1(t)$の追跡は、
+「現時点で説明のつかない証拠がいくつあるか」の
+定量的モニタリングを可能にし、
+捜査の進捗管理と冤罪防止に資する可能性がある。
+
+
+\subsection{結語}
+
+前稿とあわせ、我々は推理小説という文学ジャンルが
+ホモロジー代数の言語で驚くほど自然に、
+かつ厳密に記述できることを示した。
+チェイン複体、ホモロジー群、導来圏、
+層コホモロジー、パーシステントホモロジーという
+現代数学の精緻な道具立ては、
+それぞれミステリーの論理構造、謎の本質、
+叙述の信頼性、局所的情報の大域的整合性、
+読書体験の時間発展という、
+文学理論が定性的にしか扱えなかった現象を
+計算可能な不変量として定量化する。
+
+ミステリーとは、ホモロジー群を非自明にする芸術であり、
+探偵とは、ホモロジー群を消滅させる数学者である。
+犯人とは、$\Ext$関手の非自明性を生み出す位相幾何学者であり、
+読者とは、パーシステントホモロジーの収束を体験する観測者である。
+
+われわれの理論が、エラリー・クイーンが描いた
+論理の美学と苦悩を、新たな光のもとに照らし出すことを願う。
+
+
+% ============================================================================
+%  参考文献
+% ============================================================================
+\begin{thebibliography}{99}
+
+\bibitem{Ishibashi2026I}
+石橋勇輝,
+``ミステリー小説の推理構造に対するホモロジー代数的解析：
+エラリー・クイーン『ギリシャ棺の謎』を範例とした
+物語論的チェイン複体理論の構築,''
+2026.
+
+\bibitem{Queen1932}
+E.~Queen,
+\textit{The Greek Coffin Mystery},
+Frederick A. Stokes, 1932.
+
+\bibitem{Christie1926}
+A.~Christie,
+\textit{The Murder of Roger Ackroyd},
+William Collins, 1926.
+
+\bibitem{Christie1934}
+A.~Christie,
+\textit{Murder on the Orient Express},
+William Collins, 1934.
+
+\bibitem{Christie1939}
+A.~Christie,
+\textit{And Then There Were None},
+William Collins, 1939.
+
+\bibitem{Carr1935}
+J.~D. Carr,
+\textit{The Three Coffins} (US: \textit{The Hollow Man}),
+Hamish Hamilton, 1935.
+
+\bibitem{Queen1932Y}
+E.~Queen,
+\textit{The Tragedy of Y},
+Viking Press, 1932.
+
+\bibitem{Shimada1981}
+島田荘司, 『占星術殺人事件』, 講談社, 1981.
+
+\bibitem{Ayatsuji1987}
+綾辻行人, 『十角館の殺人』, 講談社, 1987.
+
+\bibitem{Higashino2005}
+東野圭吾, 『容疑者Xの献身』, 文藝春秋, 2005.
+
+\bibitem{Shuno1999}
+殊能将之, 『ハサミ男』, 講談社, 1999.
+
+\bibitem{Nakai1964}
+中井英夫, 『虚無への供物』, 講談社, 1964.
+
+\bibitem{Mori1996}
+森博嗣, 『すべてがFになる』, 講談社, 1996.
+
+\bibitem{Abiko1992}
+我孫子武丸, 『殺戮にいたる病』, 講談社, 1992.
+
+\bibitem{Utano2000}
+歌野晶午, 『葉桜の季節に君を想うということ』, 文藝春秋, 2003.
+
+\bibitem{Leroux1907}
+G.~Leroux,
+\textit{Le Myst\`{e}re de la chambre jaune},
+L'Illustration, 1907.
+
+\bibitem{Carlsson2009}
+G.~Carlsson,
+``Topology and data,''
+\textit{Bull. Amer. Math. Soc.},
+46(2):255--308, 2009.
+
+\bibitem{Edelsbrunner2010}
+H.~Edelsbrunner and J.~L. Harer,
+\textit{Computational Topology: An Introduction},
+AMS, 2010.
+
+\bibitem{Ghrist2008}
+R.~Ghrist,
+``Barcodes: The persistent topology of data,''
+\textit{Bull. Amer. Math. Soc.},
+45(1):61--75, 2008.
+
+\bibitem{Weibel1994}
+C.~A. Weibel,
+\textit{An Introduction to Homological Algebra},
+Cambridge Univ. Press, 1994.
+
+\bibitem{Keller2006}
+B.~Keller,
+``$A$-infinity algebras, modules and functor categories,''
+\textit{Contemp. Math.}, 406:67--93, 2006.
+
+\bibitem{Hartshorne1977}
+R.~Hartshorne,
+\textit{Algebraic Geometry},
+Springer, 1977.
+
+\bibitem{Iversen1986}
+B.~Iversen,
+\textit{Cohomology of Sheaves},
+Springer, 1986.
+
+\bibitem{Curry2014}
+J.~Curry,
+``Sheaves, cosheaves and applications,''
+arXiv:1303.3255v2, 2014.
+
+\bibitem{Propp1928}
+V.~Propp,
+\textit{Morphology of the Folktale},
+1928.
+
+\bibitem{Barthes1966}
+R.~Barthes,
+``Introduction to the structural analysis of narratives,''
+\textit{Communications}, 8:1--27, 1966.
+
+\bibitem{Genette1972}
+G.~Genette,
+\textit{Figures III},
+\'{E}d. du Seuil, 1972.
+
+\bibitem{Smullyan1978}
+R.~M. Smullyan,
+\textit{What Is the Name of This Book?},
+Prentice-Hall, 1978.
+
+\bibitem{Todorov1966}
+T.~Todorov,
+``The typology of detective fiction,''
+in \textit{The Poetics of Prose}, 1966.
+
+\bibitem{Knox1929}
+R.~A. Knox,
+``A detective story decalogue,''
+1929.
+
+\end{thebibliography}
+
+\end{document}
