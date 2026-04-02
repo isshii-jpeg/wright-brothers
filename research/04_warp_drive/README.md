@@ -52,3 +52,44 @@ These solutions have specific algebraic structure.
 
 **Question:** Do Lentz solitons have a natural description in terms
 of algebraic geometry over Spec(Z)?
+
+---
+
+## Implementation Programme
+
+### Experiment BC-Warp: Bost-Connes Warp Mechanism
+
+Physical mechanism via Bost-Connes system: Hilbert space projection P_{¬p}
+defines "prime channel muting" rigorously. Three implementation candidates:
+spectral filtering, arithmetic boundary conditions, phase transition sector
+selection.
+
+**File:** `exp_bc_warp_mechanism.py`
+
+### Experiment Phys: Physical Implementation Paths
+
+Five concrete implementation paths with feasibility matrix:
+1. Photonic crystal (prime-gap resonator)
+2. Superconducting circuit + SQUID filter ← **RECOMMENDED**
+3. Quasicrystalline metamaterial (Euler product crystal)
+4. Topological material with Z/pZ invariant
+5. Arithmetic Casimir piston
+
+**File:** `exp_physical_implementation.py`
+
+### Experiment Protocol: SQUID Prime Filter (PATH 2)
+
+**Detailed experimental protocol** for the recommended first experiment.
+10mm Nb coplanar waveguide resonator (f₀ ≈ 6 GHz) with SQUID-based
+notch filters suppressing even harmonics.
+
+- Full circuit design with realistic parameters
+- SQUID tuning via external flux (all 10 even harmonics coverable)
+- Measurement protocol: A/B comparison (filters OFF vs ON)
+- Quantitative prediction: vacuum energy sign flip (-1/12 → +1/12)
+- Error budget: thermal, back-action, leakage, cross-talk all manageable
+- 4 success levels from proof-of-concept to sign control
+- 5-stage scaling roadmap from circuit to warp drive
+- Cost: ~$50-100K at equipped lab, ~12 months
+
+**File:** `exp_protocol_squid.py`

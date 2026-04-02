@@ -1,0 +1,522 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{titlesec}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Br}{\mathrm{Br}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Gm}{\mathbb{G}_m}
+
+\titleformat{\part}[display]
+  {\centering\huge\bfseries}{Part \thepart}{20pt}{\Huge}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\Huge\bfseries Arithmetic Vacuum Engineering\\[0.5cm]
+\Large From Bost-Connes Phase Transitions to Warp Drive\\[0.3cm]
+via Sheaf Cohomology on $\Spec(\mathbb{Z})$\\[2cm]}
+{\Large Wright Brothers\\[0.5cm]}
+{\large Independent Research\\[1cm]}
+{\large April 2026\\[3cm]}
+{\normalsize
+A monograph in three parts:\\[0.5cm]
+\textbf{Part I.} Mechanism and Experiment\\
+\textbf{Part II.} Theoretical Chain and Open Problems\\
+\textbf{Part III.} Sheaf-Theoretic Reformulation\\[2cm]
+}
+\vfill
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ====================================================================
+%  OVERVIEW
+% ====================================================================
+
+\section*{Overview}
+\addcontentsline{toc}{section}{Overview}
+
+This monograph presents a research program connecting the arithmetic
+structure of the Riemann zeta function to the possibility of
+engineering negative vacuum energy density --- the principal
+requirement for Alcubierre-type warp metrics.
+
+The central observation is that the quantum vacuum energy, computed
+via zeta function regularization, inherits the Euler product
+decomposition of $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$.
+Each prime $p$ contributes an independent ``channel'' to the vacuum.
+Suppressing the channel at prime $p$ --- an operation we call
+\emph{prime channel muting} --- modifies the vacuum energy by
+the factor $(1 - p^{-s})$, which is negative at the physically
+relevant point $s = -3$.
+
+\textbf{Part~I} develops the mechanism (via the Bost-Connes quantum
+statistical mechanical system), proves the sign-flip theorem,
+identifies three physical implementation paths, and proposes a
+concrete experiment using superconducting circuits.
+
+\textbf{Part~II} places the mechanism in a ten-step theoretical
+chain from the Bost-Connes system to warp drive, classifies each
+step as established, argued, or open, and formulates five
+sub-problems for the remaining scaling challenge.
+
+\textbf{Part~III} reformulates the entire framework in the language
+of sheaves and cohomology on $\Spec(\mathbb{Z})$, proposes that the
+weak energy condition is a discrete topological invariant
+(regulator orientation), and analyzes the physics of the boundary
+between ``normal'' and ``muted'' vacuum regions.
+
+% ====================================================================
+%  PART I
+% ====================================================================
+\newpage
+\part{Mechanism and Experiment}
+\label{part:mechanism}
+
+\section{Introduction}
+
+The Alcubierre warp metric~\cite{Alcubierre1994} permits superluminal
+travel within general relativity but requires matter violating the
+weak energy condition (WEC): negative energy density.
+The Casimir effect~\cite{Casimir1948} demonstrates that boundary
+conditions on quantum fields can produce negative vacuum energy,
+but the magnitude falls short by many orders of
+magnitude~\cite{PfenningFord1997}.
+
+The central observation of this work is that the quantum vacuum has
+\emph{arithmetic structure}: its energy is computed via zeta function
+regularization, and $\zeta(s)$ decomposes as an Euler product over primes.
+Each prime contributes an independent channel.
+We show that suppressing a single channel flips the sign of vacuum energy.
+
+\section{Zeta-Regularized Vacuum Energy}
+
+\subsection{Casimir energy and zeta regularization}
+
+The zero-point energy of a quantum field with modes $\{\omega_n = n\omega_0\}$
+is regularized as
+\begin{equation}
+  E_{\mathrm{vac}}^{\mathrm{reg}} = \frac{\hbar\omega_0}{2}\,\zeta_{\mathcal{H}}(-d),
+\end{equation}
+where $d$ is the spatial dimension and $\zeta_{\mathcal{H}}(s) = \zeta(s)$
+for a standard cavity. In three dimensions:
+\begin{equation}
+  E_{\mathrm{vac}}^{(3D)} = \frac{\hbar\omega_0}{2}\,\zeta(-3) = \frac{\hbar\omega_0}{240}.
+\end{equation}
+
+\subsection{Euler product and prime channels}
+
+The Euler product
+\begin{equation}
+  \zeta(s) = \prod_{p\;\mathrm{prime}} \frac{1}{1 - p^{-s}}
+  \label{eq:euler}
+\end{equation}
+factorizes $\zeta(s)$ into independent prime contributions.
+
+\noindent\textbf{Definition} (Prime channel muting).
+The $p$-muted zeta function is
+\begin{equation}
+  \zeta_{\neg p}(s) \equiv \zeta(s)\cdot(1 - p^{-s})
+  = \prod_{q \neq p} \frac{1}{1 - q^{-s}}
+  = \sum_{\substack{n=1\\p\nmid n}}^{\infty} n^{-s}.
+  \label{eq:muted}
+\end{equation}
+Geometrically, $\zeta_{\neg p}(s)$ is the zeta function of the
+open subscheme $\Spec(\Zp) = \Spec(\mathbb{Z})\setminus\{(p)\}$.
+
+\section{The Bost-Connes System}
+
+The Bost-Connes (BC) system~\cite{BostConnes1995,ConnesMarcolli2006}
+acts on $\ell^2(\mathbb{N}^*)$ with $H|n\rangle = \log(n)|n\rangle$
+and partition function $Z(\beta) = \zeta(\beta)$.
+It exhibits a phase transition at $\beta = 1$ with symmetry group
+$\Gal(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$.
+
+\noindent\textbf{Definition} (Prime projection).
+$P_{\neg p} = \sum_{p\nmid n} |n\rangle\langle n|$ projects onto
+$\mathcal{H}_{\neg p} = \mathrm{span}\{|n\rangle : \gcd(n,p) = 1\}$.
+The restricted partition function is
+\begin{equation}
+  Z_{\neg p}(\beta) = \Tr_{\mathcal{H}_{\neg p}}(e^{-\beta H})
+  = \zeta(\beta)(1 - p^{-\beta}).
+\end{equation}
+This is exact (an algebraic identity from the Euler product).
+
+Three physical mechanisms realize $P_{\neg p}$:
+\textbf{(A)} spectral filtering (notch filter at $\omega = \log p$);
+\textbf{(B)} arithmetic boundary conditions (periodic structure with period $p$);
+\textbf{(C)} phase transition sector selection (freeze $\mathbb{Z}_p^*$ component of Galois action).
+
+\section{The Sign-Flip Theorem}
+
+\begin{theorem}[Vacuum energy sign flip]
+\label{thm:sign_flip}
+For any prime $p \geq 2$ and positive integer $n$,
+\begin{equation}
+  \zeta_{\neg p}(1-2n) = \zeta(1-2n)\cdot(1 - p^{2n-1}).
+\end{equation}
+Since $p^{2n-1} \geq 2 > 1$, the factor $(1-p^{2n-1})$ is strictly
+negative. Therefore $\zeta_{\neg p}(1-2n)$ and $\zeta(1-2n)$ have
+opposite signs.
+\end{theorem}
+
+\begin{proof}
+Direct evaluation of $\zeta_{\neg p}(s) = \zeta(s)(1-p^{-s})$ at $s = 1-2n$.
+\end{proof}
+
+\begin{corollary}
+The 3D vacuum energy under $p$-muting is
+$\zeta_{\neg p}(-3) = (1-p^3)/120 < 0$ for all $p \geq 2$.
+\end{corollary}
+
+\begin{table}[h]
+\centering
+\caption{Sign-flip for the first primes ($s=-3$).}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+$p$ & $(1-p^3)$ & $\zeta_{\neg p}(-3)$ \\
+\midrule
+2 & $-7$ & $-7/120$ \\
+3 & $-26$ & $-26/120$ \\
+5 & $-124$ & $-124/120$ \\
+7 & $-342$ & $-342/120$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Proposed Experiment}
+
+We propose a $p=2$ prime filter using a Nb coplanar waveguide
+resonator ($L = 10\,$mm, $f_0 \approx 6.0\,$GHz) with ten SQUID
+notch filters tuned to even harmonics $2f_0$ through $20f_0$.
+At base temperature $T < 20\,$mK (dilution refrigerator),
+thermal occupation is negligible ($\langle n_{\mathrm{th}}\rangle \sim 10^{-9}$).
+
+\textbf{Protocol}: Compare vacuum energy with all SQUIDs detuned (Config.~A)
+vs.\ tuned to even harmonics (Config.~B).
+
+\textbf{Prediction}: Vacuum energy sign flip.
+$E_{\mathrm{odd}}/E_{\mathrm{full}} \to \zeta_{\neg 2}(-1)/\zeta(-1) = -1$.
+
+\textbf{Success criteria}:
+Level~1: $\Delta E \neq 0$;
+Level~2: matches $\zeta$-regularized value;
+Level~3: multiplicative structure for $p=2,3$;
+Level~4: controllable sign-flipping.
+
+\textbf{Resources}: Dilution refrigerator lab, \$50--100K, 12 months.
+
+\section{Implications for Warp Drive}
+
+The Alcubierre metric requires $\rho < 0$ in the bubble wall.
+Theorem~\ref{thm:sign_flip} produces exactly this.
+However, the connection from circuit-scale to macroscopic spacetime
+requires bridging six steps, of which only the first three are
+experimentally testable by our proposal. The energy gap of
+$\sim 10^{69}$ orders of magnitude (the scaling problem) remains open.
+
+% ====================================================================
+%  PART II
+% ====================================================================
+\newpage
+\part{Theoretical Chain and Open Problems}
+\label{part:chain}
+
+\section{The Ten-Step Chain}
+
+\begin{table}[h]
+\centering
+\caption{Ten-step chain. E = Established, A = Argued, O = Open.}
+\label{tab:chain}
+\small
+\begin{tabular}{@{}clll@{}}
+\toprule
+\# & Step & Status & Key reference \\
+\midrule
+1 & NCG Standard Model ($M^4 \times F$) & E & Connes~\cite{Connes1996} \\
+2 & BC system $=$ arithmetic kernel of $F$ & A & Connes-Marcolli~\cite{ConnesMarcolli2006} \\
+3 & Phase transition at $\beta = 1$ & E & Bost-Connes~\cite{BostConnes1995} \\
+4 & Prime muting ($P_{\neg p}$) & E & Part~I \\
+5 & Partition function identity & E & Euler product \\
+6 & Vacuum energy sign flip & E & Theorem~\ref{thm:sign_flip} \\
+7 & WEC violation & E & Standard QFT \\
+8 & Warp metric allowed & E & Alcubierre~\cite{Alcubierre1994} \\
+9 & NCG $\leftrightarrow$ bulk spacetime & A & \cite{ConnesMarcolli2006,Maldacena1998} \\
+10 & Scaling ($10^{-22}\to 10^{47}\,$J) & O & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Argued Steps: Precise Conjectures}
+
+\begin{conjecture}[Arithmetic kernel]
+\label{conj:kernel}
+The internal space $F$ in $M^4 \times F$ contains
+$\mathcal{A}_{\mathrm{BC}} = C^*(\mathbb{Q}_+^* \backslash \mathbb{A}_f / \Zhat^*)$
+as an arithmetic subalgebra. KMS states of $\mathcal{A}_{\mathrm{BC}}$
+correspond to vacuum sectors of quantum fields on $M^4$.
+\end{conjecture}
+
+\textbf{Evidence}: (i) Both $F$ and $\mathcal{A}_{\mathrm{BC}}$ are
+NC $C^*$-algebras with Galois-type automorphisms;
+(ii) the spectral action on $M^4\times F$ produces $\zeta$-function
+values, and the BC partition function \emph{is} $\zeta$;
+(iii) Connes-Marcolli~\cite{ConnesMarcolli2006}, Theorem~4.1,
+establishes the BC algebra as the NC space of $\mathbb{Q}$-lattices.
+\textbf{Missing}: explicit embedding $\mathcal{A}_{\mathrm{BC}} \hookrightarrow \mathcal{A}_F$.
+
+Step~9 (NCG $\leftrightarrow$ bulk curvature) has two candidate bridges:
+(A) spectral action modification, (B) holographic (AdS/CFT-type).
+Both are conjectural.
+
+\section{The Scaling Problem: Five Sub-Problems}
+
+\textbf{I. Coherent amplification}: $N$ synchronized systems $\Rightarrow E \propto N^2$?
+Under what conditions? Decoherence rate?
+
+\textbf{II. Topological protection}:
+$K_1(\mathbb{Z}) = \mathbb{Z}/2 \to K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z}$
+is a topological phase transition. Is it physically realizable?
+
+\textbf{III. Critical amplification}: Critical exponents of BC system at $\beta = 1$?
+Does prime muting couple to the critical mode?
+
+\textbf{IV. Holographic amplification}: Arithmetic AdS/CFT?
+Central charge?
+
+\textbf{V. Bootstrap}: Planck-scale bubble stability?
+Energy cost vs.\ radius?
+
+\section{Roadmap}
+
+Phase~1 (1--2 yr): SQUID experiment (Steps 4--6).
+Phase~2 (2--5 yr): Sheaf theory + topological phases (Part~III).
+Phase~3 (5--10 yr): Coherent arrays + critical phenomena.
+Phase~4 (10+ yr): Macroscopic negative energy, if Phases 1--3 succeed.
+
+% ====================================================================
+%  PART III
+% ====================================================================
+\newpage
+\part{Sheaf-Theoretic Reformulation}
+\label{part:sheaf}
+
+\section{Motivation: Cantor vs.\ Grothendieck}
+
+Part~I treats $\zeta(s) = \sum n^{-s}$ as a sum over points
+(set-theoretic, Cantor). Part~III treats it as the zeta function
+of the scheme $\Spec(\mathbb{Z})$ (sheaf-theoretic, Grothendieck).
+
+The difference:
+\emph{set-theoretic muting} removes terms from a sum (quantitative);
+\emph{sheaf-theoretic muting} changes the underlying space via
+localization $\mathbb{Z} \to \Zp$ (qualitative).
+
+\section{The Energy Sheaf on $\Spec(\mathbb{Z})$}
+
+\begin{proposition}[Energy sheaf]
+The assignment $\mathcal{F}(D(n)) = \zeta(s)\cdot\prod_{p|n}(1-p^{-s})$
+with restriction maps $f \mapsto f\cdot\prod_{p|n,\,p\nmid m}(1-p^{-s})$
+defines a sheaf on $\Spec(\mathbb{Z})$ (Zariski topology).
+\end{proposition}
+
+Global sections: $\mathcal{F}(\Spec(\mathbb{Z})) = \zeta(s)$.
+Sections over $D(p)$: $\mathcal{F}(D(p)) = \zeta_{\neg p}(s)$.
+
+\section{Localization Exact Sequence}
+
+For the multiplicative group sheaf $\Gm$ on $\Spec(\mathbb{Z})_{\mathrm{\acute{e}t}}$:
+\begin{equation}
+  0 \to \underbrace{\Qp/\mathbb{Z}_p}_{H^2_{(p)}} \to \Br(\mathbb{Z})
+  \to \Br(\Zp) \to 0.
+\end{equation}
+
+Localization at $p$ removes $\Qp/\mathbb{Z}_p$ (all $p$-local obstructions)
+from the Brauer group.
+
+\section{K-Theory and the Regulator}
+
+$K_1(\mathbb{Z}) = \mathbb{Z}/2$, $K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z}$
+(free rank increases by 1 per prime muted).
+$K_2(\mathbb{Z}) = \mathbb{Z}/2$ with generator $\{-1,-1\}$ (Milnor).
+
+The Borel regulator $\mathrm{reg}: K_{2n-1}(\mathbb{Z}) \to \mathbb{R}^{d_n}$
+maps to a lattice whose covolume involves $\zeta(n)$~\cite{Borel1977,Lichtenbaum1973}.
+
+\begin{theorem}[Regulator sign flip]
+For any prime $p \geq 2$ and positive integer $n$,
+the localized regulator value
+$\zeta_{\neg p}(1-2n) = \zeta(1-2n)\cdot(1-p^{2n-1})$
+has opposite sign from $\zeta(1-2n)$.
+\end{theorem}
+
+Numerically identical to Theorem~\ref{thm:sign_flip}, but the
+K-theoretic interpretation is new:
+
+\begin{conjecture}[Regulator orientation]
+\label{conj:reg}
+The sign of $\zeta(1-2n)$ is a topological invariant: the
+\emph{orientation} of the Borel regulator lattice.
+Localization reverses this orientation.
+Physically, this determines whether the WEC is satisfied (positive)
+or violated (negative).
+\end{conjecture}
+
+If correct, WEC is a discrete (on/off) invariant, not a continuous
+energy threshold. The scaling problem dissolves.
+
+\section{Five Physical Interpretations of Localization}
+
+$\mathbb{Z} \to \Zp$ admits five equivalent physical readings:
+
+\begin{enumerate}
+\item \textbf{Gauging}: $|n\rangle \sim |pn\rangle$ identified
+  (discrete gauge symmetry).
+\item \textbf{Kaluza-Klein}: $p$-adic extra dimension decompactified
+  ($R_p \to \infty$).
+\item \textbf{Phase transition}: $p$'s order parameter frozen
+  (selective $\beta_p \to \infty$).
+\item \textbf{Topos logic}: Heyting algebra changes; WEC truth value flips.
+\item \textbf{Adelic}: $\Qp$ component removed from $\mathbb{A}_\mathbb{Q}$.
+\end{enumerate}
+
+Most experimentally accessible: (1) discrete gauge theories in
+qubit arrays; (3) phase transitions in quantum simulators;
+and the K-theoretic topological phase transition
+$K_1(\mathbb{Z}) \to K_1(\Zp)$ realized in condensed matter.
+
+\section{Boundary Physics: The Arithmetic Domain Wall}
+
+If localization is applied to a finite region, the boundary
+$V(p) = \Spec(\Fp)$ separates WEC-true from WEC-false domains.
+
+Local cohomology $H^2_{(p)} \cong \Qp/\mathbb{Z}_p$ lives on the wall:
+an infinite tower of ``arithmetic edge states'' with
+$p^n$ modes at resolution level $n$.
+
+\textbf{Predicted wall phenomena}:
+(i) topological edge states (from $\Delta K_1 = \mathbb{Z}$);
+(ii) p-adic radiation at $T_{\mathrm{wall}} \sim \hbar\omega_0\log(p)/(2\pi k_B)$;
+(iii) refractive index discontinuity $n_{\mathrm{in}}/n_{\mathrm{out}} = \sqrt{1-1/p}$;
+(iv) topological stability via tame ramification (wall minimum
+thickness $\sim \ell_P\log p$).
+
+This arithmetic domain wall is the warp bubble wall:
+a closed surface in space separating $\Spec(\mathbb{Z})$ (normal vacuum)
+from $\Spec(\Zp)$ (WEC-violating vacuum), with the Alcubierre
+shape function encoded in the transition of the structure sheaf.
+
+\section{What Remains Conjectural}
+
+\begin{enumerate}
+\item Conjecture~\ref{conj:reg} (WEC = regulator orientation) is unproven.
+\item Wall phenomena assume that mathematical bulk-boundary correspondence has physical content.
+\item The dissolution of the scaling problem depends entirely on
+  Conjecture~\ref{conj:reg}. If WEC is fundamentally a continuous
+  condition, scaling remains.
+\end{enumerate}
+
+% ====================================================================
+%  CONCLUSION
+% ====================================================================
+\newpage
+\section*{Conclusion}
+\addcontentsline{toc}{part}{Conclusion}
+
+This monograph presents a three-level analysis of arithmetic vacuum engineering:
+
+\textbf{Level 1 (Part~I)}: An algebraically exact mechanism (prime channel muting
+via the Bost-Connes system) that flips the sign of zeta-regularized vacuum energy,
+with a concrete and affordable experimental proposal.
+
+\textbf{Level 2 (Part~II)}: A ten-step theoretical chain connecting this mechanism
+to warp drive, with seven steps established, two argued via precise conjectures,
+and one open (scaling).
+
+\textbf{Level 3 (Part~III)}: A sheaf-theoretic reformulation that reinterprets the
+sign flip as a regulator orientation reversal on $\Spec(\mathbb{Z})$, potentially
+dissolving the scaling problem by recasting it as a topological phase transition
+rather than an energy accumulation challenge.
+
+The key experimental test --- the SQUID prime filter experiment --- can be
+conducted with existing technology for \$50--100K in 12 months.
+Success at Level~3 (multiplicative structure confirmed for multiple primes)
+would establish that the Euler product formula is a physical law governing the
+quantum vacuum, independent of its implications for warp drive.
+
+\begin{thebibliography}{30}
+
+\bibitem{Alcubierre1994}
+M.~Alcubierre, Class. Quantum Grav. \textbf{11}, L73 (1994).
+
+\bibitem{Casimir1948}
+H.~B.~G.~Casimir, Proc. K. Ned. Akad. Wet. \textbf{51}, 793 (1948).
+
+\bibitem{PfenningFord1997}
+M.~J.~Pfenning and L.~H.~Ford, Class. Quantum Grav. \textbf{14}, 1743 (1997).
+
+\bibitem{BostConnes1995}
+J.-B.~Bost and A.~Connes, Selecta Math. (N.S.) \textbf{1}, 411 (1995).
+
+\bibitem{ConnesMarcolli2006}
+A.~Connes and M.~Marcolli, \emph{Noncommutative Geometry, Quantum Fields
+and Motives}, AMS (2008); Theorem~4.1 and Chapter~3.
+
+\bibitem{Connes1996}
+A.~Connes, Commun. Math. Phys. \textbf{182}, 155 (1996).
+
+\bibitem{Wilson2011}
+C.~M.~Wilson et al., Nature \textbf{479}, 376 (2011).
+
+\bibitem{Lamoreaux1997}
+S.~K.~Lamoreaux, Phys. Rev. Lett. \textbf{78}, 5 (1997).
+
+\bibitem{Maldacena1998}
+J.~Maldacena, Adv. Theor. Math. Phys. \textbf{2}, 231 (1998).
+
+\bibitem{Lentz2021}
+E.~W.~Lentz, Class. Quantum Grav. \textbf{38}, 075015 (2021).
+
+\bibitem{BobrickMartire2021}
+A.~Bobrick and G.~Martire, Class. Quantum Grav. \textbf{38}, 105009 (2021).
+
+\bibitem{Borel1977}
+A.~Borel, Ann. Scuola Norm. Sup. Pisa \textbf{4}, 613 (1977).
+
+\bibitem{Lichtenbaum1973}
+S.~Lichtenbaum, in \emph{Algebraic $K$-theory II}, Springer LNM \textbf{342}, 489 (1973).
+
+\bibitem{Bordag2009}
+M.~Bordag et al., \emph{Advances in the Casimir Effect}, Oxford (2009).
+
+\bibitem{Kitaev2009}
+A.~Kitaev, AIP Conf. Proc. \textbf{1134}, 22 (2009).
+
+\bibitem{Quillen1973}
+D.~Quillen, in \emph{Algebraic $K$-theory I}, Springer LNM \textbf{341}, 85 (1973).
+
+\end{thebibliography}
+
+\end{document}

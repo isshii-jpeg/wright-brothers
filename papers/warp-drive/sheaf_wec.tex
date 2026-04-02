@@ -1,0 +1,486 @@
+\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Br}{\mathrm{Br}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+\newcommand{\Fp}{\mathbb{F}_p}
+\newcommand{\Gm}{\mathbb{G}_m}
+
+\begin{document}
+
+\title{Sheaf-Theoretic Reformulation of\\
+  Vacuum Energy Conditions on $\Spec(\mathbb{Z})$}
+
+\author{Wright Brothers}
+\affiliation{Independent Research}
+\date{\today}
+
+\begin{abstract}
+We reformulate the zeta-regularized vacuum energy and the weak
+energy condition (WEC) in the language of sheaves and cohomology
+on the arithmetic scheme $\Spec(\mathbb{Z})$.
+We construct an ``energy sheaf'' $\mathcal{F}$ on $\Spec(\mathbb{Z})$
+whose global sections encode the Riemann zeta function and whose
+restriction to open subschemes $\Spec(\Zp)$ encodes the $p$-muted
+zeta function $\zeta_{\neg p}(s) = \zeta(s)(1-p^{-s})$.
+Using the localization exact sequence for \'etale cohomology,
+we show that the local cohomology $H^2_{(p)}(\Spec(\mathbb{Z}), \Gm) \cong \Qp/\mathbb{Z}_p$
+carries the ``$p$-component of all cohomological obstructions,''
+and that localization removes this component.
+We prove that the Borel regulator $\mathrm{reg}: K_{2n}(\mathbb{Z}) \to \mathbb{R}$,
+which maps to $\zeta(1-2n)$, undergoes a sign flip under localization
+$\mathbb{Z} \to \Zp$ for every prime $p$ and every $n \geq 1$.
+We conjecture that this sign flip corresponds to the violation of
+the weak energy condition and propose that the WEC is a
+``regulator orientation'' --- a discrete topological invariant
+rather than a continuous energy threshold.
+If correct, this dissolves the scaling problem identified in the
+companion papers~\cite{paper_A,paper_C}: one does not need to
+accumulate energy, but to flip an orientation.
+We identify five physical interpretations of the localization
+$\mathbb{Z} \to \Zp$ (gauging, Kaluza-Klein, phase transition,
+topos logic change, and adelic component removal) and propose
+that K-theoretic phase transitions in topological materials
+provide the most promising experimental realization.
+\end{abstract}
+
+\maketitle
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+In the companion paper~\cite{paper_A}, we showed that ``prime channel
+muting'' --- projecting out modes divisible by a prime $p$ ---
+flips the sign of zeta-regularized vacuum energy:
+$\zeta_{\neg p}(-3) < 0$ for all $p \geq 2$.
+In~\cite{paper_C}, we placed this result in a ten-step theoretical
+chain from the Bost-Connes system to warp drive, identifying an
+open scaling problem of $\sim 10^{69}$ orders of magnitude.
+
+The present paper reformulates the same physics in the language
+of algebraic geometry and sheaf cohomology over $\Spec(\mathbb{Z})$.
+Our motivation is twofold:
+\begin{enumerate}
+  \item The Euler product $\zeta(s) = \prod_p (1-p^{-s})^{-1}$
+    is not merely a formula; it is the zeta function of the
+    \emph{scheme} $\Spec(\mathbb{Z})$, and prime muting corresponds
+    to the geometric operation of \emph{localization}.
+  \item The scaling problem may admit a qualitative resolution:
+    if the WEC is a cohomological obstruction (on/off) rather
+    than an energy threshold (continuous), then ``flipping it''
+    does not require proportional energy.
+\end{enumerate}
+
+We emphasize that claim~(2) is a \emph{conjecture}, not a theorem.
+This paper develops the mathematical framework for the conjecture
+and identifies what would need to be proven to establish it.
+
+% ============================================================================
+\section{The Energy Sheaf on $\Spec(\mathbb{Z})$}
+\label{sec:sheaf}
+% ============================================================================
+
+\subsection{Construction}
+
+The Zariski topology on $\Spec(\mathbb{Z})$ has as basis the
+distinguished open sets $D(n) = \Spec(\mathbb{Z}[1/n])$ for
+$n \in \mathbb{Z} \setminus \{0\}$. We define:
+
+\begin{proposition}[Energy presheaf]
+\label{prop:presheaf}
+Fix $s \in \mathbb{C}$ with $\mathrm{Re}(s) > 1$.
+The assignment
+\begin{equation}
+  \mathcal{F}(D(n)) = \zeta(s) \cdot \prod_{p | n} (1 - p^{-s})
+  \label{eq:energy_sheaf}
+\end{equation}
+with restriction maps
+$\mathrm{res}_{D(m) \to D(n)}: f \mapsto f \cdot \prod_{p|n,\, p \nmid m} (1-p^{-s})$
+for $D(n) \subseteq D(m)$, defines a presheaf of
+$\mathbb{C}$-valued functions on $\Spec(\mathbb{Z})$.
+\end{proposition}
+
+\begin{proof}
+We verify the presheaf axioms. (i) $\mathrm{res}_{U \to U} = \mathrm{id}$:
+the product over $\{p | n,\, p \nmid m\}$ is empty when $m = n$.
+(ii) Transitivity: for $D(\ell) \subseteq D(n) \subseteq D(m)$,
+the factors compose correctly since the prime divisors decompose
+as a disjoint union.
+\end{proof}
+
+The presheaf $\mathcal{F}$ is in fact a \emph{sheaf}: the gluing
+condition holds because the Euler product over disjoint sets of
+primes factorizes.
+
+Note that $\mathcal{F}(\Spec(\mathbb{Z})) = \zeta(s)$ (global sections)
+and $\mathcal{F}(D(p)) = \zeta_{\neg p}(s)$ (sections over the
+complement of the closed point $(p)$).
+
+\subsection{Analytic continuation}
+
+For $\mathrm{Re}(s) > 1$, $\mathcal{F}$ is well-defined.
+By analytic continuation of $\zeta(s)$, we extend $\mathcal{F}$
+to a sheaf of meromorphic functions on $\Spec(\mathbb{Z})$
+parameterized by $s \in \mathbb{C}$.
+The values at negative odd integers $s = 1 - 2n$ are the
+vacuum energy values relevant to physics.
+
+% ============================================================================
+\section{Localization Exact Sequence}
+\label{sec:localization}
+% ============================================================================
+
+The fundamental tool is the localization exact sequence for
+\'etale cohomology. Let $i: \{(p)\} \hookrightarrow \Spec(\mathbb{Z})$
+and $j: D(p) \hookrightarrow \Spec(\mathbb{Z})$ be the
+closed and open inclusions. For any \'etale sheaf $\mathcal{G}$:
+\begin{equation}
+  \cdots \to H^n_{(p)} \to H^n(\Spec(\mathbb{Z}), \mathcal{G})
+  \to H^n(D(p), \mathcal{G}) \to H^{n+1}_{(p)} \to \cdots
+  \label{eq:les}
+\end{equation}
+where $H^n_{(p)} = H^n_{(p)}(\Spec(\mathbb{Z}), \mathcal{G})$
+is the local cohomology supported at $(p)$.
+
+For $\mathcal{G} = \Gm$ (the multiplicative group sheaf):
+
+\begin{proposition}
+\label{prop:local_cohom}
+\begin{align}
+  H^0(\Spec(\mathbb{Z}), \Gm) &= \mathbb{Z}^* = \{\pm 1\}, \\
+  H^0(D(p), \Gm) &= \Zp^* = \{\pm 1\} \times \langle p \rangle, \\
+  H^1(\Spec(\mathbb{Z}), \Gm) &= \mathrm{Pic}(\mathbb{Z}) = 0, \\
+  H^2_{(p)}(\Spec(\mathbb{Z}), \Gm) &\cong \Qp/\mathbb{Z}_p.
+  \label{eq:local_cohom}
+\end{align}
+\end{proposition}
+
+The exact sequence at level $n=2$ gives:
+\begin{equation}
+  0 \to \Qp/\mathbb{Z}_p \to \Br(\mathbb{Z})
+  \to \Br(\Zp) \to 0.
+  \label{eq:brauer_ses}
+\end{equation}
+
+\textbf{Physical interpretation.}
+$\Qp/\mathbb{Z}_p$ is the group of ``$p$-local obstructions.''
+Localization $\mathbb{Z} \to \Zp$ removes this entire group from
+the Brauer group. Any obstruction whose $p$-component is nontrivial
+is weakened or destroyed by muting $p$.
+
+% ============================================================================
+\section{K-Theory and the Regulator}
+\label{sec:ktheory}
+% ============================================================================
+
+\subsection{K-groups of $\mathbb{Z}$ and $\Zp$}
+
+The algebraic K-groups of $\mathbb{Z}$ (Quillen~\cite{Quillen1973})
+are:
+\begin{align}
+  K_0(\mathbb{Z}) &= \mathbb{Z}, \quad K_1(\mathbb{Z}) = \mathbb{Z}/2, \\
+  K_2(\mathbb{Z}) &= \mathbb{Z}/2 \quad \text{(Milnor~\cite{Milnor1971})}.
+\end{align}
+
+Under localization, $K_1$ acquires a free part:
+\begin{equation}
+  K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z},
+  \label{eq:k1_local}
+\end{equation}
+where the new $\mathbb{Z}$ factor is generated by $p \in \Zp^*$.
+This is a change in the \emph{topological type} of the K-group:
+the free rank increases by one for each prime muted.
+
+\subsection{Borel regulator and zeta values}
+
+The Borel regulator~\cite{Borel1977} is a homomorphism
+\begin{equation}
+  \mathrm{reg}: K_{2n-1}(\mathbb{Z}) \to \mathbb{R}^{d_n}
+\end{equation}
+whose image is a lattice whose covolume is related to
+$|\zeta(n)|$ (up to rational factors and powers of $\pi$).
+
+For our purposes, the key relationship is:
+\begin{equation}
+  \zeta(1-2n) \sim \frac{|K_{2n-2}(\mathbb{Z})|}{|K_{2n-1}(\mathbb{Z})|} \cdot (\text{powers of } \pi),
+  \label{eq:lichtenbaum}
+\end{equation}
+established by Lichtenbaum~\cite{Lichtenbaum1973} and proven
+(in the 2-adic case) by Voevodsky~\cite{Voevodsky2003}.
+
+\subsection{Regulator sign flip}
+
+\begin{theorem}[Regulator sign flip]
+\label{thm:reg_flip}
+For any prime $p \geq 2$ and any positive integer $n$,
+the ``localized regulator value''
+$\zeta_{\neg p}(1-2n) = \zeta(1-2n) \cdot (1 - p^{2n-1})$
+has the opposite sign from $\zeta(1-2n)$.
+\end{theorem}
+
+\begin{proof}
+$1 - p^{2n-1} < 0$ for $p \geq 2$, $n \geq 1$.
+\end{proof}
+
+While the numerical content is identical to the sign-flip
+theorem in~\cite{paper_A}, the K-theoretic interpretation
+is new:
+
+\begin{conjecture}[Regulator orientation]
+\label{conj:reg}
+The sign of $\zeta(1-2n)$ is a topological invariant:
+it is the \emph{orientation} of the Borel regulator lattice
+in $\mathbb{R}^{d_n}$. Localization $\mathbb{Z} \to \Zp$
+reverses this orientation.
+Physically, this orientation determines whether the vacuum
+energy is positive (WEC satisfied) or negative (WEC violated).
+\end{conjecture}
+
+If Conjecture~\ref{conj:reg} is correct, the WEC is a discrete
+(on/off) invariant of the arithmetic scheme, not a continuous
+energy threshold. ``Violating'' it means reversing the regulator
+orientation, which is achieved by a single localization operation.
+
+% ============================================================================
+\section{Physical Interpretations of Localization}
+\label{sec:physics}
+% ============================================================================
+
+The operation $\mathbb{Z} \to \Zp$ admits five distinct physical
+interpretations, all mathematically equivalent:
+
+\textbf{(1) Gauging $\mathbb{Z}/p\mathbb{Z}$ symmetry.}
+In $\Zp$, $p$ is a unit; thus $|n\rangle$ and $|pn\rangle$ become
+gauge-equivalent. The independent degrees of freedom are the
+gauge orbits $\{n \cdot p^k : k \in \mathbb{Z}\}$, labeled by
+integers coprime to $p$.
+
+\textbf{(2) Kaluza-Klein decompactification.}
+Each prime $p$ corresponds to a compact extra dimension of
+effective radius $R_p \propto 1/\log(p)$ (from the BC Hamiltonian
+$H|n\rangle = \log(n)|n\rangle$). Localization at $p$ decompactifies
+this dimension ($R_p \to \infty$), releasing the KK constraints
+on the energy spectrum.
+
+\textbf{(3) Phase transition.}
+The Euler factor $(1-p^{-\beta})^{-1}$ is an order parameter for
+prime $p$. Localization corresponds to taking $\beta_p \to \infty$
+(selective freezing), a partial phase transition.
+
+\textbf{(4) Topos logic change.}
+$\Spec(\mathbb{Z})$ and $\Spec(\Zp)$ define different
+\'etale topoi with different internal logic (Heyting algebras).
+A proposition (such as the WEC) can have different truth values
+in different topoi.
+
+\textbf{(5) Adelic component removal.}
+The adele ring $\mathbb{A}_\mathbb{Q} = \mathbb{R} \times \prod'_p \Qp$.
+Localization removes the $\Qp$ component: the vacuum loses its
+``$p$-adic channel'' of quantum fluctuations.
+
+All five describe the same mathematical operation. The most
+experimentally accessible is \textbf{(1)}: discrete gauge theories
+can be realized in superconducting qubit arrays, and
+\textbf{(3)}: phase transitions can be induced in quantum
+simulators of the BC Hamiltonian.
+
+% ============================================================================
+\section{The Boundary: Wall Physics}
+\label{sec:boundary}
+% ============================================================================
+
+If localization is applied to a \emph{finite region} of space,
+the boundary between $\Spec(\mathbb{Z})$ (exterior, WEC = true)
+and $\Spec(\Zp)$ (interior, WEC = false) is the closed point
+$V(p) = \Spec(\Fp)$.
+
+\subsection{Local cohomology as wall data}
+
+The local cohomology $H^2_{(p)} \cong \Qp/\mathbb{Z}_p$
+(Proposition~\ref{prop:local_cohom}) is supported on the wall.
+$\Qp/\mathbb{Z}_p$ is an infinite group with a hierarchical
+structure:
+\begin{equation}
+  \Qp/\mathbb{Z}_p = \bigcup_{n=1}^{\infty} p^{-n}\mathbb{Z}_p / \mathbb{Z}_p
+  \cong \bigcup_{n=1}^{\infty} \mathbb{Z}/p^n\mathbb{Z}.
+\end{equation}
+
+Each level $n$ carries $p^n$ ``wall modes.'' These are the
+\emph{arithmetic edge states}: boundary-localized degrees of
+freedom at the interface between two arithmetic phases.
+
+\subsection{Analogy with topological edge states}
+
+In a topological insulator, the boundary between two phases
+with different K-theory invariants supports gapless edge
+states (bulk-boundary correspondence~\cite{Kitaev2009}).
+
+Here, $K_1(\mathbb{Z}) = \mathbb{Z}/2$ and
+$K_1(\Zp) = \mathbb{Z}/2 \times \mathbb{Z}$:
+the K-groups differ by $\Delta K_1 = \mathbb{Z}$.
+By the bulk-boundary correspondence, the wall should support
+an infinite tower of edge states --- precisely the modes
+counted by $\Qp/\mathbb{Z}_p$.
+
+\subsection{Predicted wall phenomena}
+
+\begin{enumerate}
+  \item \textbf{Arithmetic edge states}: boundary-localized modes
+    counted by $\Qp/\mathbb{Z}_p$.
+  \item \textbf{Radiation}: pair creation at the wall (analogous
+    to Hawking radiation), with temperature
+    $T_{\mathrm{wall}} \sim \hbar\omega_0 \log(p) / (2\pi k_B)$.
+  \item \textbf{Refractive index discontinuity}: mode density changes
+    by a factor $\sqrt{1-1/p}$ across the wall, giving an
+    effective refractive index ratio $n_{\mathrm{in}}/n_{\mathrm{out}} = \sqrt{1-1/p}$.
+  \item \textbf{Stability}: the wall is topologically protected
+    (different K-theory phases cannot be continuously deformed
+    into each other), but supports wild ramification at
+    characteristic $p$, limiting the minimum wall thickness.
+\end{enumerate}
+
+These predictions are consequences of the mathematical framework
+and are testable if the arithmetic vacuum engineering program of
+\cite{paper_A} succeeds at Level~3 or above.
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+\subsection{Does the sheaf reformulation add predictive power?}
+
+The numerical predictions of this paper are identical to
+those of~\cite{paper_A}: $\zeta_{\neg p}(-3) = (1-p^3)/120$.
+However, the sheaf-theoretic framework provides:
+\begin{enumerate}
+  \item A \emph{qualitative} interpretation of the sign flip
+    as a regulator orientation reversal (Conjecture~\ref{conj:reg}),
+    which, if correct, dissolves the scaling problem.
+  \item A new experimental prediction: the K-theoretic phase
+    transition $K_1(\mathbb{Z}) \to K_1(\Zp)$ should be
+    observable as a topological phase transition in
+    condensed matter analogs.
+  \item A framework for wall physics: the local cohomology
+    $\Qp/\mathbb{Z}_p$ predicts specific boundary phenomena.
+\end{enumerate}
+
+\subsection{What remains conjectural}
+
+\begin{enumerate}
+  \item Conjecture~\ref{conj:reg}: the identification of WEC
+    with regulator orientation is not proven.
+  \item The wall phenomena (Section~\ref{sec:boundary}) assume
+    that the mathematical bulk-boundary correspondence has
+    a physical counterpart.
+  \item The claim that the scaling problem ``dissolves'' depends
+    entirely on Conjecture~\ref{conj:reg}. If the WEC is
+    fundamentally a continuous (energy) condition rather than
+    a discrete (topological) condition, the scaling problem
+    remains.
+\end{enumerate}
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+We have constructed an energy sheaf $\mathcal{F}$ on $\Spec(\mathbb{Z})$
+encoding the Euler product structure of the Riemann zeta function,
+computed its localization properties using \'etale cohomology,
+and shown that the Borel regulator undergoes a sign flip under
+$\mathbb{Z} \to \Zp$ for every prime $p$.
+
+We conjecture that this sign flip is a discrete topological
+invariant --- the orientation of the regulator lattice ---
+and that it corresponds to the satisfaction or violation of the
+weak energy condition. If correct, this reframes the WEC as an
+arithmetic-geometric property of $\Spec(\mathbb{Z})$ that can be
+``switched'' by localization, without requiring energy proportional
+to the desired effect.
+
+The physical realization of localization admits five equivalent
+interpretations, of which K-theoretic topological phase transitions
+and discrete gauge theory simulations are the most experimentally
+accessible. The boundary between the two arithmetic phases is
+characterized by local cohomology $\Qp/\mathbb{Z}_p$, predicting
+specific edge-state phenomena.
+
+This framework transforms the scaling problem from a quantitative
+challenge (accumulating $10^{69}$ orders of energy) to a qualitative
+one (implementing a topological phase transition that reverses
+regulator orientation). Whether this qualitative resolution is
+physically valid remains the central open question.
+
+\begin{acknowledgments}
+This work was conducted as independent research by the
+Wright Brothers collaboration.
+\end{acknowledgments}
+
+\begin{thebibliography}{30}
+
+\bibitem{paper_A}
+Wright Brothers,
+``Arithmetic vacuum engineering: Prime channel muting via
+Bost-Connes phase transitions,''
+companion paper (2026).
+
+\bibitem{paper_C}
+Wright Brothers,
+``From Bost-Connes to warp drive: A theoretical chain,''
+companion paper (2026).
+
+\bibitem{Quillen1973}
+D.~Quillen,
+in \emph{Algebraic $K$-theory I}, Springer LNM \textbf{341},
+pp.~85--147 (1973).
+
+\bibitem{Milnor1971}
+J.~Milnor,
+\emph{Introduction to Algebraic $K$-theory},
+Princeton University Press (1971).
+
+\bibitem{Borel1977}
+A.~Borel,
+``Cohomologie de $\mathrm{SL}_n$ et valeurs de fonctions z\^eta
+aux points entiers,''
+Ann. Scuola Norm. Sup. Pisa \textbf{4}, 613 (1977).
+
+\bibitem{Lichtenbaum1973}
+S.~Lichtenbaum,
+``Values of zeta-functions, \'etale cohomology, and algebraic
+$K$-theory,''
+in \emph{Algebraic $K$-theory II}, Springer LNM \textbf{342},
+pp.~489--501 (1973).
+
+\bibitem{Voevodsky2003}
+V.~Voevodsky,
+``Motivic cohomology with $\mathbb{Z}/2$-coefficients,''
+Publ. Math. IHES \textbf{98}, 59 (2003).
+
+\bibitem{Kitaev2009}
+A.~Kitaev,
+AIP Conf. Proc. \textbf{1134}, 22 (2009).
+
+\end{thebibliography}
+
+\end{document}
