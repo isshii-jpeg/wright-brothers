@@ -11,14 +11,11 @@
 *.nav
 *.snm
 *.vrb
+missfont.log
 
 # Font cache
 *.600gf
 *.tfm
-
-# Temporary files
-arithmetic_geometry_spacetime_en_base.tex
-arxiv_submission/
 
 # OS files
 .DS_Store
