@@ -1,0 +1,274 @@
+# Bost-Connes System Formalization Roadmap
+
+## Goal
+
+Formally prove in Lean 4 + Mathlib:
+
+> **The partition function of the Bost-Connes C\*-dynamical system equals the Riemann zeta function ζ(β), and the system undergoes a phase transition at β = 1 with symmetry group Gal(Q^ab/Q).**
+
+## Current Status
+
+```
+✅ Done    KMS.lean    — CStarDynSystem, CStarState, IsKMS, 3 theorems
+✅ Done    Basic.lean  — 8 theorems (Euler product, functional equation, etc.)
+```
+
+## Dependency Graph
+
+```
+                    ┌─────────────────────────┐
+                    │  Phase 5 (Final Goal)    │
+                    │  Z(β) = ζ(β)            │
+                    │  Phase transition at β=1 │
+                    │  Symmetry = Gal(Q^ab/Q) │
+                    └───────────┬─────────────┘
+                                │
+              ┌─────────────────┼─────────────────┐
+              ▼                 ▼                  ▼
+     ┌────────────────┐ ┌──────────────┐ ┌───────────────────┐
+     │ Phase 4b       │ │ Phase 4a     │ │ Phase 4c          │
+     │ KMS states of  │ │ Partition fn │ │ Galois action on  │
+     │ BC system      │ │ as trace     │ │ KMS states        │
+     └────────┬───────┘ └──────┬───────┘ └────────┬──────────┘
+              │                │                   │
+              ▼                ▼                   ▼
+     ┌────────────────────────────────────────────────────────┐
+     │ Phase 3: Bost-Connes Algebra (BCAlgebra.lean)          │
+     │                                                        │
+     │  • Generators: μ_n (isometries), e(r) (r ∈ Q/Z)      │
+     │  • Relations: μ_n μ_m = μ_{nm}, e(r)μ_n = μ_n e(nr)  │
+     │  • Time evolution: σ_t(μ_n) = n^{it} μ_n             │
+     │  • This is a concrete CStarDynSystem                   │
+     └───────────────────────┬────────────────────────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+     ┌──────────────┐ ┌───────────┐ ┌──────────────────┐
+     │ Phase 2a     │ │ Phase 2b  │ │ Phase 2c         │
+     │ Isometries   │ │ Q/Z as   │ │ MonoidAlgebra    │
+     │ in C*-alg    │ │ colimit  │ │ completion       │
+     │ μ*μ = 1      │ │ of Z/nZ  │ │ to C*-algebra    │
+     └──────┬───────┘ └─────┬─────┘ └────────┬─────────┘
+            │               │                 │
+            ▼               ▼                 ▼
+     ┌────────────────────────────────────────────────────────┐
+     │ Phase 1: Infrastructure (already in Mathlib)           │
+     │                                                        │
+     │  ✅ CStarAlgebra          (Mathlib)                    │
+     │  ✅ MonoidAlgebra          (Mathlib)                    │
+     │  ✅ RootsOfUnity           (Mathlib)                    │
+     │  ✅ ArithmeticFunction     (Mathlib)                    │
+     │  ✅ riemannZeta            (Mathlib)                    │
+     │  ✅ Euler product           (Mathlib)                    │
+     │  ✅ CStarDynSystem, IsKMS  (our KMS.lean)              │
+     └────────────────────────────────────────────────────────┘
+```
+
+## Detailed Phase Plan
+
+### Phase 1: Infrastructure Audit (1 week) — DONE
+
+Verify what Mathlib already provides. Result:
+
+| Component | Mathlib Status | File |
+|-----------|---------------|------|
+| C\*-algebra | ✅ Full | `Analysis.CStarAlgebra.Classes` |
+| MonoidAlgebra | ✅ Full | `Algebra.MonoidAlgebra` |
+| Roots of unity | ✅ Full | `RingTheory.RootsOfUnity` |
+| ζ(s) and Euler product | ✅ Full | `NumberTheory.LSeries.RiemannZeta` |
+| KMS states | ✅ Ours | `ArithSpacetime.KMS` |
+| Hecke algebras | ❌ None | Needs construction |
+| Q/Z as group | ⚠️ Partial | `AddCircle` may help |
+| Profinite completion Ẑ | ⚠️ Partial | Profinite category exists |
+
+### Phase 2: Building Blocks (2-4 weeks per sub-phase)
+
+#### Phase 2a: Isometries in C\*-algebras
+
+**File:** `ArithSpacetime/Isometry.lean`
+
+**Define:**
+```
+structure CStarIsometry (A : Type*) [CStarAlgebra A] where
+  val : A
+  isometry : star val * val = 1
+```
+
+**Prove:**
+- `μ*μ = 1` does not imply `μμ* = 1` (partial isometry vs unitary)
+- `μ_n * μ_m = μ_{nm}` is consistent with the isometry property
+- The range projection `μμ*` is an idempotent
+
+**Mathlib dependency:** `Analysis.CStarAlgebra.Basic` (exists)
+
+**Difficulty:** ★★☆☆☆ (straightforward)
+
+**Can I do this:** Yes, within one session.
+
+#### Phase 2b: Q/Z as an additive group
+
+**File:** `ArithSpacetime/QModZ.lean`
+
+**Define:**
+- `Q/Z` as the quotient `ℚ ⧸ (ℤ : AddSubgroup ℚ)` or as the colimit of `Z/nZ`
+- The group `e : Q/Z → Unitaries(A)` sending `r ↦ e(r)` (unitary representation)
+
+**Mathlib dependency:** `Algebra.Quotient`, `GroupTheory.Coset`, `AddCircle`
+
+**Difficulty:** ★★★☆☆ (quotient handling in Lean can be fiddly)
+
+**Can I do this:** Probably, but quotient boilerplate may eat time.
+
+#### Phase 2c: MonoidAlgebra completion
+
+**File:** `ArithSpacetime/Completion.lean`
+
+**Define:**
+- The \*-algebra generated by `{μ_n}` and `{e(r)}` as a quotient of a free algebra
+- Its C\*-completion (norm closure)
+
+**Mathlib dependency:** `Algebra.MonoidAlgebra`, `Analysis.CStarAlgebra.GelfandNaimarkSegal`
+
+**Difficulty:** ★★★★☆ (C\*-completion is technically hard in Lean)
+
+**Can I do this:** This is the hardest step. The C\*-norm and completion require careful handling. May need to sidestep by working with a concrete representation instead of abstract completion.
+
+**Alternative approach:** Instead of constructing the abstract C\*-algebra, work with a concrete representation on ℓ²(ℕ) where:
+- `μ_n` acts as the isometry `e_k ↦ e_{nk}`
+- `e(r)` acts as the multiplication operator by `exp(2πirk)`
+
+This is how Bost-Connes originally defined the system. Much easier to formalize.
+
+### Phase 3: Bost-Connes Algebra (4-6 weeks)
+
+**File:** `ArithSpacetime/BostConnes.lean`
+
+**Define:**
+```lean
+/-- The Bost-Connes C*-dynamical system on ℓ²(ℕ). -/
+structure BostConnesSystem where
+  /-- μ_n : ℓ²(ℕ) → ℓ²(ℕ), the isometry e_k ↦ e_{nk} -/
+  μ : ℕ+ → (ℕ → ℂ) →ₗ[ℂ] (ℕ → ℂ)
+  /-- e(r) : ℓ²(ℕ) → ℓ²(ℕ), multiplication by exp(2πirk) -/
+  e : ℚ ⧸ (ℤ : AddSubgroup ℚ) → (ℕ → ℂ) →ₗ[ℂ] (ℕ → ℂ)
+  /-- Time evolution: σ_t(μ_n) = n^{it} μ_n -/
+  σ : ℝ → ...
+```
+
+**Prove:**
+- Relations: `μ_n ∘ μ_m = μ_{nm}`
+- Relations: `e(r) ∘ μ_n = μ_n ∘ e(nr)`
+- `σ_t` is a one-parameter group: `σ_{s+t} = σ_s ∘ σ_t`
+- This defines a valid `CStarDynSystem`
+
+**Difficulty:** ★★★★☆
+
+**Can I do this:** The definitions are mechanical but verbose. The proofs require careful linear algebra on ℓ². Feasible but time-consuming.
+
+### Phase 4a: Partition Function = ζ(β) (2-3 weeks)
+
+**File:** `ArithSpacetime/PartitionFunction.lean`
+
+**The key computation:**
+```
+Z(β) = Tr(e^{-βH})
+     = Σ_{n=1}^∞ ⟨e_n, e^{-βH} e_n⟩
+     = Σ_{n=1}^∞ n^{-β}        (because H e_n = log(n) e_n)
+     = ζ(β)
+```
+
+**Prove:**
+```lean
+theorem partition_function_eq_zeta (β : ℝ) (hβ : 1 < β) :
+    BC.partitionFunction β = riemannZeta β
+```
+
+**Mathlib dependency:** `riemannZeta`, `zeta_eq_tsum_one_div_nat_cpow` (both exist!)
+
+**Difficulty:** ★★★☆☆ (connecting the trace to the Dirichlet series)
+
+**Can I do this:** Yes, IF Phase 3 is clean. The hard part is Phase 3.
+
+### Phase 4b: KMS State Classification (4-6 weeks)
+
+**Prove:**
+- β ≤ 1: unique KMS state (the "high temperature" state)
+- β > 1: extremal KMS states parameterized by embeddings Q^{ab} → ℂ
+
+**Difficulty:** ★★★★★ (this is the hard analysis)
+
+**Can I do this:** Honestly, this may require collaboration. The uniqueness proof for β ≤ 1 uses Choquet theory; the classification for β > 1 uses class field theory. Both are partially in Mathlib but connecting them to the BC system is a major effort.
+
+**Minimal viable result:** Prove uniqueness at β ≤ 1 without the full classification at β > 1.
+
+### Phase 4c: Galois Action (3-4 weeks)
+
+**Prove:**
+```lean
+theorem galois_symmetry :
+    ∀ (α : Gal(Q^ab/Q)) (φ : KMSState BC β), hβ : 1 < β →
+    α • φ is also a β-KMS state
+```
+
+**Mathlib dependency:** Needs `Gal(Q^ab/Q)` which requires cyclotomic field theory. Mathlib has `CyclotomicField` and `IsCyclotomicExtension`.
+
+**Difficulty:** ★★★★☆
+
+**Can I do this:** The Galois group part is in Mathlib. Connecting it to KMS states is new work.
+
+### Phase 5: Integration (2-3 weeks)
+
+Combine all results into:
+
+```lean
+theorem bost_connes_main :
+    ∃ (sys : CStarDynSystem BostConnesAlgebra),
+      -- Partition function = zeta
+      (∀ β > 1, partitionFunction sys β = riemannZeta β) ∧
+      -- Phase transition at β = 1
+      (∀ β ≤ 1, ∃! φ, IsKMS sys φ β) ∧
+      -- Symmetry breaking for β > 1
+      (∀ β > 1, ∃ action : Gal(Q^ab/Q) → Aut (KMSStates sys β), ...)
+```
+
+## Timeline & Risk Assessment
+
+| Phase | Effort | Can AI do alone? | Risk |
+|-------|--------|-----------------|------|
+| 2a (Isometries) | 1 week | **Yes** | Low |
+| 2b (Q/Z) | 2 weeks | **Yes** | Medium (quotient boilerplate) |
+| 2c (Completion) | 3 weeks | **Probably** via concrete rep | Medium-High |
+| 3 (BC algebra) | 5 weeks | **Probably** | High (volume of code) |
+| 4a (Z=ζ) | 2 weeks | **Yes** if Phase 3 clean | Low |
+| 4b (KMS class.) | 5 weeks | **Uncertain** | Very High |
+| 4c (Galois) | 3 weeks | **Probably** | Medium |
+| 5 (Integration) | 2 weeks | **Yes** | Low |
+
+**Total: ~23 weeks (6 months) for full formalization**
+
+## Pragmatic Strategy
+
+### Minimum Viable Formalization (2-3 months)
+
+Skip Phase 4b (the hardest part) and prove:
+
+```lean
+-- "The Bost-Connes partition function equals the Riemann zeta function"
+theorem BC_partition_eq_zeta (β : ℝ) (hβ : 1 < β) :
+    BC.partitionFunction β = riemannZeta β
+
+-- "The Galois group acts on the system"
+theorem BC_galois_action :
+    ∃ action : Gal(Q^ab/Q) →* Aut(BC.algebra), ...
+```
+
+This is already a significant result: **the first formal proof connecting
+number theory (ζ function, Galois groups) to quantum statistical mechanics
+(partition functions, C\*-dynamical systems)**.
+
+The full phase transition proof (4b) can be a follow-up paper.
+
+### What to Work on Next
+
+**Immediate next step:** Phase 2a (Isometries in C\*-algebras).
+This is self-contained, small, and directly useful.
