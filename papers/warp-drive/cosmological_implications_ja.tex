@@ -1,0 +1,121 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{conjecture}[theorem]{予想}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+
+\begin{document}
+
+\title{算術的時空の宇宙論的示唆：\\宇宙が$\Spec(\mathbb{Z})$の上に生きているならば}
+\author{Wright Brothers\\{\small 独立研究}}
+\date{2026年4月}
+\maketitle
+
+\begin{abstract}
+算術的真空工学プログラムは根本的前提に立脚する：量子真空は整数のスキーム$\Spec(\mathbb{Z})$の算術構造を持つ。この前提の宇宙論的帰結を検討する。時空が根本的に算術的であるならば：(1)~宇宙定数はプランク単位で$\zeta(-3)/120$に等しく、カットオフ正則化を$\zeta$正則化に置き換えることで宇宙定数問題が解消される可能性がある；(2)~ビッグバンは$\beta=1$でのBC系の相転移であり、ガロア対称性$\mathrm{Gal}(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$が自発的に破れ素数が分化する；(3)~ダークエネルギーは$\Spec(\mathbb{Z})$自体のカシミールエネルギー；(4)~微細構造定数等の無次元定数は$\Spec(\mathbb{Z})$の算術幾何学的不変量で決定される；(5)~多元宇宙は素数集合$S$に対する局所化$\Spec(\mathbb{Z}[S^{-1}])$の集合であり、各々がトポス論理変更を通じて異なる物理法則を持つ宇宙を定義する。各示唆を精密な予想として定式化し、算術的時空と従来の宇宙論を区別する観測的シグネチャを特定する。
+\end{abstract}
+
+\section{序論}
+
+算術的真空工学プログラム~\cite{paper_A,paper_B,paper_C}は、めったに明示されない前提の上に構築されている：
+
+\begin{conjecture}[算術的時空]
+\label{conj:arith}
+時空の基本構造は算術的スキーム$\Spec(\mathbb{Z})$である。量子真空はこのスキーム上の層である。$\Spec(\mathbb{Z})$のゼータ関数であるリーマンゼータ関数$\zeta(s)$が真空の物理的性質をエンコードする。
+\end{conjecture}
+
+本論文はこの予想を証明するものではない。代わりに問う：\emph{もし正しければ、宇宙論にどのような帰結をもたらすか？}
+
+\section{宇宙定数問題}
+
+量子場の理論の予測$\rho_{\mathrm{vac}}^{\mathrm{QFT}} \sim 10^{113}\,\mathrm{J/m^3}$と観測値$\rho_{\mathrm{vac}}^{\mathrm{obs}} \sim 10^{-9}\,\mathrm{J/m^3}$の$\sim 10^{122}$倍の不一致~\cite{Weinberg1989}。
+
+\begin{conjecture}[算術的宇宙定数]
+物理的宇宙定数は$\Lambda = (8\pi/120)\,l_P^{-2}$。因子$\zeta(-3) = 1/120$が発散するカットオフ積分を置換する。
+\end{conjecture}
+
+数値的にはまだ観測値と不一致だが、枠組みが重要：真空が$\Spec(\mathbb{Z})$ならば宇宙定数はカットオフではなく$\zeta(-3)$で決まる。残りの不一致は実際の真空での素数の部分的ミュート（第\ref{sec:dark}節）で説明される可能性がある。
+
+\section{ビッグバン = BC相転移}
+
+\begin{conjecture}[算術的ビッグバン]
+ビッグバンは$\beta = 1$でのBC相転移。転移前（$\beta < 1$）：対称相、全素数が不可区別、粒子種なし。転移時（$\beta = 1$）：ガロア対称性が自発的に破れ、素数が分化し、オイラー積構造が出現し、粒子種が現れる。転移後（$\beta > 1$）：我々の宇宙。
+\end{conjecture}
+
+\textbf{観測的シグネチャ。} CMBの原始パワースペクトルが$\zeta(s)$の$\beta = 1$近傍の構造を反映するはず：$P(k) \propto |\zeta(1+\epsilon+ik)/\zeta(1+\epsilon)|^2$。臨界線上のリーマン零点がCMBの振動的特徴として刻印される。
+
+\section{ダークエネルギー = 算術的カシミールエネルギー}
+\label{sec:dark}
+
+\begin{conjecture}[算術的ダークエネルギー]
+ダークエネルギーは$\Spec(\mathbb{Z})$自体のカシミールエネルギー。宇宙進化により一部の素数が部分的にミュートされ、有効真空エネルギー$\rho_{\mathrm{dark}} \propto \zeta(-3) \cdot \prod_{p \in S}(1-p^3)$となる。
+\end{conjecture}
+
+\section{物理定数は算術幾何学的不変量}
+
+\begin{conjecture}[算術的定数]
+微細構造定数$\alpha$、弱混合角$\theta_W$等の無次元定数は$\Spec(\mathbb{Z})$の算術幾何学的不変量（ゼータ特殊値、K群位数、レギュレータ体積）で決定される。
+\end{conjecture}
+
+コンヌのNCG標準模型~\cite{CCM2007}のスペクトル作用$\Tr(f(D/\Lambda))$は$M^4 \times F$の内部空間$F$のパラメータとして結合定数を決定する。$F$がBC構造を持てば（予想~\ref{conj:arith}）、これらは算術的不変量。
+
+\section{多元宇宙 = 局所化の格子}
+
+\begin{conjecture}[算術的多元宇宙]
+「多元宇宙」は$\mathbb{Z}$の局所化の集合：$\mathcal{M} = \{\Spec(\mathbb{Z}[S^{-1}]) : S \subseteq \text{素数}\}$。各$S$がトポス論理変更を通じて異なる物理法則を持つ宇宙を定義。
+\end{conjecture}
+
+極端なケース：$S = \emptyset$（我々の宇宙、全素数アクティブ）。$S = \{p\}$（WEC違反可能）。$S = $ 全素数（$\Spec(\mathbb{Q})$、真空エネルギーゼロ、何もない宇宙）。我々の宇宙が$S = \emptyset$なのは、最大の複雑性を持ち観測者を支えうるから（算術的人間原理）。
+
+\section{観測的テスト}
+
+\begin{table}[h]
+\centering
+\caption{算術的時空の観測的シグネチャ}
+\small
+\begin{tabular}{@{}p{2.5cm}p{3.5cm}p{4cm}@{}}
+\toprule
+予測 & 観測量 & 現状 \\
+\midrule
+$\Lambda = \zeta(-3) \times (\text{Planck})$ & 宇宙定数 & $\sim 10^{120}$のズレ；部分ミュートで解消可能性 \\
+BC相転移 & CMBパワースペクトル & $\zeta$構造未探索 \\
+リーマン零点 & CMBの振動特徴 & 示唆的主張あり~\cite{Wolf2010}、未確認 \\
+算術的定数 & $\alpha, \theta_W$の予測 & NCG内での明示的計算が必要 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+最も即座にテスト可能な予測：BC相転移のCMBシグネチャ（リーマン零点に相関する原始パワースペクトルの振動特徴）。既存のPlanck衛星データで探索可能。
+
+\section{結論}
+
+時空が$\Spec(\mathbb{Z})$であるならば：(1) 宇宙定数はカットオフではなく$\zeta(-3)$。(2) ビッグバンは素数が分化するBC相転移。(3) ダークエネルギーは算術的カシミールエネルギー。(4) 物理定数は算術幾何学的不変量。(5) 多元宇宙は$\mathbb{Z}$の局所化の格子。
+
+いずれも未証明。全て反証可能。合わせると、数論が宇宙の基本構造の科学であるという一貫した宇宙論的叙述を形成する。
+
+\section*{謝辞}
+本研究はWright Brothers共同研究グループにより独立研究として遂行された。
+
+\begin{thebibliography}{20}
+\bibitem{paper_A} Wright Brothers, companion paper A (2026).
+\bibitem{paper_B} Wright Brothers, companion paper B (2026).
+\bibitem{paper_C} Wright Brothers, companion paper C (2026).
+\bibitem{Weinberg1989} S.~Weinberg, Rev. Mod. Phys. \textbf{61}, 1 (1989).
+\bibitem{CCM2007} A.~H.~Chamseddine et al., Adv. Theor. Math. Phys. \textbf{11}, 991 (2007).
+\bibitem{Wolf2010} M.~Wolf, arXiv:1002.1891 (2010).
+\end{thebibliography}
+
+\end{document}

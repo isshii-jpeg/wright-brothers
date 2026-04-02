@@ -1,0 +1,415 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage[margin=2.5cm]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+
+\begin{document}
+
+\title{Cosmological Implications of Arithmetic Spacetime:\\
+  If the Universe Lives on $\Spec(\mathbb{Z})$}
+
+\author{Wright Brothers\\{\small Independent Research}}
+\date{April 2026}
+\maketitle
+
+\begin{abstract}
+The arithmetic vacuum engineering program rests on a
+foundational premise: the quantum vacuum has the arithmetic
+structure of $\Spec(\mathbb{Z})$, the scheme of integers.
+We examine the cosmological implications of this premise.
+If spacetime is fundamentally arithmetic, then:
+(1)~the cosmological constant equals $\zeta(-3)/120$ in Planck
+units, potentially resolving the cosmological constant problem
+by replacing cutoff regularization with $\zeta$-regularization
+as the \emph{correct} description;
+(2)~the Big Bang is a phase transition of the Bost-Connes system
+at $\beta = 1$, where the Galois symmetry
+$\mathrm{Gal}(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$ spontaneously
+breaks, differentiating the primes;
+(3)~dark energy is the Casimir energy of $\Spec(\mathbb{Z})$ itself,
+i.e., the zero-point energy of the arithmetic vacuum;
+(4)~the fine structure constant and other dimensionless constants
+are determined by the arithmetic geometry of $\Spec(\mathbb{Z})$
+(zeta values, class numbers, regulator volumes);
+(5)~the multiverse, if it exists, is the set of localizations
+$\Spec(\mathbb{Z}[S^{-1}])$ for different sets $S$ of primes,
+each defining a universe with different physical laws
+via topos logic change.
+We formulate each implication as a precise conjecture and
+identify the observational signatures that would distinguish
+arithmetic spacetime from conventional cosmology.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+The arithmetic vacuum engineering program~\cite{paper_A,paper_B,paper_C}
+is built on a premise that is rarely stated explicitly:
+
+\begin{conjecture}[Arithmetic spacetime]
+\label{conj:arith}
+The fundamental structure of spacetime is the arithmetic scheme
+$\Spec(\mathbb{Z})$. The quantum vacuum is a sheaf on this scheme.
+The Riemann zeta function $\zeta(s)$, as the zeta function of
+$\Spec(\mathbb{Z})$, encodes the vacuum's physical properties.
+\end{conjecture}
+
+This paper does not prove the conjecture. Instead, we ask:
+\emph{if it is true, what are the consequences for cosmology?}
+
+The results are striking. Several of the deepest puzzles in
+modern cosmology --- the cosmological constant problem, the
+origin of the Big Bang, the nature of dark energy, the values
+of fundamental constants --- acquire natural (if speculative)
+explanations within the arithmetic framework.
+
+% ============================================================================
+\section{The cosmological constant problem}
+\label{sec:cc}
+% ============================================================================
+
+\subsection{The problem}
+
+The cosmological constant $\Lambda$ is the energy density of
+the vacuum. Quantum field theory predicts
+\begin{equation}
+  \rho_{\mathrm{vac}}^{\mathrm{QFT}} \sim \frac{\hbar c}{l_P^4}
+  \sim 10^{113}\,\mathrm{J/m^3},
+\end{equation}
+while observation gives
+$\rho_{\mathrm{vac}}^{\mathrm{obs}} \sim 10^{-9}\,\mathrm{J/m^3}$.
+The discrepancy of $\sim 10^{122}$ is the worst prediction in
+the history of physics~\cite{Weinberg1989}.
+
+\subsection{The arithmetic resolution}
+
+The QFT prediction uses \emph{cutoff regularization}:
+$\rho \sim \int_0^{E_P} \omega^3\,d\omega \sim E_P^4$.
+This diverges and must be cut off at the Planck scale.
+
+Zeta regularization replaces this with
+\begin{equation}
+  \rho_{\mathrm{vac}}^{\zeta} \propto \zeta(-3) = \frac{1}{120}.
+  \label{eq:cc_zeta}
+\end{equation}
+
+\begin{conjecture}[Arithmetic cosmological constant]
+\label{conj:cc}
+The physical cosmological constant is
+\begin{equation}
+  \Lambda = \frac{8\pi G}{c^4} \cdot \frac{E_P}{l_P^3} \cdot \zeta(-3)
+  = \frac{8\pi}{120}\,l_P^{-2},
+\end{equation}
+where the factor $\zeta(-3) = 1/120$ replaces the divergent
+cutoff integral.
+\end{conjecture}
+
+This gives $\Lambda \sim 0.2\,l_P^{-2}$, which is still far
+from the observed value $\Lambda_{\mathrm{obs}} \sim 10^{-122}\,l_P^{-2}$.
+However, the key point is not the numerical value but the
+\emph{framework}: if the vacuum is $\Spec(\mathbb{Z})$, then
+the cosmological constant is determined by $\zeta(-3)$, not by
+a cutoff. The remaining discrepancy may be explained by
+the \emph{partial muting} of primes in the actual vacuum
+(see Section~\ref{sec:dark}).
+
+% ============================================================================
+\section{The Big Bang as Bost-Connes phase transition}
+\label{sec:bigbang}
+% ============================================================================
+
+The Bost-Connes system has a phase transition at $\beta = 1$:
+
+\begin{itemize}
+\item $\beta < 1$ (high temperature): unique KMS state.
+  Full symmetry $\mathrm{Gal}(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$
+  is preserved. All primes are indistinguishable.
+\item $\beta > 1$ (low temperature): the symmetry spontaneously
+  breaks. KMS states form a continuous family parameterized by
+  $\Zhat^* = \prod_p \mathbb{Z}_p^*$. Primes become individually
+  addressable.
+\end{itemize}
+
+\begin{conjecture}[Arithmetic Big Bang]
+\label{conj:bigbang}
+The Big Bang is the Bost-Connes phase transition at $\beta = 1$.
+
+Before the transition ($\beta < 1$): the universe is in the
+symmetric phase. No individual primes exist. No particle species
+are distinguishable (because the Standard Model requires
+the broken phase of the internal space $F$).
+Spacetime has maximal symmetry.
+
+At the transition ($\beta = 1$): the Galois symmetry breaks.
+Primes differentiate. The Euler product structure of $\zeta(s)$
+emerges. Particle species appear (via Connes' spectral action
+on $M^4 \times F$). The arrow of time appears (because the
+broken phase selects a specific KMS state).
+
+After the transition ($\beta > 1$): the universe we observe.
+Each prime $p$ contributes its Euler factor $(1-p^{-\beta})^{-1}$
+to the vacuum structure.
+\end{conjecture}
+
+\textbf{Observational signature.}
+The cosmic microwave background (CMB) encodes fluctuations from
+the epoch near the phase transition. If the Big Bang is a BC
+transition, the primordial power spectrum should reflect the
+number-theoretic structure of $\zeta(s)$ near $\beta = 1$:
+\begin{equation}
+  P(k) \propto \left|\frac{\zeta(1 + \epsilon + ik)}{\zeta(1+\epsilon)}\right|^2
+\end{equation}
+for small $\epsilon > 0$ (proximity to the critical point).
+The Riemann zeros on the critical line would imprint as
+oscillatory features in the CMB power spectrum.
+
+% ============================================================================
+\section{Dark energy as arithmetic Casimir energy}
+\label{sec:dark}
+% ============================================================================
+
+\begin{conjecture}[Arithmetic dark energy]
+\label{conj:dark}
+Dark energy is the Casimir energy of $\Spec(\mathbb{Z})$ itself:
+the zero-point energy of the vacuum computed on the arithmetic
+scheme, with boundary conditions set by the large-scale topology
+of the universe.
+\end{conjecture}
+
+In standard Casimir physics, the vacuum energy depends on
+boundary conditions (plate separation, geometry).
+On $\Spec(\mathbb{Z})$, the ``boundaries'' are:
+\begin{itemize}
+\item The archimedean place $v = \infty$ (real numbers, $\mathbb{R}$):
+  large-scale classical spacetime.
+\item The non-archimedean places $v = p$ (p-adic numbers, $\Qp$):
+  the arithmetic microstructure.
+\end{itemize}
+
+The adelic product formula $\prod_v |x|_v = 1$ constrains the
+total vacuum energy. If certain primes are ``partially muted''
+by cosmological evolution (e.g., by the dilution of
+$p$-adic modes during inflation), the effective vacuum energy
+would be
+\begin{equation}
+  \rho_{\mathrm{dark}} \propto \zeta(-3) \cdot
+  \prod_{p \in S_{\mathrm{muted}}} (1 - p^{3}),
+\end{equation}
+which can take a very small value if the muted prime set
+$S_{\mathrm{muted}}$ is chosen appropriately.
+
+The observed dark energy density
+$\rho_{\mathrm{dark}} \sim 10^{-9}\,\mathrm{J/m^3}$ constrains
+the muted prime set. This is a quantitative prediction of the
+arithmetic framework that could, in principle, be tested.
+
+% ============================================================================
+\section{Fundamental constants from arithmetic geometry}
+\label{sec:constants}
+% ============================================================================
+
+If spacetime is $\Spec(\mathbb{Z})$, then dimensionless physical
+constants should be computable from its arithmetic-geometric
+invariants.
+
+\begin{conjecture}[Arithmetic constants]
+\label{conj:constants}
+The dimensionless constants of physics (fine structure constant
+$\alpha$, weak mixing angle $\theta_W$, Yukawa couplings, etc.)
+are determined by the arithmetic geometry of $\Spec(\mathbb{Z})$:
+zeta special values, K-group orders, regulator volumes, and
+class numbers of number fields.
+\end{conjecture}
+
+Partial evidence from Connes' NCG Standard Model~\cite{CCM2007}:
+the spectral action $\Tr(f(D/\Lambda))$ on $M^4 \times F$
+determines the Standard Model coupling constants at unification
+scale as functions of the parameters of $F$.
+If $F$ has BC structure (Conjecture~\ref{conj:arith}), these
+parameters are arithmetic invariants.
+
+Specifically:
+\begin{itemize}
+\item $\zeta(-1) = -1/12$ appears in the 1-loop vacuum energy,
+  related to the trace anomaly and conformal symmetry breaking.
+\item $\zeta(-3) = 1/120$ determines the 3D Casimir energy,
+  related to the cosmological constant.
+\item $\zeta(2) = \pi^2/6$ and $\zeta(4) = \pi^4/90$ appear in
+  black-body radiation (Stefan-Boltzmann law), connecting
+  thermodynamics to $\zeta$ values.
+\item $K_2(\mathbb{Z}) = \mathbb{Z}/2$ (Milnor) may encode
+  the discrete symmetries (C, P, T) of the Standard Model.
+\end{itemize}
+
+% ============================================================================
+\section{The multiverse as localization}
+\label{sec:multiverse}
+% ============================================================================
+
+If our universe corresponds to $\Spec(\mathbb{Z})$, what
+corresponds to other possible universes?
+
+\begin{conjecture}[Arithmetic multiverse]
+\label{conj:multiverse}
+The ``multiverse'' is the set of localizations of $\mathbb{Z}$:
+\begin{equation}
+  \mathcal{M} = \{\Spec(\mathbb{Z}[S^{-1}]) : S \subseteq \mathrm{Primes}\}.
+\end{equation}
+Each choice of $S$ (a set of primes to ``mute'') defines a
+universe with a different \'etale topos, different internal logic,
+and therefore different physical laws.
+\end{conjecture}
+
+The extreme cases:
+\begin{itemize}
+\item $S = \emptyset$: $\Spec(\mathbb{Z})$. Our universe. All
+  primes active. Full WEC. Standard physics.
+\item $S = \{p\}$: $\Spec(\Zp)$. A universe missing one prime.
+  WEC violated for $p$. Warp drive possible.
+\item $S = \mathrm{all\ primes}$: $\Spec(\mathbb{Q})$. A universe
+  with no primes. All Euler factors removed.
+  $\zeta_{S}(s) = 1$ (trivial). Zero vacuum energy.
+  No particles, no forces, no structure.
+\end{itemize}
+
+This provides a natural ordering of universes:
+more primes muted $\Rightarrow$ simpler vacuum structure
+$\Rightarrow$ fewer physical phenomena.
+Our universe ($S = \emptyset$) is the ``maximal'' universe,
+with all primes active and the richest possible physics.
+
+\textbf{The anthropic principle, arithmetized.}
+The question ``why does our universe have these physical laws?''
+becomes ``why is $S = \emptyset$?'' --- or equivalently,
+``why are all primes active?''
+A possible answer: $S = \emptyset$ is the only choice that
+supports sufficient complexity for observers (since muting primes
+removes degrees of freedom needed for chemistry and biology).
+
+% ============================================================================
+\section{Observational tests}
+\label{sec:tests}
+% ============================================================================
+
+\begin{table}[h]
+\centering
+\caption{Observational signatures of arithmetic spacetime.}
+\label{tab:tests}
+\small
+\begin{tabular}{@{}p{3cm}p{4cm}p{4.5cm}@{}}
+\toprule
+Prediction & Observable & Current status \\
+\midrule
+$\Lambda = \zeta(-3) \times (\text{Planck})$ & Cosmological constant
+  & Discrepant by $\sim 10^{120}$; may be resolved by partial muting \\
+BC phase transition at Big Bang & CMB power spectrum with
+  $\zeta$-function features & Not yet searched for \\
+Dark energy $\propto \prod (1-p^3)$ & Equation of state $w(z)$
+  evolution & Consistent with $w = -1$ (current data) \\
+Constants from $\zeta$ values & Predictions for $\alpha, \theta_W$
+  at unification & Requires explicit computation within NCG \\
+Riemann zeros in CMB & Oscillations at positions of $\zeta$ zeros
+  & Tantalizing claims exist~\cite{Wolf2010} but unconfirmed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The most immediately testable prediction is the CMB signature
+of the BC phase transition: oscillatory features in the
+primordial power spectrum correlated with the Riemann zeros.
+This can be searched for in existing Planck satellite data.
+
+% ============================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================================
+
+\subsection{Falsifiability}
+
+Each conjecture in this paper is, in principle, falsifiable:
+\begin{itemize}
+\item Conjecture~\ref{conj:cc}: if the cosmological constant
+  cannot be expressed in terms of $\zeta$ values and
+  arithmetic invariants, the premise fails.
+\item Conjecture~\ref{conj:bigbang}: if the CMB shows no
+  trace of $\zeta$-function structure, the BC phase
+  transition interpretation is disfavored.
+\item Conjecture~\ref{conj:constants}: if the NCG spectral
+  action fails to predict any measured constant, the
+  arithmetic program loses predictive power.
+\end{itemize}
+
+\subsection{Relation to other approaches}
+
+The arithmetic spacetime hypothesis intersects with several
+established research programs:
+\begin{itemize}
+\item \textbf{$p$-adic cosmology} (Volovich 1987,
+  Dragovich~\cite{Dragovich2017}): uses $p$-adic numbers in
+  cosmological models. Our framework provides a unified
+  (adelic) setting.
+\item \textbf{Spectral geometry} (Connes~\cite{Connes1996}):
+  derives physics from spectral data. We add the arithmetic
+  ($\Spec(\mathbb{Z})$) perspective.
+\item \textbf{Amplituhedron / motivic periods}
+  (Arkani-Hamed~\cite{ArkaniHamed2014}, Brown~\cite{Brown2015}):
+  scattering amplitudes involve periods of mixed motives.
+  Our framework connects these to the vacuum structure
+  via the motivic cohomology of $\Spec(\mathbb{Z})$.
+\end{itemize}
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+If spacetime is $\Spec(\mathbb{Z})$, then:
+\begin{enumerate}
+\item The cosmological constant is $\zeta(-3)$ in natural units,
+  not a cutoff artifact.
+\item The Big Bang is a Bost-Connes phase transition where
+  primes differentiate.
+\item Dark energy is the Casimir energy of the arithmetic scheme.
+\item Fundamental constants are arithmetic-geometric invariants.
+\item The multiverse is the lattice of localizations of $\mathbb{Z}$.
+\end{enumerate}
+
+None of these are proven. All are falsifiable. Together, they
+form a coherent cosmological narrative in which number theory
+is not an abstract mathematical discipline but the science of
+the universe's fundamental structure.
+
+The experimental program of~\cite{paper_A} --- testing the
+Euler product structure of vacuum energy in a superconducting
+circuit --- is the first step toward confirming or refuting
+this picture.
+
+\begin{thebibliography}{20}
+\bibitem{paper_A} Wright Brothers, companion paper A (2026).
+\bibitem{paper_B} Wright Brothers, companion paper B (2026).
+\bibitem{paper_C} Wright Brothers, companion paper C (2026).
+\bibitem{Weinberg1989} S.~Weinberg, Rev. Mod. Phys. \textbf{61}, 1 (1989).
+\bibitem{CCM2007} A.~H.~Chamseddine, A.~Connes, and M.~Marcolli, Adv. Theor. Math. Phys. \textbf{11}, 991 (2007).
+\bibitem{Connes1996} A.~Connes, Commun. Math. Phys. \textbf{182}, 155 (1996).
+\bibitem{Dragovich2017} B.~Dragovich et al., $p$-Adic Numbers Ultrametric Anal. Appl. \textbf{9}, 87 (2017).
+\bibitem{ArkaniHamed2014} N.~Arkani-Hamed and J.~Trnka, JHEP \textbf{2014}, 030 (2014).
+\bibitem{Brown2015} F.~Brown, Commun. Math. Phys. \textbf{338}, 1 (2015).
+\bibitem{Wolf2010} M.~Wolf, arXiv:1002.1891 (2010).
+\end{thebibliography}
+
+\end{document}
