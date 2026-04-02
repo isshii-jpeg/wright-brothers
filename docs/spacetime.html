@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arithmetic Geometry as the Source Code of Spacetime</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06060f;--bg2:#0b0b1e;--bg3:#10102e;
+  --text:#e0e0f0;--text2:#a0a0c0;--text3:#707090;
+  --gold:#ffd93d;--gold2:#ffb800;--cyan:#00d4ff;
+  --violet:#b482ff;--rose:#ff6b9d;--emerald:#4ade80;
+  --glow-gold:0 0 40px rgba(255,217,61,.2);
+  --glow-cyan:0 0 30px rgba(0,212,255,.2);
+  --card:rgba(12,12,30,.9);
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+  --serif:Georgia,'Times New Roman',serif;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font);color:var(--text);background:var(--bg);overflow-x:hidden;line-height:1.8}
+a{color:var(--cyan);text-decoration:none;transition:.2s}
+a:hover{color:#fff;text-shadow:var(--glow-cyan)}
+
+/* ============================================================
+   CANVAS: GEOMETRIC CONSTELLATION
+   ============================================================ */
+#geo-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.6}
+
+/* ============================================================
+   LANGUAGE TOGGLE
+   ============================================================ */
+.lang-toggle{
+  position:fixed;top:1rem;right:1rem;z-index:100;
+  background:rgba(12,12,30,.9);border:1px solid rgba(255,217,61,.2);
+  border-radius:2rem;padding:.4rem .8rem;
+  display:flex;gap:.5rem;backdrop-filter:blur(10px);
+}
+.lang-toggle button{
+  background:none;border:none;color:var(--text2);
+  font-size:.9rem;cursor:pointer;padding:.3rem .8rem;
+  border-radius:1.5rem;transition:.2s;font-family:var(--font);
+}
+.lang-toggle button.active{background:var(--gold);color:var(--bg);font-weight:700}
+[data-lang="ja"]{display:none}
+body.ja [data-lang="ja"]{display:block}
+body.ja [data-lang="en"]{display:none}
+body.ja [data-lang-inline="ja"]{display:inline}
+body.ja [data-lang-inline="en"]{display:none}
+[data-lang-inline="ja"]{display:none}
+[data-lang-inline="en"]{display:inline}
+
+/* ============================================================
+   BACK LINK
+   ============================================================ */
+.back{
+  position:fixed;top:1rem;left:1rem;z-index:100;
+  background:rgba(12,12,30,.9);border:1px solid rgba(255,255,255,.1);
+  border-radius:2rem;padding:.5rem 1rem;
+  font-size:.85rem;color:var(--text2);backdrop-filter:blur(10px);
+}
+.back:hover{color:var(--gold);border-color:rgba(255,217,61,.3)}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;z-index:1;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:2rem;
+}
+.hero .overline{
+  font-size:.85rem;text-transform:uppercase;letter-spacing:.3em;
+  color:var(--gold);margin-bottom:1rem;
+}
+.hero h1{
+  font-size:clamp(1.8rem,5vw,3.5rem);font-weight:800;
+  line-height:1.2;max-width:900px;
+  background:linear-gradient(135deg,var(--gold),#fff,var(--gold2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero .subtitle{
+  font-size:clamp(.95rem,2vw,1.25rem);color:var(--text2);
+  margin-top:1.2rem;max-width:750px;font-family:var(--serif);
+  font-style:italic;
+}
+.hero .epigraph{
+  margin-top:2.5rem;padding:1.5rem 2rem;max-width:600px;
+  border-left:3px solid var(--gold);
+  font-family:var(--serif);font-style:italic;
+  color:var(--text2);font-size:.95rem;text-align:left;
+}
+.hero .epigraph .attr{color:var(--text3);font-size:.85rem;margin-top:.5rem;display:block}
+.scroll-hint{
+  position:absolute;bottom:2rem;
+  animation:bounce 2s infinite;color:var(--text3);font-size:1.5rem;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.content{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 2rem}
+section{padding:4rem 0}
+section+section{border-top:1px solid rgba(255,255,255,.04)}
+h2{
+  font-size:clamp(1.3rem,3vw,2rem);font-weight:700;
+  margin-bottom:1.5rem;
+}
+h2 .num{color:var(--gold);font-family:var(--mono);font-weight:400;margin-right:.5rem}
+h3{font-size:1.15rem;color:var(--gold);margin:1.5rem 0 .5rem;font-weight:600}
+p{margin-bottom:1rem}
+
+/* ============================================================
+   PILLAR CARDS
+   ============================================================ */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0}
+@media(max-width:700px){.pillars{grid-template-columns:1fr}}
+.pillar{
+  background:var(--card);border:1px solid rgba(255,255,255,.06);
+  border-radius:1rem;padding:1.8rem;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s;
+}
+.pillar:hover{transform:translateY(-3px);border-color:rgba(255,217,61,.2)}
+.pillar .icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.pillar h3{color:var(--text);font-size:1.05rem;margin:0 0 .6rem}
+.pillar p{color:var(--text2);font-size:.9rem;margin:0;line-height:1.6}
+.pillar .glow-line{
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:.3s;
+}
+.pillar:hover .glow-line{opacity:1}
+.pillar.c1{border-top:2px solid var(--cyan)}
+.pillar.c2{border-top:2px solid var(--violet)}
+.pillar.c3{border-top:2px solid var(--rose)}
+.pillar.c4{border-top:2px solid var(--emerald)}
+
+/* ============================================================
+   EQUATION / FORMULA BLOCKS
+   ============================================================ */
+.eq-block{
+  text-align:center;font-family:var(--mono);
+  font-size:1.05rem;color:var(--gold);
+  padding:1.5rem;margin:1.5rem 0;
+  background:rgba(255,217,61,.03);border-radius:.8rem;
+  border:1px solid rgba(255,217,61,.1);
+  overflow-x:auto;
+}
+.eq-block .label{
+  display:block;font-size:.75rem;color:var(--text3);
+  margin-top:.5rem;font-style:italic;font-family:var(--serif);
+}
+
+/* ============================================================
+   CONCEPT MAP (vertical flow)
+   ============================================================ */
+.concept-flow{
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;margin:2rem 0;
+}
+.concept-node{
+  background:var(--card);border:1px solid rgba(255,255,255,.08);
+  border-radius:.8rem;padding:1rem 1.5rem;
+  width:100%;max-width:500px;text-align:center;
+  font-size:.95rem;
+}
+.concept-node strong{color:var(--gold)}
+.concept-arrow{
+  color:var(--text3);font-size:1.5rem;
+  padding:.3rem 0;
+}
+
+/* ============================================================
+   THOUGHT EXPERIMENT BOX
+   ============================================================ */
+.thought-box{
+  background:rgba(180,130,255,.05);
+  border:1px solid rgba(180,130,255,.2);
+  border-radius:1rem;padding:1.8rem;margin:1.5rem 0;
+  position:relative;
+}
+.thought-box::before{
+  content:'THOUGHT EXPERIMENT';
+  position:absolute;top:-.7rem;left:1.5rem;
+  background:var(--bg);padding:0 .5rem;
+  font-size:.7rem;font-weight:700;letter-spacing:.15em;
+  color:var(--violet);
+}
+body.ja .thought-box::before{content:'思考実験'}
+.thought-box p{color:var(--text2);margin:0;font-size:.95rem}
+
+/* ============================================================
+   REFERENCE LIST
+   ============================================================ */
+.ref-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem;margin:1.5rem 0;
+}
+.ref-item{
+  background:var(--card);border:1px solid rgba(255,255,255,.05);
+  border-radius:.8rem;padding:1.2rem;
+  font-size:.85rem;line-height:1.5;
+}
+.ref-item .author{color:var(--gold);font-weight:600}
+.ref-item .title{color:var(--text);font-style:italic}
+.ref-item .venue{color:var(--text3);font-size:.8rem}
+
+/* ============================================================
+   CTA / DOWNLOAD
+   ============================================================ */
+.cta-row{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  justify-content:center;margin:2rem 0;
+}
+.cta{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.7rem 1.5rem;border-radius:2rem;
+  font-weight:700;font-size:.95rem;
+  transition:.3s;
+}
+.cta-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--bg);
+}
+.cta-primary:hover{transform:scale(1.05);box-shadow:var(--glow-gold);color:var(--bg)}
+.cta-secondary{
+  border:1px solid rgba(255,217,61,.3);color:var(--gold);
+}
+.cta-secondary:hover{background:rgba(255,217,61,.1);color:var(--gold)}
+
+/* ============================================================
+   TECH IMPLICATIONS
+   ============================================================ */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin:2rem 0}
+.tech-card{
+  background:var(--card);border:1px solid rgba(255,255,255,.06);
+  border-radius:1rem;padding:1.5rem;text-align:center;
+  transition:transform .3s;
+}
+.tech-card:hover{transform:translateY(-3px)}
+.tech-card .tech-icon{font-size:2.5rem;margin-bottom:.8rem;display:block}
+.tech-card h4{font-size:1rem;margin-bottom:.5rem}
+.tech-card p{font-size:.85rem;color:var(--text2);margin:0}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:3rem 2rem;
+  border-top:1px solid rgba(255,255,255,.05);
+  color:var(--text3);font-size:.85rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:600px){
+  .content{padding:0 1rem}
+  .hero .epigraph{padding:1rem 1.2rem}
+  .pillar{padding:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="geo-canvas"></canvas>
+
+<!-- LANG TOGGLE -->
+<div class="lang-toggle">
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="btn-ja" onclick="setLang('ja')">JA</button>
+</div>
+<a class="back" href="index.html">&larr; <span data-lang-inline="en">Home</span><span data-lang-inline="ja">Top</span></a>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero">
+  <div class="overline" data-lang="en">Fundamental Physics &times; Pure Mathematics</div>
+  <div class="overline" data-lang="ja">基礎物理学 &times; 純粋数学</div>
+
+  <h1 data-lang="en">Arithmetic Geometry<br>as the Source Code<br>of Spacetime</h1>
+  <h1 data-lang="ja">数論幾何学による<br>時空間の<br>ソースコード設計</h1>
+
+  <p class="subtitle" data-lang="en">
+    Can Grothendieck's topos theory, Mochizuki's IUT theory, and Connes' noncommutative geometry become the language of quantum gravity &mdash; the way Riemannian geometry became the language of general relativity?
+  </p>
+  <p class="subtitle" data-lang="ja">
+    リーマン幾何学が一般相対性理論の言語になったように、グロタンディークのトポス論、望月のIUT理論、コンヌの非可換幾何学は、量子重力の言語になりうるか？
+  </p>
+
+  <div class="epigraph" data-lang="en">
+    "The most abstract mathematics can become the descriptive language of the most fundamental physical laws."
+    <span class="attr">&mdash; The lesson of Riemann &rarr; Einstein</span>
+  </div>
+  <div class="epigraph" data-lang="ja">
+    「最も抽象的な数学が、最も根本的な物理法則の記述言語となりうる。」
+    <span class="attr">&mdash; リーマン &rarr; アインシュタインの教訓</span>
+  </div>
+
+  <div class="scroll-hint">&#8595;</div>
+</header>
+
+<!-- ============================================================
+     THE CRISIS
+     ============================================================ -->
+<div class="content">
+<section>
+  <h2><span class="num">01</span> <span data-lang-inline="en">The Crisis: Two Operating Systems</span><span data-lang-inline="ja">危機：2つのOS</span></h2>
+
+  <p data-lang="en">Modern physics runs on two incompatible operating systems: <strong>quantum mechanics</strong> (the micro world) and <strong>general relativity</strong> (the macro spacetime). They crash at black hole singularities, the Big Bang, and the information paradox.</p>
+  <p data-lang="ja">現代物理学は互いに非互換な2つのOSで動いている：<strong>量子力学</strong>（ミクロ）と<strong>一般相対性理論</strong>（マクロ時空）。ブラックホール特異点、ビッグバン、情報パラドックスで互いにクラッシュする。</p>
+
+  <div class="concept-flow">
+    <div class="concept-node">
+      <span data-lang-inline="en"><strong>Quantum Mechanics</strong> &mdash; Hilbert space, operators, Born rule</span>
+      <span data-lang-inline="ja"><strong>量子力学</strong> &mdash; ヒルベルト空間、演算子、ボルン則</span>
+    </div>
+    <div class="concept-arrow">&#8595; <small style="color:var(--rose)">CRASH</small> &#8595;</div>
+    <div class="concept-node">
+      <span data-lang-inline="en"><strong>General Relativity</strong> &mdash; Riemannian manifold, metric tensor, Einstein equations</span>
+      <span data-lang-inline="ja"><strong>一般相対性理論</strong> &mdash; リーマン多様体、計量テンソル、アインシュタイン方程式</span>
+    </div>
+    <div class="concept-arrow">&#8595; <small style="color:var(--gold)">new OS needed</small> &#8595;</div>
+    <div class="concept-node" style="border-color:rgba(255,217,61,.3)">
+      <span data-lang-inline="en"><strong style="color:var(--gold)">Arithmetic Geometry?</strong> &mdash; Topoi, schemes, motives, &eacute;tale cohomology</span>
+      <span data-lang-inline="ja"><strong style="color:var(--gold)">数論幾何学？</strong> &mdash; トポス、スキーム、動機、エタールコホモロジー</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOUR PILLARS
+     ============================================================ -->
+<section>
+  <h2><span class="num">02</span> <span data-lang-inline="en">Four Pillars</span><span data-lang-inline="ja">4つの柱</span></h2>
+
+  <div class="pillars">
+    <!-- Pillar 1: Topos -->
+    <div class="pillar c1">
+      <div class="glow-line"></div>
+      <span class="icon">&#x1D4E3;</span>
+      <h3 data-lang="en">Topos Quantum Theory</h3>
+      <h3 data-lang="ja">トポス量子論</h3>
+      <p data-lang="en">Isham, Butterfield, D&ouml;ring replaced Boolean logic with the intuitionistic internal logic of a topos. Quantum propositions take values in a Heyting algebra &mdash; no external observer required. The Kochen&ndash;Specker theorem becomes a <em>natural feature</em> rather than a paradox.</p>
+      <p data-lang="ja">イシャム、バターフィールド、デーリングはブール論理をトポスの直観主義的内部論理に置き換えた。量子命題はハイティング代数の元として値を取り、外部観測者は不要。コッヘン-スペッカーの定理はパラドックスではなく<em>自然な帰結</em>になる。</p>
+    </div>
+
+    <!-- Pillar 2: IUT -->
+    <div class="pillar c2">
+      <div class="glow-line"></div>
+      <span class="icon">&#x1D4D8;</span>
+      <h3 data-lang="en">IUT Theory &amp; Multiverse</h3>
+      <h3 data-lang="ja">IUT理論 &amp; マルチバース</h3>
+      <p data-lang="en">Mochizuki's Hodge theaters are "alien mathematical universes" with distinct additive/multiplicative structures, linked by theta- and log-links. This mirrors the multiverse, holographic principle, and black hole information transfer across event horizons.</p>
+      <p data-lang="ja">望月のホッジ・シアターは加法/乗法構造が異なる「異質な数学的宇宙」であり、テータリンク・ログリンクで接続される。マルチバース、ホログラフィック原理、事象の地平面を越えた情報伝達と深い構造的類似性を持つ。</p>
+    </div>
+
+    <!-- Pillar 3: Noncommutative -->
+    <div class="pillar c3">
+      <div class="glow-line"></div>
+      <span class="icon">&#x1D4A9;</span>
+      <h3 data-lang="en">Noncommutative Geometry</h3>
+      <h3 data-lang="ja">非可換幾何学</h3>
+      <p data-lang="en">Connes&ndash;Kreimer: renormalization = Birkhoff decomposition of a Hopf algebra. Bost&ndash;Connes: the Riemann zeta function emerges as a phase transition. Brown: Feynman amplitudes obey a motivic coaction principle. The "cosmic Galois group" governs scale transformations of the universe.</p>
+      <p data-lang="ja">コンヌ-クライマー：繰り込み = ホップ代数のバーコフ分解。ボスト-コンヌ：リーマン・ゼータ関数が相転移として出現。ブラウン：ファインマン振幅は動機的余積原理に従う。「宇宙的ガロア群」が宇宙のスケール変換を支配する。</p>
+    </div>
+
+    <!-- Pillar 4: p-adic -->
+    <div class="pillar c4">
+      <div class="glow-line"></div>
+      <span class="icon">&#x1D4AB;</span>
+      <h3 data-lang="en">p-Adic &amp; Adelic Spacetime</h3>
+      <h3 data-lang="ja">p進 &amp; アデール的時空</h3>
+      <p data-lang="en">Volovich (1987): below the Planck length, spacetime coordinates are p-adic. Freund&ndash;Witten: the adelic product formula unites all string amplitudes. The ultimate hypothesis: spacetime = Spec(Z), with primes as fundamental vibrational modes.</p>
+      <p data-lang="ja">ヴォロヴィッチ (1987)：プランク長以下で時空座標はp進的。フレウント-ウィッテン：アデール的積公式が全弦振幅を統一。究極の仮説：時空 = Spec(Z)、素数は基本振動モード。</p>
+    </div>
+  </div>
+
+  <div class="eq-block">
+    A<sub>&infin;</sub>(s,t) &middot; &prod;<sub>p : prime</sub> A<sub>p</sub>(s,t) = 1
+    <span class="label">Adelic Product Formula &mdash; Freund &amp; Witten, 1987</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     DEEP DIVE: KEY IDEAS
+     ============================================================ -->
+<section>
+  <h2><span class="num">03</span> <span data-lang-inline="en">Key Ideas in Depth</span><span data-lang-inline="ja">核心的アイデア</span></h2>
+
+  <h3 data-lang="en">Daseinisation: Quantum Truth Without External Observers</h3>
+  <h3 data-lang="ja">ダーザイニゼーション：外部観測者なしの量子的真理</h3>
+  <p data-lang="en">In the D&ouml;ring&ndash;Isham topos, every quantum proposition is "daseinised" &mdash; approximated by a family of classical propositions across all contexts. The truth value lives in a Heyting algebra, not {true, false}. This means quantum cosmology can describe the universe <em>from the inside</em>, without requiring a God's-eye view.</p>
+  <p data-lang="ja">デーリング-イシャムのトポスでは、すべての量子命題が「ダーザイニゼーション」される &mdash; すべての文脈にわたる古典的命題の族で近似される。真偽値は{真, 偽}ではなくハイティング代数の元。量子宇宙論は「神の視点」なしに宇宙を<em>内側から</em>記述できる。</p>
+
+  <h3 data-lang="en">Anabelian Recovery: Physics from Symmetry Groups</h3>
+  <h3 data-lang="ja">アナベリアン復元：対称性群から物理法則へ</h3>
+  <p data-lang="en">In anabelian geometry (Grothendieck, Mochizuki), an algebraic curve is completely recovered from its &eacute;tale fundamental group. The analogy: physical laws may be completely recoverable from the "arithmetic fundamental group" of spacetime. Geometry emerges from algebra, not the other way around.</p>
+  <p data-lang="ja">アナベリアン幾何学（グロタンディーク、望月）では、代数曲線はそのエタール基本群から完全に復元される。類比：物理法則は時空の「算術的基本群」から完全に復元可能かもしれない。幾何は代数から生まれるのであり、その逆ではない。</p>
+
+  <h3 data-lang="en">The Riemann Hypothesis as Spacetime Stability</h3>
+  <h3 data-lang="ja">リーマン予想 = 時空の安定性条件</h3>
+
+  <div class="thought-box">
+    <p data-lang="en">If Deninger's programme succeeds and the Riemann hypothesis is proved as a statement about periodic orbits of a dynamical system on Spec(Z), then the regularity of prime distribution is a <strong>stability condition for spacetime's microstructure</strong>. The failure of the Riemann hypothesis would mean unstable modes exist at the Planck scale &mdash; spacetime itself would be "sick."</p>
+    <p data-lang="ja">デニンガーのプログラムが成功し、リーマン予想がSpec(Z)上の力学系の周期軌道に関する命題として証明されたなら、素数分布の正則性は<strong>時空ミクロ構造の安定性条件</strong>である。リーマン予想の不成立はプランクスケールに不安定モードが存在することを意味する &mdash; 時空そのものが「病んでいる」ことになる。</p>
+  </div>
+
+  <div class="eq-block">
+    Spec(Z) = {(2), (3), (5), (7), (11), ... , (0)}
+    <span class="label" data-lang-inline="en">The "points" of arithmetic spacetime: primes + the generic point</span>
+    <span class="label" data-lang-inline="ja">算術的時空の「点」：素数 + 一般点</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     TECHNOLOGICAL IMPLICATIONS
+     ============================================================ -->
+<section>
+  <h2><span class="num">04</span> <span data-lang-inline="en">If the Source Code is Cracked...</span><span data-lang-inline="ja">ソースコードが解読されたら...</span></h2>
+
+  <p data-lang="en">If arithmetic geometry deciphers the source code of spacetime, the paradigm shifts from <em>"how to move matter"</em> to <em>"how to rewrite spacetime itself."</em></p>
+  <p data-lang="ja">数論幾何学が時空のソースコードを解読したら、パラダイムは<em>「物質をどう動かすか」</em>から<em>「時空そのものをどう書き換えるか」</em>にシフトする。</p>
+
+  <div class="tech-grid">
+    <div class="tech-card">
+      <span class="tech-icon">&#x1F680;</span>
+      <h4 data-lang="en">Arithmetic Warp Drive</h4>
+      <h4 data-lang="ja">数論幾何学的ワープ</h4>
+      <p data-lang="en">Control spacetime by switching discrete arithmetic parameters &mdash; shifting zeta function zeros &mdash; instead of brute-force metric deformation.</p>
+      <p data-lang="ja">連続的計量の制御ではなく、離散的算術パラメータの切替 &mdash; ゼータ関数の零点移動 &mdash; で時空を制御。</p>
+    </div>
+    <div class="tech-card">
+      <span class="tech-icon">&#x1F9EE;</span>
+      <h4 data-lang="en">Topos Quantum Computer</h4>
+      <h4 data-lang="ja">トポス量子計算機</h4>
+      <p data-lang="en">Beyond topological qubits: error tolerance from categorical universality of &infin;-topoi, not just braiding of anyons.</p>
+      <p data-lang="ja">トポロジカル量子ビットの先へ：エニオンの編み込みではなく、&infin;-トポスの圏論的普遍性によるエラー耐性。</p>
+    </div>
+    <div class="tech-card">
+      <span class="tech-icon">&#x26A1;</span>
+      <h4 data-lang="en">Vacuum Phase Transition</h4>
+      <h4 data-lang="ja">真空の相転移</h4>
+      <p data-lang="en">Extract energy via "phase transitions" of arithmetic spacetime structure. The Bost&ndash;Connes system as prototype.</p>
+      <p data-lang="ja">算術的時空構造の「相転移」によるエネルギー抽出。ボスト-コンヌ系がプロトタイプ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     KEY REFERENCES
+     ============================================================ -->
+<section>
+  <h2><span class="num">05</span> <span data-lang-inline="en">Key References (72 total in paper)</span><span data-lang-inline="ja">主要参考文献（論文中72件）</span></h2>
+
+  <div class="ref-grid">
+    <div class="ref-item">
+      <div class="author">Isham &amp; Butterfield</div>
+      <div class="title">A topos perspective on the Kochen&ndash;Specker theorem (I&ndash;IV)</div>
+      <div class="venue">Int. J. Theor. Phys. 1998&ndash;2002</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">D&ouml;ring &amp; Isham</div>
+      <div class="title">"What is a Thing?" &mdash; A topos foundation for theories of physics (I&ndash;IV)</div>
+      <div class="venue">J. Math. Phys. 2008</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Heunen, Landsman, Spitters</div>
+      <div class="title">A topos for algebraic quantum theory (Bohrification)</div>
+      <div class="venue">Commun. Math. Phys. 2009</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Mochizuki</div>
+      <div class="title">Inter-universal Teichm&uuml;ller Theory I&ndash;IV</div>
+      <div class="venue">PRIMS 2021 (preprint 2012)</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Connes &amp; Kreimer</div>
+      <div class="title">Hopf algebras, renormalization and noncommutative geometry</div>
+      <div class="venue">Commun. Math. Phys. 1998</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Bost &amp; Connes</div>
+      <div class="title">Hecke algebras, type III factors and phase transitions in number theory</div>
+      <div class="venue">Selecta Math. 1995</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Brown</div>
+      <div class="title">Mixed Tate motives over Z &amp; Cosmic Galois Group</div>
+      <div class="venue">Ann. Math. 2012 / CNTP 2017</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Freund &amp; Witten</div>
+      <div class="title">Adelic string amplitudes</div>
+      <div class="venue">Phys. Lett. B 1987</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Volovich</div>
+      <div class="title">Number theory as the ultimate physical theory</div>
+      <div class="venue">CERN preprint 1987</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Abramsky &amp; Brandenburger</div>
+      <div class="title">Sheaf-theoretic structure of non-locality and contextuality</div>
+      <div class="venue">New J. Phys. 2011</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Schreiber</div>
+      <div class="title">Differential cohomology in a cohesive &infin;-topos</div>
+      <div class="venue">arXiv:1310.7930, 2013</div>
+    </div>
+    <div class="ref-item">
+      <div class="author">Deninger</div>
+      <div class="title">Analogies between number theory and dynamical systems</div>
+      <div class="venue">Proc. ICM Berlin 1998</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DOWNLOAD
+     ============================================================ -->
+<section style="text-align:center">
+  <h2><span class="num">06</span> <span data-lang-inline="en">Read the Full Paper</span><span data-lang-inline="ja">論文を読む</span></h2>
+  <p data-lang="en">25 pages, 72 references, covering topos theory, IUT theory, noncommutative geometry, p-adic physics, and speculative technology.</p>
+  <p data-lang="ja">25ページ、72件の参考文献。トポス論、IUT理論、非可換幾何学、p進物理学、技術的帰結の思考実験。</p>
+
+  <div class="cta-row">
+    <a class="cta cta-primary" href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/arithmetic-geometry/arithmetic_geometry_spacetime_en.pdf">&#x1F4C4; English PDF</a>
+    <a class="cta cta-primary" href="https://github.com/isshii-jpeg/wright-brothers/blob/main/papers/arithmetic-geometry/arithmetic_geometry_spacetime.pdf">&#x1F4C4; Japanese PDF</a>
+    <a class="cta cta-secondary" href="https://github.com/isshii-jpeg/wright-brothers/tree/main/papers/arithmetic-geometry">LaTeX Source</a>
+    <a class="cta cta-secondary" href="https://github.com/isshii-jpeg/wright-brothers">Full Repository</a>
+  </div>
+</section>
+
+</div><!-- .content -->
+
+<footer>
+  <p><strong>Wright Brothers</strong> &mdash; bsbraveshine777@gmail.com</p>
+  <p data-lang="en" style="margin-top:.5rem;font-family:var(--serif);font-style:italic">"The most abstract mathematics, precisely because it abstracts the deepest rules of the universe, will ultimately enable the most powerful control of physical reality."</p>
+  <p data-lang="ja" style="margin-top:.5rem;font-family:var(--serif);font-style:italic">「最も抽象的な数学は、宇宙の最も深いルールを抽象化したものであるからこそ、最終的には最も強力な物理的現実の制御を可能にする。」</p>
+  <p style="margin-top:1rem"><a href="index.html">&larr; <span data-lang-inline="en">Back to main page</span><span data-lang-inline="ja">メインページへ</span></a></p>
+</footer>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+// ---- Geometric constellation background ----
+(function(){
+  const c=document.getElementById('geo-canvas'),x=c.getContext('2d');
+  let w,h,pts=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight;init()}
+  function init(){
+    pts=[];
+    const n=60;
+    for(let i=0;i<n;i++)
+      pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*1.2+.4});
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    // lines
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<180){
+          const a=1-d/180;
+          x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);
+          x.strokeStyle=`rgba(255,217,61,${a*.12})`;x.lineWidth=.5;x.stroke();
+        }
+      }
+    }
+    // points
+    for(const p of pts){
+      x.beginPath();x.arc(p.x,p.y,p.r,0,6.28);
+      x.fillStyle='rgba(255,217,61,.5)';x.fill();
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1;
+      if(p.y<0||p.y>h)p.vy*=-1;
+    }
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize',resize);resize();draw();
+})();
+
+// ---- Language toggle ----
+function setLang(lang){
+  document.body.classList.toggle('ja',lang==='ja');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-ja').classList.toggle('active',lang==='ja');
+  localStorage.setItem('lang',lang);
+  document.documentElement.lang=lang;
+}
+(function(){
+  const saved=localStorage.getItem('lang');
+  const browser=navigator.language.startsWith('ja')?'ja':'en';
+  setLang(saved||browser);
+})();
+</script>
+</body>
+</html>
