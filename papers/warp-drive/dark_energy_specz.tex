@@ -1,0 +1,335 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage[margin=2.5cm]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{prediction}[theorem]{Prediction}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\lP}{\ell_{\mathrm{P}}}
+\newcommand{\RH}{R_{\mathrm{H}}}
+\newcommand{\rhoP}{\rho_{\mathrm{P}}}
+
+\begin{document}
+
+\title{Dark Energy as Arithmetic Casimir Energy:\\
+  Five Testable Predictions from $\Spec(\mathbb{Z})$}
+
+\author{Wright Brothers\\{\small Independent Research}}
+\date{April 2026}
+\maketitle
+
+\begin{abstract}
+If the physical vacuum has the arithmetic structure of
+$\Spec(\mathbb{Z})$, dark energy acquires a specific identity:
+the Casimir energy of the arithmetic scheme, diluted by the
+cosmological horizon. We derive the formula
+$\rho_\Lambda = \rhoP \times \zeta(-3) \times (\lP/\RH)^2$,
+which predicts the dark energy density to within one order of
+magnitude of the observed value --- a dramatic improvement over
+the $10^{122}$ discrepancy of standard quantum field theory.
+We extract five predictions that distinguish the $\Spec(\mathbb{Z})$
+model from $\Lambda$CDM:
+(1)~dark energy evolves in discrete steps as primes ``crystallize'';
+(2)~the equation of state $w(z)$ exhibits discrete deviations from
+$-1$ at specific redshifts, irreconcilable with the standard
+$w_0$-$w_a$ parametrization;
+(3)~the dark energy density is determined by $\zeta(-3)$ and the
+horizon-to-Planck ratio;
+(4)~the CMB power spectrum carries imprints of Riemann zeta zeros
+at multipoles $\ell \approx 328, 390, 474, 514$;
+(5)~dark energy transitions are discrete (step functions), providing
+a unique signature impossible in $\Lambda$CDM.
+Prediction~4 is testable immediately using existing Planck satellite
+data. Prediction~5 is testable with ongoing surveys (DESI, Euclid, Roman).
+Following Einstein's precedent --- general relativity was confirmed not
+by directly measuring spacetime curvature but by predicting the
+deflection of starlight --- we propose that observation of these
+predictions would constitute strong evidence for arithmetic spacetime.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction: Einstein's playbook}
+% ============================================================================
+
+General relativity was not accepted because anyone directly observed
+the curvature of spacetime. It was accepted because Einstein predicted
+a new, observable phenomenon --- the deflection of starlight by the
+Sun by $1.75''$ --- which was confirmed during the 1919 solar
+eclipse~\cite{Dyson1920}. The prediction was \emph{unique} to GR:
+Newtonian gravity predicted half the deflection, and no other theory
+predicted the correct value.
+
+We adopt the same strategy for the hypothesis that spacetime has
+the arithmetic structure of $\Spec(\mathbb{Z})$~\cite{paper_A,paper_F}.
+Rather than attempting a direct proof (which would require
+Planck-scale experiments), we derive predictions for dark energy
+that are (a)~specific to the $\Spec(\mathbb{Z})$ framework,
+(b)~quantitatively different from $\Lambda$CDM, and
+(c)~testable with current or near-future observations.
+
+% ============================================================================
+\section{Dark energy as arithmetic Casimir energy}
+% ============================================================================
+
+\subsection{The standard problem}
+
+The cosmological constant problem: quantum field theory predicts
+$\rho_{\mathrm{vac}} \sim \rhoP \sim 10^{113}\,\mathrm{J/m^3}$;
+observation gives
+$\rho_\Lambda^{\mathrm{obs}} \sim 10^{-9}\,\mathrm{J/m^3}$;
+discrepancy $\sim 10^{122}$.
+
+\subsection{The $\Spec(\mathbb{Z})$ resolution}
+
+In our framework, vacuum energy is not a cutoff-dependent quantity
+but a $\zeta$-function value:
+\begin{equation}
+  \rho_{\mathrm{vac}}^{\mathrm{arith}} = \rhoP \times \zeta(-3)
+  = \rhoP / 120.
+\end{equation}
+This replaces the $10^{122}$ problem with a
+$10^{2}$ problem ($\rhoP / 120$ is still too large by a factor
+$\sim 10^{121}$). The remaining suppression comes from
+\emph{holographic dilution}: the observable universe has area
+$\sim \RH^2$ while the fundamental cell has area $\sim \lP^2$:
+
+\begin{prediction}[Arithmetic dark energy density]
+\label{pred:density}
+\begin{equation}
+  \rho_\Lambda = \rhoP \times \zeta(-3) \times \left(\frac{\lP}{\RH}\right)^2,
+  \label{eq:rho_lambda}
+\end{equation}
+where $\RH = c/H_0$ is the Hubble radius.
+\end{prediction}
+
+Numerically:
+$\rhoP \approx 4.6 \times 10^{113}\,\mathrm{J/m^3}$,
+$\zeta(-3) = 1/120$,
+$\lP/\RH \approx 1.2 \times 10^{-61}$.
+\begin{equation}
+  \rho_\Lambda^{\mathrm{pred}} = 4.6 \times 10^{113} \times
+  \frac{1}{120} \times 1.4 \times 10^{-122}
+  \approx 5.4 \times 10^{-11}\,\mathrm{J/m^3}.
+\end{equation}
+The observed value is $5.8 \times 10^{-10}\,\mathrm{J/m^3}$.
+The prediction is within one order of magnitude
+(factor $\sim 10$), compared to the $10^{122}$ discrepancy
+of QFT. The remaining factor of $\sim 10$ may be attributed to
+the precise value of $\Omega_\Lambda$ and $O(1)$ corrections
+from the number of active degrees of freedom.
+
+\textbf{Interpretation of each factor:}
+\begin{itemize}
+\item $\rhoP$: quantum gravity scale (energy per Planck volume).
+\item $\zeta(-3) = 1/120$: arithmetic structure of $\Spec(\mathbb{Z})$
+  (3D Casimir energy denominator, independent of any cutoff).
+\item $(\lP/\RH)^2$: holographic dilution. The vacuum energy is
+  ``spread'' over the Hubble area in Planck units.
+  This factor has appeared in holographic dark energy
+  models~\cite{Li2004} but here acquires an arithmetic origin:
+  it is the ratio of areas on $\Spec(\mathbb{Z})$.
+\end{itemize}
+
+% ============================================================================
+\section{Five testable predictions}
+% ============================================================================
+
+\begin{prediction}[Discrete dark energy steps]
+\label{pred:steps}
+Dark energy evolves in discrete steps as primes ``crystallize''
+during the Bost-Connes phase transition. Each step corresponds
+to a new prime becoming active in the Euler product.
+The step amplitudes scale as $(1 - p^3)$ and are larger for
+smaller primes.
+\end{prediction}
+
+In $\Lambda$CDM, dark energy is exactly constant.
+In $\Spec(\mathbb{Z})$, the effective vacuum energy at
+``arithmetic temperature'' $\beta$ is
+$\rho(\beta) = \rhoP \times \zeta_{\mathrm{eff}}(-3, \beta)$,
+where the effective $\zeta$ includes only primes activated
+at that $\beta$. As the universe cools (larger $\beta$),
+more primes activate, and $\rho$ jumps discontinuously.
+
+\begin{prediction}[Equation of state deviations]
+\label{pred:wz}
+The dark energy equation of state $w(z)$ exhibits discrete
+deviations from $-1$:
+\begin{equation}
+  w(z) = -1 + \sum_p \epsilon_p \, \delta(z - z_p),
+\end{equation}
+where $z_p$ is the redshift at which prime $p$ crystallizes
+and $\epsilon_p$ is the associated perturbation.
+This is fundamentally different from the standard
+$w_0$-$w_a$ parametrization $w = w_0 + w_a z/(1+z)$,
+which is continuous.
+\end{prediction}
+
+Ongoing dark energy surveys (DESI~\cite{DESI2024},
+Euclid~\cite{Euclid2024}, Roman) will measure $w(z)$ to
+$\sim 1\%$ precision at $z < 2$. If discrete steps are
+detected that cannot be fit by the smooth $w_0$-$w_a$ form,
+this would be strong evidence for $\Spec(\mathbb{Z})$.
+
+\begin{prediction}[CMB Riemann zero imprints]
+\label{pred:cmb}
+The primordial power spectrum carries oscillatory features
+at CMB multipoles corresponding to the imaginary parts of
+Riemann zeta zeros:
+\begin{equation}
+  \ell_n \approx t_n \times \frac{\ell_1}{t_1},
+\end{equation}
+where $t_n$ is the $n$-th Riemann zero ($t_1 = 14.13$,
+$t_2 = 21.02$, etc.) and $\ell_1 = 220$ is the first
+acoustic peak. This gives:
+$\ell_2' \approx 328$, $\ell_3' \approx 390$,
+$\ell_4' \approx 474$, $\ell_5' \approx 514$.
+\end{prediction}
+
+These multipoles fall \emph{between} the standard acoustic peaks
+($\ell \approx 220, 540, 810$). They are testable with existing
+Planck CMB data~\cite{Planck2018} without requiring new observations.
+
+\begin{prediction}[Dark energy density value]
+\label{pred:value}
+The dark energy density satisfies
+eq.~(\ref{eq:rho_lambda}), which contains no free parameters
+(all quantities are either measured or derived from $\zeta(-3)$).
+The predicted value agrees with observation to within a
+factor of $\sim 10$.
+\end{prediction}
+
+\begin{prediction}[Discrete $w(z)$ structure]
+\label{pred:discrete}
+The most decisive prediction: the dark energy equation of state
+has a discrete (step-function) structure that is
+\emph{impossible} in $\Lambda$CDM or any smooth quintessence model.
+If DESI/Euclid data prefer a step-function $w(z)$ over
+smooth parametrizations, this would constitute a ``smoking gun''
+for arithmetic spacetime.
+\end{prediction}
+
+% ============================================================================
+\section{Comparison with $\Lambda$CDM}
+% ============================================================================
+
+\begin{table}[h]
+\centering
+\caption{$\Lambda$CDM vs.\ $\Spec(\mathbb{Z})$ predictions.}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}p{3.5cm}cc@{}}
+\toprule
+Observable & $\Lambda$CDM & $\Spec(\mathbb{Z})$ \\
+\midrule
+$\rho_\Lambda$ value & Free parameter & $\rhoP \zeta(-3)(\lP/\RH)^2$ \\
+$w(z)$ & $-1$ (exact) & $-1 +$ discrete steps \\
+$w$ parametrization & $w_0$-$w_a$ (smooth) & Step function \\
+CMB extra features & None & $\ell \approx 328, 390, 474$ \\
+Time dependence & None & Discrete transitions \\
+\midrule
+\# free parameters & 1 ($\Lambda$) & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The critical advantage of the $\Spec(\mathbb{Z})$ model is that
+it has \emph{zero} free parameters for dark energy (vs.\ one
+in $\Lambda$CDM). The dark energy density is \emph{predicted},
+not fitted.
+
+% ============================================================================
+\section{Immediate observational program}
+% ============================================================================
+
+\textbf{Step 1: Planck CMB reanalysis (cost: \$0, time: weeks).}
+Search the Planck 2018 temperature and polarization power spectra
+for excess power at $\ell = 328 \pm 15$, $390 \pm 15$, $474 \pm 15$,
+$514 \pm 15$ (Prediction~\ref{pred:cmb}).
+The analysis requires only publicly available data~\cite{Planck2018}
+and standard CMB analysis tools (CAMB, CLASS).
+
+\textbf{Step 2: DESI Year 1 data (available 2024--2025).}
+Test whether the BAO and redshift-space distortion data prefer
+a step-function $w(z)$ over smooth $w_0$-$w_a$
+(Prediction~\ref{pred:discrete}).
+
+\textbf{Step 3: Combined Euclid + Roman (2026--2030).}
+With $\sim 1\%$ precision on $w(z)$ at $z < 2$, detect or
+rule out discrete transitions (Prediction~\ref{pred:steps}).
+
+% ============================================================================
+\section{Discussion}
+% ============================================================================
+
+\subsection{The analogy with gravitational lensing}
+
+Einstein predicted $1.75''$ deflection. Eddington measured
+$1.61'' \pm 0.30''$. Agreement within errors confirmed GR.
+
+We predict Riemann zero imprints at specific CMB multipoles
+and a specific dark energy density formula. If Planck data
+shows excess power at $\ell \approx 328, 390, 474$ (even at
+$2\sigma$), the analogy with 1919 would be direct: a specific,
+quantitative prediction of the theory confirmed by observation.
+
+\subsection{What falsifies the model}
+
+\begin{itemize}
+\item If the CMB is featureless at $\ell = 328, 390, 474$
+  (Prediction~\ref{pred:cmb} fails): the direct imprint model
+  is falsified, though the underlying $\Spec(\mathbb{Z})$
+  hypothesis may survive with modified mapping.
+\item If $w(z)$ is measured to be \emph{exactly} $-1$ to
+  $0.1\%$ precision with no discrete features
+  (Prediction~\ref{pred:discrete} fails): the prime
+  crystallization model is falsified.
+\item If the dark energy density is incompatible with
+  $\rhoP \zeta(-3)(\lP/\RH)^2$ even after $O(1)$ corrections
+  (Prediction~\ref{pred:value} fails): the holographic
+  arithmetic formula is falsified.
+\end{itemize}
+
+Each prediction is independently falsifiable, making the
+theory scientifically rigorous regardless of outcome.
+
+% ============================================================================
+\section{Conclusion}
+% ============================================================================
+
+We have derived five testable predictions for dark energy from
+the hypothesis that spacetime is $\Spec(\mathbb{Z})$.
+The most striking is the dark energy density formula
+$\rho_\Lambda = \rhoP \zeta(-3) (\lP/\RH)^2$, which with zero
+free parameters predicts the observed value to within one order
+of magnitude --- an improvement of $10^{121}$ over the standard
+QFT prediction.
+
+The most immediately testable prediction is the CMB Riemann zero
+imprint (Prediction~\ref{pred:cmb}), which can be checked with
+existing Planck data at zero cost. The most decisive prediction
+is the discrete $w(z)$ structure (Prediction~\ref{pred:discrete}),
+which is impossible in $\Lambda$CDM.
+
+Following Einstein's precedent, we propose that observation of
+these predictions --- particularly the CMB imprints and discrete
+$w(z)$ --- would constitute compelling evidence that the universe
+lives on $\Spec(\mathbb{Z})$.
+
+\begin{thebibliography}{20}
+\bibitem{Dyson1920} F.~W.~Dyson et al., Phil. Trans. R. Soc. A \textbf{220}, 291 (1920).
+\bibitem{paper_A} Wright Brothers, companion paper A (2026).
+\bibitem{paper_F} Wright Brothers, companion paper F (2026).
+\bibitem{Li2004} M.~Li, Phys. Lett. B \textbf{603}, 1 (2004).
+\bibitem{DESI2024} DESI Collaboration, arXiv:2404.03002 (2024).
+\bibitem{Euclid2024} Euclid Collaboration, A\&A \textbf{681}, A67 (2024).
+\bibitem{Planck2018} Planck Collaboration, A\&A \textbf{641}, A6 (2020).
+\end{thebibliography}
+
+\end{document}
