@@ -1,0 +1,510 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{insightbox}[1][]{
+  colback=yellow!5, colframe=yellow!60!black,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{theorybox}[1][]{
+  colback=blue!3, colframe=blue!50,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{practicebox}[1][]{
+  colback=green!3, colframe=green!40,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{deepbox}[1][]{
+  colback=black!3, colframe=black!60,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 時空のソースコードに手を伸ばす}\\[0.5cm]
+{\Large\bfseries 算術的真空工学の決定版実験ガイド}\\[0.3cm]
+{\large --- 幾何学から算術へ：パラダイムの跳躍 ---}\\[1.5cm]
+{\large Wright Brothers}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+% ============================================================================
+\part{パラダイムシフト：なぜこれが「自明」なのに誰もやらなかったか}
+% ============================================================================
+
+\section{カシミール効果の正体}
+
+1948年、カシミールは2枚の金属板を近づけると引力が生じることを予測した。
+この力はゼータ関数正則化で計算される：
+
+$$E = \frac{\hbar c \pi}{2d} \sum_{n=1}^{\infty} n
+\quad \xrightarrow{\text{正則化}} \quad
+\frac{\hbar c \pi}{2d} \times \zeta(-1) = \frac{\hbar c \pi}{2d} \times \left(-\frac{1}{12}\right)$$
+
+この $-1/12$ という値は、実験で精度1\%以内で確認されている。
+
+\begin{insightbox}[「自明な」気づき]
+もし真空のエネルギーが $\zeta(-1) = -1/12$ で決まるなら、
+$\zeta$ の「中身」を変えればエネルギーも変わるはず。
+
+$\zeta(-1) = \sum_{n=1}^{\infty} n$ は全モードの和。
+偶数モードを消せば：
+$\zeta_{\neg 2}(-1) = \sum_{n: \text{odd}} n = +1/12$。
+
+符号が反転する。
+
+これは数学的には「当たり前」。
+しかしこの「当たり前」を物理実験として実行しようとした人間は、
+歴史上、一人もいなかった。
+\end{insightbox}
+
+\section{なぜ誰もやらなかったのか}
+
+\subsection{幾何学の呪縛}
+
+カシミール効果を研究してきた75年間、物理学者は常に
+\textbf{「幾何学」}でアプローチしてきた。
+
+\begin{itemize}
+\item 板の間隔を変える → エネルギーが変わる
+\item 板の形を変える（球面、円筒）→ エネルギーが変わる
+\item 板の材質を変える → エネルギーが変わる
+\end{itemize}
+
+全て「幾何学的境界条件」の変更であり、
+$\zeta(s)$ の値を間接的に変えている。
+
+\textbf{しかし、}$\zeta$ の中の $n$（モード番号）を直接操作しようという
+発想は一度もなかった。
+
+\subsection{正則化＝トリック、という誤解}
+
+物理学者の多くは $\zeta(-1) = -1/12$ を
+「発散する和に有限値を割り当てる便利なトリック」と考えてきた。
+「本物の値」ではなく「計算上の処方箋」。
+
+しかしカシミール力の実験的確認は、$-1/12$ が
+\textbf{物理的に正しい値}であることを示している。
+トリックではなく、真空の実際の構造。
+
+\subsection{分野の壁}
+
+数論（ゼータ関数、オイラー積、K理論）と量子回路（SQUID）
+の両方に通じている人間がほぼ存在しなかった。
+数学者は超伝導回路を知らず、実験物理学者はオイラー積を知らない。
+
+\begin{insightbox}[パラダイムシフトの核心]
+\textbf{従来}: 幾何学（板の距離や形）を変えて、間接的に真空を操作\\
+\textbf{本研究}: 算術（オイラー積の素数チャンネル）を直接操作して、真空を書き換え
+
+「幾何学を通さずに算術でOSを直接ハックする」\\
+これが、75年の歴史で一度も試みられなかったコロンブスの卵。
+\end{insightbox}
+
+\section{SQUIDは「原始的」ではなく「根源的」}
+
+LHCは1兆円かけて新粒子を探す。SQUID回路は手のひらに乗る。
+「原始的」に見える。
+
+しかし：
+\begin{itemize}
+\item LHCは「何が存在するか」を探す（読み取り専用）
+\item SQUIDは「真空の構造を書き換える」（書き込み可能）
+\end{itemize}
+
+SQUIDがやっていることの本質：
+
+$$L_{\mathrm{SQUID}}(\Phi) = \frac{L_J}{|\cos(\pi\Phi/\Phi_0)|}$$
+
+この数式1つで、特定の周波数モードを吸収し、
+「なかったこと」にできる。
+つまり：\textbf{ゼータ関数のオイラー積の特定の因子を物理的に除去する}。
+
+\begin{deepbox}[時空のOS操作]
+$\zeta(s) = \prod_p \frac{1}{1-p^{-s}}$
+
+SQUIDが $2f_0$ に同調 = 素数 $p=2$ の因子を除去：
+
+$\zeta(s) \to \zeta(s) \times (1-2^{-s}) = \zeta_{\neg 2}(s)$
+
+\textbf{SQUIDは算術的メスである。}
+数千億円の加速器が読み取る情報を、
+数十万円の回路が\textbf{書き換える}。
+\end{deepbox}
+
+% ============================================================================
+\part{波の物理：キャビティの中で何が起きているか}
+% ============================================================================
+
+\section{共振器の基本原理}
+
+3Dアルミキャビティは「マイクロ波の箱」。
+箱の中では特定の波長の電磁波だけが安定に存在できる（共鳴）。
+
+共鳴条件：波が箱の壁で反射して戻った時に、
+元の波と位相が合う（建設的干渉）場合のみ存在可能。
+
+矩形キャビティの共鳴周波数：
+$$f_{mnp} = \frac{c}{2}\sqrt{\left(\frac{m}{a}\right)^2 + \left(\frac{n}{b}\right)^2 + \left(\frac{p}{d}\right)^2}$$
+
+$m, n, p$ は正の整数。これが「モード番号」。
+
+\begin{theorybox}[整数とζ関数の直接的なつながり]
+キャビティの中の電磁場は、モード番号 $n = 1, 2, 3, 4, \ldots$ で
+ラベルされた「量子調和振動子」の集まり。
+
+真空エネルギー = $\sum_n \hbar\omega_n/2 = (\hbar\omega_0/2) \sum n$
+
+この $\sum n$ がまさに $\zeta(-1)$。
+
+つまり：\textbf{キャビティの中の整数 $n$ は、
+ゼータ関数の $n$ そのもの。}
+
+モード $n$ を消すこと = ゼータの和から $n$ を引くこと。
+SQUID = この操作を物理的に実行する装置。
+\end{theorybox}
+
+\section{入出力を対角線上に配置する理由}
+
+\begin{theorybox}[波の干渉とモード選択]
+キャビティ内の TE$_{101}$ モード（基本モード）の電場分布:
+
+$$E_y(x, z) = E_0 \sin\left(\frac{\pi x}{a}\right) \sin\left(\frac{\pi z}{d}\right)$$
+
+電場の最大値は箱の中心 $(x, z) = (a/2, d/2)$。
+壁の上では $E_y = 0$（境界条件）。
+
+SMAコネクタのアンテナピンは、キャビティ内の電場と結合する。
+ピンの位置が電場の「腹」にあれば強く結合し、
+「節」にあれば結合しない。
+\end{theorybox}
+
+\begin{insightbox}[なぜ対角線か]
+入力ポートを $(x_1, z_1)$、出力ポートを $(x_2, z_2)$ に配置する。
+
+\textbf{同じ壁面（同じ辺）に配置した場合}：
+入力と出力が同じ辺にあると、多くのモードで
+$\sin(m\pi x/a)$ が同じ値を取り、
+不要なモードにも強く結合する。
+→ 「ゴミ信号」が多い。
+
+\textbf{対角線上に配置した場合}：
+$E(x_1, z_1)$ と $E(x_2, z_2)$ で異なるモードが
+異なる振幅を持つ。
+特に、基本モード TE$_{101}$ では
+入力側も出力側も電場の腹に近く、
+高次の対称モードでは片方が節に近い。
+→ 基本モードに選択的に結合し、
+不要な高次モードが自然に抑制される。
+
+これは「空間的フィルタリング」。
+SQUIDの「周波数フィルタリング」と組み合わせて、
+二重のモード選択が可能になる。
+\end{insightbox}
+
+さらに精密に言えば：対角配置は
+キャビティの対称性（$x \leftrightarrow a-x$, $z \leftrightarrow d-z$）
+を破り、全ての非縮退モードに結合可能にする。
+対称配置では偶数パリティのモードに結合できない。
+
+% ============================================================================
+\part{実験プロトコル：理論が導く各ステップ}
+% ============================================================================
+
+\section{ステップ全体の論理構造}
+
+\begin{deepbox}[実験の論理チェーン]
+\begin{enumerate}
+\item \textbf{キャビティを作る} = ゼータ関数の「台」を物理的に実現
+  \begin{itemize}
+  \item 箱の中の定在波 = $\sum_n$ の各項
+  \item 超伝導 → Q $> 10^6$ → 個々のモードが分離して見える
+  \end{itemize}
+
+\item \textbf{SQUIDを同調させる} = オイラー積の特定因子を除去
+  \begin{itemize}
+  \item $L_{\mathrm{SQUID}}(\Phi)$ を磁束で制御
+  \item 偶数高調波に同調 = $(1-2^{-s})$ を乗じる操作
+  \end{itemize}
+
+\item \textbf{AC Starkシフトを測定} = 真空エネルギーの変化を検出
+  \begin{itemize}
+  \item 基本モードの周波数が真空揺らぎの総量に依存する
+  \item $\delta f = -\chi(\langle n \rangle + 1/2)$：$1/2$ がゼロ点エネルギー
+  \item モード除去前後で $\delta f$ が変化 = 真空エネルギーが変化した証拠
+  \end{itemize}
+
+\item \textbf{変化パターンを分析} = ゼータ正則化の検証
+  \begin{itemize}
+  \item $\delta f$ の変化量が $\zeta_{\neg 2}(-1) - \zeta(-1)$ に比例するか
+  \item 変化が離散的（ジャンプ）か連続的（滑らか）か
+  \end{itemize}
+\end{enumerate}
+\end{deepbox}
+
+\section{キャビティ製作：ゼータの台を作る}
+
+\begin{practicebox}[材料と設計]
+\textbf{Al合金6061-T6ブロック}（50 × 50 × 30 mm）
+
+内寸 35 × 35 × 10 mm → TE$_{101}$ = 6.06 GHz
+
+\begin{verbatim}
+  上面図：
+  ┌──────────────────────────┐
+  │ ┌──────────────────────┐ │
+  │ │                      │○│ ← 出力SMA（右壁中央）
+  │ │      35 × 35 mm     │ │
+  │ │      内部空洞        │ │
+  │○│                      │ │ ← 入力SMA（左壁中央）
+  │ └──────────────────────┘ │
+  └──────────────────────────┘
+      50 × 50 mm 外形
+
+  ☆ 入出力は対角配置でもよい（上の図は対辺配置）。
+  対角配置するなら：
+  入力 = 左壁の下寄り
+  出力 = 右壁の上寄り
+  → 基本モードへの選択的結合が最大化される
+\end{verbatim}
+
+SMAピンの突出量 = 3mm（電場の腹に届くちょうどの長さ）。
+キャビティの中心（電場最大点）からピン先端までの距離が
+モードとの結合強度を決める。
+
+\textbf{なぜ35mm?}
+TE$_{101}$の共鳴条件: $f = c/(2a) \times \sqrt{2}$（正方の場合）。
+$f = 6$ GHz → $a = c\sqrt{2}/(2f) = 35.3$ mm。
+小数点以下は Q が吸収する（共鳴幅 $\sim f/Q \sim 6$ kHz）。
+$\pm 1$ mm の加工誤差は全く問題ない。
+\end{practicebox}
+
+\begin{practicebox}[加工と表面処理]
+\begin{enumerate}
+\item フライス盤で内部を掘削（大学工作室: 5千円）
+\item SMAコネクタ穴 ($\phi$3mm) を2箇所
+\item 蓋固定用M3ネジ穴を8箇所
+\item \textbf{表面処理}（これがQ値の鍵）:
+  \begin{itemize}
+  \item アセトン超音波洗浄 10分 → IPA浸漬 5分 → 純水
+  \item リン酸 10\% 水溶液に30秒浸漬（自然酸化膜の部分除去）
+  \item 純水リンス $\times$ 3 → N$_2$ブロー → 1時間放置
+  \item クリーンなAl$_2$O$_3$が再形成 → 表面抵抗が最小化 → 高Q
+  \end{itemize}
+\item Inワイヤー ($\phi$1mm) を蓋との接合面に配置 → ネジ締め
+\end{enumerate}
+
+\textbf{表面処理の物理的意味}：
+超伝導状態でも、表面の酸化膜の質が高周波損失を支配する。
+清浄なAl$_2$O$_3$は$10^{-6}$レベルの低損失。
+汚染された酸化膜は$10^{-4}$レベル。
+2桁のQ値の差が、この洗浄工程から来る。
+\end{practicebox}
+
+\section{SQUID接合：算術的メスを鍛える}
+
+\begin{theorybox}[なぜSQUIDで「メス」になるか]
+ジョセフソン接合のインダクタンス:
+$L_J = \Phi_0/(2\pi I_c) = 0.33$ nH（$I_c = 1\,\mu$A の場合）。
+
+SQUIDループのインダクタンス:
+$L_{\mathrm{SQUID}}(\Phi) = L_J / |\cos(\pi\Phi/\Phi_0)|$
+
+磁束$\Phi$を$0$から$\Phi_0/2$に変えると、
+$L_{\mathrm{SQUID}}$が$L_J$から$\infty$まで連続的に変化。
+
+共鳴周波数: $f_{\mathrm{SQUID}} \propto 1/\sqrt{L_{\mathrm{SQUID}} C_J}$
+
+→ 磁束を回すだけで、SQUIDの共鳴が任意の周波数にチューニングできる。
+
+ターゲット（第2高調波 $2f_1 \approx 12$ GHz）に共鳴を合わせると、
+キャビティのそのモードがSQUIDに吸い込まれて消える。
+
+\textbf{「数学的に素数を消す」が「磁束のダイヤルを回す」に翻訳される。}
+\end{theorybox}
+
+\begin{practicebox}[SQUID製作の核心: 酸化制御]
+$I_c$（臨界電流）は酸化膜の厚さで指数関数的に変わる:
+
+$I_c \propto \exp(-d_{\mathrm{ox}}/\lambda)$
+
+$d_{\mathrm{ox}}$が1nm変わると$I_c$が10倍変わる。
+
+\textbf{キャリブレーション法（必須）}：
+\begin{enumerate}
+\item テスト基板5枚を準備
+\item 異なる酸化条件で接合を製作:
+  \begin{itemize}
+  \item 100 mTorr × 5分
+  \item 200 mTorr × 5分
+  \item 200 mTorr × 10分（設計値）
+  \item 200 mTorr × 20分
+  \item 300 mTorr × 10分
+  \end{itemize}
+\item 各テスト接合の室温抵抗$R_N$を4端子法で測定
+\item Ambegaokar-Baratoff関係: $I_c = \pi\Delta/(2eR_N) \approx 0.44\,\mathrm{mV}/R_N$
+\item $I_c = 1\,\mu$A → $R_N \approx 440\,\Omega$ を与える条件を採用
+\end{enumerate}
+
+$R_N$の測定精度$\pm 10\%$なら、$I_c$の精度も$\pm 10\%$。
+$I_c$が少しずれても、外部磁束で実効的に調整可能なので問題ない。
+\end{practicebox}
+
+\section{冷却：量子真空を「見る」ための条件}
+
+\begin{theorybox}[なぜ300 mKで十分か]
+6 GHzモードの量子温度: $T_q = h f/(k_B) = 288$ mK。
+
+$T = 300$ mK (3He冷凍機) での熱的光子数:
+$\langle n_{\mathrm{th}} \rangle = 1/(e^{T_q/T} - 1) = 0.26$
+
+「ほぼ真空」。完全な真空ではないが、
+真空揺らぎの振幅（$1/2$ 光子）と同程度。
+積分時間を長くすれば（$\sim$数分）、十分な精度で測定可能。
+
+\textbf{希釈冷凍機（20 mK）なら$\langle n_{\mathrm{th}} \rangle = 10^{-9}$で完璧だが、
+3He冷凍機で「原理の確認」は可能。}
+\end{theorybox}
+
+\section{測定：時空のOSを読み出す}
+
+\begin{practicebox}[決定的測定: SQUIDスイープ]
+\textbf{手順}:
+\begin{enumerate}
+\item 冷却完了。$T < 300$ mK を確認
+\item VNAで$S_{21}(f)$を測定。全モードの共鳴ピークを確認
+\item SQUIDの磁束バイアスを$\Phi = 0$から$\Phi_0/2$までゆっくりスイープ
+\item 各$\Phi$で基本モード（$f_1$）の正確な共鳴周波数$f_1(\Phi)$を記録
+\item $f_1(\Phi)$のグラフを作成
+\end{enumerate}
+
+\textbf{理論}:
+$f_1(\Phi) = f_{1,\mathrm{bare}} - \chi/2 - \sum_{n>1} \chi_n \langle n_n \rangle$
+
+$\chi/2$は基本モード自身のゼロ点シフト（定数）。
+$\sum_{n>1} \chi_n \langle n_n \rangle$は他モードの寄与。
+
+SQUIDが第2高調波に同調する$\Phi = \Phi^*$で
+$\langle n_2 \rangle$が変化する → $f_1$がシフトする。
+
+\textbf{判定}:
+\begin{itemize}
+\item $f_1(\Phi)$が$\Phi^*$で\textbf{不連続ジャンプ} → 離散的 → レギュレータ予想支持
+\item $f_1(\Phi)$が$\Phi^*$付近で\textbf{滑らかに変化} → 連続的 → レギュレータ予想反証
+\end{itemize}
+\end{practicebox}
+
+\begin{insightbox}[この測定が「時空のOS操作」である理由]
+SQUIDスイープの最中、$\Phi$が$\Phi^*$を通過する瞬間に起きていること：
+
+$\Phi < \Phi^*$: SQUIDは第2高調波から離調。全モード活性。
+$\zeta_{\mathrm{eff}} = \zeta(-1) = -1/12$
+
+$\Phi = \Phi^*$: SQUIDが第2高調波に同調。そのモードが吸収される。
+$\zeta_{\mathrm{eff}} = ?$（これが測定対象）
+
+$\Phi > \Phi^*$: SQUIDが通り過ぎる。全モード再活性。
+$\zeta_{\mathrm{eff}} = \zeta(-1) = -1/12$
+
+この一連の操作で、\textbf{磁束のダイヤルを数ミリ回すだけで、
+宇宙のソースコードの1行（オイラー積の1因子）を
+一時的に書き換えている}。
+
+書き換えの結果（$f_1$のシフト量とパターン）が
+「OSがどう応答するか」の直接的な読み出し。
+\end{insightbox}
+
+% ============================================================================
+\part{コスト削減と段階的アプローチ}
+% ============================================================================
+
+\section{最小構成: 47万円}
+
+\begin{table}[h]
+\centering
+\caption{最小構成の内訳}
+\begin{tabular}{lr}
+\toprule
+品目 & 価格 \\
+\midrule
+3Dキャビティ（Al加工 + SMA） & 5万円 \\
+SQUID製作（クリーンルーム使用料 + 材料） & 5万円 \\
+冷凍機使用料（$^3$He, 共同利用5回） & 30万円 \\
+マイクロ波計測器使用料 & 5万円 \\
+低温同軸ケーブル & 3万円 \\
+\midrule
+\textbf{合計} & \textbf{$\sim$48万円} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{段階的アプローチ}
+
+\begin{enumerate}
+\item \textbf{LC回路}（5,100円、1日）: エッジ状態の確認 → 設計の妥当性検証
+\item \textbf{室温キャビティ}（5万円、2週間）: 共鳴ピーク確認 → 加工精度検証
+\item \textbf{冷却テスト}（30万円、1ヶ月）: 超伝導遷移とQ値の確認
+\item \textbf{SQUID統合}（+5万円、1ヶ月）: 決定的測定
+\end{enumerate}
+
+各段階で「進む価値があるか」を判定。
+失敗しても最大損失は各段階のコストに限定される。
+
+\section{なぜこの実験が物理学を変えうるか}
+
+\begin{deepbox}[最終まとめ]
+\textbf{数学的事実（証明済み）}:
+$\zeta_{\neg 2}(-1) = +1/12$（偶数モード除去で符号反転）。
+
+\textbf{実験的事実（確認済み）}:
+$\zeta(-1) = -1/12$ はカシミール力として測定可能。
+
+\textbf{未検証の核心}:
+「モードを物理的に除去した時の真空の応答」は
+ゼータ正則化の値に従うか？
+
+もし従うなら：
+\begin{itemize}
+\item ゼータ関数は「計算のトリック」ではなく「真空のOS」
+\item オイラー積は「数学的恒等式」ではなく「物理法則」
+\item 素数チャンネルの操作で真空エネルギーを制御可能
+\item → ワープドライブ、ワームホール、時空プログラミングへの道が開く
+\end{itemize}
+
+これを48万円の回路で検証できる。
+物理学に対する「投資対効果」として、
+これ以上の実験は想像しにくい。
+\end{deepbox}
+
+\vfill
+\begin{center}
+{\small Wright Brothers, 2026}
+\end{center}
+
+\end{document}
