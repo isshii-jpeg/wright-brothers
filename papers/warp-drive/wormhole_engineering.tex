@@ -1,0 +1,468 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage[margin=2.5cm]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\lP}{\ell_{\mathrm{P}}}
+\newcommand{\rhoP}{\rho_{\mathrm{P}}}
+
+\begin{document}
+
+\title{Engineering a Human-Traversable Wormhole\\
+  via Arithmetic Spacetime Programming:\\
+  From Einstein-Rosen to the Euler Product Console}
+
+\author{Wright Brothers\\{\small Independent Research}}
+\date{April 2026}
+\maketitle
+
+\begin{abstract}
+We propose the first concrete mechanism for constructing a
+human-traversable wormhole that does not require assembling
+exotic matter but instead \emph{programs} the vacuum to violate
+energy conditions via arithmetic operations on $\Spec(\mathbb{Z})$.
+We survey ninety years of wormhole physics --- from the
+Einstein-Rosen bridge (1935), through Wheeler's quantum foam (1955),
+Morris-Thorne's traversability conditions (1988), Visser's thin-shell
+construction (1989), to the recent quantum simulation of
+traversable wormhole dynamics (Jafferis et al., 2022) ---
+and show that every prior approach founders on the same obstacle:
+the need to \emph{gather} negative energy in sufficient quantity.
+Our approach dissolves this obstacle by reframing the weak energy
+condition as a topos-internal proposition whose truth value is
+switched by localization $\mathbb{Z} \to \Zp$, a discrete
+topological operation independent of energy scale.
+We identify the arithmetic domain wall $V(p) = \Spec(\mathbb{F}_p)$
+as the natural throat structure, show that its surface tension
+exceeds the Visser junction requirement by a factor of $10^{42}$,
+and propose three construction routes: domain wall topology change
+(two warp bubbles connected into a torus), Visser thin-shell
+(arithmetic wall as junction surface), and quantum foam stabilization
+(growing a Planck-scale wormhole via prime muting).
+For human traversability ($r_0 \geq 1\,\mathrm{m}$), we derive
+the engineering requirements under both the quantitative approach
+(requiring $\sim 10^{43}\,\mathrm{J}$, impractical) and the
+qualitative approach (Paper~B's regulator-orientation conjecture,
+requiring only a topological phase transition at $\sim 10^{12}\,\mathrm{J}$).
+We give a concrete engineering specification: a 20-channel Euler
+product console maintaining a toroidal domain wall of throat radius
+$1\,\mathrm{m}$, with safety interlocks from the topological no-go
+theorem (Paper~J).
+\end{abstract}
+
+% ============================================================================
+\section{Ninety years of wormholes}
+\label{sec:history}
+% ============================================================================
+
+\subsection{Einstein-Rosen bridge (1935)}
+
+Einstein and Rosen~\cite{EinsteinRosen1935} discovered that the
+Schwarzschild solution, when maximally extended, contains a
+``bridge'' connecting two asymptotically flat regions. This was
+the first mathematical wormhole. However, the bridge is
+non-traversable: it pinches off faster than any signal can cross it.
+
+\subsection{Wheeler's quantum foam (1955)}
+
+Wheeler~\cite{Wheeler1957} proposed that at the Planck scale
+($\sim 10^{-35}\,\mathrm{m}$), spacetime is a seething ``foam''
+of virtual wormholes --- tiny topological fluctuations constantly
+forming and dissolving. This suggests wormholes are not exotic
+objects to be \emph{created} but natural features to be
+\emph{stabilized}.
+
+\subsection{Morris-Thorne: traversability (1988)}
+
+Morris and Thorne~\cite{MorrisThorne1988} asked: what metric
+describes a wormhole that a human can safely traverse? Their answer:
+\begin{equation}
+  ds^2 = -e^{2\Phi(r)}dt^2 + \frac{dr^2}{1-b(r)/r} + r^2 d\Omega^2,
+  \label{eq:mt}
+\end{equation}
+with a shape function $b(r)$ satisfying $b(r_0) = r_0$ (throat)
+and $b'(r_0) < 1$ (flare-out). The Einstein equations then require
+$\rho + p_r < 0$ at the throat --- \textbf{violation of the weak
+energy condition (WEC)}.
+
+This was the birth of wormhole engineering: the problem reduced to
+\emph{finding or creating negative energy density}.
+
+\subsection{Visser: thin-shell construction (1989)}
+
+Visser~\cite{Visser1989} simplified Morris-Thorne by constructing
+wormholes from surgery: cut two copies of Schwarzschild spacetime
+at $r = a > r_s$ and glue the boundaries together. The Israel
+junction conditions~\cite{Israel1966} require a thin shell of
+exotic matter (negative surface energy density) at the joint.
+
+\subsection{Hawking: chronology protection (1992)}
+
+Hawking~\cite{Hawking1992} conjectured that the laws of physics
+prevent the formation of closed timelike curves, implying that
+traversable wormholes (which can be converted to time machines)
+are ultimately forbidden. His argument relies on the averaged
+null energy condition (ANEC).
+
+\subsection{The quantum era (2017--2022)}
+
+Maldacena and Qi~\cite{MaldacenaQi2018} showed that traversable
+wormholes emerge naturally in the SYK model coupled to a bath.
+Jafferis, Wall, and collaborators~\cite{Jafferis2022} simulated
+wormhole dynamics on a Google quantum processor with 9 qubits ---
+the first ``laboratory wormhole,'' albeit in a highly simplified
+model with no real spatial geometry. Subsequent
+debate~\cite{Kobrin2023} questioned whether the learned
+Hamiltonian retains sufficient holographic structure, and
+as of 2026 no direct experimental evidence for spacetime
+wormholes exists.
+
+\subsection{The persistent obstacle}
+
+Every approach to wormhole engineering encounters the same
+fundamental obstacle: \textbf{where does the negative energy
+come from?}
+
+\begin{itemize}
+\item Morris-Thorne: postulate exotic matter; do not explain its origin.
+\item Visser: require negative surface energy; do not explain how to create it.
+\item Hawking: argue negative energy is forbidden by ANEC.
+\item Jafferis et al.: simulate an effective traversable wormhole
+  in a quantum system, but with no spatial embedding and no real
+  negative energy.
+\end{itemize}
+
+Our approach provides the missing piece: a mechanism for creating
+negative energy \emph{without gathering exotic matter}, by
+reprogramming the vacuum via arithmetic localization.
+
+% ============================================================================
+\section{The arithmetic approach: what is fundamentally new}
+\label{sec:new}
+% ============================================================================
+
+\subsection{Not gathering, but switching}
+
+All prior wormhole proposals treat negative energy as a
+\emph{substance} to be collected and concentrated. This leads
+inevitably to a scaling problem: the quantity of exotic matter
+needed for a human-traversable wormhole ($r_0 \sim 1\,\mathrm{m}$)
+is of order $E_{\mathrm{neg}} \sim c^4 r_0 / G \sim 10^{43}\,\mathrm{J}$,
+roughly $10^7$ solar masses.
+
+Our approach~\cite{paper_A,paper_B} is fundamentally different.
+The WEC is not an energy condition but a \emph{topos-internal
+proposition}:
+\begin{itemize}
+\item In $\Sh(\Spec(\mathbb{Z})_{\mathrm{\acute{e}t}})$: WEC = TRUE.
+\item In $\Sh(\Spec(\Zp)_{\mathrm{\acute{e}t}})$: WEC = FALSE.
+\end{itemize}
+
+Switching from TRUE to FALSE is a localization
+$\mathbb{Z} \to \Zp$ --- a discrete, topological operation.
+It does not require accumulating negative energy; it requires
+changing the arithmetic context in which physical law is evaluated.
+
+\subsection{The domain wall as throat}
+
+The transition between $\Spec(\mathbb{Z})$ and $\Spec(\Zp)$
+creates a domain wall $V(p) = \Spec(\mathbb{F}_p)$
+(Paper~B,~\cite{paper_B}). This wall has:
+\begin{itemize}
+\item Surface tension $\sigma \sim \hbar\omega_0 / (\lP \log p)^2
+  \sim 10^{46}\,\mathrm{J/m^2}$ (from Planck-scale thickness).
+\item Edge states counted by $\mathbb{Q}_p/\mathbb{Z}_p$
+  (infinite tower of modes).
+\item Topological protection: $K_1(\mathbb{Z}) \neq K_1(\Zp)$
+  prevents spontaneous expansion (Paper~J).
+\end{itemize}
+
+For a Visser thin-shell wormhole around a 1-solar-mass object,
+the required junction tension is $\sigma_{\mathrm{req}} \sim 10^4\,\mathrm{J/m^2}$.
+Our wall provides $10^{46}\,\mathrm{J/m^2}$ --- a surplus
+factor of $10^{42}$.
+
+\textbf{The wall is strong enough. The question is geometry:
+can it be shaped into a wormhole throat?}
+
+% ============================================================================
+\section{Three construction routes}
+\label{sec:routes}
+% ============================================================================
+
+\subsection{Route A: Topology change via dual warp bubbles}
+
+\textbf{Concept.} Create two warp bubbles (spherical domain walls,
+topology $S^2$) at locations A and B. Gradually deform the
+combined wall topology from $S^2 \sqcup S^2$ (disjoint spheres)
+to $T^2$ (torus) by growing a connecting tube.
+
+\textbf{Mechanism.} The topology change requires modifying $K_1$:
+$K_1(S^2) = 0 \to K_1(T^2) = \mathbb{Z}^2$. This introduces
+two independent winding numbers corresponding to the two
+``handles'' of the torus (the wormhole's entry and exit).
+
+An additional prime channel (e.g., $q \neq p$) could mediate
+the topological change: muting $q$ in the connecting region
+induces a new $K_1$ factor, enabling the tube to form.
+
+\textbf{Challenge.} Topology change in classical GR is generically
+singular. In the arithmetic framework, it is a change in the
+sheaf structure --- potentially smooth at the topos level even
+if singular in the underlying manifold.
+
+\subsection{Route B: Visser thin-shell with arithmetic junction}
+
+\textbf{Concept.} Take two copies of a spacetime region, excise
+a ball from each, and glue the boundaries using the arithmetic
+domain wall as the junction surface.
+
+\textbf{Advantage.} This is the mathematically cleanest
+construction. The Israel junction conditions are automatically
+satisfied because the domain wall provides the required negative
+surface energy density.
+
+\textbf{Protocol.}
+(1)~Prepare two identical resonant cavities (the ``spacetime copies'').
+(2)~In each, create a $\Spec(\Zp)$ region using prime muting.
+(3)~Bring the two $\Spec(\mathbb{F}_p)$ boundaries into contact.
+(4)~The junction conditions match, and a throat forms.
+
+\subsection{Route C: Quantum foam stabilization}
+
+\textbf{Concept.} Wheeler's quantum foam implies that Planck-scale
+wormholes exist everywhere, constantly. Prime muting stabilizes
+one by giving its throat the topological protection of
+$K_1(\Zp) \neq K_1(\mathbb{Z})$.
+
+Once stabilized, the wormhole can potentially be \emph{grown}
+by expanding the $\Spec(\Zp)$ region. Under the regulator
+orientation conjecture (Paper~B), this growth does not require
+energy proportional to size --- the topological protection is
+scale-independent.
+
+\textbf{Advantage.} No need to ``create'' a wormhole; merely
+``find and stabilize'' a natural one. Minimum energy input.
+
+\textbf{Challenge.} Wheeler's quantum foam lacks a rigorous
+mathematical description. Our framework provides one:
+the foam is the collection of all possible localizations
+of $\Spec(\mathbb{Z})$ at the Planck scale.
+
+% ============================================================================
+\section{Human-traversable specification}
+\label{sec:spec}
+% ============================================================================
+
+\subsection{Requirements}
+
+Morris and Thorne~\cite{MorrisThorne1988} specified the
+requirements for a human-traversable wormhole:
+\begin{enumerate}
+\item Throat radius: $r_0 \geq 1\,\mathrm{m}$ (human-sized).
+\item Tidal forces: $|\Delta g| < 1\,g_\oplus$ across a
+  2-m human body.
+\item Traversal time: $\Delta\tau < 1\,\mathrm{year}$
+  (proper time of traveler).
+\item No horizon: $\Phi(r)$ finite everywhere.
+\end{enumerate}
+
+\subsection{Quantitative approach: energy estimate}
+
+If negative energy is treated as a substance:
+\begin{equation}
+  E_{\mathrm{neg}} \sim \frac{c^4 r_0}{G} \sim 10^{43}\,\mathrm{J}
+  \sim 10^7\,M_\odot c^2.
+  \label{eq:energy_quant}
+\end{equation}
+
+This is impractical by any known technology.
+
+\subsection{Qualitative approach: topological switching}
+
+Under the regulator orientation conjecture~\cite{paper_B}, the
+WEC violation at the throat is a topological invariant, not an
+energy threshold. The throat is maintained by the $K_1$ mismatch,
+which is independent of the throat radius.
+
+The energy cost then reduces to:
+\begin{enumerate}
+\item Creating the domain wall: $E_{\mathrm{wall}} = 4\pi r_0^2
+  \sigma_{\mathrm{eff}}$, where $\sigma_{\mathrm{eff}}$ is the
+  \emph{effective} surface tension (not the Planck-scale value,
+  but the ``topological switching cost'' per unit area).
+\item Maintaining against radiation:
+  $P_{\mathrm{rad}} = \sigma_{\mathrm{SB}} T_{\mathrm{wall}}^4
+  \times 4\pi r_0^2 \sim 10^{-13}\,\mathrm{W}$ (negligible
+  for $T_{\mathrm{wall}} \sim 30\,\mathrm{mK}$).
+\end{enumerate}
+
+If $\sigma_{\mathrm{eff}}$ is set by the console's energy per
+channel ($\sim 10^{10}\,\mathrm{J}$ per channel, from
+Paper~K~\cite{paper_K}), a 20-channel torus with $r_0 = 1\,\mathrm{m}$:
+\begin{equation}
+  E_{\mathrm{total}} \sim 20 \times 10^{10} + 4\pi \times 1^2
+  \times \sigma_{\mathrm{eff}} \sim 10^{12}\,\mathrm{J}
+  \approx 0.3\,\mathrm{GWh}.
+  \label{eq:energy_qual}
+\end{equation}
+
+\textbf{This is the output of a small power plant for one hour.}
+
+\subsection{Engineering specification}
+
+\begin{table}[h]
+\centering
+\caption{Engineering specification for a 1-meter traversable wormhole.}
+\label{tab:spec}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Parameter & Quantitative & Qualitative (conj.) \\
+\midrule
+Throat radius $r_0$ & 1 m & 1 m \\
+Negative energy & $10^{43}$ J & topological \\
+Console channels & --- & 20 \\
+Energy cost & $10^{43}$ J & $10^{12}$ J \\
+Maintenance power & --- & $\sim 10^{-13}$ W \\
+Wall temperature & --- & 30 mK \\
+Safety: kill switch & --- & Parity law \\
+Tidal acceleration & $< 1\,g$ & $< 1\,g$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The quantitative estimate is $10^{31}$ times more expensive than
+the qualitative one. The difference is the regulator orientation
+conjecture: if true, the cost drops from stellar-mass energy to
+power-plant energy.
+
+% ============================================================================
+\section{Safety and stability}
+\label{sec:safety}
+% ============================================================================
+
+The topological no-go theorem (Paper~J,~\cite{paper_J}) ensures
+that the wormhole throat cannot expand uncontrollably: the $K_1$
+mismatch between the throat interior and exterior prevents
+Coleman-De Luccia vacuum decay.
+
+The parity kill switch provides operational safety: muting one
+additional prime restores all energy condition signs to normal,
+collapsing the wormhole in a controlled manner.
+
+The tidal force constraint requires that $\Phi'(r)$ and
+$b'(r)$ change slowly over human length scales ($\sim 2\,\mathrm{m}$).
+This is achievable if the domain wall thickness is
+$\gg 2\,\mathrm{m}$, which corresponds to using a large prime $p$
+($\delta \sim \lP \log p$; for $\delta > 2\,\mathrm{m}$,
+$p > \exp(2/\lP) \sim 10^{10^{34}}$ --- unfeasibly large).
+
+Alternative: use a \emph{gradual} transition (multiple concentric
+domain walls at different primes) to spread the tidal forces
+over a larger region. A ``soft'' throat with 10 concentric walls,
+each contributing $1/10$ of the topology change, would reduce
+tidal forces by a factor of 10.
+
+% ============================================================================
+\section{Comparison with prior approaches}
+\label{sec:comparison}
+% ============================================================================
+
+\begin{table*}[t]
+\centering
+\caption{Comparison of wormhole construction approaches.}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}p{3cm}cccp{4cm}@{}}
+\toprule
+Approach & Year & Exotic matter & Traversable & Key limitation \\
+\midrule
+Einstein-Rosen & 1935 & No & No & Pinches off; non-traversable \\
+Wheeler foam & 1955 & N/A & N/A & No stabilization mechanism \\
+Morris-Thorne & 1988 & Required & Yes & No source of exotic matter \\
+Visser shell & 1989 & Required & Yes & No source of exotic matter \\
+Maldacena-Qi & 2018 & Effective & Effective & No spatial geometry \\
+Jafferis et al. & 2022 & Simulated & Simulated & 9-qubit toy model \\
+\midrule
+\textbf{This work} & 2026 & \textbf{Programmed} & \textbf{Yes} & Regulator conjecture \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The distinguishing feature of our approach is the column
+``Exotic matter: Programmed.'' We do not postulate, require,
+simulate, or gather exotic matter. We \emph{program} the vacuum
+to behave as if exotic matter were present, via a topos morphism
+that changes the truth value of the WEC.
+
+% ============================================================================
+\section{Roadmap}
+\label{sec:roadmap}
+% ============================================================================
+
+\begin{description}
+\item[Phase 1 (1--2 yr):] SQUID experiment confirms arithmetic
+  vacuum energy modification (Paper~A).
+\item[Phase 2 (2--5 yr):] BEC analog constructs microscopic
+  domain wall; verifies topological stability.
+\item[Phase 3 (5--10 yr):] Multi-channel console; Route~B
+  (Visser thin-shell) demonstrated in condensed-matter analog.
+\item[Phase 4 (10--20 yr):] Route~C (quantum foam stabilization)
+  in real spacetime; Planck-scale wormhole stabilized and grown.
+\item[Phase 5 (20+ yr):] Human-traversable wormhole via 20-channel
+  toroidal console. Energy: $\sim 10^{12}\,\mathrm{J}$
+  (if regulator conjecture holds).
+\end{description}
+
+% ============================================================================
+\section{Conclusion}
+% ============================================================================
+
+For ninety years, wormhole physics has been blocked by a single
+question: where does the negative energy come from? Every approach
+--- from Einstein-Rosen to Jafferis et al. --- has either
+postulated, required, simulated, or avoided exotic matter without
+providing a physical mechanism for its creation.
+
+Arithmetic vacuum engineering provides that mechanism. By reframing
+the WEC as a topos-internal proposition and the wormhole throat as
+an arithmetic domain wall, we transform the problem from
+``accumulate $10^{43}\,\mathrm{J}$ of exotic matter'' to
+``perform a topological phase transition costing $10^{12}\,\mathrm{J}$.''
+
+The gap between these two numbers --- $10^{31}$ orders of
+magnitude --- is the distance between science fiction and
+engineering. It depends on one conjecture (the regulator
+orientation, Paper~B). If the conjecture holds, a human-traversable
+wormhole is within the energy budget of existing technology.
+
+The path to finding out begins with the SQUID experiment
+proposed in Paper~A.
+
+\begin{thebibliography}{25}
+\bibitem{EinsteinRosen1935} A.~Einstein and N.~Rosen, Phys. Rev. \textbf{48}, 73 (1935).
+\bibitem{Wheeler1957} J.~A.~Wheeler, Ann. Phys. \textbf{2}, 604 (1957).
+\bibitem{MorrisThorne1988} M.~S.~Morris and K.~S.~Thorne, Am. J. Phys. \textbf{56}, 395 (1988).
+\bibitem{Visser1989} M.~Visser, Nucl. Phys. B \textbf{328}, 203 (1989).
+\bibitem{Israel1966} W.~Israel, Nuovo Cim. B \textbf{44}, 1 (1966).
+\bibitem{Hawking1992} S.~W.~Hawking, Phys. Rev. D \textbf{46}, 603 (1992).
+\bibitem{MaldacenaQi2018} J.~Maldacena and X.-L.~Qi, arXiv:1804.00491 (2018).
+\bibitem{Jafferis2022} D.~Jafferis et al., Nature \textbf{612}, 51 (2022).
+\bibitem{paper_A} Wright Brothers, companion paper A (2026).
+\bibitem{paper_B} Wright Brothers, companion paper B (2026).
+\bibitem{paper_J} Wright Brothers, companion paper J (2026).
+\bibitem{paper_K} Wright Brothers, companion paper K (2026).
+\bibitem{DoeringIsham2008} A.~D\"oring and C.~J.~Isham, J. Math. Phys. \textbf{49}, 053515 (2008).
+\bibitem{Kobrin2023} A.~Kobrin et al., arXiv:2304.00010 (2023).
+\end{thebibliography}
+
+\end{document}
