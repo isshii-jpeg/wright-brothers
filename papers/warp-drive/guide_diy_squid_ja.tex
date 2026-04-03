@@ -1,0 +1,565 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{theorybox}[1][]{
+  colback=blue!3, colframe=blue!50,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{practicebox}[1][]{
+  colback=green!3, colframe=green!40,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{warnbox}{
+  colback=red!3, colframe=red!40,
+  fonttitle=\bfseries, title={注意},
+  breakable, sharp corners
+}
+
+\newtcolorbox{costbox}{
+  colback=black!3, colframe=black!50,
+  fonttitle=\bfseries, title={コスト},
+  breakable, sharp corners
+}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 57万円でゼロから作る}\\[0.3cm]
+{\LARGE\bfseries SQUID素数フィルタ実験}\\[0.5cm]
+{\large --- 理論から実装まで完全自作ガイド ---}\\[1.5cm]
+{\large Wright Brothers}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+% ============================================================================
+\part{理論編：なぜこの装置が必要か}
+% ============================================================================
+
+% ============================================================================
+\section{何を測りたいのか}
+% ============================================================================
+
+この実験の目的は1つだけ:
+
+\textbf{「量子真空のエネルギーは、特定のモードを抑制した時に変化するか？」}
+
+量子力学によれば、完全な真空（何もない空間）でも
+エネルギーがゼロではない。
+各振動モード$n$が$\hbar\omega_n/2$の「ゼロ点エネルギー」を持つ。
+合計すると無限大に発散するが、ゼータ関数正則化で
+有限の値$\zeta(-1) = -1/12$が得られる。
+
+我々の理論（Paper A）は、偶数モード（$n = 2, 4, 6, \ldots$）を
+抑制すると、この値が$+1/12$に変わる（符号が反転する）と予測する。
+
+この「符号反転」は計算では確認済み。
+しかし\textbf{実際の量子真空でも起こるか}は、実験でしか確かめられない。
+
+% ============================================================================
+\section{なぜ超伝導が必要か}
+% ============================================================================
+
+\begin{theorybox}[超伝導とは]
+金属を十分に冷やすと、電子がペア（クーパー対）を作り、
+電気抵抗がゼロになる。これが超伝導状態。
+
+なぜ必要か:
+\begin{itemize}
+\item 抵抗ゼロ → マイクロ波が減衰しない → 高いQ値（共鳴の鋭さ）
+\item 高Q値 → 個別のモードを区別して観測できる
+\item 常伝導（銅など）のキャビティではQ$\sim 10^3$。超伝導ではQ$\sim 10^6$以上
+\item Q$\sim 10^6$あれば、真空揺らぎの微小な変化を検出可能
+\end{itemize}
+
+アルミニウムの超伝導転移温度: $T_c = 1.2\,\mathrm{K}$（$-272$°C）。
+$T < T_c$に冷やせば超伝導になる。
+\end{theorybox}
+
+% ============================================================================
+\section{なぜ冷却が必要か}
+% ============================================================================
+
+\begin{theorybox}[量子真空 vs 熱揺らぎ]
+温度$T > 0$では、真空揺らぎに加えて\textbf{熱的光子}が存在する。
+
+モード$n$の熱的光子数:
+$$\langle n_{\mathrm{th}}\rangle = \frac{1}{e^{\hbar\omega_n/(k_BT)} - 1}$$
+
+$T$が高い → 熱的光子が多い → 真空揺らぎが隠れる。
+$T$が十分低い → 熱的光子$\approx 0$ → 真空揺らぎだけが見える。
+
+目安: $k_BT \ll \hbar\omega_n$（つまり$T \ll \hbar\omega/(k_B)$）
+
+$f = 6\,\mathrm{GHz}$のモード: $T_q = \hbar\omega/(k_B) = 288\,\mathrm{mK}$。
+$T < 100\,\mathrm{mK}$なら$\langle n_{\mathrm{th}}\rangle < 0.01$（ほぼ真空）。
+$T = 300\,\mathrm{mK}$（3He冷凍機）なら$\langle n_{\mathrm{th}}\rangle \approx 0.26$。
+多少の熱ノイズがあるが、積分時間を長くすれば対処可能。
+\end{theorybox}
+
+% ============================================================================
+\section{冷却器の種類}
+% ============================================================================
+
+\begin{theorybox}[冷却技術の階層]
+\begin{tabular}{lll}
+\toprule
+冷却器 & 到達温度 & 原理 \\
+\midrule
+液体窒素 & 77 K ($-196$°C) & N$_2$の沸点 \\
+液体ヘリウム-4 & 4.2 K ($-269$°C) & $^4$Heの沸点 \\
+$^4$Heポンピング & 1.5 K & 減圧で蒸発冷却 \\
+$^3$He冷凍機 & 0.3 K (300 mK) & $^3$Heの蒸発冷却 \\
+希釈冷凍機 & 0.01 K (10 mK) & $^3$He/$^4$He混合の相分離 \\
+\bottomrule
+\end{tabular}
+
+我々の実験に必要: $T < T_c(\mathrm{Al}) = 1.2\,\mathrm{K}$。
+最低限は$^4$Heポンピング（1.5 K）で超伝導は達成。
+しかし真空揺らぎを見るには$T < 300\,\mathrm{mK}$が望ましい。
+→ $^3$He冷凍機が最小要件。
+\end{theorybox}
+
+\begin{theorybox}[$^3$He冷凍機の原理]
+$^3$He（ヘリウムの軽い同位体）は$^4$Heより沸点が低い。
+$^3$Heの蒸気をポンプで排気すると、
+残った液体$^3$Heがさらに冷える（蒸発冷却）。
+
+到達温度: $\sim 300\,\mathrm{mK}$（0.3 K）。
+保持時間: 数時間〜数日（$^3$Heの量に依存）。
+構成: 外側の$^4$He冷凍機（4.2 K）+ 内側の$^3$Heインサート。
+\end{theorybox}
+
+\begin{theorybox}[希釈冷凍機の原理（参考）]
+$^3$Heと$^4$Heの混合液は、低温で2つの相（$^3$Heリッチ相と$^4$Heリッチ相）に分離する。$^3$Heが$^4$Heリッチ相に「溶ける」過程でエントロピーが増大し、冷却が起こる。連続運転が可能で、10 mKまで冷える。
+
+高価（新品で2000万〜5000万円）だが最高性能。我々の実験では300 mKの$^3$He冷凍機で十分なので、希釈冷凍機は必須ではない。
+\end{theorybox}
+
+% ============================================================================
+\section{SQUIDとは何か}
+% ============================================================================
+
+\begin{theorybox}[ジョセフソン接合]
+2つの超伝導体を薄い絶縁体（〜1 nm）で隔てると、
+クーパー対が絶縁体を「トンネル」して通り抜ける。
+これがジョセフソン効果。
+
+接合に流れる超伝導電流（臨界電流$I_c$以下）:
+$$I = I_c \sin\phi$$
+ここで$\phi$は2つの超伝導体の位相差。
+$I_c$は絶縁体の厚さと面積で決まる。
+\end{theorybox}
+
+\begin{theorybox}[SQUID（超伝導量子干渉素子）]
+SQUIDは「2つのジョセフソン接合を超伝導ループでつないだもの」。
+ループを貫く磁束$\Phi$に応じて、全体のインダクタンスが変わる:
+$$L_{\mathrm{SQUID}}(\Phi) = \frac{L_J}{|\cos(\pi\Phi/\Phi_0)|}$$
+
+$\Phi_0 = h/(2e) = 2.07 \times 10^{-15}\,\mathrm{Wb}$は磁束量子。
+外部磁束を変えると$L$が変わり、共鳴周波数$f \propto 1/\sqrt{LC}$が変わる。
+→ 外部磁場でSQUIDの周波数を「チューニング」できる。
+
+我々の実験では: SQUIDをキャビティの第2高調波に同調させ、
+そのモードを吸収（ノッチフィルタとして機能）させる。
+\end{theorybox}
+
+% ============================================================================
+\part{実装編：作り方}
+% ============================================================================
+
+% ============================================================================
+\section{部品と材料の一覧}
+% ============================================================================
+
+\begin{costbox}
+\begin{tabular}{llr}
+\toprule
+品目 & 仕様 & 価格 \\
+\midrule
+\multicolumn{3}{l}{\textbf{3Dキャビティ}} \\
+Al合金ブロック & 6061-T6, 50×50×30mm & 500円 \\
+機械加工費 & 大学工作室 & 5,000円 \\
+SMAコネクタ & KFDフランジ × 2 & 2,000円 \\
+Inワイヤー & $\phi$1mm, 50cm & 1,000円 \\
+ネジ & M3×10mm, 8本 & 200円 \\
+\midrule
+\multicolumn{3}{l}{\textbf{SQUID接合}} \\
+Si基板 & 10mm×10mm × 5枚 & 3,000円 \\
+PMMAレジスト & 50mL & 5,000円 \\
+現像液 & MIBK:IPA & 2,000円 \\
+Al蒸着用ワイヤー & 純度99.99\%, 1g & 3,000円 \\
+EBL使用料 & 大学共同利用 & 20,000円 \\
+蒸着装置使用料 & 同上 & 15,000円 \\
+\midrule
+\multicolumn{3}{l}{\textbf{磁束バイアス}} \\
+銅線 & $\phi$0.1mm, エナメル, 10m & 500円 \\
+DC電流源 & 大学から借用 & 0円 \\
+\midrule
+\multicolumn{3}{l}{\textbf{冷却}} \\
+$^3$He冷凍機使用料 & 5回のクールダウン & 300,000円 \\
+液体He & $\sim$50L & 別途（施設負担の場合あり）\\
+\midrule
+\multicolumn{3}{l}{\textbf{測定}} \\
+VNA使用料 & 大学共同利用 & 50,000円 \\
+同軸ケーブル & SMA-SMA, 低温用, 2本 & 30,000円 \\
+\midrule
+\multicolumn{2}{r}{\textbf{合計}} & \textbf{$\sim$47万円} \\
+\bottomrule
+\end{tabular}
+\end{costbox}
+
+\begin{warnbox}
+最大の変動要因は冷凍機使用料。
+大学によっては共同利用が無料〜数万円の場合もある。
+逆に外部機関への依頼では50万円以上になることも。
+事前に使用条件を確認すること。
+\end{warnbox}
+
+% ============================================================================
+\section{3Dキャビティの製作}
+% ============================================================================
+
+\subsection{なぜアルミか}
+
+\begin{theorybox}[材料選択の理由]
+\begin{itemize}
+\item アルミは$T_c = 1.2\,\mathrm{K}$の超伝導体。3He冷凍機で超伝導になる
+\item 加工が容易（銅と同程度）。町工場やホームセンターの工作機でOK
+\item Nb（$T_c = 9.2\,\mathrm{K}$）の方が高性能だが、硬くて加工が難しく、高価
+\item Yale大学がAlキャビティでQ$> 10^7$を達成（Paik et al., 2011）
+\item 同じ材料でSQUID接合も作れる（Al/AlO$_x$/Al）→ 全てAlで統一
+\end{itemize}
+\end{theorybox}
+
+\subsection{設計図}
+
+\begin{verbatim}
+  上から見た図（蓋を外した状態）:
+
+  ┌────────────────────────────┐
+  │  ┌────────────────────┐    │
+  │  │                    │ ○ │ ← SMAコネクタ穴 (出力)
+  │  │                    │    │
+  │  │    空洞             │    │    内寸: 35 × 35 × 10 mm
+  │  │    35 × 35 mm      │    │
+  │  │                    │    │
+  │  │                    │    │
+  │○ │                    │    │ ← SMAコネクタ穴 (入力)
+  │  └────────────────────┘    │
+  │                ○ ○ ○ ○     │ ← ネジ穴 M3 × 8
+  └────────────────────────────┘
+     外寸: 50 × 50 × 30 mm (本体 20mm + 蓋 10mm)
+
+  横から見た図:
+
+  ┌──────────────────────────┐ ← 蓋 (10mm厚)
+  │  Inガスケット溝           │
+  ├──────────────────────────┤
+  │                          │
+  │  空洞 (深さ 10mm)        │ ← 本体 (20mm厚)
+  │                          │
+  └──────────────────────────┘
+
+  SMAコネクタの位置:
+  - 入力: 左壁中央、壁面から穴 (φ3mm)、ピン突出 3mm
+  - 出力: 右壁中央、同上
+  - 入出力は空洞の対角線上に配置（結合の最適化）
+\end{verbatim}
+
+\subsection{加工手順}
+
+\begin{practicebox}[Step 1: ブロックの切断]
+6061-T6の板材（厚さ20mm + 10mm）を50×50mmに切り出す。
+バンドソーまたは金鋸で切断。
+
+大学の工作室があれば: 材料費500円 + 加工費数千円。
+町工場外注: 3万〜5万円（材料費込み）。
+\end{practicebox}
+
+\begin{practicebox}[Step 2: 空洞の掘削]
+20mm厚のブロックに35×35×10mmの矩形穴を掘る。
+\begin{itemize}
+\item CNCフライス: プログラムを書いて自動加工（最高精度）
+\item 汎用フライス: ハンドル操作で手動加工（$\pm 0.1$mmは達成可能）
+\item 要求精度: $\pm 0.1$mm（共鳴周波数が$\pm$数MHzずれるが、SQUIDで補正可能）
+\end{itemize}
+底面の表面粗さ: Ra $< 1\,\mu$m が理想。
+鏡面仕上げ（バフ研磨）が最良だが、フライスの仕上げ加工でもRa$\sim 3\,\mu$mは出るのでOK。
+\end{practicebox}
+
+\begin{practicebox}[Step 3: コネクタ穴とネジ穴]
+\begin{itemize}
+\item SMAコネクタ穴: φ3mmドリル、壁の中央に左右1つずつ
+\item M3タップ穴: φ2.5mmドリル → M3タップ、蓋固定用に8箇所
+\item Inガスケット溝: 蓋の接合面に幅1mm、深さ0.5mmの溝をフライスで掘る（任意、なくても動くが密閉性が向上）
+\end{itemize}
+\end{practicebox}
+
+\begin{practicebox}[Step 4: 表面処理]
+\begin{enumerate}
+\item アセトン浸漬10分（油脂除去）
+\item IPA（イソプロパノール）浸漬5分（アセトン除去）
+\item 純水リンス
+\item リン酸（10\%水溶液）浸漬30秒（自然酸化膜の部分除去）
+\item 純水リンス × 3回
+\item N$_2$ブロー乾燥
+\item 室温で1時間放置（清浄なAl$_2$O$_3$が再形成 → 高Qの鍵）
+\end{enumerate}
+
+リン酸は薬局で購入可能（「リン酸」で検索）。
+超音波洗浄器があればなお良い（100均のメガネ洗浄機でも可）。
+\end{practicebox}
+
+\begin{practicebox}[Step 5: SMAコネクタ取付]
+SMA-KFDコネクタをネジで固定。中心ピンが空洞内に約3mm突出するように調整。ピンの長さで結合の強さが決まる:
+\begin{itemize}
+\item 短い（1mm）: 弱い結合 → 高Q、弱い信号
+\item 長い（5mm）: 強い結合 → 低Q、強い信号
+\item 推奨: 3mm（バランス型）
+\end{itemize}
+\end{practicebox}
+
+\begin{practicebox}[Step 6: 組み立て]
+\begin{enumerate}
+\item Inワイヤー（φ1mm）を蓋の接合面に沿ってリング状に配置
+\item 蓋を本体に載せ、M3ネジで均等に締める
+\item Inが潰れて密封される（超伝導接合にもなる）
+\end{enumerate}
+
+室温でVNA（またはスペクトラムアナライザ）で$S_{21}$を測定し、
+共鳴ピークが見えることを確認。
+$f_1 \approx 6\,\mathrm{GHz}$, $Q_{\mathrm{room\,temp}} \sim 10^3$なら正常。
+\end{practicebox}
+
+% ============================================================================
+\section{SQUID接合の製作}
+% ============================================================================
+
+\subsection{ジョセフソン接合はどうやって作るか}
+
+\begin{theorybox}[ダリッジブリッジ法（シャドウ蒸着）]
+最も広く使われる方法。2段階の蒸着で「重なり」を作る。
+
+\begin{enumerate}
+\item Si基板にPMMAレジストの二層膜を塗布
+\item 電子ビームリソグラフィ（EBL）で接合パターンを描画
+\item 現像すると、上の層に「橋」（ブリッジ）が残る
+\item 基板を蒸着装置にセット
+\item 斜め（+30°）からAl蒸着（第1層、30 nm）
+\item 酸素を導入（AlO$_x$トンネルバリア形成）
+\item 反対方向（$-30$°）からAl蒸着（第2層、50 nm）
+\item リフトオフ（レジスト除去）
+\end{enumerate}
+
+2つの蒸着が「橋」の下で重なる部分がジョセフソン接合になる。
+重なりの面積（$\sim 100 \times 100\,\mathrm{nm}^2$）と
+酸化条件でIcが決まる。
+\end{theorybox}
+
+\subsection{EBLが使えない場合の代替法}
+
+\begin{theorybox}[フォトリソグラフィ法（$\mu$mスケール接合）]
+EBLがない大学でも、フォトリソ（マスクアライナ）があれば
+$\sim 1\,\mu\mathrm{m}$サイズの接合が作れる。
+
+接合面積が大きい → $I_c$が大きい（$\sim 10\,\mu$A）。
+我々の設計では$I_c = 1\,\mu$Aを想定しているが、
+$I_c = 10\,\mu$Aでも外部磁束で実効$I_c$を下げられるので問題ない。
+$I_{c,\mathrm{eff}} = I_c \times |\cos(\pi\Phi_{\mathrm{ext}}/\Phi_0)|$。
+\end{theorybox}
+
+\subsection{具体的手順（EBLありの場合）}
+
+\begin{practicebox}[Step 1: 基板準備]
+\begin{itemize}
+\item Si (100) 基板、10mm $\times$ 10mm、酸化膜付き（300nm SiO$_2$）
+\item アセトン → IPA → 純水 → N$_2$ブロー
+\item ホットプレート180°C、5分（脱水ベーク）
+\end{itemize}
+\end{practicebox}
+
+\begin{practicebox}[Step 2: レジスト塗布（二層膜）]
+\begin{enumerate}
+\item 下層: PMMA/MAA（またはMMA）、スピンコート 4000 rpm 60秒
+\item ベーク: 150°C 5分
+\item 上層: PMMA (950K)、スピンコート 4000 rpm 60秒
+\item ベーク: 180°C 5分
+\end{enumerate}
+二層構造の理由: 下層は感度が高く、上層より先に溶ける → アンダーカット → ブリッジが形成される。
+\end{practicebox}
+
+\begin{practicebox}[Step 3: EBL描画]
+パターン: SQUIDループ（$10\,\mu\mathrm{m} \times 10\,\mu\mathrm{m}$の正方形ループ）と2つの接合部分（各$100 \times 100\,\mathrm{nm}^2$の橋）
+
+EBLパラメータ（目安）:
+\begin{itemize}
+\item 加速電圧: 30 kV
+\item ビーム電流: 10--50 pA（微細パターン用）
+\item ドーズ量: 300--500 $\mu$C/cm$^2$（PMMAの場合）
+\end{itemize}
+
+パターンデータは GDS-II 形式で作成。
+フリーソフト KLayout (\url{https://www.klayout.de/}) で設計可能。
+\end{practicebox}
+
+\begin{practicebox}[Step 4: 現像]
+\begin{itemize}
+\item 現像液: MIBK:IPA = 1:3
+\item 浸漬時間: 60秒（20°C）
+\item IPA リンス 30秒
+\item N$_2$ブロー乾燥
+\end{itemize}
+
+顕微鏡でパターンを確認。ブリッジ構造が見えるか？
+\end{practicebox}
+
+\begin{practicebox}[Step 5: 蒸着]
+\begin{enumerate}
+\item 蒸着装置にセット（角度回転ステージ付き）
+\item 真空引き: $< 10^{-6}$ Torr
+\item 第1蒸着: 角度$+25$°〜$+35$°、Al 30 nm、レート$\sim$0.5 nm/s
+\item \textbf{酸化}: O$_2$導入、200 mTorr、10分間保持
+  \begin{itemize}
+  \item これが最も重要なステップ。酸化量でIcが決まる
+  \item 酸化不足: Ic が大きすぎる（短絡に近い）
+  \item 酸化過剰: Ic が小さすぎる（開放に近い）
+  \item 事前にテストピースで酸化条件を校正すること
+  \end{itemize}
+\item 再真空引き: $< 10^{-6}$ Torr
+\item 第2蒸着: 角度$-25$°〜$-35$°、Al 50 nm
+\end{enumerate}
+\end{practicebox}
+
+\begin{warnbox}
+酸化条件のキャリブレーション:
+\begin{itemize}
+\item テストピース5枚を異なる酸化条件（100/200/300/400/500 mTorr × 10分）で処理
+\item 室温で抵抗を測定: $R_N = \Delta V / (I_c \times \mathrm{something})$
+\item Ambegaokar-Baratoff関係: $I_c R_N = \pi\Delta/(2e) \approx 0.44\,\mathrm{mV}$（Alの場合）
+\item $R_N$から$I_c$を推定: $I_c = 0.44\,\mathrm{mV} / R_N$
+\item $I_c = 1\,\mu$A → $R_N \approx 440\,\Omega$
+\end{itemize}
+\end{warnbox}
+
+\begin{practicebox}[Step 6: リフトオフ]
+\begin{itemize}
+\item NMP（N-メチルピロリドン）80°C浸漬、2時間
+\item 超音波洗浄器で1分（弱いモード。接合を壊さないよう注意）
+\item IPAリンス → 純水リンス → N$_2$ブロー
+\end{itemize}
+
+顕微鏡で確認: SQUIDループと2つの接合が見えるか？
+室温で4端子抵抗測定: $R_N \approx 440\,\Omega$なら成功。
+\end{practicebox}
+
+% ============================================================================
+\section{組み立てと配線}
+% ============================================================================
+
+\begin{practicebox}[SQUIDチップの実装]
+\begin{enumerate}
+\item キャビティ底面の中央（磁場最大点）にGEワニス（低温接着剤）でSQUIDチップを貼付
+\item 磁束バイアスコイル: φ0.1mm銅線をキャビティ外周に10回巻く
+\item コイルの端をフィードスルー端子に接続
+\item 入出力SMAにセミリジッド同軸ケーブル（低温用、CuNi外導体）を接続
+\end{enumerate}
+\end{practicebox}
+
+\begin{practicebox}[冷凍機への搭載]
+\begin{enumerate}
+\item キャビティを銅のサンプルホルダーにネジ止め
+\item サンプルホルダーを冷凍機の最低温ステージにマウント
+\item 同軸ケーブルを各温度ステージ経由でルーティング:
+  \begin{itemize}
+  \item 室温 → 77K: ステンレス同軸、20dBアッテネータ
+  \item 77K → 4K: CuNi同軸、20dBアッテネータ
+  \item 4K → 300mK: NbTi超伝導同軸（ロスなし）
+  \end{itemize}
+\item 磁束バイアス線: ツイストペア銅線、各ステージでヒートシンク
+\end{enumerate}
+\end{practicebox}
+
+% ============================================================================
+\section{測定}
+% ============================================================================
+
+\begin{practicebox}[クールダウン]
+\begin{enumerate}
+\item 冷凍機をクローズ、真空引き
+\item 液体He充填（所要$\sim$4時間）
+\item $^3$Heコンデンス（$^4$He温度まで冷えてから$^3$Heを凝縮）
+\item $^3$Heポンピング開始 → 300 mKに到達（所要$\sim$2時間）
+\item 温度計で確認: $T < 300\,\mathrm{mK}$ ✓
+\end{enumerate}
+合計: 朝からスタートして夕方に測定開始可能。
+\end{practicebox}
+
+\begin{practicebox}[測定手順]
+\begin{enumerate}
+\item VNAでS$_{21}$(f)を測定（4〜14 GHz）。共鳴ピークを確認
+\item 磁束バイアス電流をスイープ: SQUIDの共鳴ディップを観測
+\item SQUIDを第2高調波（$\sim$12 GHz）に同調
+\item Config A: SQUID離調 → S$_{21}$記録
+\item Config B: SQUID同調 → S$_{21}$記録
+\item SQUIDの同調周波数を連続スイープしながら
+  AC Starkシフト（基本モードの周波数変化）を記録
+  → 不連続ジャンプがあるか確認
+\end{enumerate}
+\end{practicebox}
+
+% ============================================================================
+\section{結果の判定}
+% ============================================================================
+
+\begin{theorybox}[Level 0 成功（最低限）]
+SQUIDの同調/離調でS$_{21}$が変化する → 「SQUIDがフィルタとして動作」
+→ これは既知の技術の確認であり、新しい物理ではない。
+しかし装置が正常に動いていることの証拠。
+\end{theorybox}
+
+\begin{theorybox}[Level 1 成功（本当の成果）]
+AC Starkシフト（真空揺らぎの大きさの指標）が
+Config A と Config B で\textbf{統計的に有意に異なる}。
+→ 「1つのモードを抑制すると真空のエネルギーが変化する」
+→ 算術的真空工学の最初の実験的証拠。
+\end{theorybox}
+
+\begin{theorybox}[Level 1.5 成功（レギュレータ予想のテスト）]
+SQUIDスイープ中のAC Starkシフトが
+同調点付近で\textbf{不連続ジャンプ}を示す。
+→ 真空エネルギー変化は離散的（ON/OFF）
+→ レギュレータ方向予想を支持
+→ スケーリング問題が解消される可能性
+→ ワームホール/ワープが10$^{12}$Jで実現可能に
+\end{theorybox}
+
+\vfill
+\begin{center}
+{\small Wright Brothers, 2026}
+\end{center}
+
+\end{document}
