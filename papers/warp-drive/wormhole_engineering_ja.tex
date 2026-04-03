@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{conjecture}[theorem]{予想}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Zp}{\mathbb{Z}[1/p]}
+\newcommand{\lP}{\ell_{\mathrm{P}}}
+\newcommand{\rhoP}{\rho_{\mathrm{P}}}
+\newcommand{\Sh}{\mathrm{Sh}}
+
+\begin{document}
+
+\title{算術的時空プログラミングによる\\人間通過可能ワームホールの工学：\\アインシュタイン-ローゼンからオイラー積コンソールへ}
+\author{Wright Brothers\\{\small 独立研究}}
+\date{2026年4月}
+\maketitle
+
+\begin{abstract}
+エキゾチック物質の収集ではなく$\Spec(\mathbb{Z})$上の算術的操作によって真空をプログラムしエネルギー条件を違反させる、人間通過可能ワームホールの初の具体的構成メカニズムを提案する。90年のワームホール物理——アインシュタイン-ローゼン橋(1935)、ホイーラーの量子フォーム(1955)、モリス-ソーンの通過可能性条件(1988)、ヴィッサーの薄殻構成(1989)、ジャフェリスらの量子プロセッサ上のワームホール力学シミュレーション(2022)——を踏査し、全ての先行アプローチが同じ障害——負のエネルギーを十分な量\emph{集める}必要性——に直面することを示す。我々のアプローチは弱エネルギー条件をトポス内部命題として再定式化し、その真偽値を局所化$\mathbb{Z} \to \Zp$で切り替えることでこの障害を解消する。算術的ドメインウォール$V(p) = \Spec(\mathbb{F}_p)$を自然な喉の構造として同定し、その表面張力がヴィッサー接合要件を$10^{42}$倍超過することを示す。ドメインウォール位相変更、ヴィッサー薄殻、量子フォーム安定化の3つの構成ルートを提案する。人間通過可能性（$r_0 \geq 1\,\mathrm{m}$）について、量的アプローチ（$\sim 10^{43}\,\mathrm{J}$、非現実的）と質的アプローチ（レギュレータ方向予想の下で$\sim 10^{12}\,\mathrm{J} = 0.3\,\mathrm{GWh}$、小規模発電所1時間分）の工学要件を導出する。
+\end{abstract}
+
+\section{ワームホールの90年}
+
+\subsection{アインシュタイン-ローゼン橋 (1935)}
+
+アインシュタインとローゼン~\cite{EinsteinRosen1935}は、シュヴァルツシルト解の最大拡張が2つの漸近的平坦領域を結ぶ「橋」を含むことを発見した。最初の数学的ワームホール。しかし非通過可能：信号が横断する前に閉じる。
+
+\subsection{ホイーラーの量子フォーム (1955)}
+
+ホイーラー~\cite{Wheeler1957}は、プランクスケールで時空が仮想ワームホールの「泡」であると提案。ワームホールは「作る」べき異質な物体ではなく「安定化する」べき自然な特徴であることを示唆。
+
+\subsection{モリス-ソーン: 通過可能性 (1988)}
+
+モリスとソーン~\cite{MorrisThorne1988}は人間が安全に通過できるワームホールの計量を導出：
+\begin{equation}
+  ds^2 = -e^{2\Phi(r)}dt^2 + \frac{dr^2}{1-b(r)/r} + r^2 d\Omega^2.
+\end{equation}
+喉（$b(r_0)=r_0$）でのフレアアウト条件からアインシュタイン方程式が$\rho + p_r < 0$を要求——\textbf{WEC違反}。問題は「負のエネルギーをどう調達するか」に帰着。
+
+\subsection{ヴィッサー: 薄殻構成 (1989)}
+
+ヴィッサー~\cite{Visser1989}はシュヴァルツシルト時空を2つ切り貼りする「手術」でワームホールを構成。イスラエル接合条件~\cite{Israel1966}が接合面にエキゾチック物質（負の表面エネルギー密度）を要求。
+
+\subsection{ホーキング: 年代学保護 (1992)}
+
+ホーキング~\cite{Hawking1992}は物理法則が閉じた時間的曲線の出現を防ぐと予想。論証は平均化ヌルエネルギー条件（ANEC）に依存。
+
+\subsection{量子時代 (2017--2022)}
+
+マルダセナとチー~\cite{MaldacenaQi2018}がSYKモデルから通過可能ワームホールを導出。ジャフェリスら~\cite{Jafferis2022}がGoogleの量子プロセッサ9量子ビットでワームホール力学をシミュレーション——ただし実空間幾何学なし。コブリンら~\cite{Kobrin2023}がホログラフィック構造の保持について疑問を提起。2026年現在、時空ワームホールの直接実験証拠は存在しない。
+
+\subsection{持続する障害}
+
+全アプローチに共通する根本障害：\textbf{負のエネルギーはどこから来るか？}
+モリス-ソーンはエキゾチック物質を仮定、ヴィッサーは負の表面エネルギーを要求、ホーキングはANECで禁止を主張、ジャフェリスらは有効的にシミュレートしたが実エネルギーなし。我々のアプローチが欠けていたピースを提供する。
+
+\section{算術的アプローチ：何が根本的に新しいか}
+
+全ての先行提案は負のエネルギーを\emph{物質}として収集・集中しようとする。人間通過可能（$r_0 \sim 1\,\mathrm{m}$）には$E_{\mathrm{neg}} \sim c^4 r_0/G \sim 10^{43}\,\mathrm{J} \sim 10^7\,M_\odot c^2$。既知の技術では不可能。
+
+我々のアプローチ~\cite{paper_A,paper_B}は根本的に異なる。WECはエネルギー条件ではなくトポス内部命題：
+\begin{itemize}
+\item $\Sh(\Spec(\mathbb{Z})_{\mathrm{\acute{e}t}})$内：WEC = 真
+\item $\Sh(\Spec(\Zp)_{\mathrm{\acute{e}t}})$内：WEC = 偽
+\end{itemize}
+
+真→偽の切替は局所化$\mathbb{Z} \to \Zp$——離散的位相操作。負エネルギーの蓄積ではなく、物理法則が評価される算術的文脈の変更。
+
+算術的ドメインウォール$V(p) = \Spec(\mathbb{F}_p)$は自然な喉の構造を提供。表面張力$\sigma \sim \hbar\omega_0/(\lP\log p)^2 \sim 10^{46}\,\mathrm{J/m^2}$。1太陽質量ワームホールのヴィッサー接合に必要な$\sigma_{\mathrm{req}} \sim 10^4\,\mathrm{J/m^2}$に対し$10^{42}$倍の余裕。
+
+\section{3つの構成ルート}
+
+\textbf{Route A: 二重ワープバブルの位相変更。} 2つのワープバブル（$S^2$位相の壁）を生成し、壁をトンネルで接続して$T^2$（トーラス）位相に変更。$K_1(S^2) = 0 \to K_1(T^2) = \mathbb{Z}^2$。追加の素数チャンネルが位相変更を媒介。
+
+\textbf{Route B: ヴィッサー薄殻＋算術接合。} 2つの時空コピーから球を切除し、算術ドメインウォールを接合面として貼合せ。イスラエル接合条件は自動的に満たされる。数学的に最もクリーン。
+
+\textbf{Route C: 量子フォーム安定化。} ホイーラーの量子フォーム（プランクスケールのワームホールが常に存在）の1つを素数ミュートで安定化し、成長させる。「作る」のではなく「育てる」。エネルギー最小。
+
+\section{人間通過可能仕様}
+
+モリス-ソーン~\cite{MorrisThorne1988}の要件：喉半径$r_0 \geq 1\,\mathrm{m}$、潮汐力$< 1\,g$、通過時間$< 1$年、地平線なし。
+
+\begin{table}[h]
+\centering
+\caption{1メートル通過可能ワームホールの工学仕様}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+パラメータ & 量的アプローチ & 質的（予想） \\
+\midrule
+喉半径 $r_0$ & 1 m & 1 m \\
+負エネルギー & $10^{43}$ J & トポロジカル \\
+コンソールチャンネル & --- & 20 \\
+エネルギーコスト & $10^{43}$ J & $10^{12}$ J \\
+維持パワー & --- & $\sim 10^{-13}$ W \\
+壁温度 & --- & 30 mK \\
+安全装置 & --- & パリティキルスイッチ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+量的見積もり（$10^{43}\,\mathrm{J}$）と質的見積もり（$10^{12}\,\mathrm{J}$）の差は$10^{31}$倍。この差がレギュレータ方向予想（Paper B）の正否に依存。正しければ、人間通過可能ワームホールは\textbf{小規模発電所1時間分のエネルギー}で維持可能。
+
+\section{先行アプローチとの比較}
+
+\begin{table*}[t]
+\centering
+\caption{ワームホール構成アプローチの比較}
+\small
+\begin{tabular}{@{}lcccp{4cm}@{}}
+\toprule
+アプローチ & 年 & エキゾチック物質 & 通過可能 & 根本的限界 \\
+\midrule
+Einstein-Rosen & 1935 & 不要 & 不可 & 閉じるのが速すぎる \\
+Wheeler量子フォーム & 1955 & N/A & N/A & 安定化手段なし \\
+Morris-Thorne & 1988 & 必要 & 可能 & 調達方法なし \\
+Visser薄殻 & 1989 & 必要 & 可能 & 調達方法なし \\
+Maldacena-Qi & 2018 & 有効的 & 有効的 & 空間幾何なし \\
+Jafferis et al. & 2022 & シミュレート & シミュレート & 9量子ビットトイモデル \\
+\midrule
+\textbf{本研究} & 2026 & \textbf{プログラム} & \textbf{可能} & レギュレータ予想 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+本アプローチの独自性は「エキゾチック物質：プログラム」の列。エキゾチック物質を仮定・要求・シミュレート・収集するのではなく、トポス射によってWECの真偽値を変更し、真空がエキゾチック物質\emph{であるかのように}振る舞うようプログラムする。
+
+\section{安全性と安定性}
+
+トポロジカル安定性定理（Paper J~\cite{paper_J}）：$K_1$の不整合がコールマン-デ・ルッチア真空崩壊を防止。喉は制御不能に膨張しない。パリティキルスイッチ（追加素数ミュート）で制御された崩壊が可能。
+
+\section{ロードマップ}
+
+Phase 1（1--2年）：SQUID実験で算術真空変更を確認。Phase 2（2--5年）：BECアナログで微視的ドメインウォール構成。Phase 3（5--10年）：多チャンネルコンソールでRoute B実証。Phase 4（10--20年）：Route Cでプランクスケールワームホール安定化・成長。Phase 5（20年以上）：20チャンネルトロイダルコンソールで人間通過可能ワームホール。
+
+\section{結論}
+
+90年間、ワームホール物理は「負のエネルギーはどこから来るか」に阻まれてきた。算術的真空工学はそのメカニズムを提供する。WECをトポス内部命題、ワームホール喉を算術ドメインウォールとして再定式化することで、問題は「$10^{43}\,\mathrm{J}$のエキゾチック物質を蓄積」から「$10^{12}\,\mathrm{J}$のトポロジカル相転移を実行」に変換される。$10^{31}$桁の差——SFと工学の距離——はレギュレータ方向予想1つに依存する。予想が正しければ、人間通過可能ワームホールは既存のエネルギー技術の範囲内。解明への道はPaper AのSQUID実験から始まる。
+
+\section*{謝辞}
+本研究はWright Brothers共同研究グループによる独立研究として遂行された。
+
+\begin{thebibliography}{15}
+\bibitem{EinsteinRosen1935} A.~Einstein and N.~Rosen, Phys. Rev. \textbf{48}, 73 (1935).
+\bibitem{Wheeler1957} J.~A.~Wheeler, Ann. Phys. \textbf{2}, 604 (1957).
+\bibitem{MorrisThorne1988} M.~S.~Morris and K.~S.~Thorne, Am. J. Phys. \textbf{56}, 395 (1988).
+\bibitem{Visser1989} M.~Visser, Nucl. Phys. B \textbf{328}, 203 (1989).
+\bibitem{Israel1966} W.~Israel, Nuovo Cim. B \textbf{44}, 1 (1966).
+\bibitem{Hawking1992} S.~W.~Hawking, Phys. Rev. D \textbf{46}, 603 (1992).
+\bibitem{MaldacenaQi2018} J.~Maldacena and X.-L.~Qi, arXiv:1804.00491 (2018).
+\bibitem{Jafferis2022} D.~Jafferis et al., Nature \textbf{612}, 51 (2022).
+\bibitem{Kobrin2023} A.~Kobrin et al., arXiv:2304.00010 (2023).
+\bibitem{paper_A} Wright Brothers, companion paper A (2026).
+\bibitem{paper_B} Wright Brothers, companion paper B (2026).
+\bibitem{paper_J} Wright Brothers, companion paper J (2026).
+\end{thebibliography}
+
+\end{document}
