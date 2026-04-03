@@ -1,0 +1,513 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{specbox}[1][]{
+  colback=blue!3, colframe=blue!50,
+  fonttitle=\bfseries, title={#1},
+  breakable, sharp corners
+}
+
+\newtcolorbox{warnbox}{
+  colback=red!3, colframe=red!40,
+  fonttitle=\bfseries, title={注意},
+  breakable, sharp corners
+}
+
+\newtcolorbox{checkbox}{
+  colback=green!3, colframe=green!40,
+  fonttitle=\bfseries, title={チェックポイント},
+  breakable, sharp corners
+}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries SQUID素数フィルタ実験}\\[0.3cm]
+{\LARGE\bfseries 完全実施ガイド}\\[0.5cm]
+{\large --- 実験物理学者のための詳細プロトコル ---}\\[1.5cm]
+{\large Wright Brothers}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{実験の目的と理論的背景}
+% ============================================================================
+
+\subsection{一言で言うと}
+
+超伝導マイクロ波共振器の偶数高調波をSQUIDノッチフィルタで選択的に抑制し、抑制前後の真空エネルギー（ゼロ点揺らぎ）の変化を測定する。
+
+\subsection{理論的予測}
+
+共振器のモードスペクトル$\{\omega_n = n\omega_0\}$に対する
+ゼータ正則化真空エネルギー：
+\begin{align}
+  E_{\mathrm{full}} &\propto \zeta(-1) = -\frac{1}{12} \quad \text{（全モード）} \\
+  E_{\mathrm{odd}} &\propto \zeta_{\neg 2}(-1) = +\frac{1}{12} \quad \text{（偶数除去後）}
+\end{align}
+
+予測：真空エネルギーの\textbf{符号が反転する}（負→正）。
+
+\subsection{先行実験との関係}
+
+\begin{itemize}
+\item Wilson et al.\ (Nature 479, 376, 2011)：超伝導回路での動的カシミール効果。真空からの光子生成を実証。
+\item Lähteenmäki et al.\ (PNAS 110, 4234, 2013)：ジョセフソン・メタマテリアルでのDCE。
+\item 本実験は「動的」ではなく「静的」境界条件でのカシミール効果修正を測定する。
+\end{itemize}
+
+\subsection{成功した場合の意義}
+
+「オイラー積$\zeta(s) = \prod_p (1-p^{-s})^{-1}$が数学的恒等式ではなく、量子真空の物理法則である」ことの最初の実験的証拠。
+
+% ============================================================================
+\section{回路設計}
+% ============================================================================
+
+\subsection{同一平面導波路 (CPW) 共振器}
+
+\begin{specbox}[CPW共振器仕様]
+\begin{tabular}{ll}
+基板 & 高抵抗Si (100)、厚さ 525 $\mu$m \\
+超伝導薄膜 & Nb、厚さ 150--200 nm \\
+中心導体幅 & 10 $\mu$m \\
+ギャップ幅 & 6 $\mu$m \\
+共振器長 & $L = 10$ mm ($\lambda/2$ 共振器) \\
+特性インピーダンス & $Z_0 = 50\,\Omega$ \\
+有効誘電率 & $\varepsilon_{\mathrm{eff}} \approx 6.2$ \\
+有効光速 & $c_{\mathrm{eff}} = c/\sqrt{\varepsilon_{\mathrm{eff}}} \approx 1.2 \times 10^8$ m/s \\
+基本周波数 & $f_0 = c_{\mathrm{eff}}/(2L) \approx 6.0$ GHz \\
+モード間隔 & $\Delta f = f_0 \approx 6.0$ GHz \\
+\end{tabular}
+\end{specbox}
+
+\subsection{SQUIDノッチフィルタ}
+
+偶数高調波（$2f_0, 4f_0, 6f_0, \ldots, 20f_0$）を抑制するため、
+10個のSQUIDノッチフィルタを共振器に組み込む。
+
+\begin{specbox}[SQUID仕様]
+\begin{tabular}{ll}
+接合タイプ & Al/AlO$_x$/Al（シャドウ蒸着法） \\
+臨界電流 & $I_c = 1.0\,\mu$A \\
+接合容量 & $C_J = 1.0$ fF \\
+ジョセフソン・インダクタンス & $L_J = \Phi_0/(2\pi I_c) = 0.33$ nH \\
+プラズマ周波数 & $f_{\mathrm{plasma}} = 1/(2\pi\sqrt{L_J C_J}) \approx 277$ GHz \\
+外部磁束による同調範囲 & $0 \sim f_{\mathrm{plasma}}$ \\
+\end{tabular}
+\end{specbox}
+
+各SQUIDを偶数高調波$2kf_0$ ($k = 1, \ldots, 10$) に同調させる。
+同調は外部磁束$\Phi_{\mathrm{ext}}$で制御：
+\begin{equation}
+  \omega_{\mathrm{SQUID}}(\Phi_{\mathrm{ext}}) =
+  \omega_{\mathrm{plasma}} \sqrt{|\cos(\pi\Phi_{\mathrm{ext}}/\Phi_0)|}
+\end{equation}
+
+\begin{specbox}[SQUID同調パラメータ]
+\begin{tabular}{ccc}
+\toprule
+SQUID\# & ターゲットモード & $\Phi_{\mathrm{ext}}/\Phi_0$ \\
+\midrule
+1 & $2f_0 = 12.0$ GHz & 0.4994 \\
+2 & $4f_0 = 24.0$ GHz & 0.4976 \\
+3 & $6f_0 = 36.0$ GHz & 0.4946 \\
+4 & $8f_0 = 48.0$ GHz & 0.4905 \\
+5 & $10f_0 = 60.0$ GHz & 0.4851 \\
+6 & $12f_0 = 72.0$ GHz & 0.4785 \\
+7 & $14f_0 = 84.0$ GHz & 0.4708 \\
+8 & $16f_0 = 96.0$ GHz & 0.4618 \\
+9 & $18f_0 = 108.0$ GHz & 0.4516 \\
+10 & $20f_0 = 120.0$ GHz & 0.4401 \\
+\bottomrule
+\end{tabular}
+\end{specbox}
+
+\subsection{抑制性能}
+
+\begin{specbox}[フィルタ性能]
+\begin{tabular}{ll}
+Q値（ノッチ） & $Q \geq 1000$ \\
+共鳴時抑制深度 & 60 dB（$Q = 1000$ で） \\
+ノッチ帯域幅 & $\Delta f_{\mathrm{notch}} = f_{\mathrm{target}}/Q \approx 12$ MHz \\
+モード間隔 & $\Delta f_{\mathrm{modes}} = f_0 = 6000$ MHz \\
+選択性比 & $\Delta f_{\mathrm{modes}}/\Delta f_{\mathrm{notch}} = 500$ \\
+隣接奇数モードへのスピルオーバー & $> 114$ dB 低下（無視可能） \\
+\end{tabular}
+\end{specbox}
+
+% ============================================================================
+\section{製作プロセス}
+% ============================================================================
+
+\subsection{Step 1: Nb薄膜の成膜}
+
+\begin{enumerate}
+\item 高抵抗Si基板をアセトン → IPA → DI水で洗浄
+\item DCスパッタリングでNb 150--200 nm を成膜
+  \begin{itemize}
+  \item Arガス圧: 3--5 mTorr
+  \item DCパワー: 200--300 W
+  \item 基板温度: 室温
+  \item 成膜レート: ~1 nm/s
+  \end{itemize}
+\item $T_c$を測定して確認（目標: $T_c > 9.0$ K）
+\end{enumerate}
+
+\subsection{Step 2: CPWパターニング}
+
+\begin{enumerate}
+\item 電子ビームリソグラフィ (EBL) またはフォトリソグラフィ
+\item レジスト: PMMA（EBL）またはAZ5214（フォトリソ）
+\item 描画: CPW中心導体（10 $\mu$m幅）+ グランドプレーン
+\item 現像: MIBK:IPA = 1:3（PMMA）/ AZ 300MIF（AZ）
+\item エッチング: SF$_6$ + O$_2$ RIE (反応性イオンエッチング)
+  \begin{itemize}
+  \item SF$_6$: 40 sccm, O$_2$: 10 sccm
+  \item 圧力: 10 mTorr, パワー: 100 W
+  \item エッチレート: ~2 nm/s（終点検出推奨）
+  \end{itemize}
+\item レジスト除去: アセトン浸漬 + O$_2$プラズマアッシング
+\end{enumerate}
+
+\subsection{Step 3: SQUID接合の製作}
+
+\begin{enumerate}
+\item ダリッジブリッジ法（シャドウ蒸着）:
+  \begin{itemize}
+  \item 二層レジスト: PMMA/MAA + PMMA
+  \item EBLで接合パターン描画（サイズ: 100 nm $\times$ 100 nm）
+  \end{itemize}
+\item 第1蒸着: Al 30 nm（角度 +30°）
+\item 酸化: O$_2$ 200 mTorr, 10分（AlO$_x$トンネルバリア形成）
+  \begin{itemize}
+  \item $I_c$は酸化条件で制御。$I_c = 1\,\mu$Aには酸化量の精密調整が必要
+  \end{itemize}
+\item 第2蒸着: Al 50 nm（角度 $-30$°）
+\item リフトオフ: NMP (N-メチルピロリドン) 80°C 浸漬
+\end{enumerate}
+
+\begin{warnbox}
+SQUID接合の$I_c$制御は最も困難な製作ステップ。
+酸化条件のキャリブレーション実験を事前に複数回行うこと。
+$I_c$が目標値の$\pm 20\%$以内であれば、外部磁束で微調整可能。
+\end{warnbox}
+
+\subsection{Step 4: 磁束バイアス線の製作}
+
+各SQUIDに独立した磁束バイアスを供給するため、
+オンチップ磁束線（電流線）を配置する。
+
+\begin{enumerate}
+\item Al または Nb の追加配線レイヤー
+\item SQUID ループから 1--5 $\mu$m の距離
+\item 相互インダクタンス: $M \approx 1$ pH（設計値）
+\item 各SQUID独立制御: 10チャンネルのDC電流源が必要
+\end{enumerate}
+
+\subsection{Step 5: チップ実装}
+
+\begin{enumerate}
+\item チップをCuまたはAlの試料ボックスにワイヤーボンディング
+\item SMAコネクタを入出力ポートに接続
+\item 磁気シールド: $\mu$-メタル筒 + 超伝導シールド（Pbテープ）
+\item ボックスをdilution refrigeratorの冷却ステージにマウント
+\end{enumerate}
+
+% ============================================================================
+\section{冷却と配線}
+% ============================================================================
+
+\subsection{希釈冷凍機の要件}
+
+\begin{specbox}[冷凍機仕様]
+\begin{tabular}{ll}
+ベース温度 & $T < 20$ mK \\
+冷却パワー (100 mK) & $> 10\,\mu$W \\
+配線 & 同軸: 入力2本, 出力2本 \\
+ & DC: 磁束バイアス10本 + グランド \\
+マイクロ波入力の減衰 & 各温度ステージで 20 dB（合計 60 dB） \\
+出力アンプ & HEMT (4 K ステージ) + 室温アンプ \\
+\end{tabular}
+\end{specbox}
+
+\subsection{熱的考慮}
+
+基本モードの量子温度: $T_q = \hbar\omega_0/k_B \approx 288$ mK。
+$T < T_q/5 \approx 58$ mK で基底状態占有 $>99\%$。
+
+\begin{checkbox}
+冷却完了時の確認:
+\begin{itemize}
+\item[$\square$] ベース温度 $< 20$ mK
+\item[$\square$] 共振器 $Q > 10^4$（内部損失が十分小さい）
+\item[$\square$] 各SQUIDのプラズマ共鳴が観測される
+\item[$\square$] 磁束バイアス全10チャンネルが独立に動作
+\end{itemize}
+\end{checkbox}
+
+% ============================================================================
+\section{測定プロトコル}
+% ============================================================================
+
+\subsection{Phase 0: 基本特性評価（1--2日）}
+
+VNA (Vector Network Analyzer) を使用。
+
+\begin{enumerate}
+\item 共振器の$S_{21}$透過スペクトルを測定（$1 \sim 130$ GHz）
+\item 全20モード($f_0 \sim 20f_0$)の周波数と$Q$値を記録
+\item 各SQUIDの磁束応答を測定:
+  $\Phi_{\mathrm{ext}}$をスイープし、$S_{21}$のディップ位置をマッピング
+\item SQUIDを各偶数高調波に同調させる最適$\Phi_{\mathrm{ext}}$値を決定
+\end{enumerate}
+
+\subsection{Phase 1: 構成A測定 — 全モード活性（1日）}
+
+\begin{specbox}[構成A: フィルタOFF]
+全SQUIDを離調（$\Phi_{\mathrm{ext}} = 0$にして偶数モードから外す）。
+$\Rightarrow$ 共振器の全20モードが活性。
+\end{specbox}
+
+測定項目:
+\begin{enumerate}
+\item $S_{21}(f)$: 透過スペクトル（モード周波数の精密決定）
+\item ノイズパワースペクトル密度$S_V(f)$: 各モードの真空揺らぎ
+\item 分散読み出しによる各モードの光子数$\langle n \rangle$:
+  \begin{itemize}
+  \item AC Stark シフト法: プローブトーンの周波数シフト$\delta f \propto \langle n \rangle$
+  \item 目標: $\langle n \rangle < 0.01$（真空状態の確認）
+  \end{itemize}
+\end{enumerate}
+
+各測定を10回繰り返し、統計誤差を評価。
+
+\subsection{Phase 2: 構成B測定 — 偶数モード抑制（1日）}
+
+\begin{specbox}[構成B: フィルタON（$p=2$ ミュート）]
+全10個のSQUIDを対応する偶数高調波に同調させる。
+$\Rightarrow$ 偶数モードが60 dB抑制される。奇数モードのみ活性。
+\end{specbox}
+
+測定項目: 構成Aと全く同じ3項目を同じ手順で測定。
+
+\begin{warnbox}
+構成A→Bの切替時、SQUIDの磁束バイアスを変更する。
+全SQUIDが安定に同調するまで\textbf{30分以上}待ってから測定開始。
+磁束のヒステリシスや残留磁場に注意。
+\end{warnbox}
+
+\subsection{Phase 3: 差分解析（1日）}
+
+\begin{enumerate}
+\item $\Delta S_{21} = S_{21}^{(B)} - S_{21}^{(A)}$: 偶数モードの抑制プロファイル
+\item $\Delta S_V = S_V^{(B)} - S_V^{(A)}$: 真空ノイズパワーの変化
+\item $\Delta\langle n \rangle = \langle n \rangle^{(B)} - \langle n \rangle^{(A)}$: モードごとのゼロ点変化
+\end{enumerate}
+
+\subsection{Phase 4: p=3 ミュート（オプション、2日）}
+
+成功基準Level 2以上が達成された場合:
+\begin{enumerate}
+\item SQUIDを$3f_0, 6f_0, 9f_0, \ldots$（3の倍数）に再同調
+\item 構成A, Bと同じ測定を繰り返す
+\item 結果が$\zeta_{\neg 3}(-1)$の予測と一致するか確認
+\end{enumerate}
+
+\subsection{Phase 5: 同時ミュート（オプション、2日）}
+
+$p=2$と$p=3$を同時にミュート:
+\begin{enumerate}
+\item SQUIDを$2f_0, 3f_0, 4f_0, 6f_0, \ldots$（2または3の倍数）に同調
+\item 乗法構造を検証: $\Delta E(p=2,3) = \Delta E(p=2) \times (1-3^{-s})$
+\end{enumerate}
+
+% ============================================================================
+\section{予測される信号と誤差バジェット}
+% ============================================================================
+
+\subsection{信号の大きさ}
+
+最初の$N = 20$モードのゼロ点エネルギー:
+\begin{align}
+  E_{\mathrm{full}} &= \sum_{n=1}^{20} \frac{\hbar\omega_n}{2} \approx 4.2 \times 10^{-22}\,\text{J} \\
+  E_{\mathrm{odd}} &= \sum_{\substack{n=1\\n\,\text{odd}}}^{20} \frac{\hbar\omega_n}{2} \approx 2.0 \times 10^{-22}\,\text{J} \\
+  \Delta E &= E_{\mathrm{odd}} - E_{\mathrm{full}} \approx -2.2 \times 10^{-22}\,\text{J}
+\end{align}
+
+ゼータ正則化予測: $E_{\mathrm{odd}}/E_{\mathrm{full}} \to \zeta_{\neg 2}(-1)/\zeta(-1) = -1$（符号反転）。
+
+\subsection{誤差バジェット}
+
+\begin{table}[h]
+\centering
+\caption{系統誤差源と対策}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+誤差源 & 大きさ & 許容？ & 対策 \\
+\midrule
+熱的光子 & $\langle n_{\mathrm{th}}\rangle \sim 5 \times 10^{-9}$ & $\checkmark$ & $T < 20$ mK \\
+SQUIDバックアクション & $\sim 5 \times 10^{-4}$/mode & $\checkmark$ & $Q > 1000$ \\
+モード漏洩 (不完全抑制) & $10^{-6}$ (60 dB) & $\checkmark$ & $Q_{\mathrm{notch}} > 1000$ \\
+クロストーク & 114 dB低下 & $\checkmark$ & ノッチ帯域 $\ll$ モード間隔 \\
+磁束ノイズ & $\sim 1\,\mu\Phi_0/\sqrt{\text{Hz}}$ & $\checkmark$ & $\mu$-メタルシールド \\
+アンプノイズ & $T_N \sim 5$ K (HEMT) & 要注意 & 長時間積分 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{必要な積分時間}
+
+信号$\Delta E$とノイズの比 (SNR):
+\begin{equation}
+  \mathrm{SNR} = \frac{\Delta E}{\sqrt{k_B T_N / \tau_{\mathrm{int}}}}
+\end{equation}
+
+$T_N = 5$ K, $\mathrm{SNR} = 5$（$5\sigma$検出）に必要な積分時間:
+\begin{equation}
+  \tau_{\mathrm{int}} = \frac{k_B T_N}{\Delta E^2} \times \mathrm{SNR}^2
+  \approx \frac{1.38 \times 10^{-23} \times 5}{(2.2 \times 10^{-22})^2} \times 25
+  \approx 36\,\text{s}
+\end{equation}
+
+$\Rightarrow$ 数分の測定で十分なSNRが得られる。
+
+% ============================================================================
+\section{成功基準}
+% ============================================================================
+
+\begin{specbox}[4段階の成功基準]
+\textbf{Level 1}: $\Delta E \neq 0$が統計的に有意。\\
+$\Rightarrow$ 真空エネルギーがモードの算術に依存する。
+
+\textbf{Level 2}: $\Delta E / E_{\mathrm{full}}$がζ正則化予測$(1-2^{s+1})$と$3\sigma$以内で一致。\\
+$\Rightarrow$ ζ正則化が量子真空の正しい記述である。
+
+\textbf{Level 3}: $p=3$ミュートの結果が$\zeta_{\neg 3}$と一致。同時ミュートが乗法的。\\
+$\Rightarrow$ オイラー積が物理法則。
+
+\textbf{Level 4}: 制御可能な符号反転（正↔負を任意に切替可能）。\\
+$\Rightarrow$ 算術的真空工学の実証。
+\end{specbox}
+
+% ============================================================================
+\section{タイムラインと予算}
+% ============================================================================
+
+\begin{table}[h]
+\centering
+\caption{実験タイムライン}
+\begin{tabular}{@{}clc@{}}
+\toprule
+月 & 活動 & 必要リソース \\
+\midrule
+1--2 & 回路設計・シミュレーション & COMSOL/Sonnet \\
+3--4 & Nb成膜 + CPWパターニング & クリーンルーム \\
+5 & SQUID接合製作 + テスト & EBL + 蒸着装置 \\
+6 & チップ実装 + 冷却 & 希釈冷凍機 \\
+7--8 & Phase 0--2 測定 & VNA + DC電流源 \\
+9 & Phase 3--5 測定 + 解析 & --- \\
+10--11 & 系統誤差評価 + 再測定 & --- \\
+12 & 論文執筆 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{specbox}[予算内訳（シナリオA: 既存ラボ共同研究）]
+\begin{tabular}{lr}
+\toprule
+項目 & 概算 \\
+\midrule
+試料製作（Nb CPW + SQUID 10個）& 200万〜400万円 \\
+冷凍機使用料（5回のクールダウン）& 100万〜200万円 \\
+消耗品（Heガス、配線、基板等）& 50万〜100万円 \\
+旅費・雑費 & 50万〜100万円 \\
+人件費（ポスドク1名 × 6ヶ月） & 200万〜300万円 \\
+\midrule
+\textbf{合計} & \textbf{600万〜1,100万円} \\
+\bottomrule
+\end{tabular}
+\end{specbox}
+
+% ============================================================================
+\section{共同研究先への提案方法}
+% ============================================================================
+
+\subsection{アプローチの仕方}
+
+\begin{enumerate}
+\item \textbf{事前準備}: LC回路実験（5,100円）を実施し、エッジ状態データを取得。Qiskitシミュレーション結果を添付。Paper Aを共有。
+\item \textbf{コンタクト}: 候補ラボのPI（主任研究者）に直接メール。「算術的真空エネルギー測定」という新しい実験提案であることを強調。
+\item \textbf{ミーティング}: 理論的背景を30分で説明。Paper Aの6ページ + 旗艦論文を渡す。
+\item \textbf{共同研究契約}: 試料製作と測定を候補ラボで実施。論文は共著。
+\end{enumerate}
+
+\subsection{日本国内の候補ラボ}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+研究機関 & PI & 強み \\
+\midrule
+理化学研究所 & 中村泰信 & 超伝導量子ビットの世界的拠点 \\
+東京大学 先端研 & --- & マイクロ波計測の豊富な経験 \\
+NTT物性研 & --- & 超伝導回路のin-house製作能力 \\
+産総研 & --- & SQUID製作の実績 \\
+大阪大学 & --- & 超伝導量子回路グループ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{海外の候補ラボ}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+研究機関 & PI & 強み \\
+\midrule
+Chalmers大学 & Per Delsing & DCE実験の実施者（Wilson 2011） \\
+Yale大学 & Michel Devoret & 超伝導回路QEDの創始者 \\
+ETH Zurich & Andreas Wallraff & 高精度マイクロ波測定 \\
+Delft工科大学 & Leo DiCarlo & 大規模量子回路 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{checkbox}
+Chalmers大学のDelsing研究室は最有力候補。
+Wilson et al.\ (2011) のDCE実験を実施したラボであり、
+SQUID+マイクロ波共振器の完全な製作・測定インフラを持つ。
+「DCE実験の自然な拡張」として提案すれば、受け入れられる可能性が高い。
+\end{checkbox}
+
+\vfill
+\begin{center}
+{\small Wright Brothers, 2026}
+\end{center}
+
+\end{document}
