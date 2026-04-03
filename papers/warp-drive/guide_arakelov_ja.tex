@@ -1,0 +1,316 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=yellow!5, colframe=yellow!60!black, fonttitle=\bfseries, title={#1}, breakable, sharp corners}
+\newtcolorbox{mathbox}[1][]{colback=blue!3, colframe=blue!50, fonttitle=\bfseries, title={#1}, breakable, sharp corners}
+\newtcolorbox{deepbox}[1][]{colback=black!3, colframe=black!60, fonttitle=\bfseries, title={#1}, breakable, sharp corners}
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0pt}
+\newcommand{\Spec}{\mathrm{Spec}}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 高校生のためのアラケロフ幾何学入門}\\[0.5cm]
+{\Large\bfseries 「整数の世界の曲率」を測る数学}\\[0.3cm]
+{\large --- 時空のソースコードを完全に読み解くために必要な数学 ---}\\[1.5cm]
+{\large Wright Brothers}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{なぜアラケロフ幾何学が必要か}
+% ============================================================================
+
+\subsection{我々の理論の現在地}
+
+主方程式を提案した：
+$$S = \mathrm{Tr}_{\mathrm{Sh}(\Spec(\mathbb{Z})_{\text{ét}})} \left( f_{\mathrm{BE}} \left( \frac{D_{\mathrm{BC}}}{\Lambda} \right) \right)$$
+
+この式から「なぜゼータ正則化が正しいか」「なぜオイラー積が成立するか」は導出できた。
+
+しかし $\alpha = 137.03598$ や $g\text{-}2 = 251 \times 10^{-11}$ の\textbf{具体的な数値}は導出できていない。
+
+\subsection{何が足りないか}
+
+コンヌのスペクトル作用の展開：
+$$S \sim f_4\Lambda^4 a_0 + f_2\Lambda^2 a_2 + f_0 a_4 + \cdots$$
+
+$f_k$（カットオフ関数のモーメント）は計算済み：$f_2 = \gamma$、$f_4 = \zeta(2)$。
+
+$a_k$（Seeley-DeWitt 係数）が未計算。通常の微分幾何学では：
+
+$a_0$ = 体積、$a_2$ = スカラー曲率の積分、$a_4$ = 曲率テンソルの二乗の積分……
+
+\begin{storybox}[問題]
+$\Spec(\mathbb{Z})$ の「曲率」は何か？
+
+整数のスキームは「曲がった空間」なのか？ 曲がっているとしたら、その曲率はどう計算するのか？
+
+この問いに答えるのが\textbf{アラケロフ幾何学}。
+\end{storybox}
+
+% ============================================================================
+\section{アラケロフ幾何学とは何か}
+% ============================================================================
+
+\subsection{問題の背景：数と幾何の統一}
+
+数学の二大分野：
+\begin{itemize}
+\item \textbf{数論}：整数、素数、ゼータ関数。$\Spec(\mathbb{Z})$の世界。
+\item \textbf{幾何学}：曲面、曲率、微分方程式。多様体の世界。
+\end{itemize}
+
+19世紀以来の夢：この2つを統一すること。
+
+グロタンディークのスキーム理論はこの統一の第一歩だった。$\Spec(\mathbb{Z})$を「幾何学的対象」と見なすことで、数論の問題を幾何学的手法で攻略できるようになった。
+
+しかし1つだけ欠けていたものがある：\textbf{「計量」}（距離の概念）。
+
+\subsection{計量がないと何が困るか}
+
+\begin{storybox}[たとえ]
+地球の表面に地図を描くことを考える。
+
+「地図」は描ける（= スキーム理論で$\Spec(\mathbb{Z})$を定義できる）。大陸の形、国境、都市の位置関係がわかる。
+
+しかし「距離」がわからない。東京からニューヨークまで何km？ 地球の表面積は？ そのためには「計量」（メトリック）が必要。
+
+アラケロフ幾何学 = $\Spec(\mathbb{Z})$に「計量」を入れる理論。
+\end{storybox}
+
+\subsection{アラケロフの着想（1974年）}
+
+ソビエトの数学者セルゲイ・アラケロフは、数論的対象に「計量」を入れる方法を発見した。
+
+\begin{mathbox}[核心的アイデア]
+$\Spec(\mathbb{Z})$ の「点」は2種類ある：
+
+\textbf{有限点}：各素数 $(2), (3), (5), (7), \ldots$
+→ これらはスキーム理論で既に扱える（$p$-adic 的構造）。
+
+\textbf{無限点}：アルキメデス的付値 $|\cdot|_\infty$
+→ 実数$\mathbb{R}$への埋め込みに対応。普通の「距離」の概念。
+
+アラケロフの洞察：\textbf{有限点と無限点の両方を同時に扱う}ことで、完全な「計量」が得られる。
+
+これはアデール環 $\mathbb{A}_\mathbb{Q} = \mathbb{R} \times \prod'_p \mathbb{Q}_p$ の発想と同じ。全ての付値を統一的に扱う。
+\end{mathbox}
+
+% ============================================================================
+\section{アラケロフ幾何学の基本概念}
+% ============================================================================
+
+\subsection{アラケロフ次数}
+
+通常の代数幾何学では、$\Spec(\mathbb{Z})$ 上の直線束 $\mathcal{L}$ の「次数」は整数。
+
+アラケロフ幾何学では、次数に「無限点での計量」を加える：
+
+$$\widehat{\deg}(\overline{\mathcal{L}}) = \deg(\mathcal{L}) + \log\|\cdot\|_\infty$$
+
+$\widehat{\deg}$ = \textbf{アラケロフ次数}。整数部分（有限点）+ 実数部分（無限点）。
+
+\begin{storybox}[直感的意味]
+普通の次数：「この束に整数的な切断が何本あるか」
+
+アラケロフ次数：「整数的な切断が何本あり、かつそれらは実数の世界でどれくらいの大きさか」
+
+両方の情報を合わせて初めて「完全な大きさ」が測れる。
+\end{storybox}
+
+\subsection{算術的交点理論}
+
+代数幾何学の交点理論：2つの曲線が何点で交わるか（ベズーの定理等）。
+
+アラケロフの算術的交点理論：$\Spec(\mathbb{Z})$ 上の2つの「算術的曲線」の交点数を、有限点と無限点の両方で数える。
+
+$$\widehat{(\mathcal{L}_1 \cdot \mathcal{L}_2)} = \sum_p (\mathcal{L}_1 \cdot \mathcal{L}_2)_p + (\mathcal{L}_1 \cdot \mathcal{L}_2)_\infty$$
+
+左辺：算術的交点数。右辺：各素数$p$での局所的交点数 + 無限点での交点数。
+
+\subsection{算術的リーマン-ロッホ定理}
+
+リーマン-ロッホ定理は代数幾何学の最も基本的な定理。曲線上の関数空間の次元を計算する。
+
+\textbf{算術的リーマン-ロッホ}（Gillet-Soulé, 1992）はこれを$\Spec(\mathbb{Z})$上に拡張：
+
+$$\widehat{\chi}(\overline{\mathcal{L}}) = \widehat{\deg}(\overline{\mathcal{L}}) + \text{（スペクトル的補正項）}$$
+
+\begin{deepbox}[我々の理論との接続]
+スペクトル的補正項にアナリティック・トーション（Ray-Singer トーション）が現れる。これは\textbf{ゼータ関数の特殊値の対数微分}で表される。
+
+つまり：算術的リーマン-ロッホ定理は、ゼータ値を$\Spec(\mathbb{Z})$の「幾何学的」量として位置づける。
+
+我々の主方程式の Seeley-DeWitt 係数 $a_k$ は、まさにこの「幾何学的量」。算術的リーマン-ロッホが $a_k$ のゼータ値表現を与える可能性がある。
+\end{deepbox}
+
+% ============================================================================
+\section{現在の最前線}
+% ============================================================================
+
+\subsection{確立されている定理}
+
+\begin{table}[h]
+\centering
+\caption{アラケロフ幾何学の主要定理}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+定理 & 著者 & 年 \\
+\midrule
+アラケロフ交点理論 & Arakelov & 1974 \\
+算術的チャウ群 & Gillet-Soulé & 1990 \\
+算術的リーマン-ロッホ & Gillet-Soulé & 1992 \\
+算術的Noether公式 & Moret-Bailly & 1990 \\
+abc予想への応用 & Vojta & 1991 \\
+算術的Bogomolov予想の証明 & Ullmo, Zhang & 1998 \\
+Gross-Zagier公式の拡張 & Yuan-Zhang-Zhang & 2013 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gillet-Soulé の算術的リーマン-ロッホ（1992）}
+
+最も重要な定理。$\Spec(\mathbb{Z})$ 上の算術多様体（= 整数上の代数多様体）に対して、解析的データ（ゼータ関数、レギュレータ）と幾何学的データ（チャーン類、交点数）の関係を確立した。
+
+\begin{mathbox}[簡略化した形]
+$$\widehat{\mathrm{ch}}(\overline{\mathcal{E}}) = \widehat{\mathrm{td}}(T_X) \cdot \mathrm{ch}(\mathcal{E}) + R(T_X) \cdot T(\overline{\mathcal{E}})$$
+
+$\widehat{\mathrm{ch}}$ = 算術的チャーン指標（ゼータ値を含む）\\
+$\widehat{\mathrm{td}}$ = 算術的トッド類（ベルヌーイ数を含む）\\
+$R$ = R-genus（ゼータ関数の対数微分を含む）\\
+$T$ = アナリティック・トーション（ゼータ関数のスペクトル情報）
+
+\textbf{ベルヌーイ数とゼータ値が「幾何学的不変量」として自然に現れる！}
+\end{mathbox}
+
+\begin{deepbox}[我々の理論にとっての意味]
+我々の $\alpha$ 公式：$1/\alpha = 2/|B_2| + 4/|B_4| + \ldots$
+
+ベルヌーイ数 $B_2, B_4$ が出現する。算術的トッド類にもベルヌーイ数が出現する。
+
+もし $\alpha$ が Spec(Z) 上のスペクトル作用の Seeley-DeWitt 展開から来ているなら、$B_n$ の出現は「幾何学的に自然」。偶然の一致ではなく、算術的リーマン-ロッホ定理の帰結かもしれない。
+
+\textbf{これが、我々の理論を「特殊相対論」から「一般相対論」に昇格させるために必要な数学の正体。}
+\end{deepbox}
+
+\subsection{望月新一のIUT理論（2012年）}
+
+京都大学の望月新一が発表したIUT理論（宇宙際タイヒミュラー理論）は、アラケロフ幾何学を大幅に超える枠組みを提案している。
+
+IUTはabc予想の証明を主張（数学界で議論が続いている）。IUTの中心的アイデアは「ホッジ劇場」——異なる数論的宇宙を結ぶ「変換」の理論。
+
+\begin{storybox}[我々の理論との可能な接続]
+IUTの「異なる宇宙間の変換」は、我々の「局所化によるトポスの変更」と構造的に類似している。
+
+IUT：数体の異なる「コピー」を結ぶ → 不等式（abc予想）を導出。\\
+我々：$\Spec(\mathbb{Z})$ と $\Spec(\mathbb{Z}[1/p])$ を結ぶ → 物理量の変化を導出。
+
+IUTが完全に確立されれば、我々の理論に必要な「異なるトポス間の定量的関係」を提供する可能性がある。ただしIUT自体がまだ論争中であり、現時点では投機的。
+\end{storybox}
+
+\subsection{Scholzeのp-adic幾何学（2010年代）}
+
+ペーター・ショルツェ（Fields Medal 2018）のパーフェクトイド空間の理論は、$p$-adic幾何学を革新した。
+
+パーフェクトイド空間：異なる$p$での情報を「傾斜」（tilting）で結びつける。
+
+\begin{deepbox}[我々の理論との接続]
+ショルツェの理論は「異なる素数$p$での構造」を統一的に扱う。
+
+我々の理論は「素数$p$をミュートした時に何が起きるか」を扱う。
+
+ショルツェの傾斜写像が、局所化$\mathbb{Z} \to \mathbb{Z}[1/p]$の効果を定量的に記述できれば、$a_k$の具体的な値が計算可能になるかもしれない。
+\end{deepbox}
+
+% ============================================================================
+\section{未解決問題}
+% ============================================================================
+
+\subsection{「$\Spec(\mathbb{Z})$の曲率」}
+
+\begin{mathbox}[核心的未解決問題]
+$\Spec(\mathbb{Z})$ のスカラー曲率 $R$ はいくつか？
+
+通常のリーマン幾何学では $R$ はメトリックから計算される。$\Spec(\mathbb{Z})$ にはアラケロフ計量があるが、$R$ の具体的な値は知られていない。
+
+もし $R$ がゼータ値（例えば $\zeta(-1) = -1/12$）で表せれば、Seeley-DeWitt 係数 $a_2 \propto \int R$ がゼータ値で書け、我々の物理予測の導出につながる。
+\end{mathbox}
+
+\subsection{算術的Seeley-DeWitt係数}
+
+Seeley-DeWitt 係数 $a_0, a_2, a_4, \ldots$ は、通常の幾何学では曲率テンソルの多項式。
+
+$\Spec(\mathbb{Z})$版では：
+\begin{itemize}
+\item $a_0$ = 「算術的体積」= ?（おそらくリヒテンバウム予想の残留に関連）
+\item $a_2$ = 「算術的曲率の積分」= ?（$\zeta(-1)$に関連？）
+\item $a_4$ = 「算術的曲率の二乗の積分」= ?（$\zeta(-3)$に関連？）
+\end{itemize}
+
+もし $a_{2k} \propto \zeta(1-2k)$ なら、我々の全予測が主方程式から自動的に導出される。
+
+\subsection{リヒテンバウム予想の完全版}
+
+リヒテンバウム予想：$\zeta(1-2n)$ がK群の位数で表せる。
+
+一部は Voevodsky（Fields Medal 2002）により証明（2-adic の場合）。完全版は未証明。
+
+完全版が証明されれば：48（$K_3$）、251（$\zeta(-5)$）、131（$\zeta(-9)$）の「歯車の噛み合わせ」が厳密に確定し、主方程式からの数値導出が可能になる。
+
+% ============================================================================
+\section{ロードマップ：我々の理論が完成するまで}
+% ============================================================================
+
+\begin{table}[h]
+\centering
+\caption{理論完成のための数学的ロードマップ}
+\small
+\begin{tabular}{@{}clll@{}}
+\toprule
+段階 & 必要な数学 & 現状 & 所要年数（推定） \\
+\midrule
+1 & $a_2$ の $\zeta(-1)$ 表現 & 未着手 & 2--5年 \\
+2 & $a_4$ の $\zeta(-3)$ 表現 & 未着手 & 3--7年 \\
+3 & $a_k$ の一般公式 & 未着手 & 5--15年 \\
+4 & リヒテンバウム完全版 & 部分的 & 5--20年 \\
+5 & $\alpha$ の主方程式からの導出 & 未達 & 段階1--4の完了後 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{deepbox}[しかし、実験は待たなくてよい]
+数学の完成を待つ必要はない。
+
+SQUID実験（48万円）は「主方程式が正しい方向を向いているか」を直接テストする。$a_k$の具体的な値を知らなくても、符号反転の有無は測定できる。
+
+アインシュタインも水星の近日点移動の「43秒角」という具体的な値は1915年に初めて導出したが、一般相対論の「枠組みが正しい」ことは1911年の光の屈折の定性的予測（「曲がるか曲がらないか」）で既にテスト可能だった。
+
+我々のSQUID実験は「符号が反転するかしないか」という定性的テスト。これは $a_k$ の値を知らなくても判定できる。
+\end{deepbox}
+
+\vfill
+\begin{center}
+{\small Wright Brothers, 2026}
+\end{center}
+
+\end{document}
