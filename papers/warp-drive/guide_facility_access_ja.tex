@@ -1,0 +1,457 @@
+% 施設アクセスガイド
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{facbox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{stepbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{costbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{施設アクセスガイド}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 施設アクセスガイド}\\[0.5cm]
+{\Large $\lambda/4$ vs $\lambda/2$ Lamb シフト実験}\\[0.3cm]
+{\Large 世界のオープンアクセス量子施設}\\[1cm]
+{\large Wright Brothers Research Program, 2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{実験に必要なもの}
+%====================================================================
+
+\section{3つの要素}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{clll}
+\toprule
+\# & 必要なもの & 自作可能？ & 施設で必要 \\
+\midrule
+1 & 超伝導共振器（$\lambda/4$, $\lambda/2$） & \textbf{✓}（同軸ケーブルを切るだけ） & 不要 \\
+2 & トランスモン量子ビット & ✗（ナノ加工が必要） & \textbf{クリーンルーム} \\
+3 & 極低温測定 & ✗（希釈冷凍機が必要） & \textbf{低温ラボ} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+共振器は自作可能（アルミ同軸ケーブル \textyen 5,000）。問題はトランスモンの製作と極低温測定。この2つを提供する施設が必要。
+
+\section{理想的な施設の条件}
+
+\begin{itemize}
+\item ナノ加工設備（EBL + 蒸着: トランスモン製作用）
+\item 希釈冷凍機（$\leq 20$ mK）
+\item マイクロ波測定系（VNA, 低温アンプ, シールドルーム）
+\item \textbf{外部ユーザーを受け入れる制度}がある
+\item \textbf{個人（機関所属なし）でも利用可能}
+\end{itemize}
+
+%====================================================================
+\part{世界のオープンアクセス施設}
+%====================================================================
+
+%────────────────────────────────────────
+\section{★★★ OtaNano（フィンランド）— 最有力}
+%────────────────────────────────────────
+
+\begin{facbox}[OtaNano Research Infrastructure]
+\textbf{場所}: Aalto University, Espoo, Finland（ヘルシンキ近郊）\\
+\textbf{URL}: \url{https://otanano.fi}
+
+\textbf{設備}:
+\begin{itemize}
+\item \textbf{Micronova クリーンルーム}: EBL, 蒸着装置, スパッタ — トランスモン製作可能
+\item \textbf{BlueFors 希釈冷凍機}: 10 mK 以下 — 量子ビット測定可能
+\item \textbf{低温マイクロ波測定系}: VNA, HEMT アンプ, 低温ケーブル
+\end{itemize}
+
+\textbf{アクセスモデル}: \textbf{Fee-for-service（料金制）}。外部ユーザー歓迎。企業、個人研究者、海外研究者を受け入れ。オンラインでプロポーザルを提出。
+
+\textbf{個人利用}: \textbf{可能}。機関所属は必須ではない（要確認）。料金を払えば使える。
+
+\textbf{言語}: 英語（フィンランドでは全員英語を話す）
+
+\textbf{なぜ最有力か}: ナノ加工 + 希釈冷凍機 + 測定系が\textbf{同一施設内}に揃う世界でも数少ない施設。別の場所にサンプルを運ぶ必要がない。VTT（フィンランド技術研究センター）が隣接しており、商用トランスモン製作サービスもある。
+\end{facbox}
+
+%────────────────────────────────────────
+\section{★★★ Argonne CNM（アメリカ）— 無料の可能性}
+%────────────────────────────────────────
+
+\begin{facbox}[Center for Nanoscale Materials (CNM)]
+\textbf{場所}: Argonne National Laboratory, Lemont, IL, USA（シカゴ近郊）\\
+\textbf{URL}: \url{https://cnm.anl.gov}
+
+\textbf{設備}:
+\begin{itemize}
+\item \textbf{クリーンルーム}: EBL（JEOL 高分解能）, 蒸着, エッチング
+\item 希釈冷凍機: 隣接する量子プログラムにあるが、ユーザー施設としてのアクセスは要確認
+\end{itemize}
+
+\textbf{アクセスモデル}: \textbf{DOE ユーザー施設}。\textbf{非営利・公開研究なら無料}。プロポーザル審査制。
+
+\textbf{個人利用}: DOE ユーザー施設は法的に「いかなる研究者」からのプロポーザルも受け付ける義務がある。機関所属なしでも\textbf{原則として申請可能}（ただし実績がないと審査で不利）。
+
+\textbf{注意}: ナノ加工は強いが、希釈冷凍機の外部ユーザーアクセスは限定的。トランスモンを CNM で作り、測定は別の場所（共同研究先 or OtaNano）で行う二段構えが現実的。
+
+\textbf{コスト}: 公開研究なら\textbf{クリーンルーム使用料ゼロ}。渡航費・滞在費は自己負担。
+\end{facbox}
+
+%────────────────────────────────────────
+\section{★★ Brookhaven CFN（アメリカ）}
+%────────────────────────────────────────
+
+\begin{facbox}[Center for Functional Nanomaterials (CFN)]
+\textbf{場所}: Brookhaven National Laboratory, Upton, NY, USA（ニューヨーク郊外）\\
+\textbf{URL}: \url{https://cfn.bnl.gov}
+
+Argonne CNM と同じ DOE ユーザー施設モデル。EBL, 蒸着, エッチングが利用可能。公開研究なら無料。希釈冷凍機は隣接プログラムに依存。
+\end{facbox}
+
+%────────────────────────────────────────
+\section{★★ Cornell CNF（アメリカ）}
+%────────────────────────────────────────
+
+\begin{facbox}[Cornell NanoScale Science and Technology Facility]
+\textbf{場所}: Cornell University, Ithaca, NY, USA\\
+\textbf{URL}: \url{https://cnf.cornell.edu}
+
+\textbf{設備}: 高品質 EBL（JEOL 9500）, 蒸着, エッチング。超伝導デバイス製作の実績多数。
+
+\textbf{アクセス}: プロポーザル制。学術利用は補助金付きレート。外部ユーザー歓迎。
+
+\textbf{注意}: ナノ加工のみ。希釈冷凍機なし。測定は別途。
+
+\textbf{コスト}: クリーンルーム $\sim$\$150--300/日（外部学術レート）。
+\end{facbox}
+
+%────────────────────────────────────────
+\section{★★ Myfab（スウェーデン）}
+%────────────────────────────────────────
+
+\begin{facbox}[Myfab National Nanofabrication Infrastructure]
+\textbf{場所}: Chalmers University, Gothenburg, Sweden\\
+\textbf{URL}: \url{https://myfab.se}
+
+スウェーデンの国立ナノファブ施設。Chalmers は超伝導量子ビットの世界的拠点（WACQT プロジェクト）。
+
+\textbf{設備}: EBL, 蒸着, エッチング。Chalmers の量子デバイスラボが隣接。
+
+\textbf{アクセス}: 時間制料金。外部ユーザー（海外含む）歓迎。
+
+\textbf{注意}: 希釈冷凍機は WACQT ラボにあるが、外部ユーザーへの開放は要交渉。
+
+\textbf{コスト}: クリーンルーム $\sim$€200--400/日。
+\end{facbox}
+
+%====================================================================
+\part{推奨ルート}
+%====================================================================
+
+\section{Option 1: OtaNano 一括（最もシンプル）}
+
+\begin{stepbox}[全工程を1つの施設で]
+\begin{enumerate}
+\item OtaNano にプロポーザルを提出（オンライン）
+\item 渡航（日本 → ヘルシンキ、フィンランド）
+\item Micronova クリーンルームでトランスモン製作（1〜2週間）
+\item 同じ施設の希釈冷凍機で $\lambda/4$ vs $\lambda/2$ 測定（1〜2週間）
+\item データを持って帰国。論文執筆。
+\end{enumerate}
+滞在期間: 約1ヶ月。サンプルの輸送不要。
+\end{stepbox}
+
+\section{Option 2: Argonne + 測定先（最安）}
+
+\begin{stepbox}[製作無料 + 測定は別途]
+\begin{enumerate}
+\item Argonne CNM にプロポーザルを提出（公開研究、無料）
+\item 渡航（日本 → シカゴ）
+\item CNM クリーンルームでトランスモン製作（1〜2週間、\textbf{施設利用料ゼロ}）
+\item サンプルを持って OtaNano or 共同研究先に移動
+\item 希釈冷凍機で測定
+\end{enumerate}
+製作費ゼロだが、2箇所に渡航が必要。
+\end{stepbox}
+
+\section{Option 3: 商用トランスモン購入 + 測定のみ}
+
+\begin{stepbox}[製作をスキップ]
+\begin{enumerate}
+\item VTT（フィンランド）or 専門業者からトランスモンチップを購入
+\item OtaNano の希釈冷凍機で測定のみ
+\end{enumerate}
+最も短期間（1〜2週間）。ただしトランスモンの価格が高い。
+\end{stepbox}
+
+%====================================================================
+\part{必要な訓練}
+%====================================================================
+
+\section{事前に身につけるべきスキル}
+
+\begin{stepbox}[クリーンルーム訓練（トランスモン製作用）]
+\begin{itemize}
+\item \textbf{EBL（電子ビームリソグラフィ）}: パターン設計（KLayout, 無料）、レジスト塗布、描画、現像。各施設でトレーニングコースあり（通常1〜2日）。
+\item \textbf{蒸着}: 電子ビーム蒸着装置の操作。角度蒸着（ダリッジブリッジ法）。トレーニング1日。
+\item \textbf{酸化}: ジョセフソン接合のトンネルバリア形成。酸化条件の最適化（数回のテスト）。
+\item \textbf{リフトオフ}: レジスト除去。
+\end{itemize}
+
+多くのユーザー施設は初めてのユーザーに対して\textbf{ハンズオントレーニング}を提供する（施設利用料に含まれる場合が多い）。
+
+\textbf{所要時間}: 初回ユーザーは1週間で基本操作を習得。良いデバイスを安定して作れるまでに2〜4週間。
+\end{stepbox}
+
+\begin{stepbox}[低温測定訓練]
+\begin{itemize}
+\item \textbf{希釈冷凍機の操作}: サンプルマウント、冷却手順、昇温手順。施設スタッフが補助。
+\item \textbf{マイクロ波測定}: VNA の使い方、$S_{21}$ 測定、量子ビット分光。
+\item \textbf{データ解析}: Python + matplotlib で Lamb シフトを抽出。
+\end{itemize}
+
+\textbf{所要時間}: 施設スタッフの補助があれば1週間で最初のデータが取れる。
+\end{stepbox}
+
+\begin{honestbox}[事前にオンラインで学べること]
+\begin{itemize}
+\item KLayout でのマスク設計: \url{https://www.klayout.de/}（無料）
+\item circuit QED の基礎: Blais et al. (2004) の論文を読む
+\item Python でのデータ解析: numpy, scipy, matplotlib
+\item nanoVNA で $\lambda/4$ vs $\lambda/2$ の室温データを取る（Phase 0, \textyen 8,500）
+\end{itemize}
+
+\textbf{現地に行く前にこれらを完了しておくと、施設での時間を最大限活用できる。}
+\end{honestbox}
+
+%====================================================================
+\part{費用の見積もり}
+%====================================================================
+
+\section{Option 1: OtaNano 一括}
+
+\begin{costbox}[OtaNano 1ヶ月滞在]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lr}
+\toprule
+項目 & 費用（概算） \\
+\midrule
+\multicolumn{2}{l}{\textit{渡航・滞在}} \\
+航空券（東京↔ヘルシンキ往復） & \textyen 150,000 \\
+宿泊（1ヶ月、Airbnb or ゲストハウス） & \textyen 200,000 \\
+食費・交通費（1ヶ月） & \textyen 100,000 \\
+\midrule
+\multicolumn{2}{l}{\textit{施設利用}} \\
+クリーンルーム使用料（2週間） & \textyen 200,000〜400,000 \\
+希釈冷凍機使用料（2週間） & \textyen 200,000〜500,000 \\
+材料費（ウエハー、蒸着材料、レジスト） & \textyen 50,000 \\
+$\lambda/4$, $\lambda/2$ 共振器材料 & \textyen 10,000 \\
+\midrule
+\textbf{合計} & \textbf{\textyen 910,000〜1,410,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{約100万〜140万円}。1ヶ月のフィンランド滞在 + 全実験。
+\end{costbox}
+
+\section{Option 2: Argonne（製作無料）+ OtaNano（測定）}
+
+\begin{costbox}[2施設利用]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lr}
+\toprule
+項目 & 費用（概算） \\
+\midrule
+\multicolumn{2}{l}{\textit{Argonne（2週間）}} \\
+航空券（東京↔シカゴ往復） & \textyen 150,000 \\
+宿泊（2週間） & \textyen 100,000 \\
+食費・交通費 & \textyen 50,000 \\
+クリーンルーム使用料 & \textbf{\textyen 0}（公開研究） \\
+材料費 & \textyen 30,000 \\
+\midrule
+\multicolumn{2}{l}{\textit{OtaNano（2週間）}} \\
+航空券（シカゴ↔ヘルシンキ） & \textyen 100,000 \\
+宿泊（2週間） & \textyen 100,000 \\
+食費・交通費 & \textyen 50,000 \\
+希釈冷凍機使用料 & \textyen 200,000〜500,000 \\
+\midrule
+\textbf{合計} & \textbf{\textyen 780,000〜1,080,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+製作費が無料なので若干安い。ただし2箇所への渡航が必要。
+\end{costbox}
+
+\section{Option 3: 商用トランスモン + OtaNano 測定のみ}
+
+\begin{costbox}[最短ルート]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lr}
+\toprule
+項目 & 費用（概算） \\
+\midrule
+トランスモンチップ購入（VTT or 業者） & \textyen 100,000〜300,000 \\
+航空券（東京↔ヘルシンキ往復） & \textyen 150,000 \\
+宿泊（2週間） & \textyen 100,000 \\
+食費・交通費 & \textyen 50,000 \\
+希釈冷凍機使用料（2週間） & \textyen 200,000〜500,000 \\
+共振器材料 & \textyen 10,000 \\
+\midrule
+\textbf{合計} & \textbf{\textyen 610,000〜1,110,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+クリーンルーム不要。最短2週間。ただしトランスモンの調達に時間がかかる可能性。
+\end{costbox}
+
+%====================================================================
+\part{タイムライン}
+%====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{clp{6cm}}
+\toprule
+期間 & フェーズ & 内容 \\
+\midrule
+\textit{渡航前} & 準備（1〜3ヶ月） & Phase 0 完了（nanoVNA）、KLayout 習得、cQED 論文を arXiv 投稿、OtaNano にプロポーザル提出 \\
+\textit{Week 1-2} & 製作 & クリーンルームでトランスモン製作。同時に共振器を準備 \\
+\textit{Week 3} & セットアップ & 冷凍機にサンプルマウント。配線。冷却開始 \\
+\textit{Week 4} & 測定 & $\lambda/2$ と $\lambda/4$ の Lamb シフトを測定。データ取得 \\
+\textit{帰国後} & 解析・執筆 & データ解析。cQED 論文（結果報告）+ Boyer 論文（数論的解釈）を投稿 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{購入リスト}
+%====================================================================
+
+\section{渡航前に日本で購入}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lrl}
+\toprule
+品目 & 価格 & 備考 \\
+\midrule
+nanoVNA & \textyen 3,000 & Phase 0 用 \\
+セミリジッド同軸ケーブル（Al or Cu）& \textyen 5,000 & 共振器材料 \\
+SMA コネクタ各種 & \textyen 2,000 & \\
+SMA ショートキャップ & \textyen 500 & $\lambda/2$ 用 \\
+ハンダごて + ハンダ & \textyen 3,000 & 持っていれば不要 \\
+\midrule
+\textbf{合計} & \textbf{\textyen 13,500} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{現地で調達 or 施設で使用}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\toprule
+品目 & 入手方法 \\
+\midrule
+Si ウエハー（トランスモン基板） & 施設の在庫 or 現地購入 \\
+PMMA レジスト & 施設の在庫 \\
+Al 蒸着用ワイヤー & 施設の在庫 \\
+低温同軸ケーブル & 施設の在庫 or レンタル \\
+SMA アダプタ・アッテネータ & 施設の在庫 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{正直な評価}
+%====================================================================
+
+\begin{honestbox}[リスク]
+\textbf{最大のリスク: トランスモンの製作に失敗する}
+
+ジョセフソン接合の酸化条件は微妙で、初めての製作では9割失敗する。5〜10回のイテレーションが必要。2週間で成功する保証はない。
+
+\textbf{対策}:
+\begin{itemize}
+\item Option 3（商用トランスモン購入）で製作リスクを回避
+\item 施設のスタッフに「トランスモンを作りたい」と事前に伝え、レシピを共有してもらう
+\item 事前に論文を読んで酸化条件のパラメータ範囲を把握
+\end{itemize}
+\end{honestbox}
+
+\begin{honestbox}[プロポーザルのコツ]
+施設は「何をしたいか」「なぜその施設が必要か」「成果をどう公開するか」を聞く。
+
+書くべきこと:
+\begin{itemize}
+\item 「$\lambda/4$ と $\lambda/2$ 共振器における多モード真空揺らぎの量子ビット周波数安定性への影響を測定する」
+\item 「結果は査読付き論文として公開する」（これで DOE 施設は無料になる）
+\item 「所要期間: 4週間、クリーンルーム2週間 + 低温測定2週間」
+\end{itemize}
+
+\textbf{書かないこと}: ζ関数、素数、ワープドライブ。
+\end{honestbox}
+
+\begin{honestbox}[施設利用料は「概算」]
+上記の金額は公開情報と一般的なレートからの推定。実際の料金は施設に直接問い合わせる必要がある。OtaNano は \url{https://otanano.fi} から見積もり依頼が可能。
+\end{honestbox}
+
+\section{推奨}
+
+\begin{costbox}[結論]
+\textbf{最もシンプル}: Option 1（OtaNano 一括）。1箇所で全て完結。約100万〜140万円。
+
+\textbf{最も安い}: Option 2（Argonne + OtaNano）。製作無料。約80万〜110万円。ただし2箇所渡航。
+
+\textbf{最も速い}: Option 3（商用トランスモン + OtaNano 測定）。2週間。約60万〜110万円。
+
+\textbf{共通}: フィンランドの OtaNano が測定の拠点。ナノ加工 + 希釈冷凍機 + 測定系が揃う世界有数のオープンアクセス施設。
+\end{costbox}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries 装置は世界中にある。}\\[0.2cm]
+{\Large\bfseries 足りないのはパスポートと航空券だけ。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
