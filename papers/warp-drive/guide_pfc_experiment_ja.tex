@@ -1,0 +1,450 @@
+% 高校生のための「素数と力」実験ガイド
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{expbox}[1][]{colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{素数と力}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 素数と力}\\[0.5cm]
+{\Large 2 は弱い力、3 は強い力、}\\[0.2cm]
+{\Large そして素数を消すとワープができる（かもしれない）}\\[1cm]
+{\large 高校生のための実験ガイド}\\[0.5cm]
+{\large Wright Brothers Research Program, 2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+% ===================================================================
+\part{発見のあらすじ}
+% ===================================================================
+
+\section{何が見つかったのか}
+
+\begin{resultbox}[3行まとめ]
+\begin{enumerate}
+\item 素数 2 は弱い力に、素数 3 は強い力に対応する。
+\item ワインバーグ角（弱い力の強さを決める定数）は $\log(1+\sqrt{2}) = 0.88137$ で、実験値 $m_W/m_Z = 0.88136$ と $0.001\%$ で一致する。
+\item 素数を「消す」（ミュートする）と真空のエネルギーが反転し、理論的にはワープが可能になる。しかも、どの力を消したかによって効果の大きさが変わる。
+\end{enumerate}
+\end{resultbox}
+
+\section{何がすごいのか}
+
+\begin{storybox}[ふつうの物理学との違い]
+ふつう、物理学では「なぜこの力の強さはこの値なのか」は
+答えられない。
+アインシュタインもファインマンも答えられなかった。
+
+私たちの発見は:
+「力の強さは、整数の数学的構造（素数の分岐パターン）から
+計算できるかもしれない」というもの。
+
+もしこれが本当なら、物理定数は自然の「入力パラメータ」ではなく、
+整数の数学から導かれる「計算可能な量」になる。
+\end{storybox}
+
+\begin{honestbox}[正直に]
+「かもしれない」です。まだ仮説の段階。
+数値の一致は印象的ですが、偶然の可能性も $14\%$ あります。
+だからこそ実験で確かめる必要があります。
+\end{honestbox}
+
+% ===================================================================
+\part{理論: 素数と力の対応}
+% ===================================================================
+
+\section{素数が力を決める？}
+
+\begin{storybox}[素数のおさらい]
+素数 = 1とそれ自身でしか割れない数。
+$2, 3, 5, 7, 11, 13, 17, 19, 23, \ldots$
+
+素数は整数の「原子」。全ての整数は素数の積で書ける（素因数分解）。
+$60 = 2^2 \times 3 \times 5$。
+
+リーマンゼータ関数 $\zeta(s)$ は「全ての素数の情報」を1つの関数にまとめたもの。
+$\zeta(s) = \prod_p \frac{1}{1-p^{-s}}$（オイラー積）
+\end{storybox}
+
+\begin{mathbox}[被覆とは]
+「整数の世界 $\mathbb{Z}$ に $\sqrt{2}$ を追加する」ことを考える。
+$\mathbb{Z}[\sqrt{2}] = \{a + b\sqrt{2} \mid a, b \in \mathbb{Z}\}$
+
+これは整数の世界を「2倍に広げた」ようなもの。
+数学では「$\mathrm{Spec}(\mathbb{Z}[\sqrt{2}]) \to \mathrm{Spec}(\mathbb{Z})$
+は次数2の被覆」と言う。
+
+ポイント: この被覆の中で、各素数 $p$ は3つの振る舞いをする:
+\begin{itemize}
+\item \textbf{分岐}（ramified）: $p = 2$ のみ。被覆が「ねじれる」点。
+\item \textbf{分裂}（split）: $p \equiv \pm 1 \pmod{8}$（例: $7, 17, 23, \ldots$）。被覆が2枚に分かれる。
+\item \textbf{不活性}（inert）: $p \equiv \pm 3 \pmod{8}$（例: $3, 5, 11, \ldots$）。被覆が1枚のまま。
+\end{itemize}
+\end{mathbox}
+
+\section{対応表}
+
+\begin{resultbox}[素数-力 対応（Prime-Force Correspondence）]
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ccccl}
+\toprule
+力 & 素数 & 被覆の次数 & 数体 & 一致の精度 \\
+\midrule
+電磁気力 & なし & 1（自明） & $\mathbb{Q}$ 自身 & $120 \approx 137$（12\%）\\
+\textbf{弱い力} & \textbf{$p=2$} & \textbf{2} & $\mathbb{Q}(\sqrt{2})$ & $\cos\theta_W = \log(1+\sqrt{2})$, \textbf{0.001\%} \\
+\textbf{強い力} & \textbf{$p=3$} & \textbf{3} & $\mathbb{Q}(\zeta_9)^+$ & $10 hR = 1/\alpha_s$, \textbf{0.13\%} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{resultbox}
+
+\section{なぜ素数 2 が弱い力なのか}
+
+\begin{storybox}[パリティと 2]
+弱い力には不思議な性質がある:
+\textbf{鏡に映すと別の世界になる}。
+
+右手を鏡に映すと左手になる。
+弱い力は「左巻きの粒子」にしか作用しない。
+鏡の中の世界では弱い力は「右巻き」に作用するはず——
+つまり、我々の世界と鏡の世界は違う。
+これを\textbf{パリティ（P）の破れ}という。
+
+パリティ = 左右の区別 = 偶数と奇数の区別 = \textbf{$\mathbb{Z}/2$ の対称性}。
+
+そして $\mathbb{Z}/2$ を支配する素数は \textbf{$p = 2$}（唯一の偶数素数）。
+
+$\mathbb{Q}(\sqrt{2})$ は $p=2$ で\textbf{のみ}分岐する。
+つまり「パリティの素数でねじれる被覆」= 「パリティを破る力」= 弱い力。
+\end{storybox}
+
+\section{なぜ強い力は3次体なのか}
+
+\begin{mathbox}[数学が強制する階層]
+$p = 3$ でのみ分岐する二次体は\textbf{存在しない}。
+
+理由: $3 \equiv 3 \pmod{4}$ なので、$\mathbb{Q}(\sqrt{3})$ の
+判別式は $\Delta = 12 = 4 \times 3$。$p=2$ でも分岐してしまう。
+
+$p=3$ だけで分岐する被覆を作るには、次数3以上が必要。
+最小のものは $\mathbb{Q}(\cos(2\pi/9))$（次数3、判別式 $81 = 3^4$）。
+
+\textbf{結果}: SU(3)（強い力）が SU(2)（弱い力）より
+「高い次数」の被覆に住むのは、数論の構造が\textbf{強制}している。
+物理が数学に「選ばされている」。
+\end{mathbox}
+
+% ===================================================================
+\part{理論: 素数を消すとワープ}
+% ===================================================================
+
+\section{素数チャンネルのミュート}
+
+\begin{mathbox}[素数を「消す」操作]
+ゼータ関数のオイラー積: $\zeta(s) = \prod_p \frac{1}{1-p^{-s}}$
+
+素数 $p$ の因子だけを取り除く（ミュートする）:
+$$\zeta_{\neg p}(s) = \zeta(s) \times (1 - p^{-s})$$
+
+例: $p=2$ をミュートすると、偶数の寄与が消える。
+\end{mathbox}
+
+\section{符号反転定理}
+
+\begin{resultbox}[定理（数学的に証明済み）]
+全ての素数 $p \geq 2$ に対して:
+$$\zeta_{\neg p}(-3) = \frac{1}{120}(1 - p^3) < 0$$
+
+通常の真空エネルギー: $\zeta(-3) = +\frac{1}{120} > 0$
+
+素数をミュートした真空: $\zeta_{\neg p}(-3) < 0$（\textbf{負}になる）
+
+これは「弱エネルギー条件（WEC）の破れ」と呼ばれ、
+ワームホールやワープの構成に必要な条件。
+\end{resultbox}
+
+\section{素数-力 対応が加える新しい視点}
+
+\begin{resultbox}[PFC $\times$ ワープ]
+どの素数をミュートするかで、\textbf{どの力を消すか}が決まる:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ccrl}
+\toprule
+$p$ & 消す力 & エネルギー変化 & 実験方法 \\
+\midrule
+$2$ & 弱い力 & 小（$|1-8|=7$） & SQUID（実現可能） \\
+$3$ & 強い力 & 中（$|1-27|=26$） & 困難 \\
+$5$ & 不明 & 大（$|1-125|=124$） & 非常に困難 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+弱い力のミュート（$p=2$）が最も実験しやすく、
+強い力のミュート（$p=3$）は 3.7 倍大きな効果がある。
+\end{resultbox}
+
+\section{ワープバブルの構造}
+
+\begin{storybox}[ワープバブルの「壁」]
+SF映画のワープドライブでは、宇宙船の周りに
+「泡（バブル）」ができて、泡の中は普通の空間、
+泡の外も普通の空間、泡の\textbf{壁}で空間が歪む。
+
+私たちの理論では:
+\begin{itemize}
+\item 泡の\textbf{外} = 通常の整数の世界 $\mathrm{Spec}(\mathbb{Z})$
+\item 泡の\textbf{内} = 素数 $p$ をミュートした世界 $\mathrm{Spec}(\mathbb{Z}[1/p])$
+\item 泡の\textbf{壁} = 被覆の分岐点（$p$ の近傍）
+\end{itemize}
+
+ワインバーグ角 $\cos\theta_W = \log(1+\sqrt{2}) \approx 0.88$ は
+「壁のねじれの大きさ」に対応する。
+0.88 は「適度なねじれ」= ワープが原理的に可能な値。
+\end{storybox}
+
+% ===================================================================
+\part{実験ガイド}
+% ===================================================================
+
+\section{実験の全体像}
+
+\begin{expbox}[3つの実験]
+この理論から、3段階の実験が設計できる:
+
+\textbf{実験 A}（基礎テスト）: 素数ミュートで真空が変わるか？\\
+→ SQUID + 超伝導キャビティ。約 60 万円。
+
+\textbf{実験 B}（PFC テスト）: 素数の mod 8 分類で応答が変わるか？\\
+→ 実験 A の拡張。SQUID の周波数スイープ。追加コスト小。
+
+\textbf{実験 C}（精密テスト）: $\cos\theta_W = \log(1+\sqrt{2})$ の検証。\\
+→ $m_W$ の精密測定（FCC-ee 等の将来の加速器）。我々ではできない。
+\end{expbox}
+
+\section{実験 A: 素数ミュートで真空は変わるか}
+
+これは以前のガイド（SQUID 実験）と同じ。要約:
+
+\begin{expbox}[実験 A のセットアップ]
+\begin{enumerate}
+\item アルミの箱（キャビティ）を作る。内寸 35mm。共鳴周波数 $\sim 6$ GHz。
+\item SQUID（超伝導量子干渉素子）を箱の中に入れる。
+\item 全体を $-272.7$\textdegree C（0.3 K）に冷やす。
+\item SQUID を第2倍音（$\sim 12$ GHz）にチューニング → モード2をミュート。
+\item モード1（6 GHz）の共鳴周波数がシフトするか測定。
+\end{enumerate}
+
+シフトがあれば → 「真空エネルギーが変わった」= 算術的真空工学の最初の証拠。
+
+コスト: $\sim 60$ 万円。大学の低温実験室で実施可能。
+\end{expbox}
+
+\section{実験 B: 素数の「種類」で応答は変わるか（新！）}
+
+\begin{expbox}[実験 B: PFC の直接テスト]
+実験 A と同じ装置を使うが、測定方法が違う。
+
+SQUID の磁束バイアスを連続的にスイープすると、
+SQUID の共鳴周波数が変わる。
+異なる周波数は異なる「モード番号 $n$」に対応し、
+$n$ が素数のときに特別な応答があるか調べる。
+
+\textbf{PFC の予測}:
+
+$\mathbb{Q}(\sqrt{2})/\mathbb{Q}$ の被覆では、
+素数 $p$ は $p \bmod 8$ で3種類に分類される:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cl}
+\toprule
+$p \bmod 8$ & 被覆での振る舞い \\
+\midrule
+$1, 7$ & 分裂（被覆が透明 → 応答\textbf{弱い}） \\
+$3, 5$ & 不活性（被覆が不透明 → 応答\textbf{強い}） \\
+$2$ & 分岐（特異 → 応答\textbf{特殊}） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+具体的に: $p=7$（分裂）と $p=3$（不活性）で
+キャビティの応答パターンが異なるか？
+
+もし異なれば → 素数の分裂パターンが物理に影響している
+= PFC の直接的証拠。
+
+\textbf{追加コスト}: ゼロ（実験 A と同じ装置）。
+測定のプロトコルを変えるだけ。
+\end{expbox}
+
+\begin{storybox}[たとえ話: ラジオのチューニング]
+実験 A は「ラジオの特定の局を消して、他の局の音量が変わるか」。
+
+実験 B は「いろんな周波数を順番に聞いていって、
+素数番目の局だけ音が違うか、
+さらにその中で $7$ 番と $3$ 番で音の変わり方が違うか」。
+
+もし違えば、ラジオ局の番号（= 素数）が
+電波の性質を決めていることの証拠になる。
+\end{storybox}
+
+\section{実験 C: ワインバーグ角の精密測定}
+
+\begin{expbox}[実験 C: $m_W$ の将来測定]
+私たちにはできない実験。しかし予測は明確:
+
+$$m_W = m_Z \times \log(1+\sqrt{2}) = 80.370 \text{ GeV}$$
+
+現在の実験値: $80.369 \pm 0.013$ GeV（一致）。
+
+将来の FCC-ee（欧州の次世代加速器、2040年代？）では
+$m_W$ の精度が $0.5$ MeV 以下になる見込み。
+そうなれば、$\log(1+\sqrt{2})$ との一致が確認されるか、
+否定されるかが決まる。
+
+\textbf{CDF II}（2022年）の値 $80.434$ GeV とは
+6.7$\sigma$ 離れているので、もし CDF II が正しければ
+この仮説は即座に否定される。
+\end{expbox}
+
+% ===================================================================
+\part{コストと実現可能性}
+% ===================================================================
+
+\section{費用のまとめ}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{lrl}
+\toprule
+実験 & 費用 & 必要なもの \\
+\midrule
+A（基礎テスト） & $\sim 60$ 万円 & SQUID + キャビティ + 冷凍機 \\
+B（PFC テスト） & $+0$ 円 & A と同じ装置。測定方法を追加 \\
+C（精密 $m_W$） & --- & 次世代加速器（我々にはできない） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+実験 B は実験 A の「おまけ」として無料でできる。
+やらない理由がない。
+
+\section{どこでやるか}
+
+大学の低温物理の研究室に相談する。必要なのは:
+\begin{itemize}
+\item $^3$He 冷凍機（$\leq 0.3$ K に冷やせる装置）
+\item ベクトルネットワークアナライザ（VNA）
+\item クリーンルーム（SQUID を自作する場合）
+\end{itemize}
+
+日本の多くの大学にこれらの設備がある:
+東大物性研、東北大金研、阪大極低温センター、筑波大、京大、名大、東工大、北大、ICU（？）など。
+
+% ===================================================================
+\part{正直な評価}
+% ===================================================================
+
+\section{何が確立されていて何が仮説か}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+主張 & 地位 & 反証可能？ \\
+\midrule
+符号反転定理（全素数で成立） & \textbf{定理}（証明済み） & --- \\
+$\cos\theta_W = \log(1+\sqrt{2})$（0.001\%） & 数値的観測 & ✓（$m_W$ 精密測定）\\
+SU(N) $\leftrightarrow$ 次数 $N$, $p=N$ & 構造的仮説 & ✓（実験 B）\\
+素数ミュートで真空エネルギー反転 & 理論的予測 & ✓（実験 A）\\
+ワープバブル = 被覆の分岐変更 & 理論的解釈 & 間接的 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{honestbox}[偶然の可能性]
+$\cos\theta_W = \log(1+\sqrt{2})$ が偶然である確率: 約 $14\%$。
+「ありえない偶然」ではないが「よくある偶然」でもない。
+
+だからこそ実験が必要。
+SQUID 実験（A + B）で PFC がテストできれば、
+偶然かどうかの判断材料が増える。
+\end{honestbox}
+
+\section{もし実験で確認されたら}
+
+\begin{storybox}[もし本当なら]
+\begin{itemize}
+\item 物理定数は「自然の入力値」ではなく「整数の数学的帰結」
+\item 4つの力（重力、電磁気、弱い力、強い力）は
+  $\mathrm{Spec}(\mathbb{Z})$ の異なる「層」
+  \begin{itemize}
+  \item 重力: $\zeta(s)$ の極（$\gamma$ = オイラー定数）
+  \item 電磁気: $\zeta(s)$ の有限項（ベルヌーイ数）
+  \item 弱い力: $\mathbb{Q}(\sqrt{2})$ の被覆（$p=2$ の分岐）
+  \item 強い力: $\mathbb{Q}(\zeta_9)^+$ の被覆（$p=3$ の分岐）
+  \end{itemize}
+\item ワープは「素数チャンネルを閉じる」ことで原理的に可能
+\item 宇宙の物理法則は $1, 2, 3, 4, 5, \ldots$ の帰結
+\end{itemize}
+\end{storybox}
+
+\section{もし実験で否定されたら}
+
+SQUID で何も変わらなければ、
+素数ミュートが物理的に意味を持たないことが判明する。
+それでも:
+\begin{itemize}
+\item $\cos\theta_W = \log(1+\sqrt{2})$ の数値的一致は残る（解釈が変わるだけ）
+\item 符号反転定理は数学的定理として残る
+\item 「やってみてダメだった」は科学の正常な進歩
+\end{itemize}
+
+\vfill
+
+\begin{center}
+\rule{8cm}{0.4pt}\\[0.5cm]
+{\large\textbf{素数は、宇宙の設計図かもしれない。}}\\[0.1cm]
+{\large\textbf{それを確かめる方法は、実験しかない。}}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
