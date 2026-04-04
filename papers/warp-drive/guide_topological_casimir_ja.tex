@@ -1,0 +1,270 @@
+% 高校生ガイド: 真空エネルギーの符号を守る「巻き付き数」
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{真空の位相的保護}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 真空エネルギーの}\\[0.2cm]
+{\Huge\bfseries 「巻き付き数」}\\[0.8cm]
+{\Large なぜ宇宙の真空は安定しているのか、}\\[0.2cm]
+{\Large そしてそれを壊す方法はあるのか}\\[1cm]
+{\large 高校生のためのガイド}\\[0.5cm]
+{\large Wright Brothers Research Program, 2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{2本の笛}
+%====================================================================
+
+\section{ビール瓶とギター}
+
+\begin{storybox}[2つの楽器]
+\textbf{ギターの弦}（両端固定）: 全ての倍音が出る。
+$$f, \; 2f, \; 3f, \; 4f, \; 5f, \; 6f, \; \ldots$$
+
+\textbf{ビール瓶}（片端閉じ、片端開き）: 奇数の倍音だけ。
+$$f, \; 3f, \; 5f, \; 7f, \; 9f, \; \ldots$$
+
+音楽をやっている人なら知っているかもしれない。
+ギターは明るい音色（全倍音）、ビール瓶は少しこもった音色（奇数だけ）。
+
+物理学では、ギターを「$\lambda/2$ 共振器」、ビール瓶を「$\lambda/4$ 共振器」と呼ぶ。
+\end{storybox}
+
+\section{量子力学を加えると}
+
+\begin{mathbox}[真空の振動]
+量子力学では、弦を弾かなくても、各倍音が微小に「揺れて」いる（ゼロ点揺動）。この揺れのエネルギーの合計が「真空エネルギー」。
+
+全倍音の和（ギター的）:
+$$1 + 2 + 3 + 4 + 5 + \cdots = -\frac{1}{12}$$
+
+奇数倍音の和（ビール瓶的）:
+$$1 + 3 + 5 + 7 + 9 + \cdots = +\frac{1}{12}$$
+
+え？ 無限に足して有限の値？ しかもマイナス？
+
+これは「ゼータ関数正則化」という数学の技法で得られる値で、
+カシミール効果という実験で物理的に正しいことが確認されている。
+\end{mathbox}
+
+\section{符号が逆}
+
+\begin{resultbox}[核心]
+ギター（全倍音）: 真空エネルギー = $-1/12$ → \textbf{負}（引力）
+
+ビール瓶（奇数倍音）: 真空エネルギー = $+1/12$ → \textbf{正}（斥力）
+
+\textbf{片端を開けるか閉じるか}、それだけで符号が反転する。
+\end{resultbox}
+
+%====================================================================
+\part{符号を「守る」もの}
+%====================================================================
+
+\section{巻き付き数とは}
+
+\begin{storybox}[輪ゴムの話]
+指に巻いた輪ゴムを考える。
+
+1回巻き: 引っ張れば外せる。
+2回巻き: 引っ張っても外せない（切らない限り）。
+
+この「何回巻いているか」が巻き付き数（winding number）。
+0回と1回の間には連続的な変形では越えられない壁がある。
+
+位相的不変量 = 「連続的にいじっても変わらない量」。
+巻き付き数は位相的不変量の一種。
+\end{storybox}
+
+\section{真空の巻き付き数}
+
+\begin{mathbox}[K理論]
+「ギター真空」（全倍音）と「ビール瓶真空」（奇数倍音）の間には、
+数学的な「巻き付き数」の違いがある。
+
+\textbf{ギター真空}: $K_1(\mathbb{Z}) = \mathbb{Z}/2$（巻き付きなし）
+
+\textbf{ビール瓶真空}: $K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$（巻き付きあり）
+
+$K_1$ は代数的K理論と呼ばれる数学の道具で、
+空間の「位相的な形」を記述する。
+
+ビール瓶真空には $\mathbb{Z}$（整数の巻き付き数）が追加されている。
+これはギター真空にはなかった新しい構造。
+\end{mathbox}
+
+\section{巻き付き数が符号を守るとしたら}
+
+\begin{resultbox}[予想]
+もし巻き付き数が真空エネルギーの符号を「保護」しているなら:
+
+ビール瓶真空の $+1/12$ は「位相的に保護された」値であり、
+瓶の長さを変えても、少しいじっても、符号は $+$ のままのはず。
+
+通常の物理学の予測:
+瓶を長くすると真空エネルギーは $1/a^4$ で減衰してゼロに近づく。
+
+位相的保護の予測:
+ある臨界長さ $a_c$ を超えると、減衰が止まり、
+エネルギー密度が\textbf{一定値に留まる}。
+\end{resultbox}
+
+%====================================================================
+\part{なぜこれが大事か}
+%====================================================================
+
+\section{表面と体積}
+
+\begin{storybox}[壁のペンキ塗り]
+部屋のペンキ塗りを考える。
+
+「壁だけ塗る」: 必要なペンキ = 壁の面積（表面効果）。
+部屋を大きくすると面積が増えるが、部屋全体は塗らない。
+
+「部屋全体を色水で満たす」: 必要な色水 = 部屋の体積（体積効果）。
+部屋を大きくすると体積に比例して必要量が増える。
+
+カシミール効果は「壁のペンキ塗り」。板の表面積に依存し、
+板を離すと効果が急速に消える（$1/a^4$）。
+
+もし位相的保護で減衰が止まるなら:
+「部屋全体を色水で満たす」。体積全体が一定密度のエネルギーを持つ。
+\end{storybox}
+
+\section{ワープへの道}
+
+\begin{resultbox}[体積効果の意味]
+
+通常のカシミール（表面効果）:
+$$E \approx 10^{-8} \text{ J}（1m², 10nm間隔の板）$$
+
+体積効果が実現した場合:
+$$E \approx \rho_{\text{const}} \times V$$
+
+$V = 1 \text{ m}^3$ で $\rho_{\text{const}} = 10^{12} \text{ J/m}^3$（ナノスケールの密度）なら:
+$$E \approx 10^{12} \text{ J}$$
+
+これは表面効果の $10^{20}$ 倍。しかもマイナス符号付きなら、
+ワープドライブに必要な「負のエネルギー」に一歩近づく。
+\end{resultbox}
+
+%====================================================================
+\part{実験}
+%====================================================================
+
+\section{何を確認するか}
+
+\begin{resultbox}[最もシンプルな実験]
+ビール瓶型（$\lambda/4$、DN 境界条件）のカシミール力を、
+板の間隔を変えながら精密に測定する。
+
+力のグラフ:
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tabular}{ll}
+標準QED: & 力 $\propto 1/a^5$ がずっと続く（直線） \\
+位相的: & ある $a_c$ で折れ曲がり、力が一定になる \\
+\end{tabular}
+\end{center}
+\vspace{0.3cm}
+
+「折れ曲がり」が見つかれば → 位相的保護が実在。\\
+見つからなければ → この予想は（少なくとも測定範囲内で）間違い。
+\end{resultbox}
+
+\section{誰がこの実験をできるか}
+
+\begin{storybox}[Princeton大学]
+2017年、Princeton大学のチームが
+幾何学的構造によるカシミール斥力の発生に成功した（Nature Photonics）。
+Si-MEMS デバイスで、100 nm スケールの力を測定。
+
+彼らの装置をそのまま使って、DN 配置でのスケーリング則
+（$1/a^5$ からの逸脱の有無）を測定できる。
+
+「すでに成功したチームに追加のデータを頼む」だけ。
+新しい装置の発明は不要。
+\end{storybox}
+
+%====================================================================
+\part{正直な話}
+%====================================================================
+
+\begin{honestbox}[何が確実で何が不確実か]
+
+\textbf{確実}（数学的定理）:
+\begin{itemize}
+\item DD 真空エネルギーは負。DN 真空エネルギーは正。
+\item $K_1(\mathbb{Z}[1/2])$ は $K_1(\mathbb{Z})$ と異なる（巻き付き数が存在）。
+\item カシミール引力は実験で確認済み。DN 斥力は理論的に確立。
+\end{itemize}
+
+\textbf{不確実}（予想）:
+\begin{itemize}
+\item $K_1$ の巻き付き数が真空エネルギーの符号を物理的に保護するか。
+\item $1/a^4$ スケーリングからの逸脱が存在するか。
+\item 逸脱が存在する場合、それが測定可能なスケールにあるか。
+\end{itemize}
+
+\textbf{もし予想が正しければ}:
+真空エネルギーを幾何学だけで制御でき、
+巨大な負のエネルギーを生み出す道が開ける。
+ワープドライブの物理的基盤。
+
+\textbf{もし予想が間違っていたら}:
+DN カシミール斥力のスケーリング則が
+$1/a^5$ に従うことを精密に確認した、
+という科学的に価値のある結果が残る。
+
+どちらに転んでも科学は前に進む。
+\end{honestbox}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries ギターとビール瓶。}\\[0.2cm]
+{\Large\bfseries 片端を開けるだけで、真空の符号が変わる。}\\[0.2cm]
+{\Large\bfseries その符号は「巻き付き数」で守られているか？}\\[0.2cm]
+{\Large\bfseries 板を離して力を測れば、答えが出る。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}

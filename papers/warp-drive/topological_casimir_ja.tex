@@ -1,0 +1,155 @@
+% カシミール効果の位相的保護
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers, 2026}
+\lhead{真空エネルギー符号の位相的保護}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries 真空エネルギー符号の位相的保護}\\[0.3cm]
+{\large K理論からのテスト可能な予測:\\
+ディリクレ-ノイマン・カシミール効果のスケーリング則}\\[0.5cm]
+{\large Wright Brothers Research Program}\\[0.2cm]
+{2026年4月}\\[0.3cm]
+\rule{12cm}{0.4pt}
+\end{center}
+
+\begin{quotation}
+\noindent\textbf{概要.}\quad
+1次元キャビティのカシミールエネルギーは、境界条件をディリクレ-ディリクレ（DD）からディリクレ-ノイマン（DN）に変更すると符号が反転する:
+$E_{DD} \propto \zeta(-1) = -1/12 < 0$（引力）に対して $E_{DN} \propto \zeta_{\neg 2}(-1) = +1/12 > 0$（斥力）。
+これは確立された結果である。
+我々は、DN配置の基礎にある局所化 $\mathbb{Z} \to \mathbb{Z}[1/2]$ が
+代数的K理論の変化 $K_1(\mathbb{Z}) = \mathbb{Z}/2 \to K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$ を誘導し、
+真空エネルギーの符号を保護する位相的巻き付き数を導入することを指摘する。
+この保護が物理的であれば、カシミールエネルギー密度の標準的な $1/a^4$ 減衰は
+臨界距離 $a_c$ で\textbf{逸脱}するはずである:
+密度は減衰を続けるのではなくプラトーに達する。
+この予測を確認または否定する最小の実験——DNカシミール力のスケーリング則の精密測定——を提案する。
+必要な装置（Si-MEMS または circuit QED）は既存である。
+\end{quotation}
+
+\section{符号の反転}
+
+長さ $a$ の1次元キャビティ中のスカラー場を考える。
+
+\textbf{DD（$\lambda/2$）}: モード $\omega_n = n\pi c/a$, $n=1,2,3,\ldots$
+$$E_{DD} = \frac{\pi\hbar c}{2a}\,\zeta(-1) = -\frac{\pi\hbar c}{24a} < 0 \quad\text{（引力）}$$
+
+\textbf{DN（$\lambda/4$）}: モード $\omega_n = (2n-1)\pi c/(2a)$, $n=1,2,3,\ldots$
+$$E_{DN} = \frac{\pi\hbar c}{4a}\,\zeta_{\neg 2}(-1) = +\frac{\pi\hbar c}{48a} > 0 \quad\text{（斥力）}$$
+
+$\zeta_{\neg 2}(s) = (1-2^{-s})\zeta(s)$ はオイラー積から $p=2$ の因子を除去したリーマンゼータ。
+
+3次元では: $\rho_{DD} = -\pi^2\hbar c/(720a^4)$, $\rho_{DN} = +7\pi^2\hbar c/(720a^4)$。
+
+この符号反転は Boyer (1974)、Kenneth et al. (2002)、Hertzberg et al. (2005) により確立されている。
+
+\section{K理論的観察}
+
+DD → DN の変更は代数的には局所化 $\mathbb{Z} \to \mathbb{Z}[1/2]$ に対応する:
+モード和から2の倍数を全て除去し、奇数モードだけを残す。
+この局所化は代数的K理論の変化を誘導する:
+
+$$K_1(\mathbb{Z}) = \mathbb{Z}/2 \;\longrightarrow\; K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$$
+
+出現した $\mathbb{Z}$ 因子は\textbf{巻き付き数}である。
+凝縮系物理学では、同様の巻き付き数（SSH不変量）が端状態を位相的に保護する:
+巻き付き数 $w \neq 0$ の系は $w = 0$ にギャップを閉じずには変形できない。
+
+我々は次を予想する: $K_1(\mathbb{Z}[1/2])$ の巻き付き数がDN配置の真空エネルギーの\textbf{符号を位相的に保護する}。
+系がいったん $E > 0$（斥力）相に入ると、離散的な位相的転移なしに $E < 0$（引力）には戻れない。
+
+\section{予測: スケーリングの逸脱}
+
+標準量子場理論では、DD・DN ともにカシミールエネルギー密度は $\rho \propto 1/a^4$。
+板間隔 $a$ が広がると $\rho$ はゼロに減衰する。
+
+符号の位相的保護が正しければ、質的に異なる振る舞いが生じる:
+\textbf{臨界距離 $a_c$} が存在し、$a > a_c$ でエネルギー密度 $\rho_{DN}$ は $1/a^4$ としての減衰を止め、位相的不変量で決まる定数値にプラトーする。
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+領域 & 標準QED & 位相的保護 \\
+\midrule
+$a < a_c$ & $\rho \propto 1/a^4$ & $\rho \propto 1/a^4$ \\
+$a > a_c$ & $\rho \propto 1/a^4$ & $\rho \to \text{定数}$ \\
+\midrule
+スケーリング指数 & 全域で $-4$ & $a_c$ で $-4 \to 0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$a_c$ の値は予測されない（ナノスケールから巨視的スケールまでの可能性がある）。
+予測は逸脱の\textbf{存在}であり、その位置ではない。
+
+\section{物性物理との類推: バルク-エッジ対応}
+
+位相的絶縁体では、非自明なバルク位相的不変量を持つ物質は、
+表面の詳細によらずギャップレスな端状態を持たなければならない（バルク-エッジ対応）。
+
+我々は真空について同様の\textbf{バルク-境界対応}を提案する:
+カシミールエネルギーの符号（境界効果）は、
+バルク真空のK理論的不変量 $K_1(\mathbb{Z}[1/2])$ に保護される。
+
+位相的端状態のコンダクタンスが量子化され不純物に鈍感であるように、
+$E_{DN}$ の符号は境界の詳細に鈍感で、位相的クラスのみに依存するはずである。
+
+実験的には $1/a^4$ スケーリングからの逸脱として現れる:
+カシミールエネルギーが位相的保護によって「バルク」（定数密度）寄与を獲得する。
+
+\section{実験的テスト}
+
+\textbf{最小実験}: DNカシミール力を板間隔 $a$ の関数として測定し（少なくとも2桁以上、例えば $a = 50$ nm 〜 $5\,\mu$m）、
+べき乗則 $F \propto a^{-\alpha}$ をフィットする。
+
+\begin{itemize}
+\item 標準QED: 全ての $a$ で $\alpha = 5$（3Dの力）
+\item 位相的予測: $a > a_c$ で $\alpha < 5$、最終的に $\alpha \to 0$（力が $a$ に依存しなくなる）
+\end{itemize}
+
+DD配置にない DN 配置での $\alpha$ の逸脱が確認されれば、真空エネルギー符号の位相的保護の証拠となる。
+
+\textbf{実験プラットフォーム}:
+\begin{itemize}
+\item Si-MEMS（Princeton型）: 50〜500 nmでの幾何学的カシミール力測定
+\item Circuit QED: $\lambda/4$ vs $\lambda/2$ 超伝導共振器で可変端インピーダンスによるスイープ
+\end{itemize}
+
+\section{結論}
+
+本論文の予測は1つ: \textbf{DNカシミール力は $1/a^5$ スケーリングからある $a_c$ で逸脱する}。
+逸脱が確認されれば、真空エネルギー密度の位相的保護の証拠となり、
+制御可能なダークエネルギーとしての応用の道が開ける。
+否定されれば、$a_c$ がアクセス可能な範囲外であることの証拠となる。
+
+予測はK理論の定理 $K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$ に依存する（証明済み）。
+物理的同定（$K_1$ の巻き付き数 = 真空エネルギーの符号）が予想である。
+
+\begin{thebibliography}{99}
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth et al., Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Hertzberg2005} M.~P.~Hertzberg et al., Phys.\ Rev.\ Lett.\ \textbf{95}, 250402 (2005).
+\bibitem{Quillen1972} D.~Quillen, \textit{Algebraic K-Theory I}, Springer LNM \textbf{341} (1973).
+\bibitem{SSH1979} W.~P.~Su, J.~R.~Schrieffer, A.~J.~Heeger, Phys.\ Rev.\ Lett.\ \textbf{42}, 1698 (1979).
+\bibitem{Princeton2017} L.~Tang et al., Nature Photon.\ \textbf{11}, 97 (2017).
+\end{thebibliography}
+
+\end{document}

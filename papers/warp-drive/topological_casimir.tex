@@ -1,0 +1,228 @@
+% Topological Casimir Effect
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+
+\begin{document}
+
+\title{Topological Protection of Vacuum Energy Sign:\\
+A Testable Prediction from K-Theory\\
+for Dirichlet--Neumann Casimir Scaling}
+
+\author{Wright Brothers Research Program}
+\affiliation{Independent Research, 2026}
+
+\date{\today}
+
+\begin{abstract}
+The Casimir energy of a one-dimensional cavity changes sign when the
+boundary conditions are changed from Dirichlet--Dirichlet (DD) to
+Dirichlet--Neumann (DN): $E_{DD}\propto\zeta(-1)=-1/12<0$ (attractive)
+versus $E_{DN}\propto\zeta_{\neg 2}(-1)=+1/12>0$ (repulsive).  This is
+well established.  We observe that the localization
+$\mathbb{Z}\to\mathbb{Z}[1/2]$ underlying the DN configuration
+induces a change in algebraic K-theory,
+$K_1(\mathbb{Z})=\mathbb{Z}/2\to K_1(\mathbb{Z}[1/2])=
+\mathbb{Z}/2\times\mathbb{Z}$, introducing a topological
+winding number that protects the sign of the vacuum energy.
+If this protection is physical, the standard $1/a^4$ decay of
+the Casimir energy density must exhibit a \emph{deviation} at a
+critical separation $a_c$ where the topological transition occurs:
+the density should plateau rather than continue to decay.  We
+propose a minimal experiment---precision measurement of the
+DN Casimir force scaling law---that can confirm or rule out this
+prediction.  The required apparatus (Si-MEMS or circuit QED) exists.
+\end{abstract}
+
+\maketitle
+
+% ===================================================================
+\section{The Sign Flip}
+% ===================================================================
+
+Consider a massless scalar field in a one-dimensional cavity of
+length~$a$.  With Dirichlet conditions at both ends (DD, ``$\lambda/2$''),
+the mode frequencies are $\omega_n=n\pi c/a$, $n=1,2,3,\ldots$,
+and the regularized vacuum energy is
+\begin{equation}\label{eq:EDD}
+  E_{DD}=\frac{\pi\hbar c}{2a}\,\zeta(-1)
+  =-\frac{\pi\hbar c}{24a}<0.
+\end{equation}
+With Dirichlet at one end and Neumann at the other (DN,
+``$\lambda/4$''), the modes are $\omega_n=(2n{-}1)\pi c/(2a)$,
+$n=1,2,3,\ldots$, giving
+\begin{equation}\label{eq:EDN}
+  E_{DN}=\frac{\pi\hbar c}{4a}\sum_{n=1}^{\infty}(2n{-}1)
+  =\frac{\pi\hbar c}{4a}\,\zeta_{\neg 2}(-1)
+  =+\frac{\pi\hbar c}{48a}>0.
+\end{equation}
+Here $\zeta_{\neg 2}(s)\equiv(1{-}2^{-s})\zeta(s)
+=\sum_{n\;\mathrm{odd}}n^{-s}$ is the Riemann zeta function with
+the $p{=}2$ Euler factor removed.  The \emph{sign flip}
+$E_{DD}<0\to E_{DN}>0$ is a standard result, confirmed by multiple
+regularization methods~\cite{Boyer1974,Kenneth2002,Hertzberg2005,Milton2004}.
+
+In three spatial dimensions, the analogous quantities involve
+$\zeta(-3)=1/120$ and $\zeta_{\neg 2}(-3)=-7/120$, giving
+Casimir energy densities
+\begin{equation}
+  \rho_{DD}=-\frac{\pi^2\hbar c}{720\,a^4},\qquad
+  \rho_{DN}=+\frac{7\pi^2\hbar c}{720\,a^4}.
+\end{equation}
+
+% ===================================================================
+\section{The K-Theoretic Observation}
+% ===================================================================
+
+The passage from DD to DN corresponds algebraically to the
+localization $\mathbb{Z}\to\mathbb{Z}[1/2]$: one removes all
+integers divisible by~2 from the mode sum, retaining only the
+odd modes.  This localization induces a change in algebraic
+K-theory~\cite{Quillen1972}:
+\begin{equation}\label{eq:K1}
+  K_1(\mathbb{Z})=\mathbb{Z}/2
+  \;\longrightarrow\;
+  K_1(\mathbb{Z}[1/2])=\mathbb{Z}/2\times\mathbb{Z}.
+\end{equation}
+The emergent $\mathbb{Z}$ factor is a \emph{winding number}.
+In condensed-matter physics, an analogous winding number
+(the SSH invariant~\cite{SSH1979}) topologically protects
+edge states: a system with winding number $w\neq 0$ cannot
+be continuously deformed to $w=0$ without closing the gap.
+
+We conjecture that the $\mathbb{Z}$ winding number
+in~\eqref{eq:K1} \emph{topologically protects the sign} of the
+vacuum energy in the DN configuration: once the system is in the
+$E>0$ (repulsive) phase, it cannot be continuously deformed back
+to $E<0$ (attractive) without a discrete topological transition.
+
+% ===================================================================
+\section{The Prediction: Scaling Deviation}
+% ===================================================================
+
+In standard quantum field theory, the Casimir energy density
+$\rho\propto 1/a^4$ for both DD and DN boundary conditions.
+As the plate separation $a$ increases, $\rho$ decays to zero.
+The sign difference between DD and DN is maintained at every~$a$,
+but the \emph{magnitude} vanishes as $a\to\infty$.
+
+If the sign of the vacuum energy is topologically protected, we
+predict a qualitatively different behavior: there exists a
+critical separation $a_c$ such that for $a>a_c$, the energy
+density $\rho_{DN}$ \emph{ceases to decay} as $1/a^4$ and instead
+plateaus at a constant value determined by the topological
+invariant.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Regime & Standard QED & Topological \\
+\midrule
+$a<a_c$ & $\rho\propto 1/a^4$ & $\rho\propto 1/a^4$ \\
+$a>a_c$ & $\rho\propto 1/a^4$ & $\rho\to\mathrm{const}$ \\
+\midrule
+Scaling exponent & $-4$ everywhere & $-4\to 0$ at $a_c$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The critical separation $a_c$ is not predicted by our analysis.
+It could range from nanometers (if set by the lattice of
+$\Spec(\mathbb{Z})$) to macroscopic scales (if set by
+cosmological parameters).  The prediction is the \emph{existence}
+of the deviation, not its location.
+
+% ===================================================================
+\section{Analogy: Bulk--Edge Correspondence}
+% ===================================================================
+
+In topological insulators, the \emph{bulk--edge correspondence}
+guarantees that a material with nontrivial bulk topological
+invariant must have gapless edge states, regardless of surface
+details.  The edge states are ``protected'' by the bulk.
+
+We propose an analogous \emph{bulk--boundary correspondence} for
+the vacuum: the sign of the Casimir energy (a boundary effect) is
+protected by the K-theoretic invariant of the bulk vacuum
+($K_1(\mathbb{Z}[1/2])$).  Just as the conductance of a
+topological edge state is quantized and insensitive to disorder,
+the sign of $E_{DN}$ should be insensitive to the details of the
+boundary, depending only on the topological class.
+
+This would manifest experimentally as a deviation from the
+$1/a^4$ scaling: the ``boundary'' effect (Casimir energy) would
+acquire a ``bulk'' contribution (constant energy density) once
+the topological protection is established.
+
+% ===================================================================
+\section{Experimental Test}
+% ===================================================================
+
+\noindent\textbf{Minimal experiment:} Measure the DN Casimir force
+as a function of plate separation $a$ over at least two decades
+(e.g., $a=50$\,nm to $5\,\mu$m) and fit the power law
+$F\propto a^{-\alpha}$.
+
+\begin{itemize}
+\item Standard QED predicts $\alpha=5$ (force $\propto -dE/da
+\propto a^{-5}$ in 3D) for all~$a$.
+\item The topological prediction is $\alpha<5$ for $a>a_c$,
+ultimately approaching $\alpha=1$ (constant density $\to$
+force $\propto 1/a$... actually $F=-d(\rho V)/da$ if $\rho$
+constant then $F=-\rho A$ independent of $a$, i.e.,
+$\alpha\to 0$).
+\end{itemize}
+
+Any confirmed deviation of $\alpha$ from~5 in the DN
+configuration, not present in the DD configuration, would be
+evidence for topological protection of the vacuum energy sign.
+
+\medskip
+\noindent\textbf{Platforms:}
+\begin{itemize}
+\item \textbf{Si-MEMS} (Princeton-type~\cite{Princeton2017}):
+Geometric Casimir force measurement at 50--500\,nm.  DN boundary
+conditions achievable via T-shaped or open-ended structures.
+\item \textbf{Circuit QED}: $\lambda/4$ vs.\ $\lambda/2$
+superconducting resonator with tunable end impedance $Z$.
+Sweep $Z$ from 0 (Dirichlet) to $\infty$ (Neumann) and measure
+Lamb shift scaling.
+\end{itemize}
+
+% ===================================================================
+\section{Discussion}
+% ===================================================================
+
+We emphasize that this paper makes a \emph{single, falsifiable
+prediction}: the DN Casimir force deviates from $1/a^5$ scaling
+at some separation $a_c$.  If no deviation is found across the
+accessible range, the topological protection conjecture is
+excluded for $a_c$ within that range.
+
+The prediction is independent of the broader ``$\Spec(\mathbb{Z})$
+as spacetime'' program.  It relies only on:
+(i)~the algebraic K-theory computation~\eqref{eq:K1}, which is a
+theorem;
+(ii)~the physical identification of $K_1$ winding with vacuum
+energy sign, which is the conjecture.
+
+If confirmed, the implications extend far beyond the Casimir
+effect: a topologically protected constant vacuum energy density
+would constitute a \emph{controllable dark energy}, with
+applications to spacetime engineering.
+
+\begin{thebibliography}{99}
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Hertzberg2005} M.~P.~Hertzberg \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{95}, 250402 (2005).
+\bibitem{Milton2004} K.~A.~Milton, J.\ Phys.\ A \textbf{37}, R209 (2004).
+\bibitem{Quillen1972} D.~Quillen, in \textit{Algebraic K-Theory I}, Springer LNM \textbf{341} (1973).
+\bibitem{SSH1979} W.~P.~Su, J.~R.~Schrieffer, A.~J.~Heeger, Phys.\ Rev.\ Lett.\ \textbf{42}, 1698 (1979).
+\bibitem{Princeton2017} L.~Tang \textit{et al.}, Nature Photon.\ \textbf{11}, 97 (2017).
+\end{thebibliography}
+
+\end{document}
