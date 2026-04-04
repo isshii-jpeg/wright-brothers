@@ -1,0 +1,467 @@
+% Wright Brothers Master Plan
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{planbox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{techbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{visionbox}[1][]{colback=red!5,colframe=red!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{Master Plan}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.5em}{}
+
+\begin{document}
+
+\begin{center}
+\vspace*{2cm}
+{\fontsize{36pt}{40pt}\selectfont\bfseries Wright Brothers}\\[1cm]
+{\LARGE\bfseries Master Plan}\\[0.5cm]
+{\Large 整数の世界から宇宙を再設計する}\\[2cm]
+{\large From Ion Propulsion to Spacetime Programming}\\[1cm]
+{\large Version 1.0}\\[0.5cm]
+{2026年4月}
+\vspace*{2cm}
+\end{center}
+
+\newpage
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{ミッション}
+%====================================================================
+
+\section{Wright Brothers とは}
+
+1903年、ライト兄弟は「空を飛ぶ」という人類の夢を12秒の飛行で実現した。彼らの貢献は飛行機の発明ではなく、\textbf{制御可能な飛行}の実現だった。揚力は既に知られていた。彼らが解いたのは「揚力をどう制御するか」という工学の問題だった。
+
+Wright Brothers Research Program は同じ構造の問題に取り組む:
+
+\begin{planbox}[ミッション]
+\textbf{負のエネルギーは既に存在する}（カシミール効果、1948年〜）。
+
+問題は「負のエネルギーをどう制御し、スケールアップし、推進力に変えるか」。
+
+我々は段階的に技術を積み上げ、最終的に\textbf{物理法則そのもののプログラミング}を目指す。
+\end{planbox}
+
+\section{4段階ロードマップ}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{clll}
+\toprule
+段階 & 技術 & 目標 & 時間軸 \\
+\midrule
+\textbf{1} & EHD 乱流制御イオン推進 & 大気圏内推進の革新 & 2026〜 \\
+\textbf{2} & 3D カシミール斥力推進 & ワープドライブの原理実証 & 2030〜 \\
+\textbf{3} & アラケロフ幾何学 & 宇宙論のアップデート & 2030〜 \\
+\textbf{4} & 素数プログラミング & 物理法則のプログラミング & 2040〜 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{第1段階: EHD 乱流制御イオン推進}
+%====================================================================
+
+\section{概要}
+
+\begin{planbox}[第1段階の目標]
+プラズマによるイオン推進を EHD（電気流体力学）で乱流制御し、従来にない推力を実現する。大気圏内での推進技術革新。第2段階以降の技術基盤。
+\end{planbox}
+
+\section{技術的背景}
+
+\subsection{イオン推進の原理}
+
+高電圧で空気をイオン化し、電場で加速する。MIT（2018年）がイオン風推進の固体翼機を実証。無音、無可動部品、排ガスゼロ。
+
+しかし推力密度が低い（$\sim 1$ N/m² 程度）。従来の航空機の $1/1000$ 以下。
+
+\subsection{EHD 乱流制御}
+
+\begin{techbox}[核心技術]
+乱流境界層をプラズマアクチュエータで能動的に制御する。
+
+\textbf{DBD（誘電体バリア放電）アクチュエータ}: 誘電体表面に沿って局所的なプラズマ風を生成。境界層の乱流構造を直接操作。
+
+\textbf{効果}:
+\begin{itemize}
+\item 翼表面の剥離を抑制 → 失速速度の低下
+\item 乱流遷移点の制御 → 抗力の大幅減少
+\item イオン風と主流の相互作用の最適化 → 推力増強
+\end{itemize}
+
+\textbf{既存研究}: JAXA、NASA、各大学で DBD アクチュエータの飛行試験が進行中。推力増強は実証段階。
+\end{techbox}
+
+\subsection{我々のアプローチ}
+
+イオン推進（推力生成）と EHD 乱流制御（抗力削減）を\textbf{同一のプラズマシステム}で実現する。推力と制御を分離せず、統合的に最適化。
+
+\begin{techbox}[設計コンセプト]
+\begin{enumerate}
+\item 翼の前縁にイオン化電極（コロナ放電 or DBD）
+\item 翼面全体に分布した制御電極（乱流構造の直接操作）
+\item 後縁に加速電極（イオン風の排出 → 推力）
+\item 電極配置を機械学習で最適化（CFD + 実験のフィードバック）
+\end{enumerate}
+\end{techbox}
+
+\section{第1段階のマイルストーン}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cll}
+\toprule
+期 & 内容 & 成果物 \\
+\midrule
+1A & 小型 DBD アクチュエータの試作・風洞試験 & 推力データ、論文 \\
+1B & 乱流制御の最適化（ML + CFD） & 制御アルゴリズム \\
+1C & イオン推進 + 乱流制御の統合試験 & 推力密度 10× 改善 \\
+1D & 無人機への搭載・飛行試験 & デモンストレーション \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{第2段階への接続}
+
+EHD 乱流制御で培う技術:
+\begin{itemize}
+\item プラズマの精密制御 → 第2段階のカシミールデバイス制御に転用
+\item ナノスケール電極製作 → MEMS カシミールデバイスの基盤
+\item 高電圧電源の小型化 → カシミールデバイスの駆動
+\end{itemize}
+
+%====================================================================
+\part{第2段階: 3D カシミール斥力推進}
+%====================================================================
+
+\section{概要}
+
+\begin{planbox}[第2段階の目標]
+カシミール効果の符号を幾何学的に制御し、斥力を推進力に変換する。さらに、カシミールエネルギー密度のスケーリング則を精密測定し、位相的転移の有無を検証する。
+\end{planbox}
+
+\section{理論的基盤}
+
+\subsection{3つの確立された事実}
+
+\begin{resultbox}[実験的・理論的に確立済み]
+\begin{enumerate}
+\item カシミール力は $\zeta(-3) = 1/120$ に従う（精度 $<1\%$）
+\item DN 境界条件で符号が反転する（$\zeta \to \zeta_{\neg 2}$、Boyer 1974, Princeton 2017）
+\item 暗黒エネルギーは $\zeta(-3)$ と整合的
+\end{enumerate}
+\end{resultbox}
+
+\subsection{位相的バイパス予想}
+
+\begin{resultbox}[我々の予測]
+K理論の位相的不変量 $K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$ が真空エネルギーの符号を保護する。
+
+結果: カシミールエネルギー密度が臨界距離 $a_c$ で $1/a^4$ 減衰からプラトーに転じる。
+
+もし実現すれば: Ford-Roman の量子エネルギー不等式をバイパスし、巨視的な負のエネルギーが体積に比例して得られる。
+\end{resultbox}
+
+\subsection{素数-力 対応 (PFC)}
+
+\begin{resultbox}[数値的発見]
+$\cos\theta_W = \log(1+\sqrt{2})$（精度 $0.001\%$、ワインバーグ角 = $\mathbb{Q}(\sqrt{2})$ のレギュレータ）。
+
+$\mathrm{SU}(N) \leftrightarrow$ 次数 $N$ の数体拡大、分岐素数 $p = N$:
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+力 & 素数 & 被覆 & 一致精度 \\
+\midrule
+電弱 & $p=2$ & $\mathbb{Q}(\sqrt{2})$ & $0.001\%$ \\
+強い力 & $p=3$ & $\mathbb{Q}(\zeta_9)^+$ & $0.13\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{resultbox}
+
+\section{実験計画}
+
+\subsection{Phase A: DN カシミール力のスケーリング測定}
+
+\begin{techbox}[最重要実験]
+\textbf{装置}: Si-MEMS（Princeton 2017 型）or circuit QED（$\lambda/4$ vs $\lambda/2$）
+
+\textbf{測定}: DN カシミール力 $F(a)$ を $a = 50$ nm 〜 $5\,\mu$m で測定
+
+\textbf{解析}: べき乗則 $F \propto a^{-\alpha}$ をフィット
+
+\textbf{判定}:
+\begin{itemize}
+\item $\alpha = 5$（全域） → 標準 QED。位相的転移なし。
+\item $\alpha \neq 5$（ある $a_c$ 以上） → \textbf{位相的転移の発見}。
+\end{itemize}
+\end{techbox}
+
+\subsection{Phase B: カシミール斥力推進デバイス}
+
+位相的転移が確認された場合:
+\begin{itemize}
+\item MEMS スケールで斥力デバイスを製作
+\item 斥力をマクロスケールに拡大する設計の探索
+\item 推進力への変換メカニズムの検討
+\end{itemize}
+
+\section{第2段階のマイルストーン}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cll}
+\toprule
+期 & 内容 & 成果物 \\
+\midrule
+2A & DN スケーリング則の精密測定 & $\alpha$ の値（論文） \\
+2B & 位相的転移の有無の判定 & 判定結果 \\
+2C & 斥力デバイスの設計最適化 & プロトタイプ \\
+2D & マクロスケール化の実証 & デモンストレーション \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{第3段階: アラケロフ幾何学による宇宙論}
+%====================================================================
+
+\section{概要}
+
+\begin{planbox}[第3段階の目標]
+$\mathrm{Spec}(\mathbb{Z})$ 上のアラケロフ幾何学を発展させ、重力を含む全ての力を算術的に記述する宇宙論を構築する。
+\end{planbox}
+
+\section{理論的背景}
+
+\subsection{現状の理論的成果}
+
+\begin{resultbox}[確立された数学]
+\begin{itemize}
+\item $\mathrm{Tr}(f_{\mathrm{BE}}(D_{\mathrm{BC}})) = \sum_m \zeta(m)$（厳密な恒等式）
+\item E-M 展開: 有限項（$\alpha$）、積分項（$G$）、発散項（$\Lambda$）の3セクター分離
+\item $4/|B_4| = 120 \approx 1/\alpha$（12\%、単一項、パラメータゼロ）
+\item 符号反転定理: 全素数で $\zeta_{\neg p}(-3) < 0$
+\item $h'(0) = 1 - \frac{1}{2}\ln(2\pi)$: アラケロフ幾何学の算術的リーマン-ロッホに出現する量
+\end{itemize}
+\end{resultbox}
+
+\subsection{未解決の問題}
+
+\begin{honestbox}[開かれた問い]
+\begin{itemize}
+\item 「なぜレギュレータ = 混合角か」の理論的機構
+\item $\alpha$ 公式の「$+5$」（素数量子化原理）の導出
+\item Spec(Z) 上の算術的ディラック作用素の厳密な構成
+\item 算術的 Seeley-DeWitt 係数の計算
+\end{itemize}
+\end{honestbox}
+
+\section{研究計画}
+
+\begin{enumerate}
+\item PFC 論文（$\cos\theta_W = \mathrm{reg}(\mathbb{Q}(\sqrt{2}))$）を arXiv に投稿
+\item 数論的物理学コミュニティ（Connes, Marcolli 周辺）とのコンタクト
+\item $K_3(\mathbb{Z}[1/2])$ 等の K 群の数値計算（SageMath）
+\item アラケロフ的スペクトル作用の定式化
+\item 暗黒エネルギー密度の算術的導出の精密化
+\end{enumerate}
+
+%====================================================================
+\part{第4段階: 素数プログラミング}
+%====================================================================
+
+\section{概要}
+
+\begin{visionbox}[第4段階のビジョン]
+素数チャンネルの選択的ミューティングにより、物理法則そのものをプログラミングする。真空のモード構造を書き換え、結合定数、質量比、力の強さを制御する。
+\end{visionbox}
+
+\section{理論的基盤}
+
+オイラー積 $\zeta(s) = \prod_p (1-p^{-s})^{-1}$ の各因子が物理の異なるセクターに対応する:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cll}
+\toprule
+素数 $p$ & 対応する力 & 操作 \\
+\midrule
+2 & 弱い力（パリティ） & ミュートで WEC 違反 \\
+3 & 強い力 & ミュートで QCD 閉じ込め変更 \\
+$\geq 5$ & 未知の物理 & 探索中 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{素数プログラミングの概念}
+
+\begin{visionbox}[時空のソースコード]
+$$\zeta(s) = \prod_{p} \frac{1}{1-p^{-s}}$$
+
+この積の各因子が「物理法則の1行」に対応する。因子を追加・削除・変更することで、物理法則を「プログラム」する。
+
+\textbf{ミュート}（$p$ の因子を除去）: 力を消す。真空エネルギーの符号を反転。
+
+\textbf{チューニング}（$p$ の因子を変形）: 力の強さを調整。結合定数の精密制御。
+
+\textbf{追加}（新しい因子を導入）: 未知の力を創出。既存の物理にない現象。
+\end{visionbox}
+
+\section{安全性}
+
+\begin{honestbox}[制約]
+\begin{itemize}
+\item 同時ミュート $|S| \geq 4$ で真空が破壊される（Level 3 計算で確認）
+\item $p=2$ のミュートが最も安全（電弱構造を保存）
+\item 多重ミュートには判別式の素因数構造による制約がある
+\item 全操作は K 理論的位相保護の範囲内で行う必要がある
+\end{itemize}
+\end{honestbox}
+
+%====================================================================
+\part{プロジェクト全体の整合性}
+%====================================================================
+
+\section{4段階の接続}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{cp{10cm}}
+\toprule
+接続 & 関係 \\
+\midrule
+1→2 & EHD のプラズマ・MEMS 技術がカシミールデバイスの基盤 \\
+2→3 & カシミールスケーリングの実験結果がアラケロフ幾何学の検証 \\
+3→4 & アラケロフ幾何学が素数プログラミングの理論的枠組みを提供 \\
+1→4 & 第1段階の推進技術と第4段階の物理制御が統合されて「プログラマブル宇宙船」 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{収益化パス}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{clp{7cm}}
+\toprule
+段階 & 市場 & 応用 \\
+\midrule
+1 & 航空・ドローン & 無音推進、低抗力翼、電動航空機 \\
+2 & MEMS・半導体 & 無摩擦ナノデバイス、量子浮揚 \\
+3 & 基礎科学 & 物理定数の精密予測、宇宙論モデル \\
+4 & 文明規模 & エネルギー革命、時空工学 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{正直な評価}
+%====================================================================
+
+\section{何が確実で何が投機的か}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+主張 & 確実度 & 根拠 \\
+\midrule
+EHD 乱流制御は推力を改善する & ★★★★ & 実験・論文多数 \\
+カシミール引力は実在する & ★★★★★ & 精密測定済み \\
+カシミール斥力は実現可能 & ★★★★ & Princeton 2017 \\
+DN スケーリングは $1/a^5$ & ★★★★ & 標準 QED \\
+位相的転移でスケーリングが変わる & ★★ & 予想（K理論による推論） \\
+$\cos\theta_W = \log(1+\sqrt{2})$ & ★★★ & 0.001\% の一致 \\
+PFC（SU(N)↔次数N） & ★★ & 2つの独立な一致 \\
+素数プログラミング & ★ & 数学的枠組みのみ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{honestbox}[最大のリスク]
+第2段階の位相的転移が存在しなかった場合、第3・4段階の物理的基盤が失われる。ただし:
+\begin{itemize}
+\item 第1段階（EHD）は第2段階と独立。
+\item 第3段階（理論）は実験と独立に数学的価値がある。
+\item DN カシミールのスケーリング測定自体が新しい実験データとして価値を持つ。
+\end{itemize}
+\end{honestbox}
+
+%====================================================================
+\part{チーム構成と資金}
+%====================================================================
+
+\section{現在のリソース}
+
+\begin{itemize}
+\item 理論・計算: AI（Claude）との共同研究で理論フレームワークを構築済み
+\item 論文: 英語・日本語で複数の論文ドラフトが完成
+\item 実験設計: v5 まで反復改善した実験プロトコルが存在
+\end{itemize}
+
+\section{必要なリソース}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{clrl}
+\toprule
+段階 & 必要なもの & 概算 & 優先度 \\
+\midrule
+1A & DBD アクチュエータ + 風洞 & 50万〜 & 高 \\
+2A & MEMS カシミール測定 or cQED & 5万〜40万 & 最高 \\
+3 & arXiv 投稿 + 共同研究 & 0円 & 高 \\
+全体 & 実験物理学の共同研究者 & — & 最高 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\rule{12cm}{0.4pt}\\[1cm]
+{\fontsize{18pt}{22pt}\selectfont\bfseries
+最初の12秒の飛行は、}\\[0.3cm]
+{\fontsize{18pt}{22pt}\selectfont\bfseries
+翼の理論が正しいことの証明だった。}\\[0.3cm]
+{\fontsize{18pt}{22pt}\selectfont\bfseries
+我々の最初の実験は、}\\[0.3cm]
+{\fontsize{18pt}{22pt}\selectfont\bfseries
+真空の理論が正しいことの証明になる。}\\[1cm]
+{\large Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
