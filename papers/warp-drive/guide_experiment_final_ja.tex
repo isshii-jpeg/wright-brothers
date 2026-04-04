@@ -1,0 +1,369 @@
+% 最終実験ガイド: λ/4 vs λ/2 真空エネルギー符号反転実験
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{expbox}[1][]{colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{deadbox}[1][]{colback=black!8,colframe=black!50,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{最終実験ガイド}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 最終実験ガイド}\\[0.5cm]
+{\Large $\lambda/4$ vs $\lambda/2$}\\[0.2cm]
+{\Large 真空エネルギーの符号は本当に反転するか}\\[1cm]
+{\large Wright Brothers Research Program}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{5つの失敗から学んだこと}
+%====================================================================
+
+\section{設計の遍歴}
+
+\begin{deadbox}[v1-v2: SQUID（撤回）]
+設計: Mr.SQUID でモード2を1つ消す。\\
+死因: (a) Mr.SQUID はDC磁場センサーであり circuit QED デバイスではない。
+(b) 1モードを消すのは素数ミュートではない（偶数モード全部を消す必要がある）。
+\end{deadbox}
+
+\begin{deadbox}[v3: トランスモン + L/2 散逸カプラ（撤回）]
+設計: キャビティ中点に散逸カプラを設置し偶数モードを消す。\\
+死因: $\sin(n\pi/2)$ の偶奇が逆だった。L/2 の散逸カプラは偶数ではなく\textbf{奇数}モードに結合する。中学レベルの三角関数のミス。
+\end{deadbox}
+
+\begin{deadbox}[v4: カシミール + 吸収膜（撤回）]
+設計: 2枚の板の間に吸収膜を置いて偶数モードを消す。\\
+死因: v3 と同じ。偶奇が逆。膜は奇数モードを消す。
+\end{deadbox}
+
+\begin{deadbox}[v5: カシミール + エタロン（撤回）]
+設計: 片方のミラーをファブリ-ペロー・エタロンにして偶数モードを透過させる。\\
+実数周波数では完璧に偶奇を分離する。しかし:
+\\
+死因: \textbf{Kramers-Kronig（因果律）}。
+カシミール力は虚数周波数 $i\xi$ での積分で決まる。
+$e^{2i\omega d/c}$（振動）が $e^{-2\xi d/c}$（単調減衰）に変わり、
+エタロンの周波数選択性が完全に消失する。
+受動的な光学デバイスではカシミール力における偶奇分離は\textbf{原理的に不可能}。
+\end{deadbox}
+
+\section{失敗から得られた教訓}
+
+\begin{resultbox}[3つの教訓]
+\begin{enumerate}
+\item \textbf{素数ミュート $\neq$ 1モードの除去}。オイラー積の1因子を消すとは、その素数の倍数モードを\textbf{全部}消すこと。
+
+\item \textbf{受動カシミールでは周波数選択不可能}。Kramers-Kronig により、受動・線形・因果的なデバイスでは、カシミール力における周波数選択的モードフィルタリングは原理的にできない。
+
+\item \textbf{偶奇の分離にはフィルタではなくジオメトリを使う}。フィルタ（膜、エタロン）ではなく、共振器の\textbf{形そのもの}が偶奇を決める。
+\end{enumerate}
+\end{resultbox}
+
+%====================================================================
+\part{最終設計: $\lambda/4$ vs $\lambda/2$}
+%====================================================================
+
+\section{$\lambda/4$ 共振器は最初から奇数モードしか持たない}
+
+\begin{mathbox}[2種類の共振器]
+\textbf{$\lambda/2$ 共振器}（両端短絡 or 両端開放）:
+$$f_n = n \times f_1 \quad (n = 1, 2, 3, 4, 5, \ldots)$$
+真空エネルギー: $E \propto 1+2+3+4+\cdots = \zeta(-1) = -\frac{1}{12}$
+
+\textbf{$\lambda/4$ 共振器}（片端短絡、片端開放）:
+$$f_n = (2n-1) \times f_1 \quad (n = 1, 2, 3, \ldots) = 1, 3, 5, 7, \ldots$$
+真空エネルギー: $E \propto 1+3+5+7+\cdots = \zeta_{\neg 2}(-1) = +\frac{1}{12}$
+
+\textbf{符号が逆。} フィルタもエタロンも不要。形が全て。
+\end{mathbox}
+
+\begin{storybox}[たとえ話: 閉管と開管]
+ビール瓶の口に息を吹きかけると「ボー」と鳴る。
+これは片端が閉じて片端が開いた管 = $\lambda/4$ 共振器。
+出る倍音は奇数番目だけ（1, 3, 5, ...）。
+
+ギターの弦は両端が固定 = $\lambda/2$ 共振器。
+全ての倍音が出る（1, 2, 3, 4, ...）。
+
+\textbf{この2つの真空エネルギーが逆符号}。
+ビール瓶とギターの弦の量子力学的な違い。
+\end{storybox}
+
+\section{なぜこれが素数2のミュートなのか}
+
+\begin{mathbox}[オイラー積との対応]
+$$\zeta_{\neg 2}(s) = \zeta(s) \times (1-2^{-s}) = \sum_{n \text{ odd}} n^{-s}$$
+
+$s = -1$ で:
+$\zeta_{\neg 2}(-1) = 1 + 3 + 5 + 7 + \cdots = +\frac{1}{12}$
+
+$\lambda/4$ 共振器のモード: $1, 3, 5, 7, \ldots$ = 奇数のみ。
+
+\textbf{$\lambda/4$ 共振器の真空 $=$ $\zeta_{\neg 2}$ の真空。}
+
+フィルタもエタロンも要らなかった。
+「片端を開けるだけ」が素数2のミュート。
+\end{mathbox}
+
+\section{KK はなぜこれを殺さないか}
+
+\begin{honestbox}[Kramers-Kronig が適用されない理由]
+KK が殺したのは「受動デバイスによる\textbf{周波数選択}」。
+$\lambda/4$ 共振器は周波数選択をしていない。
+
+$\lambda/4$ 共振器の境界条件:
+$z = 0$: 短絡（$E = 0$、ディリクレ）
+$z = L$: 開放（$dE/dz = 0$、ノイマン）
+
+これは全周波数で成立する\textbf{幾何学的条件}。
+周波数に依存しない。KK は周波数依存の反射率に適用されるので、
+周波数に依存しない境界条件には適用されない。
+
+同軸伝送線路のオープン端は、全周波数で完全なノイマン条件。
+分散なし。KK 問題なし。
+\end{honestbox}
+
+%====================================================================
+\part{何を測定するか}
+%====================================================================
+
+\section{目標}
+
+$\lambda/4$ 共振器と $\lambda/2$ 共振器のトランスモン Lamb シフトを比較し、真空エネルギーの符号が異なることの証拠を得る。
+
+\section{Lamb シフトの物理}
+
+\begin{mathbox}[Lamb シフト]
+量子ビット（周波数 $f_q$）をキャビティに入れると、
+各モードの真空揺らぎが量子ビットの周波数を微小にずらす:
+$$\delta f = \sum_n \frac{g_n^2}{f_q - f_n}$$
+
+$\lambda/2$ キャビティ: $n = 1, 2, 3, 4, \ldots$ の全モードの和
+$\lambda/4$ キャビティ: $n = 1, 3, 5, 7, \ldots$ の奇数モードのみの和
+
+この2つの差 = 偶数モードの真空揺らぎの寄与。
+\end{mathbox}
+
+\begin{honestbox}[正直に: これは直接 $\zeta$ の検証ではない]
+Lamb シフトの和 $\sum g_n^2/(f_q - f_n)$ は収束する和であり、
+$\zeta$ 正則化は不要。有限モードで計算できる。
+
+$\zeta(-1) = -1/12$ は発散する和 $1+2+3+\cdots$ の解析接続。
+Lamb シフトの和とは別の量。
+
+この実験が検証するのは:
+「$\lambda/4$ と $\lambda/2$ の真空構造は
+ $\zeta_{\neg 2}$ vs $\zeta$ の関係にあるか」
+であり、「$\zeta$ 正則化が物理的に正しいか」の\textbf{間接的}なテスト。
+\end{honestbox}
+
+%====================================================================
+\part{実験手順}
+%====================================================================
+
+\section{Phase 0: 室温での予行演習（個人でできる）}
+
+\begin{expbox}[室温テスト: 7,000 円]
+\textbf{目的}: $\lambda/4$ が奇数モードだけを持つことを自分の目で確認する。
+
+\textbf{新しい物理はゼロ}。高校物理の追試。
+しかし Phase 1 に持っていける実物のデモになる。
+
+\textbf{材料}:
+\begin{itemize}
+\item セミリジッド同軸ケーブル SMA付き 30 cm $\times$ 2本: \textyen 4,000
+\item nanoVNA（ベクトルネットワークアナライザ）: \textyen 3,000（Amazon）
+\item SMA ショートキャップ: \textyen 500
+\end{itemize}
+
+\textbf{手順}:
+\begin{enumerate}
+\item ケーブル A: 両端 SMA コネクタ → VNA に接続 → $\lambda/2$ 共振器
+\item ケーブル B: 片端 SMA コネクタ、もう片端をカット（オープン）→ $\lambda/4$ 共振器
+\item nanoVNA で $S_{21}$（ケーブルA）と $S_{11}$（ケーブルB）を測定
+\item ケーブル A: ピークが $f_1, 2f_1, 3f_1, \ldots$ に等間隔で並ぶ
+\item ケーブル B: ピークが $f_1, 3f_1, 5f_1, \ldots$ に1つおきに並ぶ
+\end{enumerate}
+
+\textbf{得られるもの}: 偶奇分離の目視確認。研究室への提案時のデモ。
+\end{expbox}
+
+\section{Phase 1: 共同研究での極低温測定}
+
+\begin{expbox}[本実験: 研究室の設備が必要]
+\textbf{目的}: $\lambda/4$ と $\lambda/2$ の Lamb シフトを比較する。
+
+\textbf{必要な設備}（研究室から借りる）:
+\begin{itemize}
+\item 希釈冷凍機（$\sim 10$ mK）
+\item トランスモン量子ビット
+\item マイクロ波測定系
+\end{itemize}
+
+\textbf{我々が用意するもの}:
+\begin{itemize}
+\item $\lambda/2$ 超伝導共振器（アルミ同軸、両端ショート）
+\item $\lambda/4$ 超伝導共振器（アルミ同軸、片端ショート片端オープン）
+\item Phase 0 の室温データ
+\end{itemize}
+
+\textbf{プロトコル}:
+\begin{enumerate}
+\item $\lambda/2$ 共振器にトランスモンを結合 → 冷却 → $f_q^{(\lambda/2)}$ を測定
+\item $\lambda/4$ 共振器にトランスモンを結合 → 冷却 → $f_q^{(\lambda/4)}$ を測定
+\item 差 $\Delta f = f_q^{(\lambda/4)} - f_q^{(\lambda/2)}$ を計算
+\end{enumerate}
+
+\textbf{予測}:
+\begin{itemize}
+\item 標準 QED: $\Delta f$ は偶数モードの個別 Lamb 寄与の和
+\item $\zeta$ 予測: $\Delta f$ に非摂動的な追加成分がある
+\end{itemize}
+
+\textbf{判定}: 標準 QED の予測を精密に計算し、実測との差が統計的に有意なら新物理。
+\end{expbox}
+
+\section{Phase 2: 精密化}
+
+多数のモードを含むキャビティ（高い $f_{\text{cutoff}}$）で同じ測定を繰り返し、
+モード数 $N \to \infty$ で Lamb シフト比が $\zeta_{\neg 2}(-1)/\zeta(-1) = -1$ に近づくか確認する。
+
+%====================================================================
+\part{共同研究の提案}
+%====================================================================
+
+\section{提案の仕方}
+
+\begin{expbox}[提案テンプレート]
+「$\lambda/4$ 共振器と $\lambda/2$ 共振器に結合したトランスモンの
+Lamb シフトの差を精密測定したい。
+
+$\lambda/4$ は奇数倍音のみ、$\lambda/2$ は全倍音を持つため、
+真空揺らぎのモード構造が異なる。
+この差は量子ビットの Lamb シフトに現れるはずだが、
+精密な測定はまだ行われていない。
+
+多モードキャビティにおける真空揺らぎの
+モード構造依存性の定量的理解は、
+量子ビットの周波数安定性にも関連する。
+
+共振器は我々が設計・製作する。
+トランスモンと冷凍機をお借りしたい。」
+
+\textbf{$\zeta$ の話は最初はしない。}
+circuit QED の基礎物理として提案する。
+\end{expbox}
+
+\section{なぜこの実験が面白いか（量子コンピュータ研究者にとって）}
+
+\begin{storybox}[研究者の動機]
+$\lambda/4$ vs $\lambda/2$ の真空揺らぎの違いは、
+量子ビットの\textbf{デコヒーレンス}に直結する。
+
+多モード環境でのトランスモンの振る舞いは
+量子コンピュータの性能限界を決める重要な問題。
+「モード構造が違うとデコヒーレンスがどう変わるか」は
+彼ら自身にとっても知りたい情報。
+
+$\zeta$ が正しかろうが間違っていようが、
+このデータには量子コンピュータ工学としての価値がある。
+\end{storybox}
+
+%====================================================================
+\part{何が検証されるか}
+%====================================================================
+
+\section{結果のシナリオ}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lp{9cm}}
+\toprule
+結果 & 意味 \\
+\midrule
+$\Delta f$ が標準 QED と一致 & 各モードの寄与は独立。真空に「算術構造」は見えない。$\zeta$ 正則化は計算道具に留まる。 \\
+$\Delta f$ が標準 QED からずれる & 真空揺らぎに個別モードの足し算では説明できない\textbf{集団的効果}がある。$\zeta$ 構造が物理に入っている最初のヒント。 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{honestbox}[期待値の管理]
+標準 QED が正しい確率は\textbf{非常に高い}。
+ずれが見つかる可能性は小さい。
+
+しかし:
+「$\lambda/4$ vs $\lambda/2$ の Lamb シフト差の精密測定」
+は circuit QED の基礎実験として独立の価値がある。
+ずれがなくても論文になる。
+ずれがあれば物理の歴史が変わる。
+
+どちらに転んでも科学として価値がある。
+\end{honestbox}
+
+%====================================================================
+\part{予算}
+%====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llrl}
+\toprule
+フェーズ & 内容 & 費用 & 個人で可能？ \\
+\midrule
+Phase 0 & 同軸ケーブル + nanoVNA & \textyen 7,000 & \textbf{✓ 今日できる} \\
+Phase 1 & 超伝導共振器製作 & \textyen 10,000 & ✓（アルミ加工） \\
+Phase 1 & 極低温測定（共同研究） & \textyen 0--100,000 & 要交渉 \\
+\midrule
+\textbf{合計} & & \textbf{\textyen 17,000--117,000} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries ビール瓶とギター。}\\[0.2cm]
+{\Large\bfseries 片端を開けるか閉じるか。}\\[0.2cm]
+{\Large\bfseries それだけで真空の符号が変わるかもしれない。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
