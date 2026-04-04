@@ -50,13 +50,23 @@ $$\zeta(s) = \sum_{n=1}^{\infty} n^{-s} = \prod_{p\text{ prime}} \frac{1}{1-p^{-
 $p=2$ の因子を除去すると:
 $$\zeta_{\neg 2}(s) = (1-2^{-s})\zeta(s) = \sum_{\substack{n=1 \\ n\text{ odd}}}^{\infty} n^{-s}$$
 
-$s=-1$ で:
+物理的に関連するのは3次元（$s=-3$）であり、平行板間のカシミールエネルギー密度は $\sum n^3$ を含む:
 \begin{align}
-\zeta(-1) &= 1+2+3+4+\cdots = -\tfrac{1}{12} \quad\text{（全モード、引力）}\\
-\zeta_{\neg 2}(-1) &= 1+3+5+7+\cdots = +\tfrac{1}{12} \quad\text{（奇数モード、斥力）}
+\zeta(-3) &= 1^3+2^3+3^3+4^3+\cdots = +\tfrac{1}{120} \quad\text{（全モード）}\\
+\zeta_{\neg 2}(-3) &= 1^3+3^3+5^3+7^3+\cdots = -\tfrac{7}{120} \quad\text{（奇数モード）}
 \end{align}
 
-\textbf{Boyer は $\zeta_{\neg 2}$ を計算した。ただし素数のことは考えていなかった。}
+符号の反転 $+1/120 \to -7/120$ が3Dでの素数2ミュートの定義的性質。
+（1Dでは $\zeta(-1) = -1/12 \to \zeta_{\neg 2}(-1) = +1/12$ が対応。）
+
+標準3Dカシミールエネルギー密度は $\rho_{DD} = -\pi^2\hbar c/(720a^4)$ であり、$720 = 6/\zeta(-3)$。
+Boyer の PEC-PMC の結果:
+\begin{itemize}
+\item DD（全モード）: $\rho \propto -\zeta(-3) < 0$（引力）
+\item DN（奇数モード）: $\rho \propto -\zeta_{\neg 2}(-3) = +7/120 > 0$（斥力、大きさ7倍）
+\end{itemize}
+
+\textbf{Boyer は $\zeta_{\neg 2}(-3)$ を計算した。ただし素数のことは考えていなかった。}
 
 Boyer の電磁気学的境界条件計算と、数論のオイラー積切断は、異なる言語で記述された同一の数学的操作である。
 

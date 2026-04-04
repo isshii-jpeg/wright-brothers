@@ -91,22 +91,29 @@ Removing the $p{=}2$ factor yields
   \zeta_{\neg 2}(s)\equiv(1{-}2^{-s})\,\zeta(s)
   =\sum_{\substack{n=1\\n\;\mathrm{odd}}}^{\infty}n^{-s}.
 \end{equation}
-At $s=-1$:
+The physically relevant case is three-dimensional ($s=-3$),
+where the Casimir energy density between parallel plates involves
+$\sum n^3$:
 \begin{align}
-  \zeta(-1)&=1{+}2{+}3{+}4{+}\cdots=-\tfrac{1}{12},\label{eq:z1}\\
-  \zeta_{\neg 2}(-1)&=1{+}3{+}5{+}7{+}\cdots=+\tfrac{1}{12}.\label{eq:z2}
+  \zeta(-3)&=1^3{+}2^3{+}3^3{+}4^3{+}\cdots=+\tfrac{1}{120},\label{eq:z3}\\
+  \zeta_{\neg 2}(-3)&=1^3{+}3^3{+}5^3{+}7^3{+}\cdots=-\tfrac{7}{120}.\label{eq:z3neg}
 \end{align}
-The sign flip $-1/12\to+1/12$ is the
-\emph{defining property} of prime-2 muting.
+The sign flip $+1/120\to-7/120$ is the
+\emph{defining property} of prime-2 muting in 3D.
+(In 1D, the analogous flip is
+$\zeta(-1)=-1/12\to\zeta_{\neg 2}(-1)=+1/12$.)
 
-Boyer's result is precisely this:
+The standard 3D Casimir energy density is
+$\rho_{DD}=-\pi^2\hbar c/(720\,a^4)$, where $720=6/\zeta(-3)$.
+Boyer's result for PEC--PMC is:
 \begin{itemize}
-\item PEC--PEC (DD): modes $n=1,2,3,\ldots$
-$\;\Rightarrow\; E\propto\zeta(-1)=-1/12<0$ (attractive).
-\item PEC--PMC (DN): modes $n=1,3,5,\ldots$
-$\;\Rightarrow\; E\propto\zeta_{\neg 2}(-1)=+1/12>0$ (repulsive).
+\item PEC--PEC (DD): all modes
+$\;\Rightarrow\;\rho\propto -\zeta(-3)<0$ (attractive).
+\item PEC--PMC (DN): odd modes only
+$\;\Rightarrow\;\rho\propto -\zeta_{\neg 2}(-3)=+7/120>0$ (repulsive).
 \end{itemize}
-\textbf{Boyer computed $\zeta_{\neg 2}$ without knowing it.}
+The DN energy density is positive and 7 times the DD magnitude.
+\textbf{Boyer computed $\zeta_{\neg 2}(-3)$ without knowing it.}
 His electromagnetic boundary-condition calculation and the
 number-theoretic Euler product truncation are the same
 mathematical operation, viewed from different angles.
@@ -127,7 +134,7 @@ open (Neumann)---has mode frequencies
   f_n=(2n{-}1)\,\frac{c}{4L},\quad n=1,2,3,\ldots
 \end{equation}
 These are the odd integers $1,3,5,7,\ldots$ in units of $c/(4L)$.
-The vacuum energy is
+In 1D, the vacuum energy involves $\zeta(-1)$:
 \begin{equation}
   E_{\lambda/4}=\frac{\pi\hbar c}{4L}\,\zeta_{\neg 2}(-1)
   =+\frac{\pi\hbar c}{48L}>0.
@@ -137,6 +144,14 @@ Compare the $\lambda/2$ resonator (both ends shorted or both open):
   E_{\lambda/2}=\frac{\pi\hbar c}{2L}\,\zeta(-1)
   =-\frac{\pi\hbar c}{24L}<0.
 \end{equation}
+In 3D between parallel plates (area $A$, separation $a$), the
+Casimir energy densities are:
+\begin{equation}
+  \rho_{DD}=-\frac{\pi^2\hbar c}{720\,a^4},\quad
+  \rho_{DN}=+\frac{7\pi^2\hbar c}{720\,a^4},
+\end{equation}
+with $\rho_{DN}/\rho_{DD}=-7$, directly reflecting
+$\zeta_{\neg 2}(-3)/\zeta(-3)=-7$.
 \textbf{Opposite signs.  No PMC material.  No metamaterial.
 No Kramers--Kronig obstruction.}  The open end of a transmission
 line provides a broadband, dispersion-free Neumann boundary
