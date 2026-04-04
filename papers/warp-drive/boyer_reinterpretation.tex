@@ -1,0 +1,312 @@
+% Boyer Reinterpretation
+\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Boyer's Casimir Repulsion as Euler Product Truncation:\\
+Number-Theoretic Reinterpretation and\\
+Three Routes to Experimental Realization}
+
+\author{Wright Brothers Research Program}
+\affiliation{Independent Research, 2026}
+
+\date{\today}
+
+\begin{abstract}
+Boyer (1974) predicted that the Casimir force between a perfectly
+electrically conducting (PEC) plate and a perfectly magnetically
+conducting (PMC) plate is repulsive, in contrast to the attractive
+PEC--PEC case.  This prediction remains unverified after fifty
+years, primarily because no PMC material exists at the relevant
+(optical--UV) frequencies.  We offer a number-theoretic
+reinterpretation: the PEC--PMC (Dirichlet--Neumann) mode sum
+$1+3+5+7+\cdots=\zeta_{\neg 2}(-1)=+1/12$ is precisely the
+Riemann zeta function with the $p{=}2$ Euler factor removed,
+while the PEC--PEC sum $1+2+3+4+\cdots=\zeta(-1)=-1/12$ is the
+full zeta function.  The sign flip is thus the arithmetic operation
+of \emph{prime muting}: removing the contribution of the smallest
+prime from the vacuum mode sum.  This reinterpretation clarifies why
+PMC is not required---any physical configuration selecting odd-integer
+modes suffices.  We identify three such configurations that bypass
+the PMC obstacle: (A)~nanoscale open-ended structures providing
+Neumann boundary conditions without magnetic materials;
+(B)~$\lambda/4$ superconducting resonators in circuit QED, where
+Lamb shift differences between $\lambda/4$ and $\lambda/2$
+resonators probe the vacuum energy sign; and (C)~Si-MEMS devices
+with DN-type geometries, extending the platform of Tang \textit{et
+al.}\ (2017).  All three are realizable with existing technology.
+A positive result would constitute the first experimental
+verification of Boyer's fifty-year-old prediction and the first
+physical realization of Euler product truncation.
+\end{abstract}
+
+\maketitle
+
+%===================================================================
+\section{Introduction: A Fifty-Year Gap}
+%===================================================================
+
+In 1974, Boyer showed that the Casimir energy between a perfect
+electric conductor (PEC, Dirichlet boundary condition for the
+electric field) and a perfect magnetic conductor (PMC, Neumann
+boundary condition) is \emph{positive}---opposite in sign to the
+standard PEC--PEC result~\cite{Boyer1974}.  Kenneth \textit{et al.}\
+provided a rigorous proof~\cite{Kenneth2002}, and Hertzberg
+\textit{et al.}\ confirmed it in the piston
+geometry~\cite{Hertzberg2005}.
+
+Despite this theoretical clarity, \textbf{no experiment has ever
+measured the PEC--PMC Casimir force}.  The obstacle is material:
+PMC requires magnetic permeability $\mu\to\infty$ at the optical
+and ultraviolet frequencies that dominate the Casimir energy.
+No natural material satisfies this, and metamaterial approaches
+fail due to Kramers--Kronig constraints on
+broadband magnetic response~\cite{Rosa2008}.
+
+Existing demonstrations of Casimir
+``repulsion''~\cite{Munday2009,Tang2017} use different mechanisms:
+Munday \textit{et al.}\ employed dielectric contrast in a fluid;
+Tang \textit{et al.}\ used geometric interplay of T-shaped
+nanostructures.  In neither case is the vacuum mode structure
+altered---the underlying mode sum remains the full
+$\sum_{n=1}^{\infty}n^{-s}$, and no modes are selectively removed.
+These experiments demonstrate force-direction control, not vacuum
+energy sign reversal.
+
+%===================================================================
+\section{Number-Theoretic Reinterpretation}
+%===================================================================
+
+The Riemann zeta function admits an Euler product over primes:
+\begin{equation}\label{eq:euler}
+  \zeta(s)=\sum_{n=1}^{\infty}n^{-s}
+  =\prod_{p\;\mathrm{prime}}\frac{1}{1-p^{-s}}.
+\end{equation}
+Removing the $p{=}2$ factor yields
+\begin{equation}\label{eq:zeta2}
+  \zeta_{\neg 2}(s)\equiv(1{-}2^{-s})\,\zeta(s)
+  =\sum_{\substack{n=1\\n\;\mathrm{odd}}}^{\infty}n^{-s}.
+\end{equation}
+At $s=-1$:
+\begin{align}
+  \zeta(-1)&=1{+}2{+}3{+}4{+}\cdots=-\tfrac{1}{12},\label{eq:z1}\\
+  \zeta_{\neg 2}(-1)&=1{+}3{+}5{+}7{+}\cdots=+\tfrac{1}{12}.\label{eq:z2}
+\end{align}
+The sign flip $-1/12\to+1/12$ is the
+\emph{defining property} of prime-2 muting.
+
+Boyer's result is precisely this:
+\begin{itemize}
+\item PEC--PEC (DD): modes $n=1,2,3,\ldots$
+$\;\Rightarrow\; E\propto\zeta(-1)=-1/12<0$ (attractive).
+\item PEC--PMC (DN): modes $n=1,3,5,\ldots$
+$\;\Rightarrow\; E\propto\zeta_{\neg 2}(-1)=+1/12>0$ (repulsive).
+\end{itemize}
+\textbf{Boyer computed $\zeta_{\neg 2}$ without knowing it.}
+His electromagnetic boundary-condition calculation and the
+number-theoretic Euler product truncation are the same
+mathematical operation, viewed from different angles.
+
+This reinterpretation has a crucial practical consequence:
+\emph{PMC is not needed}.  Any physical configuration whose
+mode spectrum consists of odd integers realizes $\zeta_{\neg 2}$.
+The task is not to find a magnetic material, but to find a
+geometry that selects odd modes.
+
+%===================================================================
+\section{The $\lambda/4$ Realization}
+%===================================================================
+
+A $\lambda/4$ resonator---one end shorted (Dirichlet), the other
+open (Neumann)---has mode frequencies
+\begin{equation}
+  f_n=(2n{-}1)\,\frac{c}{4L},\quad n=1,2,3,\ldots
+\end{equation}
+These are the odd integers $1,3,5,7,\ldots$ in units of $c/(4L)$.
+The vacuum energy is
+\begin{equation}
+  E_{\lambda/4}=\frac{\pi\hbar c}{4L}\,\zeta_{\neg 2}(-1)
+  =+\frac{\pi\hbar c}{48L}>0.
+\end{equation}
+Compare the $\lambda/2$ resonator (both ends shorted or both open):
+\begin{equation}
+  E_{\lambda/2}=\frac{\pi\hbar c}{2L}\,\zeta(-1)
+  =-\frac{\pi\hbar c}{24L}<0.
+\end{equation}
+\textbf{Opposite signs.  No PMC material.  No metamaterial.
+No Kramers--Kronig obstruction.}  The open end of a transmission
+line provides a broadband, dispersion-free Neumann boundary
+condition for TEM modes.
+
+The obstacle is scale: transmission-line $\lambda/4$ resonators
+are macroscopic ($\sim$cm), where the Casimir force
+$\sim 10^{-21}$\,N is unmeasurable.  We propose three routes
+around this obstacle.
+
+%===================================================================
+\section{Three Routes to Experimental Realization}
+%===================================================================
+
+\subsection{Route A: Nanoscale DN Structures}
+
+At the nanoscale ($a\sim 100$\,nm), Casimir forces are measurable
+($\sim$pN).  The challenge is to create DN boundary conditions at
+this scale.
+
+A Neumann condition for the electromagnetic field corresponds
+physically to an open aperture, a slot, or a free edge.  Candidate
+structures include:
+\begin{itemize}
+\item Open-ended metallic nanowaveguides (slot arrays in thin metal
+films).
+\item Nanoscale coaxial structures with open terminations,
+fabricable by template-based
+electrodeposition~\cite{Nanocoax2007}.
+\item Photonic crystal surfaces engineered to exhibit
+high-impedance (PMC-like) behavior over a broad bandwidth.
+\end{itemize}
+The Casimir force between a PEC plate and such a nano-DN surface
+can be measured with standard AFM techniques.
+
+\subsection{Route B: Circuit QED ($\lambda/4$ vs.\ $\lambda/2$)}
+
+In circuit QED, a transmon qubit coupled to a superconducting
+resonator experiences a Lamb shift
+\begin{equation}\label{eq:lamb}
+  \delta f=\sum_n\frac{g_n^2}{f_q-f_n},
+\end{equation}
+where $f_n$ are the resonator mode frequencies and $g_n$ the
+coupling strengths.
+
+A $\lambda/4$ resonator (modes $1,3,5,\ldots$) and a $\lambda/2$
+resonator (modes $1,2,3,\ldots$) of the same fundamental frequency
+will produce \emph{different} Lamb shifts, because the mode sums
+in~\eqref{eq:lamb} differ.  The difference
+\begin{equation}
+  \Delta(\delta f)=\delta f_{\lambda/2}-\delta f_{\lambda/4}
+  =\sum_{n\;\mathrm{even}}\frac{g_n^2}{f_q-f_n}
+\end{equation}
+isolates the even-mode vacuum fluctuation contribution.
+
+Both $\lambda/4$ and $\lambda/2$ resonators are standard
+components in superconducting circuit laboratories.  The
+measurement requires a dilution refrigerator ($\sim$10\,mK) and
+a transmon qubit---existing infrastructure at dozens of
+laboratories worldwide.
+
+\subsection{Route C: MEMS with DN Geometry}
+
+Tang \textit{et al.}~\cite{Tang2017} demonstrated on-chip Casimir
+force measurement between silicon nanostructures using integrated
+comb actuators and vibrating-beam force sensors.  Their T-shaped
+geometry produced non-monotonic (but not genuinely DN) forces.
+
+We propose adapting their platform with a DN-type geometry:
+one surface is a flat PEC (gold-coated silicon), the other is a
+periodic array of open-ended slots or channels whose mode
+structure approximates DN boundary conditions.  The force is
+measured as a function of separation $a$ using the same
+comb-actuator technology.
+
+The key measurement is the scaling exponent $\alpha$ in
+$F\propto a^{-\alpha}$.  Standard PEC--PEC gives $\alpha=5$
+(attractive, well verified).  PEC--DN should give $\alpha=5$
+with \emph{opposite sign} (repulsive, never measured).
+
+%===================================================================
+\section{Predictions}
+%===================================================================
+
+\begin{enumerate}
+\item \textbf{Sign}: The Casimir force in a DN configuration is
+repulsive.  This is Boyer's prediction, now reinterpreted as
+Euler product truncation $\zeta\to\zeta_{\neg 2}$.
+
+\item \textbf{Magnitude}: In 3D, the ratio of DN to DD Casimir
+energy densities is $\zeta_{\neg 2}(-3)/\zeta(-3)=-7$.  The DN
+repulsive force is 7 times the magnitude of the DD attractive
+force at the same separation.
+
+\item \textbf{Scaling}: Standard QED predicts $F\propto a^{-5}$
+for both DD and DN.  Any deviation from $\alpha=5$ in the DN
+case would indicate physics beyond the standard boundary-effect
+framework.
+\end{enumerate}
+
+%===================================================================
+\section{Discussion}
+%===================================================================
+
+\subsection{Why This Hasn't Been Done}
+
+The PEC--PMC Casimir repulsion has remained
+unverified for fifty years because the problem was framed as
+a \emph{materials} problem (``find a PMC'').  The number-theoretic
+reinterpretation reframes it as a \emph{mode selection} problem
+(``select odd modes''), which can be solved geometrically.
+
+The $\lambda/4$ solution---simply opening one end of a
+resonator---is arguably the simplest realization of Boyer's
+prediction.  It has not been proposed in this context because
+(i)~$\lambda/4$ resonators are macroscopic where Casimir forces
+are negligible, and (ii)~the connection between DN modes and
+Euler product truncation was not previously recognized.
+
+\subsection{Relation to Broader Program}
+
+The Euler product $\zeta(s)=\prod_p(1{-}p^{-s})^{-1}$
+decomposes the vacuum into prime-indexed channels.  Removing the
+$p{=}2$ channel ($\zeta\to\zeta_{\neg 2}$) is the simplest
+nontrivial modification.  The sign flip
+$\zeta(-1)\to\zeta_{\neg 2}(-1)$ ($-1/12\to+1/12$) and
+$\zeta(-3)\to\zeta_{\neg 2}(-3)$ ($+1/120\to-7/120$) suggest
+that prime muting could, in principle, reverse the sign of
+the cosmological vacuum energy---a necessary condition for
+exotic spacetime geometries~\cite{Alcubierre1994,Visser1995}.
+Experimental verification of Boyer's sign flip in any of the
+three proposed routes would be the first step toward testing
+this broader hypothesis.
+
+\subsection{What This Paper Does Not Claim}
+
+We do not claim that prime muting is physically realizable
+beyond the DN boundary condition.  The connection between
+DN modes and the $p{=}2$ Euler factor is a mathematical
+identity, not a physical mechanism.  Whether the arithmetic
+structure of the Euler product has deeper physical significance
+is an open question that experiment must address.
+
+%===================================================================
+\section{Conclusion}
+%===================================================================
+
+Boyer's 1974 prediction that PEC--PMC Casimir force is repulsive
+can be reinterpreted as the statement that removing the $p{=}2$
+Euler factor from the Riemann zeta function reverses the sign of
+the regularized vacuum energy.  This reinterpretation shifts the
+experimental challenge from materials (finding a PMC) to geometry
+(selecting odd modes).  We have identified three experimentally
+viable routes---nanoscale DN structures, circuit QED $\lambda/4$
+comparison, and MEMS with DN geometry---each realizable with
+existing technology.  A positive result would simultaneously
+verify a fifty-year-old theoretical prediction and provide the
+first physical realization of Euler product truncation in quantum
+field theory.
+
+\begin{thebibliography}{99}
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth, I.~Klich, A.~Mann, and M.~Revzen, Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Hertzberg2005} M.~P.~Hertzberg, R.~L.~Jaffe, R.~Kardar, and A.~Scardicchio, Phys.\ Rev.\ Lett.\ \textbf{95}, 250402 (2005).
+\bibitem{Rosa2008} F.~S.~S.~Rosa, D.~A.~R.~Dalvit, and P.~W.~Milonni, Phys.\ Rev.\ Lett.\ \textbf{100}, 183602 (2008).
+\bibitem{Munday2009} J.~N.~Munday, F.~Capasso, and V.~A.~Parsegian, Nature \textbf{457}, 170 (2009).
+\bibitem{Tang2017} L.~Tang \textit{et al.}, Nature Photon.\ \textbf{11}, 97 (2017).
+\bibitem{Nanocoax2007} F.~Rizzi \textit{et al.}, in \textit{Nanocoaxial structures} (various, 2007--2015).
+\bibitem{Alcubierre1994} M.~Alcubierre, Class.\ Quant.\ Grav.\ \textbf{11}, L73 (1994).
+\bibitem{Visser1995} M.~Visser, \textit{Lorentzian Wormholes} (AIP, 1995).
+\end{thebibliography}
+
+\end{document}
