@@ -1,0 +1,254 @@
+% Circuit QED experimental proposal
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Lamb Shift Dependence on Resonator Mode Structure:\\
+$\lambda/4$ versus $\lambda/2$ in Circuit QED}
+
+\author{Wright Brothers Research Program}
+\affiliation{Independent Research, 2026}
+
+\date{\today}
+
+\begin{abstract}
+We propose a direct comparison of the Lamb shift experienced by
+a transmon qubit coupled to a $\lambda/4$ (quarter-wave) versus
+a $\lambda/2$ (half-wave) superconducting coplanar or coaxial
+resonator.  The $\lambda/2$ resonator supports all harmonics
+($f, 2f, 3f, \ldots$), while the $\lambda/4$ supports only odd
+harmonics ($f, 3f, 5f, \ldots$).  The vacuum fluctuations of the
+``missing'' even modes contribute to the qubit Lamb shift in the
+$\lambda/2$ case but not in the $\lambda/4$ case.  We compute the
+expected difference $\Delta(\delta f)\sim 1$\,MHz for typical
+circuit QED parameters and show it is well above the measurement
+floor ($\sim 1$\,Hz with standard techniques).  This measurement
+provides a direct quantification of multi-mode vacuum fluctuation
+contributions to qubit frequency, relevant to understanding
+frequency stability and residual shifts in multi-mode quantum
+processors.  No new hardware is required: both resonator types
+and transmon qubits are standard components in superconducting
+circuit laboratories.
+\end{abstract}
+
+\maketitle
+
+%===================================================================
+\section{Motivation}
+%===================================================================
+
+Superconducting transmon qubits are routinely coupled to
+microwave resonators in the dispersive
+regime~\cite{Blais2004,Koch2007}.  The qubit frequency acquires
+a shift from virtual photon exchange with each resonator mode
+(the Lamb shift):
+\begin{equation}\label{eq:lamb}
+  \delta f = \sum_n \frac{g_n^2}{f_q - f_n},
+\end{equation}
+where $g_n$ is the coupling to mode $n$, $f_q$ the bare qubit
+frequency, and $f_n$ the $n$-th resonator mode
+frequency~\cite{Schuster2007,Gambetta2006}.
+
+In multi-mode environments---a regime of growing importance for
+quantum processors with bus resonators, multiplexed readout, and
+3D cavities~\cite{Paik2011,Reagor2016}---the sum in
+Eq.~\eqref{eq:lamb} extends over many modes, and higher modes
+make non-negligible contributions.  Accurately predicting and
+controlling these multi-mode shifts is essential for qubit
+frequency targeting and cross-talk minimization.
+
+Despite this practical importance, \textbf{no experiment has
+directly compared the Lamb shift in resonators with different
+mode structures}.  We propose the simplest such comparison:
+$\lambda/4$ versus $\lambda/2$.
+
+%===================================================================
+\section{Mode Structure}
+%===================================================================
+
+A $\lambda/2$ resonator (both ends shorted, or both open) supports
+all integer harmonics:
+\begin{equation}
+  f_n^{(\lambda/2)} = n\,f_0,\quad n=1,2,3,4,\ldots
+\end{equation}
+A $\lambda/4$ resonator (one end shorted, one end open) supports
+only odd harmonics:
+\begin{equation}
+  f_n^{(\lambda/4)} = (2n{-}1)\,f_0,\quad n=1,2,3,\ldots
+\end{equation}
+Both have the same fundamental frequency $f_0$ if the $\lambda/4$
+resonator is half the physical length of the $\lambda/2$ resonator
+(accounting for the factor of 2 in the standing-wave condition).
+
+The two resonators share all odd-harmonic modes; they differ only
+in the presence (absence) of even harmonics in the $\lambda/2$
+($\lambda/4$) case.
+
+%===================================================================
+\section{Predicted Lamb Shift Difference}
+%===================================================================
+
+The Lamb shift difference between the two configurations isolates
+the even-mode vacuum contribution:
+\begin{equation}\label{eq:diff}
+  \Delta(\delta f) = \delta f^{(\lambda/2)} - \delta f^{(\lambda/4)}
+  = \sum_{n\;\mathrm{even}} \frac{g_n^2}{f_q - f_n}.
+\end{equation}
+
+For typical circuit QED parameters ($f_0 = 6\;\mathrm{GHz}$,
+$f_q = 5\;\mathrm{GHz}$, $g/2\pi = 100\;\mathrm{MHz}$), we
+estimate the individual even-mode contributions (Table~\ref{tab:modes}).
+
+\begin{table}[h]
+\caption{Even-mode Lamb shift contributions
+for $f_0=6\;\mathrm{GHz}$, $f_q=5\;\mathrm{GHz}$,
+$g_n\approx g_0\sqrt{f_0/f_n}$.}
+\label{tab:modes}
+\begin{ruledtabular}
+\begin{tabular}{cccc}
+$n$ & $f_n$ (GHz) & $g_n/2\pi$ (MHz) & $g_n^2/(f_q{-}f_n)$ (kHz) \\
+\hline
+2 & 12 & 71 & $-714$ \\
+4 & 24 & 50 & $-132$ \\
+6 & 36 & 41 & $-54$ \\
+8 & 48 & 35 & $-29$ \\
+\hline
+\multicolumn{3}{l}{Total $\Delta(\delta f)$} & $\approx -930$\,kHz \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The predicted difference $|\Delta(\delta f)|\approx 930\;\mathrm{kHz}
+\approx 1\;\mathrm{MHz}$ is large compared to the spectroscopic
+resolution achievable with Ramsey or echo techniques
+($\sim 1\;\mathrm{Hz}$ with one hour of
+averaging~\cite{Sank2016}).  The signal-to-noise ratio exceeds
+$10^5$.
+
+%===================================================================
+\section{Experimental Protocol}
+%===================================================================
+
+\begin{enumerate}
+\item \textbf{Sample preparation.}  Fabricate (or select from
+existing stock) a $\lambda/2$ and a $\lambda/4$ superconducting
+resonator with matched fundamental frequencies.  Standard
+aluminum coplanar waveguide or coaxial stub resonators suffice.
+Couple each to a transmon qubit with $g/2\pi\sim 100\;\mathrm{MHz}$.
+
+\item \textbf{Cooldown.}  Mount in a dilution refrigerator at
+$T\lesssim 20\;\mathrm{mK}$.
+
+\item \textbf{Characterization.}  Measure $S_{21}(f)$ to verify
+mode frequencies:
+\begin{itemize}
+\item $\lambda/2$: peaks at $f_0, 2f_0, 3f_0, \ldots$
+\item $\lambda/4$: peaks at $f_0, 3f_0, 5f_0, \ldots$ (even modes absent)
+\end{itemize}
+
+\item \textbf{Qubit spectroscopy.}  Measure $f_q$ in each
+configuration via two-tone spectroscopy or Ramsey interferometry.
+
+\item \textbf{Comparison.}  Extract
+$\Delta(\delta f) = f_q^{(\lambda/2)} - f_q^{(\lambda/4)}$
+and compare with the theoretical prediction from
+Eq.~\eqref{eq:diff}.
+\end{enumerate}
+
+If the same physical qubit can be coupled to both resonators
+sequentially (e.g., via a tunable coupler or by physically
+remounting), systematic errors from qubit-to-qubit variation
+are eliminated.
+
+%===================================================================
+\section{What This Measurement Tests}
+%===================================================================
+
+\subsection{Multi-mode vacuum contribution}
+
+The measurement directly quantifies how much of the qubit's Lamb
+shift comes from higher (even) harmonics.  This is relevant for:
+\begin{itemize}
+\item \textbf{Frequency targeting}: predicting the dressed qubit
+frequency in multi-mode environments.
+\item \textbf{Cross-talk}: understanding mode-mediated interactions
+between qubits in bus architectures.
+\item \textbf{Decoherence}: multi-mode Purcell decay rates depend
+on the same couplings $g_n$ that produce the Lamb shift.
+\end{itemize}
+
+\subsection{Completeness of the mode-sum description}
+
+Standard circuit QED predicts Eq.~\eqref{eq:diff} as a simple sum
+of individual even-mode contributions.  If the measured
+$\Delta(\delta f)$ deviates from this prediction, it would indicate
+a collective or non-perturbative vacuum effect beyond the
+single-mode-sum picture.
+
+Such a deviation is not expected by standard theory, but
+\emph{has never been explicitly tested}.  This measurement provides
+the first direct comparison of vacuum fluctuation effects in
+resonators with structurally different mode spectra.
+
+%===================================================================
+\section{Relation to Prior Work}
+%===================================================================
+
+Lamb shifts and dispersive shifts in circuit QED are well
+studied~\cite{Schuster2007,Gambetta2006,Paik2011}, and
+multi-mode effects have been analyzed
+theoretically~\cite{Nigg2012,Solgun2014}.  Measurements in
+3D cavities~\cite{Reagor2016} and multi-mode
+environments~\cite{McKay2015} have characterized individual mode
+couplings.
+
+The novelty of the present proposal is the \emph{controlled
+comparison} between two resonators differing only in mode
+parity---one containing all harmonics, the other only odd
+harmonics---providing a clean test of the vacuum mode sum.
+
+We note that the mode structure of a $\lambda/4$ resonator
+(odd harmonics only: $1, 3, 5, \ldots$) is equivalent to the
+mode structure of a cavity with Dirichlet--Neumann (DN) mixed
+boundary conditions, whose vacuum energy has the opposite sign
+to the standard Dirichlet--Dirichlet (DD) case---a result
+first obtained by Boyer~\cite{Boyer1974}.  The present
+measurement can thus be viewed as a circuit QED realization
+of Boyer's fifty-year-old prediction, probing whether the
+different mode-parity structure leads to measurably different
+vacuum physics.
+
+%===================================================================
+\section{Conclusion}
+%===================================================================
+
+We propose comparing the Lamb shift of a transmon qubit in
+$\lambda/4$ and $\lambda/2$ superconducting resonators.  The
+predicted difference ($\sim 1$\,MHz) is five orders of magnitude
+above the measurement floor.  The experiment requires no new
+hardware and can be performed with standard components available
+in any superconducting circuit laboratory.  A positive result
+validates the multi-mode vacuum contribution to qubit frequency;
+any deviation from the single-mode-sum prediction would reveal
+collective vacuum effects not captured by standard perturbation
+theory.
+
+\begin{thebibliography}{99}
+\bibitem{Blais2004} A.~Blais, R.-S.~Huang, A.~Wallraff, S.~M.~Girvin, and R.~J.~Schoelkopf, Phys.\ Rev.\ A \textbf{69}, 062320 (2004).
+\bibitem{Koch2007} J.~Koch \textit{et al.}, Phys.\ Rev.\ A \textbf{76}, 042319 (2007).
+\bibitem{Schuster2007} D.~I.~Schuster \textit{et al.}, Nature \textbf{445}, 515 (2007).
+\bibitem{Gambetta2006} J.~Gambetta \textit{et al.}, Phys.\ Rev.\ A \textbf{74}, 042318 (2006).
+\bibitem{Paik2011} H.~Paik \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{107}, 240501 (2011).
+\bibitem{Reagor2016} M.~Reagor \textit{et al.}, Phys.\ Rev.\ B \textbf{94}, 014506 (2016).
+\bibitem{Sank2016} D.~Sank \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{117}, 190503 (2016).
+\bibitem{Nigg2012} S.~E.~Nigg \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{108}, 240502 (2012).
+\bibitem{Solgun2014} F.~Solgun, D.~W.~Abraham, and D.~P.~DiVincenzo, Phys.\ Rev.\ B \textbf{90}, 134504 (2014).
+\bibitem{McKay2015} D.~C.~McKay \textit{et al.}, Phys.\ Rev.\ Applied \textbf{8}, 034004 (2017).
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\end{thebibliography}
+
+\end{document}
