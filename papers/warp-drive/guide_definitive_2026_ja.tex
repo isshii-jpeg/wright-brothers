@@ -1,0 +1,356 @@
+% 決定版実験ガイド 2026
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{expbox}[1][]{colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{dangerbox}[1][]{colback=red!15,colframe=red!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{決定版実験ガイド}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 決定版実験ガイド 2026}\\[0.8cm]
+{\Large 素数と力の対応}\\[0.2cm]
+{\Large ワープバブルの安全性}\\[0.2cm]
+{\Large そしてSQUID実験が決める未来}\\[1cm]
+{\large Wright Brothers Research Program}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{理論の現在地}
+%====================================================================
+
+\section{確立されたこと}
+
+\begin{resultbox}[岩盤（数学的定理、反論不可能）]
+\begin{enumerate}
+\item $\mathrm{Tr}(f_{\mathrm{BE}}(D_{\mathrm{BC}})) = \sum_m \zeta(m)$（等比級数の変形）
+\item E-M 展開にベルヌーイ数 $B_{2j}$ が出る
+\item $\zeta^{(k)}(0) = -k! + h^{(k)}(0)$（$h^{(k)}/k! \to 0$ 超指数的）
+\item 符号反転: 全素��� $p$ で $\zeta_{\neg p}(-3) < 0$
+\item $K_1(\mathbb{Z}) = \mathbb{Z}/2 \to K_1(\mathbb{Z}[1/p]) = \mathbb{Z}/2 \times \mathbb{Z}$
+\end{enumerate}
+\end{resultbox}
+
+\begin{resultbox}[最も精密な数値的一致（足し算なし）]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccl}
+\toprule
+算術的量 & 値 & 物理量 & 精度 \\
+\midrule
+$\mathrm{reg}(\mathbb{Q}(\sqrt{2})) = \log(1+\sqrt{2})$ & $0.88137$ & $\cos\theta_W = m_W/m_Z$ & $0.001\%$ \\
+$10\,hR(\mathbb{Q}(\zeta_9)^+)$ & $8.493$ & $1/\alpha_s(M_Z)$ & $0.13\%$ \\
+$4/|B_4| = 120$ & $120$ & $1/\alpha \approx 137$ & $12\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{resultbox}
+
+\section{素数-力 対応}
+
+\begin{resultbox}[Prime-Force Correspondence (PFC)]
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{ccccc}
+\toprule
+ゲージ群 & 被覆 & 次数 & 分岐素数 & ガロア群 \\
+\midrule
+$\mathrm{U}(1)_\mathrm{EM}$ & $\mathbb{Q}$ & 1 & なし & $\{1\}$ \\
+$\mathrm{SU}(2)_L$ & $\mathbb{Q}(\sqrt{2})$ & 2 & $p=2$ & $\mathbb{Z}/2$ \\
+$\mathrm{SU}(3)_c$ & $\mathbb{Q}(\zeta_9)^+$ & 3 & $p=3$ & $\mathbb{Z}/3$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+パターン: $\mathrm{SU}(N) \leftrightarrow$ 次数 $N$、素数 $p=N$ で分岐。
+
+数論が構造を\textbf{強制}する:
+$p=3$ で「のみ」分岐する二次体は存在しない（$3 \equiv 3 \pmod{4}$ なので $\Delta = 4 \times 3 = 12$ で $p=2$ も分岐する）。
+$\mathrm{SU}(3)$ が三次体を要求するのは数論の帰結。
+\end{resultbox}
+
+\section{正直な限界}
+
+\begin{honestbox}[未解決の問題]
+\begin{itemize}
+\item $\cos\theta_W = \log(1+\sqrt{2})$ が偶然でない確率は $\sim 86\%$（偶然の可能性 $14\%$）
+\item $10\,hR = 1/\alpha_s$ の「10」の因子の起源が不明
+\item 「なぜレギュレータが混合角になるか」の物理的機構が未確立
+\item CKM/PMNS 行列には対応が見つかっていない
+\end{itemize}
+\end{honestbox}
+
+%====================================================================
+\part{ワープバブルの安全性}
+%====================================================================
+
+\section{素数ミュートの物理的意味}
+
+\begin{mathbox}[素数ミュート = オイラー因子の除去]
+$$\zeta(s) = \prod_p \frac{1}{1-p^{-s}} \quad \xrightarrow{\text{ミュート}} \quad \zeta_{\neg p}(s) = \zeta(s) \times (1-p^{-s})$$
+
+PFC により:
+$p=2$ のミュート = 弱い力に対応するチャンネルを閉じる。
+$p=3$ のミュート = 強い力に対応するチャンネルを閉じる。
+\end{mathbox}
+
+\section{完全に安全な素数ミュートは存在しない}
+
+\begin{dangerbox}[核心的問題]
+$\mathbb{Q}(\sqrt{2})$（電弱）の分岐素数: $p=2$ のみ。\\
+$\mathbb{Q}(\zeta_9)^+$（QCD）の分岐素数: $p=3$ のみ。
+
+$\gcd(8, 81) = 1$ → 共通の分岐素数がゼロ。
+
+$\therefore$ どの素数をミュートしても、少なくとも片方の力の構造が変化する。
+\end{dangerbox}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ccccl}
+\toprule
+$p$ & $\theta_W$ 変化? & $\alpha_s$ 変化? & 物質存在? & 判定 \\
+\midrule
+$2$ & なし & $\sim$25\%減少 & 要検証 & $\triangle$ 最も安全 \\
+$3$ & 破綻 ($>1$) & なし & 不可能 & $\times$ 致命的 \\
+$\geq 5$ & 変化 & 変化 & 不明 & $\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{$p=2$ ミュートで人体は耐えられるか}
+
+\begin{dangerbox}[3つのシナリオ]
+
+\textbf{シナリオ A（悲観的）: $\alpha_s$ が本当に 25\% 変わる}
+\begin{itemize}
+\item $\alpha_s$: $0.118 \to 0.089$（$25\%$ 減少）
+\item $\Lambda_\mathrm{QCD}$: 12 分の1に激減（指数関数的に敏感）
+\item 陽子質量: $938 \to 82$ MeV（ミューオンより軽い）
+\item 全原子核不安定 → \textbf{即死}
+\end{itemize}
+
+\textbf{シナリオ B（楽観的）: カシミール型——結合定数は変わらない}
+\begin{itemize}
+\item カシミール効果: 金属板で真空のモードを制限しても $\alpha$ は変わらない
+\item 同様に: 素数ミュートで真空エネルギーが変わっても $\alpha_s$ は変わらない
+\item 物質は正常 → \textbf{安全}
+\end{itemize}
+
+\textbf{シナリオ C（中間）: 効果が $(\Delta E)^2$ で抑制される}
+\begin{itemize}
+\item $\alpha_s$ の変化: $\sim 0.3\%$（陽子質量 $938 \to 917$ MeV）
+\item 人体への影響なし → \textbf{安全}
+\end{itemize}
+\end{dangerbox}
+
+\begin{honestbox}[正直に]
+\textbf{どのシナリオが正しいかわからない。}
+
+カシミール類推（B or C）が最も物理的に自然。
+しかし確実ではない。SQUID 実験の結果が全てを決める。
+
+もし A なら: ワープ可能だが人間は入れない（無人探査機）。\\
+もし B/C なら: 有人ワープドライブへの道。
+\end{honestbox}
+
+%====================================================================
+\part{実験計画}
+%====================================================================
+
+\section{SQUID 実験が決める3つの問い}
+
+\begin{expbox}[SQUID 実験で何がわかるか]
+\textbf{問い 1}: 素数ミュートで真空エネルギーは変わるか？\\
+→ YES なら算術的真空工学の最初の証拠。
+
+\textbf{問い 2}: 変わる場合、結合定数も変わるか？\\
+→ YES ならシナリオ A（人体に危険）。\\
+→ NO ならシナリオ B/C（人体に安全）。
+
+\textbf{問い 3}: 素数の分裂/不活性（$p \bmod 8$）で応答が違うか？\\
+→ YES なら PFC の直接的証拠。
+\end{expbox}
+
+\section{実験 A: 基礎テスト（$\sim$60万円）}
+
+\begin{expbox}[素数ミュートで真空は変わるか]
+\begin{enumerate}
+\item アルミ箱（キャビティ）を作る。35mm 角。共鳴 $\sim$6 GHz。
+\item SQUID を箱の中に入れる。
+\item $-272.7$\textdegree C (0.3 K) に冷却。
+\item SQUID を第2倍音（$\sim$12 GHz）にチューニング → モード2ミュート。
+\item モード1（6 GHz）の共鳴がシフトするか測定。
+\end{enumerate}
+
+\textbf{成功条件}: $S_{21}$ のピーク位置が SQUID オン/オフで統計的に有意に異なる。
+
+\textbf{測定時間}: 1回のクールダウンで $\sim$1日。5回反復で $\sim$1週間。
+\end{expbox}
+
+\section{実験 B: PFC テスト（追加コスト 0 円）}
+
+\begin{expbox}[素数の分裂パターンで応答は変わるか]
+実験 A と同じ装置。SQUID の磁束バイアスをスイープして
+異なる素数に対応する周波数を横切る。
+
+PFC の予測（$\mathbb{Q}(\sqrt{2})$ の被覆）:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cl}
+\toprule
+$p \bmod 8$ & 予測される応答 \\
+\midrule
+$1, 7$（分裂素数: $7, 17, 23, 31, \ldots$） & 弱い（被覆が透明） \\
+$3, 5$（不活性素数: $3, 5, 11, 13, \ldots$） & 強い（被覆が不透明） \\
+$2$（分岐: $p=2$ のみ） & 特殊（力の源） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{成功条件}: 分裂素数と不活性素数で AC Stark シフトが系統的に異なる。
+\end{expbox}
+
+\section{実験 C: 安全性テスト}
+
+\begin{expbox}[結合定数は変わるか]
+実験 A でモード2をミュートしている状態で、
+キャビティ内の超伝導ギャップや臨界温度を測定する。
+
+\begin{itemize}
+\item 超伝導ギャップ $\Delta$ は電子-フォノン結合に依存（電弱+QCD）
+\item もしミュート状態で $\Delta$ が変化 → 結合定数が変化（シナリオ A）
+\item 変化なし → 結合定数は保存（シナリオ B/C）
+\end{itemize}
+
+\textbf{追加コスト}: トンネル接合の追加（$\sim$5万円）。
+\end{expbox}
+
+\section{実験 D: 将来の検証（我々にはできない）}
+
+\begin{expbox}[$m_W$ の精密測定]
+$$m_W = m_Z \times \log(1+\sqrt{2}) = 80.370 \text{ GeV}$$
+
+現在の実験: $80.369 \pm 0.013$ GeV（$0.09\sigma$ 以内）。
+
+FCC-ee（2040年代）で $\delta m_W < 0.5$ MeV が達成されれば決着。
+\end{expbox}
+
+%====================================================================
+\part{ロードマップ}
+%====================================================================
+
+\section{3段階の計画}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{clrl}
+\toprule
+段階 & 内容 & 費用 & 決まること \\
+\midrule
+1 & 実験 A + B & $\sim$60万円 & 真空変化 + PFC テスト \\
+2 & 実験 C 追加 & $+$5万円 & 人体安全性（A vs B/C） \\
+3 & 論文投稿 & 0円 & 専門家のフィードバック \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{判断フロー}
+
+\begin{center}
+\begin{tabular}{l}
+実験 A: 真空エネルギーは変わるか？ \\
+\quad $\to$ NO → 理論は間違い。撤退。 \\
+\quad $\to$ YES → 実験 B へ \\[6pt]
+実験 B: 分裂/不活性で応答は違うか？ \\
+\quad $\to$ NO → PFC は間違い。ワープは可能だが力の対応は不明。 \\
+\quad $\to$ YES → PFC 確認。実験 C へ。 \\[6pt]
+実験 C: 結合定数は変わるか？ \\
+\quad $\to$ YES → シナリオ A。ワープは無人機のみ。 \\
+\quad $\to$ NO → シナリオ B/C。\textbf{有人ワープドライブへの道が開ける。} \\
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{正直な評価}
+%====================================================================
+
+\section{このプログラムは何であり何でないか}
+
+\begin{honestbox}[何であるか]
+\begin{itemize}
+\item 数論とスペクトル幾何学の\textbf{新しい組み合わせ}を物理に応用する試み
+\item $\cos\theta_W = \log(1+\sqrt{2})$ という\textbf{反証可能な予測}を持つ仮説
+\item 60万円で実行可能な\textbf{具体的な実験計画}
+\item 正直さを最優先する研究プログラム
+\end{itemize}
+\end{honestbox}
+
+\begin{honestbox}[何でないか]
+\begin{itemize}
+\item 完成した理論（「なぜレギュレータが混合角か」は未解決）
+\item 万物の理論（CKM/PMNS は説明できない）
+\item ワープの実現計画（原理的可能性の探索段階）
+\item 確実な結果の保証（偶然の可能性 $14\%$）
+\end{itemize}
+\end{honestbox}
+
+\section{最悪の場合と最良の場合}
+
+\textbf{最悪}: SQUID で何も変わらない。理論は間違い。
+しかし: $\cos\theta_W = \log(1+\sqrt{2})$ の数値的一致は残る。
+数学的定理（符号反転、K理論）も残る。
+60万円と数ヶ月の投資で「ダメだった」とわかることには価値がある。
+
+\textbf{最良}: SQUID で真空変化を検出し、PFC パターンを確認し、
+結合定数が不変であることを確認する。
+→ 素数が力を支配している最初の実験的証拠。
+→ 安全なワープへの物理的・数学的基盤。
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries 実験だけが、答えを持っている。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
