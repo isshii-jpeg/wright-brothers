@@ -67,15 +67,57 @@ No natural material satisfies this, and metamaterial approaches
 fail due to Kramers--Kronig constraints on
 broadband magnetic response~\cite{Rosa2008}.
 
-Existing demonstrations of Casimir
-``repulsion''~\cite{Munday2009,Tang2017} use different mechanisms:
-Munday \textit{et al.}\ employed dielectric contrast in a fluid;
-Tang \textit{et al.}\ used geometric interplay of T-shaped
-nanostructures.  In neither case is the vacuum mode structure
-altered---the underlying mode sum remains the full
-$\sum_{n=1}^{\infty}n^{-s}$, and no modes are selectively removed.
-These experiments demonstrate force-direction control, not vacuum
-energy sign reversal.
+Several experiments have claimed ``Casimir repulsion,'' but none
+realizes Boyer's DN sign reversal (Table~\ref{tab:prior}).
+
+\begin{table}[b]
+\caption{Prior ``Casimir repulsion'' experiments and why none
+constitutes a DN vacuum energy sign reversal.}
+\label{tab:prior}
+\begin{ruledtabular}
+\begin{tabular}{p{1.7cm}p{2.5cm}p{3.5cm}}
+Experiment & Mechanism & Why not DN repulsion \\
+\hline
+Munday \textit{et al.}\ (2009, \textit{Nature})~\cite{Munday2009}
+& Dielectric contrast: gold--bromobenzene--silica.
+$\varepsilon_1>\varepsilon_\mathrm{fluid}>\varepsilon_2$ (DLP condition).
+& Mode sum unchanged ($\sum n^{-s}$, all modes present).
+Repulsion from material contrast, not boundary-condition
+change. No modes selectively removed. \\
+Tang \textit{et al.}\ (2017, \textit{Nature Photon.})~\cite{Tang2017}
+& Geometric interplay: T-shaped Si nanostructures
+slide past each other. Net force vector changes sign
+at certain lateral displacements.
+& All pairwise Casimir interactions remain \emph{attractive}.
+``Repulsion'' is the vector sum of multiple attractions
+in different directions. Mode sum unchanged.
+No modes removed. \\
+Boyer sphere (1968)~\cite{Boyer1968}
+& Conducting spherical shell.
+Casimir self-energy is positive (outward pressure).
+& Geometry-dependent sign (sphere vs.\ plates), but mode
+sum is the full spectrum of the sphere.
+No prime muting, no DN boundary condition. \\
+Metamaterial proposals~\cite{Rosa2008,Leonhardt2007}
+& Left-handed or chiral metamaterials
+engineered to approximate PMC response.
+& Kramers--Kronig: narrowband $\mu(\omega)$ resonances
+are smoothed out at imaginary frequencies.
+Casimir force integral sees no selectivity.
+Broadband PMC is physically impossible for passive media. \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+In every case, the underlying vacuum mode structure is
+$\sum_{n=1}^{\infty}n^{-s}$: no modes are selectively removed,
+and the Euler product remains intact.  These experiments
+demonstrate force-direction control or material-contrast effects,
+\emph{not} vacuum energy sign reversal via mode selection.
+
+\textbf{The DN Casimir force---where the mode sum is genuinely
+truncated to $\sum_{n\;\mathrm{odd}}n^{-s}=\zeta_{\neg 2}(s)$---has
+never been experimentally realized.}
 
 %===================================================================
 \section{Number-Theoretic Reinterpretation}
@@ -320,6 +362,8 @@ field theory.
 \bibitem{Munday2009} J.~N.~Munday, F.~Capasso, and V.~A.~Parsegian, Nature \textbf{457}, 170 (2009).
 \bibitem{Tang2017} L.~Tang \textit{et al.}, Nature Photon.\ \textbf{11}, 97 (2017).
 \bibitem{Nanocoax2007} F.~Rizzi \textit{et al.}, in \textit{Nanocoaxial structures} (various, 2007--2015).
+\bibitem{Boyer1968} T.~H.~Boyer, Phys.\ Rev.\ \textbf{174}, 1764 (1968).
+\bibitem{Leonhardt2007} U.~Leonhardt and T.~G.~Philbin, New J.\ Phys.\ \textbf{9}, 254 (2007).
 \bibitem{Alcubierre1994} M.~Alcubierre, Class.\ Quant.\ Grav.\ \textbf{11}, L73 (1994).
 \bibitem{Visser1995} M.~Visser, \textit{Lorentzian Wormholes} (AIP, 1995).
 \end{thebibliography}
