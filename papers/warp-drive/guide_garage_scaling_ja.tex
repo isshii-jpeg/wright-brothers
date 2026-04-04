@@ -1,0 +1,584 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{カシミール斥力を「肉眼スケール」で視るための4つの道\\
+\large ガレージ実験者のための増幅戦略ガイド}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Boyer (1974) が予言した DN 境界条件下のカシミール斥力は，
+標準的な設定では $1/a^4$ スケーリングのため距離 1\,mm で
+$10^{-19}$\,N 程度と，およそ肉眼観察の望めない領域にある．
+本ガイドでは，この「絶望的な壁」を回避して効果を増幅する
+4つの独立な戦略——(A) 共鳴 $Q^2$ 増幅による動的カシミール効果，
+(B) フォノン真空アナログ実験，(C) パラメトリック増幅とスクイージング，
+そして (D) これら全てを踏まえた現実的ガレージ最小構成——を詳述する．
+各戦略について物理原理，必要機材，費用，期待される信号強度，
+そして既知の落とし穴を明示する．最終節では週末に着手可能な
+総額 5 万円の音響アナログ実験の組立手順を，配線図・
+測定プロトコルつきで提示する．
+\end{abstract}
+
+\tableofcontents
+
+\section{はじめに：なぜ普通にやってはいけないのか}
+
+本題に入る前に，「なぜ単純な拡大ではダメなのか」を数字で
+叩き込んでおく．これを理解せずに実験を始めると，熱揺らぎ
+と地面振動の海で半年を溶かすことになる．
+
+\subsection{$1/a^4$ の壁}
+
+カシミール圧（DD でも DN でも絶対値のオーダーは同じ）：
+\begin{equation}
+  |P_{\rm Cas}| \sim \frac{\hbar c}{a^4}
+\end{equation}
+
+$1\;\mathrm{cm}^2$ の板にかかる力を距離ごとに計算する：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+距離 $a$ & 圧力 & 1\,cm$^2$ にかかる力 \\
+\midrule
+10\,nm & $10^5$\,Pa（約 1 気圧）& 10\,N（肉眼級）\\
+100\,nm & 10\,Pa & 1\,mN \\
+1\,$\mu$m & $10^{-3}$\,Pa & 100\,nN \\
+10\,$\mu$m & $10^{-7}$\,Pa & 10\,pN \\
+1\,mm & $10^{-15}$\,Pa & $10^{-19}$\,N \\
+1\,cm & $10^{-19}$\,Pa & $10^{-23}$\,N \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+1\,mm で既に陽子 1 個の重力以下になる．これは仮説を
+どう捻っても動かない（標準 QED の範囲内では）．
+
+\subsection{ノイズの海}
+
+ガレージ環境の競合ノイズ：
+
+\begin{itemize}
+\item 熱ゆらぎ（300\,K, 1\,cm$^2$): $\sqrt{k_B T}\sim$ 4\,pN/$\sqrt{\mathrm{Hz}}$
+\item 地面振動: $10^{-8}$\,m/$\sqrt{\mathrm{Hz}}$（交通のある住宅地）
+\item 空気分子衝突: 1 気圧で $\sim 10^3$\,Pa の圧力揺らぎ
+\item 音響結合（話し声 60\,dB）: $0.02$\,Pa
+\end{itemize}
+
+$10^{-19}$\,N を見るためには，上記全てを 10 桁以上抑える必要がある．
+mm 距離の DN 斥力を「素直に」見るのは物理的に不可能と断言してよい．
+
+\subsection{では何をすればよいか}
+
+結論：\textbf{距離を伸ばす方向の拡大は諦めて，別の軸で増幅する}．
+本ガイドが紹介する 4 つの道は全てこの発想に立つ．
+
+\begin{tcolorbox}[colback=yellow!10,colframe=orange!50!black,title=4つの戦略]
+\begin{itemize}
+\item[\textbf{軸 A}] 共鳴 $Q^2$ 増幅（動的カシミール効果）
+\item[\textbf{軸 B}] 音響アナログ実験（フォノン真空）
+\item[\textbf{軸 C}] パラメトリック増幅・スクイージング
+\item[\textbf{軸 D}] ガレージ最小構成（軸 B ベース，総額 5 万円）
+\end{itemize}
+\end{tcolorbox}
+
+\newpage
+\section{軸 A：共鳴 $Q^2$ 増幅と動的カシミール効果}
+
+\subsection{物理原理}
+
+静的な DN カシミール圧は $1/a^4$ でスケールし，
+これは動かせない．しかし\textbf{境界を時間的に揺らす}
+と事情が一変する．Moore (1970), Fulling--Davies (1976) が
+理論予言し，Wilson et al.\ (2011, Nature) が SQUID 共振器で
+実証した「動的カシミール効果（Dynamical Casimir Effect, DCE）」
+である．
+
+動く鏡は真空モードの境界条件を時間的に変調する．変調周波数
+$\omega_d$ が共振器の共鳴 $\omega_r$ の 2 倍に等しい
+（パラメトリック共鳴条件 $\omega_d = 2\omega_r$）とき，
+真空から\textbf{実光子}が放出される．放出光子数は：
+\begin{equation}
+  \langle n \rangle \sim \sinh^2\left(\frac{v}{c} \omega_r t\cdot Q\right)
+\end{equation}
+ここで $v$ は境界の振動速度，$Q$ は共振器のQ値．Q が十分
+高ければ指数的に増幅され，パワースケールは：
+\begin{equation}
+  P_{\rm DCE} \sim \hbar \omega_r \cdot \left(\frac{v}{c}\right)^2 \cdot Q^2 \cdot \omega_r
+\end{equation}
+
+$\boxed{Q^2$ が効く$}$——これが軸 A の核心．
+
+\subsection{DN 構造を組み込む}
+
+通常の DCE 実験は DD 共振器（両端短絡）で行われる．
+我々の仮説（Euler 積の $p=2$ 項ミュート）を検証するには：
+
+\begin{enumerate}
+\item DD 共振器（$\lambda/2$, 全倍音）での DCE スペクトル $S_{\lambda/2}(\omega)$ を測定
+\item DN 共振器（$\lambda/4$, 奇数倍音のみ）での DCE スペクトル $S_{\lambda/4}(\omega)$ を測定
+\item 差分 $\Delta S = S_{\lambda/2} - S_{\lambda/4}$ が偶数倍音成分の真空寄与を直接与える
+\end{enumerate}
+
+標準 QED の予測：$\Delta S$ は Eq.~(\ref{eq:lamb_diff})
+に従う単純な和．もし位相的保護があるなら，ここから有意に
+逸脱する．
+
+\subsection{実装選択肢}
+
+\subsubsection{超伝導マイクロ波共振器}
+
+\begin{itemize}
+\item $Q \sim 10^6 \sim 10^7$（アルミCPW, 20\,mK）
+\item $\omega_r/2\pi \sim 5$--10\,GHz
+\item 変調機構：SQUID を端に埋め込み磁束で変調（Wilson 2011 と同じ）
+\item 信号：放出マイクロ波光子を HEMT アンプで検出
+\item \textbf{必要設備}：希釈冷凍機，マイクロ波測定系，SQUID 作製
+\item 総額：数千万円〜数億円．ガレージ不可．
+\end{itemize}
+
+これは軸 A の「本命」だが，本ガイドのスコープ（ガレージ）
+からは外れる．OtaNano または Argonne CNM で共同研究者を
+見つけるルートになる（\texttt{guide\_facility\_access\_ja.tex} 参照）．
+
+\subsubsection{光学 Fabry--Perot キャビティ}
+
+\begin{itemize}
+\item $Q \sim 10^{10}$（超低損失ミラー）
+\item $\omega_r/2\pi \sim 10^{14}$\,Hz
+\item 変調：ピエゾでミラーを振動（機械的限界 $v/c \lesssim 10^{-9}$）
+\item $Q^2 \cdot (v/c)^2 \sim 10^{20} \cdot 10^{-18} = 100$ → ようやく検出可能
+\item \textbf{必要設備}：超低損失ミラー（1 枚 50 万円×2），
+真空槽，ピエゾ制御，ホモダイン検出
+\item 総額：500 万〜2000 万円．「高機能な物置」レベル．
+\end{itemize}
+
+個人で手が出る上限付近．ミラー予算が最大の壁．
+
+\subsubsection{バルク音響共振器（BAW）}
+
+\begin{itemize}
+\item $Q \sim 10^6$ @室温，$10^9$ @ 4\,K（石英，HBAR）
+\item $\omega_r/2\pi \sim 10$\,MHz--1\,GHz
+\item これはフォノン系なので厳密には軸 B に該当するが，
+$Q^2$ 増幅の観点では軸 A の枠でも扱える
+\item \textbf{必要設備}：水晶振動子，ピエゾ駆動回路，ロックイン
+\item 総額：10 万〜30 万円．\textbf{ガレージ可能}
+\end{itemize}
+
+\subsection{軸 A の期待値と落とし穴}
+
+\textbf{期待される信号}：BAW 路線で $Q=10^6$, 駆動振幅
+$10^{-9}$\,m, $\omega_r=100$\,MHz なら，DCE 由来の
+余剰散逸 $\sim 10^{-18}$\,W．これを熱雑音から分離するには
+ロックイン検出と長時間積算が必須．
+
+\textbf{落とし穴}：
+\begin{itemize}
+\item 駆動系自体からの機械的クロストーク（DCE の 10$^{6}$ 倍大）
+\item ピエゾの非線形性による倍音発生（偽信号源）
+\item Kramers--Kronig 制約：広帯域 PMC（完全磁気導体）近似は
+虚周波数で破綻する．本物の DN 境界を作るのは難しい
+\end{itemize}
+
+\newpage
+\section{軸 B：音響アナログ実験}
+
+\subsection{なぜアナログが意味を持つのか}
+
+本プロジェクトの中心仮説は「\textbf{Euler 積の $p=2$ 項をミュート
+すると真空エネルギーの符号が反転する}」という数論的主張である．
+これは電磁場固有の話ではない．\textbf{任意のモード構造を持つ
+スカラー場}について同じ主張が成立する．
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{重要な洞察}：Boyer (1974) の結果 $\zeta_{\neg 2}(-3) = -7/120$
+は電磁場のベクトル自由度を 2 倍して得られるが，本質は
+$\zeta$ 関数の Euler 因子切除という\textbf{純粋に数学的な操作}
+である．したがって音響フォノン場でも同じ符号反転が起こる．
+\end{tcolorbox}
+
+そこで\textbf{音響管の長さモードで $\lambda/2$ と $\lambda/4$
+を比較する}のが軸 B．電磁真空は触らないが，
+「Euler 積切除による符号反転」という本丸の主張を\textbf{常温・
+ガレージ・5 万円}で直接可視化できる．
+
+\subsection{セットアップ概要}
+
+\begin{itemize}
+\item \textbf{サンプル 1}（$\lambda/2$ アナログ）：両端開放の
+アルミ円管，長さ $L$
+\item \textbf{サンプル 2}（$\lambda/4$ アナログ）：片端閉，
+もう片端開放，長さ $L/2$
+\end{itemize}
+
+両者の基本モードは同じ $f_0 = c_s/(2L)$ ここで $c_s=343$\,m/s．
+$L=34.3$\,cm と取ると $f_0 = 500$\,Hz．
+
+モード構造：
+\begin{itemize}
+\item 両端開放（$\lambda/2$ 相当）: $f_n = n f_0$, $n=1,2,3,\ldots$ （全倍音）
+\item 片端閉（$\lambda/4$ 相当）: $f_n = (2n-1) f_0$, $n=1,2,3,\ldots$ （奇数倍音のみ）
+\end{itemize}
+
+これは電磁 $\lambda/4$ vs $\lambda/2$ 共振器のスペクトル構造と
+完全に同型．
+
+\subsection{Casimir アナログ信号}
+
+白色雑音で両管を駆動し，両管端面の機械的変位スペクトル
+（ピエゾフィルム or レーザー変位計で測定）を比較する．
+熱フォノン揺らぎによる「カシミール的放射圧」の差：
+\begin{equation}
+  \Delta F_{\rm ac} \propto k_B T \sum_{n\;\text{even}} \frac{1}{L}\left(\frac{n\pi}{L}\right)
+\end{equation}
+
+熱アナログのため $\hbar \to k_B T$，しかも $k_BT \gg \hbar\omega$
+の古典領域では揺らぎは大きい．室温で音波帯なら信号は
+$\mu$m オーダーの変位として現れる可能性がある——\textbf{これが
+「肉眼スケール」への最短ルート}．
+
+\subsection{軸 B の強みと限界}
+
+\textbf{強み}：
+\begin{itemize}
+\item 常温・常圧・ガレージで可能
+\item 熱揺らぎ自体を信号源にできる（欠点を利点化）
+\item $\zeta_{\neg 2}$ 予測を直接可視化
+\item 総額 5 万円以下
+\end{itemize}
+
+\textbf{限界・注意}：
+\begin{itemize}
+\item これは\textbf{電磁真空ではない}．論文化する際は
+「vacuum-fluctuation analog」として明示
+\item 厳密にはフォノンは相互作用するので自由場近似が必要
+\item 開放端は理想的 Neumann ではない（端補正 $\sim 0.6 r$）
+\end{itemize}
+
+軸 D で具体的な組立手順を示す．
+
+\newpage
+\section{軸 C：パラメトリック増幅とスクイージング}
+
+\subsection{原理}
+
+真空は 0 点揺らぎを持つが，二つの直交位相（$X$ と $P$）の
+揺らぎ積が Heisenberg 下限を満たす．パラメトリック過程
+（非線形媒質 or 時変境界）でこの揺らぎ分布を歪め，
+$X$ 方向の揺らぎを指数的に\textbf{減少}させ $P$ 方向を増大させる
+——これがスクイージング．
+
+カシミール斥力とどう繋がるか：\textbf{DN 境界による真空
+エネルギー符号反転は，スクイージングパラメータ
+$r$ の $X/P$ 非対称と同じ圏で捉えられる}．スクイージング強度を
+$\lambda/2$ 共振器と $\lambda/4$ 共振器で比較すれば，
+偶数モード抑制の効果がホモダイン検出で直接出る．
+
+\subsection{実装：光パラメトリック発振器（OPO）}
+
+閾値以下の OPO は広帯域スクイーズド真空を生成する．
+標準構成：
+\begin{itemize}
+\item ポンプレーザー（532\,nm, 100\,mW）
+\item 非線形結晶（PPKTP, 1\,cm）
+\item リング共振器（$Q\sim 10^8$）
+\item ホモダイン検出器（バランスド PD ＋ LO）
+\end{itemize}
+
+DN vs DD 比較には共振器モード構造を切り替える工夫が必要．
+ファブリペロー挿入で $\lambda/4$ 構造を模擬する方法などが
+考えられるが，\textbf{これは本ガイドの射程を超える研究課題}．
+
+\subsection{個人レベルでの現実性}
+
+\begin{itemize}
+\item 総額 200 万〜1000 万円
+\item ホモダイン検出の位相ロック技術が最大の難所
+\item 光学実験経験 3 年以上の人向け
+\end{itemize}
+
+軸 A の Fabry--Perot ルートと合流する．ガレージというより
+「光学実験室化した物置」が必要．
+
+\subsection{なぜ本ガイドで触れるか}
+
+個人実装はハードルが高いが，将来的に大学の光学実験室と
+組むときのために概念は押さえておく価値がある．
+特に\textbf{「DN によるスクイージング非対称」という問い自体が
+新規}なので，理論論文 1 本書く余地がある．
+
+\newpage
+\section{軸 D：ガレージ最小構成（音響アナログ実装）}
+
+ここが本ガイドの実用パート．軸 B を週末から始められる形に
+落とし込む．
+
+\subsection{部品リスト（総額 約 5 万円）}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+項目 & 目安価格 & 入手先 \\
+\midrule
+アルミ円管 $\phi 30$\,mm, 長さ 40\,cm ×2 & ¥2,000 & ホームセンター \\
+アルミ円板 $\phi 30$\,mm（片端閉用）& ¥500 & ホームセンター \\
+圧電トランスデューサ 40\,kHz ×4 & ¥2,000 & 秋月電子 \\
+ピエゾフィルム（LDT0-028K）×2 & ¥4,000 & Digi-Key \\
+nanoVNA V2 & ¥15,000 & Amazon \\
+USB オシロ（Hantek 6022BE）& ¥8,000 & Amazon \\
+ロックインアンプ相当（SR510 中古 or Moku:Go）& ¥30,000 & ヤフオク \\
+同軸ケーブル・BNC 変換 一式 & ¥3,000 & マルツ \\
+御影石板 $300\times300$\,mm（防振用）& ¥3,000 & ホームセンター \\
+自転車タイヤチューブ（除振台用）& ¥1,500 & 自転車店 \\
+発泡スチロール板（音響吸収）& ¥1,000 & ホームセンター \\
+ファンクションジェネレータ（FY6900）& ¥10,000 & Amazon \\
+\midrule
+\textbf{合計} & \textbf{¥約 80,000} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+※ ロックインを諦めて PC の Audacity + FFT で済ませれば
+¥50,000 に収まる．初回はそれで十分．
+
+\subsection{組立手順}
+
+\paragraph{Step 1: 管の製作（30 分）}
+
+\begin{enumerate}
+\item アルミ円管を 2 本用意．両方とも長さ 34.3\,cm に切断
+（$f_0 = 500$\,Hz 狙い）
+\item 1 本はそのまま（両端開放＝$\lambda/2$ アナログ）
+\item もう 1 本は片端にアルミ板をエポキシで接着（片端閉＝$\lambda/4$ アナログ）
+\item 長さが揃っていることを確認．\textbf{誤差 1\,mm 以下}を目標
+\end{enumerate}
+
+\paragraph{Step 2: トランスデューサ取付（1 時間）}
+
+\begin{enumerate}
+\item 各管の「開放端から 1\,cm 内側」の位置に直径 5\,mm の
+穴を 2 つ対向して開ける
+\item 一方に駆動用圧電トランスデューサ（40\,kHz 型を音声帯で
+使うので共鳴外だが問題ない），他方に検出用ピエゾフィルムを
+配置
+\item 端面への機械振動の伝達は避ける（ゴムワッシャ挟む）
+\end{enumerate}
+
+\paragraph{Step 3: 除振台（1 時間）}
+
+\begin{enumerate}
+\item 自転車チューブ 2 本を床に並べ，軽く空気を入れる
+\item 御影石板を載せる
+\item その上に管 2 本を並行に配置（管どうしは 30\,cm 離す）
+\end{enumerate}
+
+\paragraph{Step 4: 配線（30 分）}
+
+\begin{enumerate}
+\item ファンクションジェネレータ → 両管の駆動ピエゾ（並列）
+\item 両管の検出ピエゾ → PC のステレオ入力（左右チャネル）
+\item グラウンドループに注意．シールドは駆動側のみ片側接地
+\end{enumerate}
+
+\subsection{測定プロトコル}
+
+\paragraph{測定 A: モード構造の確認（必須）}
+
+\begin{enumerate}
+\item ファンクションジェネレータを 100\,Hz〜5\,kHz で掃引
+\item 両チャネルの応答スペクトルを記録
+\item $\lambda/2$ 管：500, 1000, 1500, 2000,\ldots\,Hz にピーク
+\item $\lambda/4$ 管：500, 1500, 2500, 3500,\ldots\,Hz にピーク
+（1000, 2000 Hz にピークが\textbf{無い}のを確認）
+\end{enumerate}
+
+これがクリアできない場合は組立不良．管長・端面・漏れをチェック．
+
+\paragraph{測定 B: 熱雑音スペクトル（本番）}
+
+\begin{enumerate}
+\item 駆動を切る（ファンクションジェネレータ OFF）
+\item 両管の検出ピエゾ出力を 10 分間記録（サンプル 48\,kHz）
+\item FFT でパワースペクトル $S_{\lambda/2}(\omega), S_{\lambda/4}(\omega)$ を計算
+\item 差分 $\Delta S(\omega) = S_{\lambda/2} - S_{\lambda/4}$ を計算
+\item 偶数倍音位置（1000, 2000, 3000\,Hz）で\textbf{正のピーク}が
+出るか？
+\end{enumerate}
+
+\paragraph{測定 C: 駆動下の Casimir-like 放射圧}
+
+\begin{enumerate}
+\item 白色雑音（100\,Hz--5\,kHz バンドパス）で両管を駆動
+\item レーザー変位計 or 別の精密ピエゾで管の\textbf{軸方向}変位
+を検出
+\item 両管の時間平均変位差が Casimir-like アナログ力
+\item 理論予測：$\Delta x \sim 0.1$\,$\mu$m オーダー（駆動強度次第）
+\end{enumerate}
+
+\subsection{期待されるスペクトル}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=成功の判定基準]
+\begin{itemize}
+\item \textbf{最低ライン}：測定 A でモード構造差が見えれば
+「管の物理」は確認．これだけで第 0 段階クリア
+\item \textbf{中間ゴール}：測定 B で偶数倍音寄与が 3$\sigma$ 以上で見える
+\item \textbf{本丸}：測定 C で軸方向変位差が符号付きで測定できれば，
+Euler 積切除の音響アナログ直接観測
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{落とし穴と対策}
+
+\begin{itemize}
+\item \textbf{空気の流れ}：管内の対流は低周波ノイズ源．
+管端に薄いラテックス膜を張ると抑えられるが，これは端面条件を
+変えるので慎重に
+\item \textbf{温度ドリフト}：管長の熱膨張で $f_0$ が変動．
+測定中は室温を $\pm 1$\,K で安定化．エアコン風は厳禁
+\item \textbf{湿度}：音速が湿度で変わる．同じ日に両管を連続測定する
+\item \textbf{電源ノイズ}：50\,Hz とその倍音が至るところに出る．
+バッテリ駆動が望ましい．PC も電源アダプタを外して測定
+\item \textbf{端補正}：開放端は理想 Neumann ではなく
+$\Delta L \approx 0.6 r$（$r$ 管半径）だけ長く振る舞う．
+$\lambda/2$ 側は両端で $2\times 0.6r$, $\lambda/4$ 側は片端のみ
+$0.6r$．長さ設計時にこれを考慮
+\end{itemize}
+
+\subsection{データ解析スクリプト例}
+
+\begin{verbatim}
+import numpy as np
+import scipy.signal as sig
+import matplotlib.pyplot as plt
+
+# 録音データ読込（ステレオ WAV）
+fs, data = wavfile.read('casimir_analog.wav')
+ch_halfwave = data[:, 0]   # λ/2 管
+ch_quarterwave = data[:, 1]  # λ/4 管
+
+# ウェルチ法で PSD
+f, S_half = sig.welch(ch_halfwave, fs, nperseg=65536)
+_, S_quart = sig.welch(ch_quarterwave, fs, nperseg=65536)
+
+# 差分スペクトル
+delta_S = S_half - S_quart
+
+# 偶数倍音位置での積分
+f0 = 500  # Hz
+even_harmonics = [2*f0, 4*f0, 6*f0, 8*f0]
+for fn in even_harmonics:
+    mask = np.abs(f - fn) < 20
+    signal = np.trapz(delta_S[mask], f[mask])
+    print(f'{fn} Hz: {signal:.3e}')
+
+plt.loglog(f, S_half, label='λ/2')
+plt.loglog(f, S_quart, label='λ/4')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('PSD')
+plt.legend()
+plt.show()
+\end{verbatim}
+
+\subsection{次のステップ}
+
+測定 A が成功したら：
+\begin{enumerate}
+\item \textbf{寸法スイープ}：管長を変えて $f_0$ をシフトさせ，
+効果が周波数依存性を持つか確認
+\item \textbf{温度依存性}：冷蔵庫（4$^\circ$C），ドライアイス（$-78^\circ$C）で
+測定．$k_B T$ スケーリングを確認
+\item \textbf{真空化}：掃除機改造の簡易真空槽（$\sim 100$\,Pa）で
+空気の寄与を除く．これは真空カシミールへの橋渡し
+\item \textbf{多管アレイ}：奇数個の管を並べて集団効果を見る
+\item \textbf{論文化}：結果を arXiv に投稿．
+「Acoustic analog of the Boyer (1974) vacuum repulsion via
+Euler-product truncation」というタイトルで新規性は十分
+\end{enumerate}
+
+\section{4 戦略の比較表}
+
+\begin{center}
+\small
+\begin{tabular}{lllll}
+\toprule
+ & 軸 A (cQED/光学) & 軸 B (音響) & 軸 C (OPO) & 軸 D (ガレージ) \\
+\midrule
+原理 & DCE, $Q^2$ 増幅 & フォノン真空 & スクイーズド & 軸 B の実装 \\
+温度 & 20\,mK / 常温 & 常温 & 常温 & 常温 \\
+距離 & nm--mm & cm--m & mm & 10\,cm \\
+Q 値 & $10^6$--$10^{10}$ & $10^2$--$10^3$ & $10^8$ & $10^2$ \\
+総額 & $10^7$--$10^8$ 円 & $10^5$ 円 & $10^7$ 円 & 5 万円 \\
+ガレージ可 & × & ○ & × & ◎ \\
+真空の種類 & 電磁 & 音響（アナログ）& 電磁 & 音響 \\
+新規性 & ★★★ & ★★ & ★★ & ★★ \\
+着手難度 & 極高 & 低 & 高 & 低 \\
+\midrule
+週末着手 & × & ○ & × & ◎ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{推奨ロードマップ}
+
+\begin{enumerate}
+\item \textbf{第 1 週}：軸 D を組み立て．測定 A でモード構造確認
+\item \textbf{第 1 ヶ月}：測定 B, C．初期データを arXiv プレプリントに
+\item \textbf{第 3 ヶ月}：温度・真空スイープ．論文化
+\item \textbf{第 6 ヶ月}：軸 A（BAW ルート）に拡張．大学の音響研と連携
+\item \textbf{第 1 年}：軸 A（超伝導）を OtaNano で本格化
+\item \textbf{第 2 年以降}：軸 C と統合した理論・実験プログラム
+\end{enumerate}
+
+\textbf{軸 D を最初にやる理由}：他の 3 つは全て待ち時間（設備手配，
+共同研究調整，資金調達）がある．軸 D は今日発注すれば来週届く．
+\textbf{待っている間に手を動かせる}ことが何より重要．しかも，
+もし軸 D で何か見えれば，それ自体が cQED 共同研究を求める際の
+決定的な説得材料になる．
+
+\section{まとめ}
+
+$1/a^4$ の壁により「DN カシミール斥力を距離を伸ばして肉眼で見る」
+ことは物理的に不可能である．しかし (A) 共鳴 $Q^2$ 増幅，
+(B) 音響アナログ，(C) パラメトリック増幅という 3 つの独立な
+軸で効果を増幅でき，特に (D) 軸 B をベースにしたガレージ
+最小構成は総額 5 万円・週末着手可能で Euler 積切除の効果を
+直接可視化できる．
+
+\textbf{本プロジェクトの中心仮説（$\zeta_{\neg 2}(-3) = -7/120$
+による真空エネルギー符号反転）は，電磁固有の話ではなく
+任意の自由場に普遍な数論的主張}であることを思い出せば，
+電磁真空にこだわらず音響アナログで始めることに何の躊躇も
+要らない．むしろこれは\textbf{Boyer (1974) の 50 年越しの予言を
+最も早く検証する道}かもしれない．
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連文書：
+\begin{itemize}
+\item \texttt{boyer\_reinterpretation\_ja.tex}（理論背景）
+\item \texttt{cqed\_lambda4\_proposal.tex}（軸 A 超伝導版詳細）
+\item \texttt{guide\_facility\_access\_ja.tex}（軸 A 本格版のための施設）
+\item \texttt{wright\_brothers\_master\_plan.tex}（全体ロードマップ）
+\end{itemize}
+
+\end{document}
