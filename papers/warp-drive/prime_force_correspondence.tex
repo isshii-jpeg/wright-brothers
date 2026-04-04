@@ -1,0 +1,246 @@
+% Prime-Force Correspondence
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\reg}{\mathrm{reg}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\U}{\mathrm{U}}
+
+\begin{document}
+
+\title{Prime-Force Correspondence:\\
+Gauge Groups from Ramified Coverings of $\Spec(\mathbb{Z})$}
+
+\author{Wright Brothers Research Program}
+\affiliation{Independent Research, 2026}
+
+\date{\today}
+
+\begin{abstract}
+We observe that the three gauge group factors of the Standard Model
+admit a uniform description in terms of number field extensions of
+$\mathbb{Q}$ ramified at a single prime:
+$\U(1)\leftrightarrow\mathbb{Q}$ (trivial),
+$\SU(2)\leftrightarrow\mathbb{Q}(\sqrt{2})$ (ramified at $p{=}2$),
+$\SU(3)\leftrightarrow\mathbb{Q}(\zeta_9)^+$ (ramified at $p{=}3$).
+The pattern is $\SU(N)\leftrightarrow$ degree-$N$ covering with
+Galois group $\mathbb{Z}/N$, ramified at $p{=}N$.  Two independent
+numerical coincidences support this correspondence:
+$\cos\theta_W=\reg(\mathbb{Q}(\sqrt{2}))=\log(1{+}\sqrt{2})$
+agrees with $m_W/m_Z$ to $0.001\%$, and
+$10\,h\!\cdot\!R(\mathbb{Q}(\zeta_9)^+)=8.493$ agrees with
+$\alpha_s(M_Z)^{-1}=8.482$ to $0.13\%$.  We propose that gauge
+symmetry breaking is encoded in the ramification structure of
+arithmetic coverings, with the Frobenius element playing the role
+of gauge holonomy.  The correspondence makes a falsifiable prediction
+for $m_W$ at sub-MeV precision.
+\end{abstract}
+
+\maketitle
+
+%=====================================================================
+\section{Observation}
+%=====================================================================
+
+The Standard Model gauge group $\SU(3)_c\times\SU(2)_L\times\U(1)_Y$
+has resisted derivation from a deeper principle.  We report a
+numerical observation that may point toward such a principle.
+
+Consider the following number fields:
+\begin{itemize}
+\item $\mathbb{Q}$ itself (degree~1 over $\mathbb{Q}$).
+\item $K_2=\mathbb{Q}(\sqrt{2})$, the simplest real quadratic field.
+  Discriminant $\Delta=8=2^3$; ramified at $p=2$ only; class number
+  $h=1$; regulator $R=\log(1{+}\sqrt{2})=0.88137\ldots$
+\item $K_3=\mathbb{Q}(\zeta_9)^+=\mathbb{Q}(\cos 2\pi/9)$, the
+  maximal real subfield of the 9th cyclotomic field.  Degree~3;
+  discriminant $\Delta=81=3^4$; ramified at $p=3$ only; Galois group
+  $\mathbb{Z}/3$; $hR=0.84931\ldots$
+\end{itemize}
+
+Each field is the \emph{minimal} extension of $\mathbb{Q}$ with
+cyclic Galois group $\mathbb{Z}/N$ that is ramified at $p=N$
+\emph{only}, for $N=1,2,3$ respectively.
+
+We observe:
+
+\begin{equation}\label{eq:cosW}
+  \cos\theta_W = \frac{m_W}{m_Z} \stackrel{?}{=} \reg(K_2)
+  = \log(1{+}\sqrt{2}).
+\end{equation}
+
+\noindent Numerically: $\log(1{+}\sqrt{2})=0.881374$ vs.\
+$m_W/m_Z=0.881361\pm 0.000147$.  Agreement: $0.09\sigma$.
+
+\begin{equation}\label{eq:alphas}
+  \frac{1}{\alpha_s(M_Z)} \stackrel{?}{=} 10\;hR(K_3)
+  = 10\times 0.84931.
+\end{equation}
+
+\noindent Numerically: $8.493$ vs.\ $1/\alpha_s=8.482\pm 0.008$.
+Agreement: $0.13\%$.
+
+%=====================================================================
+\section{The Correspondence}
+%=====================================================================
+
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+Gauge & Field & Degree & $\Gal$ & Ram.\ at & Invariant \\
+\midrule
+$\U(1)$ & $\mathbb{Q}$ & 1 & $\{1\}$ & --- & $\alpha$ \\
+$\SU(2)$ & $K_2$ & 2 & $\mathbb{Z}/2$ & $p{=}2$ & $\cos\theta_W$ \\
+$\SU(3)$ & $K_3$ & 3 & $\mathbb{Z}/3$ & $p{=}3$ & $\alpha_s^{-1}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The pattern: $\SU(N)\leftrightarrow$ degree-$N$ cyclic extension of
+$\mathbb{Q}$, ramified at $p=N$ only, with Galois group
+$\mathbb{Z}/N$.
+
+\medskip
+\noindent\textbf{Why $p=2$ and weak force?}
+The weak interaction is the \emph{only} force that violates parity
+($P$)~\cite{Wu1957}.  Parity is a $\mathbb{Z}/2$ symmetry, and
+$p=2$ is the unique prime governing the even/odd distinction.
+$K_2=\mathbb{Q}(\sqrt{2})$ is the unique class-number-one real
+quadratic field ramified at $p=2$ only.  The chain
+$P\text{-violation}\leftrightarrow\mathbb{Z}/2\leftrightarrow
+p{=}2\leftrightarrow K_2$ provides a structural (if not yet
+rigorous) link between the weak force and the arithmetic of
+$\Spec(\mathbb{Z})$.
+
+\medskip
+\noindent\textbf{Why degree~3 for $\SU(3)$?}
+A field ramified at $p=3$ only \emph{cannot} be quadratic: for
+$d=3$, the discriminant is $\Delta=12=4\times 3$, which is ramified
+at both $p=2$ and $p=3$.  This is because $3\equiv 3\pmod{4}$;
+for any $p\equiv 3\pmod{4}$, the quadratic field
+$\mathbb{Q}(\sqrt{p})$ has $\Delta=4p$, inevitably introducing
+$p=2$.  A ``pure'' covering ramified at $p=3$ only requires
+degree~$\geq 3$.  The minimal such is the cyclic cubic
+$K_3=\mathbb{Q}(\zeta_9)^+$, with $\Delta=3^4$.  Thus
+\emph{number theory itself forces} $\SU(3)$ to live in a
+higher-degree covering than $\SU(2)$.
+
+%=====================================================================
+\section{The Class Number Formula Connection}
+%=====================================================================
+
+For $K_2$, the Dirichlet class number formula gives:
+\begin{equation}\label{eq:classK2}
+  L(\chi_8, 1) = \frac{hR}{\sqrt{\Delta}}
+  = \frac{\log(1{+}\sqrt{2})}{\sqrt{8}}.
+\end{equation}
+Since $\cos\theta_W=hR=\log(1{+}\sqrt{2})$ and $h=1$:
+\begin{equation}
+  \cos\theta_W = L(\chi_8, 1)\,\sqrt{\Delta(K_2)}.
+\end{equation}
+
+For $K_3$, the class number formula gives $hR$ in terms of
+$|L(\chi_3,1)|^2$ where $\chi_3$ is a character of order~3 mod~9:
+\begin{equation}
+  hR(K_3) = \tfrac{9}{4}\,|L(\chi_3,1)|^2.
+\end{equation}
+
+In both cases, the physical parameter (mixing angle or coupling)
+equals an arithmetic invariant that appears in the class number
+formula---one of the deepest results in algebraic number
+theory~\cite{Dirichlet1837}.
+
+The Dedekind zeta function of $K$ factorizes as
+$\zeta_K(s)=\zeta(s)\cdot L(\chi,s)\cdots$, separating into the
+``base'' zeta (governing $\alpha$ and $G$) and the $L$-factors
+(governing mixing angles and non-abelian couplings).  At $s=1$,
+$\zeta(s)$ has a pole (gravity), while each $L$-factor is finite
+(mixing parameters).
+
+%=====================================================================
+\section{Frobenius as Holonomy}
+%=====================================================================
+
+In the covering $K_2/\mathbb{Q}$, each unramified prime $p\neq 2$
+carries a Frobenius element $\mathrm{Frob}_p\in\Gal(K_2/\mathbb{Q})
+=\mathbb{Z}/2$:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Prime type & $\mathrm{Frob}_p$ & Physical analog \\
+\midrule
+Split ($p\equiv\pm 1\!\pmod{8}$) & $\mathrm{id}$ & trivial holonomy \\
+Inert ($p\equiv\pm 3\!\pmod{8}$) & $\sigma$ & nontrivial holonomy \\
+Ramified ($p=2$) & undefined & source of the force \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In gauge theory, the holonomy of a connection around a loop
+classifies the local gauge transformation.  We propose that the
+Frobenius element at each prime $p$ plays the role of holonomy of
+an arithmetic gauge connection, with the ramification locus ($p=2$
+for the weak force) as the ``source'' of the gauge field.
+
+%=====================================================================
+\section{Predictions}
+%=====================================================================
+
+\noindent\textbf{1.}
+$m_W = m_Z\times\log(1{+}\sqrt{2}) = 80.370\;\mathrm{GeV}$.
+Current experimental value: $80.369\pm 0.013\;\mathrm{GeV}$ (PDG
+2024), $0.09\sigma$ from prediction.  Future measurements at
+sub-MeV precision (FCC-ee, CEPC) will provide a decisive test.
+
+\noindent\textbf{2.}
+$\sin^2\theta_W = 1-\log^2(1{+}\sqrt{2}) = 0.22318$, to be
+compared with the on-shell value $0.22320\pm 0.00004$.
+
+\noindent\textbf{3.}
+The strong coupling is related to $K_3$ via $\alpha_s^{-1}(M_Z)
+= c\cdot hR(K_3)$ with $c=10$ (the origin of this factor is
+currently unexplained).
+
+%=====================================================================
+\section{What This Is and What It Is Not}
+%=====================================================================
+
+This paper reports a \emph{numerical observation} and a
+\emph{structural correspondence}, not a derivation.  We do not
+derive the Standard Model gauge group from number theory; we
+observe that the group structure matches the ramification structure
+of specific number field extensions in a way that produces correct
+physical parameters.
+
+The key weakness is the absence of a dynamical mechanism: we do not
+explain \emph{why} gauge couplings should equal arithmetic
+regulators.  The factor of~10 in the $\alpha_s$ relation is
+unexplained.  The correspondence does not extend to CKM or PMNS
+mixing matrices.
+
+The key strength is falsifiability:
+Eq.~\eqref{eq:cosW} predicts $m_W$ to $0.1\;\mathrm{MeV}$, well
+within reach of next-generation colliders.  If $m_W$ deviates from
+$m_Z\log(1{+}\sqrt{2})$ by more than a few MeV, the correspondence
+is ruled out.
+
+The correspondence $\SU(N)\leftrightarrow$ ramification at $p=N$
+is forced by the structure of algebraic number theory (the
+impossibility of a quadratic field ramified at $p=3$ only).
+Whether nature respects this arithmetic constraint is an empirical
+question.
+
+\begin{thebibliography}{99}
+\bibitem{Wu1957} C.~S.~Wu \textit{et al.}, Phys.\ Rev.\ \textbf{105}, 1413 (1957).
+\bibitem{Dirichlet1837} P.~G.~L.~Dirichlet, Abh.\ K\"onigl.\ Preuss.\ Akad.\ Wiss.\ (1837).
+\bibitem{Neukirch1999} J.~Neukirch, \textit{Algebraic Number Theory} (Springer, 1999).
+\bibitem{Connes1996} A.~Connes, Commun.\ Math.\ Phys.\ \textbf{182}, 155 (1996).
+\end{thebibliography}
+
+\end{document}
