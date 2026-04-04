@@ -1,0 +1,118 @@
+% Boyer再解釈 日本語版
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers, 2026}
+\lhead{Boyer再解釈}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Boyerのカシミール斥力のオイラー積的再解釈}\\[0.3cm]
+{\large 数論的視点と実験的実現への3つの経路}\\[0.5cm]
+{\large Wright Brothers Research Program}\\[0.2cm]
+{2026年4月}\\[0.3cm]
+\rule{12cm}{0.4pt}
+\end{center}
+
+\begin{quotation}
+\noindent\textbf{概要.}\quad
+Boyer (1974) は完全電気導体（PEC）と完全磁気導体（PMC）の間のカシミール力が斥力であることを予測した。この予測は50年間未検証のままである。PMC材料が存在しないためである。我々はこの結果の数論的再解釈を提示する: PEC-PMC（ディリクレ-ノイマン、DN）のモード和 $1+3+5+7+\cdots = \zeta_{\neg 2}(-1) = +1/12$ は、リーマンゼータ関数から $p=2$ のオイラー因子を除去した関数に他ならない。PEC-PEC の和 $1+2+3+4+\cdots = \zeta(-1) = -1/12$ が完全なゼータ関数である。符号の反転は\textbf{素数ミュート}——オイラー積からの最小素数の寄与の除去——という算術的操作である。この再解釈により、PMC が不要であることが明確になる: 奇数モードを選択する任意の幾何学的配置で十分である。PMC の障壁を回避する3つの実験経路を提案する: (A) ナノスケール DN 構造、(B) 回路量子電磁力学（circuit QED）における $\lambda/4$ vs $\lambda/2$ 比較、(C) DN 幾何学を用いた Si-MEMS。全て既存技術で実現可能。成功すれば Boyer の50年越しの予測の初検証であると同時に、量子場理論におけるオイラー積の切断の初の物理的実現となる。
+\end{quotation}
+
+\section{50年の空白}
+
+Boyer (1974) は、片方がPEC（ディリクレ境界条件）、もう片方がPMC（ノイマン境界条件）の平行板間のカシミールエネルギーが正（斥力）であることを示した。Kenneth et al. (2002) が厳密に証明し、Hertzberg et al. (2005) がピストン幾何学で確認した。
+
+にもかかわらず、\textbf{PEC-PMCカシミール力を測定した実験は存在しない}。障壁は材料: PMCはカシミールエネルギーを支配する光学〜紫外周波数帯で磁気的透磁率 $\mu \to \infty$ を必要とする。この条件を満たす天然材料はなく、メタマテリアルも Kramers-Kronig 制約により広帯域では機能しない。
+
+既存のカシミール「斥力」実験——Munday et al. (2009, Nature) は液体中の誘電体コントラスト、Tang et al. (2017, Nature Photonics) はT字構造の幾何学的効果——はいずれも真空のモード構造を変更していない。力の向きの制御は実現したが、真空エネルギーの符号の反転は実現していない。
+
+\section{数論的再解釈}
+
+リーマンゼータ関数のオイラー積:
+$$\zeta(s) = \sum_{n=1}^{\infty} n^{-s} = \prod_{p\text{ prime}} \frac{1}{1-p^{-s}}$$
+
+$p=2$ の因子を除去すると:
+$$\zeta_{\neg 2}(s) = (1-2^{-s})\zeta(s) = \sum_{\substack{n=1 \\ n\text{ odd}}}^{\infty} n^{-s}$$
+
+$s=-1$ で:
+\begin{align}
+\zeta(-1) &= 1+2+3+4+\cdots = -\tfrac{1}{12} \quad\text{（全モード、引力）}\\
+\zeta_{\neg 2}(-1) &= 1+3+5+7+\cdots = +\tfrac{1}{12} \quad\text{（奇数モード、斥力）}
+\end{align}
+
+\textbf{Boyer は $\zeta_{\neg 2}$ を計算した。ただし素数のことは考えていなかった。}
+
+Boyer の電磁気学的境界条件計算と、数論のオイラー積切断は、異なる言語で記述された同一の数学的操作である。
+
+この再解釈の実用的帰結: \textbf{PMC は不要}。奇数整数のモードスペクトルを持つ任意の物理的配置で $\zeta_{\neg 2}$ が実現される。問題は「磁性材料を見つける」から「奇数モードを選択する幾何学を見つける」に変換された。
+
+\section{$\lambda/4$ による実現}
+
+$\lambda/4$ 共振器（片端短絡、片端開放）のモード:
+$$f_n = (2n-1) \times \frac{c}{4L} \quad (n=1,2,3,\ldots) = 1, 3, 5, 7, \ldots$$
+
+真空エネルギー:
+$$E_{\lambda/4} = \frac{\pi\hbar c}{4L}\,\zeta_{\neg 2}(-1) = +\frac{\pi\hbar c}{48L} > 0 \quad\text{（正、斥力）}$$
+
+$\lambda/2$ 共振器（両端短絡）と比較:
+$$E_{\lambda/2} = \frac{\pi\hbar c}{2L}\,\zeta(-1) = -\frac{\pi\hbar c}{24L} < 0 \quad\text{（負、引力）}$$
+
+\textbf{符号が逆。PMC不要。メタマテリアル不要。Kramers-Kronig問題なし。}
+
+同軸伝送線路のオープン端は TEM モードに対して全周波数で完全なノイマン条件。分散なし。
+
+障壁はスケール: マクロ（cm）の $\lambda/4$ ではカシミール力が微小（$\sim 10^{-21}$ N）。
+
+\section{3つの実験経路}
+
+\textbf{Route A: ナノスケール DN 構造}
+
+ナノスケール（$\sim 100$ nm）でノイマン境界条件を実現。金属薄膜のスロットアレイ、ナノコアキシャル構造、フォトニック結晶表面など。AFM で力を測定。室温。
+
+\textbf{Route B: circuit QED}
+
+$\lambda/4$ と $\lambda/2$ の超伝導共振器にトランスモン量子ビットを結合し、Lamb シフトの差を測定。偶数モードの真空揺らぎ寄与を分離。既存の超伝導量子ビット研究室のインフラで実行可能。極低温（$\sim 10$ mK）。
+
+\textbf{Route C: DN 型 Si-MEMS}
+
+Tang et al. (2017) のプラットフォーム（コムアクチュエータ + 振動ビーム力センサー）をDN型幾何学に適応。T字構造の代わりにオープン端構造を使用。力を板間隔 $a$ の関数として測定し、スケーリング指数 $\alpha$（$F \propto a^{-\alpha}$）を決定。
+
+\section{予測}
+
+\begin{enumerate}
+\item \textbf{符号}: DN 配置のカシミール力は斥力。Boyer の予測の初検証。
+\item \textbf{大きさ}: 3Dでの DN/DD エネルギー密度比 = $\zeta_{\neg 2}(-3)/\zeta(-3) = -7$。DN 斥力は DD 引力の7倍の大きさ。
+\item \textbf{スケーリング}: 標準QEDは DD も DN も $F \propto a^{-5}$ を予測。$\alpha \neq 5$ の逸脱は境界効果を超える物理の証拠。
+\end{enumerate}
+
+\section{結論}
+
+Boyer の1974年の予測は、リーマンゼータ関数のオイラー積から $p=2$ 因子を除去すると真空エネルギーの符号が反転するというステートメントとして再解釈できる。この再解釈は実験的課題を材料（PMCを見つける）から幾何学（奇数モードを選択する）に変換する。我々は3つの実験的に実行可能な経路を提案した。成功すれば50年越しの理論予測の初検証であると同時に、量子場理論におけるオイラー積切断の初の物理的実現となる。
+
+\begin{thebibliography}{99}
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth et al., Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Hertzberg2005} M.~P.~Hertzberg et al., Phys.\ Rev.\ Lett.\ \textbf{95}, 250402 (2005).
+\bibitem{Rosa2008} F.~S.~S.~Rosa et al., Phys.\ Rev.\ Lett.\ \textbf{100}, 183602 (2008).
+\bibitem{Munday2009} J.~N.~Munday et al., Nature \textbf{457}, 170 (2009).
+\bibitem{Tang2017} L.~Tang et al., Nature Photon.\ \textbf{11}, 97 (2017).
+\bibitem{Alcubierre1994} M.~Alcubierre, Class.\ Quant.\ Grav.\ \textbf{11}, L73 (1994).
+\end{thebibliography}
+
+\end{document}

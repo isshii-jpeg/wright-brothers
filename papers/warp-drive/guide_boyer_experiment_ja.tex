@@ -1,0 +1,316 @@
+% Boyer実験ガイド
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{expbox}[1][]{colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{Boyer実験ガイド}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 50年越しの実験}\\[0.5cm]
+{\Large Boyerの予測を初めて検証する}\\[0.3cm]
+{\Large 素数が真空を変える}\\[1cm]
+{\large 初心者のための理論と実験ガイド}\\[0.5cm]
+{\large Wright Brothers Research Program, 2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{理論: なぜ真空に力があるか}
+%====================================================================
+
+\section{カシミール効果（1948年）}
+
+\begin{storybox}[何もない空間に力がある]
+2枚の金属板をナノメートルの距離で向かい合わせると、板の間に引力が生じる。電荷もなく、磁石でもないのに。
+
+原因: 量子力学では「完全に何もない」ことが不可能。真空は常に微小な電磁場の揺らぎ（ゼロ点揺動）で満たされている。板を置くと揺らぎのパターンが変わり、板の間のエネルギーが外より低くなる。エネルギーが低い方に引かれる → 引力。
+
+1948年にカシミールが理論的に予測。1997年に精密測定で確認。
+\end{storybox}
+
+\section{揺らぎの「倍音」}
+
+\begin{mathbox}[モードと倍音]
+板の間の電磁場には、ギターの弦と同じように倍音（モード）がある:
+$$f_1, \; 2f_1, \; 3f_1, \; 4f_1, \; 5f_1, \ldots$$
+
+各モードがゼロ点エネルギー $\hbar\omega/2$ を持つ。全モードの合計が真空エネルギー。
+
+合計: $1 + 2 + 3 + 4 + 5 + \cdots$
+
+この無限和をリーマンゼータ関数で正則化すると:
+$$\zeta(-1) = 1 + 2 + 3 + 4 + \cdots = -\frac{1}{12}$$
+
+\textbf{負} → 板の間のエネルギーが外より低い → 引力。
+
+これがカシミール効果の数学的正体。実験で確認済み。
+\end{mathbox}
+
+\section{Boyerの予測（1974年）}
+
+\begin{resultbox}[もし片端を変えたら？]
+Boyer は考えた: 片方の板を「完全磁気導体（PMC）」に変えたらどうなるか？
+
+通常の板（PEC）: 電場がゼロになる（ディリクレ境界条件）
+PMC: 磁場がゼロになる（ノイマン境界条件）
+
+PEC-PMC にすると、残るモードは奇数だけ:
+$$1, \; 3, \; 5, \; 7, \; 9, \ldots$$
+
+合計:
+$$\zeta_{\neg 2}(-1) = 1 + 3 + 5 + 7 + \cdots = +\frac{1}{12}$$
+
+\textbf{正！ 符号が反転した！}
+
+板の間のエネルギーが外より高い → \textbf{斥力}。板が反発する。
+\end{resultbox}
+
+\begin{honestbox}[50年間誰もこれを実験で確認していない]
+理由: PMC（完全磁気導体）が存在しない。
+
+普通の金属は「完全電気導体」に近い。しかし「完全磁気導体」として振る舞う物質は、自然界にもメタマテリアルでも実現されていない（カシミールに関わる光の周波数帯では）。
+
+Boyer の予測は理論的に正しいと証明されている（Kenneth et al. 2002, PRL）。しかし実験で確認されたことは一度もない。
+\end{honestbox}
+
+%====================================================================
+\part{再解釈: 素数がカギだった}
+%====================================================================
+
+\section{オイラー積}
+
+\begin{mathbox}[ゼータ関数の「素因数分解」]
+リーマンゼータ関数は素数で分解できる（オイラー、1737年）:
+$$\zeta(s) = \frac{1}{1-2^{-s}} \times \frac{1}{1-3^{-s}} \times \frac{1}{1-5^{-s}} \times \cdots$$
+
+各因子が1つの素数に対応。
+\end{mathbox}
+
+\section{素数2を「消す」}
+
+\begin{mathbox}[素数ミュート]
+$p=2$ の因子を除去する:
+$$\zeta_{\neg 2}(s) = \zeta(s) \times (1 - 2^{-s}) = \sum_{n \text{ odd}} n^{-s}$$
+
+$2$ の因子を消すと、$2$ で割れる全ての整数（偶数）が和から消え、奇数だけが残る。
+
+Boyer の計算はまさにこれ: 「偶数モードが消えて奇数モードだけ残る」。
+
+\textbf{Boyer は「素数2をミュートした」ことに気づいていなかった。}
+\end{mathbox}
+
+\section{PMC ではなく「幾何学」}
+
+\begin{resultbox}[問題の変換]
+\textbf{Boyer の問い}: PMC を見つけよ → 50年間未解決
+
+\textbf{我々の問い}: 奇数モードだけを選ぶ幾何学を見つけよ → \textbf{$\lambda/4$ 共振器}
+
+$\lambda/4$ 共振器 = 片端を閉じて片端を開けた管。ビール瓶と同じ。
+\begin{itemize}
+\item $\lambda/2$（両端閉じ）: 全倍音 $1, 2, 3, 4, 5, \ldots$ → $\zeta(-1) = -1/12$（引力）
+\item $\lambda/4$（片端開放）: 奇数倍音 $1, 3, 5, 7, \ldots$ → $\zeta_{\neg 2}(-1) = +1/12$（斥力）
+\end{itemize}
+
+PMC は要らない。片端を開けるだけ。
+\end{resultbox}
+
+%====================================================================
+\part{実験: 3つの道}
+%====================================================================
+
+\section{なぜ3つの道が必要か}
+
+$\lambda/4$ 共振器は cm サイズで簡単に作れるが、カシミール力は nm サイズでしか測れない。このスケールの不整合を3つの方法で回避する。
+
+\section{Route A: ナノスケール DN 構造}
+
+\begin{expbox}[AFM で力を測る]
+\textbf{アイデア}: ナノスケールで「片端開放」を実現する構造を作る。
+
+例:
+\begin{itemize}
+\item 金属薄膜のスロットアレイ（穴あき板 → ノイマン条件に近い）
+\item ナノコアキシャル構造（数十nmの同軸ケーブル）のオープン端
+\item フォトニック結晶表面（高インピーダンス → PMC 的振る舞い）
+\end{itemize}
+
+PEC 平板とこのナノ DN 表面の間のカシミール力を AFM で測定。
+
+\textbf{温度}: 室温（極低温不要）\\
+\textbf{測定}: AFM のカンチレバーの撓み（pN レベル）\\
+\textbf{判定}: 力が斥力（正）なら Boyer の予測が初確認
+\end{expbox}
+
+\section{Route B: circuit QED}
+
+\begin{expbox}[$\lambda/4$ vs $\lambda/2$ の Lamb シフト比較]
+\textbf{アイデア}: カシミール力ではなく、真空揺らぎの Lamb シフトを測る。
+
+$\lambda/4$（奇数モード）と $\lambda/2$（全モード）の超伝導共振器に
+トランスモン量子ビットを結合し、Lamb シフトの差を測定。
+
+$\Delta(\delta f) = \sum_{n \text{ even}} \frac{g_n^2}{f_q - f_n}$
+
+偶数モードの真空揺らぎ寄与を直接測定。
+
+\textbf{温度}: $\sim$10 mK（希釈冷凍機）\\
+\textbf{装置}: 超伝導量子ビット研究室のインフラ\\
+\textbf{判定}: $\lambda/4$ と $\lambda/2$ の Lamb シフトが理論通りに異なるか
+\end{expbox}
+
+\section{Route C: MEMS}
+
+\begin{expbox}[Si-MEMS で力 vs 距離を測定]
+\textbf{アイデア}: Tang et al. (2017, Nature Photonics) の Si-MEMS プラットフォームを DN 型幾何学に適応する。
+
+Tang の装置:
+\begin{itemize}
+\item コムアクチュエータで距離を制御
+\item 振動ビームで力勾配を検出
+\item Si ナノ構造を半導体プロセスで一括製作
+\end{itemize}
+
+T字構造の代わりにオープン端構造を配置。カシミール力を板間隔 $a$ の関数として測定し、$F \propto a^{-\alpha}$ のスケーリング指数 $\alpha$ を決定。
+
+\textbf{温度}: 室温\\
+\textbf{規模}: 100 nm スケール\\
+\textbf{判定}: DN 配置で $\alpha = 5$ かつ力が正（斥力）なら Boyer 確認
+\end{expbox}
+
+%====================================================================
+\part{予測}
+%====================================================================
+
+\section{3つの予測}
+
+\begin{resultbox}[具体的な数値予測]
+\textbf{予測 1}: DN 配置のカシミール力は\textbf{斥力}（正）。
+
+\textbf{予測 2}: 3D での DN/DD エネルギー密度の比は:
+$$\frac{\zeta_{\neg 2}(-3)}{\zeta(-3)} = \frac{-7/120}{1/120} = -7$$
+DN 斥力は DD 引力の\textbf{7倍}の大きさ。
+
+\textbf{予測 3}: スケーリング $F \propto a^{-5}$ は標準QEDの予測。
+$\alpha \neq 5$ の逸脱が見つかれば、それは真空の位相的転移の証拠。
+\end{resultbox}
+
+%====================================================================
+\part{もしうまくいったら}
+%====================================================================
+
+\section{Boyer の予測が確認されたら}
+
+\begin{storybox}[50年越しの検証]
+Boyer が1974年に予測した PEC-PMC カシミール斥力が初めて実験的に確認される。PMC なしで実現したことにより、幾何学的真空制御の新しいパラダイムが開かれる。
+\end{storybox}
+
+\section{オイラー積の物理的実在}
+
+\begin{storybox}[素数が真空を支配する？]
+$\zeta_{\neg 2}$ が物理的に実在することが確認されれば、次の疑問が自然に浮かぶ:
+
+「$p=3$ を消したら（$\zeta_{\neg 3}$）どうなるか？」
+「$p=2$ と $p=3$ を同時に消したら？」
+「オイラー積の各因子が物理の何に対応するか？」
+
+我々は既にこれらの問いに対する数論的枠組み（素数-力 対応、PFC）を持っている。
+Boyer の実験的検証は、この枠組みの出発点。
+\end{storybox}
+
+\section{スケーリング逸脱が見つかったら}
+
+\begin{storybox}[ワープへの道]
+もし $\alpha \neq 5$ が見つかれば:
+\begin{itemize}
+\item 真空エネルギー密度が $1/a^4$ で減衰せず、定数にプラトーする
+\item 「表面効果」が「体積効果」に格上げされる
+\item Ford-Roman の量子エネルギー不等式をバイパスする
+\item 巨視的な負のエネルギーが実現可能に
+\item Alcubierre ワープ計量の物理的基盤
+\end{itemize}
+\end{storybox}
+
+%====================================================================
+\part{正直な評価}
+%====================================================================
+
+\begin{honestbox}[確率と価値]
+\textbf{Boyer の斥力が見つかる確率}: 高い（理論的に確立、方法が正しければ）。
+ただし Route A のナノ DN 構造が十分に理想的な DN 条件を実現できるかは未知。
+
+\textbf{スケーリング逸脱が見つかる確率}: 低い（標準QEDは70年間全テストに合格）。
+
+\textbf{実験の価値}:
+\begin{itemize}
+\item 斥力が見つかる（高確率）→ Boyer の50年越しの検証。確実に論文。
+\item スケーリング逸脱が見つかる（低確率）→ 物理学の歴史が変わる。
+\item どちらも見つからない → DN 条件の精度が不十分、または方法の限界。次へ進む。
+\end{itemize}
+
+\textbf{どちらに転んでも科学は前に進む。}
+\end{honestbox}
+
+\begin{honestbox}[この論文の独自性]
+\begin{enumerate}
+\item 「Boyer の計算 = オイラー積の素数2除去」という再解釈は新しい
+\item 「PMC は不要、$\lambda/4$ で十分」というフレーミングは新しい
+\item 3つの具体的な実験経路の提案は新しい
+\item Boyer (1974) 以来50年の空白を指摘し、解決策を提示するのは新しい
+\end{enumerate}
+
+新しくないもの:
+\begin{itemize}
+\item Boyer の予測自体（1974年に確立）
+\item ζ 正則化の物理的妥当性（カシミール実験で確認済み）
+\item $\lambda/4$ 共振器の物理（高校物理）
+\end{itemize}
+
+\textbf{新しいものと古いものの組み合わせから、新しい実験が生まれる。}
+\end{honestbox}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries 1974年、Boyer は答えを出した。}\\[0.2cm]
+{\Large\bfseries 2026年、我々は問いを変えた。}\\[0.2cm]
+{\Large\bfseries 「PMC を見つけよ」→「片端を開けよ」。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
