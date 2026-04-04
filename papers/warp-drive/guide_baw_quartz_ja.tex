@@ -1,0 +1,495 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{水晶バルク音響共振器による\\
+Euler 積切除効果の検証\\
+\large 軸 A (BAW) 深掘りガイド}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+軸 A (共鳴 $Q^2$ 増幅) の中で個人〜中規模予算で到達可能な唯一の
+ルートが水晶バルク音響共振器 (Bulk Acoustic Wave, BAW) である．
+水晶は室温で $Q\sim 10^6$，希釈冷凍機温度で $Q>10^9$ という
+驚異的な機械的 Q を持ち，Goryachev \& Tobar らの重力波探索・
+ダークマター探索実験で量子極限（$\hbar\omega > k_B T$）が
+達成されている．本ガイドでは，水晶 BAW の物理，DN/DD
+境界条件を機械的に実現する方法，先行研究，測定プロトコル，
+感度見積もり，そして実装ルート（室温から mK まで）を詳述する．
+特に，Boyer (1974) 型の真空エネルギー符号反転を\textbf{機械的
+振動周波数のシフト}として検出する具体的なスキームを提案する．
+\end{abstract}
+
+\tableofcontents
+
+\section{なぜ水晶 BAW なのか}
+
+軸 A の 3 つのサブルート（超伝導 cQED / 光学 FP / BAW）のうち，
+BAW は以下の独特な利点を持つ：
+
+\begin{itemize}
+\item \textbf{室温でも $Q>10^5$}：希釈冷凍機が無くてもスタート可能
+\item \textbf{mK で $Q>10^9$}：世界最高クラスの機械 Q
+\item \textbf{量子極限が到達可能}：$\omega/2\pi = 1$\,GHz なら
+$\hbar\omega/k_B = 50$\,mK。20\,mK 冷却で真に量子領域
+\item \textbf{単一音子状態生成・操作が既存技術}：Chu et al.\ (2017)
+が超伝導量子ビットと HBAR の結合を実証
+\item \textbf{商用品が存在}：水晶振動子自体は 100 円で買える（ただし
+DN 境界実装には加工が必要）
+\item \textbf{電磁ノイズに対する優位}：機械系は電磁干渉を受けにくい
+\end{itemize}
+
+特に重要な点は，\textbf{BAW では境界条件が「面の機械的条件」
+として定義される}こと：
+\begin{itemize}
+\item 自由表面 (stress-free)：$\sigma \cdot \hat n = 0$ → Neumann
+\item 固定（クランプ）表面：$u = 0$ → Dirichlet
+\end{itemize}
+
+つまり水晶板の片面を自由，もう片面を重い基板に強く接着すれば
+\textbf{完全な DN 境界}が実現される．これは電磁場での DN 実装
+（完全電気導体 PEC と完全磁気導体 PMC の組み合わせ）よりも
+物理的にクリーンで，PMC の広帯域近似を要求しない．
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=BAW の最大の強み]
+電磁 DN 実装で我々を苦しめてきた Kramers--Kronig 制約
+（PMC は虚周波数で破綻）は，\textbf{機械系には存在しない}．
+固体力学の自由/クランプ境界は全周波数で正確に Neumann/Dirichlet．
+これが BAW ルートを理論的に最もクリーンにする．
+\end{tcolorbox}
+
+\section{BAW 共振器の物理}
+
+\subsection{基本構造}
+
+最単純な BAW 共振器は以下：
+
+\begin{center}
+\begin{tabular}{l}
+\hline
+上面電極（Al 薄膜） \\
+\hline
+\textbf{水晶板（厚さ $d = 10\,\mu$m $\sim$ 1\,mm）} \\
+\hline
+下面電極（Al 薄膜） \\
+\hline
+\end{tabular}
+\end{center}
+
+水晶の圧電効果により，電極間に電圧を加えると厚さ方向に機械歪み
+が生じる．交流電圧で駆動すると厚さ振動モード（thickness-shear or
+thickness-extensional）が励起される．
+
+\subsection{モード周波数}
+
+厚さ方向の音速 $v_s$（水晶の $AT$ カット shear mode では
+$v_s \approx 3320$\,m/s），厚さ $d$ とすると，
+自由境界 (NN) の場合：
+\begin{equation}
+  f_n^{\rm NN} = \frac{n v_s}{2d},\quad n=1,2,3,\ldots
+\end{equation}
+$d = 166\,\mu$m で $f_1 = 10$\,MHz（標準的な時計用水晶より厚い）．
+$d = 1.66\,\mu$m で $f_1 = 1$\,GHz．
+
+Dirichlet--Neumann (DN) 境界（片面自由，片面クランプ）の場合：
+\begin{equation}
+  f_n^{\rm DN} = \frac{(2n-1) v_s}{4d},\quad n=1,2,3,\ldots
+\end{equation}
+基本周波数が半分になり，奇数倍音のみが許される．
+
+\subsection{Q 値と損失機構}
+
+水晶 BAW の $Q$ は温度と周波数で変化：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+温度 & 周波数 & $Q$ \\
+\midrule
+300\,K & 10\,MHz & $10^6$ \\
+300\,K & 1\,GHz & $10^4$ \\
+4\,K & 10\,MHz & $10^8$ \\
+4\,K & 100\,MHz & $10^9$ \\
+20\,mK & 200\,MHz & $>10^{10}$（Galliou et al.\ 2013）\\
+20\,mK & 1\,GHz & $10^8$--$10^9$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+主な損失機構：
+\begin{itemize}
+\item 熱弾性損失（低温で抑制）
+\item フォノン-フォノン散乱（Akhieser, Landau--Rumer）
+\item 表面吸着種による散逸（超高真空で抑制）
+\item マウンティング損失（エッジ保持 or レビテーション）
+\item 電極の機械的負荷（電極を薄くする，または無電極駆動）
+\end{itemize}
+
+\subsection{Lamb shift アナログ}
+
+本プロジェクトの視点では，水晶 BAW は「機械的真空」を持つ
+共振器である．基底状態でも零点運動 $\langle x^2\rangle_0 = \hbar/(2m\omega)$
+が存在し，これが高次モードとカップルすることで基本モード
+周波数に\textbf{音響 Lamb shift}を引き起こす：
+\begin{equation}
+  \delta f_1 = \sum_{n\geq 2} \frac{g_n^2}{f_1 - f_n}
+\end{equation}
+
+ここで $g_n$ はモード $n$ と基本モードの結合（アンハーモニシティ
+または外部駆動によるもの）．この和は DN か DD かで異なる——
+まさに我々が見たい効果．
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black]
+\textbf{中心予測}: 同じ基本周波数 $f_1$ を持つ DD 水晶板と
+DN 水晶板を用意し，それぞれの「実効基本周波数」（非線形 Lamb
+shift 込み）を精密測定すると，
+\begin{equation}
+  f_1^{DD} - f_1^{DN} = \sum_{n\;\text{even}} \frac{g_n^2}{f_1 - f_n}
+\end{equation}
+が得られる．これは cQED 提案（\texttt{cqed\_lambda4\_proposal.tex}）
+と同型の測定だが，機械系で実装される．
+\end{tcolorbox}
+
+\section{DN 境界条件の実装法}
+
+これが本ガイドの技術的核心．水晶板で片面自由・片面固定を
+どう作るか．
+
+\subsection{方法 1: 重基板貼り付け (\textbf{推奨})}
+
+\begin{enumerate}
+\item 水晶板（厚さ $d$）を用意
+\item 片面を厚い金属基板（例：タングステン $\rho=19.3$, 10\,mm 厚）
+に真空エポキシで接着
+\item もう片面は自由（空気 or 真空に接する）
+\end{enumerate}
+
+\textbf{原理}：タングステンの音響インピーダンス $Z_W \approx 100$\,MRayl
+が水晶 $Z_Q \approx 15$\,MRayl の 6.7 倍．インピーダンスミスマッチが
+大きいほど反射が強く，振幅節に近づく．理想 Dirichlet には
+ならないが，$|R|^2 > 0.97$ は達成できる．
+
+サファイア基板でも代用可（$Z_s \approx 44$\,MRayl）．
+よりクリーンなのは\textbf{Si 単結晶基板}への水晶エピタキシャル
+成長だが，これは薄膜水晶（ZnO, AlN など）でないと難しい．
+
+\subsection{方法 2: フォノニック結晶によるミラー}
+
+メタマテリアル的アプローチ．水晶板の片面に周期構造
+（フォノニック結晶 mirror, 4 層ペア以上）を配し，目的周波数
+帯域での反射率 $\to 1$ を実現．
+
+\textbf{利点}：エポキシ損失を避けられる．\\
+\textbf{欠点}：狭帯域．設計・加工が複雑．
+
+Chan et al.\ (2011) Nature の光力学結晶キャビティは光学版だが，
+同じ設計を機械モードに適用できる．
+
+\subsection{方法 3: 無電極レビテーション BAW}
+
+水晶球を静電レビテーションし，接触なしで励起する．\\
+\textbf{利点}：マウンティング損失ゼロ，最高 Q\\
+\textbf{欠点}：DN 境界の実装が困難（全面自由＝NN になる）．
+ただし音響インピーダンス勾配を内部構造として持つ
+composite 球なら DN 的モードが作れる（研究課題）．
+
+\subsection{方法 4: HBAR 構造}
+
+HBAR = High-overtone Bulk Acoustic Resonator．薄い圧電膜
+（AlN or ZnO, 1\,$\mu$m 厚）を厚いサファイア基板上に堆積．
+圧電膜が駆動源，基板が共鳴体．基板裏面は自由，圧電膜側は
+金属電極を通じて擬似クランプ．これは元々\textbf{ほぼ DN 構造}．
+
+\textbf{Chu et al.\ (2017, Science 358:199)} は HBAR と超伝導
+トランスモンを結合して単一音子制御を実現．この装置はすでに
+DN 境界を持つ．
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+方法 & 推奨度 \\
+\midrule
+重基板貼り付け & ◎（個人〜小規模グループ向け）\\
+フォノニック結晶 & △（専門設備必要）\\
+レビテーション & ×（DN 実装困難）\\
+HBAR & ◎（既存装置の読み替えで可能）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{先行研究の詳細}
+
+\subsection{Galliou, Goryachev, Tobar グループ (UWA / FEMTO-ST)}
+
+世界で最も進んだ低温水晶 BAW 研究．BAW 重力波検出器と
+ハイマス ダークマター検出器を開発中．
+
+\begin{itemize}
+\item Galliou et al.\ (2013, Sci.\ Rep.\ 3:2132)：20\,mK で
+$Q > 10^{10}$，機械 Lamb shift 測定可能
+\item Goryachev \& Tobar (2014, NJP 16:083007)：量子振動子
+として水晶 BAW を扱う理論
+\item Goryachev et al.\ (2021, PRL 127:071102)：高周波重力波
+探索．ここで使われている水晶 BAW は BVA (Boîtier à Vieillissement
+Amélioré) カットで Q が非常に高い
+\end{itemize}
+
+\textbf{重要な事実}：彼らの装置は基本的に DD (NN) 構造．
+DN 構造との比較実験は\textbf{まだ行われていない}．
+我々の提案の独自性はここにある．
+
+\subsection{Chu, Schoelkopf グループ (Yale)}
+
+HBAR 量子音響学．
+
+\begin{itemize}
+\item Chu et al.\ (2017, Science 358:199)：単一音子観測
+\item Chu et al.\ (2018, Nature 563:666)：量子音子の時間分解制御
+\item HBAR は $\sim 5$\,GHz, $Q \sim 10^6$ @20\,mK
+\end{itemize}
+
+装置構造上，HBAR は既に DN 的．彼らの既存データから DN 型の
+Lamb shift を抽出できる可能性があり，\textbf{新規測定なしで
+我々の予測を検証できる}かもしれない．再解析論文 1 本書ける余地．
+
+\subsection{Cleland, Safavi-Naeini 他の光力学}
+
+Optomechanical crystal cavity（Chan et al.\ 2011, Nature 478:89）
+は，フォノニック結晶で phonon を閉じ込める純機械的キャビティ．
+境界条件はフォノニック結晶 mirror の設計で自在．DN 実装の
+最有力候補．ただし装置は億単位．
+
+\subsection{まとめ}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+グループ & 装置 & DN 実装状況 \\
+\midrule
+Galliou/Tobar & BVA 水晶 BAW, 20\,mK & DD のみ \\
+Chu/Schoelkopf & HBAR, 20\,mK & 本質的に DN（未認識）\\
+Cleland/Safavi & 光力学結晶 & 設計次第 \\
+Kippenberg & CaF$_2$ bulk resonator & DD \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{結論}：Chu らの HBAR データ再解析は最も早く結果を
+出せるルート．独自測定なら Galliou ラインで DN 版を作る．
+
+\section{感度見積もり}
+
+\subsection{Lamb shift の大きさ}
+
+水晶 BAW for $f_1 = 10$\,MHz, $d = 166\,\mu$m, 非線形結合 $g/f_1 \sim 10^{-5}$
+（Goryachev 2014 の値）と仮定：
+\begin{equation}
+  \delta f^{DD} - \delta f^{DN} \sim f_1 \cdot \left(\frac{g}{f_1}\right)^2 \cdot N_{\rm even}
+\end{equation}
+
+$N_{\rm even} \sim 10$（有効寄与する偶数モード数）で，
+\begin{equation}
+  \Delta f \sim 10^7 \cdot 10^{-10} \cdot 10 \approx 10^{-2}\;\text{Hz} = 10\;\text{mHz}
+\end{equation}
+
+これを $f = 10^7$\,Hz 上で測定 → 相対精度 $10^{-9}$ が必要．
+
+\subsection{測定精度}
+
+水晶 BAW の周波数安定度：
+\begin{itemize}
+\item 室温 BVA：$10^{-12}$/秒（最高クラス時間標準）
+\item 20\,mK では熱ドリフトが抑えられてさらに向上
+\item Allan 分散 $\sigma_y(\tau) \sim 10^{-13}$ @ $\tau=1$\,s
+\end{itemize}
+
+10\,mHz は余裕で測定可能．実際，100\,$\mu$Hz 精度の測定も可能．
+\textbf{信号ノイズ比は $10^4$ 以上}．
+
+\subsection{systemat 誤差}
+
+\begin{itemize}
+\item \textbf{質量ロード}：DN 実装のためのタングステン基板接着が
+水晶の有効厚さを変える．→ 両サンプル同条件で作る
+\item \textbf{温度差}：DN と DD で放熱経路が異なる → 共通プラットフォーム
+\item \textbf{歪み}：エポキシの収縮で歪みが入る → 歪みセンサで
+モニタ
+\item \textbf{加工公差}：厚さ $\pm 0.1\,\mu$m で $f_1$ が $\pm 6$\,Hz シフト．
+→ レーザー干渉厚さ計で厳密管理
+\end{itemize}
+
+最大の系統誤差は加工公差だが，\textbf{測定するのは DD と DN の
+「Lamb shift 寄与分」}であり，$f_1$ そのものではないので，
+差分手法で系統を抑えられる．具体的には：
+
+\begin{enumerate}
+\item DD サンプルと DN サンプルを用意，$f_1$ を測定（絶対値は
+加工誤差で揺らぐ）
+\item 各サンプルの非線形共振周波数シフト（駆動強度依存）を測定
+\item 駆動強度ゼロ極限へ外挿．これが「純 Lamb shift」分
+\item DD と DN の純 Lamb shift を比較
+\end{enumerate}
+
+この駆動強度外挿法は Goryachev らが確立済み．
+
+\section{段階的実装ロードマップ}
+
+本プロジェクトを現実の資金・技術水準と整合させるための 4 段階．
+
+\subsection{Stage 1: 室温プロトタイプ（総額 10 万円，3 ヶ月）}
+
+\textbf{目的}：モード構造自体の検証．DN で偶数倍音が本当に
+欠ける（実際の水晶で）ことを確認．
+
+\begin{itemize}
+\item 商用水晶振動子（5--25\,MHz）を 2 個購入，¥2,000
+\item 片方を削ってタングステン板に接着 → DN 化，¥10,000
+\item nanoVNA（¥15,000）で共振スペクトル測定
+\item オシロ（¥8,000）＋ファンクションジェネレータ（¥10,000）
+\item 真空チャンバ（デシケータ改造，¥15,000）
+\item ローノイズ電源（¥5,000）
+\item 温度安定化（ペルチェ，¥15,000）
+\item 消耗品・工具 ¥20,000
+\end{itemize}
+
+\textbf{期待成果}：DD 側で偶数倍音ピーク，DN 側で欠落を確認．
+論文 1 本（\textit{Rev.\ Sci.\ Instrum.} 等）．
+
+\textbf{失敗モード}：マウンティング損失で Q が低すぎる．
+Lamb shift は見えないが，モード構造は見える．
+
+\subsection{Stage 2: 液体窒素温度（総額 50 万円，6 ヶ月）}
+
+\textbf{目的}：$Q > 10^7$ を達成し，Lamb shift が見え始める閾値を
+探る．
+
+\begin{itemize}
+\item ガラスデュワー＋液体窒素供給（¥50,000＋消耗品）
+\item 低温対応ケーブル・フィードスルー（¥30,000）
+\item 高精度周波数カウンタ（中古 HP 53131A, ¥80,000）
+\item 低ノイズ プリアンプ（¥20,000）
+\item GPS 規準信号（¥30,000）
+\item Stage 1 の装置を低温化（真空パッケージ，¥50,000）
+\item 振動絶縁テーブル（中古, ¥100,000）
+\item その他 ¥140,000
+\end{itemize}
+
+77\,K では水晶 Q $\sim 10^7$ が期待できる．この段階で 10\,mHz
+シフトの検出を試みる．検出できれば世界初の機械 Lamb shift
+Euler 切除効果．
+
+\subsection{Stage 3: 4\,K パルス管冷却（総額 500 万円，1 年）}
+
+パルス管冷凍機（振動源だが 4\,K 達成）．Q $\sim 10^8$–$10^9$．
+cryocooler は中古で $\sim$200 万円，装置化に 300 万円．
+
+この段階で個人研究の限界．共同研究者または所属機関必須．
+
+\subsection{Stage 4: 希釈冷凍機（総額 1 億円，2 年）}
+
+OtaNano, Argonne CNM, Chalmers 等の希釈冷凍機を使用．
+20\,mK, Q $>10^{10}$，完全量子極限．これが「本番」．
+
+$Q > 10^{10}$ なら Lamb shift の絶対測定と DN/DD 差の両方が
+cleanly に取れる．この段階では Galliou/Tobar または Chu グループ
+との共同研究が現実的．
+
+\section{軸 D（音響アナログ）との関係}
+
+冒頭の問いに戻る：軸 D が null なら軸 A (BAW) に意味はあるか？
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=結論]
+軸 D と軸 A (BAW) は\textbf{相補的だが独立}．軸 D の null 結果は
+軸 A の予測に影響を与えない．理由：
+\begin{enumerate}
+\item 軸 D（空気音響管）は古典熱ゆらぎ領域で，カットオフが
+粘性・熱拡散で決まる．$\zeta$ 正則化ではなく物理カットオフ
+\item 軸 A (BAW) は低温で $\hbar\omega \gg k_B T$ の量子領域に入れる．
+真の零点揺らぎを扱う
+\item BAW は境界条件が機械的に定義されるため，DN 実装が
+電磁版より clean．PMC 問題（Kramers--Kronig 制約）が無い
+\item BAW の Q は 軸 D より 6--10 桁高く，系統誤差耐性が
+根本的に違う
+\end{enumerate}
+\end{tcolorbox}
+
+逆に軸 D で positive なら軸 A の強力な予備証拠になる．
+\textbf{軸 D は「安いアップサイド」，軸 A (BAW) は「本格的な検証」}，
+両者は競合しない．
+
+\section{今すぐ何をすべきか}
+
+優先順位リスト：
+
+\begin{enumerate}
+\item \textbf{即時}：Chu et al.\ (2017, 2018) の HBAR データを
+再解析する可能性を探る．Yale グループに問い合わせ（
+「あなた方の HBAR は実質 DN 境界だが，DD との比較は取れているか?」）
+\item \textbf{1 ヶ月以内}：Stage 1 のプロトタイプ設計と発注．
+商用水晶振動子の選定．タングステン板加工
+\item \textbf{3 ヶ月}：Stage 1 実験実施．結果を arXiv に
+\item \textbf{6 ヶ月}：Stage 2 へ．液体窒素デュワー調達
+\item \textbf{並行して}：Galliou/Tobar（FEMTO-ST, フランス）または
+Chu/Schoelkopf（Yale）に理論予測レターを送付．反応があれば
+Stage 3--4 をそこで行う道が開く
+\end{enumerate}
+
+Stage 1 は\textbf{軸 D と同じく週末着手可能}（予算差 5 倍）で，
+量子に近い領域まで行ける．Wright Brothers プロジェクトとしては
+\textbf{軸 D と Stage 1 BAW を同時並行で走らせる}のが理想．
+
+\section{まとめ}
+
+水晶 BAW は，軸 A の 3 つのサブルート中，個人〜小規模グループが
+量子真空領域に到達できる唯一の道．$Q>10^{10}$，量子極限，
+機械的に clean な DN 境界，既存の高度な先行研究．
+
+特に HBAR 構造（Chu グループ）が\textbf{実質的に DN 境界}である
+という事実は，我々の予測（Euler 積切除による真空エネルギー
+符号反転）の検証データが\textbf{既に存在する可能性}を示唆する．
+これは再解析論文 1 本で出せる可能性のある重要な一歩．
+
+自前実装としては Stage 1 (室温, 10 万円) から始めるのが現実的．
+軸 D（音響アナログ, 5 万円）と並行して走らせれば，物理的
+独立性を担保しつつ早期に結果を出せる．
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連文書：
+\begin{itemize}
+\item \texttt{guide\_garage\_scaling\_ja.tex}（軸 A--D 全体俯瞰）
+\item \texttt{cqed\_lambda4\_proposal.tex}（軸 A 超伝導版）
+\item \texttt{boyer\_reinterpretation\_ja.tex}（理論）
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+主要参考文献：
+\begin{itemize}
+\item Galliou et al., Sci.\ Rep.\ \textbf{3}, 2132 (2013)
+\item Goryachev \& Tobar, NJP \textbf{16}, 083007 (2014)
+\item Goryachev et al., PRL \textbf{127}, 071102 (2021)
+\item Chu et al., Science \textbf{358}, 199 (2017)
+\item Chu et al., Nature \textbf{563}, 666 (2018)
+\item Chan et al., Nature \textbf{478}, 89 (2011)
+\end{itemize}
+
+\end{document}
