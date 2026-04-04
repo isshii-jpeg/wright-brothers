@@ -1,0 +1,474 @@
+% 実験ガイド v3: 根本的再設計版
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{expbox}[1][]{colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{dangerbox}[1][]{colback=red!15,colframe=red!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{実験ガイド v3}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 素数ミュート実験}\\[0.3cm]
+{\Huge\bfseries 設計ガイド v3}\\[0.8cm]
+{\Large 旧設計の根本的な誤りを修正した決定版}\\[1cm]
+{\large Wright Brothers Research Program}\\[0.3cm]
+{2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{旧設計の何が間違っていたか}
+%====================================================================
+
+\section{3つの根本的な誤り}
+
+\begin{dangerbox}[誤り 1: モード2ミュート ≠ 素数2ミュート]
+旧設計: SQUID でモード2（12 GHz）を1つ消す。
+
+問題: 素数2ミュートは偶数モードを\textbf{全部}消す操作:
+$$\zeta_{\neg 2}(s) = \zeta(s)(1-2^{-s}) = \sum_{n \text{ odd}} n^{-s}$$
+1つのモードを消しても符号反転は起きない。
+\end{dangerbox}
+
+\begin{dangerbox}[誤り 2: 壁を入れる ≠ 素数ミュート]
+壁は偶数モードを消すが、小キャビティの新しいモードを作る。
+結果は純粋ミュートと\textbf{符号すら違う}:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+操作 & 真空エネルギー \\
+\midrule
+通常（全モード） & $-\pi\hbar c/(24L)$（負） \\
+純粋ミュート（奇数のみ） & $+\pi\hbar c/(24L)$（\textbf{正}） \\
+壁挿入（奇数＋新モード） & $-\pi\hbar c/(6L)$（負） \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{dangerbox}
+
+\begin{dangerbox}[誤り 3: Mr.SQUID/SQ2600 は使えない]
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+デバイス & 周波数帯 & 温度 & 使えるか \\
+\midrule
+Mr.SQUID（教育用） & DC & 77 K & ✗ 完全に不適 \\
+SQ2600（磁束計） & DC〜MHz & 4.2 K & ✗ 不適 \\
+\textbf{トランスモン量子ビット} & \textbf{4〜12 GHz} & \textbf{0.01〜0.3 K} & \textbf{✓ 必要} \\
+\bottomrule
+\end{tabular}
+\end{center}
+DC SQUID（磁場センサー）とトランスモン（マイクロ波人工原子）は
+物理的には同じジョセフソン接合だが、設計思想が全く異なる。
+この実験は\textbf{回路量子電磁力学（circuit QED）}の実験であり、
+磁場測定の実験ではない。
+\end{dangerbox}
+
+%====================================================================
+\part{素数ミュートとは何か（正確な定義）}
+%====================================================================
+
+\section{ゼータ関数のオイラー積}
+
+\begin{mathbox}[正確な定義]
+$$\zeta(s) = \sum_{n=1}^{\infty} n^{-s} = \prod_{p\text{ prime}} \frac{1}{1-p^{-s}}$$
+
+素数 $p=2$ のミュート:
+$$\zeta_{\neg 2}(s) = \zeta(s) \times (1-2^{-s}) = \sum_{n\text{ odd}} n^{-s}$$
+
+$s = -1$ で:
+$$\zeta(-1) = 1+2+3+4+5+\cdots = -\frac{1}{12}$$
+$$\zeta_{\neg 2}(-1) = 1+3+5+7+9+\cdots = +\frac{1}{12}$$
+
+\textbf{偶数を全部消すと、和の符号が反転する。}
+\end{mathbox}
+
+\section{キャビティのモードとの対応}
+
+\begin{storybox}[ギターの弦のたとえ]
+ギターの弦には倍音がある:
+$$f_n = n \times f_1 \quad (n = 1, 2, 3, 4, 5, \ldots)$$
+
+全倍音の真空エネルギーの和 = $\zeta(-1) = -1/12$（負）。
+
+偶数倍音（$n=2,4,6,\ldots$）を全部消すと:
+$$\text{残り} = 1 + 3 + 5 + 7 + \cdots = \zeta_{\neg 2}(-1) = +1/12 \text{（正！）}$$
+
+\textbf{符号が反転} = 真空エネルギーが負から正に変わる。
+\end{storybox}
+
+\section{物理的に「消す」とは}
+
+偶数モードを「消す」には2通りある:
+
+\textbf{反射（壁）}: 偶数モードが存在できない境界条件を作る。
+→ 新しい小キャビティのモードが生まれる。
+→ 純粋な引き算にならない。✗
+
+\textbf{吸収（散逸）}: 偶数モードのエネルギーを外部に逃がす。
+→ 新しいモードは生まれない。
+→ 純粋な引き算。✓
+
+\begin{resultbox}[核心]
+\textbf{壁ではなく穴を使う。反射ではなく吸収。}
+
+キャビティの中点 $L/2$ に小さな穴を開け、
+外部の抵抗（50$\Omega$）に接続する。
+偶数モードは $L/2$ で振幅最大 → 穴から漏れて散逸。
+奇数モードは $L/2$ で振幅ゼロ（節）→ 穴を感じない。
+\end{resultbox}
+
+%====================================================================
+\part{正しい実験設計}
+%====================================================================
+
+\section{必要な装置}
+
+\begin{expbox}[装置一覧]
+\begin{enumerate}
+\item \textbf{超伝導3Dキャビティ}（アルミ）
+    \begin{itemize}
+    \item 内寸: 35mm角
+    \item 基本モード $f_1 \approx 6$ GHz
+    \item 自作可能（フライス加工）
+    \end{itemize}
+
+\item \textbf{散逸型カプラ}（L/2 地点）
+    \begin{itemize}
+    \item キャビティ中点にSMAコネクタ穴
+    \item 外部に50$\Omega$終端 or スイッチ（ON/OFF切替）
+    \item 偶数モードだけが結合（対称性による自動分離）
+    \end{itemize}
+
+\item \textbf{トランスモン量子ビット}（probe）
+    \begin{itemize}
+    \item Al/AlO$_x$/Al ジョセフソン接合 + 大容量キャパシタ
+    \item $f_{\mathrm{qubit}} \approx 5$ GHz（モード1近傍）
+    \item 真空揺らぎのシフトを検出するセンサー
+    \end{itemize}
+
+\item \textbf{希釈冷凍機 or $^3$He冷凍機}
+    \begin{itemize}
+    \item $T \leq 300$ mK
+    \item 大学の共同利用施設
+    \end{itemize}
+
+\item \textbf{マイクロ波測定系}
+    \begin{itemize}
+    \item VNA（ベクトルネットワークアナライザー）
+    \item 低温同軸ケーブル、アッテネータ
+    \end{itemize}
+\end{enumerate}
+\end{expbox}
+
+\section{カプラの ON/OFF}
+
+\begin{expbox}[2つの配置を切り替える]
+\textbf{Config A（全モード）}: L/2 カプラを OFF（50$\Omega$を切断 or 開放）。
+全モード ($n=1,2,3,4,\ldots$) が高Q ($\sim 10^6$) で共鳴。
+
+\textbf{Config B（素数2ミュート）}: L/2 カプラを ON（50$\Omega$に接続）。
+偶数モード ($n=2,4,6,\ldots$): Q $\sim 100$ に低下（散逸）。
+奇数モード ($n=1,3,5,\ldots$): Q $\sim 10^6$ のまま（影響なし）。
+
+切り替え方法:
+\begin{itemize}
+\item クールダウンごとに物理的に接続/切断（最も確実）
+\item 低温マイクロ波スイッチ（より便利だが高価）
+\end{itemize}
+\end{expbox}
+
+\section{何を測定するか}
+
+\begin{expbox}[測定プロトコル]
+\begin{enumerate}
+\item Config A（全モード）でトランスモンの共鳴周波数 $f_q^A$ を測定
+\item Config B（偶数ミュート）でトランスモンの共鳴周波数 $f_q^B$ を測定
+\item 差 $\Delta f = f_q^B - f_q^A$ を計算
+
+\textbf{E$_J$ スイープ}: 磁束バイアスでトランスモンの E$_J$ を変えながら
+上記を繰り返す。
+
+\item 分散シフト成分（E$_J$ 依存）をフィットして除去
+\item 残差 = Lamb シフト（真空揺らぎの効果）
+\end{enumerate}
+
+\textbf{ζ予測}: 残差の符号が Config A → B で反転する。\\
+\textbf{標準QED}: 残差の符号は変わらない。
+\end{expbox}
+
+\section{シグナルの大きさ}
+
+\begin{mathbox}[定量的見積もり]
+Lamb シフト: $\delta f \sim g^2/\Delta \sim (100\text{ MHz})^2 / (6\text{ GHz}) \sim 1.7\text{ MHz}$
+
+ノイズフロア: $\sim 1$ Hz（1時間積分）
+
+S/N 比: $> 10^6$
+
+→ シグナルはノイズの\textbf{100万倍以上}。検出は確実。
+
+問題は「検出できるか」ではなく
+「標準QEDの予測と合うか違うか」。
+\end{mathbox}
+
+%====================================================================
+\part{入手方法}
+%====================================================================
+
+\section{トランスモン量子ビットの入手}
+
+\begin{honestbox}[Mr.SQUID は使えない]
+Mr.SQUID（Star Cryoelectronics の教育用キット）は
+DC 磁場センサーであり、マイクロ波帯の量子ビットではない。
+SQ2600 も同様。どちらもこの実験には使えない。
+
+必要なのは circuit QED 用の\textbf{トランスモン量子ビット}。
+\end{honestbox}
+
+\begin{expbox}[入手方法（現実的な順）]
+\textbf{方法 1: 量子コンピュータ研究室との共同研究}（推奨）
+
+東大、理研、阪大、東北大、東工大などに
+超伝導量子ビットの研究室がある。
+「キャビティ内の選択的モード散逸が真空揺らぎに与える影響」
+は彼らにとっても興味のあるテーマ。
+
+提案: 「我々がキャビティと散逸カプラを設計・製作し、
+あなたの研究室のトランスモンと冷凍機を使わせてほしい」。
+
+コスト: 0〜10万円（消耗品のみ）。
+
+\textbf{方法 2: 自作}
+
+クリーンルーム（EBL + 蒸着装置）で製作。
+Al/AlO$_x$/Al ジョセフソン接合 + インターデジタルキャパシタ。
+大学のナノファブ施設を共同利用。
+
+コスト: 〜5万円。要ナノ加工経験。
+
+\textbf{方法 3: 購入}
+
+一部の企業が量子ビットチップを販売:
+\begin{itemize}
+\item Qubits.de（ドイツ）
+\item 大学のファウンドリサービス
+\end{itemize}
+
+コスト: 10〜30万円。
+\end{expbox}
+
+\section{キャビティと散逸カプラ}
+
+\begin{expbox}[自作可能]
+\textbf{キャビティ}: アルミブロックをフライス加工。
+旧ガイドと同じ。¥9,000。
+
+\textbf{散逸カプラ}: キャビティの L/2 地点に追加の SMA コネクタ穴。
+外部に 50$\Omega$ 終端をネジ止め。
+カプラのピン長で結合強度を調整。
+
+ON/OFF: 50$\Omega$ 終端を物理的に付け外し。
+（低温スイッチを使う場合: 追加 ¥50,000〜）
+\end{expbox}
+
+%====================================================================
+\part{実験手順}
+%====================================================================
+
+\section{Step 1: キャビティ特性の確認}
+
+\begin{expbox}[室温テスト]
+\begin{itemize}
+\item VNA で S$_{21}$ を測定
+\item Config A: L/2 カプラ OFF → モード1, 2, 3, ... 全部見える
+\item Config B: L/2 カプラ ON → 偶数モード（2, 4, 6,...）の Q が低下
+\item 奇数モード（1, 3, 5,...）は変化しないことを確認
+\end{itemize}
+
+この確認は室温で、冷却前にできる。
+\end{expbox}
+
+\section{Step 2: 冷却と量子ビット特性}
+
+\begin{expbox}[低温テスト]
+\begin{itemize}
+\item 0.3 K に冷却
+\item トランスモンの共鳴周波数 $f_q$ を測定
+\item E$_J$ をフラックスバイアスで変えながら $f_q$(E$_J$) を記録
+\end{itemize}
+\end{expbox}
+
+\section{Step 3: 本実験}
+
+\begin{expbox}[データ取得]
+\begin{enumerate}
+\item Config A（カプラ OFF）:
+    \begin{itemize}
+    \item E$_J$ を 10 点スイープ
+    \item 各点で $f_q$ を 1 時間積分
+    \end{itemize}
+
+\item Config B（カプラ ON）:
+    \begin{itemize}
+    \item 同じ E$_J$ の 10 点で $f_q$ を 1 時間積分
+    \end{itemize}
+
+\item 合計: 20 時間（1クールダウンで可能）
+\end{enumerate}
+\end{expbox}
+
+\section{Step 4: データ解析}
+
+\begin{expbox}[解析]
+\begin{enumerate}
+\item $f_q^A$(E$_J$) と $f_q^B$(E$_J$) をプロット
+\item 分散シフト（E$_J$ 依存のカーブ）をフィット
+\item 残差 $\delta_A$(E$_J$) と $\delta_B$(E$_J$) を抽出
+\item 残差の平均値の符号を比較:
+    \begin{itemize}
+    \item A と B で同符号 → 標準 QED と整合（帰無仮説）
+    \item A と B で異符号 → ζ 構造の証拠（対立仮説）
+    \end{itemize}
+\end{enumerate}
+\end{expbox}
+
+%====================================================================
+\part{判断基準}
+%====================================================================
+
+\section{結果の解釈}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lp{8cm}}
+\toprule
+結果 & 意味 \\
+\midrule
+残差に有意差なし & 帰無仮説支持。選択的モード散逸は真空揺らぎに影響しない。この実験方法では検出限界以下。 \\
+残差に有意差あり、同符号 & 標準 QED の範囲内の効果。偶数モードの真空寄与が減少しただけ。新物理なし。 \\
+\textbf{残差に有意差あり、異符号} & \textbf{標準QEDでは説明不能。真空の符号反転の証拠。ζ構造が物理に入っている最初の実験的ヒント。} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%====================================================================
+\part{コスト}
+%====================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lrl}
+\toprule
+項目 & 費用 & 備考 \\
+\midrule
+\multicolumn{3}{l}{\textbf{共同研究の場合（推奨）}} \\
+キャビティ材料+加工 & ¥9,000 & 自作 \\
+散逸カプラ部品 & ¥3,000 & SMAコネクタ+50Ω終端 \\
+トランスモン & ¥0 & 共同研究先から借用 \\
+冷凍機使用料 & ¥0〜¥100,000 & 施設による \\
+低温ケーブル & ¥30,000 & \\
+消耗品 & ¥10,000 & \\
+\midrule
+\textbf{合計} & \textbf{¥52,000〜¥152,000} & \\
+\midrule
+\multicolumn{3}{l}{\textbf{全部自前の場合}} \\
+上記 + トランスモン製作 & +¥50,000 & クリーンルーム使用料 \\
+上記 + 冷凍機使用料 & +¥300,000 & $^3$He冷凍機 \\
+\midrule
+\textbf{合計} & \textbf{¥400,000〜} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{honestbox}[旧設計との比較]
+旧設計: $\sim$60万円（SQUID自作 + 冷凍機）。
+新設計（共同研究）: $\sim$5〜15万円。
+
+共同研究なら\textbf{コストが 1/4 以下}に下がる。
+しかも実験の質は大幅に向上（本物の素数ミュートをテスト）。
+\end{honestbox}
+
+%====================================================================
+\part{共同研究の提案の仕方}
+%====================================================================
+
+\section{誰に声をかけるか}
+
+\begin{storybox}[対象]
+超伝導量子ビットの研究室。日本国内の候補:
+\begin{itemize}
+\item 理化学研究所 量子コンピュータ研究センター
+\item 東京大学 中村泰信研究室
+\item 東京工業大学（超伝導回路）
+\item NTT 物性科学基礎研究所
+\item 大阪大学 量子情報デバイス研究室
+\end{itemize}
+\end{storybox}
+
+\section{何と言うか}
+
+\begin{expbox}[提案のテンプレート]
+「超伝導3Dキャビティ内で、中点に散逸カプラを設置して
+偶数モードを選択的に減衰させたとき、
+トランスモンの Lamb シフト残差の符号が
+反転するかどうかを測定したい。
+
+これは選択的モード散逸が量子真空揺らぎに
+与える影響の精密測定であり、
+ゼータ関数正則化の物理的妥当性に関する
+新しい実験的テストになる。
+
+キャビティと散逸カプラは我々が設計・製作する。
+トランスモン、冷凍機、測定系をお借りできないか。」
+
+\textbf{Spec(Z) やワープドライブの話は最初はしない。}
+Circuit QED の実験として提案する。
+結果が出てから、算術的解釈を議論する。
+\end{expbox}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\textbf{壁ではなく穴。反射ではなく吸収。}}\\[0.2cm]
+{\Large\textbf{これが素数ミュートの正しい実験設計。}}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}
