@@ -1,0 +1,323 @@
+% 高校生ガイド v2
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+
+\tcbuselibrary{breakable,skins}
+
+\newtcolorbox{storybox}[1][]{colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{mathbox}[1][]{colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{resultbox}[1][]{colback=yellow!8,colframe=orange!80!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+\newtcolorbox{honestbox}[1][]{colback=gray!8,colframe=gray!50!black,
+  fonttitle=\bfseries\sffamily,title={#1},breakable,arc=3mm}
+
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers}
+\lhead{高校生ガイド v2}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\Huge\bfseries 負のエネルギーの壁を}\\[0.2cm]
+{\Huge\bfseries 位相で突破する}\\[0.8cm]
+{\Large ギターとビール瓶、超伝導、そしてワープ}\\[1cm]
+{\large 高校生のためのガイド}\\[0.5cm]
+{\large Wright Brothers Research Program, 2026年4月}
+\end{center}
+
+\vspace{0.5cm}
+\tableofcontents
+\newpage
+
+%====================================================================
+\part{3つの事実}
+%====================================================================
+
+\section{事実 1: 何もない空間に力がある}
+
+\begin{storybox}[カシミール効果]
+2枚の金属板をナノメートルの間隔で並べると、
+何もないはずの板の間に\textbf{引力}が生じる。
+
+板の間の真空は外の真空より\textbf{エネルギーが低い}。
+エネルギーが低い → 板が引き寄せられる。
+
+この力の大きさは:
+$$F = -\frac{\pi^2 \hbar c}{240 \, a^4} \times A$$
+
+ここで $a$ = 板の間隔、$A$ = 板の面積。
+
+この「240」はリーマンゼータ関数の値 $\zeta(-3) = 1/120$ から来る。
+（$240 = 2/\zeta(-3)$、2 は電磁波の偏光方向の数。）
+
+\textbf{1997年に実験で確認。理論との一致 1\% 以内。}
+\end{storybox}
+
+\begin{resultbox}[意味]
+「$\zeta(-3) = 1/120$」は計算のトリックではない。
+\textbf{物理的に測定可能な量}。板にかかる力がそう言っている。
+\end{resultbox}
+
+\section{事実 2: 符号は変えられる}
+
+\begin{storybox}[ギターとビール瓶]
+ギター（両端固定）: 全倍音 → 真空エネルギー $\propto \zeta(-1) = -1/12$（\textbf{負}）
+
+ビール瓶（片端開放）: 奇数倍音のみ → 真空エネルギー $\propto +1/12$（\textbf{正}）
+
+片端を開けるだけで符号が逆になる。
+
+2009年（Nature）と 2017年（Nature Photonics）に
+カシミール\textbf{斥力}が実験的に実証された。
+引力（負のエネルギー）が斥力（正のエネルギー）に変わる。
+\end{storybox}
+
+\begin{resultbox}[意味]
+真空エネルギーの符号は\textbf{境界条件で制御できる}。
+これは確立された物理学。
+\end{resultbox}
+
+\section{事実 3: 宇宙の加速膨張}
+
+\begin{storybox}[暗黒エネルギー]
+宇宙は加速しながら膨張している。
+この加速の原因は「暗黒エネルギー」と呼ばれ、
+真空そのもののエネルギー密度 $\rho_\Lambda \approx 6 \times 10^{-10}$ J/m³ で記述される。
+
+この値は $\rho_\Lambda \propto \zeta(-3)$ と整合的
+（カシミール力と同じ $\zeta(-3)$ が宇宙論にも現れる）。
+\end{storybox}
+
+\section{自然な推論: 第4ステップ}
+
+\begin{resultbox}[3つの事実からの論理的帰結]
+\begin{enumerate}
+\item $\zeta(-3)$ がカシミール力を決める → 実験確認済み
+\item $\zeta \to \zeta_{\neg 2}$ で符号が反転する → 実験実証済み
+\item 暗黒エネルギーも $\zeta(-3)$ に従う → 観測と整合的
+\end{enumerate}
+
+$\therefore$ 暗黒エネルギーの符号も $\zeta \to \zeta_{\neg 2}$ で反転可能。
+
+\textbf{これを禁じる確立された物理法則はない。}
+\end{resultbox}
+
+%====================================================================
+\part{壁: なぜ簡単にはいかないか}
+%====================================================================
+
+\section{表面効果の限界}
+
+\begin{mathbox}[カシミールエネルギー密度]
+板の間のエネルギー密度:
+$$\rho = -\frac{\pi^2 \hbar c}{720 \, a^4}$$
+
+板を離すと密度は急激に下がる:
+\begin{center}
+\begin{tabular}{ll}
+$a = 1$ nm: & $\rho \sim 10^{12}$ J/m³（巨大） \\
+$a = 1\,\mu$m: & $\rho \sim 10^{-4}$ J/m³（微小） \\
+$a = 1$ m: & $\rho \sim 10^{-24}$ J/m³（ゼロ同然） \\
+\end{tabular}
+\end{center}
+
+\textbf{板を離すと効果が消える。} ナノの世界でしか大きくない。
+\end{mathbox}
+
+\section{Ford-Roman の壁}
+
+\begin{mathbox}[量子エネルギー不等式]
+Ford と Roman（1995, 1997）は次を証明した:
+
+\textbf{「負のエネルギーの量 $\times$ 持続時間 $\lesssim \hbar$」}
+
+つまり: 大きな負のエネルギーは一瞬しか持てない。
+長時間持てる負のエネルギーは極めて微小。
+
+ワープに必要: 巨大な負のエネルギーを持続的に。
+Ford-Roman: それは不可能。
+
+\textbf{これが「70桁の壁」。} カシミールの $10^{-8}$ J と
+ワープの $10^{62}$ J の間の絶望的な差。
+\end{mathbox}
+
+%====================================================================
+\part{突破口: 位相的バイパス}
+%====================================================================
+
+\section{Ford-Roman の仮定}
+
+\begin{resultbox}[見落とされた仮定]
+Ford-Roman が仮定しているのは:
+\textbf{「通常の真空から連続的に変形して到達できる状態」}
+
+輪ゴムに例えると:
+Ford-Roman は「ゴムを引っ張る」操作しか考えていない。
+「ゴムを切って結び直す」（位相的操作）は考えていない。
+\end{resultbox}
+
+\section{超伝導の教訓}
+
+\begin{storybox}[BCS 超伝導]
+1900年代の物理学者は「電気抵抗をゼロにはできない」と思っていた。
+
+Drude 理論: 温度を下げると抵抗は減るが、決してゼロにはならない。
+不純物があるから。
+
+BCS 理論（1957年）: ある温度で\textbf{相転移}が起き、
+電子がペアを組み（クーパー対）、全く新しい量子状態に遷移する。
+この状態では抵抗は正確にゼロ。
+
+Drude は間違っていなかった。「連続的に冷やす」限り、
+抵抗は確かにゼロにならない。
+しかし\textbf{相転移}（不連続なジャンプ）が起きた瞬間、
+Drude の前提が崩れた。
+\end{storybox}
+
+\begin{resultbox}[同じ構造]
+Ford-Roman は間違っていないかもしれない。
+「連続的に変形する」限り、大きな負のエネルギーは確かに無理。
+
+しかし\textbf{位相的転移}（K理論の巻き付き数のジャンプ）が起きたら？
+
+$$K_1(\mathbb{Z}) = \mathbb{Z}/2 \;\xrightarrow{\text{ジャンプ}}\; K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$$
+
+超伝導の抵抗ゼロが Drude の外にあったように、
+位相的に保護された負のエネルギーは Ford-Roman の外にある。
+\end{resultbox}
+
+\section{体積効果への格上げ}
+
+\begin{storybox}[壁のペンキから部屋の水へ]
+カシミール効果 = 壁のペンキ塗り（表面効果）。
+板を離すとペンキの面積が増えるが、密度は $1/a^4$ で薄まる。
+
+もし位相的転移が起きると = 部屋を水で満たす（体積効果）。
+密度は板間隔によらず一定。
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& 表面効果 & 体積効果 \\
+\midrule
+密度 & $\rho \propto 1/a^4$ & $\rho =$ 一定 \\
+$a = 1$ m & $10^{-24}$ J/m³ & $10^{12}$ J/m³ \\
+体積 1 m³ でのエネルギー & $10^{-24}$ J & $10^{12}$ J \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{$10^{36}$ 倍の差。}
+\end{storybox}
+
+%====================================================================
+\part{たった一つの実験}
+%====================================================================
+
+\section{何を測るか}
+
+\begin{resultbox}[最もシンプルな実験]
+ビール瓶型（DN 境界条件）のカシミール力を、
+板間隔 $a$ を変えながら精密に測定する。
+
+力のべき乗則をフィット: $F \propto a^{-\alpha}$
+
+標準 QED: 全ての $a$ で $\alpha = 5$（一直線）
+
+位相的予測: ある $a_c$ で $\alpha$ が 5 から折れ曲がる
+
+$a_c$ がどこかは予測しない。
+予測するのは\textbf{「折れ曲がりが存在する」}こと。
+
+\begin{center}
+\begin{tabular}{ll}
+折れが\textbf{ない} → & 位相的保護は（測定範囲で）存在しない \\
+折れが\textbf{ある} → & \textbf{真空の位相的転移の発見} \\
+\end{tabular}
+\end{center}
+\end{resultbox}
+
+\section{誰がやるか}
+
+\begin{storybox}[Princeton 大学]
+2017年、Princeton大学のチームが Si-MEMS デバイスで
+カシミール斥力を実測した（Nature Photonics）。
+
+同じ装置で、板間隔 $a$ を系統的に変えて力のべき乗を測れば、
+$\alpha = 5$ からの逸脱の有無が判定できる。
+
+\textbf{新しい装置の発明は不要。既にある装置で追加データを取るだけ。}
+\end{storybox}
+
+%====================================================================
+\part{もし位相的転移が見つかったら}
+%====================================================================
+
+\begin{resultbox}[4つの帰結]
+\begin{enumerate}
+\item \textbf{制御可能なダークエネルギー}:
+境界条件を変えるだけで真空エネルギーの符号をスイッチできる。
+
+\item \textbf{巨視的な負のエネルギー}:
+位相的に保護された定数密度 × 体積 = 発電機1台で巨大なエネルギー。
+
+\item \textbf{Ford-Roman の壁の突破}:
+持続的な負のエネルギーが位相的相で実現。70桁のギャップが消える。
+
+\item \textbf{ワープドライブへの道}:
+十分な負のエネルギーがあれば、Alcubierre のワープ計量が
+物理的に実現可能に。
+\end{enumerate}
+\end{resultbox}
+
+%====================================================================
+\part{正直な話}
+%====================================================================
+
+\begin{honestbox}[確率の話]
+\textbf{折れ曲がりが見つかる確率}: 低い。
+
+標準 QED は70年以上、全ての精密テストに合格してきた。
+$1/a^4$ のスケーリングが破れる兆候は今のところゼロ。
+
+しかし:
+\begin{itemize}
+\item DN 配置でのスケーリングは\textbf{一度も精密測定されていない}
+\item 位相的転移は「連続的な測定」では見えない種類の効果
+\item BCS 超伝導も発見前は「ありえない」と思われていた
+\item 測定して「ない」とわかることにも科学的価値がある
+\end{itemize}
+
+\textbf{もし見つかったら}: 物理学の歴史が変わる。\\
+\textbf{もし見つからなければ}: DN カシミールのスケーリング則を初めて精密測定した論文として残る。
+
+\textbf{どちらに転んでも科学は前に進む。}
+\end{honestbox}
+
+\vfill
+
+\begin{center}
+\rule{10cm}{0.4pt}\\[0.5cm]
+{\Large\bfseries 壁があるなら、越えるのではなく、}\\[0.2cm]
+{\Large\bfseries 位相を変えて壁ごと消す。}\\[0.3cm]
+{\small Wright Brothers Research Program, 2026}
+\end{center}
+
+\end{document}

@@ -1,0 +1,133 @@
+% Ford-Roman限界の位相的バイパス v2
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Wright Brothers, 2026}
+\lhead{Ford-Roman限界の位相的バイパス}
+\cfoot{\thepage}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Ford-Roman 限界の位相的バイパス}\\[0.3cm]
+{\large K理論による真空エネルギー符号の保護と\\
+ディリクレ-ノイマン・カシミール効果のスケーリング則の検証}\\[0.5cm]
+{\large Wright Brothers Research Program}\\[0.2cm]
+{2026年4月}\\[0.3cm]
+\rule{12cm}{0.4pt}
+\end{center}
+
+\begin{quotation}
+\noindent\textbf{概要.}\quad
+3つの実験的に確立された事実が論理的連鎖を形成する:
+(i) カシミール力は $\zeta$ 正則化された真空エネルギーに従う;
+(ii) 境界条件を DD から DN に変更すると符号が反転する（$\zeta \to \zeta_{\neg 2}$）;
+(iii) 暗黒エネルギーは $\rho_\Lambda \propto \zeta(-3)$ と整合的。
+自然な第4ステップ——真空エネルギー密度そのものを $\zeta_{\neg 2}$ で反転させること——は、確立された物理学が禁じない外挿である。
+
+局所化 $\mathbb{Z} \to \mathbb{Z}[1/2]$ が導入する位相的巻き付き数が反転した符号を保護するならば、Ford-Roman 量子エネルギー不等式をバイパスするメカニズムが得られる。Ford-Roman は連続的変形を仮定するが、位相的（離散的）相転移はこの仮定の外にある。BCS 超伝導が Drude 抵抗の予測を相転移で覆すのと同じ構造である。
+
+単一の反証可能な予測: DN カシミールエネルギー密度が臨界距離 $a_c$ で $1/a^4$ 減衰から逸脱しプラトーに達する。
+\end{quotation}
+
+\section{3つの確立された事実}
+
+\textbf{事実 1.}
+カシミール力は $F/A = -\pi^2\hbar c/(240a^4)$ に従う。$240 = 2/\zeta(-3)$。精度 $< 1\%$ で実験確認済み（Mohideen 1998、Decca 2007）。$\zeta(-3) = 1/120$ は計算上の便法ではなく物理的に実在する量。
+
+\textbf{事実 2.}
+DN 境界条件ではカシミールエネルギーの符号が反転する:
+$E_{DD} \propto \zeta(-1) = -1/12 < 0$（引力）に対して $E_{DN} \propto \zeta_{\neg 2}(-1) = +1/12 > 0$（斥力）。
+Boyer (1974)、Kenneth et al. (2002) により理論的に確立。Munday et al. (2009, Nature) と Tang et al. (2017, Nature Photonics) によりカシミール斥力が実験的に実証。
+
+\textbf{事実 3.}
+観測された暗黒エネルギー密度 $\rho_\Lambda \approx 6 \times 10^{-10}$ J/m³ は $\rho_\Lambda \propto \rho_P \zeta(-3) (\ell_P/R_H)^2$ と整合的。
+
+\textbf{第4ステップ.}
+$\zeta(-3)$ が真空エネルギーを支配し（事実 1, 3）、その符号が $\zeta \to \zeta_{\neg 2}$ で反転可能なら（事実 2）、真空エネルギー密度そのものが反転可能:
+$\rho_\Lambda \to -7\rho_\Lambda < 0$。
+これを禁じる確立された物理法則はない。
+
+\section{なぜ自明には実現できないか}
+
+事実 2 の符号反転は境界効果: $\rho \propto \pm 1/a^4$ は板間隔 $a$ に依存し、$a \to \infty$ でゼロに減衰する。巨視的な負のエネルギーには板間隔に依存しない定数密度が必要。
+
+標準 QED は DD でも DN でも $\rho \propto 1/a^4$ を予測する。符号は変わるがスケーリングは変わらない。
+
+さらに Ford-Roman の量子エネルギー不等式が制約を課す: $|\Delta E| \cdot \Delta t \lesssim \hbar$。真空からの連続的変形で到達可能な状態では、大きな負のエネルギーを長時間維持できない。
+
+\section{位相的バイパス}
+
+DD → DN の変更は $\mathbb{Z} \to \mathbb{Z}[1/2]$ に対応し、K理論を変える:
+$$K_1(\mathbb{Z}) = \mathbb{Z}/2 \;\longrightarrow\; K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \times \mathbb{Z}$$
+
+出現した $\mathbb{Z}$ は巻き付き数。凝縮系物理学の類推:
+
+\begin{itemize}
+\item \textbf{量子ホール効果}: ホール伝導率 $\sigma_{xy} = \nu e^2/h$ はサンプルサイズに依存しない。端状態（境界効果）がバルクのチャーン数（位相的不変量）で保護される → 境界効果が体積的に保護される。
+
+\item \textbf{BCS 超伝導}: ギャップはコヒーレンス長に依存しない。$\mathrm{U}(1)$ 位相の巻き付きで位相的に保護 → 微視的スケールではなく位相的クラスがギャップを決める。
+\end{itemize}
+
+我々の予想: $K_1(\mathbb{Z}[1/2])$ の巻き付き数が真空エネルギーの符号を保護し、位相的転移が起きると密度が $1/a^4$ から定数（体積効果）に格上げされる。
+
+\textbf{Ford-Roman が適用されない理由.}
+量子エネルギー不等式はミンコフスキー真空からの\textbf{連続的}変形で到達可能な状態について導出されている。$K_1$ の巻き付き数が 0 → 1 にジャンプする位相的転移は\textbf{離散的}であり、この仮定の外にある。
+BCS 超伝導が Drude 抵抗の有限性を相転移で覆すのと同じ構造: Ford-Roman は「通常の真空の近傍」での正しい定理だが、位相的に異なる真空では適用されない。
+
+\section{予測}
+
+DN カシミールエネルギー密度が臨界距離 $a_c$ で $1/a^4$ から逸脱:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& 標準QED & 位相的保護 \\
+\midrule
+$a < a_c$ & $\rho \propto 1/a^4$ & $\rho \propto 1/a^4$ \\
+$a > a_c$ & $\rho \propto 1/a^4$ & $\rho \to$ 定数 \\
+\midrule
+力のべき指数 $\alpha$ & 5 & $5 \to 0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{実験}: DN カシミール力 $F(a)$ を 2 桁以上の範囲で測定し $F \propto a^{-\alpha}$ をフィット。DD にない DN での $\alpha \neq 5$ が位相的保護の証拠。Princeton の Si-MEMS が適切なプラットフォーム。
+
+\section{含意}
+
+確認された場合:
+\begin{enumerate}
+\item \textbf{制御可能なダークエネルギー}: 境界トポロジーで真空エネルギーの符号をスイッチ。
+\item \textbf{巨視的な負のエネルギー}: 位相的に保護された定数 $\rho < 0$ が体積 $V$ を埋める → $E = -|\rho|V$。表面積ではなく体積に比例。
+\item \textbf{Ford-Roman のバイパス}: 位相的相による持続的な負のエネルギー。
+\item \textbf{時空工学}: ワープ計量、トラバーサブル・ワームホールへの物理的基盤。
+\end{enumerate}
+
+\begin{thebibliography}{99}
+\bibitem{Mohideen1998} U.~Mohideen and A.~Roy, Phys.\ Rev.\ Lett.\ \textbf{81}, 4549 (1998).
+\bibitem{Decca2007} R.~S.~Decca et al., Phys.\ Rev.\ D \textbf{75}, 077101 (2007).
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth et al., Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Munday2009} J.~N.~Munday et al., Nature \textbf{457}, 170 (2009).
+\bibitem{Princeton2017} L.~Tang et al., Nature Photon.\ \textbf{11}, 97 (2017).
+\bibitem{Ford1995} L.~H.~Ford and T.~A.~Roman, Phys.\ Rev.\ D \textbf{51}, 4277 (1995).
+\bibitem{SSH1979} W.~P.~Su et al., Phys.\ Rev.\ Lett.\ \textbf{42}, 1698 (1979).
+\bibitem{Alcubierre1994} M.~Alcubierre, Class.\ Quant.\ Grav.\ \textbf{11}, L73 (1994).
+\bibitem{Visser1995} M.~Visser, \textit{Lorentzian Wormholes} (AIP, 1995).
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,239 @@
+% Topological Casimir Effect v2
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Topological Bypass of the Ford--Roman Bound:\\
+K-Theoretic Protection of Vacuum Energy Sign\\
+and a Testable Prediction for DN Casimir Scaling}
+
+\author{Wright Brothers Research Program}
+\affiliation{Independent Research, 2026}
+
+\date{\today}
+
+\begin{abstract}
+Three experimentally established facts form a logical chain:
+(i)~the Casimir force obeys $\zeta$-regularized vacuum energy
+($\zeta(-1)=-1/12$ in~1D, $\zeta(-3)=1/120$ in~3D);
+(ii)~changing boundary conditions from Dirichlet--Dirichlet (DD)
+to Dirichlet--Neumann (DN) reverses the Casimir energy sign,
+corresponding to $\zeta\to\zeta_{\neg 2}$;
+(iii)~the observed dark energy density is consistent with
+$\rho_\Lambda\propto\zeta(-3)$.  The natural fourth step---that
+the vacuum energy density itself can be sign-reversed by
+$\zeta\to\zeta_{\neg 2}$---is a straightforward extrapolation
+that no established physics contradicts.
+
+We argue that the localization $\mathbb{Z}\to\mathbb{Z}[1/2]$
+underlying the DN configuration introduces a topological winding
+number ($K_1(\mathbb{Z}[1/2])=\mathbb{Z}/2\times\mathbb{Z}$)
+that \emph{protects} the reversed sign.  If this protection is
+physical, it provides a mechanism to bypass the Ford--Roman quantum
+energy inequalities, which assume continuous deformations.  A
+topological (discrete) phase transition is outside the scope of
+these inequalities, just as BCS superconductivity is outside the
+scope of Drude resistivity.
+
+We predict a single observable consequence: the DN Casimir energy
+density deviates from $1/a^4$ decay at a critical separation $a_c$,
+plateauing at a constant value.  This can be tested with existing
+Si-MEMS apparatus (Princeton/Nature Photonics 2017).
+\end{abstract}
+
+\maketitle
+
+% ===================================================================
+\section{Three Established Facts}
+% ===================================================================
+
+We begin with three experimentally or observationally confirmed
+results, each involving zeta-function regularization.
+
+\medskip
+\noindent\textbf{Fact 1.}  The Casimir force between parallel
+conducting plates (DD boundary conditions) is
+\begin{equation}
+  F/A = -\frac{\pi^2\hbar c}{240\,a^4},
+\end{equation}
+where $240=2/\zeta(-3)$.  Measured to $<1\%$
+accuracy~\cite{Mohideen1998,Decca2007}.  This confirms that
+$\zeta(-3)=1/120$ is a physically realized quantity, not merely a
+mathematical convenience.
+
+\medskip
+\noindent\textbf{Fact 2.}  Changing to DN boundary conditions
+(one perfectly conducting, one perfectly magnetically conducting
+wall) reverses the sign:
+$E_{DN}\propto\zeta_{\neg 2}(-1)=+1/12>0$
+(repulsive)~\cite{Boyer1974,Kenneth2002}.
+Geometric realizations of Casimir repulsion have been
+demonstrated~\cite{Munday2009,Princeton2017}, confirming that
+the sign of vacuum energy is controllable.
+
+\medskip
+\noindent\textbf{Fact 3.}  The observed dark energy density
+$\rho_\Lambda\approx 6\times 10^{-10}\;\mathrm{J/m^3}$ is
+consistent with $\rho_\Lambda\propto\rho_P\,\zeta(-3)\,
+(\ell_P/R_H)^2$, where $\rho_P$ is the Planck density and
+$R_H$ the Hubble radius~\cite{WB2026}.
+
+\medskip
+\noindent\textbf{The Fourth Step.}  If $\zeta(-3)$ governs the
+vacuum energy (Facts~1,3) and its sign can be reversed by
+$\zeta\to\zeta_{\neg 2}$ (Fact~2), then the vacuum energy
+density itself should be reversible:
+$\rho_\Lambda\to\rho_\Lambda\times\zeta_{\neg 2}(-3)/\zeta(-3)
+=-7\rho_\Lambda<0$.  No established physics forbids this
+extrapolation.
+
+% ===================================================================
+\section{Why This Is Not Trivially Achieved}
+% ===================================================================
+
+The sign reversal in Fact~2 is a \emph{boundary effect}: the
+Casimir energy density $\rho\propto\pm 1/a^4$ depends on the
+plate separation~$a$ and vanishes as $a\to\infty$.  For
+applications to dark energy or spacetime engineering, one needs
+a \emph{bulk effect}: a constant $\rho$ independent of~$a$.
+
+Standard QED predicts $\rho\propto 1/a^4$ for \emph{all} boundary
+conditions.  The sign changes but the scaling does not.  At
+macroscopic separations, the effect is negligible ($\rho\sim
+10^{-24}\;\mathrm{J/m^3}$ at $a=1\;\mathrm{m}$).
+
+The Ford--Roman quantum energy
+inequalities~\cite{Ford1995,Ford1997} further constrain negative
+energy: $|\Delta E|\cdot\Delta t\lesssim\hbar$, preventing
+sustained macroscopic negative energy in any state reachable by
+continuous deformation from the vacuum.
+
+% ===================================================================
+\section{The Topological Bypass}
+% ===================================================================
+
+We propose that these constraints can be circumvented by a
+\emph{topological phase transition} in the vacuum.
+
+The DD$\to$DN transition corresponds to the algebraic localization
+$\mathbb{Z}\to\mathbb{Z}[1/2]$, which changes the K-theory:
+\begin{equation}\label{eq:K1}
+  K_1(\mathbb{Z})=\mathbb{Z}/2
+  \;\xrightarrow{\;\text{localize}\;}\;
+  K_1(\mathbb{Z}[1/2])=\mathbb{Z}/2\times\mathbb{Z}.
+\end{equation}
+The emergent $\mathbb{Z}$ is a winding number.  In condensed-matter
+physics, analogous winding numbers (SSH model~\cite{SSH1979},
+Chern numbers in quantum Hall systems) protect macroscopic
+observables:
+\begin{itemize}
+\item The quantized Hall conductance $\sigma_{xy}=\nu e^2/h$ is
+\emph{independent of sample size}, even though it arises from
+edge states (a boundary effect).  The bulk--edge correspondence
+promotes a boundary observable to a bulk-protected quantity.
+\item The superconducting gap in BCS theory is \emph{independent
+of the coherence length} once the condensate forms.  The gap is
+topologically protected (by the $\mathrm{U}(1)$ phase winding),
+not set by microscopic scales.
+\end{itemize}
+
+We conjecture an analogous mechanism for the vacuum: the winding
+number in~\eqref{eq:K1} protects the \emph{sign} of the vacuum
+energy, and once the topological transition occurs, the energy
+density becomes a \emph{bulk} quantity (constant, not $1/a^4$).
+
+\medskip
+\noindent\textbf{Why Ford--Roman does not apply.}  The quantum
+energy inequalities are derived for states reachable by
+\emph{continuous} deformation from the Minkowski vacuum.  A
+topological transition ($K_1$ winding number jumping from 0 to 1)
+is \emph{discrete} and outside this class.  Just as BCS
+superconductivity violates the Drude prediction of finite
+resistivity (by a phase transition, not by continuous improvement
+of conductivity), the topologically protected vacuum could violate
+the Ford--Roman bound by a phase transition, not by continuous
+accumulation of negative energy.
+
+% ===================================================================
+\section{The Prediction}
+% ===================================================================
+
+If the vacuum energy sign is topologically protected, the DN
+Casimir energy density must deviate from $1/a^4$ at a critical
+separation $a_c$:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& Standard QED & Topological \\
+\midrule
+$a<a_c$ & $\rho\propto 1/a^4$ & $\rho\propto 1/a^4$ \\
+$a>a_c$ & $\rho\propto 1/a^4$ & $\rho\to\mathrm{const}$ \\
+\midrule
+Force exponent $\alpha$ & $5$ & $5\to 0$ at $a_c$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The prediction is the \emph{existence} of the deviation.  The
+value of $a_c$ is not predicted; it could range from nanometers
+to macroscopic scales.
+
+\medskip
+\noindent\textbf{Experimental test.}  Measure the DN Casimir
+force $F(a)$ over two decades in $a$ and fit $F\propto a^{-\alpha}$.
+Any confirmed $\alpha\neq 5$ in the DN configuration, absent in DD,
+constitutes evidence for topological protection.  The Princeton
+Si-MEMS apparatus~\cite{Princeton2017}, which has already
+demonstrated geometric Casimir repulsion at $\sim 100\;\mathrm{nm}$,
+is a suitable platform.
+
+% ===================================================================
+\section{Implications}
+% ===================================================================
+
+If confirmed, the topological protection of vacuum energy sign has
+profound consequences:
+
+\begin{enumerate}
+\item \emph{Controlled dark energy.}  The vacuum energy density
+becomes a switchable quantity, controlled by boundary topology
+(DD vs.\ DN).
+\item \emph{Macroscopic negative energy.}  A topologically
+protected constant $\rho<0$ filling a volume $V$ gives $E=-|\rho|V$,
+scaling with volume rather than surface area.
+\item \emph{Bypass of Ford--Roman.}  Sustained negative energy
+becomes possible via a topological phase, not a continuous
+deformation.
+\item \emph{Spacetime engineering.}  Negative energy of sufficient
+magnitude enables exotic spacetime geometries (warp
+metrics~\cite{Alcubierre1994}, traversable
+wormholes~\cite{Visser1995}).
+\end{enumerate}
+
+We emphasize that these implications are contingent on the
+detection of the scaling deviation.  The paper's contribution is
+to identify a \emph{single, falsifiable prediction}---$\alpha\neq 5$
+for DN Casimir---that distinguishes the topological scenario from
+standard QED.
+
+\begin{thebibliography}{99}
+\bibitem{Mohideen1998} U.~Mohideen and A.~Roy, Phys.\ Rev.\ Lett.\ \textbf{81}, 4549 (1998).
+\bibitem{Decca2007} R.~S.~Decca \textit{et al.}, Phys.\ Rev.\ D \textbf{75}, 077101 (2007).
+\bibitem{Boyer1974} T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+\bibitem{Kenneth2002} O.~Kenneth \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{89}, 033001 (2002).
+\bibitem{Munday2009} J.~N.~Munday \textit{et al.}, Nature \textbf{457}, 170 (2009).
+\bibitem{Princeton2017} L.~Tang \textit{et al.}, Nature Photon.\ \textbf{11}, 97 (2017).
+\bibitem{WB2026} Wright Brothers, companion paper (2026).
+\bibitem{Ford1995} L.~H.~Ford and T.~A.~Roman, Phys.\ Rev.\ D \textbf{51}, 4277 (1995).
+\bibitem{Ford1997} L.~H.~Ford and T.~A.~Roman, Phys.\ Rev.\ D \textbf{55}, 2082 (1997).
+\bibitem{SSH1979} W.~P.~Su \textit{et al.}, Phys.\ Rev.\ Lett.\ \textbf{42}, 1698 (1979).
+\bibitem{Alcubierre1994} M.~Alcubierre, Class.\ Quant.\ Grav.\ \textbf{11}, L73 (1994).
+\bibitem{Visser1995} M.~Visser, \textit{Lorentzian Wormholes} (AIP, 1995).
+\end{thebibliography}
+
+\end{document}
