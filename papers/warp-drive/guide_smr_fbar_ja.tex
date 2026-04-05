@@ -528,6 +528,276 @@ cQED ルートに進む
 \end{enumerate}
 \end{tcolorbox}
 
+\section{プラトー予想の検証：厚さシリーズ実験}
+
+ここまでの測定（1--6）は「DN と NN でモード構造由来の Lamb shift
+差が存在するか」を問う．\textbf{これは符号の検証}である．しかし
+Wright Brothers プロジェクトの最大の賭けどころは符号ではなく，
+\textbf{真空エネルギー密度の距離依存性が $1/d^4$ から
+定数プラトーに遷移するか}である．これが正しければ，DN 斥力を
+マクロスケールにスケールアップする道が開ける．肉眼・ガレージで
+浮揚が見える可能性はここに集約されている．
+
+\subsection{プラトー予想とは何か}
+
+標準 QED 予測：真空エネルギー密度 $\rho_{\rm vac}(d) \propto 1/d^4$．
+距離を 10 倍にすると効果は 10000 分の 1 になる．これが $1/a^4$ の壁．
+
+Wright Brothers 仮説：\textbf{ある臨界距離 $a_c$ を超えると
+$\rho_{\rm vac}$ が定数化}する．原因は位相的保護（$K_1(\mathbb Z[1/2])$
+の winding number による），または Euler 積切除が
+「体積効果」に転化するため．
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+モデル & $\rho_{\rm vac}(d)$ \\
+\midrule
+標準 QED & $C \cdot d^{-4}$ \\
+中間的新物理 & $C \cdot d^{-n}$, $n < 4$ \\
+Wright Brothers プラトー & $C \cdot d^{-4}$ for $d < a_c$; const for $d > a_c$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$a_c$ の大きさは理論的に決まっていない．nm オーダー（プラトー発見
+しても実用価値小）から mm オーダー（革命的）まで桁違いに予測が
+開く．\textbf{だから実験するしかない}．
+
+\subsection{厚さシリーズ測定の原理}
+
+異なる厚さ $d$ を持つ SMR を複数用意し，各々の Lamb shift
+差 $\Delta f(d) = f^{\rm NN}(d) - f^{\rm DN}(d)$ を測定する．
+
+標準予測（$\rho \propto d^{-4}$）の下では：
+\begin{equation}
+  \Delta f(d) \propto d \cdot \rho \cdot (\text{結合}) \propto d^{-3}
+\end{equation}
+（より正確な導出はプロジェクト論文 \texttt{topological\_casimir.tex}
+を参照．$\Delta f$ は $d$ の負冪則で減衰する）
+
+プラトー予想の下では：
+\begin{equation}
+  \Delta f(d) \propto \begin{cases}
+    d^{-3} & d < a_c \\
+    d^{+1} & d > a_c
+  \end{cases}
+\end{equation}
+$d > a_c$ では\textbf{厚さを増やすほど効果が増大}．通常の物理では
+有り得ない振る舞い．
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black,title=判定基準]
+$\log\Delta f$ vs $\log d$ プロットにおいて，
+\begin{itemize}
+\item 全領域で傾き $-3$ → 標準 QED 支持，プラトー無し
+\item 傾きが $-3$ より浅い（$-1$ とか $0$）→ 新物理，ただしプラトー
+の手前
+\item 傾きが\textbf{正}に反転 → プラトー発見，反転点が $a_c$
+\end{itemize}
+傾き $-3$ からの有意な逸脱を $3\sigma$ 以上で検出することが目標．
+\end{tcolorbox}
+
+\subsection{必要サンプル範囲}
+
+\textbf{これが最大の難問}．商用 SMR は厚さが製造時に固定される．
+
+商用品で入手可能な「事実上の厚さシリーズ」：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+周波数 & 対応厚さ (AlN) & 入手性 \\
+\midrule
+900\,MHz (LTE B8) & $\sim 5.8\,\mu$m & 商用品 \\
+1.8\,GHz (LTE B3) & $\sim 2.9\,\mu$m & 商用品 \\
+2.4\,GHz (WiFi) & $\sim 2.2\,\mu$m & 商用品 \\
+3.9\,GHz (5G n77) & $\sim 1.3\,\mu$m & 商用品 \\
+5.5\,GHz (WiFi 6) & $\sim 0.95\,\mu$m & 商用品 \\
+28\,GHz (5G mmWave) & $\sim 0.19\,\mu$m & 商用品（高価）\\
+60\,GHz (WiGig) & $\sim 0.09\,\mu$m & 研究用 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{$5.8\,\mu$m から $0.19\,\mu$m まで 30 倍のレンジ}を商用品で
+カバーできる．これでも $1/d^3$ スケーリングの検証は可能
+（最小と最大で 27000 倍の Lamb shift 差が期待される）．
+
+商用レンジを超える必要がある場合：
+
+\begin{itemize}
+\item \textbf{より薄い方向}: 研究用 mmWave SMR（60--200 GHz）
+  \begin{itemize}
+  \item Fraunhofer IAF, CEA-Leti, imec で製作依頼可能
+  \item 1 枚 \$5,000--\$20,000
+  \item 厚さ 50--200 nm
+  \end{itemize}
+\item \textbf{より厚い方向}: カスタム低周波 SMR
+  \begin{itemize}
+  \item 厚さ 10--100\,$\mu$m の AlN 膜は標準プロセスを超える
+  \item LiNbO$_3$ 単結晶板（\$500/枚）で代替可能，厚さ 100\,$\mu$m--1\,mm
+  \item ただし LiNbO$_3$ と AlN では音速が違うので正規化が必要
+  \end{itemize}
+\item \textbf{水晶 BAW との統合}: \texttt{guide\_baw\_quartz\_ja.tex}
+で扱った水晶 BAW（$d = 100\,\mu$m--1\,mm）を同じシリーズに組み込む
+\end{itemize}
+
+\textbf{理想的な厚さレンジ}: 100\,nm から 1\,mm （$10^4$ 倍）．
+この範囲でプラトー遷移が起きれば必ず見える．
+
+\subsection{プロトコル}
+
+\paragraph{Phase A: 商用品での予備測定（¥200,000, 2 ヶ月）}
+
+\begin{enumerate}
+\item 上表の商用 SMR/FBAR ペアを 6 周波数帯（900 MHz--5.5 GHz）で
+全て揃える
+\item 各ペアについて測定 1--5 を実施
+\item $\log\Delta f$ vs $\log d$ をプロット
+\item 傾きをフィット．$-3$ からの逸脱を統計的に評価
+\item 逸脱があれば Phase B へ．無ければ標準 QED 支持として論文化
+\end{enumerate}
+
+\paragraph{Phase B: レンジ拡張（¥1,000,000, 6 ヶ月）}
+
+\begin{enumerate}
+\item 28 GHz mmWave SMR を追加（最薄側の拡張）
+\item LiNbO$_3$ 基板で低周波側を拡張
+\item 水晶 BAW（$d\sim$ mm）を統合測定系に組み込む
+\item Phase A のプロットを 2 桁拡張
+\item プラトー点 $a_c$ の上下限を絞る
+\end{enumerate}
+
+\paragraph{Phase C: カスタムウェハで決定測定（¥5,000,000, 1 年）}
+
+\begin{enumerate}
+\item Phase A/B で疑わしい $a_c$ 近傍に測定点を集中
+\item Fraunhofer IAF に $d$ を 10 ポイント等間隔（対数スケール）で
+作成依頼
+\item 同じウェハ・同じ Bragg 設計で $d$ だけを変えた「厚さだけが違う」
+サンプル群を作る
+\item 系統誤差の大部分がキャンセルされる
+\item プラトー発見の決定証拠を取得
+\end{enumerate}
+
+\subsection{系統誤差との戦い}
+
+厚さシリーズ測定の最大の敵は「厚さ以外のパラメータが変わる」こと．
+
+\textbf{厚さと共に変わるもの}：
+\begin{itemize}
+\item 基本周波数 $f_0 = v/(2d)$ or $v/(4d)$
+\item Bragg 反射鏡の設計中心（$d$ に応じて調整される）
+\item 電極の厚さ（通常 $d/10$ 程度で揃える）
+\item Q 値（周波数依存性あり）
+\item 測定系の校正（周波数帯で異なる）
+\end{itemize}
+
+\textbf{対策}：
+\begin{enumerate}
+\item 全ての量を $f_0$ で正規化し，次元解析的にスケール則を導出
+\item 同じメーカー・同じプロセスのサンプルで統一
+\item 測定系の校正は周波数ごとに厳密に実施
+\item スケール不変な組合せ $\Delta f / f_0$ をプロット
+\item Phase C の「厚さだけ変える」カスタムでクロスチェック
+\end{enumerate}
+
+$\Delta f/f_0$ は，標準 QED では $f_0$ に依存しない定数（自己相似的
+$1/d^4$ のため）．プラトー領域では $f_0$ に\textbf{増加方向の依存性}を
+持つ．これが clean な signature．
+
+\subsection{プラトー発見の場合の次の一手}
+
+もし Phase A--C のどこかでプラトー発見に至ったら（期待されるが
+保証されない）：
+
+\begin{enumerate}
+\item \textbf{$a_c$ の精密決定}：プラトー遷移の距離を $\pm 10\%$ で
+決める
+\item \textbf{プラトー密度 $\rho_\infty$ の絶対測定}：単位体積あたりの
+真空エネルギー差
+\item \textbf{材料依存性の検証}：異なる圧電材料（AlN, LiNbO$_3$,
+水晶, ZnO）でプラトー特性が共通か
+\item \textbf{マクロプロトタイプ設計}：$a_c$ とプラトー密度が
+分かれば，肉眼レベルの装置を設計できる
+\item \textbf{理論側の展開}：$a_c$ と他の物理定数（$\hbar$, $c$,
+プランク長，Casimir 定数）の関係を調べる．何かと一致すれば
+新物理の基礎
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=プラトー発見が意味するもの]
+\begin{itemize}
+\item ダークエネルギー問題の解決候補（$\rho_\infty$ が観測値と
+一致すれば）
+\item マクロカシミール浮揚技術の誕生
+\item QED の mode-sum 描像の根本的修正
+\item Wright Brothers プロジェクトの理論的中核の実験的証明
+\item ノーベル賞級の結果（誇張ではなく）
+\end{itemize}
+これが全て ¥200k の Phase A から始まる．
+\end{tcolorbox}
+
+\subsection{Phase A の具体部品リスト}
+
+既存の Stage 0 (¥80,000) に加えて：
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+追加項目 & 価格 \\
+\midrule
+Qorvo QPQ1294 (LTE B8, 900 MHz FBAR) $\times 3$ & ¥6,000 \\
+Qorvo QM11007 (LTE B3, 1.8 GHz SMR) $\times 3$ & ¥9,000 \\
+Broadcom ACFF-1024 (2.4 GHz FBAR) $\times 3$ & ¥9,000 \\
+Qorvo QM77020 (3.9 GHz SMR, Stage 0 から) & (0) \\
+Qorvo QM78017 (5.5 GHz SMR) $\times 3$ & ¥15,000 \\
+Broadcom AFEM-9032 (5.2 GHz FBAR) $\times 3$ & ¥12,000 \\
+広帯域 VNA レンタル（1 ヶ月 Keysight N5230C）& ¥80,000 \\
+校正キット拡張（低周波用）& ¥20,000 \\
+ケーブル・アダプタ追加 & ¥10,000 \\
+\midrule
+\textbf{追加合計} & \textbf{¥161,000} \\
+\textbf{Stage 0 と合わせて総計} & \textbf{¥241,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+※ 具体的な型番はデータシート確認必要．表は概算．
+
+\subsection{Phase A で期待される結果とその意味}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+観測される傾き & 解釈 & 次ステップ \\
+\midrule
+$-3 \pm 0.1$ & 標準 QED 確認 & 論文化．プラトーは nm 以下 or 存在せず \\
+$-3 \pm 0.3$ & あいまい & Phase B で精度向上 \\
+$-2$ 程度 & 何らかの新物理 & Phase B 必須 \\
+$-1$ 以下 & プラトー接近 & Phase B 緊急 \\
+$0$ or $+$ & \textbf{プラトー発見} & 緊急論文化，Phase C \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{正直な期待値}
+
+\textbf{プラトー発見の事前確率は低い}．標準 QED は極めて精密に
+検証されており，$1/d^4$ からの有意な逸脱は多くの既存実験に矛盾を
+引き起こす可能性がある．一方で，\textbf{DN 境界での大規模 $d$
+スイープは誰もやっていない}．既存の Casimir 測定は DD のみ，
+nm スケールのみ．
+
+したがってプラトー発見は「低確率・高リターン」の賭け．ただし：
+\begin{itemize}
+\item プラトー外れでも「傾き $-3$ の高精度確認」で論文 1 本
+\item 符号反転（Section 8, 測定 1--6）の結果は別途確実に得られる
+\item 厚さシリーズ自体が新規測定で，価値がある
+\end{itemize}
+
+\textbf{期待値 = 確実な成果 + 小確率での革命}．これが Phase A を
+実行する合理的な理由．
+
 \section{論文化戦略}
 
 \subsection{第 1 論文: モード構造の直接観測}
