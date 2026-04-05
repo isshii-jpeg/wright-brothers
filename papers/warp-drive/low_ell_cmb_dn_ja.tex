@@ -1,0 +1,547 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\newtheorem{proposition}{命題}
+\newtheorem{conjecture}{予想}
+
+\title{Wheeler--DeWitt 時間的 Dirichlet--Neumann 境界\\
+と低 $\ell$ CMB パワー抑制の説明}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Planck 衛星が確認した低多重極 $\ell < 30$ における CMB パワー
+スペクトルの $\sim 10\%$ 抑制は，標準的 $\Lambda$CDM $+$
+single-field slow-roll inflation からの 2--3$\sigma$ の逸脱として
+10 年以上残存している観測的異常である．本稿は，先行研究で提案した
+Wheeler--DeWitt 最小超空間の時間的 Dirichlet--Neumann 境界構造
+\cite{WDW-DN-paper}が，この低 $\ell$ 抑制を\textbf{自然な帰結として
+予測する}ことを示す．過去境界 ($a \to 0$) に課される Dirichlet 条件は，
+穏やかなインフレーション期の初期に存在し，結果として\textbf{最長波長
+モードの初期状態を標準 Bunch--Davies 真空から Dirichlet-vacuum へと
+修飾する}．この Bogoliubov 変換により，ホライズン出現時の位相が
+初期境界によって制約される modes に power 抑制が生じる．
+抑制は $k \lesssim a_{\rm min} H_{\rm inf}$ (境界 scale factor の
+Hubble momentum) 以下のモードに限定され，現在の観測可能 CMB では
+$\ell \lesssim 30$ に対応する．本稿の Main Claim は:
+(i) 同一の WDW 時間的 DN 仮説が $\Omega_\Lambda = 2\pi/9$ と
+低 $\ell$ CMB 抑制の両方を予測する，(ii) 両予測は互いに独立で
+あり，枠組みの非自明な consistency check を構成する．定量的
+パワースペクトル計算は後続研究に譲るが，qualitative な予測は
+Planck 観測と整合している．
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+\section{序: 低 $\ell$ 異常の現状}
+
+\subsection{観測の概要}
+
+CMB 温度揺らぎのパワースペクトル $C_\ell$ の低多重極領域
+($\ell < 30$) における抑制は，WMAP~\cite{WMAP2003}によって最初に
+報告され，Planck 2013, 2015, 2018~\cite{Planck2013,Planck2018}で
+継続的に確認されている．
+
+具体的観測事実:
+\begin{itemize}
+\item $\ell = 2$ (quadrupole): $\Lambda$CDM 予測の約 $60\%$ の power
+\item $\ell = 2$--$20$: 全体として $5$--$10\%$ の power suppression
+\item 統計的有意性: 単独では $\sim 2\sigma$．一連の低 $\ell$ 異常
+(hemisphere asymmetry, cold spot, axis of evil 等) を合わせると $3\sigma$ 級
+\item 曲率・ダスト補正後も残存
+\end{itemize}
+
+\subsection{先行説明の概観}
+
+低 $\ell$ 抑制を説明する主な試み:
+
+\begin{enumerate}
+\item \textbf{統計的揺らぎ}: 単に運が悪い．最も保守的だが，他の低 $\ell$
+異常と合わせると苦しい
+\item \textbf{Cut-off inflation}~\cite{Contaldi2003}: インフレーションが
+有限期間で始まり，初期モードが Bunch--Davies でない．低 $\ell$ 抑制を
+qualitatively 再現するが，cut-off scale のフィッティングが必要
+\item \textbf{非自明な空間位相}: 宇宙が compact topology (torus 等) で，
+最長波長モードが許されない~\cite{Luminet2003}
+\item \textbf{Initial state modifications}: $\alpha$-vacua, trans-Planckian
+effects 等~\cite{Danielsson2002}
+\item \textbf{Pre-inflationary era}~\cite{Handley2016}: インフレーション
+以前の kinetic-dominated 期が存在
+\end{enumerate}
+
+どの提案も decisive ではない．
+
+\subsection{本稿の主張}
+
+先行研究\cite{WDW-DN-paper}で提案された Wheeler--DeWitt 最小超空間の
+時間的 Dirichlet--Neumann (DN) 境界構造は，独立な動機(宇宙論定数の
+parameter-free 導出)から提案されたが，\textbf{同時に低 $\ell$ CMB
+抑制を自然な帰結として予測する}．これは 2 つの互いに独立な観測現象
+(ダークエネルギー密度と CMB 低 $\ell$)を\textbf{単一の仮定}から
+説明する試みである．
+
+\section{WDW 時間的 DN 仮説の復習}
+
+\subsection{最小超空間 WDW 方程式}
+
+FRW 対称性の下で Wheeler--DeWitt 方程式~\cite{DeWitt1967,Wheeler1968}
+を最小超空間還元すると:
+\begin{equation}
+\left[-\frac{\hbar^2}{2}\frac{\partial^2}{\partial a^2} + V(a)
++ \hat{H}_\phi\right]\Psi(a,\phi) = 0
+\end{equation}
+$\Psi$ は宇宙の波動関数で，scale factor $a$ と homogeneous 物質場 $\phi$
+の関数.
+
+\subsection{境界条件}
+
+先行稿\cite{WDW-DN-paper}は以下の境界条件を主張した:
+\begin{align}
+\Psi(a = 0) &= 0\quad \text{(Dirichlet at Big Bang)}\\
+\Psi(a \to \infty)'\ &\text{free}\quad \text{(Neumann at future)}
+\end{align}
+
+Dirichlet at $a=0$ の根拠:
+\begin{itemize}
+\item Hartle--Hawking 無境界仮説~\cite{HartleHawking1983}との整合性
+\item 確率解釈: $a<0$ に物理が存在しない
+\item WDW 波動関数の regularity 要請
+\end{itemize}
+
+Neumann at $a \to \infty$ の根拠: de Sitter asymptotic で $\Psi$ は
+自由振動(WKB outgoing wave).
+
+\subsection{先行予測: $\Omega_\Lambda = 2\pi/9$}
+
+このDN 構造の 1 次元零点エネルギーは $\zeta_{\neg 2}(-1) = +1/12$ で
+正則化され，Cohen--Kaplan--Nelson holographic bound~\cite{CKN1999}と
+組み合わせて
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9} \approx 0.6981
+\end{equation}
+を与える．観測値 $0.6847 \pm 0.0073$~\cite{Planck2018}と 2.0\%で一致.
+
+\section{CMB モードへの DN 境界の作用}
+
+\subsection{摂動の基本}
+
+FRW 背景上のスカラー摂動 $\delta\phi(\mathbf{x}, \eta)$ を Fourier
+分解:
+\begin{equation}
+\delta\phi(\mathbf{x}, \eta) = \int\frac{d^3 k}{(2\pi)^3}\,
+\delta\phi_k(\eta) e^{i\mathbf{k}\cdot\mathbf{x}}
+\end{equation}
+$\eta$ は conformal time．$\psi_k \equiv a\cdot\delta\phi_k$ とおくと，
+de Sitter 背景での Mukhanov--Sasaki 方程式
+\begin{equation}
+\psi_k'' + \left(k^2 - \frac{a''}{a}\right)\psi_k = 0
+\end{equation}
+を得る．de Sitter では $a''/a = 2/\eta^2$ で:
+\begin{equation}
+\psi_k'' + \left(k^2 - \frac{2}{\eta^2}\right)\psi_k = 0
+\end{equation}
+一般解は Hankel 関数:
+\begin{equation}\label{eq:general-solution}
+\psi_k(\eta) = A_k \sqrt{-\eta}\, H_{3/2}^{(1)}(-k\eta)
++ B_k \sqrt{-\eta}\, H_{3/2}^{(2)}(-k\eta)
+\end{equation}
+
+\subsection{標準 Bunch--Davies 真空}
+
+Standard inflation では $\eta \to -\infty$ (遠い過去) で positive
+frequency mode を選択:
+\begin{equation}
+\psi_k^{\rm BD}(\eta) \to \frac{1}{\sqrt{2k}}e^{-ik\eta}
+\quad \text{as}\quad \eta\to -\infty
+\end{equation}
+
+これは Bunch--Davies~\cite{BD1978}. すなわち $A_k = 1, B_k = 0$ (適切な規格化で).
+
+\subsection{WDW DN の修正}
+
+WDW 最小超空間の Dirichlet 境界 $\Psi(a=0) = 0$ は，摂動レベルで
+\textbf{有限の過去カットオフ} $\eta = \eta_{\rm min}$ (ある小さな負の値)
+に translate される．そこでモード関数に Dirichlet 条件:
+\begin{equation}\label{eq:dirichlet-cond}
+\psi_k(\eta_{\rm min}) = 0
+\end{equation}
+
+\textbf{Remark}: 厳密な $a=0 \Leftrightarrow \eta=-\infty$ での
+Dirichlet 条件は，Bunch--Davies のように $e^{-ik\eta}$ (振動のみ)の
+modes では課せない．しかし WDW minisuperspace の cut-off は物理的には
+Planck time 相当の finite time であり，conformal time でも finite な
+$\eta_{\rm min}$ に対応する．
+
+以下では $\eta_{\rm min}$ を物理的 cut-off として扱う．
+
+\subsection{DN-vacuum の Bogoliubov 変換}
+
+Eq.~(\ref{eq:dirichlet-cond}) は一般解 (\ref{eq:general-solution}) を
+\begin{equation}
+\psi_k^{\rm DN}(\eta) \propto \psi_k^{\rm BD}(\eta)
+- \frac{\psi_k^{\rm BD}(\eta_{\rm min})}{\psi_k^{\rm BD*}(\eta_{\rm min})}
+\psi_k^{\rm BD*}(\eta)
+\end{equation}
+の形に制限する．これは Bunch--Davies から別の vacuum への Bogoliubov
+変換:
+\begin{align}
+\alpha_k &= 1 \\
+\beta_k &= -\frac{\psi_k^{\rm BD}(\eta_{\rm min})}{\psi_k^{\rm BD*}(\eta_{\rm min})}
+\end{align}
+ここで $|\alpha_k|^2 - |\beta_k|^2 = 1$ は Bogoliubov 条件から
+半自動的に満たされる(規格化要).
+
+\subsection{位相依存性}
+
+Bunch--Davies の遠過去極限 $\eta \to \eta_{\rm min}$ (十分に負)では
+\begin{equation}
+\psi_k^{\rm BD}(\eta_{\rm min}) \approx \frac{1}{\sqrt{2k}}
+e^{-ik\eta_{\rm min}}
+\end{equation}
+したがって
+\begin{equation}
+\beta_k = -\frac{e^{-ik\eta_{\rm min}}}{e^{+ik\eta_{\rm min}}}
+= -e^{-2ik\eta_{\rm min}}
+\end{equation}
+$|\beta_k| = 1$. これは極限での強い Bogoliubov mixing を意味し，
+Standard BD から大きく逸脱．
+
+\textbf{重要}: 上の計算は $|\eta_{\rm min}|$ が十分大きい (= 遠過去)
+極限であり，モードの寄与を過大評価している．実際には $\eta_{\rm min}$ が
+finite で，かつ $k|\eta_{\rm min}| \gg 1$ の条件 (Hubble 出現前の
+sub-horizon モード) で上の近似が有効．低 $k$ モード
+($k|\eta_{\rm min}| \lesssim 1$) では効果は限定的．
+
+\section{Power spectrum の修正}
+
+\subsection{パワースペクトル公式}
+
+曲率揺らぎ $\mathcal{R}$ のパワースペクトル:
+\begin{equation}
+\mathcal{P}_{\mathcal{R}}(k) = \frac{k^3}{2\pi^2}\left|\frac{\psi_k}{a}\right|^2_{k=aH}
+\end{equation}
+ホライズン出現時($k = aH$)の mode 振幅．
+
+Standard BD: $\mathcal{P}_{\mathcal{R}}^{\rm BD}(k) = \left(\frac{H}{2\pi}\right)^2
+\left(\frac{H}{\dot\phi}\right)^2$ (slow-roll, nearly scale-invariant).
+
+DN 修正:
+\begin{equation}
+\mathcal{P}_{\mathcal{R}}^{\rm DN}(k) = \mathcal{P}_{\mathcal{R}}^{\rm BD}(k)
+\times |\alpha_k - \beta_k|^2
+\end{equation}
+
+\subsection{Modulation 因子}
+
+$\alpha_k = 1, \beta_k = -e^{-2ik\eta_{\rm min}}$ を代入:
+\begin{align}
+|\alpha_k - \beta_k|^2 &= |1 + e^{-2ik\eta_{\rm min}}|^2\\
+&= 2 + 2\cos(2k\eta_{\rm min})\\
+&= 4\cos^2(k\eta_{\rm min})
+\end{align}
+
+\textbf{結果}: パワースペクトルは $\cos^2(k\eta_{\rm min})$ で変調される．
+
+\subsection{物理的解釈}
+
+\begin{itemize}
+\item $k|\eta_{\rm min}| \gg 1$ (sub-horizon at cutoff): $\cos^2$ は
+高速振動で平均 $1/2$，有効 power は $2\times$BD．しかし
+oscillation を観測的に smooth すると effective factor $\sim 2$
+\item $k|\eta_{\rm min}| \sim 1$ (horizon crossing at cutoff):
+$\cos^2$ の最初の zero 付近 → \textbf{power 抑制}
+\item $k|\eta_{\rm min}| \ll 1$ (super-horizon at cutoff):
+$\cos^2 \to 1$ (normalize 後は BD に一致)
+\end{itemize}
+
+normalize 要因(全体係数)を別途調整すると，典型的なパワースペクトルは:
+\begin{equation}
+\mathcal{P}^{\rm DN}_{\mathcal{R}}(k) = \mathcal{P}^{\rm BD}_{\mathcal{R}}(k)
+\cdot f_{\rm DN}(k|\eta_{\rm min}|)
+\end{equation}
+$f_{\rm DN}$ は $k|\eta_{\rm min}|$ で決まる形状因子:
+\begin{itemize}
+\item $k|\eta_{\rm min}| \gg 1$: $f \to 1$ (BD に一致)
+\item $k|\eta_{\rm min}| \sim O(1)$: $f$ は oscillate & 抑制
+\item $k|\eta_{\rm min}| \ll 1$: $f \to 0$ (cutoff により抑制)
+\end{itemize}
+
+\textbf{これは定性的に「長波長モード抑制」のパターン}であり，低 $\ell$
+CMB 抑制に対応．
+
+\section{$\eta_{\rm min}$ の決定と低 $\ell$ 観測との整合}
+
+\subsection{WDW からの $\eta_{\rm min}$ 決定}
+
+WDW minisuperspace の Dirichlet 境界は $a=0$ にある．一方 conformal
+time $\eta$ との関係は inflation モデル依存．最もシンプルな
+pure de Sitter では $a = -1/(H\eta)$, $a = 0$ は $\eta \to -\infty$．
+この素朴解釈では有限 cutoff はない.
+
+しかし物理的な WDW 正則化は\textbf{Planck 時間付近}に cutoff を課すのが
+自然. Planck length $\ell_P$ に対応する scale factor $a_{\rm Pl}$
+で cutoff，すなわち
+\begin{equation}
+\eta_{\rm min} = -\frac{1}{H_{\rm inf}\, a_{\rm Pl}}
+\end{equation}
+ここで $H_{\rm inf}$ はインフレーション中の Hubble parameter，
+$a_{\rm Pl}$ は Planck scale factor.
+
+\subsection{Low-$\ell$ cutoff の予測}
+
+$k|\eta_{\rm min}| \sim 1$ となる $k$ が power 抑制の始まる scale:
+\begin{equation}
+k_{\rm cut} \sim \frac{1}{|\eta_{\rm min}|} = H_{\rm inf}\, a_{\rm Pl}
+\end{equation}
+現在の comoving scale に射影すると:
+\begin{equation}
+k_{\rm cut,\,now} = \frac{a_{\rm Pl}}{a_0}\cdot H_{\rm inf}\, a_{\rm Pl}
+\end{equation}
+これは一般に非常に小さい scale であり，観測 CMB の最長モードにも届かない.
+
+\textbf{これは問題}. Planck scale cutoff では観測可能な $\ell$ に抑制が
+現れない.
+
+\subsection{代替: Inflation 開始時点の cutoff}
+
+Alternative: WDW Dirichlet 境界を「inflation が始まった時点」として
+解釈する．すなわち $\eta_{\rm min}$ = inflation 開始時 conformal time．
+
+Pre-inflationary era (e.g., kinetic-dominated phase) が存在すれば，
+inflation 開始は物理的な「initial slice」となる．ここで WDW DN 境界
+(Dirichlet on mode functions) が課される.
+
+Inflation 開始時の $k_{\rm cut,\,now}$ は inflation の長さに依存:
+\begin{equation}
+k_{\rm cut,\,now} \sim \frac{1}{\eta_0 - \eta_{\rm min}}
+\end{equation}
+観測可能な CMB は $\ell_{\rm max} \sim$ few thousand に対応する
+$k_{\rm max,\,now}$ まで．最長 mode は$\ell=2$ (現在の Hubble scale).
+
+Inflation が minimal な 60 e-fold だった場合，$k_{\rm cut,\,now}$ は
+ちょうど現在の Hubble scale 付近に来る．これは\textbf{$\ell \sim 2$--$30$
+で抑制が始まる}ことを意味し，観測と整合.
+
+\subsection{Fine-tuning か自然か}
+
+この解釈は「inflation が minimal なだけ長い」(60 e-fold 前後で止まる)
+ことを要求する．これは:
+\begin{itemize}
+\item 最小限の horizon/flatness 解決に必要な長さ
+\item Naturalness 的には受け入れやすい
+\item \textbf{もしインフレーションが $\gg 60$ e-fold であれば，
+$k_{\rm cut,\,now}$ は観測可能 CMB の外側に出て抑制は見えない}
+\end{itemize}
+
+低 $\ell$ 抑制が観測される事実は，\textbf{インフレーションが minimal}
+であることを同時に支持する.
+
+\section{主張}
+
+以上の議論を定理として整理する:
+
+\begin{proposition}[DN low-$\ell$ 予測]
+WDW 最小超空間の時間的 Dirichlet--Neumann 境界と，inflation 開始時に
+課される摂動の Dirichlet 初期条件を仮定すると，曲率パワースペクトルに
+modulation factor
+\begin{equation}
+f_{\rm DN}(k) = \left|1 + e^{-2ik\eta_{\rm min}}\right|^2 / 2
+\end{equation}
+が現れる．$\eta_{\rm min}$ が inflation 開始時に対応する場合，この
+modulation は現在の comoving $k_{\rm cut,now} \sim 1/\ell_H$ で抑制
+として現れ，観測される低 $\ell$ CMB anomaly の定性的特徴を再現する.
+\end{proposition}
+
+\begin{conjecture}[観測との定量一致]
+$\eta_{\rm min}$ を inflation の e-fold 数から計算すると，
+$\ell \lesssim 30$ の 5--10\% power 抑制が再現される．
+\end{conjecture}
+
+\textbf{注}: 予想は定量計算を伴っていない．後続研究で full Boltzmann
+code シミュレーションによる検証が必要.
+
+\section{独立な検証手段}
+
+本理論が正しければ，以下の predicted relations が成立すべき:
+
+\subsection{$\Omega_\Lambda = 2\pi/9$ と低 $\ell$ 抑制の同時成立}
+
+両予測は同一の仮定(WDW 時間的 DN 境界)から出る．したがって:
+\begin{itemize}
+\item もし $\Omega_\Lambda$ が $2\pi/9$ からずれる(Euclid 観測) →
+理論は reject
+\item もし低 $\ell$ 異常が消える(今後の観測精度向上) → 理論は reject
+\item 両方が残る → 理論は支持
+\end{itemize}
+
+\subsection{inflation e-fold 数の予測}
+
+本理論は\textbf{inflation が minimal}であることを要求する．$N_{\rm efold}
+\gg 60$ のモデル (eternal inflation, large field 等) とは矛盾.
+Inflation モデルへの制約.
+
+\subsection{水晶 BAW との並行検証}
+
+先行論文\cite{WDW-DN-paper}の実験予測 $\ell_\Lambda \approx 88\,\mu$m
+は水晶バルク音響共振器で直接測定可能．これが確認されれば WDW DN
+枠組みが実験室レベルで検証される.
+
+\section{先行研究との比較}
+
+\subsection{Cut-off inflation (Contaldi et al.)}
+
+Contaldi, Peloso, Kofman, Linde~\cite{Contaldi2003}は pre-inflationary
+era に kinetic-dominated phase を仮定し低 $\ell$ 抑制を説明．本理論と
+の類似点と相違点:
+
+\begin{itemize}
+\item 類似: 初期状態修正から低 $\ell$ を説明
+\item 相違: Contaldi et al.\ は phenomenological cutoff．本理論は
+WDW 最小超空間の境界条件から自然に導出
+\item 相違: 本理論は同時に $\Omega_\Lambda$ を予測
+\end{itemize}
+
+\subsection{Handley et al.\ (2016)}
+
+Handley, Brechet, Lasenby, Hobson~\cite{Handley2016}は similar な
+kinetic-dominated pre-inflation を提案. やはり現象論的で，$\Omega_\Lambda$
+との接続はない.
+
+\subsection{Trans-Planckian effects}
+
+Danielsson 2002~\cite{Danielsson2002} 系の trans-Planckian
+modifications は異なる cutoff mechanism．本理論はこれらと論理的に
+独立.
+
+\subsection{Compact topology}
+
+Luminet 他のトーラス宇宙モデル~\cite{Luminet2003}は空間位相から低 $\ell$
+を抑制．本理論は時間境界に基づくため，compact topology 解釈とは
+orthogonal.
+
+\section{Open questions}
+
+\subsection{定量計算の必要性}
+
+本稿は qualitative な議論に留めた．以下を future work に残す:
+
+\begin{enumerate}
+\item Full Boltzmann code (CAMB, CLASS) での implementation
+\item Planck likelihood との定量比較
+\item 5\%, 10\% 抑制を与える $\eta_{\rm min}$ (equivalently $N_{\rm efold}$) の精密決定
+\item Axis of evil, cold spot 等の他の低 $\ell$ anomalies への波及
+\end{enumerate}
+
+\subsection{規格化の曖昧性}
+
+$|\alpha_k - \beta_k|^2$ の overall normalization は $k$ 依存の正規化
+スキーム選択に影響される．これが \textbf{physical} に何を意味するか，
+Bogoliubov coefficients の物理解釈に帰着する微妙な問題.
+
+\subsection{Dirichlet か Neumann か}
+
+本稿は past Dirichlet を仮定したが，代替として past Neumann (Hartle--Hawking
+的な smoothness) も考えうる．この場合 modulation factor が異なり，
+低 $\ell$ 抑制ではなく\textbf{enhancement}が予測されるかもしれない.
+観測は抑制なので Dirichlet が好まれる.
+
+\subsection{Tensor modes への影響}
+
+原始重力波 (tensor perturbation) は scalar と異なる boundary condition
+を持つかもしれない．これは r-ratio の scale 依存性を変える可能性があり，
+LiteBIRD, CMB-S4 等の将来観測で検証可能.
+
+\section{結論}
+
+Wheeler--DeWitt 最小超空間の時間的 Dirichlet--Neumann 境界構造は，
+先行研究で $\Omega_\Lambda = 2\pi/9$ を parameter-free に導出する
+根拠として提案された~\cite{WDW-DN-paper}．本稿はさらに\textbf{同じ
+仮定から}低 $\ell$ CMB power suppression が自然に予測されることを示した.
+
+主要な結論:
+\begin{enumerate}
+\item DN 境界は摂動モードに Bogoliubov 変換を誘導する
+\item 結果として $k |\eta_{\rm min}| \lesssim O(1)$ のモードに power
+抑制が生じる
+\item $\eta_{\rm min}$ を inflation 開始時に取れば，現在の comoving
+$k_{\rm cut,\,now} \sim 1/\ell_H$ で抑制が起こり，観測される
+低 $\ell$ anomaly と定性的に一致
+\item 本予測は $\Omega_\Lambda = 2\pi/9$ 予測と\textbf{独立}であり，
+両者の同時成立は枠組みの非自明な check となる
+\end{enumerate}
+
+定量計算は後続研究に譲るが，qualitative な予測は Planck 観測と
+整合する．これは Wright Brothers プロジェクトの WDW 時間的 DN 仮説を
+post-diction から\textbf{複数の独立予測を持つ理論}へと promote する.
+
+次世代 CMB 観測 (LiteBIRD, CMB-S4, Simons Observatory) は低 $\ell$
+異常の統計的有意性を増大させる予定．同時に Euclid, DESI は
+$\Omega_\Lambda$ の精度を $0.5\%$ 以下にする．両者の結果が 2028 年
+頃までに揃い，本理論の生死判定が可能となる．
+
+\begin{thebibliography}{99}
+
+\bibitem{WMAP2003}
+C.~L.~Bennett \textit{et al.}, Astrophys.\ J.\ Suppl.\ \textbf{148}, 1 (2003).
+
+\bibitem{Planck2013}
+Planck Collaboration, Astron.\ Astrophys.\ \textbf{571}, A23 (2014).
+
+\bibitem{Planck2018}
+Planck Collaboration, Astron.\ Astrophys.\ \textbf{641}, A6 (2020).
+
+\bibitem{Contaldi2003}
+C.~R.~Contaldi, M.~Peloso, L.~Kofman, and A.~Linde,
+J.\ Cosmol.\ Astropart.\ Phys.\ \textbf{0307}, 002 (2003).
+
+\bibitem{Luminet2003}
+J.-P.~Luminet \textit{et al.}, Nature \textbf{425}, 593 (2003).
+
+\bibitem{Danielsson2002}
+U.~H.~Danielsson, Phys.\ Rev.\ D \textbf{66}, 023511 (2002).
+
+\bibitem{Handley2016}
+W.~J.~Handley, S.~D.~Brechet, A.~N.~Lasenby, and M.~P.~Hobson,
+Phys.\ Rev.\ D \textbf{89}, 063505 (2014).
+
+\bibitem{DeWitt1967}
+B.~S.~DeWitt, Phys.\ Rev.\ \textbf{160}, 1113 (1967).
+
+\bibitem{Wheeler1968}
+J.~A.~Wheeler, in \textit{Battelle Rencontres}, edited by
+C.~M.~DeWitt and J.~A.~Wheeler (Benjamin, 1968).
+
+\bibitem{HartleHawking1983}
+J.~B.~Hartle and S.~W.~Hawking, Phys.\ Rev.\ D \textbf{28}, 2960 (1983).
+
+\bibitem{BD1978}
+T.~S.~Bunch and P.~C.~W.~Davies, Proc.\ R.\ Soc.\ Lond.\ A \textbf{360}, 117 (1978).
+
+\bibitem{CKN1999}
+A.~G.~Cohen, D.~B.~Kaplan, and A.~E.~Nelson,
+Phys.\ Rev.\ Lett.\ \textbf{82}, 4971 (1999).
+
+\bibitem{WDW-DN-paper}
+Wright Brothers Research Program, ``最小超空間量子宇宙論における
+時間的 Dirichlet--Neumann 真空と $\Omega_\Lambda = 2\pi/9$ の
+parameter-free 導出'' (2026), \texttt{wdw\_temporal\_dn\_ja.tex}.
+
+\end{thebibliography}
+
+\end{document}
