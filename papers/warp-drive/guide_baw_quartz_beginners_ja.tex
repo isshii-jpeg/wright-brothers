@@ -1,0 +1,1106 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{水晶 BAW 実験 初歩からの完全ガイド\\
+\large なぜ水晶か，何を測るか，どう違うか}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドは，水晶バルク音響共振器（Bulk Acoustic Wave resonator,
+BAW）を使った Wright Brothers プロジェクトの核心実験を，
+前提知識ゼロから理解できるように書かれている．「なぜ水晶なのか」
+「なぜ厚さを変えるのか」「なぜ Dirichlet--Neumann 境界にこだわるのか」
+「過去の Casimir 実験や水晶実験と何が違うのか」という根本的な
+疑問に一つ一つ答えていく．量子力学や場の量子論の教科書的知識は
+前提としない（必要な部分は本文で導入する）．実験の各ステップに
+ついて「何をするか」だけでなく「なぜそうするか」を重視した．
+目標読者は理系大学 1 年生，熱心な高校生，または実験に興味のある
+一般の読者．読了後には，¥100 円の時計用水晶振動子で
+ダークエネルギーを測りにいく実験を，自分の手で設計できる．
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+\section{なぜこの実験をやるのか}
+
+まず，この実験が何のためにあるのかを正直に述べる．
+
+我々は\textbf{宇宙の真空エネルギーの謎}を解こうとしている．
+現代物理学には「宇宙論定数問題」と呼ばれる巨大な矛盾がある：
+理論（量子電磁力学）が予測する真空エネルギー密度と，実際に観測
+される値が\textbf{120 桁ずれている}．これは物理学史上最悪の
+理論と観測のズレ．
+
+Wright Brothers プロジェクトの仮説：
+\begin{itemize}
+\item 真空エネルギーは距離に応じて $1/d^4$ で増大するが，
+ある臨界距離 $a_c$ でプラトー化する
+\item $a_c \approx 88\,\mu$m であり，これはダークエネルギー密度に
+対応する自然長スケール
+\item この仮説が正しければ，$d = 88\,\mu$m 近辺で \textbf{真空の
+振る舞いが変わる}のが直接観測できるはず
+\end{itemize}
+
+$88\,\mu$m は髪の毛の太さ程度．そして\textbf{この厚さの水晶板は
+100 円で買える}．つまり我々は，100 円の電子部品で宇宙論的謎の
+答えを持ってこようとしている．
+
+この実験が本当に成功するかは分からない．しかし，試す価値は明らかに
+ある．もし成功すればノーベル賞級，失敗しても物理学の新しい測定
+データが得られる．どちらに転んでも損はない．
+
+そして何より：\textbf{この実験は今週発注すれば来月には結果が
+出始める}．これが本ガイドのすべてを理解する動機である．
+
+\section{水晶とは何か——物質としての基本}
+
+\subsection{水晶という結晶}
+
+「水晶」はケイ素と酸素からなる結晶の一種で，化学式は
+SiO$_2$．地殻の重量の $\sim 12\%$ を占める．ガラスと同じ成分だが，
+原子が規則正しく並んでいる点が決定的に違う．
+
+ガラスは原子がランダムに配置された「アモルファス」固体．
+水晶は原子が六角形の格子を組む\textbf{単結晶}．この違いが物理
+特性を決定する．
+
+\begin{itemize}
+\item ガラス: 音が伝わりにくく減衰大（内部摩擦大）
+\item 水晶: 音が極めて綺麗に伝わり減衰小（内部摩擦極小）
+\end{itemize}
+
+減衰が小さい＝振動が長く続く＝\textbf{機械的 Q 値が高い}．水晶の
+Q は室温で $10^6$，液体窒素温度で $10^8$，20\,mK では $10^{10}$ を
+超える．これは地上で最も「鳴る」物質の 1 つである．
+
+\subsection{水晶の圧電効果}
+
+水晶の最大の特徴は\textbf{圧電効果}．これは \textbf{1880 年}に
+ピエール・キュリーとジャック・キュリー兄弟によって発見された
+現象で，以下の 2 つを意味する：
+
+\begin{enumerate}
+\item 水晶に力を加えると電気が生じる（直接圧電効果）
+\item 水晶に電圧を加えると変形する（逆圧電効果）
+\end{enumerate}
+
+これは結晶の\textbf{非中心対称性}から生まれる．水晶の Si と O の
+配置には反転対称性がなく，外力で格子がわずかに歪むと正電荷と
+負電荷の中心がずれて電気双極子が発生する．逆に，電場をかければ
+その双極子が整列しようとして結晶が機械的に変形する．
+
+この性質により，水晶は\textbf{電気信号と機械振動を相互変換}
+できる．この変換効率は高くないが（圧電定数 $d_{11} \sim 2$\,pm/V），
+それでも十分実用になる．
+
+\subsection{カット方向（orientation）}
+
+水晶は結晶なので，どの方向に切り出すかで性質が変わる．主要な
+カット方向と用途：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+カット名 & 角度 & 主用途 \\
+\midrule
+X カット & 基本軸切り & 歴史的，あまり使われない \\
+Y カット & X と垂直 & 温度特性悪い \\
+\textbf{AT カット} & $+35.25^\circ$ Y軸 & \textbf{時計・通信の主力} \\
+BT カット & $-49^\circ$ Y軸 & 高周波 \\
+SC カット & 2 軸回転 & 超高安定（GPS 基準局など）\\
+BVA カット & SC 派生 & 研究用超高 Q \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{AT カット}が圧倒的に重要．これは Bechmann が 1934 年に
+発見したもので，\textbf{室温付近で温度係数がほぼゼロ}になる
+特殊な角度．この性質が水晶時計・水晶発振器の大量生産を可能にした．
+
+本実験でも AT カットを使う．$-20^\circ$C から $+60^\circ$C で周波数
+変動が数 ppm に抑えられ，実験室環境で扱いやすい．
+
+\subsection{AT カット水晶の音速}
+
+本実験で最も重要な数値：
+\begin{center}
+\Large
+\textbf{AT カット水晶の shear wave 音速 $v_s = 3320$\,m/s}
+\end{center}
+
+この 3320\,m/s が，水晶の厚さと共振周波数を結ぶ．厚さ $d$ の
+水晶板の基本周波数は $f_1 = v_s/(2d)$ で，例えば $d = 166\,\mu$m
+なら $f_1 = 10\,$MHz．
+
+\section{BAW 共振器とは何か}
+
+\subsection{「バルク音響波」の意味}
+
+BAW は ``Bulk Acoustic Wave'' の略．「バルク」は\textbf{表面ではなく
+体積内部}を伝わる音響波という意味．対比されるのは SAW
+(Surface Acoustic Wave) で，これは表面を伝わる波．
+
+バルクを選ぶ理由：
+\begin{itemize}
+\item 体積モードは境界の影響を受けにくく Q が高い
+\item 高周波化が容易（$f = v/\lambda$，薄くすれば高くなる）
+\item 結晶の深い部分の純粋な機械特性を反映する
+\end{itemize}
+
+\subsection{厚さモード}
+
+水晶板に電極を挟んで電圧をかけると，逆圧電効果で板が厚さ方向に
+伸び縮みする．この伸縮が\textbf{厚さ音響波}として板内部を
+上下に往復する．
+
+両面で反射して定常波が立つ条件は，板厚 $d$ が波長の整数倍に
+なること：
+\begin{equation}
+n \cdot \frac{\lambda_n}{2} = d \quad\Rightarrow\quad \lambda_n = \frac{2d}{n}
+\end{equation}
+周波数に直すと：
+\begin{equation}
+f_n = \frac{v_s}{\lambda_n} = \frac{n v_s}{2 d}, \quad n = 1, 2, 3, \ldots
+\end{equation}
+
+これが両端自由（Neumann-Neumann, NN）の場合．$n=1$ が基本，
+$n=2, 3, \ldots$ が倍音（オーバートーン）．
+
+\subsection{なぜオーバートーンが出るか}
+
+物理的には，楽器の弦と同じ．両端固定の弦は基本振動
+（全体が一つの山）だけでなく，2 倍振動（2 つの山），3 倍振動
+（3 つの山）...も励起できる．BAW でも同じことが起こり，
+\textbf{整数倍の周波数にピーク}が並ぶ．
+
+実用の水晶発振器では基本振動だけを使うことが多いが，
+本実験では\textbf{オーバートーンの構造そのものが情報}になる．
+
+\subsection{Q 値という指標}
+
+共振器の性能を表す最重要パラメータ：
+\begin{equation}
+Q = \frac{f}{\Delta f} = 2\pi \cdot \frac{\text{貯蔵エネルギー}}{\text{1 周期あたり散逸}}
+\end{equation}
+共振ピークの鋭さ．Q が高いほどピークが細く，周波数測定精度が上がる．
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+物体 & Q 値 & 備考 \\
+\midrule
+ゴムボール & 10 & 数回バウンドして止まる \\
+ワイングラス & 1,000 & チーン\\
+音叉 & 10,000 & 長く鳴る \\
+水晶（室温） & $10^6$ & \\
+水晶（液体窒素）& $10^8$ & 77\,K \\
+水晶（希釈冷凍機）& $10^{10}$ & 20\,mK, BVA カット \\
+超伝導マイクロ波共振器 & $10^{11}$ & \\
+光学共振器（高級品）& $10^{11}$ & 超精密 FP \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+水晶の $10^{10}$ というのは機械振動系として世界最高クラス．
+これが本実験の精度を保証する．
+
+\section{水晶と精密時間の歴史}
+
+水晶 BAW 実験を理解するには，水晶がどうやって人類最高の時間
+基準になったか知っておくと良い．
+
+\subsection{1920 年代：Marrison の発明}
+
+1927 年，Warren Marrison（ベル研）が世界初の水晶時計を作成．
+室温での精度は 1 日に約 0.01 秒，当時の最高性能を凌駕した．
+振り子時計と比較した優位性は：
+\begin{itemize}
+\item 機械振動ではなく電気的な発振器
+\item 外部振動の影響を受けにくい
+\item 小型化・量産化が容易
+\end{itemize}
+
+\subsection{1930 年代：AT カットの発見}
+
+1934 年，Bechmann が AT カットを発見．温度係数が $35.25^\circ$ で
+ほぼゼロになる．これにより温度変動環境でも安定した発振器が
+可能になり，\textbf{通信・レーダー・時計の基礎技術}となった．
+
+\subsection{1960 年代：原子時計との比較}
+
+セシウム原子時計（1955 年）が登場したことで「1 秒」の定義が
+天文学から原子物理に移行．しかし水晶発振器は\textbf{原子時計の
+短期安定度の足場}として依然重要．GPS 衛星の内部時計も
+水晶とセシウムのハイブリッド．
+
+\subsection{1990 年代：BVA カットと超高 Q}
+
+Besson が 1976 年に開発した BVA (Boîtier à Vieillissement
+Amélioré) カットは，エッジ損失を最小化する特殊な保持方式．
+SC カットの一種で，室温で $Q > 10^6$，低温で $10^8$ 以上に達する．
+
+このカットが後に Galliou, Goryachev, Tobar らのグループによって
+\textbf{20\,mK まで冷やされ，$Q > 10^{10}$ を達成}．これは
+機械振動系で人類が到達した最高の Q 値である．
+
+\subsection{本実験との関係}
+
+本実験は，この 100 年にわたる水晶技術の蓄積に乗っかる．特に：
+\begin{itemize}
+\item AT カット $\to$ 温度安定性
+\item 量産品 $\to$ 安価 (¥100 円)
+\item 厚さの範囲 $\to$ 自然に $a_c = 88\,\mu$m を含む
+\item 高 Q $\to$ 微小な周波数シフトの検出が可能
+\end{itemize}
+
+水晶以外の材料ではこの組み合わせが揃わない．例えば LiNbO$_3$
+(ニオブ酸リチウム)は Q が低く，AlN (窒化アルミ)は加工が難しく，
+ZnO (酸化亜鉛)は安定性が劣る．水晶一択．
+
+\section{境界条件という概念}
+
+ここからが物理的な核心．境界条件とは何か，なぜ重要かを理解する．
+
+\subsection{弦と管の基礎}
+
+まず音楽の例から．ギターの弦は両端が固定（クランプ）されている．
+このとき定常波の条件は「両端で振幅ゼロ」．これを\textbf{ディリクレ
+境界条件}と呼ぶ．数式で書くと $u(0) = u(L) = 0$．
+
+一方，パイプオルガンやフルートの管は一方または両方が開いている．
+開放端では空気が自由に出入りでき，\textbf{圧力}がゼロ（大気圧に
+等しい）．これを\textbf{ノイマン境界条件}と呼ぶ．数式で書くと
+$\partial u/\partial x|_{\text{開端}} = 0$．
+
+\subsection{4 通りの境界条件}
+
+境界条件の組み合わせは 4 通り：
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+名前 & 略記 & 両端 & 例 \\
+\midrule
+Dirichlet--Dirichlet & DD & 両端固定 & ギター弦，両端閉管 \\
+Neumann--Neumann & NN & 両端自由 & 両端開放管，宙吊り板 \\
+Dirichlet--Neumann & DN & 片端固定片端自由 & 片端閉管，片面クランプ板 \\
+Neumann--Dirichlet & ND & DN と等価（向き逆）& 同上 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+DD と NN は同じスペクトル（どちらも全倍音 $f_n = n f_0$）．
+DN は\textbf{奇数倍音のみ} $f_n = (2n-1)f_0$．これが決定的に重要．
+
+\subsection{なぜ DN は奇数倍音だけか}
+
+物理的に直感的に理解するには，ハーフサイズで考える．長さ $2L$ の
+両端自由管は基本波が $\lambda = 2L$ で $n=1,2,3,\ldots$ の全倍音．
+この管の真ん中で切ると，左半分は「左端自由，右端ずっと固定
+（節）」となる．これは長さ $L$ の DN 管．
+
+元の $2L$ 管で真ん中に節を持てる倍音は $n=2, 4, 6,\ldots$（偶数）
+のみ．奇数倍音は真ん中が腹になる．したがって「真ん中で切る」操作は
+偶数倍音を切り捨てる操作と同じ．結果として $L$ の DN 管は奇数倍音
+のみ．
+
+逆に言えば，\textbf{DN 管は同じ長さの DD/NN 管から偶数倍音を
+取り除いたもの}．
+
+\subsection{なぜ境界条件が物理的に重要か}
+
+真空は量子力学的には「全モードの基底状態」である．各モードは
+零点エネルギー $\hbar\omega/2$ を持つ．総和は：
+\begin{equation}
+E_{\rm vac} = \sum_n \frac{\hbar\omega_n}{2}
+\end{equation}
+
+NN と DN でモードの集合が違うので，真空エネルギーが異なる．
+その差が物理的に観測可能なのが Casimir 効果．
+
+より抽象的には：\textbf{「真空」とは境界条件に依存する}．無限に
+広い真空と，境界を持つ真空は別物．本実験はこの違いを定量化する．
+
+\section{Dirichlet--Neumann 境界の具体化}
+
+\subsection{機械的な DN の作り方}
+
+電磁場の DN 境界は実装困難（完全磁気導体 PMC が必要だが広帯域で
+存在しない）．しかし\textbf{機械系の DN は簡単}：
+
+\begin{itemize}
+\item 自由表面（空気 or 真空に接する）: stress $= 0$ なので Neumann
+\item クランプ表面（重く動かない基板に接着）: displacement $= 0$ なので Dirichlet
+\end{itemize}
+
+したがって水晶板の片面をタングステン板に接着するだけで DN が完成．
+
+\subsection{なぜタングステンか}
+
+音響インピーダンス $Z = \rho v$（密度×音速）の大きさで決まる．
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+材料 & $\rho$ (g/cm³) & $Z$ (MRayl) \\
+\midrule
+空気 & 0.0012 & $0.0004$ \\
+水 & 1.0 & 1.5 \\
+アルミニウム & 2.7 & 17 \\
+\textbf{水晶} & \textbf{2.65} & \textbf{15} \\
+銅 & 8.9 & 42 \\
+サファイア & 4.0 & 44 \\
+\textbf{タングステン} & \textbf{19.3} & \textbf{100} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+水晶とタングステンのインピーダンス比 $100/15 = 6.7$．これが
+音響反射の強さを決める．反射率は：
+\begin{equation}
+R = \left|\frac{Z_2 - Z_1}{Z_2 + Z_1}\right|^2 = \left|\frac{100-15}{100+15}\right|^2 = 0.547
+\end{equation}
+
+54\% 反射＝46\% 透過．これではまだ Dirichlet 近似として弱い．
+
+\subsection{反射率を上げる工夫}
+
+方法 1: 多層化．タングステン 5\,mm だけだとその裏も境界があるので，
+タングステン－水－タングステン－ などの多重反射で実効的に
+$>90\%$ 反射を達成．
+
+方法 2: 音響 Bragg 反射鏡（SMR が使っている方法）．$\lambda/4$
+厚の高インピーダンス/低インピーダンス層を交互に積層．
+詳細は \texttt{guide\_smr\_fbar\_ja.tex}．
+
+方法 3: タングステンの代わりに白金 ($Z = 75$) や金 ($Z = 63$)．
+安定した接着が可能．
+
+本実験では\textbf{タングステン 10\,mm 厚単体}で十分．反射率は
+$55\%$ だが，系統誤差として処理できる．完璧な Dirichlet でなくとも
+「$1/d^4$ からの逸脱」という定性的な signature は見える．
+
+\subsection{接着剤の選択}
+
+接着剤自体が音響的に中間層を作る．理想はゼロ厚さ．
+
+\begin{itemize}
+\item \textbf{Stycast 1266}（低温用エポキシ）: 1--5\,$\mu$m 厚，
+音響特性既知
+\item \textbf{Indium 溶着}: 金属接合，理想的だが加工困難
+\item \textbf{シアノアクリレート}: 薄く塗布可能だが低温で剥離
+\end{itemize}
+
+Wright Brothers Phase 2 では Stycast 1266 を使う．
+厚さを制御するためにガラスビーズ（$5\,\mu$m 径）を混ぜて
+スペーサとする．
+
+\section{実験の全体像}
+
+ここまでで基礎知識が揃った．実験全体を俯瞰する．
+
+\subsection{目的}
+
+厚さ $d$ の異なる水晶 BAW を複数用意し，それぞれを NN (両面自由)
+と DN (片面クランプ) の 2 形態で測定する．両者の共振周波数の
+差$\Delta f(d)$ を $d$ の関数としてプロットし，$1/d^n$ の
+スケーリング指数 $n$ を決定する．
+
+\begin{itemize}
+\item $n \approx 3$ なら標準 QED 支持
+\item $n < 3$ なら新物理の兆候
+\item $n$ が変化する点があればプラトー発見
+\end{itemize}
+
+\subsection{なぜ厚さを変えるのか}
+
+一つの厚さでは「$1/d^n$ の $n$」が決まらない．複数の $d$ で
+測定して対数プロットを取り，傾きを抽出する．
+
+さらに，我々の予測する $a_c \approx 88\,\mu$m は，ある特定の
+厚さで何かが起こるという主張．\textbf{その厚さ付近でスペクトル
+振る舞いが変わる}のを見るには，その厚さを含む範囲を網羅する
+必要がある．
+
+\subsection{使う厚さ範囲}
+
+Phase 2 の設計：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+厚さ $d$ & 基本周波数 $f_1$ & 位置付け \\
+\midrule
+830\,$\mu$m & 2\,MHz & 下限（プラトー内？）\\
+330\,$\mu$m & 5\,MHz & \\
+166\,$\mu$m & 10\,MHz & \\
+\textbf{83\,$\mu$m} & \textbf{20\,MHz} & \textbf{$a_c$ 近傍}\\
+33\,$\mu$m & 50\,MHz & \\
+17\,$\mu$m & 100\,MHz & 上限 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+50 倍のレンジで対数的に 6 点．これで $\log d$ vs $\log\Delta f$
+プロットに意味のあるフィットが可能．
+
+\subsection{入手方法}
+
+全て\textbf{商用水晶振動子}から取れる．秋月電子，Digi-Key，
+RS オンラインなどで 1 個 ¥100--¥1000．
+
+\begin{itemize}
+\item 時計用 32.768 kHz はチューニングフォーク型で不適
+\item 発振器用の円板型を選ぶ
+\item 「HC-49」「HC-51」「FT-23」パッケージのものが standard
+\end{itemize}
+
+パッケージを割って中の水晶円板を取り出す作業が必要（缶オープナー
+とラジオペンチで可能）．
+
+\section{ステップごとの意味}
+
+いよいよ実験の具体的な各ステップを，「何をして」「なぜそうするか」
+の両方から説明する．
+
+\subsection{Step 1: 水晶の入手と準備}
+
+\textbf{何をするか}: 各周波数の水晶振動子を秋月等で購入．
+パッケージを開けて中の水晶を取り出す．
+
+\textbf{なぜか}: 商用品はメタルパッケージ内に入っているが，
+\textbf{パッケージ自体が機械共振系}なので，直接水晶を取り出して
+自前のマウントに移す必要がある．メタル缶のまま測定すると缶の
+モードと混ざって解釈不能．
+
+\textbf{注意点}:
+\begin{itemize}
+\item 水晶は非常に割れやすい．工具の先端を柔らかい布で巻く
+\item 電極（金蒸着）を指で触ると汚染する．ピンセット必須
+\item 水晶に残った接着剤をアセトンで洗浄
+\end{itemize}
+
+\subsection{Step 2: NN 試料の作成}
+
+\textbf{何をするか}: 取り出した水晶を，両面が空気に触れる形で
+マウントする．通常は 3 点支持（エッジを 3 つの細いサポートで
+保持）．
+
+\textbf{なぜか}: 両面自由＝NN 境界．これが基準線．3 点支持は
+マウンティング損失を最小化する古典的方法（Besson 1976）．
+
+\textbf{必要なもの}:
+\begin{itemize}
+\item サポートピン（細い銅線 $\phi 0.3$\,mm）
+\item 真空対応セラミック基板
+\item 電極接続用の導電性エポキシ（最小量）
+\end{itemize}
+
+\subsection{Step 3: DN 試料の作成}
+
+\textbf{何をするか}: 別の水晶（同じ厚さ）の片面をタングステン板に
+接着する．接着剤は Stycast 1266 を使い，ガラスビーズで
+厚さを制御．
+
+\textbf{なぜか}: 片面をクランプ＝Dirichlet，もう片面は自由
+＝Neumann．これで DN 境界が完成する．タングステンが十分重く
+動かないのでクランプ近似が成立．
+
+\textbf{手順}:
+\begin{enumerate}
+\item タングステン板 ($5\,\text{mm} \times 20\text{mm} \times 20\text{mm}$) を
+研磨
+\item 脱脂（アセトン，イソプロパノール）
+\item Stycast 1266 に $5\,\mu$m ガラスビーズを $1\%$ 混合
+\item 水晶片面にミクロスポイトで少量塗布
+\item タングステン板に接着，3 時間室温硬化
+\item 反対面（自由側）は空気
+\end{enumerate}
+
+\textbf{注意}: 接着剤の厚さと均一性が境界条件の品質を決める．
+ビーズがスペーサとなり $5\,\mu$m に揃う．
+
+\subsection{Step 4: 電極の取り付け}
+
+\textbf{何をするか}: 水晶の両面（または DN 側の自由面と
+タングステン板）に電気的接続を取る．
+
+\textbf{なぜか}: 圧電効果で振動を励起・検出するため．水晶の両面に
+薄い金電極がすでに蒸着されているのが通常．これに細いワイヤを
+接続．
+
+\textbf{方法}:
+\begin{itemize}
+\item 導電性エポキシ（Epo-Tek H20E）をごく少量
+\item ワイヤは $\phi 25\,\mu$m の金線または $\phi 50\,\mu$m 銅線
+\item 圧電振動を妨げないよう接続点は小さく
+\end{itemize}
+
+\subsection{Step 5: 真空封入}
+
+\textbf{何をするか}: 試料を真空容器に入れ，$< 10$\,Pa まで排気．
+
+\textbf{なぜか}: 空気の粘性減衰は Q を大きく下げる．室温で
+$10^{-3}$ Torr 以下なら Q は 10 倍以上改善する．\textbf{高 Q が
+微小な周波数シフトの測定精度を決める}．
+
+\textbf{簡易版}:
+\begin{itemize}
+\item デシケータ改造（¥10,000）
+\item 真空ポンプ（中古ロータリ $\sim$¥30,000）
+\item バキュームゲージ $\sim$¥5,000
+\end{itemize}
+
+\subsection{Step 6: 温度安定化}
+
+\textbf{何をするか}: 試料の温度を $\pm 0.1\,$K 以内に制御．
+
+\textbf{なぜか}: 水晶の寸法は熱膨張し，共振周波数が温度でドリフト
+する．AT カットは温度係数が小さいが，精密測定では無視できない．
+$25^\circ\text{C} \pm 0.1\,\text{K}$ 程度で安定化すれば十分．
+
+\textbf{方法}:
+\begin{itemize}
+\item ペルチェ素子 + アルミ熱拡散ブロック
+\item PID 温度コントローラ（Arduino ベース）
+\item 熱電対 or サーミスタで温度モニタ
+\end{itemize}
+
+\subsection{Step 7: 共振スペクトル測定}
+
+\textbf{何をするか}: nanoVNA または専用計測器で，試料の電気的
+インピーダンス $Z(f)$ を周波数掃引で測定．
+
+\textbf{なぜか}: 水晶の機械共振は，電気的には\textbf{インピーダンスの
+極小}として現れる（圧電効果の逆変換）．この極小の位置が共振
+周波数 $f_1$，幅が $Q$ を教える．
+
+\textbf{実際の操作}:
+\begin{itemize}
+\item nanoVNA を SOL 校正
+\item 試料を接続
+\item 基本周波数近傍を狭帯域スイープ（$\pm 10\%$）
+\item ローレンツ関数でフィット
+\item $f_1$ と $Q$ を抽出
+\end{itemize}
+
+\subsection{Step 8: オーバートーン測定}
+
+\textbf{何をするか}: 基本だけでなく $2f_1, 3f_1, 4f_1, \ldots$ まで
+測定．
+
+\textbf{なぜか}: DN では偶数倍音が欠落しているはず．その欠落の
+確認が\textbf{境界条件の物理的実現の証拠}．NN 試料と DN 試料で
+オーバートーン構造が本当に違うかを見る．
+
+\textbf{重要}: 単に「ピークがある／ない」だけでなく，$Q$ も
+測定．DN の偶数倍音位置では，もし完全に欠落していれば Q は
+測定不能（ピーク自体がない）．不完全な DN なら減衰した
+ピークが見える．その度合いが Bragg 反射鏡の品質を示す．
+
+\subsection{Step 9: 非線形駆動応答}
+
+\textbf{何をするか}: 駆動パワーを $-20$\,dBm から $+5$\,dBm まで
+変えて，共振周波数の変化を測定．
+
+\textbf{なぜか}: 強く駆動すると非線形効果（Duffing 型）で周波数が
+シフトする．この シフト量は高次モードとの結合 $g_n$ の 2 乗に
+比例．NN と DN で $g_n$ の集合が違うので，シフトの係数も違う．
+\textbf{これが Lamb shift の代理観測}．
+
+\subsection{Step 10: 温度スイープと差分解析}
+
+\textbf{何をするか}: 温度を $20^\circ$C から $50^\circ$C まで $1^\circ$C
+刻みで変え，各温度で共振周波数を測定．$df/dT$ を取る．
+
+\textbf{なぜか}: 加工誤差や個体差による絶対周波数のズレを
+キャンセルするため．温度依存性は材料固有のはずなので，
+NN と DN で同じ温度係数になるべき．\textbf{異なる温度係数が
+モード構造由来の補正}を示す．
+
+これは Phase 2 の\textbf{最も重要な測定}．ここで 10\,mHz オーダーの
+Lamb shift 差が検出できる．
+
+\subsection{Step 11: 厚さシリーズ解析}
+
+\textbf{何をするか}: Step 1--10 を全 6 厚さで繰り返す．各厚さで
+$\Delta f = f_{NN} - f_{DN}$（または非線形シフト差）を得る．
+$\log d$ vs $\log |\Delta f|$ プロットを作り傾きをフィット．
+
+\textbf{なぜか}: これが\textbf{本実験の本丸}．傾きが $-3$ なら
+標準 QED，それより浅ければ新物理，変化点があればプラトー．
+$a_c = 88\,\mu$m に対応する厚さ近傍での振る舞いが決定的．
+
+\subsection{Step 12: 論文化}
+
+\textbf{何をするか}: Phase 2 完了までに Paper 2 or 3 のドラフト
+を進め，arXiv にプレプリント投稿．
+
+\textbf{なぜか}: 科学コミュニティに結果を公開することで，
+\begin{itemize}
+\item フィードバックが得られる
+\item 優先権が確保される
+\item 次段階（Phase 3, 4）の共同研究交渉材料になる
+\end{itemize}
+
+\section{過去の実験との違い}
+
+ここで，なぜ今までこの実験が行われていないのかを整理する．
+
+\subsection{従来の Casimir 実験との違い}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+比較項目 & 従来 & 本実験 \\
+\midrule
+境界 & DD（金属ー金属）& DN（水晶自由ークランプ）\\
+距離 & nm--$\mu$m & $\mu$m--mm \\
+測定量 & 力（AFM, トーション）& 周波数 \\
+系 & 電磁真空 & 機械的フォノン真空 \\
+Q 値 & n/a & $10^6$ 以上 \\
+プラトー検証 & 単一距離 & 厚さシリーズ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{本質的な新規性}：
+\begin{enumerate}
+\item DN 境界を真面目に実装
+\item 距離ではなく厚さを体系的に変える
+\item 力ではなく周波数で測る（桁違いに精度高い）
+\item 機械系を使うので Kramers--Kronig 制約がない
+\end{enumerate}
+
+\subsection{Lamoreaux 1997 (最初の精密 Casimir)}
+
+\begin{itemize}
+\item トーション振り子と球－平板
+\item DD 境界のみ
+\item 距離 $0.6$--$6\,\mu$m
+\item $1/a^4$ 則を 5\% 精度で確認
+\item 本実験は\textbf{別の境界条件・別の距離領域}
+\end{itemize}
+
+\subsection{Galliou, Goryachev, Tobar (超高 Q 水晶)}
+
+\begin{itemize}
+\item BVA カット水晶，20\,mK
+\item $Q > 10^{10}$ 達成
+\item 重力波・ダークマター検出器として使用
+\item \textbf{境界は NN のみ}．DN 構造との比較は未実施
+\item 本実験は\textbf{彼らの手法を DN で使う}ことの提案
+\end{itemize}
+
+\subsection{Chu, Schoelkopf (HBAR 量子音響)}
+
+\begin{itemize}
+\item 薄膜 AlN/サファイア HBAR
+\item 単一音子状態生成・操作
+\item \textbf{両面自由（NN）構造}
+\item 単一モードのみ扱い，スペクトル comb 全体は見ない
+\item 本実験は\textbf{異なる境界と異なる観点}
+\end{itemize}
+
+\subsection{Adelberger (Eöt-Wash 重力)}
+
+\begin{itemize}
+\item トーション天秤で重力逆二乗則テスト
+\item $\sim 50\,\mu$m まで null 結果
+\item \textbf{通常物質（タングステン）のみ，DN 境界なし}
+\item 本実験は\textbf{境界を持つ系で初めて $50\,\mu$m 領域に踏み込む}
+\end{itemize}
+
+\subsection{Boyer (1974)}
+
+\begin{itemize}
+\item DN 境界で Casimir 斥力を\textbf{理論的に}予測
+\item 球体での計算：$E_{\rm Boyer} = +0.0916 \hbar c/r$
+\item \textbf{平板 DN の実験は 50 年間誰もやっていない}
+\item 本実験は\textbf{Boyer の予言の初めての直接検証}
+\end{itemize}
+
+\subsection{なぜ誰もやっていないのか}
+
+正直な分析：
+
+\begin{enumerate}
+\item \textbf{DN 境界が難しいという誤解}：電磁版は確かに難しいが
+機械版（水晶＋重基板）は簡単
+\item \textbf{分野の分断}：Casimir は電磁，BAW は RF 工学，
+$K$ 理論は純粋数学．三者をつなぐ発想がなかった
+\item \textbf{厚さシリーズという発想}：Casimir は距離スキャンが
+主流で，厚さは固定されがち
+\item \textbf{プラトー予想自体が新しい}：Wright Brothers 固有の
+理論的動機づけがなければ「なぜ厚さを変える必要があるか」が
+分からない
+\end{enumerate}
+
+つまり：\textbf{やれる技術は 50 年前からあった．発想がなかっただけ}．
+
+\section{何が起きうるか：予想されるシナリオ}
+
+実験が進むにつれて起きうる事態を分類しておく．
+
+\subsection{シナリオ A: 標準 QED 通り（確率 $\sim 40\%$）}
+
+$\log d$--$\log |\Delta f|$ プロットで傾きが全域で $-3$．
+これは現代物理の予測通り．つまらない結果だが価値はある：
+
+\begin{itemize}
+\item DN レジームの初の系統測定
+\item プラトーが存在するなら $d_{\min} < 17\,\mu$m 以下
+\item 論文 2, 3 として publish 可能
+\item 次は薄膜 SMR（mmWave）でさらに薄い側を探索
+\end{itemize}
+
+\subsection{シナリオ B: 傾きが浅い（確率 $\sim 30\%$）}
+
+傾きが $-2$ 程度．プラトー手前か，別の新物理．
+
+\begin{itemize}
+\item 最も興味深い中間状態
+\item 追加測定（低温，精密化）が必要
+\item Phase 3 分岐 A へ
+\end{itemize}
+
+\subsection{シナリオ C: プラトー発見（確率 $\sim 20\%$）}
+
+$d \sim 88\,\mu$m 近傍で傾きが急変．$d > a_c$ でほぼ flat．
+
+\begin{itemize}
+\item 革命的結果
+\item ダークエネルギー問題の実験的解決候補
+\item 即時論文化（PRL → Nature Physics）
+\item Phase 3 分岐 A で精密化
+\end{itemize}
+
+\subsection{シナリオ D: 偶数倍音欠落が見えない（確率 $\sim 10\%$）}
+
+DN 試料でも NN と同じスペクトルが出る．
+
+\begin{itemize}
+\item DN 境界の実現が不完全
+\item タングステン反射不足
+\item 接着剤厚さの問題
+\item Phase 3 分岐 C（系統改善）
+\end{itemize}
+
+確率はあくまで主観的評価．理論的には C の方が物理的に豊かな帰結を
+もたらすので，優先度高く監視する．
+
+\section{落とし穴と対策}
+
+\subsection{接着剤の問題}
+
+\textbf{問題}: 接着剤層が厚すぎるとクランプ近似が崩れる．薄すぎると
+強度不足．
+
+\textbf{対策}: ガラスビーズスペーサで $5\,\mu$m に制御．接着後に
+光学顕微鏡で断面観察．
+
+\subsection{電極の質量負荷}
+
+\textbf{問題}: 水晶の両面の金電極（通常 $100$\,nm 厚）は質量負荷と
+して働き，共振周波数を下げる．
+
+\textbf{対策}: 両試料（NN, DN）で電極厚を揃える．もし可能なら
+同じロットから取る．質量効果は NN/DN で共通なので差分では消える．
+
+\subsection{スプリアスモード}
+
+\textbf{問題}: 厚さ方向以外の横モード（Lamb 波，たわみモード）が
+混じる．
+
+\textbf{対策}:
+\begin{itemize}
+\item 円板状の試料でエネルギーを中心に閉じ込める
+\item サポートはエッジのみ，中央は触れない
+\item モード同定：加振点を変えて応答パターンから判別
+\item $Q$ でフィルタ：スプリアスは $Q$ が低い
+\end{itemize}
+
+\subsection{温度ドリフト}
+
+\textbf{問題}: 周波数測定中に温度がドリフトすると絶対値が変わる．
+
+\textbf{対策}:
+\begin{itemize}
+\item 測定前に 30 分以上温度安定化
+\item 連続測定は短時間（$<$5 分）
+\item 長時間測定は複数短時間の平均
+\item 基準水晶発振器と同時測定で相対ドリフト
+\end{itemize}
+
+\subsection{電磁干渉}
+
+\textbf{問題}: 50\,Hz 電源ハムや WiFi (2.4 GHz) がスペクトルに
+入る．
+
+\textbf{対策}:
+\begin{itemize}
+\item 金属シールドボックス
+\item バッテリ駆動
+\item 測定中は WiFi/Bluetooth 切
+\item ツイストペアケーブル
+\end{itemize}
+
+\subsection{サンプル破損}
+
+\textbf{問題}: $17\,\mu$m の薄い水晶は非常に壊れやすい．
+
+\textbf{対策}: スペア複数個．取り扱いは真空ピンセット．絶対に指で
+触らない．
+
+\section{最小予算での現実的開始プラン}
+
+ここで「本当に始めるとしたら」の具体的予算を提示する．
+
+\subsection{第 0 週: 発注}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+項目 & 単価×数 & 小計 \\
+\midrule
+時計用水晶 2 MHz ×2 & ¥500 & ¥1,000 \\
+時計用水晶 5 MHz ×2 & ¥100 & ¥200 \\
+時計用水晶 10 MHz ×2 & ¥100 & ¥200 \\
+時計用水晶 20 MHz ×2 & ¥200 & ¥400 \\
+時計用水晶 50 MHz ×2 & ¥500 & ¥1,000 \\
+時計用水晶 100 MHz ×2 & ¥1,000 & ¥2,000 \\
+タングステン板 $5\text{mm}\times 20\times 20$ ×6 & ¥1,000 & ¥6,000 \\
+Stycast 1266 エポキシ & & ¥8,000 \\
+ガラスビーズ $5\,\mu$m & & ¥3,000 \\
+導電性エポキシ Epo-Tek H20E & & ¥5,000 \\
+金線 $\phi 25\,\mu$m 1\,m & & ¥4,000 \\
+ピンセット（精密）& & ¥2,000 \\
+セラミック基板 & & ¥3,000 \\
+nanoVNA V2 Plus4 & & ¥25,000 \\
+周波数カウンタ中古 & & ¥60,000 \\
+温度コントローラ DIY & & ¥15,000 \\
+デシケータ & & ¥8,000 \\
+真空ポンプ中古 & & ¥30,000 \\
+その他 工具・配線 & & ¥20,000 \\
+\midrule
+\textbf{合計} & & \textbf{¥193,800} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+約 ¥20 万円．1 ヶ月以内に全て揃う．
+
+\subsection{第 1 ヶ月: 準備}
+
+\begin{itemize}
+\item Week 1: 水晶取り出し，準備
+\item Week 2: NN/DN 試料作成（各厚さ 2 個）
+\item Week 3: 電極，マウント
+\item Week 4: 真空封入，初期校正
+\end{itemize}
+
+\subsection{第 2--3 ヶ月: 測定}
+
+\begin{itemize}
+\item 各試料の共振スペクトル
+\item オーバートーン解析
+\item 非線形駆動応答
+\item 温度スイープ差分
+\end{itemize}
+
+\subsection{第 4 ヶ月: 解析と論文化}
+
+\begin{itemize}
+\item 厚さシリーズ プロット
+\item 傾きフィット
+\item 不確かさ解析
+\item arXiv ドラフト
+\end{itemize}
+
+\section{よくある質問 (FAQ)}
+
+\paragraph{Q1: 100 円の水晶で本当にノーベル賞級の実験ができるの？}
+
+原理的には YES．精度と実験手法の問題で，部品の値段ではない．
+NASA の一部機器も安価な市販品を使っている．重要なのは
+「何を測るか」と「どう解析するか」．
+
+\paragraph{Q2: 個人がこれをやって意味あるの？}
+
+意味はある．Wright Brothers プロジェクトはまさに個人研究者による
+貢献を目指している．現代物理でも，Adelberger は大学の
+トーション天秤で新発見をしている．\textbf{設備より発想の方が
+希少資源}．
+
+\paragraph{Q3: なぜプロの研究者がやっていないの？}
+
+分野の分断（Casimir・BAW・数論）と発想の欠如．誰かがやるべき
+だが誰もやっていない領域の典型．Wright Brothers が最初に
+飛び込む理由はここにある．
+
+\paragraph{Q4: 失敗したら何が残る？}
+
+\begin{itemize}
+\item DN 境界での系統測定データ（新規）
+\item 機械 Lamb shift の精密測定技術
+\item 水晶 BAW の非標準応用論文
+\item Phase 3--5 へ進む土台
+\end{itemize}
+
+失敗は「プラトー発見できなかった」というだけ．実験データは
+必ず残り，論文化可能．
+
+\paragraph{Q5: 怪我する危険は？}
+
+機械工具と電気工作の一般的注意を守れば安全．エポキシは換気．
+真空ポンプの使用は取説通り．放射性物質も高圧高電圧もない．
+
+\paragraph{Q6: 必要な知識レベルは？}
+
+高校物理（波の基礎，電気回路）と，Python 等でのデータ解析の基礎．
+本ガイド＋標準的な電子工作入門書で十分．専門的な量子力学は
+不要（ただし結果を論文化する段階では役立つ）．
+
+\paragraph{Q7: 時間はどれくらいかかる？}
+
+Phase 2 全体で 3--4 ヶ月．週末に集中できれば可能．平日の仕事が
+ある場合は 6 ヶ月ペース．途中途中で何か見えてくるので，
+モチベーションは維持しやすい．
+
+\paragraph{Q8: 一人で大丈夫？}
+
+可能．ただし以下の段階では協力者がいると良い：
+\begin{itemize}
+\item 機械工作（タングステン切削）→ 町工場に依頼
+\item 電子回路（ロックイン系）→ 大学の電子工作サークル
+\item データ解析・論文書き → 物理学科の大学院生
+\end{itemize}
+
+\section{理論的背景の最低限}
+
+実験を理解する上で知っておきたい理論的概念の最短まとめ．
+
+\subsection{ゼロ点エネルギー}
+
+量子力学では，基底状態（最低エネルギー状態）でも有限のエネルギーを
+持つ．調和振動子の基底エネルギーは $\hbar\omega/2$．完全にゼロに
+なることはない．
+
+これが「揺らぎ」と呼ばれる現象で，真空中でもエネルギーが存在する
+原因．
+
+\subsection{Casimir 効果}
+
+2 枚の導体板を近づけると引力が働く．これは板の間の電磁場モードが
+離散化（量子化）され，板の外の連続モードとのエネルギー差が板を
+引き寄せる．1948 年に Casimir が予言，1997 年に Lamoreaux が
+精密検証．
+
+基本公式：
+\begin{equation}
+F_{\rm Cas} = -\frac{\pi^2 \hbar c}{240 a^4} \cdot A
+\end{equation}
+
+\subsection{Boyer の反転}
+
+1974 年，Boyer は「完全電気導体と完全磁気導体の組み合わせ」
+（DN 境界）では Casimir 力の符号が反転することを予言．斥力．
+現実には PMC が存在しないため電磁での実現困難．
+
+機械系ではクランプー自由で同等の DN が作れる．\textbf{本実験の
+中心予言はこれの定量化}．
+
+\subsection{Euler 積}
+
+Riemann ゼータ関数：
+\begin{equation}
+\zeta(s) = \sum_{n=1}^\infty \frac{1}{n^s} = \prod_p \frac{1}{1 - p^{-s}}
+\end{equation}
+この無限積（Euler 積）から素数 $p=2$ の因子を除いたもの：
+\begin{equation}
+\zeta_{\neg 2}(s) = (1 - 2^{-s})\cdot\zeta(s)
+\end{equation}
+$s = -3$ で $\zeta(-3) = 1/120$, $\zeta_{\neg 2}(-3) = -7/120$．
+符号反転と 7 倍の強化．
+
+\subsection{Wright Brothers 仮説}
+
+「$\zeta$ から Euler 積の $p=2$ 因子を切除する操作（$\zeta \to
+\zeta_{\neg 2}$）は，境界条件 DD $\to$ DN と同型である」．
+
+さらに「$K_1(\mathbb{Z}[1/2])$ の位相的 winding number が真空
+エネルギーをプラトー化する」．
+
+詳細な定式化は \texttt{topological\_casimir.tex},
+\texttt{boyer\_reinterpretation.tex} 参照．
+
+\subsection{ダークエネルギーとの関係}
+
+観測される宇宙のダークエネルギー密度 $\rho_\Lambda \approx
+5.24\times 10^{-10}$ J/m³ に対応する長さは $\hbar c /\rho_\Lambda^{1/4}
+\approx 88\,\mu$m．この長さが\textbf{水晶の標準的な厚さの範囲の
+真ん中}にあるのが Wright Brothers 仮説の中心的な動機．
+
+\section{次のステップ}
+
+Phase 2（本実験）が完了したら：
+
+\begin{enumerate}
+\item 結果を arXiv プレプリントに（\textbf{Paper 3}）
+\item Phase 3（低温化 or SMR/FBAR 精密化）に進む
+\item Phase 4 共同研究交渉開始（Galliou, Chu, 村田など）
+\item 理論側の強化（$K_1$ regulator 計算を理論家に依頼）
+\end{enumerate}
+
+\section{読者への最後のメッセージ}
+
+本ガイドの目的は，「物理の最先端は高額な装置の独占物ではない」
+という事実を実感してもらうことだった．水晶は 100 年前から
+量産されていて，物理は 50 年前から知られている．必要なのは
+「それを試したことがない」という空白に気づき，実際に試すこと．
+
+Wright Brothers の兄弟（Wilbur と Orville）は自転車屋だった．
+彼らは当時の航空学の専門家ではなく，しかし初飛行を成功させた．
+その理由は，既存の理論を鵜呑みにせず，自分の手で実験を積み重ね，
+一つ一つの仮説を検証していったからだ．
+
+本プロジェクトの名前はここから取られている．
+
+\textbf{水晶が届いたら，まず手に取ってみてほしい}．指で弾くと
+微かに鳴る音が聞こえるかもしれない．その振動の中に，もしかしたら
+宇宙の謎の答えが隠れている．
+
+始めよう．
+
+\vspace{2em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連ドキュメント：
+\begin{itemize}
+\item \texttt{master\_experiment\_plan\_ja.tex}: 全体ロードマップ
+\item \texttt{guide\_baw\_quartz\_ja.tex}: 技術的詳細
+\item \texttt{guide\_smr\_fbar\_ja.tex}: 商用品ルート
+\item \texttt{dark\_energy\_plateau\_ja.tex}: 理論的動機
+\item \texttt{boyer\_reinterpretation\_ja.tex}: 数論的再解釈
+\end{itemize}
+
+\end{document}
