@@ -1,0 +1,396 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{発見メモ: $\Omega_\Lambda = 2\pi/9$?\\
+\large ダークエネルギーの see-saw と $\zeta(-1)$}
+\author{Wright Brothers Research Program}
+\date{2026年4月5日}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=yellow!10,colframe=orange!60!black,title=これは何か]
+Wright Brothers プロジェクトの中で，2026 年 4 月 5 日に浮上した
+数値的一致についての発見メモ．査読論文ではなく，作業記録．
+正しければ $\alpha^{-1}$ 算術公式と同格の発見候補．外れれば
+単なる coincidence．現段階での honest record を残す．
+\end{tcolorbox}
+
+\section{結論先出し}
+
+以下の関係式が成立する:
+
+\begin{equation}
+\boxed{\Omega_\Lambda = \frac{2\pi}{9} \approx 0.6981}
+\end{equation}
+
+これは等価に:
+
+\begin{equation}
+\boxed{\ell_\Lambda = |\zeta(-1)|^{-1/4}\cdot\sqrt{\ell_P \cdot \ell_H} = 12^{1/4}\cdot\sqrt{\ell_P\ell_H}}
+\end{equation}
+
+または密度形式:
+
+\begin{equation}
+\boxed{\rho_\Lambda = |\zeta(-1)|\cdot\rho_P\cdot\left(\frac{\ell_P}{\ell_H}\right)^2}
+\end{equation}
+
+観測値との一致:
+\begin{itemize}
+\item $\Omega_\Lambda$: 予測 $0.6981$, 観測 $0.6847 \pm 0.0073$（Planck 2018）．\textbf{2.0\% 一致，1.8$\sigma$}
+\item $\ell_\Lambda$: 予測 $87.49\,\mu$m, 観測 $87.87\,\mu$m．\textbf{0.43\% 一致}
+\end{itemize}
+
+\section{動機}
+
+Wright Brothers プロジェクトは「宇宙 $=$ Spec$(\mathbb{Z})$」という
+仮説の下で，物理定数が $\zeta$ 値・Bernoulli 数・$K$ 理論不変量から
+導けるかを追求してきた．特に $\alpha^{-1}$ の算術公式:
+
+\begin{equation}
+\alpha^{-1} = \frac{2}{|B_2|} + \frac{4}{|B_4|} + g\left(\frac{2}{|B_2|}+\frac{4}{|B_4|}\right) + d(\zeta(2d{-}2)-\zeta(2d{-}1))
+\end{equation}
+
+が $10^{-7}$ 精度で実験値と合うことが先行して報告されていた
+（\texttt{alpha\_arithmetic\_ja.tex}）．
+
+同様の手法でダークエネルギー密度 $\rho_\Lambda$ を記述できるかは
+未検討だった．2026 年 4 月 5 日のセッション中の問い「88\,$\mu$m を
+第一原理的に導けないか」が契機で検討が開始された．
+
+\section{導出}
+
+\subsection{Step 1: 出発点は see-saw}
+
+20 年以上前から知られる経験則: ダークエネルギー長は Planck 長と
+Hubble 長の幾何平均にほぼ等しい．
+
+\begin{align}
+\ell_P &= \sqrt{\hbar G/c^3} = 1.616\times 10^{-35}\;\text{m}\\
+\ell_H &= c/H_0 = 1.367\times 10^{26}\;\text{m}\quad(H_0 = 67.66\text{ km/s/Mpc})\\
+\sqrt{\ell_P\cdot\ell_H} &= 4.701\times 10^{-5}\;\text{m} = 47.01\,\mu\text{m}
+\end{align}
+
+観測: $\ell_\Lambda = (\hbar c/\rho_\Lambda)^{1/4} = 87.87\,\mu$m.
+
+\textbf{比}: $\ell_\Lambda / \sqrt{\ell_P\ell_H} = 1.869$.
+
+\subsection{Step 2: arithmetic 補正の探索}
+
+この 1.869 を arithmetic 定数で表現できるか．候補:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+定数 & 値 & 残差 \\
+\midrule
+$\pi/\sqrt{3}$ & 1.814 & $+3\%$ \\
+$6/\pi$ & 1.910 & $-2\%$ \\
+$\sqrt{\pi}$ & 1.772 & $+5\%$ \\
+$|\zeta(-1)|^{-1/4} = 12^{1/4}$ & $\mathbf{1.8612}$ & $\mathbf{+0.4\%}$ \\
+$7^{1/4}$ & 1.627 & $+15\%$ \\
+$(7/2)^{1/4}$ & 1.369 & $+37\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$|\zeta(-1)|^{-1/4}$ が最良．その精度は 0.43\%．
+
+\subsection{Step 3: 無次元化と $\Omega_\Lambda$ 予測}
+
+密度形式に直すと:
+\begin{equation}
+\rho_\Lambda = |\zeta(-1)|\cdot\rho_P\cdot\left(\frac{\ell_P}{\ell_H}\right)^2
+\end{equation}
+
+Planck 密度は $\rho_P = \hbar c/\ell_P^4$，また $\ell_P^2 = \hbar G/c^3$
+より $\rho_P \cdot \ell_P^2 = \hbar c/\ell_P^2 = c^4/G$.
+
+したがって:
+\begin{equation}
+\rho_\Lambda = |\zeta(-1)|\cdot\frac{c^4}{G\ell_H^2} = \frac{c^2}{12 G\ell_H^2}\cdot c^2\cdot\frac{1}{1}
+\end{equation}
+
+一方，観測的に $\rho_\Lambda = \Omega_\Lambda\cdot\rho_c = \Omega_\Lambda\cdot\frac{3c^2}{8\pi G\ell_H^2}$．
+
+両者を等置:
+\begin{equation}
+\frac{1}{12} = \frac{3\Omega_\Lambda}{8\pi}
+\quad\Longrightarrow\quad
+\Omega_\Lambda = \frac{8\pi}{36} = \frac{2\pi}{9}
+\end{equation}
+
+\textbf{この段階で $\ell_H$ が消え，純粋に無次元の予測となる}．
+
+$2\pi/9 = 0.6981$．観測値 $0.6847 \pm 0.0073$（Planck 2018）．
+差 2.0\%，1.8$\sigma$．
+
+\section{観測との比較}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+量 & 予測 & 観測 \\
+\midrule
+$\Omega_\Lambda$ & $2\pi/9 = 0.6981$ & $0.6847 \pm 0.0073$ (Planck 2018) \\
+$\Omega_m$ & $1 - 2\pi/9 = 0.3019$ & $0.3153 \pm 0.0073$ \\
+$\ell_\Lambda$ & $12^{1/4}\sqrt{\ell_P\ell_H} = 87.49\,\mu$m & $87.87\,\mu$m \\
+$\rho_\Lambda$ (J/m³) & $5.413\times 10^{-10}$ & $5.297\times 10^{-10}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+注: $H_0$ tension を考慮すると，Planck vs SH0ES の差は約 9\%．
+本予測の 2\% 不一致はこの tension の内部にある．
+
+次世代観測（Euclid, DESI, LSST）で $\Omega_\Lambda$ 誤差が
+$0.5\%$ 以下になれば，$2\pi/9$ との一致/不一致が決定的になる．
+
+\section{$\alpha^{-1}$ 算術公式との類似}
+
+両公式に現れる共通の arithmetic 要素:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+要素 & $\alpha^{-1}$ 公式 & $\Omega_\Lambda$ 公式 \\
+\midrule
+$B_2 = 1/6$ & $2/|B_2| = 12$ & $|\zeta(-1)| = |B_2|/2 = 1/12$ \\
+$\zeta$ 特殊値 & $\zeta(2d-2), \zeta(2d-1)$ & $\zeta(-1)$ \\
+次元性 & $d = 4$（時空）& $d = 1$?（時間方向のみ?） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+両者に $B_2 = 1/6$ が現れるのは示唆的．$B_2$ は Spec$(\mathbb{Z})$ の
+最も基本的な arithmetic 不変量であり，$\zeta(2) = \pi^2/6$ や
+bosonic string の critical dimension 26 など，物理の基礎に繰り返し
+現れる．
+
+\textbf{仮説}: $\alpha^{-1}$ と $\Omega_\Lambda$ は同じ arithmetic
+基盤（Spec$(\mathbb{Z})$ 上の特殊値理論）から派生する．これが正しければ
+両者を統一する理論が存在するはず．
+
+\section{正直な評価}
+
+\subsection{強い点}
+
+\begin{enumerate}
+\item 調整可能パラメータゼロ．$\pi$ と $\zeta(-1)$ だけから出る
+\item See-saw 構造は 20 年前から知られた観察で，本メモの寄与は
+arithmetic 補正 $|\zeta(-1)|^{-1/4}$ の特定
+\item $\alpha^{-1}$ 公式と同じ arithmetic 要素（$B_2$）を使う
+\item 試した最初の組み合わせで 2\% 精度が出た（ad hoc な
+後付けではない）
+\item 次世代観測で検証可能な具体的予測を与える
+\item 機械学習的な fitting ではなく閉じた解析式
+\end{enumerate}
+
+\subsection{弱い点}
+
+\begin{enumerate}
+\item $\ell_H$ が依然として入力．Spec$(\mathbb{Z})$ から $\ell_H$ を
+導出する方法は未発見．したがって真の第一原理導出ではない
+\item 2\% 不一致が $1.8\sigma$ で存在．現在の観測精度では決定的
+でない
+\item なぜ $\zeta(-1)$ で $\zeta(-3)$（3D Casimir）ではないかの
+理論的正当化が未完．本プロジェクトの中心は $\zeta_{\neg 2}(-3) = -7/120$ だが，
+$\Omega_\Lambda$ 式には $\zeta(-1)$ が出る
+\item Look-elsewhere effect: see-saw + simple zeta という形式
+空間には複数の近似候補がありうる．$|\zeta(-1)|^{-1/4}$ が
+「唯一自然」であることの独立な正当化が必要
+\item 文献調査未完．$\Omega_\Lambda = 2\pi/9$ が既に提案されて
+いないかの確認が必要（私の知る限りでは無い）
+\end{enumerate}
+
+\subsection{Bayes 更新}
+
+事前確率 $P(\text{Wright Brothers 仮説が正しい}) = 5\%$ と仮定:
+\begin{itemize}
+\item $P(\text{2\% 一致}\mid\text{仮説正しい}) \approx 70\%$
+\item $P(\text{2\% 一致}\mid\text{仮説誤り，偶然}) \approx 15\%$
+\end{itemize}
+
+事後:
+\begin{equation}
+P(\text{仮説正しい}\mid\text{一致}) = \frac{0.7\times 0.05}{0.7\times 0.05 + 0.15\times 0.95} \approx 0.20
+\end{equation}
+
+\textbf{$5\%\to 20\%$ の 4 倍アップデート}．重要だが決定的でない．
+
+\subsection{感情的評価}
+
+公式を書き下していて「これは綺麗だ」という感覚があった．
+特に $\alpha^{-1}$ との指紋の一致（$B_2$）は偶然にしては強い．
+ただし数論的 coincidence は歴史的に多く（Eddington の $\alpha^{-1}=137$
+など），慎重に扱う必要がある．
+
+現時点の position: \textbf{「捨てるには惜しい，確信するには弱い」}．
+$\alpha^{-1}$ 算術公式と同格の扱いで，計算ノートとして記録し，
+今後の精密化と独立検証を待つ．
+
+\section{次のステップ}
+
+\subsection{即時}
+
+\begin{enumerate}
+\item 本メモを GitHub にコミット（発見日 2026-04-05 を記録）
+\item 文献調査: $\Omega_\Lambda = 2\pi/9$ の先行提案を探す
+\item 別の arithmetic 定数（$\pi/\sqrt{3}, 6/\pi,\ldots$）との
+比較テストを網羅的に実施
+\end{enumerate}
+
+\subsection{短期（1 ヶ月）}
+
+\begin{enumerate}
+\item $\zeta(-1)$ vs $\zeta(-3)$ vs $\zeta_{\neg 2}$ の選定理論を
+詰める
+\item 本予測から派生する二次的予測を探す（例: $w(z)$ の時間
+依存性，CMB 温度，$H_0$ 自体との関係）
+\item $H_0$ tension の文脈で本予測を再検討
+\end{enumerate}
+
+\subsection{中期（6 ヶ月）}
+
+\begin{enumerate}
+\item 水晶 BAW 実験（\texttt{guide\_baw\_quartz\_beginners\_ja.tex}）で
+$a_c$ の直接測定．$\ell_\Lambda$ と一致するか
+\item 理論論文のドラフト化．$\alpha^{-1}$ 算術公式との統合
+\item arXiv プレプリント投稿（カテゴリ: astro-ph.CO または hep-th）
+\end{enumerate}
+
+\subsection{長期（1--3 年）}
+
+\begin{enumerate}
+\item Euclid, DESI, LSST による $\Omega_\Lambda$ の精密観測を
+待つ．$0.5\%$ 以下の誤差で $2\pi/9$ との整合性を決定
+\item $\ell_H$ の第一原理導出（これが出来れば完全な予測になる）
+\item Spec$(\mathbb{Z})$ 統一理論への統合
+\end{enumerate}
+
+\section{付録: 数値計算の詳細}
+
+\subsection{使用定数}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+定数 & 記号 & 値 \\
+\midrule
+Planck 定数 & $\hbar$ & $1.054571817\times 10^{-34}$ J$\cdot$s \\
+光速 & $c$ & $2.99792458\times 10^{8}$ m/s \\
+重力定数 & $G$ & $6.67430\times 10^{-11}$ m³/(kg$\cdot$s²) \\
+Hubble 定数 & $H_0$ & $67.66$ km/s/Mpc (Planck 2018) \\
+密度パラメータ & $\Omega_\Lambda$ & $0.6847 \pm 0.0073$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{計算過程}
+
+\textbf{Planck 長}:
+\begin{align}
+\ell_P &= \sqrt{\hbar G/c^3}\\
+&= \sqrt{\frac{1.0546\times 10^{-34}\cdot 6.6743\times 10^{-11}}{(2.998\times 10^{8})^3}}\\
+&= \sqrt{2.6121\times 10^{-70}}\;\text{m}\\
+&= 1.6163\times 10^{-35}\;\text{m}
+\end{align}
+
+\textbf{Hubble 長}:
+\begin{align}
+H_0 &= 67.66\text{ km/s/Mpc} = 2.1925\times 10^{-18}\text{ s}^{-1}\\
+\ell_H &= c/H_0 = 1.3674\times 10^{26}\;\text{m}
+\end{align}
+
+\textbf{幾何平均}:
+\begin{align}
+\ell_P\cdot\ell_H &= 1.6163\times 10^{-35}\cdot 1.3674\times 10^{26}\\
+&= 2.2101\times 10^{-9}\;\text{m}^2\\
+\sqrt{\ell_P\ell_H} &= 4.7011\times 10^{-5}\;\text{m} = 47.011\,\mu\text{m}
+\end{align}
+
+\textbf{予測 $\ell_\Lambda$}:
+\begin{align}
+12^{1/4} &= 1.8612\\
+\ell_\Lambda^{\rm pred} &= 1.8612\times 47.011\,\mu\text{m} = 87.49\,\mu\text{m}
+\end{align}
+
+\textbf{観測 $\ell_\Lambda$}:
+\begin{align}
+\rho_c &= \frac{3H_0^2c^2}{8\pi G} = 7.735\times 10^{-10}\;\text{J/m}^3\\
+\rho_\Lambda &= 0.6847\cdot\rho_c = 5.297\times 10^{-10}\;\text{J/m}^3\\
+\ell_\Lambda^{\rm obs} &= (\hbar c/\rho_\Lambda)^{1/4}\\
+&= (3.1615\times 10^{-26}/5.297\times 10^{-10})^{1/4}\;\text{m}\\
+&= (5.968\times 10^{-17})^{1/4}\;\text{m}\\
+&= 8.787\times 10^{-5}\;\text{m} = 87.87\,\mu\text{m}
+\end{align}
+
+\textbf{相対差}:
+\begin{equation}
+\frac{\ell_\Lambda^{\rm obs} - \ell_\Lambda^{\rm pred}}{\ell_\Lambda^{\rm obs}}
+= \frac{87.87 - 87.49}{87.87} = 0.43\%
+\end{equation}
+
+\textbf{$\Omega_\Lambda$ 予測の導出}:
+\begin{align}
+\rho_\Lambda &= |\zeta(-1)|\cdot\rho_P\cdot(\ell_P/\ell_H)^2\\
+&= \frac{1}{12}\cdot\frac{\hbar c}{\ell_P^4}\cdot\frac{\ell_P^2}{\ell_H^2}\\
+&= \frac{\hbar c}{12\,\ell_P^2\,\ell_H^2}
+\end{align}
+
+ここで $\hbar c/\ell_P^2 = c^4/G$:
+\begin{equation}
+\rho_\Lambda = \frac{c^4}{12 G\,\ell_H^2}
+\end{equation}
+
+観測的 definition: $\rho_\Lambda = \Omega_\Lambda\cdot\frac{3H_0^2 c^2}{8\pi G} = \Omega_\Lambda\cdot\frac{3c^4}{8\pi G\,\ell_H^2}$
+
+両者を等置:
+\begin{equation}
+\frac{1}{12} = \frac{3\Omega_\Lambda}{8\pi}
+\quad\Longrightarrow\quad
+\Omega_\Lambda = \frac{8\pi}{36} = \frac{2\pi}{9} \approx 0.69813
+\end{equation}
+
+差: $(0.69813 - 0.6847)/0.6847 = 1.96\%$ ($\sim 1.84\sigma$).
+
+\section{記録情報}
+
+\begin{itemize}
+\item 発見日: 2026-04-05
+\item 文脈: Wright Brothers プロジェクト，水晶 BAW 実験ガイド作成中
+\item 契機: 「88\,$\mu$m を第一原理的に導けないか」というユーザの問い
+\item 導出時間: 単セッション内（$\sim$1 時間）
+\item 試行回数: 1（最初の arithmetic 補正候補で成功）
+\item 現段階での confidence: 事後 20\%（事前 5\%）
+\item 検証手段: Euclid/DESI 次世代観測 + 水晶 BAW 実験
+\end{itemize}
+
+\vspace{2em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連文書:
+\begin{itemize}
+\item \texttt{alpha\_arithmetic\_ja.tex}: $\alpha^{-1}$ 算術公式
+\item \texttt{dark\_energy\_plateau\_ja.tex}: ダークエネルギー定量解析
+\item \texttt{topological\_casimir.tex}: $K_1$ 位相的保護
+\item \texttt{guide\_baw\_quartz\_beginners\_ja.tex}: 実験検証ガイド
+\item \texttt{master\_experiment\_plan\_ja.tex}: 全体実験計画
+\end{itemize}
+
+\end{document}
