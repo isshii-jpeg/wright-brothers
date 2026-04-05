@@ -1,0 +1,696 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{商用 SMR/FBAR による DN 真空効果の検証\\
+\large ポケットの中の Boyer 予言を暴く}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドは Wright Brothers プロジェクトにおける DN カシミール検証の
+\textbf{最速ルート}として，商用 RF フィルタ産業が大量生産している
+SMR (Solidly Mounted Resonator) と FBAR (Film Bulk Acoustic
+Resonator) の比較実験を詳述する．SMR は構造上 Dirichlet--Neumann
+境界を真に実装しており，FBAR は Neumann--Neumann 境界．両者は
+AlN 薄膜という同一材料で作られ，世界中の 5G 携帯電話に毎日
+数十億個搭載されている．つまり\textbf{Boyer (1974) が予言した
+DN 真空構造は，既に人類のポケットの中に存在している}．本ガイドでは，
+物理原理，入手方法（商用評価キット $\sim$\$500），測定プロトコル，
+期待される信号強度，そして論文化までの最短経路を提示する．総額
+30--100 万円で週末から着手可能．cQED ルートや BAW ルートより
+数桁安く，かつ $\zeta_{\neg 2}$ 予測の核心を直接ついている．
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+\section{なぜ SMR/FBAR が最速ルートなのか}
+
+\subsection{これまでの選択肢の整理}
+
+Wright Brothers プロジェクトが検討してきた DN カシミール検証ルート：
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ルート & 境界条件 & 予算 & 状況 \\
+\midrule
+軸 A: cQED ($\lambda/4$ vs $\lambda/2$) & 電磁 DN & 数千万円 & 施設必須 \\
+軸 A: BAW (水晶, クランプ貼付) & 機械 DN & 100 万円 & 自作可能 \\
+軸 B: 音響アナログ & フォノン DN & 5 万円 & 古典領域のみ \\
+\textbf{本ガイド: SMR/FBAR 比較} & 機械 DN & 30 万円 & 商用品利用 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+SMR/FBAR ルートの特徴：
+\begin{itemize}
+\item \textbf{商用品ベース}：自分で DN 境界を作る必要がない
+\item \textbf{量産品質}：半導体プロセスで作られており，製造バラつきが
+極小
+\item \textbf{既存評価インフラ}：RF/MEMS 研究室には必ず測定系がある
+\item \textbf{産業界の既存データ}：S パラメータ測定が膨大に蓄積
+（ただし物理学的視点での再解釈は未実施）
+\end{itemize}
+
+\subsection{一番大事な事実}
+
+5G 携帯電話のバンドフィルタに使われている SMR は構造上
+\textbf{Dirichlet--Neumann 境界を実装しており}，これは Boyer (1974) が
+50 年前に予言した真空エネルギー符号反転の構造と数学的に同型である．
+
+\begin{tcolorbox}[colback=yellow!10,colframe=orange!60!black,title=もし我々の仮説が正しいなら]
+SMR 内部の AlN 薄膜は，FBAR 内部の同じ AlN 薄膜と比べて，
+\textbf{真空エネルギーの符号が異なる}はずである．この差は：
+\begin{itemize}
+\item 基本共振周波数のわずかなシフト
+\item 非線形アンハーモニシティの符号差
+\item $Q$ 値の周波数依存性の違い
+\end{itemize}
+として現れる．\textbf{これは誰も測定していない}．産業界は
+S$_{11}$ と挿入損失しか測らないから．
+\end{tcolorbox}
+
+\section{物理：SMR と FBAR の構造と境界条件}
+
+\subsection{FBAR の構造}
+
+Film Bulk Acoustic Resonator：
+
+\begin{center}
+\begin{tabular}{|c|}
+\hline
+上部電極 (Mo or W, 100--300\,nm) \\
+\hline
+\textbf{AlN 圧電膜 ($d \approx 1\,\mu$m)} \\
+\hline
+下部電極 (Mo or W, 100--300\,nm) \\
+\hline
+空気（エアギャップ 2--5\,$\mu$m）\\
+\hline
+Si 基板 \\
+\hline
+\end{tabular}
+\end{center}
+
+下部電極の下にエアギャップがあり，AlN は基板から「宙吊り」状態．
+両面とも実質的に空気/真空に接する．
+
+\textbf{境界条件}：
+\begin{itemize}
+\item 上面：薄い金属電極＋空気．電極の質量負荷は微小なので
+$\partial u/\partial z \approx 0$，\textbf{Neumann}
+\item 下面：薄い金属電極＋空気（ギャップ）．同様に \textbf{Neumann}
+\end{itemize}
+
+NN 境界 → モード: $u_n(z) = \cos(n\pi z/d)$, $n=0,1,2,\ldots$\\
+周波数: $f_n = n v_s/(2d)$，\textbf{全倍音（$n=1,2,3,4,\ldots$）}
+
+実際には $n=0$ モード（一様変位）は物理的に意味がないので $n=1$
+から始まる．
+
+\subsection{SMR の構造}
+
+Solidly Mounted Resonator：
+
+\begin{center}
+\begin{tabular}{|c|}
+\hline
+上部電極 (Mo or W) \\
+\hline
+\textbf{AlN 圧電膜 ($d \approx 1\,\mu$m)} \\
+\hline
+下部電極 (Mo or W) \\
+\hline
+\textbf{音響 Bragg 反射鏡（W/SiO$_2$ 多層膜，3--5 ペア）}\\
+\hline
+Si 基板 \\
+\hline
+\end{tabular}
+\end{center}
+
+AlN 圧電膜の下に\textbf{音響 Bragg 反射鏡}（DBR と同じ概念，ただし
+音響波用）が配置されている．Bragg 反射鏡は W（高インピーダンス
+$Z_W \approx 100$ MRayl）と SiO$_2$（低インピーダンス $Z_{\rm SiO_2}
+\approx 13$ MRayl）の $\lambda/4$ 層を交互に積層する．
+
+インピーダンスコントラスト $Z_W/Z_{\rm SiO_2} \approx 7.7$ は非常に
+大きく，3 ペア で反射率 $R > 0.99$，5 ペアで $R > 0.9999$ に達する．
+これは\textbf{ほぼ完全な Dirichlet 境界}．
+
+\textbf{境界条件}：
+\begin{itemize}
+\item 上面：空気 → \textbf{Neumann}（FBAR と同じ）
+\item 下面：Bragg 反射鏡 → \textbf{Dirichlet}（反射率 $>$ 0.999）
+\end{itemize}
+
+DN 境界 → モード: $u_n(z) = \cos((2n-1)\pi z/(2d))$, $n=1,2,\ldots$\\
+周波数: $f_n = (2n-1) v_s/(4d)$，\textbf{奇数倍音のみ}
+
+\subsection{構造の比較}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & FBAR & SMR \\
+\midrule
+上面境界 & 自由 (N) & 自由 (N) \\
+下面境界 & 自由 (N) & Bragg (D) \\
+モード & 全倍音 $n=1,2,3,\ldots$ & 奇数 $2n-1=1,3,5,\ldots$ \\
+基本周波数 $f_0$ & $v/(2d)$ & $v/(4d)$ \\
+温度特性 & 中 & 良 \\
+Q 値 (2.4 GHz, 室温) & $\sim 3000$ & $\sim 2500$ \\
+スプリアスモード & 少 & 中 \\
+製造歩留 & 低 & 高 \\
+典型用途 & LTE/WiFi & 5G, 厳しい帯域 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{同じ AlN 厚さなら SMR は FBAR の半分の基本周波数になる}ことに
+注意．比較実験では「FBAR の奇数倍音位置 ($f_0, 3f_0, 5f_0,\ldots$)」と
+「SMR の全モード ($(2n{-}1)f_0^{SMR}$)」を一致させる必要がある．
+
+具体的には，FBAR の $d_{\rm FBAR}$ と SMR の $d_{\rm SMR} = d_{\rm FBAR}/2$
+を用意すれば，両者の奇数倍音位置が完全に一致する．
+
+\subsection{Bragg 反射鏡の品質を甘く見積もらないために}
+
+SMR の Bragg 反射鏡は設計帯域内（通常 2--3 GHz 付近）でのみ
+高反射率．この帯域外では反射率が落ち，DN 境界が崩れる．
+具体的には：
+
+\begin{itemize}
+\item 設計中心周波数 $\pm 20\%$: $R > 0.999$（DN ほぼ完璧）
+\item $\pm 50\%$: $R \sim 0.95$（DN 近似）
+\item 2 倍以上離れる: $R < 0.5$（境界が不明瞭）
+\end{itemize}
+
+したがって DN 性質が保証されるのは設計中心周波数のある狭い帯域．
+我々が見たい倍音 comb のどこまでを SMR の Bragg 鏡がカバーできるか，
+事前にメーカーからデータシートを取って確認する必要がある．
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=落とし穴]
+「SMR は DN」という主張は\textbf{Bragg 鏡の帯域内でのみ}成立する．
+帯域外では実質 NN に戻る．偶数倍音の「欠落」が設計帯域内のみで
+起こり，帯域外では現れることを想定してデータ解析すべき．これ自体が
+面白い検証点になる（Bragg 帯域内/外で効果のオン/オフが見える）．
+\end{tcolorbox}
+
+\section{先行研究と空白地帯}
+
+\subsection{FBAR/SMR 研究の文脈}
+
+FBAR/SMR は RF フィルタとして 2000 年代初頭に商用化（Aigner et al.\
+2001, Agilent / Infineon）．以降，5G 帯域フィルタの主力．
+物理的・工学的な研究は膨大：
+
+\begin{itemize}
+\item Ruby et al.\ (2002, 2007): Agilent/Avago の先駆的論文
+\item Aigner et al.\ (2003): Infineon SMR の設計
+\item Enzelberger et al.\ (2006): FBAR 温度特性
+\item Hashimoto 編 \textit{RF Bulk Acoustic Wave Filters for Communications}
+(Artech House, 2009): 標準教科書
+\end{itemize}
+
+これらは全て RF 工学視点．
+
+\subsection{量子・真空物理学視点での空白}
+
+\textbf{驚くべきことに}，SMR/FBAR を\textbf{真空エネルギーや
+Casimir 効果の文脈で扱った論文は存在しない}（我々の調査範囲）．
+理由：
+\begin{itemize}
+\item RF コミュニティは古典 S パラメータしか測らない
+\item 量子音響コミュニティ（Chu, Cleland, Safavi-Naeini）は自前の
+HBAR や optomechanical crystal を使い，産業品を使わない
+\item Casimir コミュニティは電磁場に集中し，機械的類似物を見ない
+\end{itemize}
+
+この三分野が交わる場所に SMR/FBAR 真空比較実験がある．
+\textbf{Wright Brothers が最初に踏み込む余地が十分に残されている}．
+
+\subsection{関連する量子音響の先行研究}
+
+DN ではないが，機械的真空を扱った重要な論文：
+
+\begin{itemize}
+\item O'Connell et al.\ (2010, Nature 464:697): 機械共振器の
+基底状態冷却
+\item Chu et al.\ (2017, 2018): HBAR 量子音響（これは NN 構造）
+\item Arrangoiz-Arriola et al.\ (2019, Nature 571:537): フォノン
+キャビティでの単一音子制御
+\item Bienfait et al.\ (2019, Science 364:368): 量子音響伝送
+\end{itemize}
+
+\section{実験プロトコル}
+
+\subsection{サンプル選定}
+
+必要なペア：
+\begin{itemize}
+\item FBAR サンプル: AlN 厚さ $d_1$，基本周波数 $f_0 = v_{\rm AlN}/(2 d_1)$
+\item SMR サンプル: AlN 厚さ $d_2 = d_1/2$，基本周波数 $f_0^{SMR} = v_{\rm AlN}/(4 d_2) = f_0$
+\end{itemize}
+
+$v_{\rm AlN} \approx 10400$\,m/s （縦波）なので，$f_0 = 2.6$\,GHz に
+合わせるなら $d_1 = 2\,\mu$m, $d_2 = 1\,\mu$m．
+
+\textbf{重要}: 同じメーカーの同じプロセスで作られたペアを選ぶ．
+異なるメーカーだと AlN の $c$ 軸配向や応力が違い，$v_s$ が数\% ずれる．
+
+\subsection{測定装置}
+
+最低限必要：
+\begin{itemize}
+\item ベクトルネットワークアナライザ (VNA)，10\,MHz--8\,GHz：
+中古 Keysight E5071B で ¥500,000，または nanoVNA V2 Plus4 で ¥25,000
+\item RF プローブステーション（GSG プローブ）：中古 ¥200,000
+\item 温度制御ステージ（ペルチェ，$-20$ から $+100^\circ$C）：¥50,000
+\item ローノイズ RF 源（位相雑音測定用）：¥100,000
+\item 測定 PC，校正キット，消耗品：¥150,000
+\end{itemize}
+
+合計 ¥1,000,000 程度．大学の RF 研究室なら全て揃っている．
+
+\subsection{測定 1: モードスペクトル確認（基礎）}
+
+\begin{enumerate}
+\item FBAR と SMR を VNA に接続
+\item $S_{11}$ (反射係数) を 100\,MHz--8\,GHz で掃引
+\item 共振ディップの位置を抽出
+\item 予測：
+  \begin{itemize}
+  \item FBAR: $f_0, 2f_0, 3f_0, 4f_0, 5f_0,\ldots$ のディップ
+  \item SMR: $f_0, 3f_0, 5f_0, 7f_0,\ldots$ のディップ（偶数欠落）
+  \end{itemize}
+\item 偶数倍音の欠落を\textbf{有意な統計量}で確認（ノイズレベル対比
+30 dB 以上を目標）
+\end{enumerate}
+
+これが\textbf{軸 D 測定 A と同型の基礎チェック}．ここで偶数倍音が
+きれいに欠けていれば，DN 境界の実在が確定．
+
+\subsection{測定 2: 精密周波数・Q 値測定}
+
+\begin{enumerate}
+\item 各共振ディップを中心に狭帯域スイープ（$\pm 10$\,MHz, 10000 点）
+\item ローレンツ関数フィットで中心周波数 $f_n$ と Q 値を抽出
+\item 複数回測定し Allan 分散を評価
+\item 周波数精度 $10^{-6}$ を目標（2.6\,GHz なら $\pm 2.6$\,kHz）
+\end{enumerate}
+
+\subsection{測定 3: 真空 Lamb shift 探索（本丸）}
+
+FBAR と SMR の基本周波数は，加工精度で決まる絶対値と，高次モード
+との virtual coupling による Lamb shift の和：
+\begin{equation}
+  f_1^{\rm obs} = f_1^{(0)} + \sum_{n\geq 2} \frac{g_n^2}{f_1 - f_n}
+\end{equation}
+ここで $g_n$ はモード間の非線形結合．FBAR (NN) では全 $n$ の和，
+SMR (DN) では奇数 $n$ のみの和．差：
+\begin{equation}
+  \Delta f = \sum_{n\;\text{even}} \frac{g_n^2}{f_1 - f_n}
+\end{equation}
+
+見積もり：$g/f_1 \sim 10^{-4}$, $N_{\rm even} \sim 3$ で
+$\Delta f/f_1 \sim 10^{-8}$，$f_1 = 2.6$\,GHz なら $\Delta f \sim 26$\,Hz．
+
+\textbf{問題}: FBAR と SMR は\textbf{別チップ}なので，加工誤差
+$f_1^{(0)}$ の違いが kHz オーダーで存在し，Lamb shift 差 26\,Hz は
+埋もれる．
+
+解決策：\textbf{温度スイープ差分法}．
+
+\subsection{測定 4: 温度スイープ差分法（系統誤差キラー）}
+
+加工誤差は温度に依存しない．Lamb shift は高次モードとの間隔に
+依存し，温度で変化する（モード全体が熱膨張でシフト）．
+
+\begin{enumerate}
+\item FBAR と SMR を同じ温度制御ステージに載せる
+\item $-20^\circ$C から $+80^\circ$C まで $10^\circ$C 刻みで $f_1$ を測定
+\item 温度係数 $df_1/dT$ を FBAR と SMR で比較
+\item 純粋な材料の温度係数（両者共通）を差し引くと，モード構造
+由来の温度依存性が残る
+\item \textbf{FBAR と SMR の $df_1/dT$ の差}がDN/NN 差の現れ
+\end{enumerate}
+
+この差分法は加工誤差と共通系統を同時にキャンセルする．
+
+\subsection{測定 5: 駆動振幅スイープ（アンハーモニシティ）}
+
+強く駆動すると非線形効果で周波数がシフト（Duffing 振動子）：
+\begin{equation}
+  f_1(P) = f_1^{(0)} + \alpha P + \beta P^2 + \cdots
+\end{equation}
+
+アンハーモニシティ係数 $\alpha, \beta$ はモード結合 $g_n$ の関数．
+FBAR と SMR で比較すると偶数モードの寄与が抽出できる．
+
+駆動パワー $-20$\,dBm から $+10$\,dBm まで掃引．各パワーで $f_1$ と
+$Q$ を記録．Duffing 理論でフィット．係数比較．
+
+\subsection{測定 6: 低温測定（任意）}
+
+液体窒素 77\,K で Q が一桁向上．信号の S/N が 10 倍になる．
+温度制御ステージではなく液体窒素デュワーが必要（¥100,000 追加）．
+
+\section{商用品の入手}
+
+\subsection{FBAR を買う}
+
+\subsubsection{評価キット}
+
+\begin{itemize}
+\item \textbf{Broadcom/Avago}: Acoustic Filter Evaluation Kit．
+\$500--\$2,000．WiFi 6E / 5G 帯域．データシート付属．
+\item \textbf{Qorvo}: TQ Series eval board．\$800 から．
+\item \textbf{Murata}: SAW/BAW フィルタ評価キット．日本国内から
+購入可能．¥80,000 から
+\end{itemize}
+
+\subsubsection{個別部品}
+
+Digi-Key / Mouser で RF フィルタとして流通．1 個 \$5 から \$50．
+デパッケージ（金属缶から剥き出しにする）が必要な場合は業者委託
+（¥30,000 程度）．
+
+\subsubsection{研究用サンプル}
+
+学術目的で「未包装の bare die」を請求できる．問い合わせ先：
+\begin{itemize}
+\item Broadcom Innovation Research Lab (IRL) ：
+研究用途で bare die 提供実績あり
+\item Qorvo University Program ：年 2 回サンプル配布
+\item IEEE MTT-S Student Research Grants ：機材支援プログラム
+\end{itemize}
+
+\subsection{SMR を買う}
+
+\subsubsection{評価キット}
+
+\begin{itemize}
+\item \textbf{Qorvo}: 5G n77/n79 バンドの SMR フィルタ．
+\$1,000 前後．Bragg 構造は公表されていないが，機密契約 (NDA) を結べば
+設計資料を得られる場合あり
+\item \textbf{Infineon}: SMR 評価キット．\$1,500 から
+\end{itemize}
+
+\subsubsection{研究用カスタム}
+
+Fraunhofer IAF（ドイツ），CEA-Leti（フランス），VTT（フィンランド）で
+研究用 SMR ウェハをカスタム作製可能．一枚 \$5,000--\$20,000．
+これは DN 境界設計を自分で指定できるので最も clean．
+
+\subsubsection{国内リソース}
+
+村田製作所，TDK の研究所は SMR 開発を行っている．大学経由で
+共同研究依頼すればサンプル提供の可能性あり．\textbf{これは共同研究
+必須だが，提案書を「多モード真空揺らぎの機械共振器での
+キャラクタリゼーション」と書けば RF 研究者に響きやすい}．
+
+\subsection{入手のしやすさランキング}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+方法 & 入手難度 \\
+\midrule
+Digi-Key/Mouser でパッケージ品 & ◎ 即日 \\
+評価キット（オンライン購入）& ○ 1--4 週 \\
+メーカー直 bare die 請求 & △ 1--3 ヶ月 \\
+研究用カスタム SMR & △ 6 ヶ月 \\
+国内大学・企業連携 & △ 6 ヶ月--1 年 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{個人で始めるなら}
+
+\textbf{最初の一歩}：Digi-Key で 2.4\,GHz WiFi FBAR フィルタ
+（例: Qorvo QPQ1903，\$8）と 5G n79 SMR フィルタ（例: Qorvo QM77020，
+\$25）を各 5 個買う．合計 ¥25,000．\textbf{今日発注，今週届く}．
+
+これとnanoVNA V2 Plus4 があれば測定 1（モードスペクトル確認）は
+即座に可能．
+
+\section{費用と時間}
+
+\subsection{段階別予算}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+段階 & 予算 & 期間 \\
+\midrule
+Stage 0: nanoVNA ＋商用品 & ¥30,000 & 1 週間 \\
+Stage 1: 自宅で温度スイープ & ¥80,000 & 1 ヶ月 \\
+Stage 2: 本格 VNA 借用 ＋ Lamb shift & ¥300,000 & 3 ヶ月 \\
+Stage 3: 液体窒素冷却 & ¥500,000 & 6 ヶ月 \\
+Stage 4: 研究用カスタム SMR & ¥2,000,000 & 1 年 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Stage 0 の詳細（今すぐ開始可能）}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+項目 & 価格 \\
+\midrule
+Qorvo QPQ1903 (FBAR, 2.4 GHz) $\times 5$ & ¥6,000 \\
+Qorvo QM77020 (SMR, 3.9 GHz) $\times 5$ & ¥18,000 \\
+SMA コネクタ評価基板 $\times 2$ & ¥4,000 \\
+nanoVNA V2 Plus4 & ¥25,000 \\
+SMA 校正キット & ¥8,000 \\
+SMA ケーブル ¥3,000 $\times 3$ & ¥9,000 \\
+半田ごて・消耗品 & ¥10,000 \\
+\midrule
+\textbf{合計} & \textbf{¥80,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+1 週間あれば全て揃い，翌週末にはモードスペクトル測定が可能．
+\textbf{これは軸 D（音響アナログ）と並ぶ即時着手案}．
+
+\subsection{Stage 1 の詳細}
+
+Stage 0 に加えて：
+\begin{itemize}
+\item ペルチェ温度制御ステージ ¥30,000
+\item 熱電対と温度計 ¥5,000
+\item 断熱ボックス（発泡スチロール改造）¥2,000
+\item 電源と制御 Arduino ¥8,000
+\end{itemize}
+
+合計 ¥125,000．温度スイープ差分法が可能になり，測定 4 を実施できる．
+
+\section{軸 D との関係}
+
+冒頭で触れた「軸 D が null でも軸 A は死なない」理論は本ガイドにも
+適用される．SMR/FBAR ルートは：
+
+\begin{itemize}
+\item 軸 D（空気音響管）より遥かに clean な DN 実装
+\item しかし完全な量子極限ではない（室温 Q $\sim$ 3000）
+\item 液体窒素や希釈冷凍機で量子に近づけられる
+\end{itemize}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=推奨実行順序]
+\begin{enumerate}
+\item \textbf{今週}：軸 D 音響管（¥50,000）と SMR/FBAR Stage 0 (¥80,000)
+を\textbf{同時発注}．総額 ¥130,000
+\item \textbf{来週}：両方組み立て．モード構造確認
+\item \textbf{1 ヶ月}：どちらかで偶数倍音欠落が統計的に見えれば第 1
+成果．arXiv プレプリント
+\item \textbf{3 ヶ月}：SMR/FBAR Stage 2 で温度スイープ Lamb shift
+差を探索
+\item \textbf{6 ヶ月}：結果次第で BAW（水晶）ルート，または共同研究で
+cQED ルートに進む
+\end{enumerate}
+\end{tcolorbox}
+
+\section{論文化戦略}
+
+\subsection{第 1 論文: モード構造の直接観測}
+
+タイトル案: ``Direct observation of Dirichlet--Neumann mode-parity
+asymmetry in commercial bulk acoustic wave resonators''
+
+内容:
+\begin{itemize}
+\item 商用 FBAR (NN) と SMR (DN) の $S_{11}$ 測定
+\item 偶数倍音の欠落を統計的有意性込みで提示
+\item Bragg 反射鏡帯域内外での ON/OFF
+\item 歴史的文脈（Boyer 1974, Euler 積切除）に触れる
+\end{itemize}
+
+投稿先: \textit{Appl.\ Phys.\ Lett.} または \textit{J.\ Appl.\ Phys.}
+
+新規性：産業界では既知の事実を物理学視点で初めて定量化．
+
+\subsection{第 2 論文: Lamb shift 差の測定}
+
+タイトル案: ``Boundary-mode-parity dependent vacuum Lamb shift
+in bulk acoustic resonators''
+
+内容:
+\begin{itemize}
+\item 温度スイープ差分法で FBAR/SMR の Lamb shift 差抽出
+\item Boyer (1974) 予言 $\zeta_{\neg 2}(-3) = -7/120$ との定量比較
+\item QED の mode-sum 予測との整合性 or 逸脱
+\end{itemize}
+
+投稿先: \textit{Phys.\ Rev.\ Lett.}
+
+新規性：DN カシミール機械版の初の定量検証．
+
+\subsection{第 3 論文: 理論的再解釈}
+
+タイトル案: ``Commercial RF filters as realizations of Boyer's
+1974 vacuum-repulsion prediction: a number-theoretic perspective''
+
+Wright Brothers プロジェクトの哲学全体を示す．Euler 積切除，
+Spec(Z)，位相的保護予想，そして SMR/FBAR 実験との接続．
+
+投稿先: \textit{Found.\ Phys.} または arXiv のみ
+
+\section{落とし穴と対策}
+
+\subsection{Bragg 帯域の限界}
+
+前述の通り Bragg 反射鏡は狭帯域．対策：
+\begin{itemize}
+\item メーカーから Bragg 設計データを入手（NDA 必要な場合あり）
+\item 複数の中心周波数を持つ SMR 品を比較
+\item 帯域内外の比較自体を検証手段にする
+\end{itemize}
+
+\subsection{パッケージング損失}
+
+商用 SMR は金属缶パッケージ．缶自体が機械振動とカップルして
+Q を劣化させる．\textbf{Bare die}を入手するのが理想だが，
+パッケージ品でも基礎測定は可能．
+
+\subsection{電極の非対称性}
+
+上下電極の厚さ差は DN vs NN の純粋比較を崩す．実際の SMR は電極が
+厚く，追加的な質量負荷で下面が「ほぼクランプ」になる．これは
+我々の目的には好都合（DN を強める方向）．
+
+\subsection{横モード（スプリアス）}
+
+FBAR/SMR は縦モード以外に横波・Lamb 波なども持つ．これらは
+メインの縦モードと結合してフィーチャーを作る．厳密な mode
+identification が必須．メーカーのアプリケーションノートに詳細．
+
+\subsection{熱的モード占有数}
+
+室温 300\,K, $f = 2.6$\,GHz では $k_B T/h f \approx 2400$．モードは
+強く熱占有されており，完全な「真空」状態ではない．これが Lamb
+shift 測定で問題になるかは理論的に詰める必要あり．低温化で
+解消．
+
+\subsection{再現性}
+
+同じロット内のバラつきは $\pm 0.1\%$ 程度．複数サンプルの統計平均で
+抑える．ロットが異なると数 \% ずれるので，同一ロットから両タイプを
+入手するのが理想（メーカー交渉必要）．
+
+\section{Wright Brothers プロジェクト内での位置付け}
+
+\subsection{マスタープランへの接続}
+
+\texttt{wright\_brothers\_master\_plan.tex} の Stage 2
+（3D Casimir Repulsion）の\textbf{最も安価で早い実装経路}が
+SMR/FBAR 比較．これが成功すれば：
+
+\begin{enumerate}
+\item Boyer 予言の初の実験的証拠
+\item $\zeta_{\neg 2}(-3)$ 予測の定量検証
+\item Stage 3（Arakelov 幾何）への実験的動機付け
+\item 研究資金調達における実績（他ルートへの拡張予算獲得）
+\end{enumerate}
+
+\subsection{他ルートとの統合}
+
+\begin{itemize}
+\item \textbf{軸 D 音響}: 古典領域の基礎検証．SMR と並行
+\item \textbf{軸 A BAW (水晶)}: 次段階．Stage 2 が終わったら Stage 3
+\item \textbf{軸 A cQED}: 最終検証．OtaNano 等での共同研究
+\item \textbf{軸 C OPO}: 長期理論プログラム
+\end{itemize}
+
+\subsection{失敗しても得られるもの}
+
+もし SMR/FBAR で偶数倍音欠落が見えなかった場合：
+\begin{itemize}
+\item Bragg 反射鏡の実効性の再評価（技術的貢献）
+\item 産業品の物理特性データの学術公開（RF 工学に貢献）
+\item 次ルートに進むための除外データ
+\end{itemize}
+
+ネガティブ結果でも論文化可能．
+
+\section{まとめ}
+
+SMR/FBAR ルートは Wright Brothers プロジェクトの DN カシミール
+検証において現時点で最も現実的な経路である：
+
+\begin{itemize}
+\item ¥80,000 で Stage 0 開始可能
+\item 商用品が構造上 DN 境界を実装済み
+\item 大学の RF/MEMS 研究室と連携しやすい
+\item 産業データの物理学的再解釈という明確な新規性
+\item Boyer (1974) が 50 年前に予言した効果が，既に我々のポケットの
+中にある可能性
+\end{itemize}
+
+軸 D（音響アナログ）と同時発注し，両者を並行して進めるのが
+最適戦略．どちらかで先に成果が出れば，他方の位置付けが明確になる．
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連文書：
+\begin{itemize}
+\item \texttt{guide\_garage\_scaling\_ja.tex}（4 軸の全体俯瞰）
+\item \texttt{guide\_baw\_quartz\_ja.tex}（水晶 BAW ルート）
+\item \texttt{cqed\_lambda4\_proposal.tex}（cQED ルート）
+\item \texttt{boyer\_reinterpretation\_ja.tex}（理論背景）
+\item \texttt{wright\_brothers\_master\_plan.tex}（全体計画）
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+主要参考文献：
+\begin{itemize}
+\item T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974)
+\item R.~Aigner \textit{et al.}, Proc.\ IEEE Ultrason.\ Symp.\ (2003)
+\item R.~Ruby \textit{et al.}, IEEE Microw.\ Mag.\ \textbf{16}, 60 (2015)
+\item K.~Hashimoto (ed.), \textit{RF Bulk Acoustic Wave Filters for
+Communications} (Artech House, 2009)
+\item Y.~Chu \textit{et al.}, Science \textbf{358}, 199 (2017)
+\end{itemize}
+
+\end{document}
