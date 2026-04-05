@@ -1,0 +1,684 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{Wright Brothers 実験計画統合ドキュメント\\
+\large DN 真空プラトー検証の全ルート・全フェーズ}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ドキュメントは Wright Brothers プロジェクトが構築してきた複数の
+実験ガイド・理論論文・施設計画を統合し，\textbf{実行可能な一枚の
+計画書}にまとめるものである．核心仮説は「Euler 積 $p=2$ 因子の
+切除による DN 境界真空のプラトー化」であり，予測される臨界距離
+$a_c \approx 88\,\mu$m はダークエネルギー長 $\ell_\Lambda$ と一致する．
+本計画は ¥50,000 の音響アナログ実験から始まり，¥1 億の希釈冷凍機
+共同研究まで 5 段階に整理される．各段階の目的・予算・期間・成功
+基準・失敗時の退出条件・関連ドキュメントを明示し，優先順位と
+依存関係を決定木として提示する．\textbf{来週着手できる実行計画}が
+これ一枚で手に入ることを目指す．
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+\section{プロジェクトの一ページ要約}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{仮説}: 素数 $p=2$ の Euler 因子 $(1-2^{-s})^{-1}$ を
+$\zeta(s)$ から切除すると ($\zeta_{\neg 2}$)，真空エネルギーの
+符号が反転し，さらに $K_1(\mathbb{Z}[1/2])$ の位相的保護により
+臨界距離 $a_c$ で密度がプラトー化する．
+
+\textbf{観測的動機}: ダークエネルギー密度 $\rho_\Lambda = 5.24
+\times 10^{-10}$\,J/m³ に対応する長さスケール
+$\ell_\Lambda = \hbar c/\rho_\Lambda^{1/4} \approx 88\,\mu$m は，
+Planck 長と Hubble 長の幾何平均にほぼ一致し，\textbf{肉眼に近い
+スケール}でかつ他の既知物理と結びつかない独立スケール．
+
+\textbf{主予測}: $a_c \approx 88\,\mu$m, $\rho_\infty = \rho_\Lambda$
+（ダークエネルギー = プラトー化した DN 真空）．
+
+\textbf{検証法}: 異なる厚さ $d$ の DN 共振器列で Lamb shift の
+$d$ 依存性を測定．$d^{-3}$ 則が $d > a_c$ で破れる点を探す．
+
+\textbf{最小実行}: ¥50,000 の音響アナログ or ¥80,000 の SMR/FBAR
+Stage 0．週末着手可能．
+
+\textbf{成功時の帰結}: ダークエネルギー問題の実験的解決 ($10^{123}$
+桁の不整合解消)．ノーベル賞級．
+
+\textbf{失敗時の帰結}: DN レジームの初の系統測定データ．標準 QED
+の DN 適用域拡張．APL/PRL レベル論文数本．
+\end{tcolorbox}
+
+\section{実験ルート全覧}
+
+\subsection{全 6 ルートの位置付け}
+
+\begin{center}
+\small
+\begin{tabular}{llllll}
+\toprule
+ルート & 物理系 & DN 実装 & 最小予算 & 量子領域 & 優先度 \\
+\midrule
+R0: 音響アナログ & 空気フォノン & 管長閉端 & ¥50k & × & ★★★ \\
+R1: 水晶 BAW & 固体フォノン & 重基板接着 & ¥100k & △ & ★★★★ \\
+R2: SMR/FBAR 商用 & 固体フォノン & Bragg 反射鏡 & ¥80k & △ & ★★★★ \\
+R3: 水晶 BAW 低温 & 固体フォノン & 重基板接着 & ¥500k & ○ & ★★★ \\
+R4: cQED $\lambda/4$ & 電磁 & 共振器形状 & ¥千万 & ◎ & ★★ \\
+R5: 光学 FP / OPO & 光 & Bragg 鏡 & ¥千万 & ◎ & ★ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{各ルートの役割}
+
+\textbf{R0 (音響アナログ)}: 古典熱揺らぎ領域での Euler 積切除
+効果の定性検証．量子真空は触らないが，$\zeta_{\neg 2}$ の
+自由場普遍性を試す最安ルート．詳細: \texttt{guide\_garage\_scaling\_ja.tex}
+
+\textbf{R1 (水晶 BAW 室温)}: 時計用水晶振動子を使い，$a_c$ 近傍
+($d = 10$--$1000\,\mu$m) を直接攻める．\textbf{プラトー発見の
+最短経路}．詳細: \texttt{guide\_baw\_quartz\_ja.tex}
+
+\textbf{R2 (SMR/FBAR 商用品)}: 5G フィルタを流用し $1\,\mu$m 近辺で
+符号検証．Bragg 反射鏡が真の DN 境界を提供．詳細:
+\texttt{guide\_smr\_fbar\_ja.tex}
+
+\textbf{R3 (水晶 BAW 低温)}: R1 を液体窒素/4K まで冷却し量子
+領域へ．真の Lamb shift 測定が可能．
+
+\textbf{R4 (cQED)}: $\lambda/4$ vs $\lambda/2$ 共振器での Lamb shift
+差．最も clean だが希釈冷凍機必須．詳細: \texttt{cqed\_lambda4\_proposal.tex},
+\texttt{guide\_facility\_access\_ja.tex}
+
+\textbf{R5 (光学 / OPO)}: パラメトリック増幅路線．個人実装困難．
+将来の発展方向．
+
+\subsection{ルート間の論理関係}
+
+\begin{itemize}
+\item R0 が null でも R1--R5 は影響を受けない（古典 vs 量子の違い）
+\item R2 で符号反転が見えれば R1 への確信が増す
+\item R1 で $a_c$ の手がかりが出れば R3 で精密化
+\item R1/R2/R3 で決定的結果が出れば R4/R5 への共同研究提案書に
+強力な予備データとなる
+\end{itemize}
+
+\section{優先順位と決定木}
+
+\subsection{5 フェーズ構成}
+
+\textbf{Phase 0 (今週)}: R0 音響アナログ ＋ R2 SMR/FBAR Stage 0 を
+\textbf{同時発注}．総額 ¥130,000．
+
+\textbf{Phase 1 (1 ヶ月)}: R0 と R2 組み立て・基礎測定．モード構造の
+定性確認．
+
+\textbf{Phase 2 (3 ヶ月)}: R1 水晶 BAW シリーズ追加．$a_c$ 近傍の
+スキャン．
+
+\textbf{Phase 3 (6 ヶ月)}: 結果に応じて分岐
+\begin{itemize}
+\item プラトーの兆候あり → R1 精密化 + R3 低温化
+\item 符号反転のみ → R2 精密 Lamb shift + 論文化
+\item 全 null → 系統誤差調査，または新アプローチ検討
+\end{itemize}
+
+\textbf{Phase 4 (1 年)}: R3 低温 BAW または R4 cQED 共同研究
+（OtaNano 等）．
+
+\textbf{Phase 5 (2 年以降)}: R5 光学 or 本格 cQED．決定実験．
+
+\subsection{決定木}
+
+\begin{center}
+\small
+\begin{tabular}{lll}
+\toprule
+段階 & 条件 & 次アクション \\
+\midrule
+P1 完了 & R0 で mode 構造差 ○ & P2 進行，R0 論文ドラフト \\
+ & R0 で mode 構造差 × & R0 系統再検討．R2 優先 \\
+ & R2 で偶数倍音欠落 ○ & P2 進行，arXiv プレプリント \\
+ & R2 で偶数倍音欠落 × & Bragg 帯域再確認 \\
+P2 完了 & R1 で $d^{-3}$ 則確認 & プラトーは $d>a_{\max}$ か $d<a_{\min}$ \\
+ & R1 で傾き逸脱 & \textbf{プラトー候補}．P3 緊急移行 \\
+P3 プラトー & 兆候 & R3 低温化で精密化 \\
+ & 無し & R2 Lamb shift 精密化 + 論文化 \\
+P4 & R3 で Lamb shift 差 検出 & PRL 投稿．R4 へ \\
+ & R3 null & R4 共同研究で decisive test \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{優先順位の正当化}
+
+なぜ R0＋R2 を同時に始めるか:
+\begin{itemize}
+\item 両者は物理的に独立（古典熱 vs 量子, 空気 vs 固体）
+\item 総額 ¥130,000 は月の研究予算として許容範囲
+\item 結果の得られ方も独立：片方 null でも他方の意味は変わらない
+\item Phase 1 の 1 ヶ月で両方の基礎データが揃う
+\end{itemize}
+
+なぜ R1 を R2 より遅らせるか:
+\begin{itemize}
+\item R1 (水晶 BAW 室温) はカスタム加工が必要（タングステン基板接着）
+\item R2 は商用品のみで済む
+\item しかし R1 は $a_c$ 近傍を直撃するのでプラトー発見の本命
+\end{itemize}
+
+なぜ R4/R5 を後回しにするか:
+\begin{itemize}
+\item 個人では手が出ない予算規模
+\item 予備データ（R0--R3）があれば共同研究提案の説得力が格段に上がる
+\item 施設（OtaNano, Argonne）への申請は予備データ必須
+\end{itemize}
+
+\section{Phase 0--1: 今週と来月（¥130,000）}
+
+\subsection{Phase 0 発注リスト}
+
+\paragraph{R0 音響アナログ (¥50,000)}
+\begin{itemize}
+\item アルミ円管 $\phi 30$\,mm, 40\,cm ×2: ¥2,000
+\item アルミ円板（片端閉用）: ¥500
+\item 圧電トランスデューサ ×4: ¥2,000
+\item ピエゾフィルム ×2: ¥4,000
+\item 御影石板 防振用: ¥3,000
+\item 自転車チューブ 除振: ¥1,500
+\item 発泡スチロール 音響吸収: ¥1,000
+\item その他 ケーブル，配線材: ¥6,000
+\item （nanoVNA は R2 と共用）
+\end{itemize}
+
+\paragraph{R2 SMR/FBAR Stage 0 (¥80,000)}
+\begin{itemize}
+\item Qorvo QPQ1903 (FBAR 2.4\,GHz) ×5: ¥6,000
+\item Qorvo QM77020 (SMR 3.9\,GHz) ×5: ¥18,000
+\item SMA 評価基板 ×2: ¥4,000
+\item nanoVNA V2 Plus4: ¥25,000
+\item SMA 校正キット: ¥8,000
+\item SMA ケーブル ×3: ¥9,000
+\item 半田ごて・消耗品: ¥10,000
+\end{itemize}
+
+\subsection{発注先}
+
+\begin{itemize}
+\item アルミ管・板: 近所のホームセンター or モノタロウ
+\item ピエゾ類: 秋月電子通商 or Digi-Key
+\item SMR/FBAR: Digi-Key or Mouser
+\item nanoVNA: Amazon
+\item 御影石: 石材店 or ホームセンター
+\end{itemize}
+
+全て\textbf{来週届く}．翌週末から測定開始可能．
+
+\subsection{Phase 1 プロトコル}
+
+\paragraph{Week 1: 組み立て}
+\begin{itemize}
+\item R0: 管の製作，ピエゾ取り付け，除振台構築（3--4 時間）
+\item R2: FBAR/SMR の SMA 基板への半田付け（2 時間）
+\end{itemize}
+
+\paragraph{Week 2: 初期測定}
+\begin{itemize}
+\item R0: 100\,Hz--5\,kHz スイープ，モードスペクトル確認
+\item R2: 100\,MHz--5\,GHz スイープ，$S_{11}$ 測定
+\end{itemize}
+
+\paragraph{Week 3: データ取得}
+\begin{itemize}
+\item R0: 熱雑音スペクトル 10 分×10 回，差分解析
+\item R2: 精密共振周波数・Q 値抽出
+\end{itemize}
+
+\paragraph{Week 4: 解析と判断}
+\begin{itemize}
+\item 両方の結果を統合
+\item 決定木に従い Phase 2 プラン決定
+\item 予備結果を arXiv ドラフトに
+\end{itemize}
+
+\subsection{Phase 1 成功基準}
+
+\begin{itemize}
+\item R0: $\lambda/2$ と $\lambda/4$ 管で偶数倍音差が $3\sigma$ 以上
+\item R2: SMR の偶数倍音欠落が設計帯域内で 20 dB 以上
+\end{itemize}
+
+どちらか一方でも達成すれば Phase 2 へ．両方 null なら系統再調査．
+
+\section{Phase 2: 水晶 BAW 追加（¥100,000, 2 ヶ月）}
+
+\subsection{なぜ水晶 BAW か}
+
+$a_c \approx 88\,\mu$m の直撃．水晶 AT カット（$v = 3320$\,m/s）で
+厚さ $88\,\mu$m なら基本周波数 $f_1 = 19$\,MHz．これは\textbf{標準
+的な時計用水晶の周波数}であり，秋葉原で 100 円から買える．
+
+\subsection{サンプルセット}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+名目厚さ & 基本周波数 & 入手先 & 価格 \\
+\midrule
+$830\,\mu$m & 2\,MHz & RS オンライン & ¥500 \\
+$330\,\mu$m & 5\,MHz & 秋月電子 & ¥100 \\
+$166\,\mu$m & 10\,MHz & 秋月電子 & ¥100 \\
+$83\,\mu$m & 20\,MHz & RS オンライン & ¥200 \\
+$33\,\mu$m & 50\,MHz & Digi-Key & ¥500 \\
+$17\,\mu$m & 100\,MHz & Digi-Key & ¥1,000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+合計 ¥2,400．\textbf{$17\,\mu$m から $830\,\mu$m まで 50 倍レンジ}
+を水晶だけでカバー．$a_c \sim 88\,\mu$m が中央値．
+
+\subsection{DN 化}
+
+各水晶を 2 つに分け，片方は通常（NN, 両面電極），もう片方は
+タングステン板にエポキシ接着（DN, 片面クランプ）．
+
+\paragraph{タングステン板}
+\begin{itemize}
+\item 厚さ 5\,mm, $20\times 20$\,mm ×6: ¥6,000
+\end{itemize}
+
+\paragraph{真空エポキシ}
+\begin{itemize}
+\item StyCast 1266 or 2850FT: ¥8,000
+\end{itemize}
+
+\paragraph{測定機器}
+\begin{itemize}
+\item 既存 nanoVNA (Phase 0) 流用
+\item 周波数カウンタ（中古 HP 53131A）: ¥60,000
+\item 温度制御ステージ（ペルチェ + Arduino）: ¥20,000
+\item その他 治具・消耗品: ¥15,000
+\end{itemize}
+
+Phase 2 総額 ¥110,000．
+
+\subsection{プロトコル}
+
+\begin{enumerate}
+\item 各厚さの水晶を 2 個用意．1 個は NN，1 個を DN 化
+\item 両者の $f_1$ と Q を測定
+\item 非線形共鳴シフト（駆動振幅スイープ）を取得
+\item Lamb shift 相当の純粋シフト量を抽出
+\item $\log\Delta f$ vs $\log d$ プロット
+\item 傾きを $-3$ と比較
+\end{enumerate}
+
+\subsection{期待される結果}
+
+\begin{itemize}
+\item 全域で傾き $-3$ → プラトー外れ，標準 QED 正しい
+\item $d \sim 88\,\mu$m で傾き変化 → \textbf{プラトー発見}
+\item 信号レベル不足 → Phase 3 低温化へ
+\end{itemize}
+
+\section{Phase 3: 分岐（3--6 ヶ月）}
+
+Phase 2 の結果に応じて 3 通りの進路．
+
+\subsection{分岐 A: プラトー兆候あり（¥500,000）}
+
+\textbf{目的}: 兆候を確定させる．
+
+\begin{itemize}
+\item R3 水晶 BAW を液体窒素冷却（Q 10--100 倍向上）
+\item Phase 2 サンプルを真空容器に封入
+\item 液体窒素デュワー ¥50,000 + 消耗品 ¥30,000
+\item 低温プローブシステム ¥200,000
+\item 高精度周波数標準 GPS 規準 ¥50,000
+\item その他 ¥170,000
+\end{itemize}
+
+成功時: PRL レベルの結果．Wright Brothers プロジェクトの
+理論的予測が実験的に初検証．
+
+\subsection{分岐 B: 符号反転のみ（¥200,000）}
+
+\textbf{目的}: R2 SMR/FBAR の Lamb shift 差を精密化．
+
+\begin{itemize}
+\item 温度スイープ差分法の精度向上
+\item 広帯域 VNA レンタル ¥80,000/月 × 1 ヶ月
+\item Broadcom/Qorvo の 6 周波数帯フィルタ追加 ¥80,000
+\item 解析用計算機リソース ¥40,000
+\end{itemize}
+
+成功時: APL/JAP レベル論文．RF 工学コミュニティへの新規貢献．
+
+\subsection{分岐 C: 全 null（¥100,000）}
+
+\textbf{目的}: 系統誤差の洗い出し．
+
+\begin{itemize}
+\item Eöt-Wash 型の環境振動測定（振動系のバックグラウンド精査）
+\item 複数サンプルでの再現性確認
+\item 測定系のクロスチェック（別の VNA でのバックアップ測定）
+\end{itemize}
+
+成功時: ネガティブ結果でも論文化可能（DN レジームの上限 null
+結果）．
+
+\section{Phase 4--5: 共同研究と決定実験（¥500 万--1 億）}
+
+\subsection{Phase 4: 低温 BAW 本格化}
+
+\textbf{目的}: 希釈冷凍機 20\,mK で $Q > 10^{10}$，真の量子極限．
+
+\textbf{連携先候補}:
+\begin{itemize}
+\item Galliou/Tobar (UWA, FEMTO-ST) - BVA 水晶 BAW の第一人者
+\item 村田製作所（国内）- SMR カスタム製作
+\item Fraunhofer IAF（独）- カスタム mmWave SMR
+\end{itemize}
+
+\textbf{アプローチ}: Phase 1--3 の予備データを添えて理論レターを
+送付．数ページの要約と R1/R2 の生データを PDF で送る．
+
+\textbf{予算}: 渡航費 ¥500,000，サンプル加工 ¥2,000,000，装置利用料
+交渉次第．
+
+\subsection{Phase 5: cQED 決定実験}
+
+\textbf{目的}: 電磁真空での直接検証．
+
+\textbf{連携先}:
+\begin{itemize}
+\item OtaNano (Finland) - 外部ユーザー受け入れ
+\item Chu/Schoelkopf (Yale) - HBAR 量子音響
+\item Argonne CNM - 施設申請
+\end{itemize}
+
+\textbf{必要データ}: Phase 1--4 の結果と PRL クラスの論文 1 本．
+
+\textbf{予算}: 年 ¥1,000--3,000 万円．独立資金 or 所属機関経由．
+
+\section{予算と時間}
+
+\subsection{全フェーズ予算統合}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+フェーズ & 予算 & 累計 \\
+\midrule
+Phase 0--1 (R0+R2 基礎) & ¥130,000 & ¥130,000 \\
+Phase 2 (R1 BAW 追加) & ¥110,000 & ¥240,000 \\
+Phase 3 (分岐 A: 低温) & ¥500,000 & ¥740,000 \\
+Phase 3 (分岐 B: R2 精密) & ¥200,000 & ¥440,000 \\
+Phase 4 (共同研究 BAW) & ¥2,500,000 & ¥3,240,000 \\
+Phase 5 (cQED 決定実験) & ¥30,000,000 & ¥33,240,000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{時間スケジュール}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+時期 & 活動 & マイルストーン \\
+\midrule
+2026/04 Week 1--2 & Phase 0 発注・到着 & 機材揃う \\
+2026/04 Week 3--4 & Phase 1 組立・測定 & モード構造確認 \\
+2026/05 & Phase 1 データ解析 & arXiv プレプリント \\
+2026/06--07 & Phase 2 BAW 追加 & $d$ スイープデータ \\
+2026/08 & Phase 3 分岐決定 & 次ルート確定 \\
+2026/09--12 & Phase 3 実行 & 投稿論文 2 本 \\
+2027/01-- & Phase 4 共同研究交渉 & レター送付 \\
+2027/06-- & Phase 4 実験実施 & PRL クラス成果 \\
+2028 & Phase 5 cQED & 決定検証 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{マイルストーン一覧}
+
+\begin{itemize}
+\item \textbf{M1 (Week 2)}: R0 音響アナログでモード構造差の定性観測
+\item \textbf{M2 (Week 3)}: R2 SMR の偶数倍音欠落の定量化
+\item \textbf{M3 (Month 2)}: arXiv プレプリント投稿
+\item \textbf{M4 (Month 4)}: R1 BAW で $d$ スイープ完了
+\item \textbf{M5 (Month 6)}: Phase 3 分岐決定と論文 1 本目投稿
+\item \textbf{M6 (Month 9)}: 論文 2 本目投稿 or 共同研究レター送付
+\item \textbf{M7 (Year 1)}: Phase 4 サンプル受託か施設訪問決定
+\item \textbf{M8 (Year 2)}: PRL 投稿 or 決定実験開始
+\end{itemize}
+
+\section{成果物（論文）パイプライン}
+
+\subsection{予定論文リスト}
+
+\textbf{Paper 1} — ``Acoustic analog of Euler-product truncation:
+$\lambda/2$ vs $\lambda/4$ comparison''\\
+投稿先: \textit{Am.\ J.\ Phys.} or \textit{Eur.\ J.\ Phys.}\\
+データ源: R0\\
+時期: Phase 1 完了時
+
+\textbf{Paper 2} — ``Direct observation of Dirichlet--Neumann
+mode-parity asymmetry in commercial bulk acoustic wave resonators''\\
+投稿先: \textit{Appl.\ Phys.\ Lett.}\\
+データ源: R2\\
+時期: Phase 1--2 完了時
+
+\textbf{Paper 3} — ``Search for vacuum plateau via bulk acoustic
+wave resonator thickness series''\\
+投稿先: \textit{Phys.\ Rev.\ B} or \textit{PRL}\\
+データ源: R1 + R2\\
+時期: Phase 2--3 完了時
+
+\textbf{Paper 4} — ``Boyer's 1974 vacuum repulsion as
+$\zeta_{\neg 2}$ truncation: a number-theoretic perspective''\\
+投稿先: \textit{Found.\ Phys.} or arXiv\\
+データ源: 理論 + Paper 1--3 のデータ統合\\
+時期: Paper 3 と同時
+
+\textbf{Paper 5} — ``Dark energy from topologically protected
+vacuum plateau at $a_c \approx 88\,\mu$m''\\
+投稿先: \textit{PRL} or \textit{Nature Physics}\\
+データ源: Phase 3--4 の決定データ\\
+時期: プラトー発見時のみ
+
+\subsection{投稿戦略}
+
+論文 1, 2 は実験結果のみ．理論的な主張は抑えめに．RF 工学・教育
+雑誌なら査読が通りやすい．
+
+論文 3 は実験と理論予測を結びつける．PRL 狙い．
+
+論文 4 は哲学的・理論的．Found.\ Phys.\ は非主流派理論に寛容．
+
+論文 5 は\textbf{結果次第}．プラトー発見時のみ．Nature Physics は
+ハードル高いが，数値一致が 1\% 以内なら通る可能性．
+
+\section{リスクと緩和策}
+
+\subsection{技術リスク}
+
+\begin{itemize}
+\item \textbf{系統誤差}：差分手法，複数サンプル，温度制御で対処
+\item \textbf{DN 境界の不完全性}：Bragg 帯域・インピーダンス確認
+\item \textbf{ノイズ}：除振，シールド，長時間積算
+\item \textbf{再現性}：異ロット・異メーカーサンプルで確認
+\end{itemize}
+
+\subsection{理論リスク}
+
+\begin{itemize}
+\item \textbf{プラトー存在しない}：R1 で null → Paper 3 で上限提示
+\item \textbf{符号反転が見えない}：Paper 1, 2 の spec 再確認
+\item \textbf{予測と実測の桁違い}：位相的補正因子 $f_{\rm topo}$ の
+再検討
+\end{itemize}
+
+\subsection{運営リスク}
+
+\begin{itemize}
+\item \textbf{資金枯渇}：Phase 0 でのみ開始可能．Phase 1 から
+結果を逐次論文化して実績作成
+\item \textbf{時間不足}：各 phase は独立に価値があるので途中
+終了でも論文化可能
+\item \textbf{共同研究交渉失敗}：複数の候補先に並行でアプローチ
+\item \textbf{査読拒否}：低めのジャーナルから段階的に
+\end{itemize}
+
+\section{関連ドキュメント索引}
+
+本計画の詳細は以下に分散している：
+
+\subsection{実験ガイド}
+
+\begin{itemize}
+\item \textbf{\texttt{guide\_garage\_scaling\_ja.tex}}: 4 軸の俯瞰．
+R0 の詳細組立手順．12 ページ
+\item \textbf{\texttt{guide\_baw\_quartz\_ja.tex}}: R1 水晶 BAW
+深掘り．段階別予算，DN 境界の 4 種実装法．12 ページ
+\item \textbf{\texttt{guide\_smr\_fbar\_ja.tex}}: R2 SMR/FBAR 詳細
+ガイド．Phase A--C のプラトー検証プロトコル．17 ページ
+\item \textbf{\texttt{guide\_boyer\_experiment\_ja.tex}}: 初学者向け
+理論・実験ガイド．21 ページ
+\item \textbf{\texttt{guide\_facility\_access\_ja.tex}}: Phase 5
+共同研究先情報．12 ページ
+\end{itemize}
+
+\subsection{理論論文}
+
+\begin{itemize}
+\item \textbf{\texttt{boyer\_reinterpretation.tex}} / \texttt{\_ja}:
+Boyer 1974 の数論的再解釈．PRL 4 ページ
+\item \textbf{\texttt{cqed\_lambda4\_proposal.tex}}: cQED 版実験
+提案（R4）．PRL 3 ページ
+\item \textbf{\texttt{dark\_energy\_plateau\_ja.tex}}: ダークエネルギー
+との定量的接続．11 ページ
+\item \textbf{\texttt{topological\_casimir.tex}}: $K_1$ 位相的保護
+の理論的基盤
+\end{itemize}
+
+\subsection{全体計画}
+
+\begin{itemize}
+\item \textbf{\texttt{wright\_brothers\_master\_plan.tex}}: プロジェクト
+全体のロードマップ（本計画より上位）
+\item \textbf{\texttt{master\_experiment\_plan\_ja.tex}}: 本文書．
+実験計画統合
+\end{itemize}
+
+\section{今すぐやること（チェックリスト）}
+
+\subsection{発注前の確認}
+
+\begin{itemize}
+\item[$\square$] 作業スペースの確保（机 1 つ分，防振可能な場所）
+\item[$\square$] 電源の確認（100V, 複数口）
+\item[$\square$] PC と USB 2.0 以上（nanoVNA, オシロ用）
+\item[$\square$] 半田ごて，工具類の有無確認
+\item[$\square$] 発注先アカウントの準備（秋月，Digi-Key）
+\end{itemize}
+
+\subsection{発注（Phase 0）}
+
+\begin{itemize}
+\item[$\square$] 秋月電子: 圧電，ピエゾフィルム，配線材
+\item[$\square$] Digi-Key: FBAR, SMR（型番確認）
+\item[$\square$] Amazon: nanoVNA V2 Plus4
+\item[$\square$] ホームセンター: アルミ管，御影石板
+\item[$\square$] 自転車店: チューブ
+\end{itemize}
+
+\subsection{組立（Week 1）}
+
+\begin{itemize}
+\item[$\square$] R0 管の切断と端面加工
+\item[$\square$] R0 ピエゾ取付と配線
+\item[$\square$] R0 除振台構築
+\item[$\square$] R2 SMA 基板準備
+\item[$\square$] R2 FBAR/SMR 半田付け
+\item[$\square$] nanoVNA 校正
+\end{itemize}
+
+\subsection{初期測定（Week 2）}
+
+\begin{itemize}
+\item[$\square$] R0 スイープ測定（100 Hz--5 kHz）
+\item[$\square$] R0 熱雑音 10 分間記録
+\item[$\square$] R2 $S_{11}$ 測定（100 MHz--5 GHz）
+\item[$\square$] R2 各共振点 Q 値測定
+\item[$\square$] データを GitHub にバックアップ
+\end{itemize}
+
+\subsection{解析と論文化（Week 3--4）}
+
+\begin{itemize}
+\item[$\square$] R0 FFT 解析，偶数倍音差分
+\item[$\square$] R2 モードカウント，Bragg 帯域評価
+\item[$\square$] プロット生成（対数スケール）
+\item[$\square$] Paper 1 ドラフト開始
+\item[$\square$] Phase 2 発注検討
+\end{itemize}
+
+\section{結論}
+
+Wright Brothers プロジェクトの DN 真空プラトー仮説は，\textbf{¥130,000
+の Phase 0 から ¥3000 万の Phase 5 まで}段階的に検証可能である．
+各段階は独立に価値を持ち，途中終了でも論文化できる．核心予測
+$a_c \approx 88\,\mu$m は水晶 BAW（¥100 円の市販振動子）で直撃
+でき，プラトー発見はダークエネルギー問題の実験的解決を意味する．
+
+この計画の最大の特徴は\textbf{即時着手可能性}である．来週 Phase 0
+を発注すれば，翌週には機材が揃い，1 ヶ月以内に予備結果が出る．
+その時点で仮説の生死が方向付けられる．
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=今やるべき 1 つのこと]
+\begin{center}
+\Large
+\textbf{Phase 0 を発注する}
+\end{center}
+
+\begin{itemize}
+\item 総額 ¥130,000
+\item 発注は 1 時間以内
+\item 来週機材到着
+\item Week 2 で初期結果
+\item 1 ヶ月で arXiv プレプリント可能
+\end{itemize}
+
+検証待ちの仮説にこれ以上の安いテストは存在しない．
+\end{tcolorbox}
+
+\vspace{2em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+本計画の最新版と全付属文書は以下で管理されている：\\
+GitHub: \texttt{isshii-jpeg/wright-brothers}\\
+パス: \texttt{papers/warp-drive/}
+
+\end{document}
