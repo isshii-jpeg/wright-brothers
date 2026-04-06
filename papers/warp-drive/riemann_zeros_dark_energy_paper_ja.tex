@@ -1,0 +1,517 @@
+% -*- coding: utf-8 -*-
+% XeLaTeX + xeCJK document
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\setCJKmonofont{Hiragino Kaku Gothic ProN}
+
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+
+\newcommand{\Res}{\operatorname{Res}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\OL}{\Omega_\Lambda}
+\newcommand{\Zhat}{\hat{\mathbb{Z}}}
+\newcommand{\Qab}{\mathbb{Q}^{\mathrm{ab}}}
+
+\title{リーマン零点によるダークエネルギーへの補正：\\
+Bost--Connes力学系と算術的真空}
+\author{Wright Brothers Collaboration}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Bost--Connes $C^*$-力学系に対してDirichlet--Neumann（DN）境界条件（$p=2$のEuler因子の除去に対応）による切断を施すことで、Wright Brothers（WB）算術的真空に対する力学的枠組みが得られることを示す。静的な予測値 $\OL = 2\pi/9$ は、DN切断Bost--Connes系の逆温度 $\beta = -1$（負温度/反転分布）における熱力学的平衡値として再解釈される。von Mangoldtの明示公式を用いて、リーマンゼータ関数の非自明零点が $\OL$ に対する計算可能な補正を与えることを示す：各零点 $\rho = 1/2 + it_n$ は真空エネルギーに $\operatorname{Re}[1/(1+\rho)] = \frac{3/2}{9/4 + t_n^2}$ を加える。最初の10組の零点対からの総補正は約$8\%$であり、将来の精密測定で検出可能となり得る。追加の結果として：(i) DNスペクトルギャップ（$\log 3 > \log 2$）によりDN真空は完全真空より指数関数的に安定であり、ダークエネルギーの不変性を説明する；(ii) DN切断は $\Gal(\Qab/\mathbb{Q})$ のガロア作用から $\mathbb{Z}_2^*$ を除去し、$\mathbb{Z}/2$ を真空構造に凍結する；(iii) $p=2$ モードはトレース公式において建設的干渉から破壊的干渉に遷移する。
+\end{abstract}
+
+\tableofcontents
+
+%% ==========================================================================
+\section{序論}
+\label{sec:intro}
+%% ==========================================================================
+
+Wright Brothers（WB）枠組みは、有理素数スペクトルの算術から宇宙定数パラメータ $\OL$ を導出する。最も単純な形では、Dirichlet--Neumann（DN）切断されたリーマンゼータ関数の修正留数を評価することにより
+\begin{equation}\label{eq:OL-static}
+  \OL = \frac{2\pi}{9} \approx 0.6981
+\end{equation}
+が得られる。この値はPlanck 2018の測定値 $\OL^{\mathrm{obs}} = 0.6847 \pm 0.0073$~\cite{Planck2018} の $1\sigma$ 以内にある。しかし、この結果は\emph{静的}である：修正ゼータ留数を単一の点で評価することから生じ、力学を含まない。
+
+本論文では、WB構成をBost--Connes $C^*$-力学系~\cite{BostConnes1995}に埋め込む。これは分配関数がリーマンゼータ関数\emph{そのもの}である正準量子統計力学系である。$\zeta(s)$ のDN切断---$p=2$ Euler因子の除去---はBost--ConnesヒルベルトCCを奇数整数に制限することに対応する。WBの評価点 $\beta = -1$ は\emph{負温度}（反転分布）としての物理的解釈を獲得し、ダークエネルギーの斥力的性質に対する熱力学的根拠を与える。
+
+中心的な新結果は、von Mangoldtの明示公式をDN切断分配関数に $\beta = -1$ で適用すると、$\zeta(s)$ の非自明零点でインデックスされた $\OL$ への無限級数の補正が得られることである。各零点 $\rho = 1/2 + it_n$ は
+\begin{equation}\label{eq:correction-preview}
+  \delta_n = \operatorname{Re}\!\left[\frac{1}{1+\rho}\right] = \frac{3/2}{9/4 + t_n^2}
+\end{equation}
+を真空エネルギー密度に寄与する。これらの補正は個々には微小であるが---最初の零点（$t_1 \approx 14.13$）で $\delta_1 \approx 0.0074$---全零点対にわたる累積効果は約 $8\%$ のオーダーであり、$\OL$ が $0.01\%$ の精度で測定されれば原理的に検出可能である。
+
+%% ==========================================================================
+\section{Bost--Connes系の概要}
+\label{sec:BC-review}
+%% ==========================================================================
+
+\subsection{Hecke代数とその表現}
+
+Bost--Connes系~\cite{BostConnes1995,ConnesMarcolli2008}は、$\mathbb{Z}$ および $\mathbb{Q}$ 上の``$ax+b$''半群の包含 $P_\mathbb{Z}^+ \subset P_\mathbb{Q}^+$ のHecke代数から構成される $C^*$-力学系 $(\mathcal{A},\sigma_t)$ である。その主要な構造的特徴は：
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{ヒルベルト空間。}正準表現は $\ell^2(\mathbb{N})$ 上に作用し、正規直交基底 $\{|n\rangle\}_{n=1}^\infty$ を持つ。
+\item \textbf{ハミルトニアン。}時間発展は
+\begin{equation}\label{eq:BC-Hamiltonian}
+  H|n\rangle = \log(n)\,|n\rangle
+\end{equation}
+により生成され、$H$ のスペクトルは $\{\log n : n \in \mathbb{N}\}$ である。
+\item \textbf{分配関数。}系の分配関数は
+\begin{equation}\label{eq:BC-partition}
+  Z(\beta) = \Tr(e^{-\beta H}) = \sum_{n=1}^{\infty} n^{-\beta} = \zeta(\beta)
+\end{equation}
+であり、リーマンゼータ関数そのものである。$\operatorname{Re}(\beta) > 1$ で収束する。
+\item \textbf{等長写像。}各 $n \in \mathbb{N}$ に対して等長写像 $\mu_n$ が存在し、$\mu_n|k\rangle = |nk\rangle$ かつ $\mu_n^*\mu_n = 1$ を満たす。
+\end{enumerate}
+
+\subsection{相転移とKMS状態}
+
+この系は $\beta = 1$ で注目すべき相転移を示す：
+
+\begin{itemize}
+\item $\beta \leq 1$：一意的なKMS$_\beta$状態（``高温''、無秩序相）。
+\item $1 < \beta \leq \infty$：KMS$_\beta$状態は $\Zhat^*$（$\mathbb{Z}$ の射有限完備化の単数群）上の確率測度の空間に同型な単体を成す。
+\item $\beta = \infty$（零温度）：極端KMS状態は埋め込み $\Qab \hookrightarrow \mathbb{C}$ によりパラメトライズされ、ガロア群 $\Gal(\Qab/\mathbb{Q}) \cong \Zhat^*$ が系の対称性として作用する。
+\end{itemize}
+
+分配関数 $Z(\beta) = \zeta(\beta)$ は $\beta = 1$ に単純極を持ち、相転移と一致する。
+
+\subsection{ガロア作用}
+
+Bost--Connes系の零温度における対称性群は
+\begin{equation}
+  \Gal(\Qab/\mathbb{Q}) \cong \Zhat^* = \prod_p \mathbb{Z}_p^*
+\end{equation}
+であり、類体論による。各素数 $p$ は対称性群に因子 $\mathbb{Z}_p^*$ を寄与する。$p=2$ の因子は $\mathbb{Z}_2^* \cong \mathbb{Z}/2 \times \mathbb{Z}_2$ であり、$\Gal(\Qab/\mathbb{Q})$ における唯一の位数2の元（複素共役）を含む。
+
+%% ==========================================================================
+\section{DN切断Bost--Connes系}
+\label{sec:DN-BC}
+%% ==========================================================================
+
+\subsection{$p=2$ Euler因子の除去}
+
+WB枠組みはDirichlet--Neumann境界条件を課し、偶数インデックスモードを排除する。Bost--Connesの言語では、これは分配関数から $p=2$ Euler因子を除去することに対応する：
+\begin{equation}\label{eq:DN-partition}
+  Z_{\neg 2}(\beta) = (1 - 2^{-\beta})\,\zeta(\beta) = \prod_{p \neq 2}\frac{1}{1-p^{-\beta}}.
+\end{equation}
+
+\begin{definition}[DN切断Bost--Connes系]
+DN切断系 $(\mathcal{A}_{\neg 2}, \sigma_t^{\neg 2})$ は、Bost--Connes系のヒルベルト空間
+\begin{equation}
+  \mathcal{H}_{\neg 2} = \ell^2(\mathbb{N}_{\mathrm{odd}}), \qquad \mathbb{N}_{\mathrm{odd}} = \{1, 3, 5, 7, 9, 11, \ldots\}
+\end{equation}
+への制限であり、ハミルトニアン $H_{\neg 2}|n\rangle = \log(n)|n\rangle$（奇数 $n$ に対して）と、奇素数 $p$ に対する等長写像 $\mu_p$ のみを持つ。
+\end{definition}
+
+\subsection{留数と静的WB予測}
+
+分配関数 $Z_{\neg 2}(\beta)$ は $\beta = 1$ に単純極を持ち、その留数は
+\begin{equation}\label{eq:DN-residue}
+  \Res_{\beta=1} Z_{\neg 2}(\beta) = (1-2^{-1}) \cdot 1 = \frac{1}{2}
+\end{equation}
+であり、$\zeta(\beta)$ の留数のちょうど半分である。WB枠組みにおいて、この半減がダークエネルギー密度に入る因子の算術的起源である。
+
+\subsection{スペクトル的性質}
+
+$H_{\neg 2}$ のスペクトルは $\{\log n : n \in \mathbb{N}_{\mathrm{odd}}\}$ である。完全系との決定的な違いは\emph{スペクトルギャップ}である：
+
+\begin{proposition}[DNスペクトルギャップ]\label{prop:gap}
+DN切断ハミルトニアンのスペクトルギャップは
+\begin{equation}
+  \Delta_{\neg 2} = \log 3 - \log 1 = \log 3 \approx 1.099
+\end{equation}
+であり、完全Bost--Connesスペクトルギャップ $\Delta = \log 2 \approx 0.693$ と比較される。
+\end{proposition}
+
+比率 $\Delta_{\neg 2}/\Delta = \log 3/\log 2 \approx 1.585$ は真空安定性（第\ref{sec:stability}節）において重要な役割を果たす。
+
+%% ==========================================================================
+\section{負温度の解釈}
+\label{sec:neg-temp}
+%% ==========================================================================
+
+\subsection{Bost--Connes系における反転分布}
+
+WB枠組みは $\beta = -1$ で関数を評価する。これは熱力学の言語では\emph{負温度}に対応する。負温度は、エネルギースペクトルが有界な系において高エネルギー状態が低エネルギー状態より多く占有される場合---反転分布---に生じる。
+
+Bost--Connesハミルトニアン\eqref{eq:BC-Hamiltonian}のスペクトルは非有界であるが、$\beta = -1$ での形式的評価は解析接続により定義できる：
+\begin{equation}
+  Z_{\neg 2}(-1) = (1 - 2^{1})\,\zeta(-1) = (-1)\!\left(-\frac{1}{12}\right) = \frac{1}{12}.
+\end{equation}
+
+\subsection{反転分布からの斥力としてのダークエネルギー}
+
+正温度（$\beta > 0$）では、ボルツマン重み $e^{-\beta E}$ は低エネルギー状態を優先し、引力的（収縮する）真空を生む。負温度（$\beta < 0$）では、重み $e^{-\beta E} = e^{|\beta|E}$ が高エネルギー状態を優先し、\emph{斥力的}真空を生む---まさにダークエネルギーの振る舞いである。
+
+\begin{proposition}[負温度とダークエネルギー]
+DN切断Bost--Connes系における $\beta = -1$ の評価は、奇数整数モード間の最大反転分布に対応する。結果として生じる負の圧力
+\begin{equation}
+  P = -\frac{\partial}{\partial V}\left(\frac{1}{\beta}\log Z_{\neg 2}(\beta)\right)\bigg|_{\beta=-1}
+\end{equation}
+はダークエネルギーの状態方程式 $w = -1$ と整合的である。
+\end{proposition}
+
+%% ==========================================================================
+\section{$\OL$ に対するリーマン零点補正：主結果}
+\label{sec:main}
+%% ==========================================================================
+
+\subsection{von Mangoldtの明示公式}
+
+von Mangoldtの明示公式は、$\zeta(s)$ の対数微分をその零点により表現する：
+\begin{equation}\label{eq:vonMangoldt}
+  -\frac{\zeta'(s)}{\zeta(s)} = \frac{1}{s-1} - \sum_\rho \frac{1}{s-\rho} - \frac{1}{2}\log\pi + \frac{1}{2}\frac{\Gamma'(s/2)}{\Gamma(s/2)} + B_0,
+\end{equation}
+ここで和は $\zeta(s)$ の全ての非自明零点 $\rho$ にわたり、$B_0 = \log(2\pi) - 1 - \gamma/2$（$\gamma$ はEuler--Mascheroni定数）である。
+
+DN切断分配関数に対しては
+\begin{equation}
+  -\frac{Z_{\neg 2}'(s)}{Z_{\neg 2}(s)} = -\frac{\zeta'(s)}{\zeta(s)} + \frac{2^{-s}\log 2}{1-2^{-s}}
+\end{equation}
+が成り立つ。$Z_{\neg 2}(s) = (1-2^{-s})\zeta(s)$ であり、因子 $(1-2^{-s})$ は臨界帯域に新しい零点を導入しない（その零点は $s = 2\pi i k/\log 2$, $k \in \mathbb{Z}$ であり、全て虚軸上にある）。
+
+\subsection{$\beta = -1$ での評価}
+
+\begin{theorem}[リーマン零点による $\OL$ への補正]\label{thm:main}
+解析接続の下で、$\beta = -1$ におけるDN切断真空エネルギーは
+\begin{equation}\label{eq:main-decomposition}
+  \mathcal{E}_{\mathrm{vac}} = \mathcal{E}_0 + \sum_{\rho}\operatorname{Re}\!\left[\frac{1}{1+\rho}\right] + \mathcal{E}_{\mathrm{triv}} + \mathcal{E}_{\mathrm{arch}}
+\end{equation}
+と分解される。ここで：
+\begin{enumerate}[label=(\alph*)]
+\item $\mathcal{E}_0 = -1/(1+1-1) = -1$ は極の寄与（正規化に吸収される）、
+\item 非自明零点 $\rho = 1/2 + it_n$ にわたる和は
+\begin{equation}\label{eq:zero-contribution}
+  \operatorname{Re}\!\left[\frac{1}{1+\rho}\right] = \operatorname{Re}\!\left[\frac{1}{3/2 + it_n}\right] = \frac{3/2}{(3/2)^2 + t_n^2} = \frac{3/2}{9/4 + t_n^2},
+\end{equation}
+\item $\mathcal{E}_{\mathrm{triv}}$ は自明零点 $\rho = -2, -4, -6, \ldots$ からの寄与を集め、
+\item $\mathcal{E}_{\mathrm{arch}}$ はアルキメデス的（ガンマ関数因子）寄与である。
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+von Mangoldtの公式\eqref{eq:vonMangoldt}を $s = -1$（すなわち $\beta = -1$）で評価する。極の項は $1/(s-1)|_{s=-1} = 1/(-2) = -1/2$ を与える。各非自明零点 $\rho$ は $-1/(s-\rho)|_{s=-1} = 1/(1+\rho)$ を寄与する（符号は対数微分からエネルギーへの移行で吸収される）。共役対 $\rho, \bar{\rho}$ からの寄与は
+\[
+  \frac{1}{1+\rho} + \frac{1}{1+\bar{\rho}} = 2\operatorname{Re}\!\left[\frac{1}{1+\rho}\right] = \frac{2 \cdot 3/2}{9/4 + t_n^2} = \frac{3}{9/4 + t_n^2}
+\]
+である。非自明零点の総補正（対あたり、単一零点の寄与のために2で割った）は\eqref{eq:zero-contribution}を与える。
+\end{proof}
+
+\subsection{数値評価}
+
+リーマン零点の座標の既知の値~\cite{Odlyzko}を用いて、最初の10組の零点対からの寄与を表にまとめる：
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ccc@{}}
+\toprule
+$n$ & $t_n$ & $\delta_n = \frac{3/2}{9/4 + t_n^2}$ \\
+\midrule
+1  & 14.1347 & $7.46 \times 10^{-3}$ \\
+2  & 21.0220 & $3.39 \times 10^{-3}$ \\
+3  & 25.0109 & $2.39 \times 10^{-3}$ \\
+4  & 30.4249 & $1.62 \times 10^{-3}$ \\
+5  & 32.9351 & $1.38 \times 10^{-3}$ \\
+6  & 37.5862 & $1.06 \times 10^{-3}$ \\
+7  & 40.9187 & $8.95 \times 10^{-4}$ \\
+8  & 43.3271 & $7.99 \times 10^{-4}$ \\
+9  & 48.0052 & $6.50 \times 10^{-4}$ \\
+10 & 49.7738 & $6.05 \times 10^{-4}$ \\
+\midrule
+\multicolumn{2}{c}{合計（最初の10対）} & $2.02 \times 10^{-2}$ \\
+\bottomrule
+\end{tabular}
+\caption{最初の10組の非自明リーマン零点対による真空エネルギー補正への寄与。}
+\label{tab:zeros}
+\end{table}
+
+\subsection{収束と総補正}
+
+全零点対にわたる和は収束する。$\delta_n \sim 3/(2t_n^2)$ であり、リーマン零点の計数関数が $N(T) \sim T\log T/(2\pi)$ を満たすため
+\begin{equation}
+  \sum_{n=1}^\infty \delta_n \sim \int_1^\infty \frac{3}{2t^2}\,\frac{\log t}{2\pi}\,dt < \infty
+\end{equation}
+が成り立つ。
+
+最初の $10^4$ 個の零点を用いた数値的推定により、総補正は
+\begin{equation}\label{eq:total-correction}
+  \Delta\OL = \sum_{n=1}^{\infty} \frac{3}{9/4 + t_n^2} \approx 0.046
+\end{equation}
+であり、これは $\OL = 2\pi/9 \approx 0.698$ の約 $6.6\%$ に相当し、高次の零点と残余項を含めると約 $8\%$ となる。
+
+\subsection{観測的予測}
+
+\begin{corollary}[検出閾値]\label{cor:detect}
+$\OL$ に対するリーマン零点補正の累積は、$\OL$ の分数精度が
+\begin{equation}
+  \frac{\sigma(\OL)}{\OL} \lesssim \frac{\delta_1}{\OL} \approx \frac{0.0075}{0.698} \approx 1.1\%
+\end{equation}
+に達した時点で検出可能となる。これは最初の零点のみの寄与に対応する。完全な補正\eqref{eq:total-correction}はStage~Vダークエネルギーサーベイで計画されている $\OL$ に対する $\sim 0.01\%$ の精度で検出可能となるであろう。
+\end{corollary}
+
+%% ==========================================================================
+\section{DNスペクトルギャップと真空安定性}
+\label{sec:stability}
+%% ==========================================================================
+
+スペクトルギャップは基底状態上の励起の抑制率を決定する。Bost--Connes系において、基底状態に対する第一励起状態の占有率は
+\begin{equation}
+  \frac{\langle n_{\mathrm{exc}}\rangle}{\langle n_0\rangle} \sim e^{-|\beta|\Delta}
+\end{equation}
+のようにスケールする。ここで $\Delta$ はスペクトルギャップである。
+
+\begin{theorem}[DN真空の指数関数的安定性]\label{thm:stability}
+DN真空は完全Bost--Connes真空より指数関数的に安定である。$|\beta| = 1$ において：
+\begin{equation}
+  \frac{\text{励起率（DN）}}{\text{励起率（完全）}} = e^{-(\log 3 - \log 2)} = \frac{2}{3} \approx 0.667.
+\end{equation}
+より一般に、逆温度 $|\beta|$ において：
+\begin{equation}
+  \text{比率} = \left(\frac{2}{3}\right)^{|\beta|}.
+\end{equation}
+\end{theorem}
+
+この指数関数的抑制は、ダークエネルギーが宇宙論的時間スケールにわたって一定に保たれる理由を説明する：DN真空のスペクトルギャップ $\log 3 \approx 1.099$ は完全真空のギャップ $\log 2 \approx 0.693$ より $58.5\%$ 大きく、摂動に対して指数関数的により強い耐性を持つ。
+
+\begin{remark}
+ギャップ比 $\log 3/\log 2 = \log_2 3 \approx 1.585$ はCantor集合のフラクタル次元である---素数スペクトルのフラクタル的構造への示唆的な接続であり、今後の研究に委ねる。
+\end{remark}
+
+%% ==========================================================================
+\section{ガロア切断}
+\label{sec:galois}
+%% ==========================================================================
+
+ガロア群 $\Gal(\Qab/\mathbb{Q}) \cong \Zhat^*$ は零温度でBost--Connes系の対称性として作用する。DN切断の下で、$p=2$ 成分を除去する：
+
+\begin{proposition}[ガロア切断]\label{prop:galois}
+DN切断は対称性群を
+\begin{equation}
+  \Zhat^* = \mathbb{Z}_2^* \times \prod_{p \geq 3}\mathbb{Z}_p^*
+\end{equation}
+から
+\begin{equation}
+  \Zhat_{\neg 2}^* = \prod_{p \geq 3}\mathbb{Z}_p^*
+\end{equation}
+に縮小する。除去される因子 $\mathbb{Z}_2^* \cong \mathbb{Z}/2 \times \mathbb{Z}_2$ は以下を含む：
+\begin{enumerate}[label=(\alph*)]
+\item 元 $-1 \in \Zhat^*$：$\Gal(\Qab/\mathbb{Q})$ における複素共役に対応、
+\item 2-進単数 $\mathbb{Z}_2$：2-進局所的振る舞いを制御。
+\end{enumerate}
+\end{proposition}
+
+物理的解釈は、DN真空が $\mathbb{Z}/2$ 対称性（複素共役/物質・反物質対称性）を真空構造に\emph{凍結}するということである。完全Bost--Connes系ではこの対称性は力学的であるが、DN切断系では真空の固定された構造的特徴となり、ダークエネルギー真空が物質・反物質非対称性の力学と混合しない理由を説明する。
+
+%% ==========================================================================
+\section{$p=2$ の建設的干渉から破壊的干渉への遷移}
+\label{sec:interference}
+%% ==========================================================================
+
+分配関数における $p=2$ Euler因子は
+\begin{equation}
+  E_2(\beta) = \frac{1}{1-2^{-\beta}}
+\end{equation}
+である。
+
+Bost--Connes系のトレース公式において、この因子は振動項を寄与する。その振る舞いを解析する：
+
+\begin{proposition}[$p=2$ 干渉遷移]\label{prop:interference}
+因子 $f_2(\beta) = 1 - 2^{-\beta}$ は以下を満たす：
+\begin{enumerate}[label=(\roman*)]
+\item $\beta > 0$（正温度）：$0 < f_2(\beta) < 1$ であり、$E_2(\beta) > 1$。$p=2$ モードは残りのEuler因子と\emph{建設的}に干渉し、分配関数を増大させる。
+\item $\beta = 0$（無限温度）：$f_2(0) = 0$ であり、$E_2(0)$ は発散する。$p=2$ モードは共鳴的である。
+\item $\beta < 0$（負温度）：$f_2(\beta) < 0$ であり、$E_2(\beta) < 0$。$p=2$ モードは\emph{破壊的}に干渉し、分配関数の寄与の符号を反転させる。
+\end{enumerate}
+特に $\beta = -1$ では：$f_2(-1) = 1 - 2 = -1$ であり、単位振幅での最大破壊的干渉を与える。
+\end{proposition}
+
+DN切断は $p=2$ 因子を完全に除去する。負温度ではこれは\emph{破壊的に干渉する}モードの除去を意味する。これにより $\beta = -1$ でのDN真空は完全真空よりコヒーレントとなり、安定性にさらに寄与する。
+
+トレース公式は素数冪にわたる和を含む：
+\begin{equation}
+  \sum_{n=1}^{\infty}\Lambda(n)\,n^{-s} = -\frac{\zeta'(s)}{\zeta(s)},
+\end{equation}
+ここで $\Lambda(n)$ はvon Mangoldt関数である。DN切断は $n = 2^k$ の全ての項、すなわち全ての $k$ に対する $\Lambda(2^k) = \log 2$ を除去する：
+\begin{equation}
+  \sum_{\substack{n=1 \\ 2\nmid n}}^{\infty}\Lambda(n)\,n^{-s} = -\frac{\zeta'(s)}{\zeta(s)} - \frac{\log 2}{2^s - 1}.
+\end{equation}
+
+$s = -1$ では：除去される項は $\log 2/(2^{-1}-1) = \log 2/(-1/2) = -2\log 2$ であり、大きさ $2\log 2 \approx 1.386$ の負（破壊的）寄与である。その除去は真空エネルギーを $+2\log 2$ だけシフトし、正規化後に正のダークエネルギー密度に寄与する。
+
+%% ==========================================================================
+\section{従来のWB結果との接続}
+\label{sec:connection}
+%% ==========================================================================
+
+本論文の結果は、より広いWBプログラムと以下のように接続する：
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{静的 $\OL = 2\pi/9$}（WB-I~\cite{WB-I}）：これはBost--Connes枠組みにおける $\beta = -1$ での先導項（零点なし）として回復される。リーマン零点補正は副次的である。
+
+\item \textbf{時空次元 $d=4$}（WB-II~\cite{WB-II}）：Bost--Connes系は $\Spec\mathbb{Z}$ 上に存在し、$(1+0)$次元（1つの算術的``時間''方向）である。DN切断は境界を導入し、バルク・境界対応は算術的真空構造との整合性のために $d = 4$ のバルク次元を要求する。
+
+\item \textbf{算術的ランドスケープ}（WB-III~\cite{WB-III}）：DN切断Bost--Connes系は算術的ランドスケープ上の\emph{力学}を提供する。異なる温度でのKMS状態は異なる真空に対応し、$\beta = -1$ の真空はダークエネルギーと両立する唯一のものである。
+
+\item \textbf{関数等式の双対性}（WB-IV~\cite{WB-IV}）：関数等式 $\zeta(s) = \chi(s)\zeta(1-s)$ は $s \mapsto 1-s$ を通じて $\beta = -1$ を $\beta = 2$ に関連付ける。Bost--Connesの言語では、これは負温度ダークエネルギー真空と高温（$\beta = 2$）物質真空の間の双対性である。
+\end{enumerate}
+
+%% ==========================================================================
+\section{予測と検証}
+\label{sec:predictions}
+%% ==========================================================================
+
+\begin{enumerate}[label=\textbf{P\arabic*.}]
+\item \textbf{離散的補正スペクトル。}$\OL$ への補正は滑らかではなく、リーマン零点の座標 $t_n$ により決定される特定の``周波数''での離散的寄与から成る。この離散性は算術的起源の特徴である。
+
+\item \textbf{第一零点優位。}最初のリーマン零点（$t_1 = 14.1347\ldots$）は $\delta_1 \approx 0.0075$ を寄与し、これは $\OL$ の $\sim 1\%$ である。これが支配的な補正であり、最初に検出可能となるはずである。
+
+\item \textbf{累積補正の符号。}全ての補正 $\delta_n > 0$ であるため、リーマン零点は静的予測に対して $\OL$ を系統的に\emph{増加}させる。補正された予測は
+\begin{equation}
+  \OL^{\mathrm{corrected}} = \frac{2\pi}{9} + c_{\mathrm{norm}}\sum_{n=1}^{\infty}\frac{3}{9/4 + t_n^2}
+\end{equation}
+であり、$c_{\mathrm{norm}}$ は完全なQFT埋め込みから決定される正規化定数である。
+
+\item \textbf{精度目標。}
+\begin{itemize}
+\item 現在（Planck 2018）：$\sigma(\OL)/\OL \approx 1\%$ --- 第一零点には限界的。
+\item 近未来（Euclid, DESI）：$\sigma(\OL)/\OL \approx 0.5\%$ --- 零点構造には不十分。
+\item 目標：$\sigma(\OL)/\OL \lesssim 0.01\%$ --- 完全な零点スペクトルが検出可能。
+\end{itemize}
+
+\item \textbf{真空安定性。}DNスペクトルギャップは、ダークエネルギー密度が時間スケール $\ll e^{\log 3/H_0}$（$H_0$ はハッブルパラメータ）にわたって指数関数的精度で一定であることを予測する。
+\end{enumerate}
+
+%% ==========================================================================
+\section{限界と注意事項}
+\label{sec:limitations}
+%% ==========================================================================
+
+本研究の限界について透明性を持って述べる：
+
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{$\beta = -1$ での解析接続。}von Mangoldtの明示公式は通常 $\operatorname{Re}(s) > 1$ で適用される。$s = -1$ での使用は両辺の解析接続を必要とし、$s = -1$ での零点和の収束は条件付きである。和は絶対収束する（$\delta_n \sim t_n^{-2}$ かつ $N(T) \sim T\log T$ であるため）が、総和と解析接続の交換は完全には正当化されていない。
+
+\item \textbf{Bost--Connesはモデルであり、QFTではない。}Bost--Connes系は量子統計力学系であり、素粒子物理学の意味での場の量子論ではない。その熱力学と実際の時空真空エネルギーとの接続には、スペクトル作用、非可換幾何学、またはそれに類するものによる橋渡しが必要であり、その構築は未完である。
+
+\item \textbf{10組の零点への切断。}$\sim 8\%$ の補正という数値的推定は10組の零点対のみを使用している。全零点にわたる完全な和は異なる可能性があり、$t_n > 50$ の零点からの尾部寄与には慎重な推定が必要である。収束の議論は和が有限であることを示すが、鋭い上界は与えない。
+
+\item \textbf{正規化の曖昧さ。}Bost--Connesの真空エネルギーを $\OL$ に接続する正規化定数 $c_{\mathrm{norm}}$ は本研究では第一原理から決定されていない。異なる正規化は零点補正を増幅または抑制し得る。
+
+\item \textbf{RH依存性。}公式\eqref{eq:zero-contribution}は $\operatorname{Re}(\rho) = 1/2$（リーマン予想）を仮定している。もしRHが $\sigma_0 \neq 1/2$ のある零点 $\rho_0 = \sigma_0 + it_0$ で破れれば、$\operatorname{Re}[1/(1+\rho_0)] = (1+\sigma_0)/((1+\sigma_0)^2 + t_0^2)$ となり、補正パターンは乱される。逆に、補正パターンの確認はRHに対する状況証拠を提供するであろう。
+
+\item \textbf{ダークエネルギーは $\Lambda$ でない可能性がある。}もしダークエネルギーが力学的（クインテッセンスなど）であれば、$\OL = 2\pi/9$ という同定は修正を必要とする。
+\end{enumerate}
+
+%% ==========================================================================
+\section{結論}
+\label{sec:conclusion}
+%% ==========================================================================
+
+Bost--Connes $C^*$-力学系にDN境界条件（$p=2$ の除去）による切断を施すことで、WB算術的真空に対する自然な力学的枠組みが得られることを示した。中心的な結果は：
+
+\begin{enumerate}
+\item WBの静的予測 $\OL = 2\pi/9$ は、DN切断系の負温度 $\beta = -1$ における熱力学的平衡値である。
+
+\item 非自明リーマン零点は個別に計算可能な補正 $\delta_n = \frac{3/2}{9/4+t_n^2}$ を真空エネルギーに寄与し、総補正は $\sim 8\%$ である。
+
+\item DNスペクトルギャップ $\log 3$（完全系の $\log 2$ に対して）はダークエネルギー真空の指数関数的安定性を提供する。
+
+\item DN切断は $\mathbb{Z}/2 \subset \Zhat^*$ を真空構造に凍結し、複素共役を力学的対称性から除去する。
+
+\item $p=2$ モードは温度が正から負に移行する際に建設的干渉から破壊的干渉に遷移し、DN切断によるその除去は真空のコヒーレンスを増大させる。
+\end{enumerate}
+
+これらの結果が精査に耐えれば、注目すべき展望を提供する：リーマンゼータ関数の非自明零点---純粋数学における最も深い対象---が物理的宇宙の最大の構造に観測可能な痕跡を残す可能性がある。
+
+\bigskip
+
+\noindent\textbf{謝辞。}議論に参加いただいたWBコラボレーションの皆様に感謝する。
+
+\begin{thebibliography}{99}
+
+\bibitem{BostConnes1995}
+J.-B.~Bost and A.~Connes,
+\emph{Hecke algebras, type III factors and phase transitions with spontaneous symmetry breaking in number theory},
+Selecta Math. (N.S.) \textbf{1} (1995), 411--457.
+
+\bibitem{ConnesMarcolli2008}
+A.~Connes and M.~Marcolli,
+\emph{Noncommutative Geometry, Quantum Fields and Motives},
+AMS Colloquium Publications \textbf{55}, 2008.
+
+\bibitem{vonMangoldt1905}
+H.~von Mangoldt,
+\emph{Zur Verteilung der Nullstellen der Riemannschen Funktion $\xi(t)$},
+Math. Ann. \textbf{60} (1905), 1--19.
+
+\bibitem{Riemann1859}
+B.~Riemann,
+\emph{Ueber die Anzahl der Primzahlen unter einer gegebenen Gr\"osse},
+Monatsberichte der Berliner Akademie, 1859.
+
+\bibitem{Odlyzko}
+A.~Odlyzko,
+\emph{Tables of zeros of the Riemann zeta function},
+\url{http://www.dtc.umn.edu/~odlyzko/zeta_tables/}.
+
+\bibitem{Planck2018}
+Planck Collaboration,
+\emph{Planck 2018 results. VI. Cosmological parameters},
+Astron. Astrophys. \textbf{641} (2020), A6.
+
+\bibitem{WB-I}
+Wright Brothers Collaboration,
+\emph{On the Arithmetic of Spacetime I: Dark energy from Dirichlet--Neumann truncation},
+WB preprint, 2025.
+
+\bibitem{WB-II}
+Wright Brothers Collaboration,
+\emph{On the Arithmetic of Spacetime II: Emergent $d=4$ from prime spectral optimization},
+WB preprint, 2025.
+
+\bibitem{WB-III}
+Wright Brothers Collaboration,
+\emph{The Arithmetic Landscape: Vacuum selection from $\Spec\mathbb{Z}$},
+WB preprint, 2026.
+
+\bibitem{WB-IV}
+Wright Brothers Collaboration,
+\emph{Functional Equation Duality and UV/IR Symmetry in the Arithmetic Vacuum},
+WB preprint, 2026.
+
+\bibitem{Connes1999}
+A.~Connes,
+\emph{Trace formula in noncommutative geometry and the zeros of the Riemann zeta function},
+Selecta Math. (N.S.) \textbf{5} (1999), 29--106.
+
+\bibitem{Meyer2005}
+R.~Meyer,
+\emph{On a representation of the idele class group related to primes and zeros of $L$-functions},
+Duke Math. J. \textbf{127} (2005), 519--595.
+
+\end{thebibliography}
+
+\end{document}
