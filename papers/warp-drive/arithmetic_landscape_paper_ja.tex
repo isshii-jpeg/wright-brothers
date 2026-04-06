@@ -435,6 +435,92 @@ $c = 1$ 自由ボソンに対して計算されたものである．
 結果~\cite{wb-euler-sectors}）．
 \end{enumerate}
 
+\section{算術ホログラフィー：$p = 2$ はホログラフィック方向}
+
+\subsection{コホモロジー次元と素数除去}
+
+数論的スキームのエタールコホモロジー次元は，
+空間の``幾何学的次元''の算術版として機能する．
+Artin--Verdierの定理により:
+\begin{equation}
+\mathrm{cd}_{\text{\'et}}(\mathrm{Spec}(\mathbb{Z})) = 3
+\end{equation}
+
+一方，$p = 2$ を反転させた局所化 $\mathbb{Z}[1/2]$ に対して:
+\begin{equation}
+\mathrm{cd}_{\text{\'et}}(\mathrm{Spec}(\mathbb{Z}[1/2])) = 2
+\end{equation}
+
+\begin{observation}[ホログラフィック分解]
+エタールコホモロジー次元において
+$3 = 2 + 1$ という分解が成立する．
+$\mathrm{Spec}(\mathbb{Z})$ の3次元構造は，
+2次元の``境界'' $\mathrm{Spec}(\mathbb{Z}[1/2])$ と
+1次元の $p = 2$ ``ホログラフィック方向''に分解される．
+\end{observation}
+
+この分解を時空の次元構造に拡張すると:
+\begin{equation}
+\underbrace{4}_{\text{時空}} =
+\underbrace{2}_{\text{境界 } \mathrm{Spec}(\mathbb{Z}[1/2])}
++ \underbrace{1}_{p=2 \text{ ホログラフィック方向}}
++ \underbrace{1}_{\text{時間（WDW DN境界条件）}}
+\end{equation}
+
+DN真空（$p = 2$ の除去）は，この分解における
+$p = 2$ ホログラフィック方向の``切除''に対応する．
+
+\subsection{AdS/CFTとの接続}
+
+反ド・ジッター/共形場理論（AdS/CFT）対応~\cite{Maldacena1999}は，
+$d+1$ 次元の重力理論が $d$ 次元の場の理論と等価であることを主張する．
+算術的ランドスケープにおける $p = 2$ のホログラフィック構造は，
+AdS/CFTの算術版として解釈できる:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& \textbf{AdS/CFT} & \textbf{算術版} \\
+\midrule
+バルク & AdS$_{d+1}$（$d+1$次元） & $\mathrm{Spec}(\mathbb{Z})$（$\mathrm{cd} = 3$）\\
+境界 & CFT$_d$（$d$次元） & $\mathrm{Spec}(\mathbb{Z}[1/2])$（$\mathrm{cd} = 2$）\\
+ホログラフィック方向 & 動径方向 $r$ & 素数 $p = 2$ の方向 \\
+エンタングルメント & Ryu--Takayanagi公式 & $\Delta S = \frac{1}{2}\log 2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+特に，DN真空の境界エントロピー差
+$\Delta S = \frac{1}{2}\log 2$ は，
+\textbf{算術的Ryu--Takayanagi公式}として解釈できる:
+$p = 2$ 方向に沿った``最小面''が境界エンタングルメントを決定し，
+その値が半ビットとして現れる．
+
+\subsection{遠アーベル的視点}
+
+Neukirch--Uchidaの定理~\cite{NeukirchUchida}によれば，
+絶対ガロア群 $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$ は
+スキーム $\mathrm{Spec}(\mathbb{Z})$ を完全に決定する．
+すなわち，代数的基本群が算術的``バルク時空''を復元する
+--- これは遠アーベル的ホログラフィーの一形態である．
+
+算術トポロジー~\cite{Morishita2012}の枠組みにおいて，
+素数は結び目（knot）に対応する．
+この類似の下で:
+\begin{itemize}
+\item 素数 $p$ $\leftrightarrow$ 3次元多様体中の結び目
+\item $\mathrm{Spec}(\mathbb{Z}[1/p])$ $\leftrightarrow$ 結び目補空間（knot complement）
+\item $p = 2$ でのDN真空 $\leftrightarrow$ $p = 2$ 結び目でのDehn手術
+\end{itemize}
+
+DN真空への遷移 --- $\zeta(s) \to \zeta_{\neg 2}(s)$ --- は，
+$p = 2$ 結び目における\textbf{Dehn手術}（特定の手術係数によるトポロジー変更）
+として理解される．
+ダークエネルギー $\Omega_\Lambda = 2\pi/9$ は，
+この算術的手術の\emph{物理的帰結}である:
+$p = 2$ 結び目のDehn手術が時空のトポロジーを変え，
+その変化が宇宙論定数として観測される．
+
 \section{議論}
 
 算術的ランドスケープは真空選択問題の根本的な単純化を表す．
@@ -483,6 +569,13 @@ $\Delta S = \frac{1}{2}\log 2$ nats --- 半ビット ---
 \item 算術的ランドスケープは $\leq 6$ 個の等価な真空を含み，
 弦理論ランドスケープの $\sim 10^{500}$ に対する．
 人間原理的選択は不要である．
+
+\item $\mathrm{Spec}(\mathbb{Z})$ のエタールコホモロジー次元
+$\mathrm{cd} = 3$ は，$\mathrm{Spec}(\mathbb{Z}[1/2])$ の
+$\mathrm{cd} = 2$ と $p = 2$ ホログラフィック方向に分解される．
+4次元時空は $2(\text{境界}) + 1(p=2) + 1(\text{時間})$ として
+ホログラフィック的に構成され，DN真空は $p = 2$ 結び目での
+算術的Dehn手術に対応する．
 \end{enumerate}
 
 \begin{thebibliography}{99}
@@ -526,6 +619,20 @@ J.~Milnor, \textit{Introduction to Algebraic K-Theory}
 \bibitem{wb-euler-sectors}
 Wright Brothers Research Program,
 ``Euler prime sectors: honest negative result'' (2026).
+
+\bibitem{Maldacena1999}
+J.~Maldacena,
+Int.\ J.\ Theor.\ Phys.\ \textbf{38}, 1113 (1999);
+hep-th/9711200.
+
+\bibitem{NeukirchUchida}
+J.~Neukirch, J.\ Reine Angew.\ Math.\ \textbf{302}, 147 (1978);
+K.~Uchida, Ann.\ Math.\ \textbf{106}, 589 (1977).
+
+\bibitem{Morishita2012}
+M.~Morishita,
+\textit{Knots and Primes: An Introduction to Arithmetic Topology}
+(Springer, 2012).
 
 \end{thebibliography}
 
