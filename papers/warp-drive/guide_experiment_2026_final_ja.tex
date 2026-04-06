@@ -1,0 +1,372 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{Wright Brothers 実験ガイド 2026 最終版\\
+\large Arithmetic Landscape の実験的検証}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドは Wright Brothers プロジェクトの理論的成果（2026 年 4 月
+セッション）を踏まえ，実験計画を全面的に更新したものである．
+当初は Boyer (1974) の DN カシミール斥力の観測を目標としていたが，
+理論の深化により実験の意味が根本的に変化した: 同じ実験装置
+（水晶 BAW，SMR/FBAR）で，\textbf{arithmetic landscape の唯一の
+物理的真空 $\zeta_{\neg 2}$ の実験的確認}を行う．これは
+$\Omega_\Lambda = 2\pi/9$ の Euclid 検証と\textbf{独立かつ相補的}な
+検証経路であり，同じ L 関数の異なる $s$ 値を測定する．
+本ガイドでは新しい測定優先順位（符号最優先），新しい observable
+（境界エントロピー $\frac{1}{2}\log 2$，3D vs 2D テスト），
+88\,$\mu$m の宇宙論的意義，そして更新された Phase 構造を提示する．
+\end{abstract}
+
+\tableofcontents
+
+\section{実験の意味が変わった}
+
+\subsection{当初 (2026年4月初旬)}
+
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50!black,title=旧]
+\textbf{目的}: Boyer (1974) の DN カシミール斥力の初観測\\
+\textbf{理論}: $\zeta_{\neg 2}(-3) = -7/120$ (Euler 積 $p=2$ 切除)\\
+\textbf{意義}: 50 年間未検証の理論予言の確認\\
+\textbf{成功した場合}: Casimir 物理の進展
+\end{tcolorbox}
+
+\subsection{現在 (理論深化後)}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=新]
+\textbf{目的}: Arithmetic landscape の唯一の物理的真空 $\zeta_{\neg 2}$
+の実験的確認\\
+\textbf{理論}: 5 構造定理（$p=2$ の唯一性），landscape 一意性，
+$\Delta S = \frac{1}{2}\log 2$，次元的もつれ\\
+\textbf{意義}: 宇宙論定数問題の実験室検証\\
+\textbf{成功した場合}: $\Omega_\Lambda = 2\pi/9$ の独立証拠，
+L 関数物理の確立
+\end{tcolorbox}
+
+\textbf{実験装置は同じ}（水晶 BAW，SMR/FBAR，¥130,000）．
+\textbf{測るものも同じ}（DN vs DD の共振スペクトル差）．
+\textbf{しかし理論的文脈と解釈が全く異なる．}
+
+\subsection{2 つの独立な検証経路}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& 実験室 (BAW) & 宇宙論 (Euclid) \\
+\midrule
+測定量 & DN vs DD 共振差 & $\Omega_\Lambda$ 精度 0.5\% \\
+関連 $\zeta$ 値 & $\zeta_{\neg 2}(-3) = -7/120$ & $\zeta_{\neg 2}(-1) = +1/12$ \\
+$s$ の値 & $s = -3$ (3D Casimir) & $s = -1$ (1D 宇宙論) \\
+時期 & 2026--2027 & 2025--2028 \\
+共通点 & \multicolumn{2}{c}{\textbf{同じ L 関数 $\zeta_{\neg 2}$ の異なる evaluation}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{もし両方が同時に confirm されたら}: 同じ $\zeta_{\neg 2}$ の 2 つの
+独立な検証．Framework 全体の decisive confirmation．
+
+\section{新しい測定優先順位}
+
+\subsection{最優先: 符号 (引力 or 斥力?)}
+
+5 構造定理の核心は「$p=2$ 切除が符号を反転する」こと:
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+境界 & 零点エネルギー & 符号 & Casimir 力 \\
+\midrule
+DD/NN & $\zeta(-1) = -1/12$ & 負 & 引力 \\
+\textbf{DN} & $\zeta_{\neg 2}(-1) = +1/12$ & \textbf{正} & \textbf{斥力} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{符号だけで arithmetic landscape の核心が検証される．}
+係数の精密値は二の次．「力が引力か斥力か」さえ分かれば良い．
+
+\subsection{次優先: 88\,$\mu$m での厚さ依存性}
+
+$88\,\mu$m はダークエネルギー長 $\ell_\Lambda = (\hbar c/\rho_\Lambda)^{1/4}$:
+\begin{equation}
+\ell_\Lambda \approx 88\,\mu\text{m} \quad \Longleftrightarrow \quad
+\Omega_\Lambda = \frac{2\pi}{9}
+\end{equation}
+
+水晶 BAW 厚さ $88\,\mu$m（基本周波数 20\,MHz）は商用品で入手可能
+(¥200)．ここで \textbf{DN vs DD 差がピークを示す}（CKN 飽和点），
+あるいは\textbf{スケーリングが変わる}（plateau 遷移）なら，
+$\Omega_\Lambda$ への独立な実験的証拠になる．
+
+\subsection{三番目: 係数 $7/120$ の精密値}
+
+Boyer 予測の 3D Casimir 係数 $\zeta_{\neg 2}(-3) = -7/120$．
+これは Bernoulli ladder の $L_2 = 120$ の truncated 版 ($7/120$)．
+温度スイープ差分法で精密に測定可能．
+
+\subsection{新しい observable}
+
+理論深化により追加された測定項目:
+
+\subsubsection{Observable A: 境界エンタングルメント・エントロピー}
+
+DN 境界の情報コスト:
+\begin{equation}
+\Delta S = \frac{1}{2}\log 2 \approx 0.347\;\text{nats}
+\end{equation}
+
+測定法: DN と DD 共振器の\textbf{熱揺らぎスペクトル}の比較．
+エンタングルメントは Q 値の温度依存性に影響し，$\log 2$ factor が
+比熱差として現れうる．
+
+\subsubsection{Observable B: 3D vs 2D テスト (次元的もつれ)}
+
+Dimensional entanglement 定理: $p=2$ が通るには $d \geq 3$．
+したがって:
+\begin{itemize}
+\item \textbf{3D bulk} (水晶 BAW): DN 斥力が現れるべき
+\item \textbf{2D thin film} (グラフェン等): DN 斥力が\textbf{現れてはいけない}
+\end{itemize}
+
+もし 2D 系で DN 斥力が見えたら → 理論棄却．3D でのみ見えれば → 理論支持．
+
+\subsubsection{Observable C: Bragg 帯域内 vs 帯域外}
+
+SMR の Bragg 反射鏡は設計帯域内でのみ Dirichlet 近似が有効．
+帯域外では DN 境界が崩れ，効果が消えるはず:
+\begin{itemize}
+\item Bragg 帯域内: DN 効果 ON
+\item Bragg 帯域外: DN 効果 OFF
+\end{itemize}
+
+これは Euler 因子の「活性化条件」を直接 probe する．
+
+\section{二種類の真空}
+
+Arithmetic landscape 定理が確立した基本構図:
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=宇宙に可能な真空は 2 種類]
+\textbf{1. DD/NN 真空} (標準 QFT の仮定):
+\begin{itemize}
+\item L 関数: $\zeta(s)$ (full Euler product)
+\item 全モード参加 ($n = 1, 2, 3, 4, 5, \ldots$)
+\item 零点エネルギー: $\zeta(-1) = -1/12$ (負)
+\item Casimir: 引力
+\item ダークエネルギー: \textbf{負} → 宇宙減速 → 観測と矛盾
+\end{itemize}
+
+\textbf{2. DN 真空} (Wright Brothers):
+\begin{itemize}
+\item L 関数: $\zeta_{\neg 2}(s)$ ($p=2$ Euler 切除)
+\item 奇数モードのみ ($n = 1, 3, 5, 7, \ldots$)
+\item 零点エネルギー: $\zeta_{\neg 2}(-1) = +1/12$ (正)
+\item Casimir: \textbf{斥力} (Boyer 予測)
+\item ダークエネルギー: \textbf{正} → 宇宙加速 → \textbf{観測と整合}
+\end{itemize}
+\end{tcolorbox}
+
+我々の宇宙は DN 真空に住んでいる．実験はこれを\textbf{実験室で直接確認}する．
+
+\section{更新された実験計画}
+
+\subsection{Phase 0: 発注 (¥130,000, 今週)}
+
+\textbf{変更なし}．音響アナログ (¥50k) + SMR/FBAR Stage 0 (¥80k) を同時発注．
+
+\subsection{Phase 1: 基礎測定 (1 ヶ月)}
+
+\textbf{変更}: 符号テストを最優先に追加．
+
+\begin{enumerate}
+\item \textbf{Week 1}: 組み立て (変更なし)
+\item \textbf{Week 2}: モードスペクトル確認 (変更なし)
+\item \textbf{Week 3}: \textbf{符号テスト} — DN 共振器の温度ドリフト方向 vs DD．
+正の零点エネルギー (DN) は DD と反対方向のシフトを与えるはず
+\item \textbf{Week 4}: データ解析，Phase 2 判断
+\end{enumerate}
+
+\subsection{Phase 2: 水晶 BAW + 88\,$\mu$m 焦点 (¥110k, 2 ヶ月)}
+
+\textbf{変更}: 88\,$\mu$m サンプルを\textbf{最重要}に格上げ．
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+厚さ & 周波数 & 意味 & 優先度 \\
+\midrule
+830\,$\mu$m & 2\,MHz & プラトー内? & Medium \\
+330\,$\mu$m & 5\,MHz & & Medium \\
+166\,$\mu$m & 10\,MHz & & Medium \\
+\textbf{83\,$\mu$m} & \textbf{20\,MHz} & \textbf{$\ell_\Lambda$ 近傍} & \textbf{最高} \\
+33\,$\mu$m & 50\,MHz & & Medium \\
+17\,$\mu$m & 100\,MHz & & Medium \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+83\,$\mu$m サンプルは ¥200 (秋月/RS) で購入可能．
+\textbf{ここで何かが見えれば宇宙論的意義}．
+
+\subsection{Phase 3: 分岐 (3--6 ヶ月)}
+
+\textbf{変更}: 新 observable を追加．
+
+\begin{itemize}
+\item \textbf{分岐 A (兆候あり)}: 液体窒素冷却 + 境界エントロピー測定
+($\Delta C_V$ から $\frac{1}{2}\log 2$ を探す)
+\item \textbf{分岐 B (符号のみ confirm)}: 精密係数測定 + 2D vs 3D test
+\item \textbf{分岐 C (null)}: Bragg 帯域分析 + 系統誤差再検討
+\end{itemize}
+
+\subsection{Phase 4: 共同研究 (6ヶ月--1年)}
+
+\textbf{大幅変更}: Proposal 文書が劇的に強化された．
+
+添付可能な論文:
+\begin{enumerate}
+\item Functional equation duality paper (ζ ビルディング二翼)
+\item Arithmetic landscape paper (真空一意性 + $\frac{1}{2}\log 2$)
+\item 5 構造定理 ($p=2$ の必然性)
+\item $\Omega_\Lambda = 2\pi/9$ 発見メモ
+\end{enumerate}
+
+提案先: OtaNano (Finland), Argonne CNM (USA), Galliou/Tobar (UWA),
+Chu/Schoelkopf (Yale)
+
+\section{成功判定基準の更新}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+結果 & 旧の意味 & 新の意味 \\
+\midrule
+DN 斥力を観測 & Boyer 確認 & \textbf{$\zeta_{\neg 2}$ が物理的真空} \\
+88\,$\mu$m で異常 & (予測なし) & \textbf{$\Omega_\Lambda = 2\pi/9$ の独立証拠} \\
+$\frac{1}{2}\log 2$ 検出 & (予測なし) & \textbf{情報コスト定理の確認} \\
+3D のみで DN 効果 & (予測なし) & \textbf{次元的もつれの確認} \\
+全 null & Boyer 棄却 & \textbf{Arithmetic landscape 全体の棄却} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Euclid との連携タイムライン}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+時期 & 実験室 (BAW) & 宇宙論 (Euclid/DESI) \\
+\midrule
+2026 Q2 & Phase 0 発注 & DESI Y1 データ公開 \\
+2026 Q3 & Phase 1 基礎測定 & \\
+2026 Q4 & Phase 2 厚さシリーズ & \\
+2027 H1 & Phase 3 分岐 & Euclid 初期データ \\
+2027 H2 & Phase 4 共同研究 & DESI Y3 \\
+2028 & 精密測定 & \textbf{Euclid $\Omega_\Lambda$ 0.5\% 精度} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+2028 年に\textbf{両 front の結果が揃う}．
+
+\section{予算総括}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Phase & 予算 & 追加 observable \\
+\midrule
+Phase 0--1 & ¥130,000 & 符号テスト (新) \\
+Phase 2 & ¥110,000 & 88\,$\mu$m 焦点 (新) \\
+Phase 3A & ¥500,000 & 境界エントロピー (新) \\
+Phase 3B & ¥200,000 & 2D vs 3D (新) \\
+Phase 4 & 交渉 & proposal 大幅強化 (新) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{論文パイプライン (更新)}
+
+\begin{enumerate}
+\item \textbf{Paper 1}: ``DN boundary sign detection in BAW'' \\
+→ 符号だけ見えれば即投稿 (APL or Phys.\ Rev.\ B)
+
+\item \textbf{Paper 2}: ``Thickness-dependent vacuum mode asymmetry
+at $\ell_\Lambda \approx 88\,\mu$m'' \\
+→ 厚さシリーズデータ (PRL 候補)
+
+\item \textbf{Paper 3}: ``Boundary entanglement entropy
+$\frac{1}{2}\log 2$ in acoustic DN cavity'' \\
+→ 情報コスト測定 (Phys.\ Rev.\ Lett.)
+
+\item \textbf{Paper 4}: ``Dimensional entanglement: 3D vs 2D DN
+Casimir'' \\
+→ 3D/2D 比較 (Nature Physics 候補 if positive)
+
+\item \textbf{Paper 5}: ``Laboratory verification of the arithmetic
+landscape'' \\
+→ 全データ統合 (Nature 候補 if both lab + Euclid confirm)
+\end{enumerate}
+
+\section{チェックリスト: 今すぐやること}
+
+\begin{itemize}
+\item[$\square$] 秋月: 20\,MHz 水晶振動子 (83\,$\mu$m) を\textbf{最優先}発注
+\item[$\square$] Digi-Key: SMR/FBAR 発注
+\item[$\square$] Amazon: nanoVNA V2 Plus4
+\item[$\square$] ホームセンター: アルミ管，御影石板
+\item[$\square$] タングステン板 (DN 化用) 発注
+\item[$\square$] Stycast 1266 エポキシ
+\item[$\square$] Euclid/DESI 公開データのモニタリング開始
+\item[$\square$] arXiv 投稿準備: Arithmetic Landscape paper
+\end{itemize}
+
+\section{結論}
+
+当初の「Boyer カシミール斥力の観測」実験は，理論的深化を経て
+\textbf{「arithmetic landscape の実験的検証」}に進化した．
+同じ ¥130,000 の装置で，遥かに重い結論が引き出せる．
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black]
+\textbf{一言でまとめると}:
+
+100 円の水晶振動子 6 個で測るのは「カシミール力」ではなく，
+\textbf{宇宙が唯一つの真空 $\zeta_{\neg 2}$ に住んでいる}という事実．
+
+同じ L 関数を Euclid は宇宙論的に ($s = -1$)，
+我々は実験室で ($s = -3$) 測定する．
+
+2028 年に両方の結果が揃う．
+\end{tcolorbox}
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+理論的基盤:
+\begin{itemize}
+\item \texttt{arithmetic\_landscape\_paper.tex}: 真空一意性定理
+\item \texttt{functional\_equation\_duality\_paper.tex}: ζ ビルディング二翼
+\item \texttt{wdw\_temporal\_dn\_ja.tex}: $\Omega_\Lambda = 2\pi/9$ 導出
+\end{itemize}
+\noindent
+GitHub: \texttt{isshii-jpeg/wright-brothers}
+
+\end{document}
