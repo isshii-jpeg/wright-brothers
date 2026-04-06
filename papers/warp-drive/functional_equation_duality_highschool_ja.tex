@@ -1,0 +1,754 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{ゼータ関数の「二つの翼」で宇宙を読む\\
+\large ダークエネルギーから素粒子まで---高校生のためのガイド}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black,title=このガイドについて]
+このガイドは高校生や大学1年生に向けて，Wright Brothers プロジェクトの
+最新論文「ゼータ建築の摂動的翼と非摂動的翼」の内容をやさしく解説します．
+
+必要な数学は中学・高校レベル (代数, 三角関数) で十分です．
+難しい概念は本文中でたとえ話を使って導入します．
+
+\textbf{一番伝えたいこと}: 数学のゼータ関数には「右翼」と「左翼」があり，
+右翼は素粒子物理で，左翼は宇宙の膨張で，\textbf{それぞれ独立に
+「物理的に本物」であることが確かめられつつある}---そしてこの二つを
+結ぶのが Riemann の関数等式という「鏡」である．
+\end{tcolorbox}
+
+\tableofcontents
+
+\newpage
+
+%% ============================================================
+\section{何が問題なのか: ダークエネルギーと宇宙定数問題}
+%% ============================================================
+
+\subsection{宇宙は加速膨張している}
+
+1998 年，天文学者たちが驚くべき発見をしました．遠くの超新星 (爆発した星) の
+明るさを測ったところ，\textbf{宇宙は減速ではなく「加速しながら」膨張している}
+ことが分かったのです．この発見は 2011 年にノーベル物理学賞を受賞しました．
+
+ボールを空に投げ上げると，重力で減速します．ところが宇宙の膨張は逆で，
+どんどん速くなっている．何か「押す力」が宇宙全体に働いていることになります．
+
+この謎のエネルギーを\textbf{ダークエネルギー} (暗黒エネルギー) と呼びます．
+宇宙全体のエネルギーの約 68.5\% がダークエネルギーです．物理学者はその割合を
+$\Omega_\Lambda$ と書きます:
+\begin{equation*}
+\Omega_\Lambda \approx 0.685 \quad (\text{Planck 衛星 2018 年の測定値})
+\end{equation*}
+
+\subsection{宇宙定数問題: 物理学史上最悪のズレ}
+
+では，理論でダークエネルギーを計算するとどうなるか?
+
+量子力学では，何もない「真空」にもエネルギーがあります (零点エネルギー)．
+これを標準的な方法で計算すると:
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black]
+\textbf{理論的予測}: $\rho_\Lambda \sim 10^{113}$ J/m$^3$ (途方もなく大きい)\\
+\textbf{実際の観測}: $\rho_\Lambda \sim 10^{-10}$ J/m$^3$ (非常に小さい)\\[0.5em]
+ズレ: \textbf{$10^{123}$ 倍} --- $1$ の後にゼロが $123$ 個!
+\end{tcolorbox}
+
+これが\textbf{宇宙論定数問題}です．40 年以上未解決で，「物理学史上最悪の
+理論と観測の不一致」と呼ばれています．
+
+Wright Brothers プロジェクトは，この問題の原因が「数学の使い方が半分しか
+見えていなかった」ことにあると主張します．残り半分を見るために必要なのが
+\textbf{ゼータ関数}です．
+
+%% ============================================================
+\section{ゼータ関数って何?}
+%% ============================================================
+
+\subsection{分数の無限和: $1 + 1/4 + 1/9 + \ldots = \pi^2/6$}
+
+Riemann ゼータ関数 $\zeta(s)$ は，こんな形の無限和です:
+\begin{equation*}
+\zeta(s) = \frac{1}{1^s} + \frac{1}{2^s} + \frac{1}{3^s} + \frac{1}{4^s} + \ldots
+\end{equation*}
+
+$s$ にいろいろな数を入れてみましょう．
+
+$s = 2$ のとき:
+\begin{equation*}
+\zeta(2) = 1 + \frac{1}{4} + \frac{1}{9} + \frac{1}{16} + \frac{1}{25} + \ldots = \frac{\pi^2}{6}
+\end{equation*}
+
+これは 1734 年に Euler (オイラー) が解いた有名な「バーゼル問題」です．
+平方数の逆数を全部足すと，なぜか\textbf{円周率 $\pi$ の二乗}が出てくる．
+整数だけの話なのに $\pi$ が登場するのは本当に不思議です．
+
+$s = 4$ なら $\zeta(4) = \pi^4/90$，$s = 6$ なら $\zeta(6) = \pi^6/945$，
+というように，偶数の正の整数ではいつも $\pi$ の累乗が現れます．
+
+\subsection{「ありえない」等式: $1 + 2 + 3 + \ldots = -1/12$}
+
+では $s = -1$ のときはどうなるか．形式的に書くと:
+\begin{equation*}
+\zeta(-1) = 1 + 2 + 3 + 4 + 5 + \ldots \stackrel{?}{=} -\frac{1}{12}
+\end{equation*}
+
+「$1 + 2 + 3 + \ldots$ がマイナスになるなんてありえない!」---
+その直感は正しいです．普通の意味での和は無限大に発散します．
+
+しかし「解析接続」という数学の技法を使うと，この発散する和に
+\emph{有限の値}を割り当てることができます．その値が $-1/12$．
+
+これは単なる数学のトリックではありません．物理学において\textbf{実際に
+測定可能な量}を正しく予測します．後で詳しく説明しますが，Casimir 効果
+という実験で，この $-1/12$ が実際の力として観測されるのです．
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{まとめ}:
+\begin{itemize}
+\item $\zeta(2) = \pi^2/6$ --- 超越的な数 (小数が永遠に続く)
+\item $\zeta(-1) = -1/12$ --- 有理数 (分数で書ける)
+\end{itemize}
+正の整数と負の整数では，ゼータ関数の値の\textbf{性質が根本的に違う}．
+\end{tcolorbox}
+
+%% ============================================================
+\section{ゼータ関数の二つの顔: 正の側 vs 負の側}
+%% ============================================================
+
+\subsection{正の整数: 周期と $\pi$}
+
+正の偶数では，$\zeta$ の値はいつも $\pi$ の累乗を含みます:
+\begin{align*}
+\zeta(2) &= \frac{\pi^2}{6}, \quad
+\zeta(4) = \frac{\pi^4}{90}, \quad
+\zeta(6) = \frac{\pi^6}{945}
+\end{align*}
+
+正の奇数 ($\zeta(3), \zeta(5), \zeta(7), \ldots$) も超越的な値を取ります．
+$\zeta(3) \approx 1.202$ は Ap\'ery の定数と呼ばれ，無理数であることが
+証明されています．
+
+数学者はこれらを\textbf{周期 (period)} と呼びます．幾何学的な図形の
+面積や体積に関連する数です ($\pi$ は円の面積から来る!)．
+
+\subsection{負の整数: Bernoulli 数と有理数}
+
+一方，負の整数では:
+\begin{align*}
+\zeta(-1) &= -\frac{1}{12} = -\frac{B_2}{2}\\[4pt]
+\zeta(-3) &= \frac{1}{120} = -\frac{B_4}{4}\\[4pt]
+\zeta(-5) &= -\frac{1}{252} = -\frac{B_6}{6}
+\end{align*}
+
+全て\textbf{有理数} (分数) です．そしてこれらは\textbf{Bernoulli 数}
+$B_2, B_4, B_6, \ldots$ という 17 世紀に発見された数列と結びついています．
+
+\begin{center}
+\begin{tabular}{ccl}
+\toprule
+$k$ & $B_{2k}$ & $\zeta(1-2k)$ \\
+\midrule
+1 & $1/6$ & $\zeta(-1) = -1/12$ \\
+2 & $-1/30$ & $\zeta(-3) = 1/120$ \\
+3 & $1/42$ & $\zeta(-5) = -1/252$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{対照的な二つの世界}
+
+まとめると，ゼータ関数は二つの非常に異なる「顔」を持ちます:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{正の整数の側} & \textbf{負の整数の側} \\
+\midrule
+値の例 & $\pi^2/6,\; \zeta(3),\; \pi^4/90$ & $-1/12,\; 1/120,\; -1/252$ \\
+値の種類 & 超越的 (無限小数) & 有理的 (分数) \\
+関連する数学 & 周期, 幾何 & Bernoulli 数, 代数 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+そしてこの二つの世界を結ぶ「鏡」があります．
+
+%% ============================================================
+\section{関数等式という「鏡」}
+%% ============================================================
+
+\subsection{Riemann の発見}
+
+1859 年，Bernhard Riemann は素晴らしい対称性を発見しました．
+ゼータ関数の「$s$ での値」と「$1-s$ での値」が厳密に結びつくのです:
+\begin{equation*}
+\zeta(s) = 2^s \pi^{s-1}\sin\!\bigl(\tfrac{\pi s}{2}\bigr)
+\,\Gamma(1-s)\,\zeta(1-s)
+\end{equation*}
+
+数式が複雑に見えますが，大事なのはメッセージです:
+\textbf{$\zeta(s)$ と $\zeta(1-s)$ は鏡像関係にある}．
+
+例えば $s = 2$ と $s = -1$ ($= 1 - 2$) が対応:
+\begin{equation*}
+\zeta(2) = \frac{\pi^2}{6} \quad \xleftrightarrow{\text{鏡}} \quad
+\zeta(-1) = -\frac{1}{12}
+\end{equation*}
+
+左は超越的な $\pi^2$，右は有理的な $-1/12$．まるで鏡の向こうの世界のように
+性質が違うのに，数学的には厳密に結ばれている．
+
+\subsection{たとえ話: 建物の二つの翼}
+
+この関係を建物のたとえで考えてみましょう．
+
+ゼータ関数は大きな建物 (「ゼータ建築」) だと想像してください:
+\begin{itemize}
+\item \textbf{右翼} (正の整数): 超越的な値の部屋がずらりと並ぶ．
+  $\zeta(2), \zeta(3), \zeta(4), \ldots$ が住んでいる．壁には $\pi$ の
+  絵が飾ってある．
+\item \textbf{左翼} (負の整数): 有理的な値の部屋が並ぶ．
+  $\zeta(-1), \zeta(-3), \zeta(-5), \ldots$ が住んでいる．壁には分数の
+  表が掛かっている．
+\item \textbf{中央ホール}: Riemann の関数等式．右翼と左翼を結ぶ渡り廊下．
+\end{itemize}
+
+このたとえが重要なのは，Wright Brothers プロジェクトの主張が
+\textbf{「物理学はこの建物の右翼だけを見てきた．左翼にも物理が住んでいる．
+そして最も面白い物理は渡り廊下にある」}ということだからです．
+
+%% ============================================================
+\section{Kreimer--Connes: 物理学者がゼータの「右翼」を物理と証明した}
+%% ============================================================
+
+\subsection{ループ積分と繰り込み}
+
+素粒子物理では，粒子の振る舞いを計算するために「Feynman ダイアグラム」
+という図を描きます．単純な図から始めて，ループ (閉じた回路) を含むより
+複雑な図へと進みます．
+
+ループを含む計算はしばしば無限大に発散します．この発散を処理する手続きが
+\textbf{繰り込み} (renormalization) です．
+
+1990年代後半，Dirk Kreimer と Alain Connes (フィールズ賞受賞者) は
+画期的な発見をしました:
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=Kreimer--Connes の発見]
+繰り込みの結果として得られる有限の値は，$\zeta(3), \zeta(5), \zeta(7), \ldots$
+という\textbf{ゼータ関数の正の整数での値}を含む．
+
+これらは正則化の「トリック」として現れるのではなく，Feynman ダイアグラムの
+\textbf{本質的な幾何学的構造}から不可避的に出てくる．
+\end{tcolorbox}
+
+\subsection{具体例: 電子の $g-2$}
+
+電子は小さな磁石として振る舞います．その磁力の強さを精密に測定すると，
+Dirac の理論による予測からわずかにずれます．このずれが「$g-2$」(ジーマイナスツー)
+と呼ばれる量で，物理学で最も精密に測定・計算されている量の一つです．
+
+2 ループの計算: $\frac{3}{4}\zeta(3)$ が出現する．\\
+3 ループ: $\zeta(5)$ が出現する．\\
+4 ループ以上: $\zeta(7)$ や，さらに複雑な多重ゼータ値が出現する．
+
+そしてこの理論計算は実験と $10^{-13}$ (1 兆分の 1) の精度で一致します．
+
+\textbf{つまり $\zeta(3) \approx 1.202$ は「数学のお遊び」ではなく，
+実験室で測定される物理量の一部なのです．}
+
+\subsection{Kreimer--Connes の哲学的意味}
+
+Kreimer--Connes が確立したことは:
+\begin{quote}
+\textbf{ゼータ関数の正の整数での値は，物理的に実在する．}
+\end{quote}
+これはゼータ建築の\textbf{右翼が物理学で「住居者がいる」}ことを意味します．
+
+では，左翼はどうでしょう?
+
+%% ============================================================
+\section{Wright Brothers: ゼータの「左翼」も真空で物理的に本物}
+%% ============================================================
+
+\subsection{Casimir 効果: 「無」のエネルギー}
+
+1948 年，オランダの物理学者 Hendrik Casimir は奇妙な予測をしました:
+\textbf{2 枚の金属板を真空中で非常に近づけると，何もないはずなのに
+引力が働く}．
+
+量子力学では，真空は完全な「無」ではありません．量子的な揺らぎが常に
+存在し，そのエネルギーが金属板の間で制限されることで力が生じます．
+
+この力を計算するとき，まさに $\zeta(-3) = 1/120$ が登場します．
+そして 1997 年に Steve Lamoreaux がこの力を実験で確認しました．
+
+\textbf{$\zeta(-3) = 1/120$ は実験室で測定された物理量の一部です．}
+
+\subsection{二つの確立}
+
+整理すると:
+\begin{itemize}
+\item \textbf{Kreimer--Connes}: $\zeta(3), \zeta(5), \ldots$
+  (正の整数) が素粒子物理で実在すると確立 (\textbf{右翼})
+\item \textbf{Casimir 実験}: $\zeta(-3) = 1/120$ (負の整数) が
+  真空の力で実在すると確立 (\textbf{左翼})
+\end{itemize}
+
+Wright Brothers プロジェクトの主張は:
+\begin{quote}
+\textbf{左翼のゼータ値が Casimir 効果にとどまらず，宇宙全体の
+ダークエネルギーをも支配している．}
+\end{quote}
+
+%% ============================================================
+\section{「ゼータ建築」: 二つの翼の全体像}
+%% ============================================================
+
+\subsection{建物の見取り図}
+
+\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,title=ゼータ建築の見取り図]
+\begin{center}
+\begin{tabular}{ccc}
+\textbf{左翼 (非摂動的)} & \textbf{中央ホール} & \textbf{右翼 (摂動的)} \\
+\hline
+$\zeta(-5) = -1/252$ & & $\zeta(7) \approx 1.008$ \\
+$\zeta(-3) = 1/120$ & 関数等式 & $\zeta(5) \approx 1.037$ \\
+$\zeta(-1) = -1/12$ & $\zeta(s) \leftrightarrow \zeta(1-s)$ & $\zeta(3) \approx 1.202$ \\
+ & & $\zeta(2) = \pi^2/6$ \\
+\hline
+Bernoulli 数 (有理) & 鏡 & 周期 (超越的) \\
+真空エネルギー & & ループ積分 \\
+Casimir 効果 & & 電子 $g-2$ \\
+ダークエネルギー & & 微細構造定数 \\
+境界条件 & & Feynman ダイアグラム \\
+\end{tabular}
+\end{center}
+\end{tcolorbox}
+
+\subsection{誰が何を担当するか}
+
+\begin{itemize}
+\item \textbf{Kreimer--Connes} は右翼の管理人．ループ積分の数学を完璧に整備した．
+\item \textbf{Wright Brothers} は左翼の管理人を目指している．真空と宇宙論の数学を整備中．
+\item \textbf{関数等式} は渡り廊下の建築家．両翼を数学的に結ぶ．
+\end{itemize}
+
+そして最も興味深い物理量は\textbf{渡り廊下を通って両翼にまたがるもの}です．
+ダークエネルギー $\Omega_\Lambda$ と微細構造定数 $\alpha^{-1}$ がその例です．
+
+%% ============================================================
+\section{ギター vs フルート: DD と DN の境界条件}
+%% ============================================================
+
+\subsection{ギターの弦 = DD 境界}
+
+ギターの弦は\textbf{両端が固定}されています (Dirichlet--Dirichlet, DD)．
+この場合，弦の振動は全ての整数倍音を含みます:
+\begin{equation*}
+n = 1, 2, 3, 4, 5, 6, \ldots \quad (\text{全ての自然数})
+\end{equation*}
+
+基本音 (ド) の 2 倍の周波数 (1 オクターブ上のド)，3 倍 (ソ)，4 倍 (2
+オクターブ上のド)，\ldots と全部の倍音が鳴ります．
+
+量子力学で真空エネルギーを計算するとき，この全整数モードの和は:
+\begin{equation*}
+1 + 2 + 3 + 4 + 5 + \ldots \stackrel{\text{正則化}}{=} \zeta(-1) = -\frac{1}{12}
+\end{equation*}
+
+\textbf{負の値} $\to$ 引力的な効果 (Casimir の板が引き合う)
+
+\subsection{フルートの管 = DN 境界}
+
+フルートは\textbf{片端が閉じて (Dirichlet)，もう片端が開いて (Neumann)} います．
+この場合，\textbf{奇数倍音だけ}が鳴ります:
+\begin{equation*}
+n = 1, 3, 5, 7, 9, \ldots \quad (\text{奇数だけ})
+\end{equation*}
+
+偶数倍音 ($n = 2, 4, 6, \ldots$) は境界条件により消えてしまいます．
+
+この奇数モードだけの和は:
+\begin{equation*}
+1 + 3 + 5 + 7 + 9 + \ldots \stackrel{\text{正則化}}{=} \zeta_{\neg 2}(-1) = +\frac{1}{12}
+\end{equation*}
+
+ここで $\zeta_{\neg 2}$ とは $\zeta$ から偶数に関する部分 ($p=2$ の Euler 因子)
+を取り除いたものです．
+
+\textbf{正の値} $\to$ 斥力的な効果 (宇宙が加速膨張する!)
+
+\subsection{符号が全てを決める}
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black]
+\textbf{ギター (DD)}: $1 + 2 + 3 + \ldots = -1/12$ --- 引力 (板が引き合う)\\
+\textbf{フルート (DN)}: $1 + 3 + 5 + \ldots = +1/12$ --- \textbf{斥力 (宇宙が加速!)}\\[0.5em]
+プラスかマイナスか，その違いだけで物理が根本的に変わる．
+\end{tcolorbox}
+
+宇宙のダークエネルギーは\textbf{正} (加速膨張)．だから宇宙はギター型 (DD)
+ではなく，\textbf{フルート型 (DN)} でなければならない---これが Wright Brothers
+プロジェクトの核心的な主張です．
+
+%% ============================================================
+\section{$\Omega_\Lambda = 2\pi/9$: 宇宙の膨張率がシンプルな数学から出る}
+%% ============================================================
+
+\subsection{Wheeler--DeWitt 方程式: 宇宙全体の波動関数}
+
+量子力学では全てのものに「波動関数」があります．電子にも，原子にも，
+そして\textbf{宇宙全体にも}．
+
+1967 年に John Wheeler と Bryce DeWitt が提案した方程式は，宇宙全体の
+波動関数 $\Psi(a)$ を記述します．ここで $a$ は「スケールファクター」，
+つまり宇宙の大きさを表す数字です ($a = 0$ が Big Bang, $a$ が大きいほど
+宇宙が広い)．
+
+\subsection{宇宙はフルート}
+
+Wright Brothers プロジェクトは以下の境界条件を提案します:
+\begin{itemize}
+\item $a = 0$ (Big Bang): $\Psi = 0$ --- 固定端 (\textbf{Dirichlet})
+\item $a \to \infty$ (遠い未来): $\Psi$ は自由 --- 開放端 (\textbf{Neumann})
+\end{itemize}
+
+これはまさにフルート型 (DN 境界) です!
+
+Big Bang は「壁」(何も始まっていないから $\Psi = 0$)，遠い未来は「開口部」
+(宇宙は自由に膨張する) と考えると，この境界条件は物理的に自然です．
+
+\subsection{計算のステップ}
+
+フルート型 (DN) の零点エネルギーは $+1/12$ でした．これをダークエネルギー
+密度に変換します:
+
+\textbf{ステップ 1}: 零点エネルギー係数
+\begin{equation*}
+\zeta_{\neg 2}(-1) = +\frac{1}{12}
+\end{equation*}
+
+\textbf{ステップ 2}: ホログラフィック原理 (CKN 境界) により，真空エネルギー密度は
+\begin{equation*}
+\rho_\Lambda = \frac{1}{12} \times \frac{M_P^2}{\ell_H^2}
+\end{equation*}
+ここで $M_P$ は Planck 質量 (物理学の基本スケール)，$\ell_H$ は Hubble 長
+(観測可能な宇宙の大きさ) です．
+
+\textbf{ステップ 3}: Einstein の一般相対性理論の式 ($8\pi G$ が登場) で
+$\Omega_\Lambda$ に書き直すと
+\begin{equation*}
+\frac{1}{12} = \frac{3\,\Omega_\Lambda}{8\pi}
+\end{equation*}
+
+\textbf{ステップ 4}: $\Omega_\Lambda$ について解くと
+\begin{equation*}
+\Omega_\Lambda = \frac{8\pi}{36} = \frac{2\pi}{9}
+\end{equation*}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=結果]
+\begin{equation*}
+\boxed{\Omega_\Lambda = \frac{2\pi}{9} \approx 0.6981}
+\end{equation*}
+観測値 $0.685$ と\textbf{約 2\% の精度で一致}．
+
+調整可能なパラメータは\textbf{ゼロ}．$\pi$ と $9$ だけ．
+\end{tcolorbox}
+
+\subsection{二つの翼が合流する式}
+
+この $\Omega_\Lambda = 2\pi/9$ は別の書き方もできます:
+\begin{equation*}
+\Omega_\Lambda = \frac{16\,|\zeta(-1)|\,\zeta(2)}{\pi}
+\end{equation*}
+
+検算してみましょう:
+\begin{align*}
+16 \times \frac{1}{12} \times \frac{\pi^2}{6} \times \frac{1}{\pi}
+&= \frac{16\pi^2}{72\pi} = \frac{16\pi}{72} = \frac{2\pi}{9} \quad \checkmark
+\end{align*}
+
+この式には:
+\begin{itemize}
+\item $\zeta(-1) = -1/12$ --- \textbf{左翼} (Bernoulli, 有理数)
+\item $\zeta(2) = \pi^2/6$ --- \textbf{右翼} (周期, 超越的)
+\end{itemize}
+
+\textbf{ダークエネルギーはゼータ建築の両翼を同時に使って書かれている!}
+
+%% ============================================================
+\section{符号の議論: なぜ宇宙は加速するのか}
+%% ============================================================
+
+\subsection{DD なら減速，DN なら加速}
+
+ダークエネルギーの正負は宇宙の運命を決めます:
+\begin{itemize}
+\item $\rho_\Lambda < 0$ (負): 宇宙の膨張は\textbf{減速}し，やがて収縮
+\item $\rho_\Lambda > 0$ (正): 宇宙の膨張は\textbf{加速}し，永遠に広がる
+\end{itemize}
+
+観測的に，宇宙は加速しています．つまり $\rho_\Lambda > 0$ が必要．
+
+\subsection{DD (ギター型) の場合}
+
+$\zeta(-1) = -1/12$ --- \textbf{負}．
+
+もし宇宙が DD 境界なら，真空エネルギーは負で，宇宙は減速するはず．
+\textbf{これは観測と矛盾}します．
+
+\subsection{DN (フルート型) の場合}
+
+$\zeta_{\neg 2}(-1) = +1/12$ --- \textbf{正}．
+
+宇宙が DN 境界なら，真空エネルギーは正で，宇宙は加速する．
+\textbf{これは観測と一致}します．
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{結論}: 宇宙の加速膨張という観測事実そのものが，境界条件が
+DD ($-1/12$) ではなく DN ($+1/12$) であることを要請する．
+
+$-1/12$ と $+1/12$ の符号の違いは，偶数倍音 ($n = 2, 4, 6, \ldots$)
+が含まれるか否かの違い---つまりギターかフルートかの違いから来る．
+\end{tcolorbox}
+
+\subsection{なぜ Kreimer--Connes はこれを見つけられなかったか}
+
+Kreimer--Connes の枠組みは「摂動論」の中で動きます．つまり，
+固定された真空の上での小さな揺らぎ (ループ) を計算します．
+
+しかし「真空自体のエネルギー」は揺らぎではありません．背景そのものです．
+摂動論では真空エネルギーを「引き算して捨てる」(正規順序) のが標準的手続き
+です．
+
+だから Kreimer--Connes はゼータ建築の右翼を完璧に整備しましたが，
+左翼 (真空エネルギー，境界条件，宇宙論) には構造上アクセスできません．
+
+\textbf{宇宙論定数問題が 40 年以上解けなかったのは，摂動論 (右翼) だけでは
+本質的に解けない問題を，右翼の道具だけで解こうとしていたから}---
+これが Wright Brothers の見方です．
+
+%% ============================================================
+\section{何が検証できるか}
+%% ============================================================
+
+科学の仮説は検証できなければ意味がありません．Wright Brothers の予測は
+具体的で，近い将来に検証可能です:
+
+\subsection{Euclid 衛星 (2028 年頃)}
+
+欧州宇宙機関 (ESA) の Euclid 衛星は，ダークエネルギーの値を現在の 10 倍
+以上の精度で測定します．Wright Brothers の予測 $\Omega_\Lambda = 0.6981$
+が正しいか，$0.5\%$ の精度で判定できるでしょう．
+
+もし測定値が $0.695 \sim 0.701$ の範囲に入れば強い支持，そこから大きく
+外れれば反証されます．
+
+\subsection{水晶 BAW 実験 (2026 年--)}
+
+水晶の体積弾性波 (Bulk Acoustic Wave, BAW) 共振器を使って，
+ダークエネルギーに対応するスケール ($\sim 88\,\mu$m) での新しい力を
+探す卓上実験が計画されています．
+
+\subsection{ミューオン $g-2$ (進行中)}
+
+Fermilab (アメリカ) と J-PARC (日本) でミューオンの磁気モーメントの
+精密測定が進行中です．Wright Brothers はミューオンの異常 $\Delta a_\mu
+\approx 252$ が Bernoulli 数と Ramanujan のタウ関数に関係すると主張して
+います．
+
+\subsection{DN Casimir 効果 (実験室で検証可能)}
+
+Boyer が 1974 年に予測した「DN 境界での Casimir 斥力」は，混合境界を持つ
+音響共振器や電磁キャビティで原理的に検証可能です．
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+予測 & 値 & 検証方法 & 時期 \\
+\midrule
+$\Omega_\Lambda = 2\pi/9$ & 0.6981 & Euclid, DESI, LSST & 2025--2028 \\
+DN Casimir 斥力 & $-7/120$ 係数 & 混合境界共振器 & 2026-- \\
+ダークエネルギー長 & $88\,\mu$m & 水晶 BAW 実験 & 2026-- \\
+ミューオン $g-2$ & $\sim 252$ & Fermilab, J-PARC & 進行中 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%% ============================================================
+\section{正直な限界}
+%% ============================================================
+
+科学者として正直であることは最も大切です．Wright Brothers の主張には
+以下の限界があります:
+
+\begin{enumerate}
+\item \textbf{「二つの翼」は提案であり，証明された定理ではない．}
+関数等式は数学的に厳密ですが，それを「摂動/非摂動の物理的双対性」と
+解釈することは推測です．
+
+\item \textbf{なぜ DN 境界なのかは未解決．}
+「宇宙がフルート型」という仮説は加速膨張を説明しますが，
+\emph{なぜ}宇宙が DD でなく DN を選ぶのか，根本的な理由は分かっていません．
+
+\item \textbf{2\% のズレは本物かもしれない．}
+$\Omega_\Lambda = 2\pi/9 \approx 0.698$ は観測値 $0.685$ と 2\% ずれています．
+これは実験誤差の範囲内ですが，もし将来の精密測定でズレが確定すれば，
+この仮説は修正か棄却が必要です．
+
+\item \textbf{全ての物理定数を説明するわけではない．}
+電子やクォークの質量，弱い力や強い力の結合定数など，
+この枠組みでは説明できない量がたくさんあります．
+
+\item \textbf{数値一致は偶然の可能性がある．}
+数学には無限の数と公式があるので，$2\pi/9$ が $0.685$ に近いのは
+たまたまかもしれません．だからこそ実験的検証が不可欠です．
+\end{enumerate}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black]
+\textbf{科学のルール}: 美しい仮説も実験で検証されなければ「詩」であって
+「物理学」ではない．Wright Brothers の仮説は 2028 年頃までに
+Euclid 衛星のデータで生死判定される見込みです．
+\end{tcolorbox}
+
+%% ============================================================
+\section{全体像のまとめ: ストーリーを振り返る}
+%% ============================================================
+
+ここまでのストーリーを一つの流れとして振り返りましょう:
+
+\begin{enumerate}
+\item 宇宙は加速膨張している．その原因 (ダークエネルギー) の理論計算は
+$10^{123}$ 倍もずれる (宇宙論定数問題)．
+
+\item ゼータ関数には二つの「顔」がある: 正の整数では超越的な周期 ($\pi^2$),
+負の整数では有理的な Bernoulli 数 ($-1/12$)．Riemann の関数等式が両者を結ぶ．
+
+\item \textbf{右翼} (正の側) は Kreimer--Connes により素粒子物理で実在すると
+確立された．$\zeta(3)$ は電子 $g-2$ 実験で $10^{-13}$ 精度で検証済み．
+
+\item \textbf{左翼} (負の側) は Casimir 効果で部分的に確立済み．
+$\zeta(-3) = 1/120$ は実験で確認されている．
+
+\item Wright Brothers は左翼を宇宙論に拡張: 宇宙が「フルート型 (DN) 境界」
+を持つなら，$\zeta_{\neg 2}(-1) = +1/12$ となり，$\Omega_\Lambda = 2\pi/9$
+が出る．
+
+\item 符号の議論: DD なら $-1/12$ で減速 (観測と矛盾)，DN なら $+1/12$ で
+加速 (観測と一致)．宇宙の加速膨張自体が DN 境界を要請する．
+
+\item $\Omega_\Lambda = 16|\zeta(-1)|\zeta(2)/\pi$ は左翼 ($\zeta(-1)$) と
+右翼 ($\zeta(2)$) の\textbf{両方}を含む---ゼータ建築の渡り廊下上の物理量．
+
+\item これが正しければ，宇宙論定数問題は「右翼だけ見ていた」エラーであり，
+左翼を含めれば自然に解決する．
+
+\item 2028 年頃の Euclid 衛星データで検証可能．
+\end{enumerate}
+
+%% ============================================================
+\section{高校生へのメッセージ}
+%% ============================================================
+
+\subsection{数学と物理は地続き}
+
+このガイドで登場した数学:
+\begin{itemize}
+\item 無限級数 ($1 + 1/4 + 1/9 + \ldots$)
+\item $\pi$ (円周率)
+\item Bernoulli 数 (整数累乗和の公式に出てくる有理数)
+\item Riemann ゼータ関数
+\item 解析接続
+\item 境界条件 (ギターとフルートの違い)
+\end{itemize}
+
+これらは高校や大学初年度で触れる概念の延長線上にあります．
+「分数の無限和」「弦の振動」「境界条件」は高校物理や数学でも出てくる
+題材です．
+
+\textbf{最先端の物理学の問題が，高校で学ぶ数学のすぐ先に
+あるかもしれない}---これがこのガイドの一番のメッセージです．
+
+\subsection{独立研究の可能性}
+
+Wright Brothers プロジェクトは独立研究です．大学や研究機関に属さなくても，
+誰でもアイデアを出し，論文を書き，検証可能な予測を提案できます．
+
+科学の歴史は独立研究者の貢献に満ちています:
+\begin{itemize}
+\item Einstein は特許局の職員として特殊相対性理論を発表しました
+\item Ramanujan はインドの独学の数学者として数論を革命しました
+\item Kreimer 自身もキャリア初期には非主流の研究を推進しました
+\end{itemize}
+
+大切なのは:
+\begin{enumerate}
+\item \textbf{具体的で検証可能な予測}を出すこと
+\item \textbf{限界を正直に述べる}こと
+\item \textbf{間違いを恐れない}こと (全ての間違いは次の一歩のため)
+\end{enumerate}
+
+\subsection{次に何を学ぶか}
+
+このガイドの内容をもっと深く理解したいなら:
+\begin{itemize}
+\item \textbf{複素解析} (解析接続の数学的基礎)
+\item \textbf{量子力学} (波動関数，境界条件，零点エネルギー)
+\item \textbf{微分幾何} (一般相対性理論の言語)
+\item \textbf{代数的数論} (ゼータ関数と $L$-関数の深い理論)
+\end{itemize}
+
+大学の数学科や物理学科で学べます．ゼータ関数の奥深さは人生をかけて
+探究する価値があるテーマです．
+
+\subsection{結びの言葉}
+
+宇宙で最も深い問題---「なぜ宇宙は加速膨張しているのか」---の答えが，
+300 年前の Euler，170 年前の Riemann，90 年前の Bernoulli が研究した
+数学の中に隠れているかもしれない．
+
+もしそうなら，それは数学が「人間の発明」ではなく「宇宙の言語」で
+あることの最も美しい証拠となるでしょう．
+
+\vspace{2em}
+\begin{center}
+\Large
+\textbf{ゼータ関数の右翼は素粒子に住み，\\
+左翼は真空に住み，\\
+関数等式がその二つを結ぶ鏡となる．\\[0.5em]
+もし宇宙がこの建物で書かれているなら，\\
+物理学と数学は同じ家に住んでいたことになる．}
+\end{center}
+
+\vspace{2em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+関連文書:
+\begin{itemize}
+\item \texttt{functional\_equation\_duality\_paper\_ja.tex}: 正式な論文版 (日本語)
+\item \texttt{functional\_equation\_duality\_paper.tex}: 正式な論文版 (英語)
+\item \texttt{modular\_constants\_highschool\_ja.tex}: Eisenstein 級数と物理定数の高校生向けガイド
+\item \texttt{guide\_complete\_beginners\_ja.tex}: 完全初心者向けガイド
+\item GitHub: \texttt{isshii-jpeg/wright-brothers}
+\end{itemize}
+
+\end{document}

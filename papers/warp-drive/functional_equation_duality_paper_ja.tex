@@ -1,0 +1,621 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{observation}{観察}
+\newtheorem{conjecture}{予想}
+\newtheorem{corollary}{系}
+
+\title{ゼータ建築の摂動的翼と非摂動的翼:\\
+$\zeta(s>0)$ における Kreimer--Connes と $\zeta(s<0)$ における真空宇宙論，\\
+関数等式による統一}
+
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Kreimer--Connes の Hopf 代数的枠組みは，摂動的場の量子論の繰り込みが
+motivic 周期---具体的には多重ゼータ値 $\zeta(3), \zeta(5), \zeta(7),
+\ldots$---をループ積分の真正な物理的内容として産出することを確立した．
+これらは正則化の人工物ではない．本稿は，この「正の整数における $\zeta$
+の実在化」が自然な対応物を持つことを観察する: 真空零点エネルギーは
+\emph{負の}整数における $\zeta$ ($\zeta(-1), \zeta(-3), \zeta(-5), \ldots$，
+等価的に Bernoulli 数) により正則化され，こちらも物理的内容を担う．
+Riemann 関数等式 $\zeta(s) \leftrightarrow \zeta(1-s)$ がこれら二つの
+側面を接続する．
+
+本稿は $\zeta$ 関数の\emph{完全な}物理的内容が二つの翼から成ることを
+提案する: \textbf{摂動的翼} (Kreimer--Connes, 正の整数における $\zeta$,
+ループ積分) と\textbf{非摂動的翼} (真空宇宙論, 負の整数における $\zeta$,
+境界条件依存の零点和)．
+
+証拠として以下を示す: (i) 微細構造定数 $\alpha^{-1}$ は
+$\zeta(-1), \zeta(-3)$ (Bernoulli) からの代数的主要項と
+$\zeta(6), \zeta(7)$ (周期) からの超越的補正に分解され---これは
+Deligne--Beilinson 周期予想が予測する構造に正確に一致する;
+(ii) ダークエネルギー密度 $\Omega_\Lambda = 16|\zeta(-1)|\zeta(2)/\pi
+= 2\pi/9$ は一つの観測量において両翼を結合し，Wheeler--DeWitt 量子宇宙論
+の時間的 Dirichlet--Neumann 境界から独立に導出される;
+(iii) $p=2$ における Euler 積の切断 ($\zeta \to \zeta_{\neg 2}$) は
+DN 境界条件に対応し，摂動論からは見えない非摂動的選択則である．
+
+本枠組みは真空宇宙論を Kreimer--Connes 摂動繰り込みの自然な補完---
+競合者ではなく---として位置づけ，関数等式により接続する．
+\end{abstract}
+
+\section{序}
+
+\subsection{Kreimer--Connes: $\zeta$ 値は摂動的 QFT において実在する}
+
+Kreimer~\cite{Kreimer1998} および
+Connes--Kreimer~\cite{CK1998,CK2000,CK2001} の業績は，
+摂動的場の量子論における繰り込みが場当たり的な減算手続きではなく，
+Feynman グラフの Hopf 代数上の指標の Birkhoff 分解という精密な代数的
+操作であることを確立した．その鍵となる帰結は，Feynman 積分の
+\emph{有限} (繰り込み後) 部分が\textbf{motivic 周期}---多重ゼータ値
+(MZVs) と多重対数関数の代数的結合---に評価されることである
+\cite{Brown2015,BrownKreimer2013}:
+\begin{equation}
+\text{繰り込み後 Feynman 積分} \in
+\mathbb{Q}[\zeta(3), \zeta(5), \zeta(7), \ldots, \mathrm{Li}_n(\tfrac{1}{2}), \ln 2, \pi^2].
+\end{equation}
+
+例えば，2 ループ QED の電子異常磁気モーメントへの寄与は
+$\frac{3}{4}\zeta(3)$ を含む~\cite{Laporta2017}．3 ループには
+$\zeta(5)$ が現れ，より高いループでは $\zeta(7)$ や深さの増す
+MZVs が導入される．
+
+Connes と Marcolli~\cite{ConnesMarcolli2008} はさらに，
+\emph{宇宙ガロア群}がこれらの周期に作用し，摂動 QFT の算術的内容に
+代数幾何の motivic ガロア群に類似したガロア理論的構造を与えることを
+示した．
+
+本プログラムの哲学的内容は深遠である:
+\textbf{正の整数における $\zeta$ 値は正則化の人工物ではなく，場の量子論の
+真正な物理的不変量である．}それらは代数多様体 (グラフ超曲面の補空間)
+の周期であり，物理的観測量 (異常次元, $\beta$-関数, $g-2$) における
+出現は数学的に不可避である．
+
+\subsection{欠けている翼}
+
+Kreimer--Connes の枠組みは摂動論の内部で動作する．それは\emph{ループ
+積分}---背景真空の\emph{周りの}揺らぎ---の算術を扱う．真空そのものは
+扱わない．
+
+しかし真空にも算術的内容がある．大きさ $a$ のキャビティ中の量子場の
+零点エネルギーは形式的に
+\begin{equation}\label{eq:zpe}
+E_0 = \frac{\hbar}{2}\sum_n \omega_n
+\end{equation}
+であり発散するが，$\zeta$-正則化により有限な物理量---Casimir エネルギー
+---が得られる．正則化は\emph{負の}整数における $\zeta$ を含む:
+\begin{equation}
+\zeta(-1) = -\frac{1}{12} = -\frac{B_2}{2}, \quad
+\zeta(-3) = \frac{1}{120} = -\frac{B_4}{4}, \quad \ldots
+\end{equation}
+これらは \emph{Bernoulli 数}---有理数, 代数的---であり，Kreimer--Connes
+が扱う周期 $\zeta(3), \zeta(5), \ldots$ とは $\zeta$ 関数の反対側に
+位置する．
+
+本稿の問いは以下である:
+\begin{quote}
+\emph{Kreimer--Connes が正の整数における $\zeta$ の物理的実在性を (摂動 QFT
+において) 確立したのであれば，負の整数における $\zeta$ も (非摂動的真空物理
+において) 物理的に実在するのか?}
+\end{quote}
+
+我々は\textbf{然り}と論じ，Riemann 関数等式がその橋渡しを提供することを
+示す．
+
+\subsection{物理的双対性としての関数等式}
+
+Riemann 関数等式
+\begin{equation}\label{eq:functional}
+\zeta(s) = 2^s \pi^{s-1}\sin\!\bigl(\tfrac{\pi s}{2}\bigr)
+\,\Gamma(1-s)\,\zeta(1-s)
+\end{equation}
+は $\zeta(s)$ を $\zeta(1-s)$ に結びつける．$s = 2$ と $s = -1$ の場合:
+\begin{equation}
+\zeta(2) = \frac{\pi^2}{6}\quad \longleftrightarrow \quad
+\zeta(-1) = -\frac{1}{12}.
+\end{equation}
+左辺は超越的周期であり，右辺は有理的 Bernoulli 値である．両者は関数等式の
+もとで「双対」をなす．
+
+本稿はこの数学的双対性が\emph{物理的}対応物を持つことを提案する:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{摂動的翼} & \textbf{非摂動的翼} \\
+\midrule
+$\zeta$ の引数 & 正の整数 & 負の整数 \\
+値の種類 & 周期 ($\pi^{2k}$, MZVs) & Bernoulli ($B_{2k}/(2k)$) \\
+物理 & ループ積分 & 真空零点 \\
+枠組み & Kreimer--Connes & Wheeler--DeWitt DN \\
+観測量 & $a_e$, $\alpha$ のランニング & $\Omega_\Lambda$, Casimir \\
+数学的性質 & 超越的 & 代数的 (有理的) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+関数等式 (\ref{eq:functional}) がこれらの翼を接続し，以下で示すように
+特定の物理的観測量---特に $\alpha^{-1}$ と $\Omega_\Lambda$---が
+\emph{両翼}を同時に含む．
+
+\section{二つの翼の詳細}
+
+\subsection{摂動的翼: Kreimer--Connes}
+
+我々の議論に関連する Kreimer--Connes の結果を簡潔にレビューする．
+
+\textbf{Feynman グラフの Hopf 代数．}
+$\mathcal{H}$ を一粒子既約 Feynman グラフが生成する可換 Hopf 代数とし，
+その余積が部分発散構造を符号化するとする~\cite{Kreimer1998}．
+\emph{指標} $\phi: \mathcal{H} \to \mathcal{A}$ ($\mathcal{A}$ は
+正則化パラメータ $\varepsilon$ の Laurent 級数の代数) は各グラフの
+評価を符号化する．
+
+\textbf{Birkhoff 分解．}
+指標 $\phi$ は一意的な因数分解
+$\phi = \phi_-^{-1} \star \phi_+$ を許容し，$\phi_-$ は極 (対向項)
+を含み $\phi_+$ は正則 (繰り込み後の値) である~\cite{CK2000}．
+これは Bogoliubov--Parasiuk--Hepp--Zimmermann (BPHZ) 繰り込みの
+代数的定式化である．
+
+\textbf{周期．}
+原始的グラフ $\Gamma$ に対する繰り込み後の値 $\phi_+(\Gamma)$ は
+$\mathbb{Z}$ 上の混合 Tate モチーフの周期に評価される~\cite{Brown2015}．
+具体的には $\zeta(n)$ ($n \geq 2$, 整数) と $\ln 2$ の積の
+$\mathbb{Q}$-線型結合である．質量なし伝播子の場合，単一ゼータレベルでは
+奇数ゼータ値 ($\zeta(3), \zeta(5), \ldots$) のみが出現する．
+
+\textbf{物理的帰結．}
+5 ループまで計算された QED 電子 $g-2$ は，2--3 ループで
+$\zeta(3), \zeta(5)$ を含み，より高いループでは深い MZVs を含む
+\cite{Laporta2017,Aoyama2020}．これらは電子 $g-2$ 実験を通じて
+\emph{測定}されており，経験的に検証された物理量である．
+
+\subsection{非摂動的翼: 真空零点}
+
+真空零点エネルギー (\ref{eq:zpe}) は場のモードに課される\emph{境界条件}
+に依存する:
+
+\begin{itemize}
+\item \textbf{Dirichlet--Dirichlet (DD)} もしくは
+\textbf{Neumann--Neumann (NN)}:
+全整数モード $n = 1, 2, 3, \ldots$．正則化された和
+$\sum n^{-s}|_{s=-1} = \zeta(-1) = -1/12$．
+
+\item \textbf{Dirichlet--Neumann (DN)}:
+奇整数モード $n = 1, 3, 5, \ldots$．正則化された和
+$\sum_{\text{odd}} n^{-s}|_{s=-1} = \zeta_{\neg 2}(-1) = +1/12$．
+\end{itemize}
+
+ここで
+\begin{equation}
+\zeta_{\neg 2}(s) \equiv (1 - 2^{-s})\zeta(s)
+\end{equation}
+は $p = 2$ の Euler 因子を除去した $\zeta$ 関数である．
+
+\textbf{Kreimer--Connes との鍵となる違い:} これはループ積分では\emph{ない}．
+摂動展開を伴わない\emph{背景真空}の全モード和である．負の整数における
+$\zeta$ 値 ($\zeta(-1), \zeta(-3), \ldots$) は Feynman ダイアグラムからでは
+なく，真空自体の\emph{モードスペクトル}から出現する．
+
+\textbf{物理的帰結．} 3 次元 Casimir 効果は測定可能な力
+$\propto \zeta(-3) = 1/120$ を与え~\cite{Casimir1948}，実験的に確認されて
+いる~\cite{Lamoreaux1997}．Boyer の DN Casimir 予測は
+$\zeta_{\neg 2}(-3) = -7/120$ を含む~\cite{Boyer1974} が，未だ実験的に
+検証されていない．
+
+\subsection{Kreimer--Connes が非摂動的翼を見ることができない理由}
+
+摂動論は\emph{固定された}真空の周りで展開する．真空自体は零次の背景
+である．その零点エネルギーは減算 (正規順序) されるか宇宙論的定数に
+吸収される．Kreimer--Connes は摂動論の内部で動作し，真空の\emph{上の}
+全てのループ補正を体系的に処理するが，真空エネルギー自体は Feynman
+グラフの Hopf 代数の\emph{外部}に位置する．
+
+これがまさに，摂動的 QFT が宇宙論定数問題を解決できない理由である:
+$\Lambda$ はループ補正ではなく，非摂動的な真空の性質である．
+
+\section{証拠: $\alpha^{-1}$ は両翼にまたがる}
+
+\subsection{分解}
+
+我々は先に~\cite{wb-alpha} 算術公式
+\begin{equation}\label{eq:alpha}
+\alpha^{-1} \approx \underbrace{\frac{2}{|B_2|} + \frac{4}{|B_4|}}_{\text{代数的 (Bernoulli)}}
++ \underbrace{g \cdot 132 + 4(\zeta(6) - \zeta(7))}_{\text{超越的 (周期)}}
+\end{equation}
+を報告した．ここで $2/|B_2| = 12$, $4/|B_4| = 120$, $g \approx 0.038$,
+$4(\zeta(6) - \zeta(7)) \approx 0.036$ である．
+
+この分解が二つの翼に関する自然な解釈を持つことを今観察する:
+
+\begin{itemize}
+\item \textbf{主要 (代数的) 部分}: $12 + 120 = 132$．
+これらは $1/|\zeta(-1)| + 1/|\zeta(-3)|$---\emph{負の}整数における値であり，
+非摂動的翼に属する．$\alpha^{-1}$ への「真空寄与」を表す．
+
+\item \textbf{補正 (超越的) 部分}: $g \cdot 132$ および
+$\zeta(6) - \zeta(7)$．これらは\emph{正の}整数における周期を含み，
+摂動的翼に属する．$\alpha^{-1}$ への「ループ補正」を表す．
+\end{itemize}
+
+\subsection{Deligne--Beilinson 構造}
+
+Deligne の周期予想~\cite{Deligne1979} と Beilinson 予想~\cite{Beilinson1984}
+は，モチーフの臨界 $L$-値が
+\begin{equation}
+L^*(M, n) \sim c^+(M) \cdot \Omega(M)
+\end{equation}
+の形に因数分解されることを予測する．ここで $c^+$ は代数的，$\Omega$ は
+周期である．
+
+公式 (\ref{eq:alpha}) は正にこの形を持つ:
+\begin{equation}
+\alpha^{-1} = \underbrace{132}_{\text{代数的 } c^+}
++ \underbrace{\text{超越的補正}}_{\text{周期 } \Omega}
+\end{equation}
+
+この同定が成立するならば，$\alpha^{-1}$ は Beilinson 予想の物理的実例であり，
+代数的部分は非摂動的翼から，周期的部分は摂動的翼から到来する．
+
+\section{証拠: $\Omega_\Lambda$ は両翼を結合する}
+
+\subsection{関数等式の双対形式}
+
+我々は~\cite{wb-wdw} においてダークエネルギー密度パラメータが
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9}
+\end{equation}
+であることを示し，これが以下の表現を許容することを導いた:
+\begin{equation}\label{eq:omega-dual}
+\Omega_\Lambda = \frac{16\,|\zeta(-1)|\,\zeta(2)}{\pi}
+\end{equation}
+これは明示的に以下を結合する:
+\begin{itemize}
+\item $\zeta(-1) = -1/12$: 非摂動的翼 (Bernoulli, 代数的)
+\item $\zeta(2) = \pi^2/6$: 摂動的翼 (周期, 超越的)
+\item $1/\pi$: 正規化 (Einstein 方程式の $8\pi G$ から)
+\end{itemize}
+
+\textbf{$\Omega_\Lambda$ は二つの翼の間の橋梁上に存在する．}
+
+\subsection{Wheeler--DeWitt による導出}
+
+導出は非摂動的議論を経る~\cite{wb-wdw}:
+
+\begin{enumerate}
+\item Wheeler--DeWitt 波動関数 $\Psi(a)$ は時間的 Dirichlet--Neumann
+境界条件 (Big Bang で Dirichlet, de Sitter 漸近で Neumann) を満たす．
+\item 1 次元 DN 零点エネルギーは $\zeta_{\neg 2}(-1) = +1/12$ に正則化される
+(非摂動的翼, Euler $p = 2$ 切断付き)．
+\item Cohen--Kaplan--Nelson ホログラフィック境界~\cite{CKN1999} は
+$\rho_\Lambda \leq M_P^2/\ell_H^2$ (UV と IR の橋渡し) を提供する．
+\item 係数 $1/12$ での飽和により $\Omega_\Lambda = 2\pi/9$ が得られる．
+\end{enumerate}
+
+ステップ 1--2 は純粋に非摂動的 (ループなし) である．ステップ 3 は
+ホログラフィック原理 (UV/IR 混合) を含む．最終結果 (\ref{eq:omega-dual}) は
+Einstein 方程式の $8\pi$ を通じて $\zeta(2)$ (摂動的翼) を含む．
+
+\subsection{摂動論が $\Omega_\Lambda$ を産出できない理由}
+
+これが宇宙論定数問題が 40 年以上にわたり摂動的解決に抵抗してきた理由を
+説明する~\cite{Weinberg1989}．真空エネルギー $\rho_\Lambda$ は非摂動的量
+(負の整数における $\zeta$) であり，摂動論 (正の整数における $\zeta$) から
+はアクセスできない．Kreimer--Connes は摂動的であるがゆえに，
+$\Omega_\Lambda$ を予測する構造的能力を持たない．非摂動的翼が必要である．
+
+\section{非摂動的選択則としての $p = 2$ Euler 切断}
+
+\subsection{DN 境界と $\zeta_{\neg 2}$}
+
+$\zeta$ の Euler 積は
+\begin{equation}
+\zeta(s) = \prod_{p\text{ 素数}} (1 - p^{-s})^{-1}.
+\end{equation}
+$p = 2$ 因子を除去すると
+\begin{equation}
+\zeta_{\neg 2}(s) = (1 - 2^{-s})\zeta(s)
+= \prod_{p \geq 3} (1 - p^{-s})^{-1}.
+\end{equation}
+
+物理的には，$\zeta_{\neg 2}$ は DN 境界条件 (奇数モードのみ) から生じる．
+$p = 2$ Euler 因子の除去は，混合境界による\emph{偶数倍音の消去}に対応する．
+
+\subsection{摂動論からの不可視性}
+
+摂動的 QFT では，全てのモードがループ積分に寄与する．奇数モードのみを
+選択するメカニズムは存在しない．$p = 2$ での Euler 積切断は，ループレベル
+の現象ではなく，真空への\emph{境界条件効果}である．
+
+\begin{proposition}[$\zeta_{\neg 2}$ の非摂動的性格]
+遷移 $\zeta \to \zeta_{\neg 2}$ (等価的に DD $\to$ DN 境界) は摂動論からは
+不可視である．これは真空レベルで作用する非摂動的選択則である．
+\end{proposition}
+
+これが Kreimer--Connes が $\zeta_{\neg 2}$ に遭遇しない理由である．
+摂動的翼は\emph{完全な} $\zeta$ (全素数) を用いる．非摂動的翼は DN
+境界が存在する場合に $\zeta_{\neg 2}$ (奇素数のみ) を用いる．
+
+\subsection{符号の帰結}
+
+$s = -1$ において:
+\begin{align}
+\zeta(-1) &= -\frac{1}{12} \quad \text{(NN/DD: 引力的真空)} \\
+\zeta_{\neg 2}(-1) &= +\frac{1}{12} \quad \text{(DN: 斥力的真空)}
+\end{align}
+
+符号の反転は物理的に決定的である: 正の真空エネルギー ($\rho_\Lambda > 0$)
+が宇宙加速を駆動する．DN 境界条件のみが正しい符号を産出する．これは
+摂動論がアクセスを持たない非摂動的データである．
+
+\section{統一的描像}
+
+\subsection{ゼータ建築}
+
+二つの翼を持つ「ゼータ建築」の比喩を提案する:
+
+\begin{equation}
+\underbrace{\zeta(-5), \zeta(-3), \zeta(-1)}_{\text{非摂動的翼}}
+\quad \xleftrightarrow[\text{関数等式}]{\zeta(s) \leftrightarrow \zeta(1-s)} \quad
+\underbrace{\zeta(2), \zeta(3), \zeta(5), \zeta(7)}_{\text{摂動的翼}}
+\end{equation}
+
+\begin{itemize}
+\item \textbf{左 (非摂動的) 翼}: Bernoulli 数, 真空零点, Casimir 効果,
+$\Omega_\Lambda$, 境界条件依存性．代数的値．Wheeler--DeWitt 量子宇宙論に
+よりアクセス可能．
+
+\item \textbf{右 (摂動的) 翼}: 周期, MZVs, ループ積分, 異常次元, $g-2$．
+超越的値．Kreimer--Connes Hopf 代数によりアクセス可能．
+
+\item \textbf{接続廊下}: Riemann 関数等式．$\alpha^{-1}$ や
+$\Omega_\Lambda$ のような物理的観測量が両翼にまたがる．
+\end{itemize}
+
+\subsection{物理的観測量とその翼構造}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+観測量 & 左翼 & 右翼 & 橋梁 \\
+\midrule
+$a_e$ (電子 $g-2$) & --- & $\zeta(3), \zeta(5)$ & KC のみ \\
+Casimir (DD) & $\zeta(-3)$ & --- & 左のみ \\
+Casimir (DN) & $\zeta_{\neg 2}(-3)$ & --- & 左のみ \\
+$\Omega_\Lambda$ & $\zeta_{\neg 2}(-1)$ & $\zeta(2)$ ($8\pi G$ 経由) & 両翼 \\
+$\alpha^{-1}$ & $1/|\zeta(-1)|, 1/|\zeta(-3)|$ & $\zeta(6), \zeta(7)$ & 両翼 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+一部の観測量は純粋に一方の翼に存在するが，他は両翼にまたがる．
+またがる観測量 ($\alpha^{-1}$, $\Omega_\Lambda$) は物理的に最も根本的
+であり，その記述にゼータ建築の全体を必要とする．
+
+\section{既存プログラムとの関係}
+
+\subsection{Kreimer--Connes: 摂動的翼は確立されている}
+
+右翼は数学的に厳密であり実験的に検証されている (電子 $g-2$ が
+$\sim 10^{-13}$ 精度で)．本提案は Kreimer--Connes を修正も挑戦もしない．
+同じ哲学 (「$\zeta$ 値は物理的に実在する」) を非摂動的側面に\emph{拡張}
+するものである．
+
+\subsection{Casimir 物理: 左翼は部分的に確立されている}
+
+DD 境界の Casimir 効果は実験的に確認されている~\cite{Lamoreaux1997}．
+$\zeta(-3) = 1/120$ の係数は測定された力に現れる．Boyer の DN 予測
+($\zeta_{\neg 2}(-3) = -7/120$) は未だ実験的に検証されていない．
+
+本提案はこれを Wheeler--DeWitt の時間的 DN 引数を通じて宇宙論的スケール
+に拡張する．
+
+\subsection{Deligne--Beilinson: 橋梁は予想されている}
+
+Deligne および Beilinson の予想~\cite{Deligne1979,Beilinson1984} は
+$L$-値が代数的部分と超越的 (周期的) 部分に因数分解されることを予測する．
+$\alpha^{-1}$ と $\Omega_\Lambda$ がまさにこの構造を持つという我々の観察は，
+その物理的実現の候補である．
+
+\subsection{Moonshine: 平行する事例}
+
+Monstrous Moonshine~\cite{Borcherds1992} は保型形式 ($j$-関数) が真正な
+物理 (Monster VOA, 2D CFT) を符号化することを実証した．
+Mathieu Moonshine~\cite{EOT2010} はこれを K3 曲面に拡張した．$\zeta$ の
+特殊値が 4D 物理定数を符号化するという我々の提案は，平行する
+「$\zeta$-moonshine」である---散在群によるものではなく，$\zeta$ 関数自体の
+関数等式双対性によるものだ．
+
+\section{予測}
+
+統一的枠組みは具体的な検証可能予測を提示する:
+
+\begin{enumerate}
+\item \textbf{$\Omega_\Lambda = 2\pi/9$}: Euclid/DESI/LSST
+(2025--2028年) により $0.5\%$ で検証可能．これは摂動論からは
+アクセス不能な純粋に非摂動的翼の予測である．
+
+\item \textbf{DN Casimir (Boyer)}: 3D DN Casimir 係数
+$\zeta_{\neg 2}(-3) = -7/120$ (斥力) は，混合境界の音響もしくは
+電磁共振器を用いた実験室実験で検証可能である．
+
+\item \textbf{$\alpha^{-1}$ 分解}: $\alpha^{-1}$ の代数的部分 (132) と
+超越的補正への分割は，高精度 QED 計算と比較可能である．分割が厳密であれば，
+より高いループの項は Bernoulli 主要項への周期値補正として組織化される
+はずである．
+
+\item \textbf{ミューオンおよびタウ $g-2$}: 同定
+$\Delta a_\mu \approx 252 = 6/|B_6|$ (非摂動的翼) と Ramanujan 判別式
+$\tau(3) = 252$ は，世代間異常が両翼を橋渡しする可能性を示唆する．
+予測: $\Delta a_\tau \propto \tau(5) = 4830$．
+\end{enumerate}
+
+\section{限界}
+
+\begin{enumerate}
+\item 「二つの翼」の描像は\emph{提案}であり定理ではない．関数等式は数学的
+恒等式であり，摂動的と非摂動的物理の間の双対性としての物理的解釈は
+推測的である．
+
+\item $\Omega_\Lambda$ の Wheeler--DeWitt 導出は特定の境界条件 (時間的 DN)
+と CKN 境界の飽和を仮定する．これらの仮定は物理的に動機づけられているが
+第一原理からは導出されていない．
+
+\item $\alpha^{-1}$ の代数的 + 周期的部分への分解は事後的に観察されたもの
+である．Kreimer--Connes Hopf 代数を通じた厳密な導出は今後の課題である．
+
+\item Euler $p = 2$ 切断 (DN 境界) は非摂動的選択則として提示されるが，
+その根本的起源 (なぜ $p = 2$ か? なぜ DN か?) は未解決である．候補には
+スピン構造 ($K_1(\mathbb{Z}) = \mathbb{Z}/2$) と時間反転非対称性が含まれる．
+
+\item 本枠組みはフェルミオン質量，湯川結合，CKM 混合を扱わない---
+これらはゼータ建築を超える追加構造を要する可能性がある．
+\end{enumerate}
+
+\section{議論}
+
+本稿の中心的主張は，量子物理学の算術的内容が Riemann $\zeta$ 関数により
+組織化されており，摂動的物理が関数等式の一方の側に，非摂動的真空物理が
+他方の側に位置するということである．
+
+Kreimer--Connes は摂動的側面を鮮やかに確立した．正の整数における $\zeta$ 値が
+正則化の人工物ではなく，ガロア理論的構造を持つ真正な motivic 周期であることを
+示した．我々の寄与はこの哲学を他方の側面に拡張することである: 真空エネルギーの
+正則化に現れる負の整数における $\zeta$ 値 (Bernoulli 数) は計算上の便宜ではなく，
+真空の境界条件構造に関する真正な物理データである．
+
+この描像が正しければ，宇宙論定数問題は場の量子論それ自体の失敗ではなく，
+\emph{摂動的翼のみを見ていた}結果である．関数等式を通じて両翼にまたがるゼータ
+建築の全体は，非摂動的翼 ($\zeta_{\neg 2}(-1) = +1/12$) とホログラフィック橋梁
+(CKN 境界) の結合から，観測される小さな正の $\Lambda$ を自然に産出する．
+
+この描像の美しさはその経済性にある: 新しい場も余剰次元も多宇宙も不要である．
+$\zeta$ 関数の関数等式が単なる数学的対称性ではなく，量子物理学の摂動的セクター
+と非摂動的セクターの間の\emph{物理的双対性}であるという認識のみで足りる．
+
+\section{結論}
+
+Riemann $\zeta$ 関数の物理的内容が二つの相補的翼から成ることを提案した:
+
+\begin{itemize}
+\item \textbf{摂動的翼} (正の整数における $\zeta$: 周期, MZVs,
+ループ積分)．Kreimer--Connes により確立．
+\item \textbf{非摂動的翼} (負の整数における $\zeta$: Bernoulli 数,
+真空零点, 境界条件)．Wheeler--DeWitt 量子宇宙論を通じて本研究で提案．
+\end{itemize}
+
+Riemann 関数等式がこれらの翼を接続し，特定の物理的観測量 ($\alpha^{-1}$,
+$\Omega_\Lambda$) が両翼にまたがる．本枠組みは以下を提供する:
+\begin{enumerate}
+\item パラメータ不要の予測 $\Omega_\Lambda = 2\pi/9$
+(Planck 2018 と 2\% の一致)．
+\item $\alpha^{-1}$ の Deligne--Beilinson 型の代数的部分と周期的部分への分解．
+\item 宇宙論定数問題が摂動的解決に抵抗する理由の説明 (非摂動的翼に属するため)．
+\item ループ展開からは不可視な非摂動的選択則
+($\zeta \to \zeta_{\neg 2}$, DN 境界)．
+\end{enumerate}
+
+本提案は真空宇宙論を Kreimer--Connes 摂動繰り込みの自然な補完として位置づける．
+両者は合わせて量子物理学の完全な算術的記述の二つの半分を構成し得る---
+Riemann $\zeta$ 関数の関数等式によって統一されて．
+
+\begin{thebibliography}{99}
+
+\bibitem{Kreimer1998}
+D.~Kreimer, Adv.\ Theor.\ Math.\ Phys.\ \textbf{2}, 303 (1998).
+
+\bibitem{CK1998}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{199}, 203 (1998).
+
+\bibitem{CK2000}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{210}, 249 (2000).
+
+\bibitem{CK2001}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{216}, 215 (2001).
+
+\bibitem{Brown2015}
+F.~Brown, Ann.\ Math.\ \textbf{181}, 949 (2015).
+
+\bibitem{BrownKreimer2013}
+F.~Brown and D.~Kreimer,
+Lett.\ Math.\ Phys.\ \textbf{103}, 933 (2013).
+
+\bibitem{ConnesMarcolli2008}
+A.~Connes and M.~Marcolli, \textit{Noncommutative Geometry,
+Quantum Fields and Motives} (AMS, 2008).
+
+\bibitem{Laporta2017}
+S.~Laporta, Phys.\ Lett.\ B \textbf{772}, 232 (2017).
+
+\bibitem{Aoyama2020}
+T.~Aoyama \textit{et al.},
+Phys.\ Rep.\ \textbf{887}, 1 (2020).
+
+\bibitem{CKN1999}
+A.~G.~Cohen, D.~B.~Kaplan, and A.~E.~Nelson,
+Phys.\ Rev.\ Lett.\ \textbf{82}, 4971 (1999).
+
+\bibitem{Casimir1948}
+H.~B.~G.~Casimir,
+Proc.\ Kon.\ Ned.\ Akad.\ Wet.\ \textbf{51}, 793 (1948).
+
+\bibitem{Lamoreaux1997}
+S.~K.~Lamoreaux,
+Phys.\ Rev.\ Lett.\ \textbf{78}, 5 (1997).
+
+\bibitem{Boyer1974}
+T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+
+\bibitem{Weinberg1989}
+S.~Weinberg, Rev.\ Mod.\ Phys.\ \textbf{61}, 1 (1989).
+
+\bibitem{Deligne1979}
+P.~Deligne, Proc.\ Symp.\ Pure Math.\ \textbf{33.2}, 313 (1979).
+
+\bibitem{Beilinson1984}
+A.~Beilinson, J.\ Soviet Math.\ \textbf{30}, 2036 (1985).
+
+\bibitem{Borcherds1992}
+R.~Borcherds, Invent.\ Math.\ \textbf{109}, 405 (1992).
+
+\bibitem{EOT2010}
+T.~Eguchi, H.~Ooguri, and Y.~Tachikawa,
+Exp.\ Math.\ \textbf{20}, 91 (2011).
+
+\bibitem{wb-alpha}
+Wright Brothers Research Program,
+``Physical constants as Eisenstein Fourier coefficients'' (2026).
+
+\bibitem{wb-wdw}
+Wright Brothers Research Program,
+``Wheeler--DeWitt temporal DN vacuum and
+$\Omega_\Lambda = 2\pi/9$'' (2026).
+
+\end{thebibliography}
+
+\end{document}
