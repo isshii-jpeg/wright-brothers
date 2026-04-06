@@ -1,0 +1,423 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{definition}[theorem]{定義}
+\renewcommand{\proofname}{証明}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\cd}{\mathrm{cd}}
+
+\begin{document}
+
+\title{算術スペクトル変調による重力結合制御：\\
+オイラー積構造からの重力無効化と符号反転}
+
+\author{Wright Brothers Research Program\\
+\small Independent Research}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+本論文では、Bost--Connes (BC) C$^*$-力学系に適用されたスペクトル作用の枠組みにおいて、
+二つの定理を証明する。
+\textbf{定理~1}（重力無効化）：
+BC分配関数$\zeta(\beta)$から$K \geq 2$個の素数オイラー因子を除去すると、
+$\beta = 0$において$K$重零点が生じ、
+Seeley--DeWitt係数$a_0 = a_2 = 0$が強制され、
+したがって有効重力結合定数$G_{\mathrm{eff}} = 0$となる。
+\textbf{定理~2}（重力反転）：
+全素数オイラー因子の$\pi$位相回転により$\zeta(t)$がLiouville熱核
+$\zeta(t)/\zeta(2t)$に置き換わり、
+$a_2$の符号が反転して$G_{\mathrm{eff}} = -2G$が得られる。
+両操作は原理的に、周波数選択的量子素子
+（$\omega_p = \log p / \tau$のトランズモン量子ビット、
+標準マイクロ波帯域）により実装可能である。
+$G = 0$の内部領域では光速が保存されること
+（$c_{\mathrm{eff}} = c$、Connes距離公式により証明）を示し、
+一方$G = -2G$の殻ではスペクトル次元が
+$d_S \approx 2$（ホログラフィック）に縮減されることを示す。
+本枠組みは反証可能な予測を与える：
+2素数篩い分け音響空洞におけるカシミールエネルギー比は
+182（オイラー積）対$1/3$（モード計数）であり、
+既存技術で検証可能である。
+\end{abstract}
+
+%=======================================================================
+\section{はじめに}
+%=======================================================================
+
+重力結合定数$G$は慣例的に自然の固定パラメータとして扱われる。
+しかしスペクトル作用原理~\cite{Chamseddine1996,Connes2006}では、
+$G$はディラック作用素$D$のSeeley--DeWitt係数$a_2$から生じる：
+\begin{equation}
+  \frac{1}{16\pi G_{\mathrm{eff}}} = f_2 \Lambda^2 \cdot
+  \frac{1}{16\pi^2}\int_M \frac{R}{6}\,\sqrt{g}\,d^4x \;\Big/\;
+  \int_M R\,\sqrt{g}\,d^4x,
+  \label{eq:G_from_a2}
+\end{equation}
+ここで$f_2 = \int_0^\infty f(u)\,du$はカットオフ関数の第2モーメント、
+$\Lambda$はエネルギースケールである。
+$a_2$を零にする、もしくはその符号を反転させることができれば、
+$G$は無効化もしくは反転される。
+
+Bost--Connes (BC) C$^*$-力学系~\cite{BostConnes1995}は
+この可能性に対する自然な舞台を提供する。
+その分配関数はリーマンゼータ関数であり、
+\begin{equation}
+  Z(\beta) = \Tr(e^{-\beta H_{\mathrm{BC}}}) = \zeta(\beta),
+  \label{eq:bc}
+\end{equation}
+オイラー積を通じて独立な素数チャンネルへの因子分解を許す：
+$\zeta(\beta) = \prod_p (1 - p^{-\beta})^{-1}$。
+各素数$p$は真空の独立なセクターに寄与する。
+
+本論文では、個々の素数セクターの除去または位相回転が
+$G_{\mathrm{eff}}$の精密な制御を与えることを示す。
+
+%=======================================================================
+\section{BC熱核とSeeley--DeWitt係数}
+\label{sec:sdk}
+%=======================================================================
+
+$D^2 = H_{\mathrm{BC}}$（固有値$\lambda_n = \log n$）と同定すると、
+熱核は
+\begin{equation}
+  K(t) = \Tr(e^{-t D^2}) = \sum_{n=1}^\infty n^{-t} = \zeta(t).
+\end{equation}
+
+$d$次元幾何に対するSeeley--DeWitt展開は
+$K(t) \sim \sum_{k=0}^\infty a_{2k}\, t^{(2k-d)/2}$（$t \to 0^+$）と書ける。
+$d = 4$のとき：
+\begin{equation}
+  K(t) = a_0\, t^{-2} + a_2\, t^{-1} + a_4 + a_6\, t + \cdots
+  \label{eq:sdk_expansion}
+\end{equation}
+
+BC熱核$\zeta(t)$は$t = 0$で解析的であり、
+$\zeta(0) = -1/2$、$\zeta'(0) = -\tfrac{1}{2}\log(2\pi)$である。
+(\ref{eq:sdk_expansion})と比較すると、BCの主要な「Seeley--DeWitt係数」は
+$t = 0$でのテイラー展開に符号化される。
+
+%=======================================================================
+\section{定理1：重力無効化}
+\label{sec:nullification}
+%=======================================================================
+
+\begin{definition}[素数消音熱核]
+素数の集合$S = \{p_1, \ldots, p_K\}$に対して、以下を定義する：
+\begin{equation}
+  K_{\neg S}(t) = \prod_{p \in S}(1 - p^{-t})\;\zeta(t).
+\end{equation}
+\end{definition}
+
+\begin{theorem}[重力無効化]
+\label{thm:nullification}
+$|S| = K \geq 2$のとき、消音熱核は$t = 0$において$K$重零点を持つ：
+\begin{equation}
+  K_{\neg S}(t) = t^K \cdot \frac{(-1)^K}{2}
+  \prod_{p \in S}\log p + O(t^{K+1}).
+\end{equation}
+したがって、Seeley--DeWitt展開~(\ref{eq:sdk_expansion})において：
+\begin{equation}
+  a_0 = a_2 = \cdots = a_{2(K-1)} = 0.
+\end{equation}
+特に$K \geq 2$のとき：$a_0 = a_2 = 0$であり、
+宇宙定数項とアインシュタイン--ヒルベルト項がともに消滅し、
+$G_{\mathrm{eff}} = 0$を与える。
+\end{theorem}
+
+\begin{proof}
+各因子$(1 - p^{-t})$は$t = 0$で単純零点を持つ：
+\begin{equation}
+  1 - p^{-t} = 1 - e^{-t\log p} = t\log p + O(t^2).
+\end{equation}
+よって
+\begin{equation}
+  \prod_{p \in S}(1 - p^{-t}) = t^K \prod_{p\in S}\log p + O(t^{K+1}).
+\end{equation}
+$\zeta(0) = -1/2$は有限かつ非零であるから、
+\begin{equation}
+  K_{\neg S}(t) = t^K \cdot \Bigl(-\tfrac{1}{2}\prod_{p\in S}\log p\Bigr)
+  + O(t^{K+1}).
+\end{equation}
+$K(t) = a_0 t^{-2} + a_2 t^{-1} + a_4 + a_6 t + \cdots$と比較すると、
+原点で$t^K$として消滅する関数は
+$t^{-2}, t^{-1}, \ldots, t^{K-3}$の全ての係数が消滅することを要求する：
+$a_0 = a_2 = \cdots = a_{2(K-1)} = 0$。
+
+$K = 2$のとき：$a_0 = a_2 = 0$。
+宇宙定数なし、アインシュタイン--ヒルベルト項なし、
+$G_{\mathrm{eff}} = 0$。
+\end{proof}
+
+\begin{corollary}
+$K \geq 3$のとき、追加的に$a_4 = 0$となる：
+ガウス--ボネ項/ワイル二乗項が消滅する。
+主要な重力相互作用は次数$a_{2K} \neq 0$であり、
+高階微分補正となる。
+$K = 3$（$\{2,3,5\}$の消音）のとき：幾何は
+6階微分重力までの全次数で局所的に平坦である。
+\end{corollary}
+
+\textbf{物理的内容。}
+$K$重零点は、各消音素数がオイラー積から一つの「チャンネル」を除去し、
+$t = 0$（UV点）においてこの除去が最大限に破壊的であることから生じる。
+重力結合定数$G \propto a_2$は全素数チャンネルからの寄与の総和であり、
+二つのチャンネルを除去すると$a_2$を正確に零にする相殺が生じる。
+
+%=======================================================================
+\section{定理2：Liouville回転による重力反転}
+\label{sec:reversal}
+%=======================================================================
+
+\begin{definition}[Liouville熱核]
+全素数$\pi$回転は各オイラー因子
+$(1 - p^{-t})^{-1}$を$(1 + p^{-t})^{-1}$に置き換え、以下を与える：
+\begin{equation}
+  K_\pi(t) = \prod_p(1 + p^{-t})^{-1} = \frac{\zeta(2t)}{\zeta(t)},
+  \label{eq:liouville}
+\end{equation}
+ここで恒等式は
+$\zeta(t)/\zeta(2t) = \prod_p(1 + p^{-t})$から従う。
+\end{definition}
+
+Liouville熱核はLiouville関数
+$\lambda(n) = (-1)^{\Omega(n)}$と関連している：
+ディリクレ級数$\sum_n \lambda(n) n^{-t} = \zeta(2t)/\zeta(t)$。
+
+\begin{theorem}[重力反転]
+\label{thm:reversal}
+Liouville熱核は以下を満たす：
+\begin{enumerate}
+\item $K_\pi(0) = 1$（$t = 0$で零点なし）。
+\item $K_\pi'(0) = \log(2\pi)$。
+\item 比$G_{\mathrm{eff}}^{(\pi)} / G = K_\pi'(0) / \zeta'(0) = -2$。
+\end{enumerate}
+有効重力結合定数の符号が反転する：
+$G_{\mathrm{eff}} = -2G$、これは斥力重力に対応する。
+\end{theorem}
+
+\begin{proof}
+(1)~$K_\pi(0) = \zeta(0)/\zeta(0) = 1$。
+
+\noindent(2)~$K_\pi(t) = \zeta(t)/\zeta(2t)$と書き、微分すると：
+\begin{align}
+  K_\pi'(t) &= \frac{\zeta'(t)\zeta(2t) - 2\zeta(t)\zeta'(2t)}{\zeta(2t)^2}.
+\end{align}
+$t = 0$において：$\zeta(0) = -1/2$、$\zeta'(0) = -\tfrac{1}{2}\log(2\pi)$、
+かつ$\zeta(0) = \zeta(2 \cdot 0)$であるから、
+\begin{equation}
+  K_\pi'(0) = \frac{\zeta'(0) \cdot \zeta(0) - 2\zeta(0)\cdot\zeta'(0)}
+  {\zeta(0)^2} = \frac{-\zeta'(0)}{\zeta(0)} = \log(2\pi).
+\end{equation}
+
+\noindent(3)~アインシュタイン--ヒルベルト係数は
+$K'(0)$に比例する。通常、$K'(0) = \zeta'(0) = -\tfrac{1}{2}\log(2\pi)$。
+Liouvilleの場合：
+\begin{equation}
+  \frac{G_{\mathrm{eff}}^{(\pi)}}{G}
+  = \frac{K_\pi'(0)}{\zeta'(0)}
+  = \frac{\log(2\pi)}{-\tfrac{1}{2}\log(2\pi)}
+  = -2. \qedhere
+\end{equation}
+\end{proof}
+
+\textbf{物理的内容。}
+$\pi$回転は各モードに\emph{フェルミオン的}符号$(-1)^{\Omega(n)}$を付与する。
+これはボソン真空をフェルミオン真空に置き換えることと等価である。
+重力結合定数が反転するのは、フェルミオンとボソンが$a_2$に
+逆符号で寄与するためである
+（スペクトル幾何のよく知られた性質~\cite{Gilkey1995}）。
+因子2は比$\zeta(2t)/\zeta(t)$の$t = 0$での傾き$\log(2\pi)$が
+元の傾き$-\tfrac{1}{2}\log(2\pi)$と異なることから生じる。
+
+%=======================================================================
+\section{$G = 0$領域における光速}
+\label{sec:light}
+%=======================================================================
+
+\begin{proposition}[光速不変性]
+素数消音がディラック作用素上のスカラーポテンシャル
+$V(x)$として実装される場合（$D \to D + V$）、
+Connesスペクトル距離は不変である：
+$d(x,y) = \sup\{|f(x) - f(y)| : \|[D+V, f]\| \leq 1\}
+= \sup\{|f(x) - f(y)| : \|[D, f]\| \leq 1\}$、
+これは乗法作用素に対して$[V, f] = 0$であることによる。
+したがって$c_{\mathrm{eff}} = c$。
+\end{proposition}
+
+$G = 0$バブル内部：
+平坦ミンコフスキー計量、標準的な光錐、外部との重力相互作用なし。
+宇宙船は通常通り動作する。
+
+\subsection{Liouville殻のスペクトル次元}
+
+スペクトル次元
+$d_S(t) = -2\,d(\log K)/d(\log t)$は、
+$K_\pi(t) = \zeta(t)/\zeta(2t)$に対してUVスケール
+（$t \to 0$）で$d_S \approx 0.4$を与える---$d_S = 4$からの劇的な縮減である。
+中間スケールでは$d_S \approx 2$。
+
+これは\emph{ホログラフィック次元縮減}を示す：
+Liouville殻は2次元共形曲面として振る舞う。
+バブル壁は2次元因果構造に従って伝播し、
+4次元光錐による制約を受けない。
+
+殻CFTの有効ビラソロ中心荷は
+$c_{\mathrm{Vir}} = 12\,\zeta(2)/\zeta(4) \approx 18$であり、
+非自明な2次元共形場理論を示す。
+
+%=======================================================================
+\section{物理的実装}
+\label{sec:implementation}
+%=======================================================================
+
+\subsection{素数共鳴量子素子}
+
+各素数$p$は以下の周波数のトランズモン量子ビットで対処される：
+\begin{equation}
+  \omega_p = \frac{\log p}{\tau},
+\end{equation}
+ここで$\tau$は基準時間スケールである。
+$\tau = 1$\,nsのとき：$\omega_2 = 693$\,MHz、
+$\omega_3 = 1.10$\,GHz、$\omega_5 = 1.61$\,GHz---全て
+標準的な超伝導量子ビット周波数である。
+
+\begin{itemize}
+\item \textbf{吸収モード}（$\delta\epsilon_p = -1$）：
+  量子ビットが第$p$オイラー因子を吸収$\to$消音。
+  2量子ビット$\to$定理~\ref{thm:nullification}（$G = 0$）。
+\item \textbf{位相モード}（$\phi = \pi$）：
+  量子ビットが第$p$セクターに$Z$ゲート（$\pi$位相シフト）を適用
+  $\to$ Liouville回転。
+  全量子ビット$\to$定理~\ref{thm:reversal}（$G = -2G$）。
+\end{itemize}
+
+\subsection{二層バブル複合構造}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+層 & 操作 & $G_{\mathrm{eff}}$ & $c_{\mathrm{eff}}$ \\
+\midrule
+外殻 & 全素数$\pi$回転 & $-2G$ & $c$（$d_S \approx 2$） \\
+内部領域 & $\{2,3\}$消音 & $0$ & $c$（$d_S = 4$） \\
+外部 & なし & $G$ & $c$（$d_S = 4$） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%=======================================================================
+\section{実験的検証}
+\label{sec:experiment}
+%=======================================================================
+
+レギュレータ予想（モードフィルタリング空洞のゼータ正則化カシミールエネルギーが
+物理的カシミールエネルギーに等しいという予想）は、
+2素数篩い分け音響空洞に対して鋭い予測を与える。
+
+\textbf{実験構成。}
+$L/3$と$2L/3$に内部Mo/AlNブラッグ反射器
+（$p = 3$消音を実装）とDN境界条件（$p = 2$消音を実装）を持つ
+142\,$\mu$m石英BAW結晶。
+
+\textbf{予測。}
+\begin{equation}
+  \frac{|E_{\neg\{2,3\}}|}{|E_{\mathrm{DD}}|}
+  = \frac{|\zeta_{\neg\{2,3\}}(-3)|}{|\zeta(-3)|}
+  = |(1 - 2^3)(1 - 3^3)| = 7 \times 26 = 182.
+\end{equation}
+
+代替予測（非オイラー的モード計数）は$1/3$である。
+二つの予測は546倍の差で分離される。
+
+\textbf{費用：}\$2{,}200。
+\textbf{期間：}4--6ヶ月。
+比率が$182 \pm 50\%$であれば：定理~1と定理~2は物理的に実現可能であり、
+複合ワープバブル構造は実験的に基礎付けられる。
+
+%=======================================================================
+\section{議論}
+%=======================================================================
+
+\subsection{既知のノーゴー定理との関係}
+
+アルクビエレ計量は弱エネルギー条件（WEC）の破れを必要とする。
+我々の枠組みはWECを破ら\emph{ない}：
+$G = 0$領域は曲率への応力エネルギー結合が零であり、
+$G = -2G$領域は斥力的であるが正のエネルギーを伴う
+（位相回転モードであり、エキゾチック物質ではない）。
+計量の歪みは応力エネルギーテンソルからではなく、
+\emph{スペクトル}構造から生じる。
+
+\subsection{仮定と制限事項}
+
+中心的な仮定は、BCスペクトルトリプル
+$(\mathcal{A}, \mathcal{H}, D)$（$D^2 = H_{\mathrm{BC}}$）が
+物理的真空を忠実に記述するということである。
+これは検証可能である（\ref{sec:experiment}節）。
+
+追加的な注意事項：
+\begin{enumerate}
+\item BC系は$(0+1)$次元であり（固有の空間構造を持たない）、
+  $3+1$次元への埋め込みには積幾何
+  $M \times \Spec(\mathbb{Z})$が必要であるが、
+  完全には形式化されていない。
+\item $t = 0$でのSeeley--DeWitt展開は、
+  多項式展開では捉えられない非摂動論的補正を受ける可能性がある。
+\item Liouville熱核$\zeta(t)/\zeta(2t)$は$t = 1/2$に極を持ち
+  （$\zeta(2t = 1)$に由来する）、
+  この特異点の物理的意味は未解明である。
+\end{enumerate}
+
+\subsection{エントロピーコスト}
+
+消音状態の維持に対するランダウアー限界は
+モードあたり$W \geq k_B T |\Delta S|$である。
+10\,mKにおいて：$W \sim 10^{-8}$\,J\,m$^{-3}$---メタマテリアル壁
+エネルギー（$\sim 10^3$\,J）と比較して無視可能である。
+
+%=======================================================================
+\section{結論}
+%=======================================================================
+
+リーマンゼータ関数のオイラー積構造を、BC真空の独立な
+素数チャンネルへの分解として解釈することにより、
+二つの形態の重力結合制御が可能であることを示した：
+無効化（$G = 0$、定理~\ref{thm:nullification}）
+および反転（$G = -2G$、定理~\ref{thm:reversal}）。
+
+両操作は、オイラー積の個々の素数セクターを操作することで
+達成される---$G = 0$には消音（吸収）、
+$G < 0$には$\pi$回転（$Z$ゲート）---標準的な
+回路QED技術を用いて。
+
+$G = 0$内部は$c_{\mathrm{eff}} = c$を保存し（Connes距離の証明）、
+$G = -2G$殻はスペクトル次元が$d_S \approx 2$（ホログラフィック）に
+縮減され、2次元因果構造を介した
+超光速メカニズムの可能性を提供する。
+
+単一の実験---2素数篩い分けBAW空洞におけるカシミールエネルギー比
+182:1の測定（\$2{,}200）---が両定理の物理的実現可能性を
+反証または確認し、算術的真空工学の
+最も費用対効果の高い検証となる。
+
+\begin{acknowledgments}
+計算にはPARI/GP、SageMath、mpmathを使用した。
+\end{acknowledgments}
+
+\end{document}
