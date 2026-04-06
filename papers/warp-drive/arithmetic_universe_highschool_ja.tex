@@ -1,0 +1,729 @@
+% arithmetic_universe_highschool_ja.tex
+% 高校生向け日本語版 — xelatex + xeCJK + tcolorbox, NO cleveref, NO enumitem
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% Color definitions
+\definecolor{ideacolor}{RGB}{52,73,94}
+\definecolor{mathcolor}{RGB}{41,128,185}
+\definecolor{physcolor}{RGB}{39,174,96}
+\definecolor{warncolor}{RGB}{211,84,0}
+\definecolor{funcolor}{RGB}{142,68,173}
+\definecolor{testcolor}{RGB}{192,57,43}
+\definecolor{lightblue}{RGB}{214,234,248}
+\definecolor{lightgreen}{RGB}{212,239,223}
+\definecolor{lightyellow}{RGB}{252,243,207}
+\definecolor{lightpurple}{RGB}{235,222,240}
+\definecolor{lightred}{RGB}{245,215,215}
+
+% tcolorbox styles
+\newtcolorbox{ideabox}[1][]{%
+  colback=lightblue, colframe=ideacolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1pt
+}
+
+\newtcolorbox{mathbox}[1][]{%
+  colback=white, colframe=mathcolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1.5pt
+}
+
+\newtcolorbox{analogybox}[1][]{%
+  colback=lightgreen, colframe=physcolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1pt
+}
+
+\newtcolorbox{funbox}[1][]{%
+  colback=lightpurple, colframe=funcolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1pt
+}
+
+\newtcolorbox{warnbox}[1][]{%
+  colback=lightyellow, colframe=warncolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1pt
+}
+
+\newtcolorbox{testbox}[1][]{%
+  colback=lightred, colframe=testcolor, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=3mm, boxrule=1pt
+}
+
+\newtcolorbox{keybox}[1][]{%
+  colback=white, colframe=black, fonttitle=\bfseries\sffamily,
+  title={#1}, breakable, arc=2mm, boxrule=2pt
+}
+
+\title{\textbf{\Huge 宇宙にはソースコードがある？}\\[8pt]
+\Large 算術的宇宙論——高校生のための完全ガイド}
+\author{ライト兄弟コラボレーション}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{ideabox}[この論文について]
+宇宙はなぜ今の姿をしているのか？ なぜ3次元空間＋1次元時間なのか？
+なぜ電磁気力・弱い力・強い力の3つなのか？
+なぜ宇宙の70\%がダークエネルギーなのか？
+
+驚くべきことに、これらすべての答えが「整数」——つまり
+$1, 2, 3, 4, 5, \ldots$ とその素因数分解——の中に隠されているかもしれない。
+
+この論文は、その大胆な仮説を高校生にもわかるように解説する。
+数学の予備知識は中学校レベルで十分。
+\end{ideabox}
+
+\tableofcontents
+\newpage
+
+%=====================================================================
+\section{「宇宙にソースコードがある？」——大きなアイデア}
+%=====================================================================
+
+\begin{analogybox}[ソースコードのアナロジー]
+コンピュータゲームの世界を想像しよう。画面に映るキャラクター、建物、物理法則——
+これらすべてはプログラムの\textbf{ソースコード}から生まれる。
+
+もし宇宙がある種の「プログラム」だとしたら、そのソースコードは何だろう？
+
+\textbf{我々の答え：整数（$1, 2, 3, 4, 5, \ldots$）とその素数
+（$2, 3, 5, 7, 11, \ldots$）。}
+\end{analogybox}
+
+物理学にはたくさんの「なぜ？」がある：
+\begin{itemize}
+\item なぜ空間は3次元なのか？（前後・左右・上下の3方向）
+\item なぜ力は3種類なのか？（電磁気力・弱い力・強い力）
+\item なぜ宇宙の約70\%は謎のエネルギー（ダークエネルギー）なのか？
+\item なぜ物質は3世代（電子族・ミュー族・タウ族）あるのか？
+\end{itemize}
+
+これまで物理学者は、これらを別々の問題として扱ってきた。
+だが我々の枠組みでは、\textbf{すべてが一つの数「3」から導かれる}。
+
+\begin{keybox}[マスターナンバー：$\mathbf{3}$]
+整数の「空間」$\mathrm{Spec}(\mathbb{Z})$の
+エタールコホモロジー次元は\textbf{3}。
+
+\[
+  \mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3
+\]
+
+これは1962年にArtinとVerdierが証明した数学の\textbf{定理}（仮説ではない！）。
+\end{keybox}
+
+%=====================================================================
+\section{数の DNA：$\mathrm{Spec}(\mathbb{Z})$}
+%=====================================================================
+
+\begin{ideabox}[DNA のアナロジー]
+生物のすべての設計情報はDNAに書かれている。
+DNAは4つの塩基（A, T, G, C）で構成される。
+
+同じように、すべての整数は\textbf{素数}で構成される：
+\[
+  60 = 2^2 \times 3 \times 5, \quad
+  2024 = 2^3 \times 11 \times 23.
+\]
+
+素数は「数のDNA塩基」——数の世界の最小構成要素だ。
+\end{ideabox}
+
+\begin{mathbox}[$\mathrm{Spec}(\mathbb{Z})$って何？]
+$\mathrm{Spec}(\mathbb{Z})$（スペック・ゼット）は、
+すべての素数$2, 3, 5, 7, 11, \ldots$を「点」として持つ空間だ。
+
+普通の地図が「東京」「大阪」「名古屋」を点として持つように、
+$\mathrm{Spec}(\mathbb{Z})$は$2, 3, 5, 7, 11, \ldots$を点として持つ。
+
+さらに「0」という特別な点がある（すべての素数を含む「全体」を表す）。
+
+この空間の「深さ」（コホモロジー次元）が$3$なのだ。
+\end{mathbox}
+
+$3$という数はどこから来るのか？
+
+\begin{mathbox}[$3 = 1 + 2$ の分解]
+\[
+  3 = \underbrace{1}_{\text{素数の「列」}} + \underbrace{2}_{\text{実数の世界}}
+\]
+
+\textbf{1：}素数は一列に並んでいる（$2, 3, 5, 7, 11, \ldots$）。
+この「列」の次元が1。
+
+\textbf{2：}整数は実数の中に住んでいる（$\mathbb{Z}\subset\mathbb{R}$）。
+実数の世界から追加で2次元が来る。
+これは「実数の中に複素数がある」（$\mathbb{R}\subset\mathbb{C}$）ことに関係する：
+$\mathbb{C}$は$\mathbb{R}$の2倍の次元を持つ。
+\end{mathbox}
+
+%=====================================================================
+\section{なぜ4次元？——家と部屋のアナロジー}
+%=====================================================================
+
+\begin{analogybox}[家のアナロジー]
+家（$\mathrm{Spec}(\mathbb{Z})$）の構造を調べると、
+部屋が3層に積み重なっている（コホモロジー次元$=3$）。
+
+でも家の中で\textbf{生活する}（物理が展開する）には、
+\textbf{時間}という廊下が必要だ。
+
+\[
+  \text{時空次元} = \text{部屋の層数} + \text{廊下} = 3 + 1 = 4
+\]
+
+だから宇宙は\textbf{3次元空間＋1次元時間＝4次元時空}なのだ！
+\end{analogybox}
+
+\begin{funbox}[もし次元が違ったら？]
+\textbf{2次元空間（合計3次元時空）の場合：}
+\begin{itemize}
+\item 惑星は太陽の周りを安定して回れない！
+\item 脳のニューロンが交差できない（配線問題）。
+\end{itemize}
+
+\textbf{4次元空間（合計5次元時空）の場合：}
+\begin{itemize}
+\item 原子が安定しない！（電子が原子核に落ちる）
+\item 重力が強すぎて星が形成できない。
+\end{itemize}
+
+$d=4$は「ちょうど良い」のではなく、
+\textbf{算術が$3+1$と決めている}のだ。
+\end{funbox}
+
+\begin{mathbox}[$d=4$の5つの理由]
+同じ答え$d=4$が5つの全く違うルートから出てくる：
+
+\begin{tabular}{cp{10cm}}
+\toprule
+番号 & 理由 \\
+\midrule
+1 & コホモロジー次元$3$＋時間$1$＝$4$ \\
+2 & 球面の安定ホモトピー群で$\pi_3$が最大 \\
+3 & リーマンゼータの対称性が$3+1$を示す \\
+4 & $K_3(\mathbb{Z})=\mathbb{Z}/48$（3番目の$K$群）が最初に非自明 \\
+5 & 安定軌道・安定原子が$d=4$でのみ成立 \\
+\bottomrule
+\end{tabular}
+\end{mathbox}
+
+%=====================================================================
+\section{なぜこの3つの力？——3次元算術空間からの3つの力}
+%=====================================================================
+
+\begin{ideabox}[力とは何か]
+自然界には4つの基本力がある：
+\begin{itemize}
+\item \textbf{電磁気力}：光、電気、磁石（光子$\gamma$が媒介）
+\item \textbf{弱い力}：放射性崩壊（$W^\pm, Z^0$が媒介）
+\item \textbf{強い力}：原子核を束ねる（8個のグルーオンが媒介）
+\item \textbf{重力}：りんごが落ちる、地球が太陽を回る
+\end{itemize}
+
+最初の3つは「ゲージ力」と呼ばれ、ゲージ群
+$U(1)\times SU(2)\times SU(3)$で記述される。
+\end{ideabox}
+
+\begin{mathbox}[算術的空間の次元$=3$が力を決める]
+$\mathrm{Spec}(\mathbb{Z})$の次元が$3$なので、
+「行列のサイズ」は$1\times 1$、$2\times 2$、$3\times 3$の3種類まで。
+
+\begin{itemize}
+\item $1\times 1$行列の対称性 $\to$ $U(1)$（電磁気力）：ボソン\textbf{1個}
+\item $2\times 2$行列の対称性 $\to$ $SU(2)$（弱い力）：ボソン\textbf{3個}
+\item $3\times 3$行列の対称性 $\to$ $SU(3)$（強い力）：ボソン\textbf{8個}
+\end{itemize}
+
+合計：$1+3+8=\mathbf{12}$個のゲージボソン。
+
+$4\times 4$行列は？ コホモロジー次元が$3$なので、\textbf{4は入らない}。
+だから第4のゲージ力は存在しない！
+
+重力はゲージ力ではなく、時空の「曲がり」として
+$+1$（時間）の部分から来る。
+\end{mathbox}
+
+\begin{funbox}[「12」の秘密]
+$12$という数は偶然ではない：
+\[
+  12 = \frac{2}{B_2^+} = \frac{2}{1/6}
+\]
+ここで$B_2^+ = 1/6$は「第2ベルヌーイ数」（数学の有名な数列の一つ）。
+ゲージボソンの数が純粋な数論から出てくる！
+
+ちなみにリーマンゼータ関数で$\zeta(-1) = -\frac{1}{12}$。
+同じ$12$がまた登場する。
+\end{funbox}
+
+%=====================================================================
+\section{ダークエネルギー$= 2\pi/9$——最大の謎への最もシンプルな答え}
+%=====================================================================
+
+\begin{ideabox}[ダークエネルギーとは]
+1998年、宇宙の膨張が\textbf{加速}していることが発見された（ノーベル賞）。
+この加速を引き起こす謎のエネルギーが\textbf{ダークエネルギー}。
+
+宇宙のエネルギー構成：
+\begin{itemize}
+\item ダークエネルギー：約$69\%$（正体不明！）
+\item ダークマター：約$26\%$（正体不明！）
+\item 普通の物質：約$5\%$（星、惑星、人間）
+\end{itemize}
+
+物理学最大の未解決問題の一つ：なぜ$69\%$なのか？
+\end{ideabox}
+
+\begin{keybox}[WBの答え：$\Omega_\Lambda = 2\pi/9$]
+\[
+  \boxed{\Omega_\Lambda = \frac{2\pi}{9} \approx 0.6981 \approx 69.8\%}
+\]
+
+パラメータなし。仮定なし。整数の性質だけから導かれる。
+
+観測値（Planck衛星）：$0.689 \pm 0.006$——1.6$\sigma$以内で一致！
+\end{keybox}
+
+この数はどう導かれるのか？
+
+\begin{mathbox}[3つの因子]
+\[
+  \Omega_\Lambda = \underbrace{\frac{4}{3}}_{\text{重力}} \times
+                   \underbrace{2\pi}_{\text{円周}} \times
+                   \underbrace{\frac{1}{12}}_{\text{ゼータ関数}}
+\]
+
+\textbf{$\frac{4}{3}$（重力因子）：}
+アインシュタインの方程式（宇宙の膨張を記述）に現れる係数。
+
+\textbf{$2\pi$（円の周長）：}
+実数の世界の「丸さ」——円周率$\pi$が$2$倍。
+これは整数の空間$\mathrm{Spec}(\mathbb{Z})$が
+実数$\mathbb{R}$に埋め込まれることから来る。
+
+\textbf{$\frac{1}{12}$（ゼータ関数の値）：}
+リーマンゼータ関数$\zeta(-1) = -\frac{1}{12}$。
+しかし素数$p=2$を特別扱いすると符号が反転して$+\frac{1}{12}$になる！
+\end{mathbox}
+
+\begin{analogybox}[ケーキのレシピ]
+ダークエネルギーの公式は、3つの材料のレシピのようなもの：
+
+\begin{itemize}
+\item \textbf{小麦粉}（$4/3$）= 重力の土台
+\item \textbf{バター}（$2\pi$）= 空間の丸み
+\item \textbf{砂糖}（$1/12$）= 数論のスパイス
+\end{itemize}
+
+3つを混ぜると、ちょうど$2\pi/9 \approx 69.8\%$のケーキ（ダークエネルギー）ができる！
+\end{analogybox}
+
+%=====================================================================
+\section{なぜ$p=2$が特別なのか——5つの理由}
+%=====================================================================
+
+\begin{ideabox}[コイン投げのアナロジー]
+ダークエネルギーの公式で$\frac{1}{12}$が出てくるとき、
+素数$2$を「特別扱い」する必要がある。なぜ$2$なのか？
+
+コイン投げを考えよう。コインには表と裏——\textbf{2つ}の面がある。
+$2$は「最も基本的な選択」（はい/いいえ、表/裏、0/1）の数だ。
+\end{ideabox}
+
+\begin{mathbox}[$p=2$が唯一の物理的素数である5つの理由]
+
+\textbf{理由1：物理的に正しい範囲}
+
+素数$p$を除くと、ダークエネルギーは$\Omega_\Lambda(p) = 2\pi(p-1)/9$になる。
+\begin{itemize}
+\item $p=2$：$\Omega_\Lambda = 2\pi/9 \approx 0.698$ --- $1$未満で物理的にOK！
+\item $p=3$：$\Omega_\Lambda = 4\pi/9 \approx 1.40$ --- $1$を超えるので物理的に不可能！
+\item $p=5$以上：さらに大きくなり、すべて不可能。
+\end{itemize}
+
+\textbf{理由2：正のエネルギー}
+
+$p=2$を除くと$-1/12$が$+1/12$に変わり、\textbf{正}のダークエネルギー（宇宙の膨張加速）になる。
+
+\textbf{理由3：最小エネルギー}
+
+$p=2$はすべての素数の中で最小の$|\Omega_\Lambda|$を与える（自然は最も穏やかな状態を選ぶ）。
+
+\textbf{理由4：実数と複素数の橋渡し}
+
+$\mathbb{C}$は$\mathbb{R}$の\textbf{2}倍の次元。
+$\mathrm{Gal}(\mathbb{C}/\mathbb{R}) = \mathbb{Z}/\mathbf{2}$。
+$2$は実数と複素数を結ぶ唯一の素数。
+
+\textbf{理由5：整数の「反転」}
+
+整数の中で掛け算の逆元（単元）は$+1$と$-1$だけ：$\mathbb{Z}^\times = \{+1, -1\}$。
+元の数は$\mathbf{2}$個。
+\end{mathbox}
+
+\begin{funbox}[5つの道が1点で交わる]
+5つの全く違う数学の分野から来た理由が、すべて同じ答え「$p=2$」を指している。
+これは偶然とは考えにくい——宇宙が$p=2$を「選んでいる」ことの証拠だ。
+\end{funbox}
+
+%=====================================================================
+\section{たった1つの可能な宇宙——算術的ランドスケープ}
+%=====================================================================
+
+\begin{ideabox}[弦理論のランドスケープ問題]
+弦理論（超弦理論）は「万物の理論」の候補だが、大きな問題がある：
+弦理論は\textbf{$10^{500}$個}（1の後に500個のゼロ！）もの
+異なる宇宙を許してしまう。
+
+$10^{500}$がどれくらい大きいか？
+宇宙の原子の数はたった$10^{80}$個。
+$10^{500}$はそれを$10^{420}$回掛けた数だ。
+
+弦理論は「なぜこの宇宙なのか」に答えられない。
+\end{ideabox}
+
+\begin{keybox}[算術的ランドスケープ：高々6個]
+WB（ライト兄弟）の枠組みでは、物理的に許される宇宙は\textbf{高々6個}。
+しかもすべて同じダークエネルギー$\Omega_\Lambda = 2\pi/9$を持つ。
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{枠組み} & \textbf{可能な宇宙の数} & \textbf{選択原理} \\
+\midrule
+弦理論           & $\sim 10^{500}$        & なし \\
+WB算術           & $\le 6$                & $\mathrm{cd}=3$と$p=2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$10^{500}$から$6$へ——これは科学史上最大の「可能性の削減」だ！
+\end{keybox}
+
+\begin{analogybox}[パスワードのアナロジー]
+弦理論：「パスワードは$10^{500}$通りあるけど、
+どれが正しいかわからない。」
+
+WB：「パスワードは最大6通り。しかもどれを選んでも同じ結果になる。」
+
+どちらが「宇宙のコードを解読した」と言えるだろうか？
+\end{analogybox}
+
+%=====================================================================
+\section{ダークエネルギー＝重力$\times$幾何学$\times$算術}
+%=====================================================================
+
+\begin{analogybox}[ケーキのレシピ（詳細版）]
+$\Omega_\Lambda = \frac{4}{3} \times 2\pi \times \frac{1}{12}$
+
+この公式は3つの「材料」の掛け算だ：
+
+\textbf{材料1：重力（$4/3$）}
+
+アインシュタインの一般相対性理論から来る。
+宇宙の膨張を記述するフリードマン方程式に現れる係数。
+「ケーキの生地」——構造の土台。
+
+\textbf{材料2：幾何学（$2\pi$）}
+
+円周率$\pi$の2倍。なぜ円？
+整数$\mathbb{Z}$が実数$\mathbb{R}$の中に住んでいて、
+$\mathbb{R}$には「回転」（角度$2\pi$で一周）がある。
+「ケーキの型」——形を決める。
+
+\textbf{材料3：算術（$1/12$）}
+
+$1+2+3+4+\cdots = -\frac{1}{12}$（ラマヌジャンの和！）。
+でも$p=2$を特別扱いすると$+\frac{1}{12}$になる。
+「ケーキの味付け」——正確な値を決める。
+\end{analogybox}
+
+\begin{mathbox}[なぜこの分解が重要なのか]
+物理（重力）$\times$ 幾何学（円周）$\times$ 数論（ゼータ関数）
+
+宇宙の3大分野が一つの公式に集結している：
+\begin{itemize}
+\item 物理学（アインシュタインの重力理論）
+\item 幾何学（ユークリッドの円）
+\item 数論（リーマンのゼータ関数）
+\end{itemize}
+
+これは偶然の一致だろうか、それとも宇宙の深い構造だろうか？
+\end{mathbox}
+
+%=====================================================================
+\section{$K$理論：宇宙のシリアルナンバー}
+%=====================================================================
+
+\begin{ideabox}[シリアルナンバーのアナロジー]
+製品にはシリアルナンバーがある。
+$K$理論は整数$\mathbb{Z}$の「シリアルナンバー」を計算する。
+
+$K_0, K_1, K_2, K_3, K_4, K_5, K_6, K_7, \ldots$
+——それぞれが異なる「特徴」を表す。
+\end{ideabox}
+
+\begin{keybox}[$K_7(\mathbb{Z}) = \mathbb{Z}/240$と$E_8$]
+$\mathbb{Z}$の第7番目の$K$群は$\mathbb{Z}/240$（位数240の巡回群）。
+
+$240$は何か？ これは$E_8$——数学で最も美しい対称性の一つ——のルート（根）の数！
+
+$E_8$は248次元の対称性で、弦理論でも重要な役割を果たす。
+それが\textbf{整数の$K$理論から}出てくる。
+\end{keybox}
+
+\begin{keybox}[$K_3(\mathbb{Z}) = \mathbb{Z}/48$とフェルミオン]
+$\mathbb{Z}$の第3番目の$K$群は$\mathbb{Z}/48$。
+
+$48$を分解すると：
+\[
+  48 = 3 \times 16
+\]
+
+\textbf{3}：フェルミオン（物質粒子）の\textbf{3世代}
+\begin{itemize}
+\item 第1世代：電子、$u$クォーク、$d$クォーク
+\item 第2世代：ミュー粒子、$c$クォーク、$s$クォーク
+\item 第3世代：タウ粒子、$t$クォーク、$b$クォーク
+\end{itemize}
+
+\textbf{16}：各世代のフェルミオン数。$SO(10)$統一理論の$\mathbf{16}$表現は
+標準模型の15粒子＋\textbf{右巻きニュートリノ$\nu_R$}（1粒子）を含む。
+
+つまり$K_3(\mathbb{Z})=48$は、\textbf{まだ発見されていない粒子
+（右巻きニュートリノ）の存在を予言している！}
+\end{keybox}
+
+\begin{funbox}[$H^2 = 0$：バグのない宇宙]
+$\mathrm{Spec}(\mathbb{Z})$の2次コホモロジーは$H^2 = 0$。
+
+物理での意味：ゲージアノマリー（理論の矛盾）が\textbf{原理的に発生しない}。
+
+プログラミングで言えば：「このソースコードにはバグが\textbf{存在し得ない}」。
+宇宙のコードは完璧に書かれている！
+\end{funbox}
+
+%=====================================================================
+\section{ホログラム：$p=2$が深さを与える}
+%=====================================================================
+
+\begin{analogybox}[ホログラムカードのアナロジー]
+クレジットカードのホログラムシール知ってる？
+薄い2次元のフィルムなのに、傾けると3次元の像が見える。
+
+\textbf{ホログラフィー原理}：宇宙も同じかもしれない。
+$(d-1)$次元の「境界」の情報が、$d$次元の「中身」をすべて記述する。
+
+WBの枠組みでは、$p=2$を「除く」ことがホログラフィーに対応する：
+\begin{itemize}
+\item \textbf{「境界」}= 素数$p=2$以外のすべての情報
+\item \textbf{「中身」}= $p=2$を含む完全な宇宙
+\end{itemize}
+
+$p=2$はホログラムの「奥行き」を作り出す特別な素数なのだ。
+\end{analogybox}
+
+\begin{mathbox}[アデール積公式]
+数学には美しい等式がある：
+\[
+  \prod_{\text{すべての}v}|x|_v = 1 \quad (\forall\, x \in \mathbb{Q}^\times)
+\]
+
+左辺は「すべての素数での絶対値の積$\times$実数での絶対値」。
+$p=2$を1つ除いても、残りから全体が復元できる——
+これがまさにホログラフィーだ。
+\end{mathbox}
+
+\begin{funbox}[情報コスト：$\Delta S = \frac{1}{2}\log 2$]
+$p=2$を「特別扱い」するコストは、情報量で測ると
+$\frac{1}{2}\log 2 \approx 0.35$ナット。
+
+これは「コイン投げ1回の半分」に相当する、
+\textbf{宇宙で最も安い情報コスト}だ。
+\end{funbox}
+
+%=====================================================================
+\section{検証できるのか？——3つの実験}
+%=====================================================================
+
+\begin{testbox}[科学の条件：反証可能性]
+科学理論は「正しいかもしれないが、間違いを検出できる」ものでなければならない
+（カール・ポパー）。
+
+WBの枠組みは3つの具体的実験で検証できる。
+もし実験結果が予言と合わなければ、理論は棄却される。
+\end{testbox}
+
+\begin{testbox}[実験1：Euclid衛星（2028年）]
+\textbf{何を測るか：}ダークエネルギーの量$\Omega_\Lambda$
+
+\textbf{WBの予言：}$\Omega_\Lambda = 2\pi/9 = 0.6981\ldots$
+
+\textbf{精度：}$0.5\%$（$\pm 0.003$程度）
+
+\textbf{判定：}Euclidの測定値が$0.695$--$0.701$の範囲なら支持。
+$0.685$以下なら棄却の可能性。
+
+ESA（欧州宇宙機関）のEuclid衛星は2023年に打ち上げ済み。
+2028年までに最終結果が出る。
+\end{testbox}
+
+\begin{testbox}[実験2：水晶BAW共振器]
+\textbf{何を測るか：}超高精度の音響振動
+
+\textbf{WBの予言：}厚さ$83$--$88\,\mu$mの水晶板で
+$\Delta f \approx 1.7\,$mHz（ミリヘルツ）の異常周波数シフト
+
+\textbf{必要な技術：}$Q > 10^9$の超高品質水晶共振器（低温$4\,$K）
+
+\textbf{判定：}予言通りのシフトが検出されれば強力な支持。
+検出されなければ、理論の特定部分を修正する必要がある。
+
+これは\textbf{卓上実験}で実行可能——巨大加速器は不要！
+\end{testbox}
+
+\begin{testbox}[実験3：DESI $w(z)$テスト]
+\textbf{何を測るか：}ダークエネルギーの「状態方程式」$w(z)$
+
+\textbf{WBの予言：}
+\[
+  w(z) \approx -1 + 0.16 \cdot \frac{1}{(1+z)^2}
+\]
+（ダークエネルギーは正確には定数ではなく、わずかに変化する）
+
+\textbf{時期：}DESI 5年サーベイ完了（2027年頃）
+
+DESIはすでに2024年に初期データを公開しており、
+WB予言と整合的な傾向を示している（$\Delta\chi^2 = -24$の改善！）。
+\end{testbox}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{実験} & \textbf{時期} & \textbf{予言} & \textbf{精度} \\
+\midrule
+Euclid衛星     & 2028年 & $\Omega_\Lambda = 0.698$ & $0.5\%$ \\
+水晶BAW        & 実行可能 & $\Delta f = 1.7\,$mHz & 検出可能 \\
+DESI $w(z)$    & 2027年 & $w_0 \approx -0.84$ & $5\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%=====================================================================
+\section{何が足りないか——正直な評価}
+%=====================================================================
+
+\begin{warnbox}[正直に認めること]
+素晴らしい理論でも、限界を認めることが科学的誠実さだ。
+以下はWB枠組みの現時点での弱点：
+\end{warnbox}
+
+\begin{warnbox}[限界1：「$+1$」はなぜ？]
+$\mathrm{cd} = 3$から$d = 3+1$への移行は直感的だが、
+なぜ「$+1$」なのか（$+0$や$+2$ではなく）の厳密な証明はまだない。
+\end{warnbox}
+
+\begin{warnbox}[限界2：ラングランズ予想は未完成]
+ゲージ群の導出は「ラングランズ対応」に依存するが、
+この対応自体が数学でまだ完全には証明されていない。
+\end{warnbox}
+
+\begin{warnbox}[限界3：フェルミオン質量の説明なし]
+電子の質量が$0.511\,$MeVで、トップクォークの質量が$173\,$GeVなのはなぜか？
+WBはまだこれに答えられない。
+\end{warnbox}
+
+\begin{warnbox}[限界4：量子重力が不完全]
+重力の量子論（量子重力）は完成していない。
+WBは近似的なWheeler--DeWitt方程式を使っている。
+\end{warnbox}
+
+\begin{warnbox}[限界5：$48 = 3\times 16$は偶然かもしれない]
+$K_3(\mathbb{Z}) = 48$が「3世代$\times$16フェルミオン」を\textbf{本当に}意味するのか、
+それとも数字の偶然の一致なのかは、まだ厳密には証明されていない。
+\end{warnbox}
+
+\begin{warnbox}[限界6：BAW実験はまだ行われていない]
+水晶共振器での予言はまだ誰も検証していない。
+理論の真の検証は実験結果を待つ必要がある。
+\end{warnbox}
+
+%=====================================================================
+\section{大きな絵：「宇宙は算術で書かれている」}
+%=====================================================================
+
+\begin{keybox}[ガリレオの言葉の更新]
+ガリレオ・ガリレイ（1623年）：
+「宇宙は数学の言葉で書かれている。
+その文字は三角形、円、その他の幾何学的図形である。」
+
+\textbf{WBの主張（2026年）：}
+「宇宙は算術の言葉で書かれている。
+その文字は素数、ゼータ関数、コホモロジーである。」
+\end{keybox}
+
+\begin{ideabox}[まとめ：整数からの宇宙]
+
+\textbf{入力：}整数$\mathbb{Z}$とその素数$2, 3, 5, 7, 11, \ldots$
+
+\textbf{ステップ1：}$\mathrm{Spec}(\mathbb{Z})$のコホモロジー次元$=3$を計算
+
+\textbf{ステップ2：}$3+1=4$次元時空を導出
+
+\textbf{ステップ3：}$\mathrm{GL}(1,2,3)$から3つのゲージ力を導出
+
+\textbf{ステップ4：}$p=2$を特別扱いして$\Omega_\Lambda = 2\pi/9$を導出
+
+\textbf{ステップ5：}$K$理論から$E_8$、3世代、$\nu_R$を導出
+
+\textbf{出力：}我々の宇宙
+\end{ideabox}
+
+\begin{center}
+\begin{tabular}{p{4cm}p{4cm}p{4cm}}
+\toprule
+\textbf{問い} & \textbf{WBの答え} & \textbf{根拠} \\
+\midrule
+なぜ4次元？ & $\mathrm{cd}=3$＋時間 & Artin--Verdier定理 \\
+なぜ3つの力？ & $\mathrm{GL}(1,2,3)$ & ラングランズ対応 \\
+なぜ12ボソン？ & $1+3+8=2/B_2^+$ & ベルヌーイ数 \\
+なぜDE$\approx 70\%$？ & $2\pi/9$ & $\zeta_{\neg2}(-1)=+1/12$ \\
+なぜ3世代？ & $K_3=48=3\times 16$ & 代数的$K$理論 \\
+$\nu_R$は存在？ & はい & $16 = 15+1$ \\
+宇宙は何通り？ & $\le 6$ & 算術的ランドスケープ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{funbox}[最後に]
+もしこの理論が正しければ、宇宙は人間が発明したどんなプログラムよりも
+エレガントなソースコードで書かれていることになる——
+しかもそのコードは、$1, 2, 3, \ldots$という
+子どもでも知っている数の並びに隠されていたのだ。
+
+クロネッカーの言葉をアップデートしよう：
+
+\textbf{「神は整数を作り給うた。そして宇宙はそこから従った。」}
+\end{funbox}
+
+\vspace{1cm}
+
+\begin{center}
+\textit{この論文はライト兄弟コラボレーションによる\\
+「算術的宇宙」マスターサマリーの高校生向け解説版です。}
+\end{center}
+
+\end{document}

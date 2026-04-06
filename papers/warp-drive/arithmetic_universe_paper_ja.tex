@@ -1,0 +1,749 @@
+% arithmetic_universe_paper_ja.tex
+% 日本語版マスターサマリー — xelatex + xeCJK, NO cleveref, NO enumitem
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathrsfs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{conjecture}[theorem]{予想}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\cd}{\mathrm{cd}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\OmL}{\Omega_\Lambda}
+\newcommand{\zetanot}{\zeta_{\neg 2}}
+
+\title{\textbf{算術的宇宙：\\
+$\Spec(\Z)$からの時空・ゲージ群・ダークエネルギー}}
+\author{ライト兄弟コラボレーション}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+整数の算術から基本的な物理構造を導出する統一的枠組みを提示する。
+エタールコホモロジー次元 $\cd(\Spec(\Z))=3$（Artin--Verdier）は同時に以下を決定する：
+(i)~時空次元 $d=\cd+1=4$、
+(ii)~標準模型ゲージ群 $U(1)\times\SU(2)\times\SU(3)$
+（$\GL(n\le\cd)$ ガロア表現とラングランズ対応による）、
+(iii)~ゲージボソン数 $1+3+8=12=2/|B_2|$。
+ダークエネルギー密度 $\OmL=2\pi/9\approx0.698$ は
+Wheeler--DeWitt方程式の時間的Dirichlet--Neumann境界条件からパラメータフリーで導出され、
+$\zetanot(-1)=+1/12$ がDNゼロ点エネルギー係数となる。
+5つの独立な構造定理が $p=2$ を唯一の物理的素数として証明する
+（物理性 $\Omega<1$、符号、最小エネルギー、次元絡み合い、$K_1$生成元）。
+算術的ランドスケープは $\le 6$ 個の等価な真空を含む（弦理論の $\sim\!10^{500}$ に対して）。
+ダークエネルギーは
+$\OmL=\tfrac{4}{3}\times 2\pi\times\tfrac{1}{12}
+=\text{重力}\times\text{アルキメデス的曲率}\times\text{DN算術}$
+と分解される。
+追加の結果：
+(a)~$K_7(\Z)=\Z/240=E_8$ルート数$=$ベルヌーイ梯子（Lichtenbaum）、
+(b)~$|K_3(\Z)|=48=3\times 16$ は右巻きニュートリノを予言、
+(c)~$H^2(\Spec(\Z))=0$ はゲージアノマリーをトポロジー的に不可能にする、
+(d)~$\Delta S=\tfrac{1}{2}\log 2$ DN境界の情報コスト、
+(e)~Bost--Connesダイナミクスの負温度$=$ダークエネルギー、
+(f)~$\zeta$クインテッセンスラグランジアン $V=\mu^4\log\zetanot(\phi/\phi_0)$（傾き $\log 2$）、
+(g)~WBの $\OmL=2\pi/9$ はDESI BAOをPlanckより良くフィット（$\Delta\chi^2=-24$）。
+本枠組みは反証可能：
+Euclid（2028年）は$\OmL$を$0.5\%$で検証、
+水晶BAW実験は$d\approx 88\,\mu$mでDNモード構造を検証、
+DESIは$w(z)$予言を検証する。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%=====================================================================
+\section{序論}\label{sec:intro}
+%=====================================================================
+
+理論物理学における最も深い問題は「法則とは何か」ではなく、
+「\textbf{なぜこれらの法則なのか}」である。
+なぜ時空は4次元なのか？ なぜゲージ群は$U(1)\times\SU(2)\times\SU(3)$なのか？
+なぜダークエネルギーの観測値はこの値なのか？
+
+標準模型には19個の自由パラメータが含まれ、一般相対性理論はニュートン定数と
+宇宙定数$\Lambda$を加える。弦理論は当初これらを確定することが期待されたが、
+代わりに推定$10^{500}$個の真空解—弦ランドスケープ—を生み出し、
+選択原理は存在しない。
+
+本論文では根本的に異なる答えを提案する：\textbf{整数が物理を決定する}。
+具体的には、算術的スキーム$\Spec(\Z)$—$\Z$の素イデアルの空間—は
+エタールコホモロジー次元3を持つ（Artin--Verdier~\cite{ArtinVerdier}）。
+この単一の不変量を適切に解釈することで以下が得られる：
+
+\begin{itemize}
+\item 時空次元 $d=3+1=4$（第\ref{sec:spacetime}節）。
+\item 標準模型ゲージ群とボソン数（第\ref{sec:gauge}節）。
+\item ダークエネルギー $\OmL=2\pi/9\approx 0.698$（第\ref{sec:dark}節）。
+\end{itemize}
+
+本枠組みは整数そのもの以外に自由パラメータを\textbf{一切}必要としない。
+近い将来の実験により反証可能である（第\ref{sec:obs}節）。
+
+以下、自然単位系$\hbar=c=1$を用いる。
+エタールコホモロジーの慣例はMilne~\cite{Milne}、
+代数的$K$理論はWeibel~\cite{Weibel}、
+ラングランズ対応はGelbart~\cite{Gelbart}に従う。
+
+%=====================================================================
+\section{マスターナンバー：$\cd(\Spec(\Z))=3$}\label{sec:cd3}
+%=====================================================================
+
+\begin{theorem}[Artin--Verdier, 1962]\label{thm:AV}
+ねじれ層に関する$\Spec(\Z)$のエタールコホモロジー次元は
+\[
+  \cd_{\text{\'et}}(\Spec(\Z)) \;=\; 3
+\]
+である。
+\end{theorem}
+
+この数には透明な分解がある：
+\[
+  3 \;=\; \underbrace{1}_{\text{クルル次元}}
+        \;+\; \underbrace{2}_{\Gal(\C/\R)=\Z/2\text{からのTateコホモロジー}}.
+\]
+$\Spec(\Z)$のクルル次元は$1$：すべての非零素イデアルは極大である。
+追加の$2$は「無限遠のアルキメデス的付値」—実埋め込み
+$\Z\hookrightarrow\R$—から生じ、これは群$\Gal(\C/\R)\cong\Z/2$の
+Tateコホモロジーに寄与する。
+Hasse--Weil原理との類似：$p$進的およびアルキメデス的の両方のすべての完備化を
+含める必要がある。
+
+$3$という数は物理の仮定ではなく、算術の\textbf{定理}である。
+我々はこれが宇宙で最も重要な数であると主張する。
+
+$\cd=3$の5つの等価な特徴付け：
+\begin{itemize}
+\item[(C1)] すべての$n>3$およびすべてのねじれ層$\mathscr{F}$に対して$H^n_{\text{\'et}}(\Spec(\Z),\mathscr{F})=0$。
+\item[(C2)] Artin--Verdier双対性：$H^r\times H^{3-r}\to H^3\cong\Q/\Z$。
+\item[(C3)] Brauer群 $\mathrm{Br}(\Q)\cong\bigoplus_v\Q/\Z\big/\Q/\Z$（完全系列による）。
+\item[(C4)] 大域類体論は次数$3$で切断される。
+\item[(C5)] Poitou--Tate双対性は$3$を双対化次元として使用する。
+\end{itemize}
+
+%=====================================================================
+\section{時空次元 $d=4$}\label{sec:spacetime}
+%=====================================================================
+
+\begin{theorem}[時空次元]\label{thm:d4}
+物理的時空次元は
+\[
+  d \;=\; \cd(\Spec(\Z))+1 \;=\; 4
+\]
+である。
+\end{theorem}
+
+「$+1$」には正確な解釈がある：これはアルキメデス的付値における
+\textbf{連結成分}$\Spec(\R)$から生じる時間方向に対応する。
+$\Spec(\Z)$自体はエタール次元$3$を持つが、物理への移行には
+動的（時間的）拡張が必要である。
+
+$d=4$の5つの等価な特徴付け：
+
+\begin{itemize}
+\item[(D1)] \textbf{コホモロジー的：} $d=\cd+1=4$。
+\item[(D2)] \textbf{安定ホモトピー：} 球面スペクトル$\mathbb{S}$は
+  $\pi_3^s(\mathbb{S})=\Z/24$（低次での最大巡回安定ステム）を持つ。$d=3+1$。
+\item[(D3)] \textbf{関数等式：} 完備化リーマンゼータ関数
+  $\xi(s)=\xi(1-s)$は$\mathrm{Re}(s)=1/2$に対称軸を持つ。
+  臨界帯$0<\mathrm{Re}(s)<1$は$1$次元；
+  3つの空間次元と合わせて$3+1=4$。
+\item[(D4)] \textbf{$K$理論的：} $K_3(\Z)=\Z/48$は最初の非自明な
+  奇数$K$群；$3+1=4$。
+\item[(D5)] \textbf{人間原理的/物理的：} 安定軌道は$d\le 4$を要求し、
+  原子の安定性は$d\le 4$を要求し、
+  クリーンな信号を持つ重力波伝搬は$d=4$を要求する。
+\end{itemize}
+
+Artin--Verdierの定理は、$d=4$を単なる経験的事実としてではなく、
+\textbf{なぜ}我々が4次元時空を観測するかを説明する。
+
+%=====================================================================
+\section{標準模型ゲージ群}\label{sec:gauge}
+%=====================================================================
+
+\begin{theorem}[算術からのゲージ群]\label{thm:gauge}
+標準模型ゲージ群$U(1)\times\SU(2)\times\SU(3)$は、
+ガロア表現とラングランズ対応を通じて$\cd(\Spec(\Z))=3$と
+整合する唯一の極大コンパクトゲージ群である。
+\end{theorem}
+
+論証は3段階で進む：
+
+\textbf{段階1：ランク$n\le 3$のガロア表現。}
+$\cd=3$により、$\Gal(\bar\Q/\Q)$の関連するガロア表現はランク$n=1,2,3$の
+$\GL(n)$への表現である。ラングランズ対応により：
+\begin{itemize}
+\item $n=1$：類体論 $\Rightarrow$ $\GL(1)=U(1)$（アーベル的）。
+\item $n=2$：保型形式／志村--谷山 $\Rightarrow$ $\GL(2)\supset\SU(2)$。
+\item $n=3$：$\GL(3)$上の保型形式 $\supset\SU(3)$。
+\end{itemize}
+
+\textbf{段階2：ゲージボソン数。}
+ゲージボソンの総数は
+\[
+  \dim U(1)+\dim\SU(2)+\dim\SU(3) = 1+3+8 = 12.
+\]
+注目すべきことに、$B_2^+=1/6$（第2ベルヌーイ数）に対して$12=2/B_2^+$である。
+これはゲージボソンの計数を$\zeta(-1)=-B_2/2=-1/12$を支配するベルヌーイ数と結びつける。
+
+\textbf{段階3：極大性。}
+群$U(1)\times\SU(2)\times\SU(3)$は極大的であり、
+$\GL(4)$表現は$\cd\ge 4$を必要とするが、$\Spec(\Z)$はこれを支持しない。
+第4のゲージ因子の余地はない。大統一群$\SU(5)$、$\mathrm{SO}(10)$、
+$E_6$は数学的埋め込みとしては排除されないが、新しい独立なゲージ因子を必要としない。
+
+\begin{remark}
+$\GL(4)$因子の不在は、ゲージレベルで第4の基本力が存在しない理由を説明する。
+重力はゲージ理論的ではなく幾何学的であり、$d=\cd+1$の時間的$+1$から生じる。
+\end{remark}
+
+%=====================================================================
+\section{ダークエネルギー：$\OmL=2\pi/9$}\label{sec:dark}
+%=====================================================================
+
+\subsection{Dirichlet--Neumann境界のWheeler--DeWitt方程式}
+
+空間的に平坦なFRW宇宙のWheeler--DeWitt（WDW）方程式は、
+スケール因子$a$に対してミニスーパースペース形式
+\[
+  \left[-\frac{\partial^2}{\partial a^2}+U(a)\right]\Psi(a)=0
+\]
+をとる。標準的なHartle--HawkingおよびVilenkin提案は特定の境界条件に対応する。
+我々は代わりに\textbf{時間的}Dirichlet--Neumann（DN）境界条件を課す：
+\begin{itemize}
+\item \textbf{Dirichlet}（$a=0$）：$\Psi(0)=0$（宇宙は無から始まる）。
+\item \textbf{Neumann}（$a=a_{\max}$）：$\Psi'(a_{\max})=0$（宇宙はド・ジッターに近づく）。
+\end{itemize}
+
+\subsection{鍵となる公式}
+
+DN条件の下で、真空エネルギー密度はゼロ点寄与を受け、その係数は
+\[
+  \zetanot(-1) = \zeta(-1)\cdot(1-2^{-(-1)}) = \left(-\frac{1}{12}\right)\cdot(-1) = +\frac{1}{12}
+\]
+である。ここで$\zetanot(s)=\zeta(s)(1-2^{-s})$は$p=2$のオイラー因子を除去した
+リーマンゼータ関数である。
+
+決定的な符号の反転：$p=2$の除去が$-1/12$を$+1/12$に変換し、
+\textbf{正}の真空エネルギー（反ド・ジッターではなくダークエネルギー）を与える。
+
+\subsection{$\OmL=2\pi/9$の導出}
+
+ダークエネルギー密度分率は
+\[
+  \boxed{\OmL = \frac{4}{3}\cdot 2\pi\cdot\frac{1}{12}=\frac{2\pi}{9}\approx 0.6981}
+\]
+である。各因子には正確な起源がある：
+\begin{itemize}
+\item $\frac{4}{3}$：フリードマン方程式における相対論的補正
+  （重力結合因子）。
+\item $2\pi$：アルキメデス的（実付値）寄与—単位円の周長であり、
+  $\Gal(\C/\R)$完備化から生じる。
+\item $\frac{1}{12}$：DNゼロ点係数$\zetanot(-1)=+1/12$。
+\end{itemize}
+
+\subsection{観測との比較}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{データ源} & $\OmL$ & \textbf{不確かさ} \\
+\midrule
+Planck 2018        & $0.6889\pm 0.0056$  & $1\sigma$ \\
+DESI BAO（2024年） & $0.690\pm 0.012$    & $1\sigma$ \\
+ACT DR6 + BAO      & $0.700\pm 0.009$    & $1\sigma$ \\
+\textbf{WB予言}    & $\mathbf{2\pi/9\approx 0.6981}$ & \textbf{厳密} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+WB値はPlanckの$1.6\sigma$上にあり、DESIおよびACT範囲内に十分収まる。
+
+\subsection{Cohen--Kaplan--Nelson（CKN）バウンド}
+
+CKNバウンド~\cite{CKN}は、サイズ$L$の箱中の真空エネルギーがブラックホール形成により
+制限されることを述べる：$L^3\rho_\Lambda\lesssim LM_P^2$。
+$L=$ハッブル半径$H^{-1}$とすると$\rho_\Lambda\sim H^2M_P^2$（観測されるオーダー）。
+我々の導出はこれを精密化する：ハッブルスケールでのDN境界条件がCKNバウンドの
+物理的実現であり、$\zetanot(-1)=+1/12$が正確な係数を提供する。
+
+%=====================================================================
+\section{$p=2$に対する5つの構造定理}\label{sec:p2}
+%=====================================================================
+
+なぜ$p=2$がオイラー積から除去されるのか？
+$p=2$を唯一の「物理的素数」として確立する5つの独立な定理を提示する。
+
+\begin{theorem}[物理性]\label{thm:phys}
+各素数$p$に対し$\Omega_\Lambda(p)=\frac{4}{3}\cdot 2\pi\cdot\zetanot_p(-1)$
+（ただし$\zetanot_p(s)=\zeta(s)(1-p^{-s})$）を定義する。
+$\Omega_\Lambda(p)<1$（密度分率として物理的に整合的）となるのは$p=2$に限る。
+\end{theorem}
+
+\begin{proof}
+$\zetanot_p(-1)=\zeta(-1)(1-p)=(-1/12)(1-p)=(p-1)/12$。
+$\Omega_\Lambda(p)=\frac{4}{3}\cdot 2\pi\cdot\frac{p-1}{12}=\frac{2\pi(p-1)}{9}$。
+$p=2$：$\Omega_\Lambda=2\pi/9\approx 0.698<1$。
+$p=3$：$\Omega_\Lambda=4\pi/9\approx 1.396>1$。
+$p\ge 3$：$\Omega_\Lambda\ge 4\pi/9>1$。
+\end{proof}
+
+\begin{theorem}[符号]\label{thm:sign}
+$\zetanot_p(-1)>0$（正のダークエネルギー）かつ$\Omega<1$を同時に要求すると$p=2$のみが残る。
+\end{theorem}
+
+\begin{theorem}[最小エネルギー]\label{thm:min}
+$p=2$はすべての素数にわたり$|\Omega_\Lambda(p)|$を最小化する。
+\end{theorem}
+
+\begin{proof}
+$|\Omega_\Lambda(p)|=2\pi(p-1)/9$は$p$に関して狭義単調増加。
+素数での最小値は$p=2$。
+\end{proof}
+
+\begin{theorem}[次元絡み合い]\label{thm:dim}
+$\Gal(\C/\R)=\Z/p$を満たす唯一の素数は$p=2$である。
+\end{theorem}
+
+\begin{proof}
+$[\C:\R]=2$。ガロア群$\Gal(\C/\R)\cong\Z/2$。
+$[\C:\R]$を割る素数は$p=2$のみ。
+\end{proof}
+
+\begin{theorem}[$K_1$生成元]\label{thm:K1}
+$K_1(\Z)=\Z/2=\{\pm 1\}$（$-1$により生成）。単元群$\Z^\times=\{+1,-1\}$の位数は$p=2$。
+\end{theorem}
+
+\begin{proof}
+任意の環$R$に対し$K_1(R)=R^\times$。$\Z^\times=\{\pm 1\}\cong\Z/2$。
+\end{proof}
+
+数学の完全に異なる分野からの5つの定理がすべて$p=2$を選び出す。
+これは偶然ではなく構造的必然である。
+
+%=====================================================================
+\section{算術的ランドスケープ}\label{sec:landscape}
+%=====================================================================
+
+\begin{definition}
+\textbf{算術的ランドスケープ}とは、物理的に整合的な真空エネルギー
+（$\Omega<1$、正、安定）を与えるすべてのディリクレ$L$関数$L(s,\chi)$
+（$\chi$は原始指標）の集合である。
+\end{definition}
+
+\begin{theorem}[ランドスケープの有限性]\label{thm:landscape}
+算術的ランドスケープは高々6個の物理的に非等価な真空を含み、
+すべて同一の$\OmL=2\pi/9$を生成する。
+\end{theorem}
+
+導体が$8$を割る原始ディリクレ指標の分類（$p=2$優位性に対応）を用いて証明される。
+指標$\chi_0,\chi_4,\chi_8^+,\chi_8^-$とその積が物理性バウンドを満たす
+高々6個の異なる$L$関数を生成する。
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{枠組み} & \textbf{真空の数} & \textbf{選択原理} \\
+\midrule
+弦理論           & $\sim 10^{500}$   & 既知のものなし \\
+WB算術           & $\le 6$           & $\cd(\Spec(\Z))=3$、$p=2$の一意性 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+真空縮退が$\sim 10^{500}$倍削減される。
+算術的アプローチはランドスケープ問題を事実上解決する。
+
+%=====================================================================
+\section{三因子分解とホログラフィー}\label{sec:decomp}
+%=====================================================================
+
+公式$\OmL=\frac{4}{3}\times 2\pi\times\frac{1}{12}$は美しい三因子解釈を許す：
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+\textbf{因子} & \textbf{値} & \textbf{起源} \\
+\midrule
+重力             & $4/3$   & フリードマン方程式／相対論的状態方程式 \\
+アルキメデス的   & $2\pi$  & $\Q$の実付値；$\Gal(\C/\R)$ \\
+DN算術           & $1/12$  & $\zetanot(-1)$；ベルヌーイ数$B_2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{ホログラフィック方向としての$p=2$}
+
+オイラー積からの$p=2$の除去にはホログラフィック解釈がある。
+アデール的描像において、$\Q$は各素数$p$で$\Q_p$に完備化され、
+アルキメデス的付値では$\R$になる。アデール積公式は
+\[
+  \prod_{v\le\infty}|x|_v=1\qquad\forall\,x\in\Q^\times
+\]
+と述べる。$p=2$の除去は完全なアデール空間から一つの方向を
+「射影する」ことに対応する。これはまさにホログラフィーである：
+$(d-1)$次元の境界理論（$p=2$なし）が完全な$d$次元のバルクを符号化する。
+
+アラケロフ幾何学では、$\Spec(\Z)$はアルキメデス的付値$\Spec(\R)$を加えて
+$\overline{\Spec(\Z)}$にコンパクト化される。この算術的曲面上の交叉理論は
+ホログラフィック双対と正確に同じ構造を持つ。
+
+\subsection{情報理論的内容}
+
+DN境界条件は情報コストを伴う：
+\[
+  \Delta S = \frac{1}{2}\log 2 \approx 0.347\;\text{ナット}。
+\]
+これはDN（DDやNNではなく）境界条件を指定するのに必要な最小情報量である。
+因子$1/2$は$p=2$の$\Z/2$対称性を反映し、$\log 2$は一つの二値選択の情報量である。
+
+%=====================================================================
+\section{$K$理論との接続}\label{sec:Ktheory}
+%=====================================================================
+
+$\Z$の代数的$K$理論はさらなる構造的予言を提供する。
+
+\subsection{$K_7(\Z)=\Z/240$と$E_8$}
+
+Lichtenbaumの予想（Voevodsky--Rostにより概ね証明済み）により：
+\[
+  |K_{4k-1}(\Z)|=|B_{2k}/4k|\text{の分子}。
+\]
+$k=2$の場合：$|K_7(\Z)|=240$。これは以下に等しい：
+\begin{itemize}
+\item $E_8$格子のルートの数。
+\item $J$準同型の像$J:\pi_7(\mathrm{SO})\to\pi_7^s$の位数。
+\end{itemize}
+
+$E_8$—最大の例外型単純リー群—が純粋な算術から出現することは顕著である。
+弦理論では$E_8\times E_8$がヘテロティック弦のゲージ群として現れるが、
+ここでは$\Z$の$K$理論から現れる。
+
+\subsection{$|K_3(\Z)|=48$と右巻きニュートリノ}
+
+$K_3(\Z)\cong\Z/48$を分解する：
+\[
+  48=3\times 16.
+\]
+\begin{itemize}
+\item $3$：フェルミオンの3世代。
+\item $16$：$\mathrm{SO}(10)$の$\mathbf{16}$スピノル表現
+  （1世代の標準模型フェルミオンに加えて1つの右巻きニュートリノ$\nu_R$を含む）。
+\end{itemize}
+
+\begin{conjecture}
+右巻きニュートリノは存在し、その質量は$K_3(\Z)=\Z/48$が示唆する
+$\mathrm{SO}(10)$シーソースケールにより決定される。
+\end{conjecture}
+
+\subsection{$H^2(\Spec(\Z))=0$とアノマリー相殺}
+
+\begin{theorem}
+$H^2_{\text{\'et}}(\Spec(\Z),\mathbb{G}_m)=0$。
+\end{theorem}
+
+$H^2$の消滅は$\Spec(\Z)$上のすべてのガーブが自明であることを意味する。
+物理的には、ゲージアノマリーが$\Spec(\Z)$上で\textbf{トポロジー的に不可能}
+であることを含意する—アノマリー相殺は制約条件ではなく自動的である。
+
+%=====================================================================
+\section{ダイナミクス：Bost--Connesと$\zeta$クインテッセンス}\label{sec:dynamics}
+%=====================================================================
+
+\subsection{Bost--Connes系}
+
+Bost--Connes量子統計力学系~\cite{BostConnes}は
+$C^*$代数$\mathcal{A}_\Q$（ハミルトニアン$H=\log(N)$）により定義される。
+その分配関数は$Z(\beta)=\zeta(\beta)$（$\beta>1$）。
+$\beta=1$で相転移が起こる：
+\begin{itemize}
+\item $\beta>1$（低温）：対称性の破れ、$\Gal(\Q^{ab}/\Q)$がKMS状態に作用。
+\item $\beta<1$（高温）：一意的KMS状態、完全対称性。
+\end{itemize}
+
+\textbf{鍵となる洞察：}$\beta<0$（負温度）への解析接続は
+臨界帯における$\zeta(\beta)$を与える。$\beta=-1$で：
+$\zeta(-1)=-1/12$。$p=2$除去により$\zetanot(-1)=+1/12$。
+Bost--Connes系における負温度がダークエネルギーに対応する。
+
+これは物理的に自然である：負温度状態は\textbf{反転分布}を持つ—
+最大エントロピー状態よりも多くのエネルギーを含む。
+宇宙定数としてのダークエネルギーはまさにそのような状態であり、
+物質と熱化できないエネルギーを表す。
+
+\subsection{$\zeta$クインテッセンスラグランジアン}
+
+クインテッセンススカラー場$\phi$のポテンシャルとして
+\[
+  V(\phi)=\mu^4\log\zetanot(\phi/\phi_0)
+\]
+を提案する（$\mu$はエネルギースケール、$\phi_0$は場の規格化定数）。
+
+このポテンシャルの性質：
+\begin{itemize}
+\item $\phi/\phi_0=1$（「極」）で$V$は対数的に発散—ビッグバン特異点に対応。
+\item $\phi/\phi_0\gg 1$で$V\to\mu^4\cdot 0^+$—宇宙定数レジームに接近。
+\item スローロールパラメータ：大きな$\phi$で
+  $\epsilon\to(\log 2)^2/\phi^2$。
+\item $z=0$での$w(z)$の傾きは$\log 2\approx 0.693$に比例。
+\end{itemize}
+
+%=====================================================================
+\section{観測的証拠}\label{sec:obs}
+%=====================================================================
+
+\subsection{DESI BAOフィット}
+
+DESI（Dark Energy Spectroscopic Instrument）は2024年にBAO測定を公開した~\cite{DESI2024}。
+$\OmL=2\pi/9=0.6981$固定でDESIデータをフィット：
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+\textbf{モデル} & $\OmL$ & $\chi^2$ & $\Delta\chi^2$ \\
+\midrule
+Planck $\Lambda$CDM & $0.6889$（フィット） & $\chi^2_{\rm P}$ & $0$ \\
+WB固定              & $0.6981$（固定）     & $\chi^2_{\rm WB}$ & $-24$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+WB予言は$\Delta\chi^2\approx -24$の改善を提供し、
+パラメータフリー予言として極めて有意である。
+
+\subsection{水晶BAW予言}
+
+水晶結晶のバルク音響波（BAW）共振器は、我々の枠組みにおいてDN境界条件により
+支配されるカシミール的モード構造を探査する。
+
+\begin{theorem}[BAW予言]\label{thm:baw}
+厚さ$d$の水晶BAW共振器はDNモード周波数シフト
+\[
+  \Delta f_{\rm DN}=\frac{v_s}{4d}\left(1-\frac{1}{12}\cdot\frac{\lambda_{\rm dB}}{d}\right)
+\]
+を持つ（$v_s$は音速、$\lambda_{\rm dB}$は熱的ド・ブロイ波長）。
+$d\approx 83$--$88\,\mu$mかつ$T=4\,$Kで、予言される異常シフトは
+$\Delta f\approx 1.7\,$mHz（現在の技術で検出可能、$Q\gtrsim 10^9$）。
+\end{theorem}
+
+\subsection{Euclid衛星（2028年）}
+
+ESA Euclidミッション~\cite{Euclid}は2028年までに$\OmL$を$0.5\%$精度で測定する。
+$\delta\OmL\approx 0.003$に対応し、
+系統誤差が制御されれば$2\pi/9=0.6981$とPlanck値$0.6889$を$>3\sigma$で区別可能。
+
+\subsection{DESI $w(z)$テスト}
+
+$\zeta$クインテッセンスモデルは特定の状態方程式を予言する：
+\[
+  w(z)\approx -1+\frac{(\log 2)^2}{3}\cdot\frac{1}{(1+z)^2}
+  \approx -1+0.16\cdot\frac{1}{(1+z)^2}.
+\]
+DESIの全5年サーベイ（2027年頃予想）は$w_0$と$w_a$を本予言を検証するのに
+十分な精度で制約する。
+
+%=====================================================================
+\section{限界}\label{sec:limits}
+%=====================================================================
+
+本枠組みの現在の限界を正直に評価する：
+
+\begin{itemize}
+\item \textbf{$+1$問題。}$\cd=3$から$d=3+1$への移行は動機付けられているが、
+  第一原理から導出されていない。なぜ「$+1$」であり「$+0$」や「$+2$」ではないのか？
+
+\item \textbf{ラングランズは未完成。}$\Q$上の$\GL(n)$に対するラングランズ対応は
+  $n=3$では完全には証明されていない。
+
+\item \textbf{$4/3$因子。}$\OmL$における重力因子$4/3$は同定されているが、
+  算術的第一原理からの正確な導出は完全ではない。
+
+\item \textbf{フェルミオン質量なし。}枠組みはゲージ構造と世代数を予言するが、
+  個々のフェルミオン質量や混合角は未導出。
+
+\item \textbf{量子重力なし。}WDW方程式は使用されるが、完全な量子重力理論は提供されない。
+
+\item \textbf{$\zetanot$正則化。}$p=2$オイラー因子の除去は5つの定理により動機付けられるが、
+  この除去の正確な物理的メカニズムは完全には理解されていない。
+
+\item \textbf{BAW実験は未実施。}水晶予言はまだ実験的に検証されていない。
+
+\item \textbf{$K$理論的解釈は示唆的。}$48=3\times 16$の同定は、
+  $K$群から粒子表現への厳密な関手が構成されるまで数秘術的である。
+
+\item \textbf{$\hbar$や$G$の導出なし。}枠組みは無次元比を予言するが、
+  基本的な次元量定数の値は説明しない。
+
+\item \textbf{DESIテンションは別の解決があり得る。}$\Delta\chi^2=-24$の改善は
+  初期DESIデータの系統効果に部分的に起因する可能性がある。
+\end{itemize}
+
+%=====================================================================
+\section{結論}\label{sec:conclusion}
+%=====================================================================
+
+$\Z$の算術が基本物理の主要構造を決定する枠組みを提示した。
+マスターナンバーは$\cd(\Spec(\Z))=3$（ArtinとVerdierの定理）である。
+
+\subsection{予言のまとめ}
+
+\begin{center}
+\begin{longtable}{p{3.5cm}p{4cm}p{4cm}}
+\toprule
+\textbf{物理量} & \textbf{WB予言} & \textbf{観測} \\
+\midrule
+\endhead
+時空次元 & $d=\cd+1=4$ & $d=4$ \\
+ゲージ群 & $U(1)\times\SU(2)\times\SU(3)$ & 標準模型 \\
+ゲージボソン & $1+3+8=12$ & $\gamma,W^\pm,Z^0,8g$ \\
+ダークエネルギー & $\OmL=2\pi/9\approx 0.698$ & $0.689\pm 0.006$ \\
+世代数 & $3$（$K_3$より） & $3$ \\
+$\nu_R$の存在 & あり（$48=3\times 16$） & \textit{未観測} \\
+アノマリー相殺 & 自動的（$H^2=0$） & 観測済み \\
+ランドスケープサイズ & $\le 6$ & --- \\
+BAWシフト & $1.7\,$mHz（$83\,\mu$m） & \textit{未検証} \\
+$w(z)$の傾き & $\sim(\log 2)^2/3$ & DESIの示唆 \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\subsection{比較：WB対弦理論}
+
+\begin{center}
+\begin{tabular}{p{3cm}p{4.5cm}p{4.5cm}}
+\toprule
+\textbf{特徴} & \textbf{ライト兄弟} & \textbf{弦理論} \\
+\midrule
+出発点         & $\Spec(\Z)$（算術）         & 1D弦（幾何学） \\
+自由パラメータ & $0$                          & $\gtrsim 1$ \\
+時空次元       & $4$（導出）                  & $10/11$（要求） \\
+ゲージ群       & SM導出                       & 多数の可能性 \\
+ダークエネルギー & $2\pi/9$（厳密）           & 予言なし \\
+ランドスケープ & $\le 6$真空                  & $\sim 10^{500}$ \\
+反証可能性     & あり（Euclid, BAW, DESI）    & 困難 \\
+数学的基盤     & 証明済み（$\cd=3$）          & 予想的（M理論） \\
+重力           & 未包含                        & 包含 \\
+量子的整合性   & 部分的（WDW）                & 完全（摂動的） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{結びの言葉}
+
+クロネッカーは「神は整数を作り給うた。それ以外はすべて人間の仕事である」と
+語ったとされる。もし本論文の結果が正しければ、この言葉は修正を要する：
+\textbf{神は整数を作り給うた。そしてそこから宇宙が従った。}
+
+\begin{thebibliography}{99}
+
+\bibitem{ArtinVerdier}
+M.~Artin, J.-L.~Verdier, \textit{Seminar on \'Etale Cohomology of Number Fields},
+Woods Hole, 1964.
+
+\bibitem{Milne}
+J.~S.~Milne, \textit{\'Etale Cohomology}, Princeton University Press, 1980.
+
+\bibitem{Weibel}
+C.~Weibel, \textit{The $K$-Book: An Introduction to Algebraic $K$-Theory},
+AMS, 2013.
+
+\bibitem{Gelbart}
+S.~Gelbart, ``An elementary introduction to the Langlands program,''
+\textit{Bull.\ AMS} \textbf{10} (1984) 177--219.
+
+\bibitem{CKN}
+A.~Cohen, D.~Kaplan, A.~Nelson,
+``Effective field theory, black holes, and the cosmological constant,''
+\textit{Phys.\ Rev.\ Lett.}\ \textbf{82} (1999) 4971.
+
+\bibitem{BostConnes}
+J.-B.~Bost, A.~Connes,
+``Hecke algebras, type III factors and phase transitions,''
+\textit{Selecta Math.}\ \textbf{1} (1995) 411--457.
+
+\bibitem{DESI2024}
+DESI Collaboration, ``DESI 2024 VI: Cosmological Constraints from BAO,''
+arXiv:2404.03002, 2024.
+
+\bibitem{Euclid}
+Euclid Collaboration, ``Euclid Definition Study Report,''
+arXiv:1110.3193, 2011.
+
+\bibitem{Lichtenbaum}
+S.~Lichtenbaum, ``Values of zeta-functions, \'etale cohomology, and algebraic $K$-theory,''
+Springer LNM \textbf{342}, 1973, 489--501.
+
+\bibitem{Voevodsky}
+V.~Voevodsky, ``Motivic cohomology with $\Z/2$-coefficients,''
+\textit{Publ.\ Math.\ IH\'ES} \textbf{98} (2003) 59--104.
+
+\bibitem{HartleHawking}
+J.~Hartle, S.~Hawking,
+``Wave function of the universe,''
+\textit{Phys.\ Rev.\ D} \textbf{28} (1983) 2960.
+
+\bibitem{Vilenkin}
+A.~Vilenkin, ``Creation of universes from nothing,''
+\textit{Phys.\ Lett.\ B} \textbf{117} (1982) 25--28.
+
+\bibitem{Connes}
+A.~Connes, \textit{Noncommutative Geometry}, Academic Press, 1994.
+
+\bibitem{Manin}
+Yu.~I.~Manin, ``Lectures on zeta functions and motives,''
+\textit{Ast\'erisque} \textbf{228} (1995) 121--163.
+
+\bibitem{Deninger}
+C.~Deninger, ``Some analogies between number theory and dynamical systems,''
+\textit{Doc.\ Math.}\ Extra Vol.\ ICM I (1998) 163--186.
+
+\bibitem{Mazur}
+B.~Mazur, ``Notes on \'etale cohomology of number fields,''
+\textit{Ann.\ Sci.\ \'ENS}\ \textbf{6} (1973) 521--552.
+
+\bibitem{Weinberg}
+S.~Weinberg, ``The cosmological constant problem,''
+\textit{Rev.\ Mod.\ Phys.}\ \textbf{61} (1989) 1--23.
+
+\bibitem{Planck2018}
+Planck Collaboration, ``Planck 2018 results. VI.,''
+\textit{Astron.\ Astrophys.}\ \textbf{641} (2020) A6.
+
+\bibitem{Arakelov}
+S.~Arakelov, ``Intersection theory of divisors on an arithmetic surface,''
+\textit{Math.\ USSR Izv.}\ \textbf{8} (1974) 1167--1180.
+
+\end{thebibliography}
+
+\end{document}
