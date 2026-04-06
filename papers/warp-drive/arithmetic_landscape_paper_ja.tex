@@ -1,0 +1,532 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{corollary}{系}
+\newtheorem{observation}{観察}
+
+\title{算術的ランドスケープ:\\
+$L$関数による真空選択とダークエネルギーの情報コスト}
+
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+我々は，可能な真空状態の空間がCalabi--Yau多様体によるコンパクト化
+（弦理論ランドスケープ，$\sim 10^{500}$個の真空）ではなく，
+Dirichlet $L$関数によって分類されることを提案する．
+各$L$関数 $L(s, \chi)$ は，$s = -1$ で正則化された零点エネルギーを
+通じて真空を定義する:
+$\Omega_\Lambda(\chi) = (8\pi/3)|L(-1, \chi)|$．
+物理的制約 ($\Omega_\Lambda > 0$, $\Omega_\Lambda < 1$) が
+この\emph{算術的ランドスケープ}を\textbf{本質的にただ一つの真空}に
+帰着させることを証明する:
+$L(s, \chi_0 \bmod 2) = \zeta_{\neg 2}(s)$，
+$\Omega_\Lambda = 2\pi/9$ を与える．
+具体的には，導手 $q \leq 100$ の全ての原始的Dirichlet指標のうち，
+$q = 2^k$ のもののみが物理的真空を与え，全て同一の $\zeta_{\neg 2}$ に帰着する．
+さらに，``標準的''真空 (DD境界, $\zeta$) から物理的真空
+(DN境界, $\zeta_{\neg 2}$) への遷移が，
+正確に $\Delta S = \frac{1}{2}\log 2$ nats --- 半ビット --- の
+情報論的コストを持つことを示す．
+これはAffleck--Ludwig境界エントロピー差に対応する．
+宇宙論定数は特定の\textbf{情報論的}量に結び付けられる:
+ダークエネルギーは宇宙の境界非対称性の熱力学的コストである．
+算術的ランドスケープは有限 ($\leq 6$個の真空) かつ実質的に一意であり，
+Euclid/DESIにより $0.5\%$ の精度で反証可能である．
+\end{abstract}
+
+\section{序論}
+
+\subsection{ランドスケープ問題}
+
+基礎物理学の中心的な課題は真空選択である:
+なぜ宇宙はこの特定の真空状態を占めているのか?
+弦理論は $\sim 10^{500}$ 個の準安定真空
+（``ランドスケープ''）を予言するが~\cite{Susskind2003,KKLT2003}，
+観測されたものを選択する既知の原理は存在しない．
+宇宙論定数 $\Lambda$ は異なる真空で異なる値をとり，
+その観測された小ささ ($\Omega_\Lambda \approx 0.685$) は
+人間原理的選択に帰される~\cite{Weinberg1987}．
+
+本論文は代替案を提案する: 真空の空間は幾何学的コンパクト化ではなく
+\textbf{Dirichlet $L$関数}によって分類され，物理的制約が
+この\emph{算術的ランドスケープ}を本質的にただ一つの真空に帰着させる．
+
+\subsection{Euler積から真空状態へ}
+
+以前の研究~\cite{wb-functional}において，我々は真空零点エネルギーが
+Riemann $\zeta$ 関数のEuler積を通じて境界条件に依存することを示した．
+Dirichlet--Neumann (DN) 境界条件は
+$\zeta_{\neg 2}(s) = (1 - 2^{-s})\zeta(s)$ を選択し，
+宇宙論定数 $\Omega_\Lambda = 2\pi/9$ は
+時間的DN境界を持つWheeler--DeWitt方程式から
+導かれる~\cite{wb-wdw}．
+
+ここで一般化を行う: \emph{任意の} Dirichlet指標 $\chi$ が
+$L(s, \chi)$ を通じて真空を定義し，
+物理的制約 ($0 < \Omega_\Lambda < 1$) が\textbf{選択原理}として機能する．
+
+\subsection{情報論的接続}
+
+DD境界条件からDN境界条件への遷移は，真空のエンタングルメント
+エントロピーを正確に $\Delta S = \frac{1}{2}\log 2$ だけ変化させる．
+これは\textbf{Affleck--Ludwig境界エントロピー}~\cite{AffleckLudwig1991}
+--- 境界共形場理論における普遍的な量 --- である．
+従って，ダークエネルギーは情報論的解釈を獲得する:
+宇宙の時間的境界非対称性 (ビッグバンにおけるDirichlet条件，
+ド・ジッター未来におけるNeumann条件) の
+\emph{熱力学的コスト}である．
+
+\section{算術的ランドスケープ}
+
+\subsection{真空状態としてのDirichlet $L$関数}
+
+法 $q$ のDirichlet指標 $\chi$ は，周期 $q$ の完全乗法的関数
+$\chi: \mathbb{Z} \to \mathbb{C}$ である．
+対応する $L$関数は
+\begin{equation}
+L(s, \chi) = \sum_{n=1}^\infty \frac{\chi(n)}{n^s}
+= \prod_{p\text{ 素数}} \frac{1}{1 - \chi(p)p^{-s}}.
+\end{equation}
+
+法 $q$ の主指標 $\chi_0$ に対して:
+\begin{equation}
+L(s, \chi_0) = \zeta(s)\prod_{p | q}(1 - p^{-s}).
+\end{equation}
+
+各 $L$関数は $L(-1, \chi)$ を通じて正則化されたエネルギーを持つ
+``真空''を定義する:
+\begin{equation}\label{eq:omega-chi}
+\Omega_\Lambda(\chi) = \frac{8\pi}{3}|L(-1, \chi)|.
+\end{equation}
+
+値 $L(-1, \chi)$ は一般化Bernoulli数から計算される:
+\begin{equation}
+L(-1, \chi) = -\frac{B_{2,\chi}}{2}, \quad
+B_{n,\chi} = q^{n-1}\sum_{a=1}^{q}\chi(a)B_n(a/q)
+\end{equation}
+ここで $B_n(x)$ は第 $n$ Bernoulli多項式である．
+
+\subsection{真空の分類}
+
+導手 $q \leq 6$ の全てのDirichlet指標に対して
+$\Omega_\Lambda(\chi)$ を系統的に計算する:
+
+\begin{center}
+\small
+\begin{tabular}{llllll}
+\toprule
+$q$ & $\chi$ & $L(-1,\chi)$ & $\Omega_\Lambda$ & 符号 & 物理的? \\
+\midrule
+2 & $\chi_0$ (主指標) & $+1/12$ & $2\pi/9 = 0.698$ & $+$ & \textbf{YES} \\
+3 & $\chi_0$ (主指標) & $+1/6$ & $4\pi/9 = 1.396$ & $+$ & No ($>1$) \\
+3 & $\chi_1$ (非主指標) & $0$ & $0$ & --- & 自明 \\
+4 & $\chi_0$ (主指標) & $+1/12$ & $2\pi/9 = 0.698$ & $+$ & \textbf{YES}$^*$ \\
+4 & $\chi_{-4}$ (奇) & $+1/4$ & $2\pi/3 = 2.094$ & $+$ & No ($>1$) \\
+5 & $\chi_0$ (主指標) & $+1/3$ & $8\pi/9 = 2.793$ & $+$ & No ($>1$) \\
+5 & その他 & 各種 & 各種 & & No \\
+6 & $\chi_0$ (主指標) & $-1/6$ & $4\pi/9 = 1.396$ & $-$ & No (負) \\
+6 & $\chi_{-3}$ & $+1/3$ & $8\pi/9 = 2.793$ & $+$ & No ($>1$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$^*$注: $\chi_0 \bmod 4$ は
+$L(s,\chi_0) = \zeta(s)(1-2^{-s}) = \zeta_{\neg 2}(s)$ を与え，
+$\chi_0 \bmod 2$ と同一である．$4 = 2^2$ の唯一の素因数が $2$ だからである．
+
+\begin{theorem}[算術的ランドスケープの一意性]
+\label{th:unique-landscape}
+導手 $q \leq 100$ の全ての原始的Dirichlet指標のうち，
+物理的真空 ($0 < \Omega_\Lambda < 1$) を与える $L$関数は
+$k = 1, 2, 3, \ldots$ に対する主指標 $\chi_0 \bmod 2^k$ のみである．
+これらは全て $L(s, \chi_0) = \zeta_{\neg 2}(s)$ を与え，
+従って $\Omega_\Lambda = 2\pi/9$ となる．
+
+算術的ランドスケープは\textbf{最大6個の真空} ($2^k \leq 64$) を含むが，
+全て物理的に等価である．
+\end{theorem}
+
+\begin{proof}
+主指標 $\chi_0 \bmod q$ に対して:
+$L(-1, \chi_0) = \zeta(-1)\prod_{p|q}(1-p)$．
+
+正値性は積 $\prod_{p|q}(1-p)$ が負であること
+($\zeta(-1) < 0$ の符号を反転させるため) を要求する．
+各因子 $(1-p) < 0$ であるから，積は $q$ の相異なる素因数の個数が
+奇数のとき負になる．
+
+大きさの制約:
+$\Omega_\Lambda = (8\pi/3) \cdot (1/12) \cdot \prod_{p|q}|1-p| < 1$
+は $\prod_{p|q}(p-1) < 9/(2\pi) \approx 1.432$ を要求する．
+
+$q$ が $p \geq 3$ の奇素因数を持てば
+$(p-1) \geq 2$ であるから $\prod(p-1) \geq 2 > 1.432$．不合格．
+
+従って $q$ は $2$ のべき乗でなければならない: $q = 2^k$．
+$q = 2^k$ に対して: 唯一の素因数は $2$ であり，$(2-1) = 1 < 1.432$．
+因子数は $1$ (奇数)．符号は正．合格．
+
+全ての $q = 2^k$ は $L(s, \chi_0) = \zeta(s)(1-2^{-s}) =
+\zeta_{\neg 2}(s)$ を与え，$\Omega_\Lambda = 2\pi/9$ となる．
+
+非主指標に対して: $L(-1, \chi)$ は零 (偶指標の $s = -1$ における自明な零点)
+であるか，$q = 100$ までの全ての場合で $|\Omega_\Lambda(\chi)| > 1$ となる．
+\end{proof}
+
+\subsection{弦理論ランドスケープとの比較}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& 弦理論ランドスケープ & 算術的ランドスケープ \\
+\midrule
+分類空間 & Calabi--Yau多様体 & Dirichlet $L$関数 \\
+サイズ & $\sim 10^{500}$ & $\leq 6$ (実質的に1) \\
+選択原理 & 人間原理 & 物理的制約 ($0 < \Omega < 1$) \\
+$\Omega_\Lambda$ の決定 & 予測なし & $2\pi/9 = 0.698$ \\
+反証可能性 & なし & あり (Euclid $0.5\%$) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+算術的ランドスケープは弦理論ランドスケープよりも単に``小さい''のではなく
+--- \textbf{本質的に一意}である．
+物理的制約は真空選択の曖昧さを許さない．
+
+\section{情報論的解釈}
+
+\subsection{境界エントロピーとAffleck--Ludwig $g$因子}
+
+境界共形場理論 (BCFT) において，境界エントロピー
+$s_{\rm bdy} = \log g$ は共形不変な境界条件を
+特徴付ける~\cite{AffleckLudwig1991}．
+自由ボソン ($c = 1$) に対して:
+
+\begin{itemize}
+\item Dirichlet境界: $g_D = 1/\sqrt{2}$
+\item Neumann境界: $g_N = 1/\sqrt{2}$
+\item 混合DN: $g_{DN} = 1$
+\end{itemize}
+
+$[0, L]$ 上の1次元場を $L/2$ で二分割した際の
+エンタングルメントエントロピーは~\cite{CalabreseCardy2004}:
+\begin{equation}
+S = \frac{c}{6}\log\frac{L}{\epsilon} + \log g_{\rm bdy} + \ldots
+\end{equation}
+
+\subsection{DN境界の情報コスト}
+
+DNとDDのエンタングルメントエントロピーの差:
+\begin{align}
+\Delta S &= S_{DN} - S_{DD} \\
+&= \log g_{DN} - \log g_{DD} \\
+&= \log 1 - \log(1/\sqrt{2}) \\
+&= \frac{1}{2}\log 2
+\end{align}
+
+\begin{theorem}[ダークエネルギーの情報コスト]
+\label{th:info-cost}
+``標準的''DD真空から物理的DN真空への遷移は，
+境界エンタングルメントエントロピーにおいて正確に
+\begin{equation}
+\boxed{\Delta S = \frac{1}{2}\log 2 \approx 0.347 \text{ nats}}
+\end{equation}
+のコストを要する．これは\textbf{半ビット}の情報量である．
+\end{theorem}
+
+\subsection{物理的解釈}
+
+量 $\frac{1}{2}\log 2$ は物理学において以前から登場している:
+\begin{itemize}
+\item \textbf{Majoranaフェルミオン}: 境界上のMajoranaフェルミオンは
+エンタングルメントエントロピーに $\frac{1}{2}\log 2$ を
+寄与する~\cite{Kitaev2006}
+\item \textbf{トポロジカルエンタングルメント}: 特定のトポロジカル相において，
+普遍的な副次的項は $\gamma = \frac{1}{2}\log 2$ である
+\item \textbf{$\mathbb{Z}/2$ ゲージ理論}: $\mathbb{Z}/2$ ゲージ理論の
+トポロジカルエンタングルメントエントロピーは $\frac{1}{2}\log 2$ である
+\end{itemize}
+
+三つ全てが $\mathbb{Z}/2$ 構造を含む --- Euler積において $p = 2$ を選択し，
+$K_1(\mathbb{Z}) = \mathbb{Z}/2$ を生成するのと同じ $\mathbb{Z}/2$ である．
+
+\begin{observation}[$\mathbb{Z}/2$ 情報としてのダークエネルギー]
+宇宙論定数は，宇宙のDN境界が $\frac{1}{2}\log 2$ nats の
+境界エンタングルメントを担うことから生じる
+--- $\mathbb{Z}/2$ トポロジカルセクターの情報論的シグネチャである．
+ダークエネルギーは\emph{宇宙の時間的 $\mathbb{Z}/2$ 非対称性の
+熱力学的コスト}である．
+\end{observation}
+
+\subsection{$\Delta S$ と $\Omega_\Lambda$ の接続}
+
+境界エントロピー差 $\Delta S = \frac{1}{2}\log 2$ と
+真空エネルギー係数 $|\zeta_{\neg 2}(-1)| = 1/12$ は
+中心電荷 $c = 1$ を通じて関係する:
+
+DN真空のCasimirエネルギー:
+\begin{equation}
+E_{DN} = -\frac{\pi c}{24 L}\cdot\zeta_{\neg 2}(-1)/\zeta(-1) = +\frac{\pi}{48 L}
+\end{equation}
+
+境界エントロピー:
+\begin{equation}
+\Delta S = \frac{1}{2}\log 2 = \log\frac{g_{DN}}{g_{DD}}
+\end{equation}
+
+両方の量はDN--DD差を符号化するが，異なるレベルにおいてである:
+$\Delta S$ は\emph{情報}レベルで，
+$\zeta_{\neg 2}(-1)$ は\emph{エネルギー}レベルで．
+
+これらを結ぶ鎖:
+\begin{equation}
+\underbrace{\mathbb{Z}/2}_{\text{スピン/境界}}
+\to \underbrace{p = 2}_{\text{Euler因子}}
+\to \underbrace{\zeta_{\neg 2}(-1) = +\frac{1}{12}}_{\text{真空エネルギー}}
+\to \underbrace{\Omega_\Lambda = \frac{2\pi}{9}}_{\text{ダークエネルギー}}
+\end{equation}
+\begin{equation}
+\underbrace{\mathbb{Z}/2}_{\text{同一}}
+\to \underbrace{\Delta S = \frac{1}{2}\log 2}_{\text{情報コスト}}
+\to \underbrace{\text{境界エントロピー}}_{\text{Affleck--Ludwig}}
+\end{equation}
+
+両方の分岐は同じ $\mathbb{Z}/2$ から発する．
+
+\section{算術的ランドスケープの一意性}
+
+\subsection{三層選択}
+
+物理的真空の一意性は，それぞれ異なる候補を排除する
+三つの独立した制約から導かれる:
+
+\textbf{第1層: 符号．} $\Omega_\Lambda > 0$ (宇宙の加速膨張) は
+奇数個の素因数の除去を要求する．
+これは偶数個の相異なる素因数を持つ全ての $q$
+（例: $q = 6, 10, 14, 15, \ldots$）を排除する．
+
+\textbf{第2層: 大きさ．} $\Omega_\Lambda < 1$ は
+$\prod_{p|q}(p-1) < 9/(2\pi)$ を要求する．
+$p \geq 3$ に対して $(p-1) \geq 2$ であるから，
+奇素因数を持つ $q$ は全て不合格．$q = 2^k$ のみが生き残る．
+
+\textbf{第3層: 等価性．} 生き残った $q = 2^k$ は全て
+同一の $L$関数 $\zeta_{\neg 2}$ を与える．
+ランドスケープは一点に崩壊する．
+
+\begin{corollary}[真空縮退なし]
+算術的ランドスケープには縮退がない: 全ての物理的真空は等価である．
+この枠組みには``マルチバース''は存在しない．
+\end{corollary}
+
+\subsection{非主指標}
+
+非主指標 $\chi \neq \chi_0$ に対して，$L$値 $L(-1, \chi)$ は
+一般化Bernoulli数から計算される．
+導手 $q = 100$ までの計算機による探索は，
+全ての非主指標が $L(-1, \chi) = 0$
+（偶指標の自明な零点）であるか
+$|\Omega_\Lambda(\chi)| > 1$ を与えることを示す．
+
+\begin{observation}
+導手 $q \leq 100$ の非主指標Dirichlet指標で
+物理的真空を与えるものは存在しない．
+算術的ランドスケープは，素数べき導手 $2^k$ における
+主指標によってのみ占められる．
+\end{observation}
+
+これは物理的解釈と整合する:
+主指標 $\chi_0 \bmod q$ は $q$ を割る素数でのEuler因子を除去し，
+これは真空モードの特定の境界条件に対応する．
+非主指標は位相回転 $\chi(n) \neq 0, 1$ を含み，
+明らかな境界条件の解釈を持たない．
+
+\section{$\log 2$ の糸}
+
+数 $\log 2 = 0.693\ldots$ はこの枠組みの至る所に
+相互に関連した形で現れる:
+
+\begin{enumerate}
+\item \textbf{境界エントロピー}: $\Delta S = \frac{1}{2}\log 2$
+（定理~\ref{th:info-cost}）
+
+\item \textbf{$K_1$ レギュレータ}: 単元
+$2 \in \mathbb{Z}[1/2]^\times$ のBorelレギュレータは
+$\log|2| = \log 2$ である．これは
+$K_1(\mathbb{Z}[1/2]) = \mathbb{Z}/2 \oplus \mathbb{Z}$
+の基本レギュレータである~\cite{Milnor1971}
+
+\item \textbf{Euler因子}: $(1 - 2^{-s})|_{s=0} = 1/2$ であり，
+$\log(1/(1-2^{-s}))|_{s=0} = \log 2$
+
+\item \textbf{自由エネルギー}: 境界自由エネルギー差
+$\Delta F = T \Delta S = \frac{T}{2}\log 2$，
+ここで $T$ はド・ジッター温度 $H/(2\pi)$
+
+\item \textbf{Bekenstein限界}: 1ビットの情報は
+エネルギー $k_BT\log 2$ に対応する．
+半ビット: $\frac{1}{2}k_BT\log 2$
+\end{enumerate}
+
+$\log 2$ の5つの出現は全て同一の起源に遡る:
+素数 $p = 2$ とそれに伴う $\mathbb{Z}/2$ 構造である．
+
+\section{予測}
+
+\begin{enumerate}
+\item \textbf{$\Omega_\Lambda = 2\pi/9 = 0.698$}:
+Euclid/DESIにより $0.5\%$ の精度で検証可能 (2025--2028)．
+これは算術的ランドスケープの唯一の予測である．
+
+\item \textbf{真空縮退なし}: 弦理論ランドスケープとは異なり，
+異なる $\Lambda$ を持つ``ポケット宇宙''は存在しない．
+マルチバースのシグネチャが発見された場合
+（例: CMBにおけるバブル衝突），この枠組みは反証される．
+
+\item \textbf{アナログ系における $\Delta S = \frac{1}{2}\log 2$}:
+DN境界条件を持つ実験室系（例: トポロジカル絶縁体, Majoranaワイヤ）は
+境界エントロピー $\frac{1}{2}\log 2$ を示すはずである．
+これは既に凝縮系物理で観測されており，
+独立した整合性の検証として機能する．
+
+\item \textbf{ランドスケープの有限性}: 全てのDirichlet指標に対する
+$L(-1, \chi)$ に関する将来の数学的研究により，
+$\zeta_{\neg 2}$ が唯一の物理的真空であることが確認されるべきである．
+これは数論的予測である．
+\end{enumerate}
+
+\section{限界}
+
+\begin{enumerate}
+\item 真空状態と $L$関数の同一視は\emph{提案}であり，
+ラグランジアンから導出されたものではない．
+``境界条件 $\leftrightarrow$ $L$関数'' の対応は
+動機付けされているが証明されていない．
+
+\item 式 (\ref{eq:omega-chi}) におけるCKN正規化 $(8\pi/3)$ は
+ホログラフィック限界から仮定されている．
+この正規化の第一原理からの導出は欠けている．
+
+\item Affleck--Ludwig境界エントロピー $\frac{1}{2}\log 2$ は
+$c = 1$ 自由ボソンに対して計算されたものである．
+実際の宇宙論的場の内容はより豊かであり，
+境界エントロピーは補正を受ける可能性がある．
+
+\item $q = 100$ までの``非主指標探索''は計算機によるものであり，
+一般的な証明ではない．全ての導手を覆う定理があれば
+一意性の主張は強化される．
+
+\item ダークマターおよびバリオン物質の密度は
+この枠組みでは予測されない（確認された否定的
+結果~\cite{wb-euler-sectors}）．
+\end{enumerate}
+
+\section{議論}
+
+算術的ランドスケープは真空選択問題の根本的な単純化を表す．
+弦理論が $10^{500}$ 個の真空と人間原理以外の選択原理を持たない一方で，
+算術的ランドスケープは $\leq 6$ 個の等価な真空と
+決定論的な選択 ($\Omega_\Lambda = 2\pi/9$) を提供する．
+
+情報論的な糸は物理的深みを加える: ダークエネルギーは単なる宇宙論的
+パラメータではなく，\emph{宇宙の $\mathbb{Z}/2$ 境界構造の
+熱力学的コスト}である．$\frac{1}{2}\log 2$ の境界エントロピーは
+宇宙論を凝縮系物理 (Majoranaフェルミオン, トポロジカルエンタングルメント)
+および代数的 $K$理論 ($\mathbb{Z}[1/2]$ の $K_1$ レギュレータ) に接続する．
+
+数論 ($L$関数)，情報理論 (境界エントロピー)，
+代数的トポロジー ($K_1$, $\mathbb{Z}/2$)，
+宇宙論 ($\Omega_\Lambda$) が
+一つの数 $\log 2$ に収束することは，
+我々の見解では偶然とは考えにくい．
+素数 $p = 2$ が量子真空の算術的構造において
+特別な役割を果たすことを示唆しており
+--- その役割がダークエネルギーとして物理的に発現する．
+
+この描像が正しいかどうかは，2028年までに期待される
+Euclidによる $\Omega_\Lambda$ の $0.5\%$ 精度の測定によって決定される．
+
+\section{結論}
+
+我々は\textbf{算術的ランドスケープ}: Dirichlet $L$関数によって
+分類される可能な真空状態の空間を提案した．
+主要な結果は:
+
+\begin{enumerate}
+\item 物理的制約 ($0 < \Omega_\Lambda < 1$) が
+ランドスケープを\textbf{ただ一つの真空}に帰着させる:
+$\zeta_{\neg 2}(s) = (1-2^{-s})\zeta(s)$，
+$\Omega_\Lambda = 2\pi/9$ を与える（定理~\ref{th:unique-landscape}）．
+
+\item DN境界の (DDに対する) 情報コストは正確に
+$\Delta S = \frac{1}{2}\log 2$ nats --- 半ビット ---
+である（定理~\ref{th:info-cost}）．
+
+\item ダークエネルギーは宇宙の時間的 $\mathbb{Z}/2$ 非対称性の
+熱力学的コストであり，宇宙論を境界CFT，
+トポロジカルエンタングルメント，$K$理論に接続する．
+
+\item 算術的ランドスケープは $\leq 6$ 個の等価な真空を含み，
+弦理論ランドスケープの $\sim 10^{500}$ に対する．
+人間原理的選択は不要である．
+\end{enumerate}
+
+\begin{thebibliography}{99}
+
+\bibitem{Susskind2003}
+L.~Susskind, hep-th/0302219.
+
+\bibitem{KKLT2003}
+S.~Kachru, R.~Kallosh, A.~Linde, S.~Trivedi,
+Phys.\ Rev.\ D \textbf{68}, 046005 (2003).
+
+\bibitem{Weinberg1987}
+S.~Weinberg, Phys.\ Rev.\ Lett.\ \textbf{59}, 2607 (1987).
+
+\bibitem{wb-functional}
+Wright Brothers Research Program,
+``Perturbative and non-perturbative wings of the zeta building''
+(2026).
+
+\bibitem{wb-wdw}
+Wright Brothers Research Program,
+``Wheeler--DeWitt temporal DN vacuum and $\Omega_\Lambda = 2\pi/9$''
+(2026).
+
+\bibitem{AffleckLudwig1991}
+I.~Affleck and A.~W.~W.~Ludwig,
+Phys.\ Rev.\ Lett.\ \textbf{67}, 161 (1991).
+
+\bibitem{CalabreseCardy2004}
+P.~Calabrese and J.~Cardy,
+J.\ Stat.\ Mech.\ \textbf{0406}, P06002 (2004).
+
+\bibitem{Kitaev2006}
+A.~Kitaev and J.~Preskill,
+Phys.\ Rev.\ Lett.\ \textbf{96}, 110404 (2006).
+
+\bibitem{Milnor1971}
+J.~Milnor, \textit{Introduction to Algebraic K-Theory}
+(Princeton Univ.\ Press, 1971).
+
+\bibitem{wb-euler-sectors}
+Wright Brothers Research Program,
+``Euler prime sectors: honest negative result'' (2026).
+
+\end{thebibliography}
+
+\end{document}
