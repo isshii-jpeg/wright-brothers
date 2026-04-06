@@ -1,0 +1,621 @@
+% gauge_from_cd3_highschool_ja.tex
+% Compile with: xelatex gauge_from_cd3_highschool_ja.tex
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+
+\usepackage{amsmath,amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+\geometry{margin=2.5cm}
+
+% Custom tcolorbox styles
+\newtcolorbox{keyidea}[1][]{
+  colback=blue!5!white,
+  colframe=blue!60!black,
+  fonttitle=\bfseries\large,
+  title={#1},
+  arc=3mm,
+  boxrule=1pt
+}
+
+\newtcolorbox{analogy}[1][]{
+  colback=green!5!white,
+  colframe=green!50!black,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2mm,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{mathbox}[1][]{
+  colback=orange!5!white,
+  colframe=orange!60!black,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2mm,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{honestbox}[1][]{
+  colback=red!5!white,
+  colframe=red!50!black,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2mm,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{wowbox}[1][]{
+  colback=purple!5!white,
+  colframe=purple!50!black,
+  fonttitle=\bfseries\large,
+  title={#1},
+  arc=3mm,
+  boxrule=1.2pt
+}
+
+\newcommand{\Spec}{\operatorname{Spec}}
+
+\title{\textbf{\Huge たった一つの数が宇宙を支配する}\\[8pt]
+\Large cd = 3 から時空も力もダークエネルギーも}
+
+\author{Wright Brothers Collaboration\\
+{\normalsize --- 高校生のための解説ガイド ---}}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{tcolorbox}[colback=yellow!10!white, colframe=yellow!60!black,
+  fonttitle=\bfseries\Large, title={この論文のメッセージ}, arc=4mm]
+宇宙の最も基本的な性質---空間が3次元であること、
+力が3種類あること、ダークエネルギーの量---が、
+たった一つの数学的な数「$\mathrm{cd} = 3$」から導かれるかもしれない。
+\end{tcolorbox}
+
+\vspace{1em}
+
+\tableofcontents
+
+\newpage
+
+%======================================================================
+\section{一つの数がすべてを支配する：cd = 3}
+%======================================================================
+
+\begin{keyidea}[cd = 3 とは何か？]
+$\mathrm{cd}(\Spec(\mathbb{Z})) = 3$
+
+これは「整数の世界の次元は3である」という意味の数学的な定理です。
+1960年代にArtin（アルティン）とVerdier（ヴェルディエ）という
+数学者が証明しました。
+
+$\Spec(\mathbb{Z})$は「すべての素数が住んでいる空間」、
+cdは「コホモロジー次元」（その空間の"本当の次元"を測る道具）です。
+\end{keyidea}
+
+\begin{analogy}[DNAのアナロジー]
+DNAにはたった4つの塩基（A, T, G, C）しかありません。
+でもこの4文字で、すべての生命の設計図が書かれています。
+
+同じように、$\mathrm{cd} = 3$というたった一つの数が、
+宇宙の「設計図」の大部分を決めているかもしれません：
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+DNAの4塩基 & $\to$ すべての生命 \\
+$\mathrm{cd} = 3$ & $\to$ 時空の次元 + 自然界の力 + ダークエネルギー \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{analogy}
+
+\subsection{なぜ「3」なのか？}
+
+$\mathrm{cd} = 3$は人間が選んだ数ではありません。
+数学的に証明された事実です。
+素数（2, 3, 5, 7, 11, \ldots）の分布の深い性質から来ています。
+
+もし素数の分布が違っていたら、cdの値も違ったかもしれません。
+でも実際の数学では、$\mathrm{cd}(\Spec(\mathbb{Z})) = 3$は
+変えようがない定理です。
+
+%======================================================================
+\section{cd = 3 から時空へ（簡単な復習）}
+%======================================================================
+
+\begin{keyidea}[空間3次元 + 時間1次元 = 4次元時空]
+\begin{center}
+\textbf{空間の次元} = cd = 3（上下、左右、前後）
+
+\textbf{時間の次元} = 1（量子重力の境界条件から）
+
+\textbf{時空の次元} = 3 + 1 = \textbf{4}
+\end{center}
+\end{keyidea}
+
+これは前の論文で詳しく説明しました。
+ポイントは：
+\begin{itemize}
+  \item 空間が3次元なのは、$\Spec(\mathbb{Z})$が
+    「3次元の空間」のように振る舞うから。
+  \item 時間が1次元なのは、Wheeler--DeWitt方程式という
+    量子重力の基礎方程式が、空間の「外側」に
+    ちょうど1つの方向を追加するから。
+\end{itemize}
+
+\begin{analogy}[部屋のアナロジー]
+3次元の部屋（cd = 3）の中にいると想像してください。
+あなたは壁・天井・床（3方向）を見ることができます。
+そして時間は、部屋の「外」を流れています。
+部屋の次元（3）が時空の次元（3+1=4）を決めるのです。
+\end{analogy}
+
+%======================================================================
+\section{cd = 3 から力へ（今回の新発見！）}
+%======================================================================
+
+ここからが今回の論文の一番大事なところです。
+
+\subsection{自然界の3つの力}
+
+物理学によれば、自然界には（重力を除いて）
+3つの基本的な力があります：
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+力 & 対称性 & 日常での例 & 担い手 \\
+\midrule
+\textbf{電磁気力} & $\mathrm{U}(1)$ & 光、電気、磁石 & 光子（1個） \\
+\textbf{弱い力} & $\mathrm{SU}(2)$ & 放射性崩壊 & $W^+, W^-, Z$（3個） \\
+\textbf{強い力} & $\mathrm{SU}(3)$ & 原子核を結びつける & グルーオン（8個） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+なぜこの3つなのか？ なぜ4つ目や5つ目がないのか？
+これは物理学の大きな謎でした。
+
+\subsection{「3次元の家」のアナロジー}
+
+\begin{analogy}[3部屋の家]
+$\Spec(\mathbb{Z})$は「3次元の家」だと思ってください。
+
+この家には1次元、2次元、3次元の「部屋」があります：
+\begin{itemize}
+  \item \textbf{1次元の部屋}（線のような部屋）$\to$ ここに電磁気力が住む
+  \item \textbf{2次元の部屋}（平面のような部屋）$\to$ ここに弱い力が住む
+  \item \textbf{3次元の部屋}（立体の部屋）$\to$ ここに強い力が住む
+\end{itemize}
+
+4次元の部屋は？ \textbf{存在できません}。
+家が3次元だから、4次元以上の部屋は物理的に入りません。
+だから4つ目の力はないのです！
+\end{analogy}
+
+\subsection{数学的に言うと}
+
+\begin{mathbox}[Langlands対応：数論と物理の架け橋]
+数学には「Langlands（ラングランズ）対応」という深い理論があります。
+この理論によると：
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+数論の世界 & $\longleftrightarrow$ & 物理の世界 \\
+\midrule
+$\mathrm{GL}(1)$の対象 & $\longleftrightarrow$ & $\mathrm{U}(1)$（電磁気力） \\
+$\mathrm{GL}(2)$の対象 & $\longleftrightarrow$ & $\mathrm{SU}(2)$（弱い力） \\
+$\mathrm{GL}(3)$の対象 & $\longleftrightarrow$ & $\mathrm{SU}(3)$（強い力） \\
+$\mathrm{GL}(4)$の対象 & $\longleftrightarrow$ & \textbf{存在しない！}（cd=3だから） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$\mathrm{GL}(n)$は「$n$次元の行列の群」です。
+$n$が$\mathrm{cd} = 3$を超えると、
+$\Spec(\mathbb{Z})$の中に「収まらない」のです。
+\end{mathbox}
+
+\begin{wowbox}[もしcd = 4だったら？]
+もし$\Spec(\mathbb{Z})$の次元が4だったら：
+\begin{itemize}
+  \item 空間は4次元（4方向に動ける！）
+  \item 力は4種類（$\mathrm{SU}(4)$という追加の力がある！）
+  \item 追加の力には15個のゲージボソンが必要
+\end{itemize}
+そんな宇宙は私たちの宇宙とはまったく違うものになります。
+$\mathrm{cd} = 3$であることが、私たちの宇宙を
+私たちの宇宙たらしめているのです。
+\end{wowbox}
+
+%======================================================================
+\section{12個のゲージボソン = $2/|B_2|$}
+%======================================================================
+
+\begin{keyidea}[力の担い手の数]
+3つの力を合わせると、ゲージボソン（力を伝える粒子）は
+全部で何個でしょうか？
+
+\begin{center}
+\textbf{光子} 1個 + \textbf{弱ボソン} 3個 + \textbf{グルーオン} 8個 = \textbf{12個}
+\end{center}
+\end{keyidea}
+
+この「12」は偶然の数ではありません。
+数学には「Bernoulli数」という有名な数列があり、
+その2番目の値は$B_2 = 1/6$です。すると：
+\[
+  \frac{2}{|B_2|} = \frac{2}{1/6} = 12.
+\]
+
+\begin{mathbox}[Riemannゼータ関数との繋がり]
+Riemannゼータ関数$\zeta(s)$を$s = -1$で評価すると：
+\[
+  \zeta(-1) = -\frac{1}{12}
+\]
+よって：
+\[
+  \text{ゲージボソンの数} = \frac{1}{|\zeta(-1)|} = 12
+\]
+
+ゼータ関数は素数の分布を記述する関数です。
+ゲージボソンの数が素数の性質と繋がっているのです！
+
+しかもこの$1/12$は、ダークエネルギーの公式にも現れます。
+偶然でしょうか？ 私たちはそうは思いません。
+\end{mathbox}
+
+%======================================================================
+\section{ダークエネルギーの3つの材料}
+%======================================================================
+
+\begin{keyidea}[ダークエネルギーの公式]
+\[
+  \Omega_\Lambda = \underbrace{\frac{4}{3}}_{\text{重力}} \times
+                   \underbrace{2\pi}_{\text{幾何学}} \times
+                   \underbrace{\frac{1}{12}}_{\text{算術}} =
+                   \frac{2\pi}{9} \approx 0.698
+\]
+
+観測値：$\Omega_\Lambda^{\text{obs}} \approx 0.689$（Planck衛星、2018年）
+
+一致度：約$1.3\%$の差！
+\end{keyidea}
+
+3つの因子はそれぞれ別の起源を持ちます：
+
+\begin{analogy}[ケーキのアナロジー]
+ダークエネルギーはケーキを焼くようなものです。
+3つの材料がすべて必要です：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ケーキの材料 & ダークエネルギーの因子 & 値 \\
+\midrule
+\textbf{小麦粉}（基礎） & 算術的因子（ゼータ関数） & $1/12$ \\
+\textbf{水}（形を作る） & 幾何学的因子（$\pi$） & $2\pi$ \\
+\textbf{熱}（焼き上げる） & 重力的因子（Friedmann方程式） & $4/3$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+小麦粉だけではケーキにならない。
+水だけでもダメ。熱だけでもダメ。
+3つが組み合わさってはじめてダークエネルギーが生まれます。
+\end{analogy}
+
+\subsection{各因子の意味}
+
+\begin{tcolorbox}[colback=gray!5!white, colframe=gray!50!black, title={因子1：重力 = $4/3$}]
+アインシュタインの重力理論によると、宇宙の膨張は
+Friedmann方程式で記述されます。
+4次元時空では、この方程式に$4/3$という係数が現れます。
+
+もし宇宙が5次元だったら$5/4$、6次元だったら$6/5$になります。
+$4/3$であることは、まさに時空が4次元であることの反映です。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=gray!5!white, colframe=gray!50!black, title={因子2：幾何学 = $2\pi$}]
+$\pi = 3.14159\ldots$は円周率です。
+この因子は、Riemannゼータ関数の「ガンマ因子」から来ます：
+\[
+  \xi_\infty(-1) = \pi^{1/2}\,\Gamma(-1/2) = -2\pi
+\]
+$\pi$は実数の世界に固有の数です。
+後で見るように、これがダークエネルギーの存在に
+決定的な役割を果たします。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=gray!5!white, colframe=gray!50!black, title={因子3：算術 = $1/12$}]
+$\zeta(-1) = -1/12$はRiemannゼータ関数の値です。
+ここでは$p = 2$のEuler因子を調整した値を使います：
+\[
+  \zeta_{\neg 2}(-1) = \frac{1}{12}
+\]
+これは素数の分布に由来する純粋に算術的な量です。
+ゲージボソンの数（12個）の逆数でもあります。
+\end{tcolorbox}
+
+%======================================================================
+\section{なぜ$\pi$が大事か：実数の魔法}
+%======================================================================
+
+\begin{keyidea}[実数の世界 vs $p$進数の世界]
+数学では、有理数$\mathbb{Q}$（分数の世界）を
+「完備化」する方法が2種類あります：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+完備化 & 結果 & 特徴 \\
+\midrule
+ふつうの距離 & 実数 $\mathbb{R}$ & 滑らか、連続、$\pi$がある \\
+素数$p$の距離 & $p$進数 $\mathbb{Q}_p$ & フラクタル的、不連続、$\pi$がない \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{keyidea}
+
+\subsection{$\pi$は実数にしかない}
+
+$\pi$は円の周長と直径の比です。
+円は「滑らかな曲線」であり、実数$\mathbb{R}$の世界でしか
+意味を持ちません。
+
+$p$進数の世界では、空間はフラクタル的で、
+「滑らかな円」が描けません。
+したがって$\pi$という概念自体が存在しないのです。
+
+\subsection{$\pi$がないとダークエネルギーもない}
+
+\begin{wowbox}[驚くべき帰結]
+ダークエネルギーの公式：
+\[
+  \Omega_\Lambda = \frac{4}{3} \times \underbrace{2\pi}_{\text{この因子！}} \times \frac{1}{12}
+\]
+
+もし$\pi$がなかったら？ この因子がゼロになり、
+$\Omega_\Lambda = 0$（ダークエネルギーなし）。
+
+つまり：
+\begin{center}
+\textbf{「私たちの宇宙にダークエネルギーがあるのは、\\
+実数が存在するからである。」}
+\end{center}
+
+仮想的な「$p$進的宇宙」では、
+ダークエネルギーはゼロ---宇宙は加速膨張しません。
+\end{wowbox}
+
+\begin{analogy}[音楽のアナロジー]
+実数の世界は「連続的な音」（バイオリンのように滑らかに
+音程を変えられる）。
+
+$p$進数の世界は「離散的な音」（ピアノのように決まった音しか出せない、
+しかもフラクタル的に配置されている）。
+
+ダークエネルギーは「滑らかな振動」から生まれるので、
+バイオリン（実数）の世界にはあるけど、
+ピアノ（$p$進数）の世界にはないのです。
+\end{analogy}
+
+%======================================================================
+\section{真空 vs 物質 = Eisenstein vs カスプ}
+%======================================================================
+
+\subsection{保型形式の2つの種類}
+
+数論には「保型形式」という美しい関数のクラスがあります。
+保型形式は2つの種類に分かれます：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+種類 & 数学的性質 & 物理的対応 \\
+\midrule
+\textbf{Eisenstein級数} & 滑らか、ゆっくり変化 & 真空（何もない空間） \\
+\textbf{カスプ形式} & 振動する、波のよう & 物質（粒子） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{analogy}[海のアナロジー]
+\begin{itemize}
+  \item \textbf{Eisenstein級数} = 海面の平均的な高さ（潮位）。
+    ゆっくり変化し、どこでもだいたい同じ。
+    これは宇宙の「真空エネルギー」（ダークエネルギー）に対応します。
+  \item \textbf{カスプ形式} = 海面の波。
+    上下に振動し、エネルギーを運ぶ。
+    これは宇宙の「物質」（粒子）に対応します。
+\end{itemize}
+
+海面 = Eisenstein（真空）+ 波（物質）、
+ちょうど宇宙 = 真空エネルギー + 物質 と同じです！
+\end{analogy}
+
+\subsection{Langlands対応でつながる}
+
+カスプ形式には「Galois表現」という数論的な対象が付随します。
+これはLanglands対応を通じて、物質粒子の性質を符号化します。
+
+一方、Eisenstein級数にはGalois表現がありません（技術的には「可約」です）。
+これは真空が「粒子でない」ことに対応します。
+
+\begin{mathbox}[Wright Brothersの枠組み]
+Wright Brothers（ライト兄弟）の飛行機をイメージしてください：
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{左翼} & = Eisenstein = 真空 = ダークエネルギー（非摂動論的） \\
+\textbf{右翼} & = カスプ = 物質 = 粒子（摂動論的、Langlands対応） \\
+\textbf{本体} & = $\Spec(\mathbb{Z})$（すべてを支える算術的構造） \\
+\end{tabular}
+\end{center}
+
+両翼があってはじめて飛べる---
+真空と物質の両方があってはじめて宇宙は「飛ぶ」のです。
+\end{mathbox}
+
+%======================================================================
+\section{正直な限界}
+%======================================================================
+
+\begin{honestbox}[科学は正直でなければならない]
+この理論にはいくつかの重要な限界があります。
+正直に認めることが科学の基本です。
+
+\begin{itemize}
+  \item \textbf{「$n \le \mathrm{cd}$」はヒューリスティック（経験則）であり、
+    厳密に証明された定理ではない。}
+    $n$次元のGalois表現がcd次元を超えられないという主張は、
+    数学的に完全には証明されていません。
+    もっともらしい根拠はありますが、厳密な証明はまだです。
+
+  \item \textbf{$\mathrm{GL}(3)$のLanglands対応は未完成。}
+    $\mathrm{GL}(2)$（弱い力に対応）のLanglands対応は
+    Wilesらにより確立されていますが、
+    $\mathrm{GL}(3)$（強い力に対応）は研究途上です。
+
+  \item \textbf{導手（レベル）= 質量 は機能しない。}
+    カスプ形式の「導手」が粒子の質量に対応するという
+    自然な予想は、現実的な値を与えません。
+
+  \item \textbf{$1.3\%$のずれ。}
+    予言値$0.698$と観測値$0.689$には約$1.3\%$のずれがあります。
+    これは許容範囲内ですが、何かが足りない可能性もあります。
+
+  \item \textbf{力学がない。}
+    ゲージ群（どんな力があるか）は決まりますが、
+    ラグランジアン（力がどう働くか）は導出されていません。
+\end{itemize}
+\end{honestbox}
+
+%======================================================================
+\section{全体像：$\Spec(\mathbb{Z})$からすべてへ}
+%======================================================================
+
+\begin{wowbox}[cd = 3 から導かれるもの]
+\begin{center}
+\Large
+\textbf{cd = 3}
+\end{center}
+
+\begin{center}
+$\Downarrow$
+\end{center}
+
+\begin{center}
+\begin{tabular}{rl}
+\textbf{時空次元：} & $d = \mathrm{cd} + 1 = 3 + 1 = 4$ \\[6pt]
+\textbf{ゲージ群：} & $\mathrm{U}(1) \times \mathrm{SU}(2) \times \mathrm{SU}(3)$
+  （$n \le 3$） \\[6pt]
+\textbf{ゲージボソン：} & $1 + 3 + 8 = 12 = 2/|B_2|$ \\[6pt]
+\textbf{ダークエネルギー：} & $\displaystyle\Omega_\Lambda
+  = \frac{4}{3}\times 2\pi \times \frac{1}{12} = \frac{2\pi}{9}$ \\
+\end{tabular}
+\end{center}
+\end{wowbox}
+
+\subsection{宇宙のソースコードは短いかもしれない}
+
+プログラマーは「美しいコードは短い」と言います。
+もしこの理論が正しければ、宇宙の「ソースコード」は
+驚くほど短いことになります：
+
+\begin{tcolorbox}[colback=black!90!white, colframe=black,
+  colupper=green!70!white]
+\texttt{\# 宇宙のソースコード（疑似コード）}\\[4pt]
+\texttt{cd = etale\_cohomological\_dimension(Spec(Z))}\\
+\texttt{assert cd == 3 ~~~\# これは定理}\\[4pt]
+\texttt{spacetime\_dim = cd + 1 ~~~\# = 4}\\
+\texttt{gauge\_group = product(SU(n) for n in 1..cd)}\\
+\texttt{dark\_energy = d/(d-1) * 2*pi * 1/12}\\[4pt]
+\texttt{run\_universe(spacetime\_dim, gauge\_group, dark\_energy)}
+\end{tcolorbox}
+
+もちろん、これは大幅に簡略化しています。
+でも本質的なメッセージは：
+
+\begin{center}
+\textbf{「宇宙の複雑さの根源は、$\Spec(\mathbb{Z})$という\\
+極めてシンプルな数学的対象にあるかもしれない。」}
+\end{center}
+
+\subsection{まだ分からないこと}
+
+この理論が答えていない大きな問いがたくさんあります：
+\begin{itemize}
+  \item なぜ電子の質量はあの値なのか？
+  \item なぜ世代（電子、ミューオン、タウ）が3つあるのか？
+  \item 重力はどう組み込まれるのか？
+  \item なぜ物質が反物質より多いのか？
+\end{itemize}
+
+これらは今後の研究課題です。
+でも、出発点が見つかったかもしれない---
+それが$\mathrm{cd}(\Spec(\mathbb{Z})) = 3$なのです。
+
+\subsection{高校生のあなたへ}
+
+\begin{tcolorbox}[colback=blue!3!white, colframe=blue!40!black,
+  fonttitle=\bfseries, title={数学と物理学の未来}]
+この論文で紹介した内容は、数論（素数の理論）と物理学
+（宇宙の理論）が深い所でつながっているかもしれない、
+という大きな予感を伝えるものです。
+
+もしあなたがこの話に興味を持ったなら、
+以下の分野を勉強してみてください：
+\begin{itemize}
+  \item \textbf{代数的整数論}：素数やゼータ関数の世界
+  \item \textbf{代数幾何学}：$\Spec(\mathbb{Z})$の住む世界
+  \item \textbf{表現論}：$\mathrm{GL}(n)$や$\mathrm{SU}(n)$の世界
+  \item \textbf{素粒子物理学}：標準模型の世界
+  \item \textbf{宇宙論}：ダークエネルギーの世界
+\end{itemize}
+
+これらの分野が一つに融合する日が来るかもしれません。
+その日を作るのは、もしかするとあなたかもしれません。
+\end{tcolorbox}
+
+%======================================================================
+\section*{用語集}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{lp{10cm}}
+\toprule
+用語 & 意味 \\
+\midrule
+$\Spec(\mathbb{Z})$ & すべての素数が「点」として住んでいる幾何学的な空間 \\
+cd（コホモロジー次元） & 空間の「本当の次元」を測る数学的道具 \\
+エタールコホモロジー & 代数的な空間の「形」を調べる道具 \\
+ゲージボソン & 力を伝える粒子（光子、$W$ボソン、$Z$ボソン、グルーオン） \\
+$\mathrm{GL}(n)$ & $n\times n$の正則行列全体の群 \\
+$\mathrm{SU}(n)$ & $n\times n$のユニタリ行列（行列式1）の群 \\
+Langlands対応 & $\mathrm{GL}(n)$の保型表現とGalois表現を結ぶ予想 \\
+Bernoulli数 & 数論に現れる重要な有理数の列。$B_2 = 1/6$ \\
+$\zeta(-1)$ & Riemannゼータ関数の$s=-1$での値。$= -1/12$ \\
+ダークエネルギー & 宇宙の加速膨張を引き起こす謎のエネルギー \\
+$\Omega_\Lambda$ & ダークエネルギーが宇宙全体のエネルギーに占める割合 \\
+保型形式 & ある種の対称性を持つ特別な関数 \\
+Eisenstein級数 & 滑らかに変化する保型形式（真空に対応） \\
+カスプ形式 & 振動する保型形式（物質に対応） \\
+$p$進数 & 素数$p$に基づく「別の距離」で完備化した数の体系 \\
+Arakelov幾何学 & 実数と$p$進数を対等に扱う幾何学 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

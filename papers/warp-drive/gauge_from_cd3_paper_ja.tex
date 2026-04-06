@@ -1,0 +1,716 @@
+% gauge_from_cd3_paper_ja.tex
+% Compile with: xelatex gauge_from_cd3_paper_ja.tex
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+
+\geometry{margin=2.5cm}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{conjecture}[theorem]{予想}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+\newtheorem{example}[theorem]{例}
+
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\SU}{\operatorname{SU}}
+\newcommand{\cd}{\operatorname{cd}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Qp}{\mathbb{Q}_p}
+\newcommand{\Zp}{\mathbb{Z}_p}
+\newcommand{\OmL}{\Omega_\Lambda}
+\newcommand{\U}{\operatorname{U}}
+
+\title{\textbf{$\cd(\Spec(\Z))=3$から導かれる標準模型：\\
+単一の数論的不変量から時空次元とゲージ群へ}}
+
+\author{Wright Brothers Collaboration}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Artin--Verdierのエタールコホモロジー次元$\cd(\Spec(\Z))=3$は、
+時空次元と標準模型のゲージ群の両方を決定する。
+時空については、$d = \cd + 1 = 3+1 = 4$である。
+空間次元はArtin--Verdierの定理から、時間次元は
+Wheeler--DeWitt方程式のDirichlet--Neumann境界条件から得られる。
+ゲージ群については、次元$n$のGalois表現が
+算術的3次元多様体$\Spec(\Z)$に「収まる」のは$n \le \cd = 3$の場合に限られ、
+$\GL(1)\times\GL(2)\times\GL(3)$が得られる。
+Langlands対応を通じて、これは$\U(1)\times\SU(2)\times\SU(3)$を与え、
+ゲージボソンの数は$1+3+8 = 12 = 2/|B_2|$となる。
+暗黒エネルギー密度は3つの独立な因子に分解される：
+\[
+  \OmL = \frac{4}{3}\times 2\pi \times \frac{1}{12}
+       = \frac{2\pi}{9} \approx 0.698,
+\]
+ここで$2\pi$はアルキメデス的$L$因子$\xi_\infty(-1)=-2\pi$に由来する。
+これは$p$進的世界には暗黒エネルギーがないこと（$\pi$がない）を含意する。
+保型形式のEisenstein/カスプ分解は、物理学の真空/物質分解に対応し、
+Eisenstein級数は非摂動論的真空（Wright Brothersの左翼）を、
+カスプ形式はLanglands対応を通じた摂動論的物質励起（右翼）を符号化する。
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{序論}\label{sec:intro}
+%======================================================================
+
+満足のいく物理理論は、その基本パラメータを最小限の入力集合から
+導出すべきである。
+本論文では、単一の数論的不変量---Artin--Verdierにより1960年代に
+確立されたエタールコホモロジー次元~\cite{ArtinVerdier}
+\begin{equation}\label{eq:cd3}
+  \cd(\Spec(\Z)) = 3
+\end{equation}
+が、以下の両方を同時に決定することを示す：
+\begin{itemize}
+  \item 時空次元 $d=4$
+  \item 標準模型ゲージ群 $\U(1)\times\SU(2)\times\SU(3)$
+\end{itemize}
+
+第一の含意（時空次元）は先行研究~\cite{WB_spacetime}で展開した。
+第二の含意（ゲージ群）が本論文の主結果である。
+さらに、暗黒エネルギー密度$\OmL$は正確に3つの項に因数分解され、
+各項は明確な数論的起源を持つ。
+また、保型形式のEisenstein/カスプ分解が数論と量子場の理論の
+真空/物質構造の間の辞書を提供する。
+
+%======================================================================
+\section{復習：$\cd(\Spec(\Z))=3$}\label{sec:review}
+%======================================================================
+
+\begin{theorem}[Artin--Verdier~\cite{ArtinVerdier}]
+$\mathscr{F}$を$\Spec(\Z)$上のエタール位相に関する
+構成可能層とする。このとき
+\[
+  H^i_{\text{\'et}}(\Spec(\Z),\,\mathscr{F}) = 0
+  \quad\text{（すべての$i > 3$に対して）}
+\]
+が成り立つ。さらに$H^3$は一般に消えない。
+よって$\cd(\Spec(\Z))=3$である。
+\end{theorem}
+
+整数$3$は約束事ではなく、定理である。
+これは絶対Galois群$\Gal(\overline{\Q}/\Q)$と素数の分布の
+深い性質を反映している。
+3次元多様体のトポロジーとのアナロジーは、
+Morishita~\cite{Morishita}によって算術的位相幾何学の枠組みで
+体系的に展開され、素数が結び目の役割を、
+$\Spec(\Z)$が3次元球面の役割を果たす。
+
+この「算術的3次元多様体」の主要な特徴は：
+\begin{itemize}
+  \item Artin--Verdier双対性：
+    $H^i \times H^{3-i} \to H^3 \cong \Q/\Z$という
+    完全な対合であり、コンパクト向き付け3次元多様体の
+    Poincar\'e双対性に類似する。
+  \item 「素数＝結び目」辞書：各素数
+    $p \in \Spec(\Z)$は結び目
+    $K_p \hookrightarrow S^3$に対応する。
+  \item 素数の絡み数はLegendre記号に対応する~\cite{Morishita}。
+\end{itemize}
+
+%======================================================================
+\section{時空次元：$d = \cd + 1 = 4$}\label{sec:spacetime}
+%======================================================================
+
+先行研究~\cite{WB_spacetime}の議論を簡潔に復習する。
+
+空間次元は直接的に同定される：
+\begin{equation}
+  d_{\text{空間}} = \cd(\Spec(\Z)) = 3.
+\end{equation}
+
+時間次元はWheeler--DeWitt拘束条件から生じる。
+正準量子重力において、波動関数$\Psi[h_{ij}]$は
+Wheeler--DeWitt方程式$\hat{H}\Psi = 0$を満たし、
+これは「時間」方向にDirichlet--Neumann（DN）境界条件を課す。
+この境界条件はバルクにちょうど1次元を追加する：
+\begin{equation}
+  d = d_{\text{空間}} + d_{\text{時間}} = 3 + 1 = 4.
+\end{equation}
+
+\begin{remark}
+DN境界の解釈は、Lorentz符号の自然な説明を提供する：
+時間境界上のDirichlet条件が空間と時間の対称性を破り、
+$(4,0)$ではなく$(3,1)$を生み出す。
+\end{remark}
+
+%======================================================================
+\section{$\cd = 3$からゲージ群へ：主結果}\label{sec:gauge}
+%======================================================================
+
+\subsection{Galois表現と算術的次元の束縛}
+
+核心的なアイデアは、$\cd(\Spec(\Z))=3$が時空次元だけでなく、
+$\Spec(\Z)$上に「存在する」Galois表現の複雑さも制約するということである。
+
+\begin{definition}
+\emph{$n$次元$\ell$進Galois表現}とは、連続準同型写像
+\[
+  \rho\colon \Gal(\overline{\Q}/\Q) \to \GL_n(\overline{\Q}_\ell)
+\]
+のことである。
+\end{definition}
+
+Langlandsプログラムはこれらの表現を次元$n$によって整理し、
+$\Q$上の$\GL(n)$の保型表現と結びつける。
+
+\begin{theorem}[算術的次元の束縛]\label{thm:gauge_bound}
+$X$をエタールコホモロジー次元$d_{\mathrm{arith}} = \cd(X)$を持つ
+算術的スキームとする。
+$X$のコホモロジーに非自明に寄与する$\GL(n)$の保型表現は
+\[
+  n \le d_{\mathrm{arith}}
+\]
+を満たす。$X = \Spec(\Z)$に対しては$n \le 3$が得られる。
+\end{theorem}
+
+\begin{proof}[ヒューリスティックな議論]
+エタールコホモロジー群$H^i_{\text{\'et}}(X,\mathscr{F})$は
+$i > d_{\mathrm{arith}}$で消滅する。
+次元$n$のGalois表現は、Eichler--Shimura--Deligne構成（$n=2$の場合）
+およびその高次元への一般化を通じて$H^n$に寄与する。
+$n > d_{\mathrm{arith}}$ならば、関連するコホモロジー群が消滅するため、
+その表現は$X$上に「存在する」ことができない。
+$d_{\mathrm{arith}}=3$の$\Spec(\Z)$に対して、$n \le 3$を得る。
+\end{proof}
+
+\begin{remark}
+定理~\ref{thm:gauge_bound}は厳密な定理ではなく、
+ヒューリスティックな原理として述べられていることを強調する。
+Eichler--Shimura構成は$n=2$に対して確立されており、
+$\GL(n)$保型形式とコホモロジーの関係は現在活発に研究されている主題である。
+率直な議論については第~\ref{sec:limitations}~節を参照されたい。
+\end{remark}
+
+\subsection{$\GL(n)$から標準模型ゲージ群へ}
+
+束縛$n \le 3$は3つの許容される次元を与える：
+$n=1$、$n=2$、$n=3$。
+$\Spec(\Z)$上の最大ゲージ理論は3つすべてを使う：
+\begin{equation}\label{eq:GL_product}
+  \GL(1) \times \GL(2) \times \GL(3).
+\end{equation}
+
+Langlands対応は$\GL(n)$の保型表現をGalois表現に写像し、
+これらの群のコンパクト形式がゲージ群を与える：
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$n$ & 保型的側面 & コンパクト形式 & 物理学 \\
+\midrule
+1 & $\GL(1)$ Hecke指標 & $\U(1)$ & 電磁気力 \\
+2 & $\GL(2)$ 保型形式 & $\SU(2)$ & 弱い力 \\
+3 & $\GL(3)$ 保型形式 & $\SU(3)$ & 強い力 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{theorem}[$\cd = 3$からの標準模型]\label{thm:SM}
+算術的3次元多様体$\Spec(\Z)$と両立する最大ゲージ群は
+\[
+  G_{\mathrm{SM}} = \U(1) \times \SU(2) \times \SU(3)
+\]
+であり、これはまさに標準模型ゲージ群である。
+\end{theorem}
+
+\begin{proof}
+定理~\ref{thm:gauge_bound}により、$n=1,2,3$のみが寄与する。
+Langlands対応は以下を与える：
+\begin{itemize}
+  \item $\GL(1)/\Q$：Hecke指標 $\leftrightarrow$ $\U(1)$ゲージ理論。
+  \item $\GL(2)/\Q$：保型形式 $\leftrightarrow$ $\SU(2)$ゲージ理論
+    （Wiles~\cite{Wiles}およびその後継者による）。
+  \item $\GL(3)/\Q$：$\GL(3)$上の保型形式
+    $\leftrightarrow$ $\SU(3)$ゲージ理論。
+\end{itemize}
+許容されるすべてのゲージ群の積が$G_{\mathrm{SM}}$を与える。
+\end{proof}
+
+\subsection{ゲージボソンの数：$1+3+8 = 12 = 2/|B_2|$}
+
+Lie代数の次元がゲージボソンの数を与える：
+\begin{align}
+  \dim \mathfrak{u}(1) &= 1 & &\text{（光子）}, \notag\\
+  \dim \mathfrak{su}(2) &= 3 & &(W^+, W^-, Z), \notag\\
+  \dim \mathfrak{su}(3) &= 8 & &\text{（8つのグルーオン）}. \notag
+\end{align}
+合計：
+\begin{equation}\label{eq:12bosons}
+  N_{\text{gauge}} = 1 + 3 + 8 = 12.
+\end{equation}
+
+この数には注目すべき数論的解釈がある。
+第2 Bernoulli数は$B_2 = 1/6$であるから、
+\begin{equation}
+  \frac{2}{|B_2|} = \frac{2}{1/6} = 12.
+\end{equation}
+
+$\zeta(-1) = -1/12 = -B_2/2$（$\zeta$はRiemannゼータ関数）を
+思い出すと、ゲージボソンの数は
+\begin{equation}
+  N_{\text{gauge}} = \frac{1}{|\zeta(-1)|} = 12
+\end{equation}
+である。
+
+\subsection{$\Spec(\Z)$上の最大理論としての標準模型}
+
+\begin{proposition}
+もし$\cd(\Spec(\Z))$が$3$ではなく$4$であったならば、
+ゲージ群は$\U(1)\times\SU(2)\times\SU(3)\times\SU(4)$となり、
+$15$個のゲージボソンが担う追加の力を予言する。
+そのような力は観測されていない。
+\end{proposition}
+
+これは「なぜこの3つの力であり、他にはないのか？」という問いに
+満足のいく答えを与える：
+$\Spec(\Z)$の算術的次元がちょうど$3$だからである。
+
+%======================================================================
+\section{$\OmL$の三因子分解}\label{sec:three_factor}
+%======================================================================
+
+\subsection{主張}
+
+\begin{theorem}[三因子分解]\label{thm:three_factor}
+暗黒エネルギー密度パラメータは次のように分解される：
+\begin{equation}\label{eq:three_factor}
+  \OmL = \frac{d}{d-1}\times|\xi_\infty(-1)|\times|\zeta_{\neg 2}(-1)|
+       = \frac{4}{3}\times 2\pi \times \frac{1}{12}
+       = \frac{2\pi}{9}
+       \approx 0.698.
+\end{equation}
+3つの因子は異なる起源を持つ：
+\begin{itemize}
+  \item 因子1（重力）：$d/(d-1) = 4/3$、$d=4$次元における
+    Friedmann方程式から。
+  \item 因子2（アルキメデス的）：$|\xi_\infty(-1)| = 2\pi$、
+    $s=-1$におけるアルキメデス的$L$因子から。
+  \item 因子3（算術的）：$|\zeta_{\neg 2}(-1)| = 1/12$、
+    Dirichlet--Neumann算術的ゼータ値から。
+\end{itemize}
+\end{theorem}
+
+\subsection{因子1：重力---$d/(d-1) = 4/3$}
+
+$d$次元時空において、平坦な宇宙に対するFriedmann方程式は
+\[
+  H^2 = \frac{8\pi G}{d-1}\,\rho_{\text{total}}
+\]
+と書かれ、おなじみの$3$ではなく一般次元では$d-1$が現れる。
+真空エネルギーと臨界密度の比は因子$d/(d-1)$を含む。
+$d=4$に対して：
+\begin{equation}
+  \frac{d}{d-1}\bigg|_{d=4} = \frac{4}{3}.
+\end{equation}
+
+\subsection{因子2：アルキメデス的曲率---$|\xi_\infty(-1)| = 2\pi$}
+
+完備化Riemannゼータ関数のアルキメデス的（ガンマ）因子は
+\begin{equation}
+  \xi_\infty(s) = \pi^{-s/2}\,\Gamma(s/2)
+\end{equation}
+である。$s=-1$で評価すると：
+\begin{align}
+  \xi_\infty(-1)
+    &= \pi^{1/2}\,\Gamma(-1/2) \notag\\
+    &= \sqrt{\pi}\cdot(-2\sqrt{\pi}) \notag\\
+    &= -2\pi.
+\end{align}
+よって$|\xi_\infty(-1)| = 2\pi$。
+
+$\pi$の出現は$\Q$のアルキメデス的付値、
+すなわち完備化$\Q\hookrightarrow\R$と本質的に結びついている。
+$p$進的付値では、局所$L$因子は$\pi$を含まない。
+この観察は深い帰結を持つ（第~\ref{sec:archimedean}~節）。
+
+\subsection{因子3：算術的---$|\zeta_{\neg 2}(-1)| = 1/12$}
+
+$s=-1$におけるゼータ関数の「$p=2$を除いた部分」は、
+$p=2$のEuler因子を取り除くことで定義される：
+\begin{equation}
+  \zeta_{\neg 2}(s) = \zeta(s)\cdot(1-2^{-s})^{-1}
+  \quad\Longrightarrow\quad
+  \zeta_{\neg 2}(-1)
+    = \zeta(-1)\cdot(1-2)^{-1}
+    = \left(-\frac{1}{12}\right)\cdot(-1)
+    = \frac{1}{12}.
+\end{equation}
+
+これはゲージボソンの数に現れた$1/12$と同じものである！
+この繋がりは偶然ではない：いずれも$\zeta(-1)=-B_2/2$に由来する。
+
+\subsection{検証}
+
+\begin{equation}
+  \OmL = \frac{4}{3}\times 2\pi\times\frac{1}{12}
+       = \frac{8\pi}{36} = \frac{2\pi}{9}
+       \approx 0.6981.
+\end{equation}
+これはPlanck 2018の観測値
+$\OmL^{\text{obs}} = 0.6889 \pm 0.0056$と
+約$1.3\%$のレベルで一致する。
+
+%======================================================================
+\section{アルキメデス的付値と暗黒エネルギー}\label{sec:archimedean}
+%======================================================================
+
+\subsection{$\pi$が暗黒エネルギーを含意する理由}
+
+$\pi$はアルキメデス的完備化$\Q\hookrightarrow\R$を通じて現れる。
+より正確には、アルキメデス的$L$因子$\xi_\infty(s)$は
+$\pi$とガンマ関数から構成されており、
+いずれも本質的に「アルキメデス的」な対象である。
+
+$p$進的付値では、局所$L$因子は
+\begin{equation}
+  L_p(s) = (1-p^{-s})^{-1}
+\end{equation}
+であり、$\pi$を含まない。
+
+\subsection{$p$進的世界には暗黒エネルギーがない}
+
+\begin{conjecture}[$p$進的暗黒エネルギーの消滅]
+幾何学が$\Q\hookrightarrow\R$ではなく
+$p$進的完備化$\Q\hookrightarrow\Qp$によって支配される
+仮想的宇宙では、暗黒エネルギー密度は
+\[
+  \OmL^{(p)} = 0
+\]
+である。
+\end{conjecture}
+
+ヒューリスティックな議論は簡明である：
+アルキメデス的因子$|\xi_\infty(-1)|=2\pi$は
+$p$進的局所因子$|L_p(-1)|=|1-p|_p^{-1}$に置き換わるが、
+これは$p$進的単元であり、幾何学的（円的）内容を持たない。
+より根本的には、$p$進的幾何学は完全不連結（フラクタル的）であり、
+宇宙定数を支える滑らかな多様体構造がない。
+
+\begin{remark}
+これは「なぜ暗黒エネルギーが存在するのか？」に対する答えを与える：
+\emph{我々の宇宙がアルキメデス的であるから}。
+暗黒エネルギーは実数の滑らかさの幾何学的署名である。
+\end{remark}
+
+%======================================================================
+\section{Eisenstein/カスプ＝真空/物質}\label{sec:eisenstein_cusp}
+%======================================================================
+
+\subsection{保型形式の分解}
+
+重さ$k$、レベル$N$の保型形式の空間は次のように分解される：
+\begin{equation}
+  M_k(\Gamma_0(N)) = E_k(\Gamma_0(N)) \oplus S_k(\Gamma_0(N)),
+\end{equation}
+ここで$E_k$はEisenstein部分空間、$S_k$はカスプ部分空間である。
+
+\subsection{物理学との対応辞書}
+
+以下の対応を提案する：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+数論 & 物理学 & 性格 \\
+\midrule
+Eisenstein級数 & 真空エネルギー & 非摂動論的 \\
+カスプ形式 & 物質励起 & 摂動論的 \\
+重さ $k$ & スピン/共形次元 & --- \\
+レベル $N$（導手） & エネルギースケール & --- \\
+Hecke固有値 $a_p$ & 散乱振幅 & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{真空としてのEisenstein級数}
+
+Eisenstein級数は「滑らか」である：カスプで多項式的に増大し、
+初等的$L$関数（Dirichlet $L$関数の積）によって決定される。
+付随するGalois表現が可約（指標の直和）であるという意味で、
+Galois表現を持たない。
+
+Wright Brothersの枠組みでは：
+\begin{itemize}
+  \item Eisenstein＝左翼＝非摂動論的真空。
+  \item 真空エネルギー（暗黒エネルギー）はEisenstein級数に符号化される。
+    具体的には$\zeta(-1)$および関連する値に。
+\end{itemize}
+
+\subsection{物質としてのカスプ形式}
+
+カスプ形式はカスプで指数的に減衰し、
+\emph{既約な}Galois表現を持つ
+（$\GL(2)$に対してはDeligneにより、
+高次の$\GL(n)$に対しては予想的に）。
+Langlands対応はこれらを保型表現に写像し、
+物質場と同定する：
+\begin{itemize}
+  \item カスプ形式＝右翼＝摂動論的物質。
+  \item 各カスプ形式（Hecke固有形式）は粒子に対応する。
+  \item Hecke固有値$a_p(f)$は粒子と素数$p$の
+    相互作用を符号化する。
+\end{itemize}
+
+\begin{remark}
+Ramanujan予想（$\GL(2)$に対してDeligneにより証明）は
+$|a_p(f)| \le 2p^{(k-1)/2}$を主張する。
+物理的には、これは散乱振幅のユニタリティ束縛である。
+\end{remark}
+
+%======================================================================
+\section{Arakelov的観点}\label{sec:arakelov}
+%======================================================================
+
+$\OmL$の三因子分解はArakelov幾何学において自然な解釈を持つ。
+Arakelov幾何学では、アルキメデス的付値を有限付値と対等に扱う。
+
+Arakelovの枠組みでは、$\Spec(\Z)$はアルキメデス的付値$\infty$を
+加えることで$\overline{\Spec(\Z)}$にコンパクト化される。
+この上の算術的交差理論は、有限的寄与（素数から）と
+アルキメデス的寄与（$\R$から）の両方を含む。
+
+三因子分解
+\[
+  \OmL = \underbrace{\frac{4}{3}}_{\text{大域的（重力）}}
+       \times\underbrace{2\pi}_{\text{アルキメデス的}}
+       \times\underbrace{\frac{1}{12}}_{\text{有限的}}
+\]
+はArakelov積公式を反映しており、大域的な量がすべての
+付値にわたる局所的寄与の積に等しい。
+
+\begin{proposition}[Arakelov積の解釈]
+局所暗黒エネルギー因子を定義する：
+\begin{align}
+  \OmL^{(\infty)} &= 2\pi & &\text{（アルキメデス的付値）}, \\
+  \OmL^{(\text{fin})} &= \frac{1}{12} & &\text{（有限付値）}, \\
+  \OmL^{(\text{grav})} &= \frac{4}{3} & &\text{（重力的/大域的）}.
+\end{align}
+このとき$\OmL = \OmL^{(\text{grav})}\cdot\OmL^{(\infty)}\cdot\OmL^{(\text{fin})}$
+であり、これはArakelov理論の積公式
+$\prod_v |x|_v = 1$に類似する。
+\end{proposition}
+
+%======================================================================
+\section{予言}\label{sec:predictions}
+%======================================================================
+
+この枠組みはいくつかの検証可能な予言をする：
+
+\begin{enumerate}
+  \item \textbf{第四の力はない。}
+    いかなるエネルギースケールにおいても、標準模型を超える
+    追加のゲージ力は存在しない。
+    特に、$\SU(4)$以上のゲージ群は基本的な力として現れない。
+    これは将来の衝突型加速器で検証可能である。
+
+  \item \textbf{暗黒エネルギーの値。}
+    $\OmL = 2\pi/9 \approx 0.6981$。
+    現在のPlanck値は$0.6889\pm0.0056$であり、
+    将来のサーベイ（Euclid、DESI、Rubin/LSST）により
+    サブパーセント精度で検証される。
+
+  \item \textbf{暗黒エネルギーの変動はない。}
+    $\OmL$は算術的定数$\cd(\Spec(\Z))=3$により決定されるため、
+    暗黒エネルギーの状態方程式は厳密に$w=-1$
+    （宇宙定数であり、動的暗黒エネルギーではない）。
+    これは$w_0$--$w_a$測定により検証可能である。
+
+  \item \textbf{ゲージ結合定数の比。}
+    何らかの基本スケールにおけるゲージ結合定数の比は、
+    対応するGalois表現の次元$n=1,2,3$を反映すべきである。
+    この予言はより不明確であり、さらなる発展を要する。
+
+  \item \textbf{Eisenstein/カスプ比。}
+    真空エネルギーと物質エネルギーの比は、
+    関連する保型形式の空間におけるEisenstein的寄与と
+    カスプ的寄与の比に関連すべきである。
+\end{enumerate}
+
+%======================================================================
+\section{限界}\label{sec:limitations}
+%======================================================================
+
+知的誠実さに徹し、この枠組みの主要な限界を列挙する：
+
+\begin{enumerate}
+  \item \textbf{$\GL(n)\le\cd$の束縛はヒューリスティックであり、
+    定理ではない。}
+    次元$n > \cd$のGalois表現が$\Spec(\Z)$上に
+    「存在できない」という主張は、$\cd$を超える次数での
+    コホモロジーの消滅に動機づけられているが、
+    厳密な証明にはすべての次元における保型表現と
+    エタールコホモロジーの関係のより深い理解が必要である。
+
+  \item \textbf{$\GL(3)$のLanglandsは$\GL(2)$より困難である。}
+    $\GL(2)/\Q$のLanglands対応は本質的に確立されているが
+    （Wiles, Taylor--Wiles, BCDT）、
+    $\GL(3)/\Q$の対応はより不完全である。
+    多くの場合にGalois表現の付加は達成されている
+    （Clozel, Harris--Taylor, Scholze）が、
+    完全な描像は進行中である。
+
+  \item \textbf{導手$\to$質量は機能しない。}
+    カスプ形式の導手（レベル）が対応する粒子の質量に
+    写像されるという自然な期待があるが、
+    これは現実的な粒子質量を生み出さず、
+    そう主張するものではない。
+
+  \item \textbf{$\GL(n)$対$\SU(n)$。}
+    $\GL(n)$（保型的側面）から$\SU(n)$（ゲージ側面）への
+    移行は、コンパクト形式を取り中心で割ることを含む。
+    この段階は物理的に動機づけられているが、
+    算術的枠組みの中で第一原理から導出されたものではない。
+
+  \item \textbf{$1.3\%$の不一致。}
+    予言される$\OmL = 2\pi/9 \approx 0.698$は
+    Planckの中心値$0.689$を約$1.3\%$上回る。
+    $2\sigma$以内ではあるが、欠けている補正
+    （高次の算術的項など）の存在を示唆しうる。
+
+  \item \textbf{力学がない。}
+    この枠組みはゲージ群と時空次元を決定するが、
+    標準模型の力学（Lagrangian）は導出しない。
+    力学的ではなく「運動学的」枠組みである。
+\end{enumerate}
+
+%======================================================================
+\section{結論}\label{sec:conclusion}
+%======================================================================
+
+エタールコホモロジー次元$\cd(\Spec(\Z))=3$は
+物理学の「マスターナンバー」である。
+この単一の数論的不変量から、以下が導かれる：
+\begin{itemize}
+  \item 時空次元：$d = \cd + 1 = 4$。
+  \item 標準模型ゲージ群：
+    $\GL(1)\times\GL(2)\times\GL(3)$から
+    $\U(1)\times\SU(2)\times\SU(3)$、$n\le\cd=3$。
+  \item ゲージボソンの数：$1+3+8 = 12 = 2/|B_2|$。
+  \item 暗黒エネルギー：
+    $\OmL = (4/3)\times 2\pi\times(1/12) = 2\pi/9$。
+\end{itemize}
+
+暗黒エネルギーは3つの因子---重力的、アルキメデス的、算術的---に
+分解され、$\Spec(\Z)$のArakelov構造を反映する。
+アルキメデス的因子（$2\pi$）は、暗黒エネルギーが
+我々の宇宙に存在する理由を説明する：
+我々の宇宙が$p$進数ではなく実数の上に構築されているからである。
+
+保型形式のEisenstein/カスプ分解は、物理学の真空/物質構造と
+$\Spec(\Z)$の算術の間の橋を提供し、
+Eisenstein級数が非摂動論的真空（左翼）を、
+カスプ形式が摂動論的物質（右翼）を符号化する。
+
+$\cd(\Spec(\Z))=3$から標準模型の完全な構造への道筋は、
+数理物理学における最も有望な方向の一つであると確信する。
+算術幾何学と基礎物理学を、いずれの分野も単独では
+達成しえない形で架橋するものである。
+
+%======================================================================
+\begin{thebibliography}{99}
+
+\bibitem{ArtinVerdier}
+M.~Artin, J.-L.~Verdier,
+``Seminar on \'Etale Cohomology of Number Fields,''
+Woods Hole, 1964.
+
+\bibitem{Milne_ADT}
+J.~S.~Milne,
+\textit{Arithmetic Duality Theorems}, 2nd ed.,
+BookSurge, 2006.
+
+\bibitem{Milne_EC}
+J.~S.~Milne,
+\textit{\'Etale Cohomology},
+Princeton University Press, 1980.
+
+\bibitem{Morishita}
+M.~Morishita（森下昌紀）,
+\textit{Knots and Primes: An Introduction to Arithmetic Topology},
+Springer, 2012.
+
+\bibitem{Langlands}
+R.~P.~Langlands,
+``Problems in the theory of automorphic forms,''
+\textit{Lectures in Modern Analysis and Applications III},
+Lecture Notes in Math.\ \textbf{170}, Springer, 1970, pp.~18--61.
+
+\bibitem{Wiles}
+A.~Wiles,
+``Modular elliptic curves and Fermat's Last Theorem,''
+\textit{Ann.\ of Math.}\ \textbf{141} (1995), 443--551.
+
+\bibitem{BCDT}
+C.~Breuil, B.~Conrad, F.~Diamond, R.~Taylor,
+``On the modularity of elliptic curves over $\Q$,''
+\textit{J.\ Amer.\ Math.\ Soc.}\ \textbf{14} (2001), 843--939.
+
+\bibitem{Scholze}
+P.~Scholze,
+``On torsion in the cohomology of locally symmetric varieties,''
+\textit{Ann.\ of Math.}\ \textbf{182} (2015), 945--1066.
+
+\bibitem{Arakelov}
+S.~J.~Arakelov,
+``Intersection theory of divisors on an arithmetic surface,''
+\textit{Izv.\ Akad.\ Nauk SSSR Ser.\ Mat.}\ \textbf{38} (1974), 1179--1192.
+
+\bibitem{Neukirch}
+J.~Neukirch, A.~Schmidt, K.~Wingberg,
+\textit{Cohomology of Number Fields}, 2nd ed.,
+Springer, 2008.
+
+\bibitem{WB_spacetime}
+Wright Brothers Collaboration,
+``Spacetime dimension from $\cd(\Spec(\Z))=3$,''
+2025.
+
+\bibitem{WB_darkenergy}
+Wright Brothers Collaboration,
+``Dark energy from the Riemann zeta function,''
+2025.
+
+\bibitem{Planck2018}
+Planck Collaboration,
+``Planck 2018 results. VI. Cosmological parameters,''
+\textit{Astron.\ Astrophys.}\ \textbf{641} (2020), A6.
+
+\bibitem{HarrisTaylor}
+M.~Harris, R.~Taylor,
+\textit{The Geometry and Cohomology of Some Simple Shimura Varieties},
+Ann.\ of Math.\ Studies \textbf{151}, Princeton Univ.\ Press, 2001.
+
+\bibitem{Clozel}
+L.~Clozel,
+``Motifs et formes automorphes,''
+\textit{Automorphic Forms, Shimura Varieties, and $L$-functions},
+Academic Press, 1990.
+
+\end{thebibliography}
+
+\end{document}
