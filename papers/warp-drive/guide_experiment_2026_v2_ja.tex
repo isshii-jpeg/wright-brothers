@@ -1,0 +1,504 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{Wright Brothers 実験ガイド 2026 v2\\
+\large Bost-Connes 負温度理論に基づく更新版\\[6pt]
+\normalsize 3D素数ミュートによる負のエネルギー密度生成}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Bost-Connes (BC) C$^*$力学系の負温度解析により，
+実験計画の理論的基盤が根本的に深化した．
+核心的な新発見は以下の通りである:
+(1)~$\zeta_{\neg 2}(-1) = +1/12$ の正符号は素数 $p=2$ の除去による
+フェルミオン$\to$ボソン真空転換であり，絶対値記号は不要になった．
+(2)~公式 $\Omega_\Lambda = (d/\mathrm{cd})\,|\xi_{\neg 2}(-1)| = 2\pi/9$ により
+CKN ホログラフィック境界が不要になり，全因子が $\mathrm{Spec}(\mathbb{Z})$
+から導出される．
+(3)~最も重要な発見として，\textbf{同じ素数ミュートが
+1D ($s=-1$) では正のエネルギー（ダークエネルギー），
+3D ($s=-3$) では負のエネルギー（exotic matter）を与える}．
+この符号の次元依存性が，ワープドライブに必要な負のエネルギー密度生成の
+理論的基盤となる．
+BAW 実験装置（¥130,000）でこの 3D 負エネルギーの符号を
+直接測定できる．
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{最大の発見: 次元による符号反転}
+%======================================================================
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=核心定理]
+素数 $p=2$ のミュート（Euler 因子除去）は，空間次元に依存して
+真空エネルギーの符号を反転させる:
+\begin{align}
+  \zeta_{\neg 2}(-1) &= +\frac{1}{12} > 0
+    \quad \text{(1D: ダークエネルギー，斥力)} \\[4pt]
+  \zeta_{\neg 2}(-3) &= -\frac{7}{120} < 0
+    \quad \text{(3D: \textbf{負のエネルギー密度})}
+\end{align}
+\end{tcolorbox}
+
+\noindent
+これは数値的偶然ではない．Euler 因子 $(1-2^{-s})$ は
+$s = -(2k-1)$ で \textbf{全ての} $\zeta$ 値の符号を反転させる:
+
+\begin{center}
+\begin{tabular}{cccccl}
+\toprule
+$s$ & $\zeta(s)$ & 符号 & $\zeta_{\neg 2}(s)$ & 符号 & 物理的意味 \\
+\midrule
+$-1$ & $-1/12$ & $-$ & $+1/12$ & $+$ & ダークエネルギー（斥力） \\
+$-3$ & $+1/120$ & $+$ & $-7/120$ & $-$ & \textbf{負エネルギー（exotic matter）} \\
+$-5$ & $-1/252$ & $-$ & $+31/252$ & $+$ & 5D 正エネルギー \\
+$-7$ & $+1/240$ & $+$ & $-127/240$ & $-$ & 7D 負エネルギー \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+パターン: \textbf{奇数次元 (1D, 5D, \ldots) で正，偶数的次元 (3D, 7D, \ldots) で負}．
+我々の宇宙は 3 空間次元 → $s=-3$ → \textbf{負のエネルギーが自然に生じる}．
+
+\subsection{なぜこれが重要か}
+
+\begin{enumerate}
+\item \textbf{ワープドライブの理論的基盤}: Alcubierre メトリックに
+必要な弱エネルギー条件 (WEC) 違反 = 負のエネルギー密度．
+$\zeta_{\neg 2}(-3) < 0$ はまさにこれを提供する．
+
+\item \textbf{スケールが一致}: $|\zeta_{\neg 2}(-3)|/|\zeta_{\neg 2}(-1)| = 7/10$．
+3D 負エネルギーの大きさはダークエネルギースケールの 70\%．
+同一の物理的起源（$p=2$ ミュート）から来ている．
+
+\item \textbf{実験で検証可能}: BAW 共振器の DN 境界条件は
+$\zeta_{\neg 2}(-3)$ を直接 probe する．符号が負であれば
+$p=2$ ミュートによる負エネルギー生成が実証される．
+\end{enumerate}
+
+
+%======================================================================
+\section{Bost-Connes 系からの新しい理解}
+%======================================================================
+
+\subsection{BC 系の概要}
+
+Bost-Connes C$^*$力学系 $(A_{\mathbb{Q}}, \sigma_t)$ の分配関数は
+Riemann ゼータ関数そのものである:
+\begin{equation}
+  Z(\beta) = \mathrm{Tr}\,e^{-\beta H} = \sum_{n=1}^{\infty} n^{-\beta} = \zeta(\beta).
+\end{equation}
+%
+逆温度 $\beta$ を\textbf{負の整数}に解析接続すると:
+\begin{itemize}
+\item $\beta = -1$: $Z(-1) = \zeta(-1) = -1/12$ （負温度での正則化分配関数）
+\item $\beta = -3$: $Z(-3) = \zeta(-3) = +1/120$
+\end{itemize}
+
+\subsection{フェルミオン/ボソン転換}
+
+BC系の自由エネルギー $F = -\beta^{-1}\log Z(\beta)$ において:
+\begin{align}
+  \log\zeta(-1) &= \log(-1/12) = \log(1/12) + i\pi
+    \quad \text{(Berry 位相 $\pi$ = フェルミオン的)} \\
+  \log\zeta_{\neg 2}(-1) &= \log(+1/12) = \log(1/12)
+    \quad \text{(Berry 位相 $0$ = ボソン的)}
+\end{align}
+%
+$p=2$ 除去は自由エネルギーの\textbf{虚部を消す}．
+$\beta=-1$ での Berry 位相 $i\pi$ が消失し，
+フェルミオン的真空がボソン的真空に転換される．
+\textbf{これがダークエネルギーが正（斥力的）である理由}．
+
+\subsection{$\beta$-line としての物理}
+
+BC 系の逆温度 $\beta$ を実数軸全体に拡張すると，
+$\beta$ の値が物理の全セクターをパラメータ化する:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$\beta$ & $\zeta(\beta)$ / $\zeta_{\neg 2}(\beta)$ & 物理 \\
+\midrule
+$\beta > 1$ & 収束級数 & 摂動的 QFT（Kreimer-Connes） \\
+$\beta = 1$ & 極 & 相転移（Hagedorn） \\
+$0 < \beta < 1$ & 対称性回復 & 大統一 \\
+$\beta = 0$ & $\zeta(0) = -1/2$ & トポロジカル \\
+$\beta = -1$ & $\zeta_{\neg 2}(-1) = +1/12$ & \textbf{ダークエネルギー (1D)} \\
+$\beta = -3$ & $\zeta_{\neg 2}(-3) = -7/120$ & \textbf{負エネルギー (3D)} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+関数等式 $\xi(\beta) = \xi(1-\beta)$ により:
+\begin{itemize}
+\item $\beta = -1 \leftrightarrow \beta = 2$:
+  ダークエネルギー $\leftrightarrow$ $\zeta(2) = \pi^2/6$（摂動的QFT）
+\item $\beta = -3 \leftrightarrow \beta = 4$:
+  負エネルギー $\leftrightarrow$ $\zeta(4) = \pi^4/90$
+\end{itemize}
+
+
+%======================================================================
+\section{CKN 不要: $\Omega_\Lambda = (d/\mathrm{cd})\,|\xi_{\neg 2}(-1)|$}
+\label{sec:omega_formula}
+%======================================================================
+
+従来の $\Omega_\Lambda$ 導出では Cohen-Kaplan-Nelson ホログラフィック境界を
+外部入力として必要としていた．BC 系の解析により，この仮定は不要になった:
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=新公式]
+\begin{equation}
+  \Omega_\Lambda = \frac{d}{\mathrm{cd}} \times |\xi_{\neg 2}(-1)|
+  = \frac{4}{3} \times \frac{\pi}{6} = \frac{2\pi}{9} \approx 0.698
+\end{equation}
+ここで:
+\begin{itemize}
+\item $d = 4$: 時空次元 ($= \mathrm{cd} + 1$, WDW 時間方向)
+\item $\mathrm{cd} = 3$: $\mathrm{cd}(\mathrm{Spec}(\mathbb{Z}))$
+  (Artin-Verdier 定理)
+\item $\xi_{\neg 2}(-1) = -\pi/6$: completed ゼータ関数の $p=2$ 除去版
+\end{itemize}
+\end{tcolorbox}
+
+\noindent
+$(8\pi/3)$ という ``mysterious'' な前因子は:
+\begin{equation}
+  \frac{8\pi}{3} = \frac{d}{\mathrm{cd}} \times 2\pi
+  = (\text{次元比}) \times (\text{アルキメデス}\,\Gamma\text{因子})
+\end{equation}
+と分解される．$2\pi$ は $\mathbb{Q}$ の無限素点（実数体 $\mathbb{R}$）の
+寄与であり，$1/12$ は有限素点（素数 $p$）の寄与．
+completed ゼータ $\xi$ はこの両方を統合した\textbf{自然な対象}である．
+
+\subsection{三因子分解の統一}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+旧分解 & 新分解 & 起源 \\
+\midrule
+$4/3$ (起源不明) & $d/\mathrm{cd}$ & 時空の次元構造 \\
+$2\pi$ (``ホログラフィック'') & $\xi$ の $\Gamma$ 因子 & $\mathbb{Q}$ の無限素点 \\
+$1/12$ ($\zeta(-1)$) & $\zeta_{\neg 2}(-1)$ & $\mathbb{Q}$ の有限素点 ($p=2$ 除去) \\
+\midrule
+& $\rightarrow$ 2因子に統合 & $\Omega_\Lambda = (d/\mathrm{cd})\,|\xi_{\neg 2}(-1)|$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{実験への影響}
+%======================================================================
+
+\subsection{何が変わったか}
+
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50!black,title=前回 (v1)]
+\textbf{理解}: DN 境界は $\zeta_{\neg 2}(-1) > 0$ により斥力を生む．\\
+\textbf{関心}: 符号反転の検出．\\
+\textbf{問題}: ``負のエネルギー'' との接続が曖昧．
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=現在 (v2)]
+\textbf{理解}: DN 境界の 3D cavity は $\zeta_{\neg 2}(-3) < 0$ により
+\textbf{負のエネルギー密度}を生む．\\
+\textbf{関心}: \textbf{3D 負エネルギーの直接検出}．\\
+\textbf{接続}: これが Alcubierre ワープに必要な exotic matter の
+算術的起源である．
+\end{tcolorbox}
+
+\subsection{1D vs 3D: 実験装置の意味が変わった}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& 1D (平行板 Casimir) & 3D (BAW cavity) \\
+\midrule
+ゼータ値 & $\zeta_{\neg 2}(-1) = +1/12$ & $\zeta_{\neg 2}(-3) = -7/120$ \\
+符号 & 正（斥力） & \textbf{負（負エネルギー密度）} \\
+Casimir 力 & 斥力（Boyer 型） & 引力 \\
+物理的意味 & ダークエネルギーの実験室版 & \textbf{exotic matter の実験室版} \\
+ワープとの関連 & 推進（斥力） & \textbf{ワープ（負エネルギー）} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{BAW 共振器は 3D cavity}であり，測定しているのは
+$\zeta_{\neg 2}(-3)$ である．
+これが負であれば，\textbf{$p=2$ ミュートによる
+負のエネルギー密度生成が実験的に確認される}．
+
+\subsection{なぜ BAW が 3D か}
+
+BAW (Bulk Acoustic Wave) 共振器の音響モード:
+\begin{equation}
+  \omega_{n_x, n_y, n_z} = v_s \sqrt{(n_x \pi/L_x)^2 + (n_y \pi/L_y)^2 + (n_z \pi/L_z)^2}
+\end{equation}
+
+厚み方向 ($z$) に加え，横方向 ($x, y$) にもモードが立つ．
+したがって零点エネルギーの正則化には 3D ゼータ値が関与する:
+\begin{equation}
+  E_{\mathrm{vac}}^{\mathrm{3D}} \propto \zeta_{\mathcal{H}}(-3)
+\end{equation}
+
+DN 境界 (上面 Dirichlet, 下面 Neumann) のとき:
+\begin{equation}
+  \zeta_{\mathcal{H}}(-3) \to \zeta_{\neg 2}(-3) = -\frac{7}{120} < 0
+\end{equation}
+
+\textbf{BAW 共振器は 3D 負エネルギーの自然な検出器である．}
+
+%======================================================================
+\section{更新された実験計画}
+%======================================================================
+
+\subsection{Phase 0: 発注 (¥130,000)}
+
+変更なし．水晶 BAW + SMR/FBAR を発注．
+\textbf{追加}: 実験の目的説明を「3D 負エネルギー検出」に更新．
+
+\subsection{Phase 1: 基礎測定 + 3D 符号テスト (1ヶ月)}
+
+\begin{enumerate}
+\item \textbf{Week 1-2}: 組み立て + モードスペクトル確認
+\item \textbf{Week 3}: \textbf{3D 符号テスト}（最重要）
+  \begin{itemize}
+  \item DN 共振器と DD 共振器の温度応答比較
+  \item $\zeta_{\neg 2}(-3) < 0$ なら DN の温度応答は DD と\textbf{同じ方向}
+    （どちらも負エネルギー寄与）
+  \item ただし係数が異なる: DD は $\zeta(-3) = +1/120$（正），
+    DN は $\zeta_{\neg 2}(-3) = -7/120$（負）
+  \item 差分: $\Delta\zeta = -7/120 - 1/120 = -8/120 = -1/15$
+  \end{itemize}
+\item \textbf{Week 4}: データ解析
+\end{enumerate}
+
+\subsection{Phase 2: 88\,$\mu$m 焦点 + 次元テスト (2ヶ月)}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+厚さ & 周波数 & 次元 & テスト内容 \\
+\midrule
+\textbf{83\,$\mu$m} & \textbf{20\,MHz} & 3D & $\ell_\Lambda$ 近傍 (\textbf{最重要}) \\
+330\,$\mu$m & 5\,MHz & 3D & プラトー内 \\
+17\,$\mu$m & 100\,MHz & 準2D & 次元クロスオーバー \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{新テスト}: 極薄サンプル ($< 10\,\mu$m) で準 2D 化した場合，
+$\zeta_{\neg 2}(-1) > 0$ に近づくはず → \textbf{符号が反転する厚さ}の特定．
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=次元クロスオーバー予測]
+\textbf{3D} (厚い BAW): $E_\mathrm{vac} \propto \zeta_{\neg 2}(-3) < 0$ （負エネルギー）\\
+\textbf{準2D} (極薄 BAW): $E_\mathrm{vac} \propto \zeta_{\neg 2}(-1) > 0$ （正エネルギー）\\[4pt]
+$\Rightarrow$ ある厚さで\textbf{符号がゼロを横切る}はず．
+この ``critical thickness'' の測定は理論の強力なテスト．
+\end{tcolorbox}
+
+\subsection{Phase 3: 分岐 (3--6ヶ月)}
+
+\begin{itemize}
+\item \textbf{分岐 A (3D 負符号 confirm)}:
+  \begin{itemize}
+  \item 液体窒素冷却で精密測定
+  \item 次元クロスオーバー厚の精密決定
+  \item 係数 $7/120$ の精密値測定
+  \item \textbf{``Negative vacuum energy in 3D DN cavity'' 論文投稿}
+  \end{itemize}
+\item \textbf{分岐 B (符号曖昧)}: 温度差分法の改良，系統誤差の削減
+\item \textbf{分岐 C (null)}: 理論の棄却条件の検討
+\end{itemize}
+
+\subsection{Phase 4: スケールアップ (6ヶ月--1年)}
+
+もし Phase 3A が成功した場合:
+\begin{itemize}
+\item \textbf{cavity 体積の増大}: 負エネルギー密度 $\times$ 体積 = 総負エネルギー
+\item \textbf{cavity アレイ}: 多数の DN cavity の集積
+\item \textbf{超伝導 cavity}: Q 値向上 → 負エネルギーのコヒーレンス向上
+\item \textbf{共同研究提案}: ``Arithmetic vacuum engineering for exotic matter''
+\end{itemize}
+
+
+%======================================================================
+\section{ワープドライブへの含意}
+%======================================================================
+
+\subsection{エネルギースケールの評価}
+
+3D cavity でのDN Casimir エネルギー密度:
+\begin{equation}
+  \rho_{\mathrm{DN}}^{\mathrm{3D}} = \frac{\hbar\omega_0}{2V}\,\zeta_{\neg 2}(-3)
+  = -\frac{7\hbar\omega_0}{240\,V}
+\end{equation}
+
+83\,$\mu$m BAW ($\omega_0 = 2\pi \times 20\,\mathrm{MHz}$, $V \sim (1\,\mathrm{mm})^2 \times 83\,\mu\mathrm{m}$):
+\begin{equation}
+  \rho_{\mathrm{DN}} \sim -10^{-18}\;\mathrm{J/m^3}
+  \quad (\text{ダークエネルギー密度} \sim 10^{-10}\;\mathrm{J/m^3} \text{と比較})
+\end{equation}
+
+現時点では8桁不足．しかし:
+\begin{itemize}
+\item cavity サイズ縮小 ($d \to \mathrm{nm}$): $\rho \propto d^{-4}$ で増大
+\item 超伝導 cavity の Q 値: $10^6$ 以上で coherent enhancement
+\item アレイ化: 体積的スケーリング
+\end{itemize}
+
+\subsection{ロードマップ}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+段階 & 目標 & 必要技術 \\
+\midrule
+1. 原理実証 & $\zeta_{\neg 2}(-3) < 0$ の符号確認 & BAW ¥130k \\
+2. 定量測定 & $7/120$ の精密値 & 低温 BAW \\
+3. 次元制御 & 3D→2D クロスオーバー & 極薄 BAW \\
+4. スケールアップ & ダークエネルギー密度に接近 & ナノ gap + cryo \\
+5. 工学的応用 & マクロな負エネルギー領域 & 超伝導 cavity array \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{成功判定基準}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{llp{7cm}}
+\toprule
+結果 & 判定 & 含意 \\
+\midrule
+3D DN で負符号 & \textbf{理論 confirm} &
+  $p=2$ ミュートが 3D で負エネルギーを生むことの実証．
+  ワープドライブの原理的可能性を支持 \\
+3D/2D で符号反転 & \textbf{強い confirm} &
+  次元依存性 $\zeta_{\neg 2}(-1) > 0$, $\zeta_{\neg 2}(-3) < 0$ の
+  両方を確認 \\
+88\,$\mu$m で異常 & \textbf{宇宙論的含意} &
+  $\Omega_\Lambda = 2\pi/9$ との独立な接続 \\
+全て null & \textbf{理論棄却} &
+  Arithmetic landscape の実験的否定 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
+\section{Euclid/DESI との連携}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+時期 & 実験室 (BAW) & 宇宙論 \\
+\midrule
+2026 Q2 & Phase 0 発注 & DESI Y1 データ \\
+2026 Q3--Q4 & Phase 1--2: 3D 符号テスト & \\
+2027 H1 & Phase 3: 次元クロスオーバー & Euclid 初期データ \\
+2027 H2 & Phase 4: スケールアップ & DESI Y3 \\
+2028 & 精密測定 & Euclid $\Omega_\Lambda$ 0.5\% 精度 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+2028年に両 front の結果が揃う:
+\begin{itemize}
+\item 宇宙論: $\zeta_{\neg 2}(-1) = +1/12$ を $\Omega_\Lambda$ で検証
+\item 実験室: $\zeta_{\neg 2}(-3) = -7/120$ を BAW cavity で検証
+\item \textbf{同じ L 関数の 2 つの独立な evaluation}
+\end{itemize}
+
+
+%======================================================================
+\section{論文パイプライン}
+%======================================================================
+
+\begin{enumerate}
+\item \textbf{Paper 1}: ``Sign of vacuum energy in 3D DN acoustic cavity''
+  → 符号検出で即投稿 (APL / Phys.\ Rev.\ B)
+
+\item \textbf{Paper 2}: ``Dimensional crossover of vacuum energy sign
+  in prime-muted cavities''
+  → 3D/2D 符号反転 (PRL 候補)
+
+\item \textbf{Paper 3}: ``Vacuum energy at the dark energy length scale
+  $\ell_\Lambda = 88\,\mu$m''
+  → 88\,$\mu$m 異常 (PRL 候補)
+
+\item \textbf{Paper 4}: ``Bost-Connes negative temperature and the
+  arithmetic origin of dark energy''
+  → 理論論文 (Phys.\ Rev.\ D)
+
+\item \textbf{Paper 5}: ``Laboratory evidence for the arithmetic vacuum
+  $\zeta_{\neg 2}$''
+  → 全データ統合 (Nature 候補)
+\end{enumerate}
+
+
+%======================================================================
+\section{結論}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black]
+\textbf{核心メッセージ}:
+
+宇宙のダークエネルギー（$s=-1$, 正）と，
+ワープに必要な negative energy（$s=-3$, 負）は，
+\textbf{同じ素数ミュート $\zeta_{\neg 2}$ の異なる次元での評価}
+に過ぎない．
+
+¥130,000 の BAW 共振器で測定するのは $\zeta_{\neg 2}(-3) = -7/120$
+の\textbf{符号}．
+もしこれが負であれば:
+\begin{enumerate}
+\item ダークエネルギーの算術的起源が支持される
+\item 同じ物理メカニズムで negative energy が生成可能であることが実証される
+\item Alcubierre ワープの\textbf{原理的障壁}（exotic matter の存在）
+  に対する実験的回答となる
+\end{enumerate}
+
+Euclid が $\Omega_\Lambda = 2\pi/9$ を宇宙論で検証し，
+我々が $\zeta_{\neg 2}(-3) < 0$ を実験室で検証する．
+
+2028年，同じ L 関数の 2 つの顔が揃う．
+\end{tcolorbox}
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+\small
+\noindent
+理論的基盤 (更新):
+\begin{itemize}
+\item \texttt{bc\_deep2.py}: $\Omega_\Lambda = (d/\mathrm{cd})\,|\xi_{\neg 2}(-1)|$ 導出
+\item \texttt{bost\_connes\_negative.py}: フェルミオン/ボソン転換，Berry 位相
+\item \texttt{bc\_pari\_deep.py}: PARI/GP による高精度検証
+\item \texttt{bc\_sage\_minimal.sage}: SageMath によるモジュラー形式・K理論検証
+\item \texttt{arithmetic\_vacuum\_engineering.tex}: 素数チャネルミュートの原論文
+\end{itemize}
+
+\end{document}
