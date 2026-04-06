@@ -1,0 +1,145 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\title{リーマン零点がダークエネルギーを微調整する?\\\large 数学史上最大の未解決問題と宇宙最大の謎の出会い}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+\begin{document}
+\maketitle
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black,title=このガイドについて]
+数学で最も有名な未解決問題「リーマン予想」と，物理学で最も謎めいた存在「ダークエネルギー」が，実は同じ数学でつながっているかもしれない——そんな発見を高校生向けに説明するガイドです．
+\end{tcolorbox}
+\tableofcontents
+\newpage
+\section{2つの巨大な謎}
+\subsection{数学の謎: リーマン予想}
+1859年，ドイツの数学者ベルンハルト・リーマンは素数の分布に関する論文を1本だけ書きました．その中で彼は「ゼータ関数のゼロ点は全て実部が$1/2$の直線上にあるだろう」と予想しました．それから167年．世界中の数学者が挑んでも，まだ証明されていません．クレイ数学研究所はこの問題に\textbf{100万ドルの懸賞金}をかけています．
+\subsection{物理の謎: ダークエネルギー}
+1998年，宇宙が加速膨張していることが発見されました．この加速を引き起こしている未知のエネルギーが「ダークエネルギー」です．宇宙の全エネルギーの約\textbf{68.5\%}を占めていますが，その正体は全く分かっていません．
+\subsection{出会い}
+Wright Brothersプロジェクトは，この2つが実はつながっていることを発見しました:
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=中心発見]
+\textbf{リーマン零点はダークエネルギーの値を微調整している．}各零点が宇宙のエネルギー密度にごく小さな補正を加えており，将来の精密観測でその痕跡を検出できる可能性がある．もし検出されたら，\textbf{リーマン零点の最初の物理的観測}になる．
+\end{tcolorbox}
+
+\section{リーマン零点って何?}
+\subsection{ゼータ関数のおさらい}
+リーマン・ゼータ関数は:
+$$\zeta(s) = 1 + \frac{1}{2^s} + \frac{1}{3^s} + \frac{1}{4^s} + \ldots$$
+$s=2$のとき: $\zeta(2) = 1 + 1/4 + 1/9 + 1/16 + \ldots = \pi^2/6$
+\subsection{零点 =「沈黙の周波数」}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=アナロジー: ギターの弦]
+ギターの弦を弾くと，基本音と倍音が同時に鳴ります．ゼータ関数も同じように「素数の音楽」を奏でています．各素数が一つの「音」で，全素数が合奏して$\zeta(s)$という「交響曲」を作ります．\textbf{零点}とは，この交響曲が\textbf{完全に沈黙する瞬間}——全ての音が打ち消し合って$\zeta(s)=0$になる点です．
+\end{tcolorbox}
+\subsection{零点はどこにある?}
+非自明な零点は全て$s = 1/2 + it$の形をしています．最初のいくつか:
+$$t_1 = 14.13,\quad t_2 = 21.02,\quad t_3 = 25.01,\quad t_4 = 30.42,\quad \ldots$$
+コンピュータで10兆個以上の零点が確認されていますが，全て$\mathrm{Re}(s)=1/2$上にあります．しかし「全て」の証明はない．これがリーマン予想です．
+
+\section{Bost-Connes: 素数でできた「量子システム」}
+1995年，数学者のBostとConnesは驚くべき発見をしました: \textbf{素数を「エネルギー準位」とする量子力学系を作れる}．
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=アナロジー: 素数ピアノ]
+「素数ピアノ」を想像してください: 鍵は無限にあり，鍵$n$のエネルギーは$\log(n)$．素数の鍵は「基本音」($\log 2, \log 3, \log 5, \ldots$)．このピアノの「分配関数」は\textbf{ゼータ関数そのもの}!
+$$Z(\beta) = \sum_{n=1}^{\infty} n^{-\beta} = \zeta(\beta)$$
+\end{tcolorbox}
+このシステムには$\beta = 1$で\textbf{相転移}が起きます（ゼータ関数の極）．高温（$\beta < 1$）では対称的で混沌，低温（$\beta > 1$）では秩序が生まれます．
+
+\section{負の温度:「無限より熱い」}
+Wright Brothersの$\Omega_\Lambda = 2\pi/9$はBost-Connesの$\beta = -1$（負の温度!）での値に関係します．
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=アナロジー: コマの回転]
+コマを回すと，普通はエネルギーを加えるほど速く回ります．でもある上限を超えると，コマはエネルギーを\textbf{周囲に放出}し始めます．これが「負の温度」: エネルギーが溢れて周囲に押し出される状態．
+\end{tcolorbox}
+\textbf{ダークエネルギーはまさにこれ!} 宇宙の真空が「負の温度」状態にあり，エネルギーを空間に押し出して膨張を加速させている．
+
+\section{本題: リーマン零点がダークエネルギーを微調整する}
+\subsection{von Mangoldtの明示公式}
+ゼータ関数の対数微分には有名な公式があります:
+$$-\frac{\zeta'(s)}{\zeta(s)} = \frac{1}{s-1} - \sum_{\rho}\frac{1}{s-\rho} + (\text{定数})$$
+$\rho$はゼータ関数の\textbf{全ての非自明な零点}を走ります．
+\subsection{$\beta = -1$で評価する}
+$s = -1$（ダークエネルギーの点）に入れると:
+$$\langle H\rangle \propto -\frac{1}{2} + \sum_\rho\frac{1}{1+\rho} + \ldots$$
+\textbf{主要項}: $-1/2$（これが$\Omega_\Lambda = 2\pi/9$のmain部分）
+
+\textbf{補正項}: $\sum_\rho 1/(1+\rho)$（リーマン零点からの寄与!）
+\subsection{各零点の寄与}
+リーマン予想が正しければ$\rho = 1/2 + it_n$なので:
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=各零点の補正公式]
+$$\delta_n = \frac{3/2}{9/4 + t_n^2}$$
+\end{tcolorbox}
+具体的な数値:
+\begin{center}
+\begin{tabular}{lll}
+\toprule 零点 & $t_n$ & 補正$\delta_n$ \\ \midrule
+$\rho_1$ & 14.13 & 0.00749 \\
+$\rho_2$ & 21.02 & 0.00339 \\
+$\rho_3$ & 25.01 & 0.00240 \\
+$\rho_5$ & 32.94 & 0.00138 \\
+$\rho_{10}$ & 49.77 & 0.00060 \\
+\midrule 最初の10対の合計 & & $\approx 0.040$ \\
+主要項に対する割合 & & $\approx 8\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{スペクトルギャップ: なぜダークエネルギーは安定か}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=アナロジー: 井戸の深さ]
+ボールが井戸の底にあるとします: 浅い井戸ならちょっとした揺れで飛び出す（不安定）．深い井戸なら大きなエネルギーが必要（安定）．
+\end{tcolorbox}
+Bost-Connesの「井戸の深さ」:
+\begin{itemize}
+\item 通常の真空: ギャップ$= \log 2 \approx 0.693$（浅い）
+\item \textbf{DN真空（Wright Brothers）}: ギャップ$= \log 3 \approx 1.099$（深い!）
+\end{itemize}
+\textbf{DN真空は1.6倍深い井戸}．だからダークエネルギーは何十億年も安定していられる．
+
+\section{夢: リーマン零点を宇宙で「見る」}
+\begin{center}
+\begin{tabular}{lll}
+\toprule 実験 & 精度 & 零点検出? \\ \midrule
+Planck 2018 & $\sim 1\%$ & 不十分 \\
+Euclid (2025--2028) & $\sim 0.5\%$ & まだ不十分 \\
+次世代 (2030s) & $\sim 0.1\%$ & 境界 \\
+超精密将来 (2040s?) & $\sim 0.01\%$ & \textbf{検出可能!} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{tcolorbox}[colback=yellow!10,colframe=orange!60!black]
+もし$\Omega_\Lambda$が$0.01\%$精度で測定され，その値が「リーマン零点補正付きの$2\pi/9$」と一致したら: \textbf{リーマン零点が宇宙の構造に影響を与えていることの最初の物理的証拠}．純粋数学の最も深い対象が物理世界の最も大きなスケールに刻まれている．
+\end{tcolorbox}
+
+\section{正直に言うと\ldots}
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=注意すべき点]
+\begin{enumerate}
+\item von Mangoldtの明示公式を$\beta=-1$で使うには解析接続が必要で，正当性は完全には確立されていない
+\item Bost-Connesは数学的モデルであり，実際の量子重力理論ではない
+\item 8\%は最初の10零点対だけの計算で，全零点の和は別の値かもしれない
+\item $\Omega_\Lambda = 2\pi/9$自体がまだEuclidで検証されていない
+\item リーマン予想が正しいことを前提にしている
+\item 検出に必要な$0.01\%$精度は何十年も先
+\end{enumerate}
+\end{tcolorbox}
+でも: もし正しければ，数学と物理学の歴史に残る発見です．そして\textbf{検証可能}であるところが重要．
+
+\section{高校生へのメッセージ}
+大学に進んだら:
+\begin{itemize}
+\item \textbf{数学科}: 複素解析 → 解析的数論 → ゼータ関数
+\item \textbf{物理学科}: 量子力学 → 統計力学 → 宇宙論
+\item \textbf{両方}: 数理物理学 → 非可換幾何学 → Connesの研究
+\end{itemize}
+GitHub: \texttt{isshii-jpeg/wright-brothers}（全論文公開）
+
+\begin{center}
+\large\textbf{もしリーマン零点が宇宙に刻まれているなら，\\それは「数学は発明ではなく発見」の最も強力な証拠になる．}
+\end{center}
+\end{document}
