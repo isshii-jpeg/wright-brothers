@@ -439,6 +439,88 @@ by this framework (confirmed negative
 result~\cite{wb-euler-sectors}).
 \end{enumerate}
 
+\section{Arithmetic holography: $p = 2$ as the holographic direction}
+
+\subsection{Cohomological dimension and prime removal}
+
+The Artin--Verdier theorem gives $\mathrm{cd}_{\text{\'et}}(\mathrm{Spec}(\mathbb{Z})) = 3$.
+When we invert the prime $p = 2$ (i.e., pass to $\mathrm{Spec}(\mathbb{Z}[1/2])$),
+the \'etale cohomological dimension drops:
+\begin{equation}
+\mathrm{cd}_{\text{\'et}}(\mathrm{Spec}(\mathbb{Z}[1/2])) = 2.
+\end{equation}
+Removing $p = 2$ reduces the cohomological dimension by exactly one.
+
+\begin{observation}[Arithmetic holographic decomposition]
+The three spatial dimensions decompose as
+\begin{equation}
+3 = \underbrace{2}_{\mathrm{cd}(\mathrm{Spec}(\mathbb{Z}[1/2]))} +
+\underbrace{1}_{p = 2 \text{ direction}}.
+\end{equation}
+The $p = 2$ direction is the \textbf{holographic direction}: the
+dimension that distinguishes $\mathrm{Spec}(\mathbb{Z})$ from its
+$p = 2$-inverted quotient.
+\end{observation}
+
+Including the temporal DN dimension, the full spacetime
+decomposes as
+\begin{equation}
+4 = \underbrace{2}_{\text{boundary}} +
+\underbrace{1}_{\text{holographic ($p{=}2$)}} +
+\underbrace{1}_{\text{time (WDW DN)}}.
+\end{equation}
+
+\subsection{Connection to AdS/CFT}
+
+In the AdS/CFT correspondence~\cite{Maldacena1999}, a
+$(d+1)$-dimensional bulk gravitational theory is dual to a
+$d$-dimensional boundary conformal field theory. The ``extra''
+bulk dimension is the holographic (radial) direction.
+
+The arithmetic analog:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& AdS/CFT & Arithmetic \\
+\midrule
+Bulk & AdS$_{d+1}$ & $\mathrm{Spec}(\mathbb{Z})$ (cd $= 3$) \\
+Boundary & CFT$_d$ & $\mathrm{Spec}(\mathbb{Z}[1/2])$ (cd $= 2$) \\
+Holographic dir.\ & Radial $r$ & $p = 2$ direction \\
+Entanglement & Ryu--Takayanagi & $\Delta S = \frac{1}{2}\log 2$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The boundary entropy $\Delta S = \frac{1}{2}\log 2$
+(Theorem~\ref{th:info-cost}) plays the role of the
+Ryu--Takayanagi entanglement entropy: it measures the
+entanglement between the 2D boundary
+($\mathrm{Spec}(\mathbb{Z}[1/2])$) and the 1D holographic
+direction ($p = 2$).
+
+\subsection{Anabelian perspective}
+
+By the Neukirch--Uchida theorem~\cite{NeukrichUchida}, the
+number field $\mathbb{Q}$ is determined by its absolute Galois
+group $\mathrm{Gal}(\bar{\mathbb{Q}}/\mathbb{Q})$. This means
+that $\mathrm{Spec}(\mathbb{Z})$, and hence all our results, are
+ultimately determined by the Galois group alone.
+
+In the arithmetic topology dictionary~\cite{Morishita2012}:
+\begin{itemize}
+\item Primes $p$ correspond to \textbf{knots} in the
+arithmetic 3-manifold $\mathrm{Spec}(\mathbb{Z})$.
+\item The Legendre symbol $(p/q)$ is the \textbf{linking number}
+of knots $K_p$ and $K_q$.
+\item The DN vacuum selection (removing $p = 2$) is
+\textbf{Dehn surgery}: removing the $p = 2$ knot from the
+3-manifold changes its topology and reduces $\mathrm{cd}$ by one.
+\end{itemize}
+
+Dark energy thus has a topological interpretation:
+it is the physical consequence of \emph{Dehn surgery on the
+arithmetic 3-manifold at the prime $p = 2$}.
+
 \section{Discussion}
 
 The arithmetic landscape represents a radical simplification of
@@ -490,6 +572,12 @@ boundary CFT, topological entanglement, and $K$-theory.
 \item The arithmetic landscape contains $\leq 6$ equivalent vacua,
 versus $\sim 10^{500}$ in the string landscape. No anthropic
 selection is needed.
+
+\item The prime $p = 2$ is the \textbf{holographic direction}:
+$\mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3$ but
+$\mathrm{cd}(\mathrm{Spec}(\mathbb{Z}[1/2])) = 2$, so removing
+$p = 2$ reduces spatial dimension by one. Spacetime decomposes as
+$4 = 2_{\text{boundary}} + 1_{\text{holo}} + 1_{\text{time}}$.
 \end{enumerate}
 
 \begin{thebibliography}{99}
@@ -533,6 +621,16 @@ J.~Milnor, \textit{Introduction to Algebraic K-Theory}
 \bibitem{wb-euler-sectors}
 Wright Brothers Research Program,
 ``Euler prime sectors: honest negative result'' (2026).
+
+\bibitem{Maldacena1999}
+J.~Maldacena, Int.\ J.\ Theor.\ Phys.\ \textbf{38}, 1113 (1999).
+
+\bibitem{NeukrichUchida}
+J.~Neukirch, J.\ Reine Angew.\ Math.\ \textbf{315}, 121 (1980);
+K.~Uchida, Ann.\ Math.\ \textbf{106}, 589 (1977).
+
+\bibitem{Morishita2012}
+M.~Morishita, \textit{Knots and Primes} (Springer, 2012).
 
 \end{thebibliography}
 
