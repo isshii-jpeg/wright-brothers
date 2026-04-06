@@ -422,6 +422,70 @@ At 10\,mK: $W \sim 10^{-8}$\,J\,m$^{-3}$---negligible compared
 to the wall energy.
 
 %=======================================================================
+\section{Information geometry of the $G=0$ region}
+\label{sec:info}
+%=======================================================================
+
+A critical question: does the speed of light change when
+$G_{\mathrm{eff}} = 0$?
+
+\subsection{Light speed is unchanged (Connes distance proof)}
+
+For the Connes distance $d(x,y) = \sup\{|f(x)-f(y)| : \|[D,f]\| \leq 1\}$,
+a scalar perturbation $D \to D + V(x)$ gives
+$[D+V,f] = [D,f]$ (since $[V,f] = 0$ for multiplication operators).
+Therefore $d(x,y)$ is \emph{unchanged}:
+$c_{\mathrm{eff}} = c$ inside the $G = 0$ bubble.
+
+This is confirmed by two independent methods:
+(1)~the quantum speed limit (Mandelstam-Tamm) gives
+$v_{\mathrm{muted}}/v_{\mathrm{normal}} \sim O(1)$, and
+(2)~the Fisher information metric is nearly invariant under muting.
+
+\subsection{Spectral dimension reduction on the bubble wall}
+
+The \emph{spectral dimension} $d_S(t) = -2\,d(\log K)/d(\log t)$
+reveals a striking asymmetry between the bubble layers.
+
+For the Liouville vacuum (outer shell, $G = -2G$):
+the heat kernel $K_\pi(t) = \zeta(t)/\zeta(2t)$
+gives $d_S \approx 0.4$ at UV scales,
+dropping \emph{below 2}---a holographic dimension reduction.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Layer & $d_S$ (intermediate $t$) & Causal structure \\
+\midrule
+Interior ($G = 0$) & $\approx 4$ & Standard 4D light cone \\
+Outer shell ($G = -2G$) & $\approx 2$ & 2D holographic \\
+Exterior (normal) & $\approx 4$ & Standard 4D light cone \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{FTL mechanism via dimensional reduction}
+
+The ship is at rest inside the $G = 0$ region ($c_{\mathrm{eff}} = c$,
+no FTL internally).
+The \emph{bubble wall}, however, propagates on the $d_S \approx 2$
+holographic surface of the Liouville shell, where the causal
+structure differs from the 4D light cone.
+
+In 2D conformal field theory, the ``speed limit'' is set by the
+conformal structure, not by the 4D metric.
+The effective Virasoro central charge of the Liouville shell is
+$c_{\mathrm{Vir}} = 12\,\zeta(2)/\zeta(4) \approx 18$,
+indicating a non-trivial 2D CFT.
+
+The bubble velocity is determined by the 2D propagation dynamics,
+which is not constrained by the 4D light cone.
+This provides the arithmetic analog of the Alcubierre FTL mechanism:
+rather than bending 4D spacetime, the bubble wall undergoes
+\emph{dimensional reduction} to a 2D surface with different
+causal constraints.
+
+%=======================================================================
 \section{The decisive experiment}
 \label{sec:experiment}
 %=======================================================================
