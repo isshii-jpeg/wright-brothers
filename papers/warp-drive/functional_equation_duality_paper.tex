@@ -1,0 +1,700 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[margin=25mm]{geometry}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{observation}{Observation}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+
+\title{Perturbative and Non-Perturbative Wings of the Zeta Building:\\
+Kreimer--Connes at $\zeta(s>0)$ and Vacuum Cosmology at $\zeta(s<0)$,\\
+Unified by the Functional Equation}
+
+\author{Wright Brothers Research Program}
+\date{April 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The Kreimer--Connes Hopf algebra framework established that
+perturbative QFT renormalization produces motivic periods ---
+specifically, multiple zeta values $\zeta(3), \zeta(5), \zeta(7),
+\ldots$ --- as genuine physical content of loop integrals, not mere
+regularization artifacts. We observe that this ``reification of
+$\zeta$ at positive integers'' has a natural counterpart: the
+vacuum zero-point energy, regularized via $\zeta$ at
+\emph{negative} integers ($\zeta(-1), \zeta(-3), \zeta(-5), \ldots$,
+equivalently Bernoulli numbers), also carries physical content.
+The Riemann functional equation $\zeta(s) \leftrightarrow \zeta(1-s)$
+connects these two sides. We propose that the \emph{full}
+physical content of the $\zeta$ function comprises both wings:
+the \textbf{perturbative wing} (Kreimer--Connes, $\zeta$ at
+positive integers, loop integrals) and the
+\textbf{non-perturbative wing} (vacuum cosmology, $\zeta$ at
+negative integers, boundary-condition-dependent zero-point sums).
+As evidence, we show: (i) the fine structure constant $\alpha^{-1}$
+decomposes into an algebraic leading part from $\zeta(-1), \zeta(-3)$
+(Bernoulli) plus transcendental corrections from $\zeta(6), \zeta(7)$
+(periods) --- precisely the structure predicted by the
+Deligne--Beilinson period conjectures; (ii) the dark energy density
+$\Omega_\Lambda = 16|\zeta(-1)|\zeta(2)/\pi = 2\pi/9$ combines
+both wings in a single observable, derivable independently from
+Wheeler--DeWitt quantum cosmology with temporal Dirichlet--Neumann
+boundaries; (iii) the Euler product truncation at $p=2$
+($\zeta \to \zeta_{\neg 2}$), corresponding to DN boundary
+conditions, is a non-perturbative selection rule invisible to
+perturbation theory. This framework positions vacuum cosmology
+as the natural complement --- not competitor --- to Kreimer--Connes
+perturbative renormalization, connected by the functional equation.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{Kreimer--Connes: $\zeta$ values are real in perturbative QFT}
+
+The work of Kreimer~\cite{Kreimer1998} and
+Connes--Kreimer~\cite{CK1998,CK2000,CK2001} established that
+renormalization in perturbative quantum field theory is not an
+ad hoc subtraction procedure but a precise algebraic operation:
+the Birkhoff decomposition of characters on a Hopf algebra of
+Feynman graphs. A key consequence is that the \emph{finite}
+(renormalized) parts of Feynman integrals evaluate to
+\textbf{motivic periods} --- algebraic combinations of multiple
+zeta values (MZVs) and
+polylogarithms~\cite{Brown2015,BrownKreimer2013}:
+\begin{equation}
+\text{Renormalized Feynman integral} \in
+\mathbb{Q}[\zeta(3), \zeta(5), \zeta(7), \ldots, \mathrm{Li}_n(\tfrac{1}{2}), \ln 2, \pi^2].
+\end{equation}
+
+For example, the two-loop QED contribution to the electron
+anomalous magnetic moment contains
+$\frac{3}{4}\zeta(3)$~\cite{Laporta2017}. The three-loop involves
+$\zeta(5)$. Higher loops bring $\zeta(7)$ and MZVs of increasing
+depth.
+
+Connes and Marcolli~\cite{ConnesMarcolli2008} further showed that
+a \emph{cosmic Galois group} acts on these periods, giving the
+arithmetic content of perturbative QFT a Galois-theoretic structure
+analogous to the motivic Galois group of algebraic geometry.
+
+The philosophical content of this program is profound:
+\textbf{$\zeta$ values at positive integers are not regularization
+artifacts but genuine physical invariants of quantum field theory.}
+They are periods of algebraic varieties (complements of graph
+hypersurfaces), and their appearance in physical observables
+(anomalous dimensions, $\beta$-functions, $g-2$) is
+mathematically inevitable.
+
+\subsection{The missing wing}
+
+The Kreimer--Connes framework operates within perturbation theory.
+It addresses the arithmetic of \emph{loop integrals} --- fluctuations
+\emph{around} a background vacuum. It does not address the vacuum
+itself.
+
+However, the vacuum also has arithmetic content. The zero-point
+energy of a quantum field in a cavity of size $a$ is formally
+\begin{equation}\label{eq:zpe}
+E_0 = \frac{\hbar}{2}\sum_n \omega_n
+\end{equation}
+which diverges but, via $\zeta$-regularization, yields a finite
+physical quantity --- the Casimir energy. The regularization involves
+$\zeta$ at \emph{negative integers}:
+\begin{equation}
+\zeta(-1) = -\frac{1}{12} = -\frac{B_2}{2}, \quad
+\zeta(-3) = \frac{1}{120} = -\frac{B_4}{4}, \quad \ldots
+\end{equation}
+These are \emph{Bernoulli numbers} --- rational, algebraic, on the
+opposite side of the $\zeta$ function from the periods $\zeta(3),
+\zeta(5), \ldots$ that Kreimer--Connes handles.
+
+The question of this paper is:
+\begin{quote}
+\emph{If Kreimer--Connes establishes that $\zeta$ at positive
+integers is physically real (in perturbative QFT), is $\zeta$ at
+negative integers also physically real (in non-perturbative vacuum
+physics)?}
+\end{quote}
+
+We argue \textbf{yes}, and show that the Riemann functional equation
+provides the bridge.
+
+\subsection{The functional equation as a physical duality}
+
+The Riemann functional equation
+\begin{equation}\label{eq:functional}
+\zeta(s) = 2^s \pi^{s-1}\sin\!\bigl(\tfrac{\pi s}{2}\bigr)
+\,\Gamma(1-s)\,\zeta(1-s)
+\end{equation}
+relates $\zeta(s)$ to $\zeta(1-s)$. At $s = 2$ and $s = -1$:
+\begin{equation}
+\zeta(2) = \frac{\pi^2}{6}\quad \longleftrightarrow \quad
+\zeta(-1) = -\frac{1}{12}.
+\end{equation}
+The left side is a transcendental period; the right side is a
+rational Bernoulli value. They are ``dual'' under the functional
+equation.
+
+We propose that this mathematical duality has a \emph{physical}
+counterpart:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+ & \textbf{Perturbative wing} & \textbf{Non-perturbative wing} \\
+\midrule
+$\zeta$ arguments & Positive integers & Negative integers \\
+Values & Periods ($\pi^{2k}$, MZVs) & Bernoulli ($B_{2k}/(2k)$) \\
+Physics & Loop integrals & Vacuum zero-point \\
+Framework & Kreimer--Connes & Wheeler--DeWitt DN \\
+Observables & $a_e$, $\alpha$ running & $\Omega_\Lambda$, Casimir \\
+Math nature & Transcendental & Algebraic (rational) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The functional equation (\ref{eq:functional}) connects these wings,
+and we will show that specific physical observables --- notably
+$\alpha^{-1}$ and $\Omega_\Lambda$ --- involve \emph{both} wings
+simultaneously.
+
+\section{The two wings in detail}
+
+\subsection{Perturbative wing: Kreimer--Connes}
+
+We briefly review the Kreimer--Connes results relevant to our
+argument.
+
+\textbf{Hopf algebra of Feynman graphs.}
+Let $\mathcal{H}$ be the commutative Hopf algebra generated by
+one-particle irreducible Feynman graphs, with coproduct encoding
+subdivergence structure~\cite{Kreimer1998}. A \emph{character}
+$\phi: \mathcal{H} \to \mathcal{A}$ (where $\mathcal{A}$ is an
+algebra of Laurent series in the regularization parameter
+$\varepsilon$) encodes the evaluation of each graph.
+
+\textbf{Birkhoff decomposition.}
+The character $\phi$ admits a unique factorization
+$\phi = \phi_-^{-1} \star \phi_+$, where $\phi_-$ contains the
+poles (counterterms) and $\phi_+$ is holomorphic (renormalized
+values)~\cite{CK2000}. This is the Bogoliubov--Parasiuk--Hepp--Zimmermann
+(BPHZ) renormalization in algebraic form.
+
+\textbf{Periods.}
+The renormalized values $\phi_+(\Gamma)$ for primitive graphs
+$\Gamma$ evaluate to periods of mixed Tate motives over
+$\mathbb{Z}$~\cite{Brown2015}. Concretely, they are
+$\mathbb{Q}$-linear combinations of products of $\zeta(n)$
+($n \geq 2$ integer) and $\ln 2$. For massless propagators, only
+odd $\zeta$-values ($\zeta(3), \zeta(5), \ldots$) appear at the
+single-zeta level.
+
+\textbf{Physical consequence.}
+The QED electron $g-2$, computed to five loops, contains
+$\zeta(3), \zeta(5)$ at 2--3 loops, and deeper MZVs at higher
+loops~\cite{Laporta2017,Aoyama2020}. These are \emph{measured}
+through the electron $g-2$ experiment, making them empirically
+verified physical quantities.
+
+\subsection{Non-perturbative wing: vacuum zero-point}
+
+The vacuum zero-point energy (\ref{eq:zpe}) depends on
+\emph{boundary conditions} imposed on the field modes:
+
+\begin{itemize}
+\item \textbf{Dirichlet--Dirichlet (DD)} or
+\textbf{Neumann--Neumann (NN)}:
+All-integer modes $n = 1, 2, 3, \ldots$. Regularized sum
+$\sum n^{-s}|_{s=-1} = \zeta(-1) = -1/12$.
+
+\item \textbf{Dirichlet--Neumann (DN)}:
+Odd-integer modes $n = 1, 3, 5, \ldots$. Regularized sum
+$\sum_{\text{odd}} n^{-s}|_{s=-1} = \zeta_{\neg 2}(-1) = +1/12$.
+\end{itemize}
+
+where
+\begin{equation}
+\zeta_{\neg 2}(s) \equiv (1 - 2^{-s})\zeta(s)
+\end{equation}
+is the $\zeta$ function with the $p = 2$ Euler factor removed.
+
+\textbf{Key difference from Kreimer--Connes:} this is
+\emph{not} a loop integral. It is the sum over all modes of the
+\emph{background vacuum}, without perturbative expansion. The
+$\zeta$ values at negative integers ($\zeta(-1), \zeta(-3), \ldots$)
+emerge not from Feynman diagrams but from the
+\emph{mode spectrum} of the vacuum itself.
+
+\textbf{Physical consequence.} The 3D Casimir effect gives a
+measurable force $\propto \zeta(-3) = 1/120$~\cite{Casimir1948},
+confirmed experimentally~\cite{Lamoreaux1997}. Boyer's DN Casimir
+prediction involves $\zeta_{\neg 2}(-3) = -7/120$~\cite{Boyer1974},
+not yet experimentally verified.
+
+\subsection{Why Kreimer--Connes cannot see the non-perturbative wing}
+
+Perturbation theory expands around a \emph{fixed} vacuum. The
+vacuum itself is the zeroth-order background. Its zero-point
+energy is subtracted (normal ordering) or absorbed into the
+cosmological constant. Kreimer--Connes, operating within
+perturbation theory, systematically handles all loop corrections
+\emph{above} the vacuum, but the vacuum energy itself lies
+\emph{outside} the Hopf algebra of Feynman graphs.
+
+This is precisely why perturbative QFT cannot solve the
+cosmological constant problem: $\Lambda$ is a non-perturbative
+vacuum property, not a loop correction.
+
+\section{Evidence: $\alpha^{-1}$ spans both wings}
+
+\subsection{Decomposition}
+
+We have previously reported~\cite{wb-alpha} the arithmetic formula
+\begin{equation}\label{eq:alpha}
+\alpha^{-1} \approx \underbrace{\frac{2}{|B_2|} + \frac{4}{|B_4|}}_{\text{algebraic (Bernoulli)}}
++ \underbrace{g \cdot 132 + 4(\zeta(6) - \zeta(7))}_{\text{transcendental (periods)}}
+\end{equation}
+where $2/|B_2| = 12$, $4/|B_4| = 120$, $g \approx 0.038$,
+and $4(\zeta(6) - \zeta(7)) \approx 0.036$.
+
+We now observe that this decomposition has a natural interpretation
+in terms of the two wings:
+
+\begin{itemize}
+\item \textbf{Leading (algebraic) part}: $12 + 120 = 132$.
+These are $1/|\zeta(-1)| + 1/|\zeta(-3)|$ --- values at
+\emph{negative} integers, the non-perturbative wing. They
+represent the ``vacuum contribution'' to $\alpha^{-1}$.
+
+\item \textbf{Correction (transcendental) part}: $g \cdot 132$
+and $\zeta(6) - \zeta(7)$. These involve periods at
+\emph{positive} integers, the perturbative wing. They represent
+the ``loop corrections'' to $\alpha^{-1}$.
+\end{itemize}
+
+\subsection{Deligne--Beilinson structure}
+
+The Deligne period conjecture~\cite{Deligne1979} and Beilinson
+conjectures~\cite{Beilinson1984} predict that critical $L$-values
+of motives factor as
+\begin{equation}
+L^*(M, n) \sim c^+(M) \cdot \Omega(M)
+\end{equation}
+where $c^+$ is algebraic and $\Omega$ is a period.
+
+Formula (\ref{eq:alpha}) has precisely this form:
+\begin{equation}
+\alpha^{-1} = \underbrace{132}_{\text{algebraic } c^+}
++ \underbrace{\text{transcendental corrections}}_{\text{period } \Omega}
+\end{equation}
+
+If this identification holds, $\alpha^{-1}$ is a physical instance
+of the Beilinson conjectures, with the algebraic part from the
+non-perturbative wing and the period part from the perturbative wing.
+
+\section{Evidence: $\Omega_\Lambda$ combines both wings}
+
+\subsection{The functional-equation dual form}
+
+We have shown~\cite{wb-wdw} that the dark energy density parameter
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9}
+\end{equation}
+admits the representation
+\begin{equation}\label{eq:omega-dual}
+\Omega_\Lambda = \frac{16\,|\zeta(-1)|\,\zeta(2)}{\pi}
+\end{equation}
+which explicitly combines:
+\begin{itemize}
+\item $\zeta(-1) = -1/12$: non-perturbative wing (Bernoulli,
+algebraic)
+\item $\zeta(2) = \pi^2/6$: perturbative wing (period,
+transcendental)
+\item $1/\pi$: normalization (from Einstein's equation $8\pi G$)
+\end{itemize}
+
+\textbf{$\Omega_\Lambda$ lives on the bridge between the two
+wings.}
+
+\subsection{Wheeler--DeWitt derivation}
+
+The derivation proceeds via a non-perturbative argument~\cite{wb-wdw}:
+
+\begin{enumerate}
+\item The Wheeler--DeWitt wave function $\Psi(a)$ satisfies temporal
+Dirichlet--Neumann boundary conditions (Dirichlet at Big Bang,
+Neumann at de Sitter asymptotic).
+\item The 1D DN zero-point energy regularizes to
+$\zeta_{\neg 2}(-1) = +1/12$ (non-perturbative wing, with Euler
+$p = 2$ truncation).
+\item The Cohen--Kaplan--Nelson holographic bound~\cite{CKN1999}
+provides $\rho_\Lambda \leq M_P^2/\ell_H^2$ (the bridge between
+UV and IR).
+\item Saturation with coefficient $1/12$ yields
+$\Omega_\Lambda = 2\pi/9$.
+\end{enumerate}
+
+Steps 1--2 are purely non-perturbative (no loops). Step 3 involves
+the holographic principle (UV/IR mixing). The final result
+(\ref{eq:omega-dual}) involves $\zeta(2)$ (perturbative wing) via
+the $8\pi$ of Einstein's equation.
+
+\subsection{Why perturbation theory cannot produce $\Omega_\Lambda$}
+
+This explains why the cosmological constant problem has resisted
+perturbative solution for 40+ years~\cite{Weinberg1989}. The
+vacuum energy $\rho_\Lambda$ is a non-perturbative quantity
+($\zeta$ at negative integers) that perturbation theory
+($\zeta$ at positive integers) cannot access. Kreimer--Connes,
+being perturbative, is structurally unable to predict
+$\Omega_\Lambda$. The non-perturbative wing is required.
+
+\section{The $p = 2$ Euler truncation as non-perturbative selection}
+
+\subsection{DN boundary and $\zeta_{\neg 2}$}
+
+The Euler product of $\zeta$ is
+\begin{equation}
+\zeta(s) = \prod_{p\text{ prime}} (1 - p^{-s})^{-1}.
+\end{equation}
+Removing the $p = 2$ factor gives
+\begin{equation}
+\zeta_{\neg 2}(s) = (1 - 2^{-s})\zeta(s)
+= \prod_{p \geq 3} (1 - p^{-s})^{-1}.
+\end{equation}
+
+Physically, $\zeta_{\neg 2}$ arises from DN boundary conditions
+(odd modes only). The removal of the $p = 2$ Euler factor
+corresponds to the \emph{elimination of even harmonics} by the
+mixed boundary.
+
+\subsection{Invisibility to perturbation theory}
+
+In perturbative QFT, all modes contribute to loop integrals.
+There is no mechanism to select odd modes only. The Euler
+product truncation at $p = 2$ is a \emph{boundary-condition
+effect} on the vacuum, not a loop-level phenomenon.
+
+\begin{proposition}[Non-perturbative character of $\zeta_{\neg 2}$]
+The transition $\zeta \to \zeta_{\neg 2}$ (equivalently, DD $\to$
+DN boundary) is invisible to perturbation theory. It is a
+non-perturbative selection rule operating at the vacuum level.
+\end{proposition}
+
+This is why Kreimer--Connes never encounters $\zeta_{\neg 2}$.
+The perturbative wing uses the \emph{full} $\zeta$ (all primes).
+The non-perturbative wing uses $\zeta_{\neg 2}$ (odd primes only)
+when DN boundaries are present.
+
+\subsection{Sign consequence}
+
+At $s = -1$:
+\begin{align}
+\zeta(-1) &= -\frac{1}{12} \quad \text{(NN/DD: attractive vacuum)} \\
+\zeta_{\neg 2}(-1) &= +\frac{1}{12} \quad \text{(DN: repulsive vacuum)}
+\end{align}
+
+The sign flip is physically decisive: positive vacuum energy
+($\rho_\Lambda > 0$) drives cosmic acceleration. Only DN boundary
+conditions produce the correct sign. This is a non-perturbative
+datum that perturbation theory has no access to.
+
+\section{Unified picture}
+
+\subsection{The zeta building}
+
+We propose the metaphor of a ``zeta building'' with two wings:
+
+\begin{equation}
+\underbrace{\zeta(-5), \zeta(-3), \zeta(-1)}_{\text{Non-perturbative wing}}
+\quad \xleftrightarrow[\text{functional equation}]{\zeta(s) \leftrightarrow \zeta(1-s)} \quad
+\underbrace{\zeta(2), \zeta(3), \zeta(5), \zeta(7)}_{\text{Perturbative wing}}
+\end{equation}
+
+\begin{itemize}
+\item \textbf{Left (non-perturbative) wing}: Bernoulli numbers,
+vacuum zero-point, Casimir effect, $\Omega_\Lambda$,
+boundary-condition dependence. Algebraic values. Accessible
+via Wheeler--DeWitt quantum cosmology.
+
+\item \textbf{Right (perturbative) wing}: Periods, MZVs, loop
+integrals, anomalous dimensions, $g-2$. Transcendental values.
+Accessible via Kreimer--Connes Hopf algebra.
+
+\item \textbf{Connecting hallway}: The Riemann functional equation.
+Physical observables like $\alpha^{-1}$ and $\Omega_\Lambda$ span
+both wings.
+\end{itemize}
+
+\subsection{Physical observables and their wing structure}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+Observable & Left wing & Right wing & Bridge \\
+\midrule
+$a_e$ (electron $g-2$) & --- & $\zeta(3), \zeta(5)$ & KC only \\
+Casimir (DD) & $\zeta(-3)$ & --- & Left only \\
+Casimir (DN) & $\zeta_{\neg 2}(-3)$ & --- & Left only \\
+$\Omega_\Lambda$ & $\zeta_{\neg 2}(-1)$ & $\zeta(2)$ via $8\pi G$ & Both \\
+$\alpha^{-1}$ & $1/|\zeta(-1)|, 1/|\zeta(-3)|$ & $\zeta(6), \zeta(7)$ & Both \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Some observables live purely in one wing; others span both. The
+spanning observables ($\alpha^{-1}$, $\Omega_\Lambda$) are the
+most physically fundamental, as they require the full $\zeta$
+building for their description.
+
+\section{Relation to existing programs}
+
+\subsection{Kreimer--Connes: the perturbative wing is established}
+
+The right wing is mathematically rigorous and experimentally
+verified (electron $g-2$ to $\sim 10^{-13}$ precision). Our
+proposal does not modify or challenge Kreimer--Connes. It
+\emph{extends} the same philosophy (``$\zeta$ values are
+physically real'') to the non-perturbative side.
+
+\subsection{Casimir physics: the left wing is partially established}
+
+The Casimir effect for DD boundaries is experimentally
+confirmed~\cite{Lamoreaux1997}. The $\zeta(-3) = 1/120$
+coefficient appears in the measured force. Boyer's DN prediction
+($\zeta_{\neg 2}(-3) = -7/120$) is not yet experimentally tested.
+
+Our proposal extends this to cosmological scales via the
+Wheeler--DeWitt temporal DN argument.
+
+\subsection{Deligne--Beilinson: the bridge is conjectured}
+
+The Deligne and Beilinson conjectures~\cite{Deligne1979,Beilinson1984}
+predict that $L$-values factor into algebraic and transcendental
+(period) parts. Our observation that $\alpha^{-1}$ and
+$\Omega_\Lambda$ have precisely this structure is a candidate
+physical realization.
+
+\subsection{Moonshine: a parallel}
+
+Monstrous Moonshine~\cite{Borcherds1992} demonstrated that
+modular forms ($j$-function) encode genuine physics (Monster VOA,
+2D CFT). Mathieu Moonshine~\cite{EOT2010} extended this to K3
+surfaces. Our proposal that $\zeta$ special values encode 4D
+physical constants is a parallel ``$\zeta$-moonshine'' --- not
+via a sporadic group, but via the functional equation duality of
+the $\zeta$ function itself.
+
+\section{Predictions}
+
+The unified framework makes specific testable predictions:
+
+\begin{enumerate}
+\item \textbf{$\Omega_\Lambda = 2\pi/9$}: Testable at $0.5\%$
+by Euclid/DESI/LSST (2025--2028). This is a purely
+non-perturbative-wing prediction, inaccessible to perturbation
+theory.
+
+\item \textbf{DN Casimir (Boyer)}: The 3D DN Casimir coefficient
+$\zeta_{\neg 2}(-3) = -7/120$ (repulsive) can be tested in
+laboratory experiments with mixed-boundary acoustic or
+electromagnetic resonators.
+
+\item \textbf{$\alpha^{-1}$ decomposition}: The split of
+$\alpha^{-1}$ into algebraic (132) and transcendental
+corrections can be compared against high-precision QED
+calculations. If the split is exact, higher-loop terms should
+organize into period-valued corrections to the Bernoulli
+leading part.
+
+\item \textbf{Muon and tau $g-2$}: The identification
+$\Delta a_\mu \approx 252 = 6/|B_6|$ (non-perturbative wing)
+and the Ramanujan discriminant $\tau(3) = 252$ suggest that
+generational anomalies may bridge both wings. Prediction:
+$\Delta a_\tau \propto \tau(5) = 4830$.
+\end{enumerate}
+
+\section{Limitations}
+
+\begin{enumerate}
+\item The ``two-wing'' picture is a \emph{proposal}, not a theorem.
+The functional equation is a mathematical identity; its physical
+interpretation as a duality between perturbative and
+non-perturbative physics is conjectural.
+
+\item The Wheeler--DeWitt derivation of $\Omega_\Lambda$ assumes
+specific boundary conditions (temporal DN) and CKN bound
+saturation. These assumptions are physically motivated but not
+derived from first principles.
+
+\item The decomposition of $\alpha^{-1}$ into algebraic + period
+parts is observed post hoc. A rigorous derivation via
+Kreimer--Connes Hopf algebra is future work.
+
+\item The Euler $p = 2$ truncation (DN boundary) is presented as
+a non-perturbative selection rule, but its fundamental origin
+(why $p = 2$? why DN?) remains open. Candidates include spin
+structure ($K_1(\mathbb{Z}) = \mathbb{Z}/2$) and time-reversal
+asymmetry.
+
+\item This framework does not address fermion masses, Yukawa
+couplings, or CKM mixing --- these may require additional
+structure beyond the $\zeta$ building.
+\end{enumerate}
+
+\section{Discussion}
+
+The central thesis of this paper is that the arithmetic content
+of quantum physics is organized by the Riemann $\zeta$ function,
+with perturbative physics on one side of the functional equation
+and non-perturbative vacuum physics on the other.
+
+Kreimer--Connes brilliantly established the perturbative side.
+They showed that $\zeta$ values at positive integers are not
+regularization artifacts but genuine motivic periods with
+Galois-theoretic structure. Our contribution is to extend this
+philosophy to the other side: $\zeta$ values at negative integers
+(Bernoulli numbers) appearing in vacuum energy regularization
+are not computational conveniences but genuine physical data about
+the boundary-condition structure of the vacuum.
+
+If this picture is correct, the cosmological constant problem is
+not a failure of quantum field theory per se, but a consequence
+of \emph{looking only at the perturbative wing}. The full $\zeta$
+building, spanning both wings via the functional equation,
+naturally produces the observed small positive $\Lambda$ from
+the non-perturbative wing ($\zeta_{\neg 2}(-1) = +1/12$) combined
+with the holographic bridge (CKN bound).
+
+The beauty of this picture lies in its economy: no new fields,
+no extra dimensions, no multiverse. Only the recognition that
+the $\zeta$ function's functional equation is not merely a
+mathematical symmetry but a \emph{physical duality} between the
+perturbative and non-perturbative sectors of quantum physics.
+
+\section{Conclusion}
+
+We have proposed that the physical content of the Riemann $\zeta$
+function comprises two complementary wings:
+
+\begin{itemize}
+\item The \textbf{perturbative wing} ($\zeta$ at positive
+integers: periods, MZVs, loop integrals), established by
+Kreimer--Connes.
+\item The \textbf{non-perturbative wing} ($\zeta$ at negative
+integers: Bernoulli numbers, vacuum zero-point, boundary
+conditions), proposed by this work via Wheeler--DeWitt quantum
+cosmology.
+\end{itemize}
+
+The Riemann functional equation connects these wings, and specific
+physical observables ($\alpha^{-1}$, $\Omega_\Lambda$) span both.
+The framework provides:
+\begin{enumerate}
+\item A parameter-free prediction $\Omega_\Lambda = 2\pi/9$
+(2\% agreement with Planck 2018).
+\item A Deligne--Beilinson-type decomposition of $\alpha^{-1}$
+into algebraic and period parts.
+\item An explanation of why the cosmological constant problem
+resists perturbative solution (it lives in the non-perturbative
+wing).
+\item A non-perturbative selection rule ($\zeta \to \zeta_{\neg 2}$,
+DN boundary) invisible to loop expansion.
+\end{enumerate}
+
+The proposal positions vacuum cosmology as a natural complement
+to Kreimer--Connes perturbative renormalization. Together, they
+may constitute the two halves of a complete arithmetic description
+of quantum physics --- united by the functional equation of the
+Riemann $\zeta$ function.
+
+\begin{thebibliography}{99}
+
+\bibitem{Kreimer1998}
+D.~Kreimer, Adv.\ Theor.\ Math.\ Phys.\ \textbf{2}, 303 (1998).
+
+\bibitem{CK1998}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{199}, 203 (1998).
+
+\bibitem{CK2000}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{210}, 249 (2000).
+
+\bibitem{CK2001}
+A.~Connes and D.~Kreimer,
+Commun.\ Math.\ Phys.\ \textbf{216}, 215 (2001).
+
+\bibitem{Brown2015}
+F.~Brown, Ann.\ Math.\ \textbf{181}, 949 (2015).
+
+\bibitem{BrownKreimer2013}
+F.~Brown and D.~Kreimer,
+Lett.\ Math.\ Phys.\ \textbf{103}, 933 (2013).
+
+\bibitem{ConnesMarcolli2008}
+A.~Connes and M.~Marcolli, \textit{Noncommutative Geometry,
+Quantum Fields and Motives} (AMS, 2008).
+
+\bibitem{Laporta2017}
+S.~Laporta, Phys.\ Lett.\ B \textbf{772}, 232 (2017).
+
+\bibitem{Aoyama2020}
+T.~Aoyama \textit{et al.},
+Phys.\ Rep.\ \textbf{887}, 1 (2020).
+
+\bibitem{CKN1999}
+A.~G.~Cohen, D.~B.~Kaplan, and A.~E.~Nelson,
+Phys.\ Rev.\ Lett.\ \textbf{82}, 4971 (1999).
+
+\bibitem{Casimir1948}
+H.~B.~G.~Casimir,
+Proc.\ Kon.\ Ned.\ Akad.\ Wet.\ \textbf{51}, 793 (1948).
+
+\bibitem{Lamoreaux1997}
+S.~K.~Lamoreaux,
+Phys.\ Rev.\ Lett.\ \textbf{78}, 5 (1997).
+
+\bibitem{Boyer1974}
+T.~H.~Boyer, Phys.\ Rev.\ A \textbf{9}, 2078 (1974).
+
+\bibitem{Weinberg1989}
+S.~Weinberg, Rev.\ Mod.\ Phys.\ \textbf{61}, 1 (1989).
+
+\bibitem{Deligne1979}
+P.~Deligne, Proc.\ Symp.\ Pure Math.\ \textbf{33.2}, 313 (1979).
+
+\bibitem{Beilinson1984}
+A.~Beilinson, J.\ Soviet Math.\ \textbf{30}, 2036 (1985).
+
+\bibitem{Borcherds1992}
+R.~Borcherds, Invent.\ Math.\ \textbf{109}, 405 (1992).
+
+\bibitem{EOT2010}
+T.~Eguchi, H.~Ooguri, and Y.~Tachikawa,
+Exp.\ Math.\ \textbf{20}, 91 (2011).
+
+\bibitem{wb-alpha}
+Wright Brothers Research Program,
+``Physical constants as Eisenstein Fourier coefficients'' (2026).
+
+\bibitem{wb-wdw}
+Wright Brothers Research Program,
+``Wheeler--DeWitt temporal DN vacuum and
+$\Omega_\Lambda = 2\pi/9$'' (2026).
+
+\end{thebibliography}
+
+\end{document}
