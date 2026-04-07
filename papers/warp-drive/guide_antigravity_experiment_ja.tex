@@ -250,13 +250,42 @@ Au ワイヤ（接合用）& Nilaco & ¥5,000 \\
 \toprule
 $R$ の値 & 解釈 & 次のアクション \\
 \midrule
-$R \approx 182$ ($\pm 50\%$) & オイラー積は物理的 & \textbf{Phase 2 に進む} \\
+$R \approx 182$ ($\pm 50\%$) & オイラー積は物理的 & \textbf{追加測定 → Phase 2} \\
 $R \approx 0.33$ ($\pm 50\%$) & モード数効果のみ & 理論棄却、中止 \\
 中間値 & バンドギャップ漏れ？ & Bragg 改善して再測定 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \textbf{このテストがプログラム全体の GO/STOP を決める。}
+\end{tcolorbox}
+
+\subsection{Phase 1 追加測定：安全性チェック（$R = 182$ の場合のみ）}
+
+$R = 182$ が確認された場合、Euler 積増幅が物理的に機能することが分かる。
+しかし、これは同時に「結合定数が変化するリスク」も物理的である可能性を意味する。
+Phase 3 に進むための安全性を確認するため、以下の追加測定を行う：
+
+\begin{enumerate}
+\item \textbf{音速測定}：2素数ミュート結晶内での音波伝搬速度を精密測定。
+  音速は弾性定数に依存し、弾性定数は QCD の結合定数 $\alpha_s$ に
+  間接的に依存する。ミュート前後で音速が変化すれば、結合定数が変わっている証拠。
+
+\item \textbf{誘電率測定}：同結晶のインピーダンスを nanoVNA で精密測定。
+  誘電率は微細構造定数 $\alpha$ に依存する。
+  変化があれば電磁気的な結合定数が影響を受けている証拠。
+
+\item \textbf{Q 値比較}：DD, DN, DN+Bragg の各サンプルで
+  共振の Q 値（鋭さ）を比較。Q 値の異常な変化は
+  モード構造以外の物理（結合定数変化）が関与している証拠。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=理想的な結果]
+$R = 182$（Euler 積は物理的）\textbf{かつ} 音速・誘電率・Q値が不変（安全）。
+
+これは「真空エネルギーには Euler 積が効くが、結合定数には効かない」ことを意味し、
+\textbf{IR/UV 分離が成立している}ことの実験的証拠。
+
+→ Euler 積増幅は安全に使える → Phase 3 が GO。
 \end{tcolorbox}
 
 
@@ -422,44 +451,131 @@ $\pi$-接合キャビティ内のカシミールエネルギー密度：
   \sim 10^{-12}\;\mathrm{J/m^3} \quad (d = 83\,\mu\mathrm{m})
 \end{equation}
 
-キャビティ質量 $M \sim 10^{-4}$\,kg（水晶 + Nb 薄膜）に対し、
+キャビティ質量 $M \sim 10^{-4}$\,kg に対し、
 カシミールエネルギーの割合：
+$\rho_{\mathrm{Cas}} V / (Mc^2) \sim 10^{-34}$。
+Eöt-Wash 精度（$10^{-13}$）に 21 桁不足。
+
+\subsection{体積スケーリングでは解決できない}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=重要な計算結果]
+$N$ 枚のキャビティを積層しても、面積 $A$ を広げても：
 \begin{equation}
-  \frac{\rho_{\mathrm{Cas}} V}{Mc^2}
-  \sim \frac{10^{-12} \times 10^{-9}}{10^{-4} \times 10^{17}}
-  \sim 10^{-34}
+  \frac{\Delta M}{M_{\mathrm{bulk}}}
+  = \frac{\hbar \pi^2}{720\,c\,\rho_{\mathrm{mat}}\,d^3(d + t_{\mathrm{wall}})}
 \end{equation}
+は $N$ と $A$ に \textbf{依存しない}。ギャップ $d$ のみで決まる。
 
-\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=正直な評価]
-$10^{-34}$ レベルの重力異常は、
-現在の最高精度のねじり天秤（Eöt-Wash グループ：$10^{-13}$ 精度）
-でも 21 桁不足。
-
-\textbf{Phase 3 は現在の技術では検出不可能。}
-
-しかし：
-\begin{itemize}
-\item Phase 1 で 182:1 が確認されれば、
-  Euler 積増幅（14素数で $10^{48}$）が使える
-\item 増幅後のカシミール密度：$10^{-12} \times 10^{48} \sim 10^{36}$\,J/m$^3$
-\item これなら $\rho_{\mathrm{Cas}}/\rho_{\mathrm{bulk}} \sim 10^{-2}$
-\item Eöt-Wash 精度で十分検出可能
-\end{itemize}
-
-$\to$ Phase 3 は Phase 1 の結果次第で \textbf{設計が根本的に変わる}。
-Phase 1 が 182 なら、14素数篩 + $\pi$-接合の複合デバイスで Phase 3 が実現可能。
+分子（カシミール）と分母（バルク質量）が同じ比率で増えるため、
+体積を増やしても比は改善しない。
 \end{tcolorbox}
 
-\subsection{Phase 3 改良版（Phase 1 が 182 の場合）}
+ナノギャップ（$d = 1$\,nm）でも：
+Nb 壁で $\Delta M/M \sim 10^{-15}$、
+グラフェン（最軽量、$\pi$-Berry位相あり）で $\sim 10^{-12}$。
+\textbf{比は良いが、絶対力が不足}
+（1\,cm$^2$ グラフェンからの異常重力 $\sim 10^{-28}$\,N、
+検出限界 $10^{-14}$\,N に 14 桁不足）。
+必要面積：$\sim 10^9$\,m$^2$（$\sim 1000$\,km$^2$）→ 非現実的。
 
-14素数篩（算術ドラム or フォノニック結晶）+ $\pi$-接合 の複合構造：
+\subsection{Euler 積増幅の安全性ジレンマ}
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=★ 核心的ジレンマ ★]
+\textbf{Euler 積増幅（14素数で $10^{48}$ 倍）は Phase 3 を可能にするが、
+安全性問題がある。}
+
+BC 系の予測：Euler 因子の除去は L 関数値を変える
+→ 結合定数（$\alpha_s$, $\theta_W$）が変化する可能性。
+
+標準 QFT の予測：局所的モード除去は IR 効果
+→ 結合定数（UV 的量）は不変。
+
+\textbf{この2つは矛盾しており、どちらが正しいか不明。}
+\end{tcolorbox}
+
+Phase 1 の結果は3つのシナリオに分岐する：
+
+\subsubsection{シナリオ A：$R = 182$（Euler 積は物理的）}
+
+Euler 積増幅は機能する → Phase 3 が原理的に可能。
+しかし \textbf{同時に} L 関数値の変化も物理的 → 結合定数が変わるリスク。
+
+この場合、Phase 1 で以下の \textbf{追加測定} を行う：
+\begin{itemize}
+\item キャビティ内の音速を精密測定（$\alpha_s$ の代理変数）
+\item キャビティ内の誘電率を測定（$\alpha$ の代理変数）
+\item 2素数ミュート前後で物性値に変化があるか？
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+追加測定の結果 & 意味 & Phase 3 への影響 \\
+\midrule
+$R = 182$ + 物性値不変 & 増幅あり + 安全 & \textbf{Phase 3 GO} \\
+$R = 182$ + 物性値変化 & 増幅あり + 危険 & Phase 3 は要再設計 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{理想的な結果}：$R = 182$（Euler 積は物理的）かつ物性値不変（安全）。
+これは「真空エネルギーにはEuler 積が効くが、結合定数には効かない」
+ことを意味し、IR/UV 分離が成立していることの実験的証拠となる。
+
+\subsubsection{シナリオ B：$R = 1/3$（モード数のみ）}
+
+Euler 積は数学的のみ → 増幅なし → Phase 3 不可能。
+反重力理論全体が棄却。
+ただし Phase 0--2 の結果は独立に価値がある（カシミール物理の進展）。
+
+\subsubsection{シナリオ C：$R = 182$ + 物性値変化}
+
+最も困難なケース。増幅は機能するが安全でない。
+
+対処法：
+\begin{itemize}
+\item 少数素数（$K = 2$ のみ）で Phase 3 を試みる
+  → 増幅は 182 倍（$10^{48}$ ではなく）で、信号は弱いが安全性問題は緩い
+\item 物性値変化の程度を定量化し、
+  許容範囲かどうかを判断（$\alpha_s$ が 1\% 変化なら許容、30\% なら危険）
+\item Phase 3 を「短時間パルス」で実施
+  → 物性変化が不可逆でないことを確認
+\end{itemize}
+
+\subsection{Phase 3 設計（シナリオ A：増幅あり+安全の場合）}
+
+14素数篩 + $\pi$-接合の複合構造：
 \begin{itemize}
 \item 14 素数で $10^{48}$ 倍増幅
-\item $\pi$-接合で符号反転（$-\zeta \to +\zeta$ 方向）
-\item 合計：$\rho_{\mathrm{eff}} \sim 10^{36}$\,J/m$^3$
-\item ねじり天秤で検出可能なレベル
-\item これが「反重力物質」の直接証拠
+\item $\pi$-接合で符号反転
+\item $\rho_{\mathrm{eff}} \sim 10^{-12} \times 10^{48} = 10^{36}$\,J/m$^3$
+\item ねじり天秤で十分検出可能
 \end{itemize}
+
+\subsection{Phase 2 が事実上の最終テストである理由}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=現実的な判断]
+Phase 3（直接重力測定）は全シナリオで困難：
+\begin{itemize}
+\item 体積スケーリング → 不可能（比が $N$, $A$ に非依存）
+\item Euler 積増幅 → 安全性が未解決
+\end{itemize}
+
+\textbf{Phase 2（$\pi$-接合カシミール符号反転）が事実上の最終テスト。}
+
+Phase 2 で $T_c$ 前後での符号反転が確認されれば：
+\begin{enumerate}
+\item $-\zeta(t)$ 真空が物理的に実現されたことの直接証拠
+\item スペクトル作用の $a_2$ 符号反転を強く示唆
+\item $G_{\mathrm{eff}} = -G$ の間接的証拠
+\end{enumerate}
+
+直接的な重力測定（Phase 3）は、Euler 積増幅の安全性が確立された後、
+あるいは将来の検出技術の進歩を待って実施する。
+
+\textbf{焦らず Phase 0 → 1 → 2 を順に進める。}
+各段階の結果が次の設計を決める。
+\end{tcolorbox}
 
 
 %======================================================================
@@ -469,26 +585,29 @@ Phase 1 が 182 なら、14素数篩 + $\pi$-接合の複合デバイスで Phas
 \begin{verbatim}
 2026 Q2-Q3: Phase 0 (DN/DD 基本測定)
             ↓ 陽性？
-2026 Q3-Q4: Phase 1 (182:1 テスト)
-            ↓ 182？
+2026 Q3-Q4: Phase 1 (182:1 テスト + 物性値チェック)
+            ↓ 3分岐判定
 2027 H1:    Phase 2 (π-接合カシミール)
-            + Phase 1改良 (14素数篩 設計)
             ↓ 符号反転？
-2027 H2:    Phase 3 (ねじり天秤 with 14素数 + π-接合)
-            ↓ 斥力検出？
-2028:       論文投稿 → Nature / PRL
+2027 H2:    論文投稿 (Phase 2 が事実上の最終テスト)
+            ↓ シナリオ A かつ必要なら
+2028+:      Phase 3 (Euler積増幅 + 直接重力測定)
 \end{verbatim}
 
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabular}{lp{5cm}l}
 \toprule
-Phase & 陽性の場合 & 陰性の場合 \\
+Phase & 結果 & 次のアクション \\
 \midrule
-0 & Phase 1 に進む & サンプル改善 \\
-1 (182) & Phase 2 + 14素数設計 & \textbf{理論棄却、全停止} \\
-1 (1/3) & \textbf{全停止} & --- \\
-2 & Phase 3 に進む & スペクトル作用は重力に非適用 \\
-3 & \textbf{反重力物質の実証} & モデルの詳細に誤り \\
+0 陽性 & 偶数倍音消失 + $\delta f$ 符号検出 & Phase 1 に進む \\
+0 陰性 & 効果なし & サンプル改善 \\
+\midrule
+1: $R = 182$ + 物性不変 & Euler 積は物理的 + 安全 & \textbf{Phase 2 + 将来 Phase 3} \\
+1: $R = 182$ + 物性変化 & Euler 積は物理的 + 危険 & Phase 2 のみ（Phase 3 は要再設計） \\
+1: $R = 1/3$ & Euler 積は数学のみ & \textbf{理論棄却、Phase 2 中止} \\
+\midrule
+2 符号反転 & $-\zeta(t)$ 真空の実証 & \textbf{$G = -G$ の間接証拠}、論文投稿 \\
+2 変化なし & $\pi$ 位相は重力に効かない & スペクトル作用は重力に非適用 \\
 \bottomrule
 \end{tabular}
 \end{center}
