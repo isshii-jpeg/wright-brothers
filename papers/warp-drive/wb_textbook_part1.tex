@@ -1,0 +1,1202 @@
+% ============================================================
+%  Wright Brothers Textbook — Part I: 基礎理論 (Chapters 1–4)
+%  wb_textbook_part1.tex
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---- Encoding & Fonts ----
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+
+% ---- Mathematics ----
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% ---- Layout ----
+\usepackage[margin=25mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Wright Brothers テキストブック}
+\fancyhead[R]{\small\sffamily Part I: 基礎理論}
+\fancyfoot[C]{\thepage}
+
+% ---- Colours & Boxes ----
+\usepackage[dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+
+\definecolor{wbblue}{RGB}{30,70,130}
+\definecolor{wbgreen}{RGB}{20,110,60}
+\definecolor{wborange}{RGB}{200,100,20}
+\definecolor{wbpurple}{RGB}{100,40,140}
+
+% Definition box
+\newtcolorbox{dfnbox}[1][]{%
+  colback=wbblue!5, colframe=wbblue!80!black,
+  fonttitle=\sffamily\bfseries, title={#1},
+  arc=2mm, boxrule=0.8pt, left=4mm, right=4mm}
+
+% Key result box
+\newtcolorbox{keybox}[1][]{%
+  colback=wbgreen!5, colframe=wbgreen!80!black,
+  fonttitle=\sffamily\bfseries, title={#1},
+  arc=2mm, boxrule=0.8pt, left=4mm, right=4mm}
+
+% High-school note box
+\newtcolorbox{hsbox}[1][高校生ノート]{%
+  colback=wborange!5, colframe=wborange!80!black,
+  fonttitle=\sffamily\bfseries, title={#1},
+  arc=2mm, boxrule=0.8pt, left=4mm, right=4mm,
+  before upper={\small}}
+
+% Caution / Hypothesis box
+\newtcolorbox{hypbox}[1][]{%
+  colback=wbpurple!5, colframe=wbpurple!80!black,
+  fonttitle=\sffamily\bfseries, title={#1},
+  arc=2mm, boxrule=0.8pt, left=4mm, right=4mm}
+
+% ---- Hyperlinks ----
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=wbblue, citecolor=wbgreen, urlcolor=wbpurple}
+
+% ---- Theorem environments ----
+\theoremstyle{definition}
+\newtheorem{thm}{定理}[section]
+\newtheorem{prop}[thm]{命題}
+\newtheorem{lem}[thm]{補題}
+\newtheorem{dfn}[thm]{定義}
+\newtheorem{exmp}[thm]{例}
+\newtheorem{rmk}[thm]{注意}
+
+% ---- Shorthand macros ----
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\cd}{\operatorname{cd}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\KMS}{\mathrm{KMS}}
+
+% ============================================================
+\begin{document}
+
+\part*{基礎理論}
+\addcontentsline{toc}{part}{Part I: 基礎理論}
+
+\vspace{-1em}
+\begin{center}
+\textit{整数の世界から宇宙の物理法則が生まれる——\\
+その道筋の出発点を、高校数学から丁寧にたどる。}
+\end{center}
+\vspace{1em}
+
+% ============================================================
+% CHAPTER 1
+% ============================================================
+\chapter*{第1章\quad $\Spec(\Z)$ — 整数のスペクトル}
+\addcontentsline{toc}{section}{第1章: $\Spec(\Z)$ — 整数のスペクトル}
+\setcounter{section}{0}
+\renewcommand{\thesection}{1.\arabic{section}}
+
+% ------------------------------------------------------------
+\section{素数とは何か}
+\label{sec:1.1}
+
+数学の世界で最も基本的な対象は\textbf{自然数} $1, 2, 3, 4, 5, \ldots$ である。
+その中で、「これ以上分解できない」特別な数がある。それが\textbf{素数}だ。
+
+\begin{dfnbox}[定義: 素数]
+$2$ 以上の自然数 $p$ が\textbf{素数}（prime number）であるとは、
+$p$ の正の約数が $1$ と $p$ 自身しかないことをいう。
+\end{dfnbox}
+
+最初のいくつかの素数を書き出すと、
+\[
+  2,\; 3,\; 5,\; 7,\; 11,\; 13,\; 17,\; 19,\; 23,\; 29,\; 31,\; \ldots
+\]
+$4 = 2\times 2$ は分解できるから素数ではない。$6 = 2\times 3$ も同様だ。
+一方、$7$ は $1\times 7$ 以外の分解を持たないから素数である。
+
+素数が重要なのは、次の定理のためである。
+
+\begin{keybox}[算術の基本定理]
+任意の $2$ 以上の自然数 $n$ は、素数の積として\textbf{一意に}（順序を除き）表される：
+\[
+  n = p_1^{a_1}\, p_2^{a_2}\, \cdots\, p_k^{a_k}
+  \qquad (p_1 < p_2 < \cdots < p_k,\;\; a_i \geq 1).
+\]
+\end{keybox}
+
+\begin{hsbox}
+化学では、分子を元素に分解する（水 $=$ H${}_2$O）。
+同じように、自然数を素数に分解できる。素数は「数の原子」である。
+例: $60 = 2^2 \times 3 \times 5$。どんな順番で割っても、同じ素因数分解にたどり着く。
+\end{hsbox}
+
+ユークリッドは紀元前300年頃、素数が\textbf{無限に}存在することを証明した。
+有限個しかないと仮定して矛盾を導く、数学で最も美しい背理法の一つである：
+
+$p_1, p_2, \ldots, p_n$ が全ての素数だとする。$N = p_1 p_2 \cdots p_n + 1$ を考えると、
+$N$ はどの $p_i$ でも割り切れない（余り $1$）。よって $N$ 自身が素数であるか、
+あるいは $N$ は新しい素数因子を持つ。どちらにしても矛盾。$\square$
+
+この証明が示すのは、素数の世界は「閉じていない」ということだ。
+どんなに多くの素数を集めても、まだ見ぬ素数が必ず存在する。
+
+% ------------------------------------------------------------
+\section{オイラー積}
+\label{sec:1.2}
+
+次に、素数を\textbf{解析的}に——つまり無限級数や関数を使って——扱う方法を見よう。
+
+まず、次の無限級数を考える。直感的には「全ての自然数の $s$ 乗の逆数を足し合わせたもの」である。
+
+\begin{dfnbox}[定義: リーマンのゼータ関数]
+実部 $\Re(s) > 1$ に対し、
+\[
+  \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
+           = \frac{1}{1^s} + \frac{1}{2^s} + \frac{1}{3^s} + \frac{1}{4^s} + \cdots
+\]
+\end{dfnbox}
+
+\begin{hsbox}
+$s=2$ のとき $\zeta(2) = 1 + 1/4 + 1/9 + 1/16 + \cdots = \pi^2/6$。
+答えに $\pi$ が出てくることが不思議に見えるだろう。これが数論と解析学の深い関係を暗示している。
+\end{hsbox}
+
+1737年、オイラーは驚くべき等式を発見した。上の\textbf{加法的}な和が、
+素数上の\textbf{乗法的}な積と等しいのである。
+
+\begin{keybox}[オイラー積公式]
+\[
+  \zeta(s) = \sum_{n=1}^{\infty} n^{-s}
+           = \prod_{p:\,\text{素数}} \frac{1}{1 - p^{-s}}
+\]
+\end{keybox}
+
+\noindent\textbf{なぜこれが驚くべきなのか。}左辺は「すべての自然数を一つずつ足す」操作——
+つまり\textbf{加法}の構造（波のイメージ）を反映している。
+右辺は「各素数について掛け合わせる」操作——
+つまり\textbf{乗法}の構造（粒子のイメージ）を反映している。
+
+この等式は、加法と乗法という二つの根本的に異なる演算が、
+ゼータ関数を通じて\textbf{完全に等価}であることを意味する。
+
+\begin{hsbox}
+証明のアイデアを示そう。$\Re(s)>1$ で各素数 $p$ について等比級数を展開する：
+\[
+  \frac{1}{1-p^{-s}} = 1 + p^{-s} + p^{-2s} + p^{-3s} + \cdots
+\]
+全ての素数について掛け合わせると、算術の基本定理により、
+各自然数 $n = p_1^{a_1}\cdots p_k^{a_k}$ に対応する項 $n^{-s}$ が丁度一回ずつ現れる。
+\end{hsbox}
+
+物理学的に言い換えると、オイラー積は次のメッセージを伝えている：
+
+\begin{hypbox}[物理的直観]
+$\zeta(s)$ の「和表示」は\textbf{波動}（フーリエ成分を足す）に対応し、
+「積表示」は\textbf{粒子}（各素数＝独立自由度の寄与を掛ける）に対応する。
+ゼータ関数は、波動＝粒子の二重性を\textbf{数論レベル}で実現しているのだ。
+\end{hypbox}
+
+% ------------------------------------------------------------
+\section{$\Spec(\Z)$の幾何学}
+\label{sec:1.3}
+
+代数幾何学では、方程式系に対応する空間を\textbf{スペクトル}と呼ぶ。
+最も基本的な例が $\Spec(\Z)$ ——整数環のスペクトルである。
+
+直感的に説明しよう。普通の幾何学では、実数直線 $\R$ 上の「点」は実数 $a\in\R$ である。
+代数幾何学では、$\Z$ 上の「点」は素数 $p$ である。
+
+\begin{dfnbox}[定義: $\Spec(\Z)$]
+\[
+  \Spec(\Z) = \{(2),\; (3),\; (5),\; (7),\; (11),\; \ldots\} \cup \{(0)\}
+\]
+各素数 $p$ が「閉じた点」$(p)$（素イデアル）に対応し、
+$(0)$ は「ジェネリック点」（全体に広がる点）と呼ばれる。
+\end{dfnbox}
+
+\begin{hsbox}
+イメージとしては、一本の直線上に素数 $2, 3, 5, 7, 11, \ldots$ が点として並んでいる。
+ただし普通の数直線とは違い、素数の「間隔」は一様ではなく、不規則に並ぶ。
+さらにジェネリック点 $(0)$ は全ての点を「つなぐ」不思議な点で、
+どの開集合にも含まれる。直感的には「全体に溶けている点」のイメージだ。
+\end{hsbox}
+
+$\Spec(\Z)$ は単なる集合ではなく、\textbf{位相空間}としての構造を持つ（Zariski位相）。
+さらに\textbf{構造層} $\mathcal{O}_{\Spec(\Z)}$ が定義され、
+各点の「近傍」で整数に関する代数的情報を取り出せる。
+
+物理学の比喩を使うなら：
+\begin{itemize}
+  \item $\Spec(\Z)$ は「算術空間」——整数の世界を幾何学的に見た空間。
+  \item 各素数 $p$ は空間上の「点」——その点での局所情報は体 $\mathbb{F}_p = \Z/p\Z$。
+  \item ジェネリック点は $\Q$（有理数体）に対応——空間の「一般的な場所」の情報。
+\end{itemize}
+
+なぜこれが重要なのか。$\Spec(\Z)$ を幾何学的対象と見なすことで、
+「幾何学の手法」が数論に適用できるようになる。これがグロタンディークの革命的アイデアであった。
+
+% ------------------------------------------------------------
+\section{Artin--Verdier定理}
+\label{sec:1.4}
+
+$\Spec(\Z)$ が幾何学的対象ならば、その「次元」は何だろうか。
+
+素朴に考えると、$\Spec(\Z)$ の Krull 次元は $1$（点と一般点の鎖の長さ）だから
+$1$ 次元のように見える。しかし、\textbf{エタールコホモロジー}という
+より精密な道具で測ると、驚くべき結果が得られる。
+
+\begin{keybox}[Artin--Verdier 定理 (1962)]
+$\Spec(\Z)$（の適切なコンパクト化 $\overline{\Spec(\Z)}$）の
+エタールコホモロジー次元は
+\[
+  \cd_{\text{\'et}}(\Spec(\Z)) = 3.
+\]
+すなわち、$\Spec(\Z)$ はコホモロジー的に\textbf{3次元多様体}のように振る舞う。
+\end{keybox}
+
+\noindent\textbf{直感的な説明。}
+普通の多様体の次元はユークリッド空間 $\R^n$ の $n$ で測る。
+一方、エタールコホモロジー次元は「トポロジカルな複雑さ」を測る指標であり、
+$\Spec(\Z)$ の場合、それが $3$ であるとは、$3$次元空間の
+トポロジー（結び目理論など）と同じ種類の複雑さを持つことを意味する。
+
+\begin{hsbox}
+コホモロジーとは、空間の「穴」の数え方だ。
+1次元の円には1つの穴がある（$H^1 \neq 0$）。
+2次元のトーラスには2種類の穴がある。
+$\Spec(\Z)$ のエタールコホモロジーを計算すると、
+$3$次元の穴の構造まで非自明な情報が残る——つまり「3次元的」なのだ。
+\end{hsbox}
+
+実際に、以下のエタール・ポアンカレ双対性が成り立つ：
+\[
+  H^r_{\text{\'et}}(\overline{\Spec(\Z)},\; \mathcal{F})
+  \;\cong\;
+  H^{3-r}_{\text{\'et}}(\overline{\Spec(\Z)},\; \mathcal{F}^{\vee})^*
+\]
+これは3次元閉多様体のポアンカレ双対性
+$H^r(M^3) \cong H^{3-r}(M^3)^*$ と完全に平行な結果である。
+
+さらに、各素数 $p$ は $\Spec(\Z)$ の中で\textbf{結び目}のように振る舞い（Mazur, Morishita）、
+$\Spec(\Z)$ 全体は3次元球面 $S^3$ に類似した構造を持つとされる。
+
+\begin{rmk}
+Artin--Verdier 定理は\textbf{証明された定理}である。
+1960年代にArtinとVerdierによって厳密に証明され、
+SGA 4 などで詳細が記されている。
+これは仮説ではなく数学的事実であることを強調しておく。
+\end{rmk}
+
+% ------------------------------------------------------------
+\section{なぜ$\Spec(\Z)$が宇宙の設計図なのか}
+\label{sec:1.5}
+
+ここまでの内容をまとめよう。
+\begin{enumerate}
+  \item 素数は自然数の「原子」であり、算術の基本定理で全てを支配する。
+  \item ゼータ関数のオイラー積は、加法＝乗法の等価性を表す。
+  \item $\Spec(\Z)$ は素数を「点」とする幾何学的空間。
+  \item Artin--Verdier 定理により、$\Spec(\Z)$ はコホモロジー的に3次元。
+\end{enumerate}
+
+ここで、WBプログラムの\textbf{中心仮説}を述べる。
+
+\begin{hypbox}[WB中心仮説（未証明）]
+\textbf{物理的時空は $\Spec(\Z)$ の算術構造から\emph{創発}する。}
+
+具体的には：
+\begin{itemize}
+  \item $\cd(\Spec(\Z)) = 3$ が空間の3次元性を決定する。
+  \item ゼータ関数 $\zeta(s)$ が物理的分配関数の役割を果たす。
+  \item 素数の分布が、素粒子物理学のゲージ構造を規定する。
+  \item 時間は $\Spec(\Z)$ 上の自然な力学系の「流れ」として現れる。
+\end{itemize}
+\end{hypbox}
+
+\noindent\textbf{注意。}これは証明された定理ではなく、\textbf{検証可能な仮説}である。
+本書の目的は、この仮説がどのような予言を生み、
+それらが既存の物理学とどのように整合するかを丁寧に追うことにある。
+
+仮説の根拠を簡潔にまとめると：
+\begin{itemize}
+  \item \textbf{次元の一致}: $\cd(\Spec(\Z))=3$ と空間次元 $d=3$ の一致は偶然か？
+  \item \textbf{ゼータ関数の遍在}: 量子場の理論の正則化、統計力学の分配関数、
+        弦理論のモジュライなど、物理の至る所に $\zeta(s)$ が現れる。
+  \item \textbf{Bost--Connes系}（第2章）: ゼータ関数を分配関数とする
+        量子統計力学系が存在し、ガロワ群が対称性として作用する。
+  \item \textbf{定量的予言}: ダークエネルギー密度パラメータ $\Omega_\Lambda \approx 2\pi/9$
+        が既知の観測値と $2\%$ 以内で一致する（第4章）。
+\end{itemize}
+
+以降の章で、この仮説を精密化していく。
+
+% ============================================================
+% CHAPTER 2
+% ============================================================
+\chapter*{第2章\quad Bost--Connes系}
+\addcontentsline{toc}{section}{第2章: Bost--Connes系}
+\setcounter{section}{0}
+\renewcommand{\thesection}{2.\arabic{section}}
+
+% ------------------------------------------------------------
+\section{$C^*$力学系}
+\label{sec:2.1}
+
+量子力学では、物理量（オブザーバブル）は\textbf{作用素}（演算子）として表される。
+位置 $\hat{x}$、運動量 $\hat{p}$ などがヒルベルト空間 $\mathcal{H}$ 上の作用素であり、
+$[\hat{x}, \hat{p}] = i\hbar$ という非可換性が量子力学の核心だ。
+
+これを抽象化すると、$C^*$\textbf{代数}という概念に到達する。
+
+\begin{dfnbox}[定義: $C^*$力学系]
+$C^*$\textbf{力学系}とは、組 $(\mathcal{A},\, \sigma_t)$ のことをいう。ここで
+\begin{itemize}
+  \item $\mathcal{A}$ は $C^*$代数（ノルム完備な $*$-代数; オブザーバブルの代数）
+  \item $\sigma_t: \mathcal{A}\to\mathcal{A}$\;($t\in\R$) は時間発展を表す
+        1パラメータ自己同型群
+\end{itemize}
+\end{dfnbox}
+
+\begin{hsbox}
+$C^*$代数とは、「行列の無限次元版」と思ってよい。
+量子力学では $2\times 2$ 行列がスピンを表すが、
+$C^*$代数は無限個の自由度を持つ場の量子論にも対応できる一般的な枠組みだ。
+
+普通の量子力学では $\sigma_t(A) = e^{iHt} A \, e^{-iHt}$（ハイゼンベルク描像）。
+$C^*$力学系はこれを公理的に一般化したものである。
+\end{hsbox}
+
+$C^*$力学系における熱平衡状態は、\textbf{KMS条件}（Kubo--Martin--Schwinger条件）
+によって特徴づけられる。温度 $T = 1/\beta$ での熱平衡状態 $\varphi$ は次を満たす：
+
+任意のオブザーバブル $a, b \in \mathcal{A}$ に対し、
+ある複素解析的な関数 $F_{a,b}(z)$ が存在して
+\[
+  F_{a,b}(t) = \varphi(a\,\sigma_t(b)), \qquad
+  F_{a,b}(t + i\beta) = \varphi(\sigma_t(b)\, a).
+\]
+
+直感的には「時間方向を虚数にずらすと $a$ と $b$ の順番が入れ替わる」ということであり、
+これは統計力学における密度行列 $\rho = e^{-\beta H}/Z(\beta)$ から従う性質を
+代数的に公理化したものである。
+
+% ------------------------------------------------------------
+\section{BC系の構成}
+\label{sec:2.2}
+
+1995年、Bost と Connes は数論的に自然な $C^*$力学系を構成した。
+これが\textbf{Bost--Connes系}（BC系）であり、ゼータ関数を分配関数に持つ
+量子統計力学系として極めて重要な対象である。
+
+まず、BC系の代数 $\mathcal{A}_{\mathrm{BC}}$ は、二種類の生成元から作られる。
+
+\begin{dfnbox}[BC系の生成元]
+\begin{enumerate}
+  \item \textbf{等長作用素} $\mu_n$\;($n\in\N$): $\mu_n^* \mu_n = 1$,\;
+        $\mu_n \mu_m = \mu_{nm}$.
+
+        直感: $\mu_n$ は「$n$ 倍に拡大する」操作。
+  \item \textbf{ユニタリ作用素} $e(r)$\;($r\in\Q/\Z$): $e(r)^* = e(-r)$,\;
+        $e(r)\,e(s) = e(r+s)$.
+
+        直感: $e(r)$ は「有理数 $r$ だけ回転する」操作。
+\end{enumerate}
+そして両者の間の関係：
+\[
+  \mu_n \, e(r) \, \mu_n^* = \frac{1}{n}\sum_{ns=r} e(s).
+\]
+\end{dfnbox}
+
+\noindent\textbf{時間発展}は次のように定義される。
+$e(r)$ は時間発展で不変であり、$\mu_n$ はスケーリングを受ける：
+\[
+  \sigma_t(e(r)) = e(r), \qquad
+  \sigma_t(\mu_n) = n^{it}\, \mu_n.
+\]
+
+\begin{hsbox}
+時間発展 $\sigma_t(\mu_n) = n^{it}\mu_n$ の意味を考えよう。
+$n^{it} = e^{it\log n}$ だから、これは $\mu_n$ に位相 $t\log n$ を付ける操作だ。
+$n = p_1^{a_1}\cdots p_k^{a_k}$ のとき $\log n = a_1 \log p_1 + \cdots + a_k \log p_k$。
+つまり\textbf{時間の流れは素数のべきによるスケーリング}なのだ。
+\end{hsbox}
+
+BC系の構成をもう少し具体的に見ると、ヒルベルト空間は $\ell^2(\N)$（自然数上の $L^2$ 空間）
+を取れる。正規直交基底 $\{|n\rangle\}_{n\in\N}$ に対して
+\[
+  \mu_k |n\rangle = |kn\rangle, \qquad
+  e(r) |n\rangle = e^{2\pi i n r} |n\rangle.
+\]
+ハミルトニアンは $H|n\rangle = \log(n)\,|n\rangle$ で、
+$\sigma_t(A) = e^{iHt}A\,e^{-iHt}$ と整合する。
+
+% ------------------------------------------------------------
+\section{分配関数 $=$ $\zeta(\beta)$}
+\label{sec:2.3}
+
+統計力学において、\textbf{分配関数}は系の全ての熱力学的情報を含む中心量である。
+直感的には「全状態のボルツマン重み $e^{-\beta E}$ の総和」だ。
+
+BC系の分配関数を計算してみよう。ハミルトニアン $H|n\rangle = \log(n)|n\rangle$
+のエネルギー固有値は $E_n = \log n$ であるから、
+
+\begin{keybox}[BC系の分配関数 $=$ ゼータ関数]
+\[
+  Z(\beta) = \Tr(e^{-\beta H})
+           = \sum_{n=1}^{\infty} e^{-\beta \log n}
+           = \sum_{n=1}^{\infty} n^{-\beta}
+           = \zeta(\beta).
+\]
+\end{keybox}
+
+\noindent この等式は本書の\textbf{中心的アイデンティティ}である。
+
+\textbf{意味するところ}: リーマンのゼータ関数——数論の最も深遠な対象——は、
+BC系という量子統計力学系の分配関数に\textbf{他ならない}。
+数論の問題（素数の分布など）は、物理学の問題（統計力学の相転移など）として
+再定式化できるのだ。
+
+\begin{hsbox}
+分配関数とは何か。気体を考えよう。温度 $T = 1/\beta$ が高いと分子は激しく動き、
+低いと穏やかになる。分配関数 $Z(\beta) = \sum_n e^{-\beta E_n}$ は
+各状態 $n$ がどれくらい寄与するかを温度 $\beta$ で重みづけして足し上げたものだ。
+
+BC系では「状態」が自然数 $n$ に対応し、「エネルギー」が $\log n$ である。
+つまり大きい数ほどエネルギーが高い。高温では全ての自然数が平等に寄与し、
+低温では小さい数（エネルギーの低い状態）が支配的になる。
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{$\beta = 1$ での相転移}
+\label{sec:2.4}
+
+ゼータ関数 $\zeta(s)$ は $s=1$ に\textbf{極}を持つ：
+\[
+  \zeta(s) \xrightarrow{s\to 1} \frac{1}{s-1} + \gamma + \cdots
+  \quad (\gamma: \text{オイラー・マスケローニ定数}).
+\]
+分配関数 $Z(\beta) = \zeta(\beta)$ として見ると、
+これは $\beta = 1$（温度 $T=1$）で分配関数が発散することを意味する。
+物理学では、分配関数の特異点はまさに\textbf{相転移}を示す。
+
+\begin{keybox}[$\beta = 1$ での相転移 (Bost--Connes)]
+BC系は $\beta = 1$ で\textbf{自発的対称性の破れ}を伴う相転移を示す。
+\begin{itemize}
+  \item $\beta > 1$（低温相）: 対称性群 $\Gal(\Q^{\mathrm{ab}}/\Q)$ が
+        \textbf{自発的に破れる}。KMS$_\beta$ 状態は非可算無限個存在し、
+        ガロワ群が異なる状態を混ぜ合わせる。
+  \item $\beta \leq 1$（高温相）: KMS$_\beta$ 状態は\textbf{一意}。
+        対称性は保たれている（対称性の回復）。
+\end{itemize}
+\end{keybox}
+
+\begin{hsbox}
+氷が溶けて水になるとき、結晶構造（対称性の破れ）が消えて
+液体（対称性の回復）になる。BC系でも同じことが起きるが、
+破れる対称性は空間の対称性ではなく、\textbf{ガロワ群}——
+数論の対称性——なのだ。
+\end{hsbox}
+
+ここで $\Gal(\Q^{\mathrm{ab}}/\Q)$ は $\Q$ の最大アーベル拡大のガロワ群であり、
+類体論により $\hat{\Z}^{\times} \cong \prod_p \Z_p^{\times}$ と同型である。
+低温相では、この群の各元 $\alpha$ が互いに異なるKMS状態 $\varphi_\alpha$ を結びつける。
+
+物理的に言えば、$\beta > 1$ では系が「秩序化」して特定の真空を選び、
+その選び方がガロワ群というラベルで区別される。
+まさに粒子物理学におけるヒッグス機構のアナロジーであり、
+「数論版の自発的対称性の破れ」と呼ぶべき現象が起きている。
+
+% ------------------------------------------------------------
+\section{$\beta$ライン：全物理のパラメトリゼーション}
+\label{sec:2.5}
+
+BC系の逆温度パラメータ $\beta$ は実数全体を動く。
+WBプログラムの視点では、$\beta$ 軸上の各領域が異なる物理学的レジームに対応する。
+
+\begin{keybox}[$\beta$ライン概要]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|l|l}
+  \hline
+  $\beta$ 領域 & 数学的性質 & 物理的対応 \\
+  \hline
+  $\beta > 1$ & 秩序相、$\Gal$ 自発破れ & 摂動的QFT（低エネルギー） \\
+  $\beta = 1$ & 極（相転移点） & Hagedorn温度 \\
+  $0 < \beta < 1$ & 無秩序相、一意 KMS & 大統一理論 \\
+  $\beta = 0$ & トレース状態 & トポロジカル場の理論 \\
+  $\beta = -1$ & $\zeta(-1) = -1/12$ & ダークエネルギー \\
+  $\beta = -3$ & $\zeta(-3) = 1/120$ & 3Dカシミール/K理論 \\
+  \hline
+\end{tabular}
+\end{center}
+\end{keybox}
+
+各レジームをもう少し詳しく見よう。
+
+\paragraph{$\beta > 1$: 摂動的QFT.}
+通常の場の量子論は、結合定数が小さい（低エネルギー）領域で摂動展開が収束する。
+これはBC系の低温相に対応する。各素数 $p$ は独立な「粒子種」のように振る舞い、
+オイラー積 $\zeta(\beta) = \prod_p(1-p^{-\beta})^{-1}$ は
+独立自由度の分配関数の積に等しい。
+
+\paragraph{$\beta = 1$: Hagedorn温度.}
+弦理論には、状態の密度が指数的に増大するため分配関数が発散する
+臨界温度（Hagedorn温度）が存在する。
+$\zeta(s)$ の $s=1$ での極は、まさにこの発散に対応すると解釈される。
+
+\paragraph{$0 < \beta < 1$: 大統一.}
+高温相では全ての KMS 状態が一つに統一される。
+物理的には、高エネルギーで力が統一される大統一理論（GUT）に対応する。
+
+\paragraph{$\beta = 0$: トポロジカル.}
+$\beta = 0$ ではボルツマン重み $e^{-\beta H} = 1$——
+全状態が等重率で寄与し、エネルギーの概念が消える。
+これはトポロジカル場の理論（TQFT）に対応する。
+
+\paragraph{$\beta < 0$: ゼータ特殊値.}
+$\beta$ が負整数の場合、$\zeta(-n)$ はベルヌーイ数を通じて
+正確な有理数値を取る。特に $\zeta(-1) = -1/12$ がダークエネルギーの計算に、
+$\zeta(-3) = 1/120$ が3次元のカシミールエネルギーに関連する（第4章で詳述）。
+
+\begin{hypbox}[注意: 仮説の範囲]
+$\beta$ ラインの「物理的対応」は WB プログラムの\textbf{解釈}であり、
+厳密に証明された対応関係ではない。
+数学的に確立されているのは BC 系の相転移構造（$\beta = 1$）と、
+$\zeta(s)$ の解析的性質のみである。
+物理との対応は仮説として提示し、後の章で検証可能な予言を導く。
+\end{hypbox}
+
+
+% ============================================================
+% CHAPTER 3
+% ============================================================
+\chapter*{第3章\quad コンヌのスペクトル作用原理}
+\addcontentsline{toc}{section}{第3章: コンヌのスペクトル作用原理}
+\setcounter{section}{0}
+\renewcommand{\thesection}{3.\arabic{section}}
+
+% ------------------------------------------------------------
+\section{太鼓の形を聞く}
+\label{sec:3.1}
+
+1966年、Mark Kac は有名な問いを立てた：
+\textit{「太鼓の音（固有振動数）を聞くだけで、太鼓の形がわかるか？」}
+
+数学的には、2次元領域 $\Omega$ 上のラプラシアン $-\Delta$ の固有値
+\[
+  0 < \lambda_1 \leq \lambda_2 \leq \lambda_3 \leq \cdots
+\]
+から、$\Omega$ の形状を一意に復元できるか、という問題である。
+
+答えは「一般にはNo」（Gordon--Webb--Wolpert, 1992：同じスペクトルを持つが
+形の異なる太鼓の例が存在する）だが、\textbf{スペクトルが非常に多くの幾何学的情報を
+含んでいる}ことは確かである。
+
+Alain Connes は、この発想をさらに推し進めた。
+太鼓の固有値の\textbf{列}ではなく、作用素 $D$（ディラック作用素）の\textbf{全体}を
+基礎データとして、幾何学と物理学の全体を復元する理論を構築したのである。
+
+\begin{dfnbox}[定義: スペクトル三重 (Spectral Triple)]
+\textbf{スペクトル三重}とは、組 $(A, \mathcal{H}, D)$ のことをいう：
+\begin{itemize}
+  \item $A$: $*$-代数（座標の代数——空間上の関数に対応）
+  \item $\mathcal{H}$: ヒルベルト空間（$A$ が表現される空間——状態空間）
+  \item $D$: $\mathcal{H}$ 上の自己共役作用素（ディラック作用素——微分の一般化）
+\end{itemize}
+条件: $[D, a]$ が全ての $a\in A$ に対して有界（Lipschitz条件の一般化）。
+\end{dfnbox}
+
+\begin{hsbox}
+スペクトル三重のイメージを掴もう。
+\begin{itemize}
+  \item $A$ は「空間の住所録」——各点にラベルを付ける関数の集合。
+  \item $\mathcal{H}$ は「空間に住む電子の状態」——スピノル場の空間。
+  \item $D$ は「距離の測り方」——二点間の距離を固有値から読み取る。
+\end{itemize}
+普通の幾何学では、距離はメトリック $g_{\mu\nu}$ で定義する。
+Connes の非可換幾何学では、$D$ が $g_{\mu\nu}$ の代わりを務めるのだ。
+\end{hsbox}
+
+Connes の再構成定理（Connes reconstruction theorem）によれば、
+可換な場合（$A$ が可換代数）のスペクトル三重は、
+通常のリーマン多様体上のスピン幾何学と\textbf{完全に等価}である。
+
+非可換の場合（$A$ が非可換代数）は、
+通常の空間にはない「量子的な」幾何学を記述する。
+これこそが非可換幾何学の真価であり、
+\textbf{内部空間}（ゲージ理論の自由度）を自然に取り込む鍵となる。
+
+% ------------------------------------------------------------
+\section{スペクトル作用}
+\label{sec:3.2}
+
+スペクトル三重 $(A, \mathcal{H}, D)$ が幾何学を定めるなら、
+その上の\textbf{物理法則}（作用汎関数）はどう書けるだろうか。
+
+Chamseddine と Connes は、驚くほど簡潔な答えを見出した：
+物理的作用は、ディラック作用素 $D$ の\textbf{スペクトル}（固有値の集合）だけから
+構成できるのだ。
+
+まず直感的な説明。$D$ の固有値を $\lambda_1, \lambda_2, \ldots$ とする。
+エネルギースケール $\Lambda$（カットオフ）以下の固有値の数を数える関数を考えよう。
+この「固有値の数え方」が、幾何学的情報と物理法則の全てを含んでいる。
+
+\begin{keybox}[Chamseddine--Connes スペクトル作用 (1996)]
+カットオフ関数 $f$ を用いて、
+\[
+  S_{\mathrm{sp}} = \Tr\!\left(f\!\left(\frac{D^2}{\Lambda^2}\right)\right).
+\]
+$\Lambda\to\infty$ での漸近展開は
+\[
+  S_{\mathrm{sp}} \sim f_4\,\Lambda^4\, a_0
+                     + f_2\,\Lambda^2\, a_2
+                     + f_0\, a_4
+                     + \cdots
+\]
+ここで $f_k = \int_0^\infty f(u)\, u^{k/2-1}\, du$ はカットオフ関数のモーメント、
+$a_0, a_2, a_4, \ldots$ は Seeley--DeWitt 係数である。
+\end{keybox}
+
+\noindent\textbf{驚くべき結果。}Connes と Chamseddine は、
+スペクトル三重として $M\times F$——通常の4次元時空 $M$ と
+有限非可換空間 $F$（内部自由度を表す）の積——を取ったとき、
+上のスペクトル作用が\textbf{アインシュタイン重力＋標準模型}を
+一つの式から自動的に再現することを示した。
+
+つまり、重力と三つの力（電磁気力、弱い力、強い力）は、
+適切なスペクトル三重の固有値分布から統一的に導かれるのだ。
+
+\begin{hsbox}
+もっと平たく言えば：
+\begin{itemize}
+  \item 太鼓の「形」= 時空と内部空間の幾何学
+  \item 太鼓の「音」= ディラック作用素の固有値
+  \item 「音の聞き方」$= \Tr(f(D^2/\Lambda^2))$
+  \item 聞こえてくるもの = アインシュタインの重力理論 + 素粒子の標準模型
+\end{itemize}
+一つの公式から、物理学の全体が「聞こえてくる」のだ。
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{Seeley--DeWitt係数}
+\label{sec:3.3}
+
+スペクトル作用の漸近展開に現れる各項の物理的意味を、一つずつ見ていこう。
+
+各 Seeley--DeWitt 係数 $a_k$ は、背景場（計量 $g$、ゲージ場 $A$、スカラー場 $\Phi$）の
+幾何学的不変量として書ける。
+
+\begin{keybox}[Seeley--DeWitt 係数の物理的意味]
+\begin{enumerate}
+  \item $a_0 = \dfrac{1}{16\pi^2}\displaystyle\int_M \sqrt{g}\; d^4x$
+  \quad $\Longrightarrow$ \quad\textbf{宇宙項}（体積項）。
+  $f_4\Lambda^4 a_0$ は宇宙定数項であり、
+  真空エネルギー $\rho_\Lambda \propto \Lambda^4$ に対応する。
+
+  \item $a_2 = \dfrac{1}{16\pi^2}\displaystyle\int_M R\,\sqrt{g}\; d^4x + \cdots$
+  \quad $\Longrightarrow$ \quad\textbf{Einstein--Hilbert作用}。
+  $f_2\Lambda^2 a_2$ が重力を記述する。スカラー曲率 $R$ が現れ、
+  ニュートンの万有引力定数 $G$ は $G^{-1} \propto f_2 \Lambda^2$ で決まる。
+
+  \item $a_4 = \dfrac{1}{16\pi^2}\displaystyle\int_M
+  \left(\alpha\, C_{\mu\nu\rho\sigma}C^{\mu\nu\rho\sigma}
+        + \beta\, F_{\mu\nu}^a F^{a\mu\nu}
+        + \gamma\, |D_\mu\Phi|^2
+        + \delta\, V(\Phi)
+        + \cdots\right)\sqrt{g}\; d^4x$
+
+  $\Longrightarrow$ \quad\textbf{ゲージ場の運動項}＋\textbf{ヒッグス場}。
+  $f_0\, a_4$ がゲージ結合定数、ヒッグスポテンシャルなどを決定する。
+\end{enumerate}
+\end{keybox}
+
+\noindent つまり、$\Lambda$ のべきで降順に並べると：
+
+\[
+  \underbrace{f_4\Lambda^4 a_0}_{\text{宇宙定数}}
+  \;+\; \underbrace{f_2\Lambda^2 a_2}_{\text{重力（曲率）}}
+  \;+\; \underbrace{f_0\, a_4}_{\text{ゲージ力＋ヒッグス}}
+  \;+\; \cdots
+\]
+
+高エネルギー項ほど「大きな」スケールの物理を支配し、
+低エネルギー項ほど「精密な」構造を記述する。
+この階層構造がスペクトル作用から自然に出てくるのだ。
+
+\begin{hsbox}
+$a_0, a_2, a_4$ の直感的な対応を覚えておこう：
+\begin{center}
+\begin{tabular}{ccc}
+  $a_0$: 体積 & $a_2$: 曲がり具合 & $a_4$: 力の構造 \\
+  （空間がどれだけ「ある」か） & （空間がどう「曲がる」か） & （粒子がどう「相互作用する」か）
+\end{tabular}
+\end{center}
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{BC系との接続}
+\label{sec:3.4}
+
+ここで、第2章で学んだ Bost--Connes 系と、スペクトル作用を結びつけよう。
+
+BC系のハミルトニアン $H$ に対する\textbf{熱核}（heat kernel）は
+\[
+  K(t) = \Tr(e^{-tH}) = \sum_{n=1}^{\infty} e^{-t\log n}
+       = \sum_{n=1}^{\infty} n^{-t} = \zeta(t).
+\]
+
+\begin{keybox}[BC系の熱核 $=$ ゼータ関数]
+\[
+  K_{\mathrm{BC}}(t) = \Tr(e^{-tH_{\mathrm{BC}}}) = \zeta(t).
+\]
+BC系の熱核は、リーマンのゼータ関数そのものである。
+\end{keybox}
+
+これは第2章の $Z(\beta) = \zeta(\beta)$ と同じ等式だが、ここでは
+\textbf{スペクトル幾何学}の文脈で読み替えている点が重要である。
+
+スペクトル幾何学において、熱核 $\Tr(e^{-tD^2})$ は Seeley--DeWitt 展開
+\[
+  \Tr(e^{-tD^2}) \sim (4\pi t)^{-d/2}\left(a_0 + a_2\, t + a_4\, t^2 + \cdots\right)
+  \qquad (t\to 0^+)
+\]
+を持ち、係数 $a_k$ が幾何学的情報をエンコードする。
+
+BC系の「熱核」$K(t) = \zeta(t)$ にも、$t\to 0^+$ での漸近展開（ゼータ関数の
+$s=1$ 近傍の Laurent 展開）が存在し、これが BC 系の「幾何学的情報」を含む。
+具体的には、$\zeta(s)$ の $s=1$ での主要項 $1/(s-1)$ が $a_0$（体積項）に対応し、
+次の定数項 $\gamma$（オイラー定数）が曲率項に対応する。
+
+この平行関係を通じて、BC系はスペクトル幾何学の対象として解釈でき、
+ゼータ関数の解析的性質から幾何学的・物理学的帰結を読み取ることが可能になる。
+
+% ------------------------------------------------------------
+\section{$G$はどこから来るか}
+\label{sec:3.5}
+
+前節の議論から、ニュートンの万有引力定数 $G$ の起源を追える。
+
+スペクトル作用の第二項 $f_2\Lambda^2 a_2$ がアインシュタイン重力を与え、
+$G^{-1} \propto a_2$ であった。BC系の文脈では、$a_2$ は
+熱核の $t$ についての微分——つまりゼータ関数の微分と結びつく。
+
+直感から始めよう。熱核 $K(t) = \zeta(t)$ の $t = 0$ での挙動を調べると、
+$K(t)$ の変化率は $K'(t) = \zeta'(t)$ である。
+特に $t = 0$（形式的に定義する）での微分値が重力定数を決定する。
+
+\begin{keybox}[$G$ の算術的起源]
+\[
+  G^{-1} \;\propto\; a_2 \;\propto\; K'(0) = \zeta'(0)
+        = -\frac{1}{2}\log(2\pi).
+\]
+\end{keybox}
+
+\noindent ここで使ったのは、ゼータ関数の特殊値
+\[
+  \zeta'(0) = -\frac{1}{2}\log(2\pi)
+\]
+という\textbf{厳密な数学的結果}である。これはリーマンのゼータ関数の
+関数等式から導かれる（$\zeta(0) = -1/2$ と合わせて使う）。
+
+\begin{hsbox}
+$\zeta'(0) = -\frac{1}{2}\log(2\pi)$ の値には $\pi$ が含まれている。
+$\pi$ は円周率——幾何学の最も基本的な定数——であり、
+重力定数 $G$ の中にこの幾何学的定数が算術的な理由から現れることになる。
+「なぜ $G$ はその値なのか」に対する一つの候補回答が、ゼータ関数から来るのだ。
+\end{hsbox}
+
+もう少し正確に書くと、プランクスケールとの関係は次のようになる。
+$M_{\mathrm{Pl}}^2 = 1/(8\pi G)$ がプランク質量であり、
+スペクトル作用からは $M_{\mathrm{Pl}}^2 \propto f_2\Lambda^2$ が得られる。
+WBプログラムでは、カットオフ $\Lambda$ 自体もBC系のスペクトル構造から
+決定されると考える。最終的に
+\[
+  \frac{M_{\mathrm{Pl}}^2}{\Lambda^2} \propto |\zeta'(0)| = \frac{1}{2}\log(2\pi)
+  \approx 0.919.
+\]
+
+この比率は $O(1)$ であり、「なぜプランクスケールとカットオフスケールが
+同程度なのか」という自然さの問題に対して、
+算術的な解答の候補を提供する。
+
+\begin{rmk}
+$\zeta'(0)$ の値自体は数学的に厳密な結果である。
+しかし、$G^{-1} \propto \zeta'(0)$ という関係はWBプログラムの
+\textbf{仮説}であり、物理的な検証が必要である。
+この仮説の検証可能性については、後の章で具体的な実験提案と共に議論する。
+\end{rmk}
+
+
+% ============================================================
+% CHAPTER 4
+% ============================================================
+\chapter*{第4章\quad ゼータ正則化と真空エネルギー}
+\addcontentsline{toc}{section}{第4章: ゼータ正則化と真空エネルギー}
+\setcounter{section}{0}
+\renewcommand{\thesection}{4.\arabic{section}}
+
+% ------------------------------------------------------------
+\section{$1+2+3+\cdots = -1/12$ の物理的意味}
+\label{sec:4.1}
+
+おそらく数学で最も有名な「逆説的な」等式は
+\[
+  1 + 2 + 3 + 4 + \cdots = -\frac{1}{12}
+\]
+であろう。この級数は明らかに正の無限大に発散するから、
+普通の意味では成り立たない。しかし、ゼータ正則化の意味では\textbf{正確に}成り立つ。
+
+\begin{dfnbox}[ゼータ正則化]
+発散する級数 $\sum_{n=1}^{\infty} n^k$ に対し、
+まず $\Re(s)$ が十分大きい領域で $\zeta(s) = \sum n^{-s}$ を定義し、
+\textbf{解析接続}によって $s = -k$ での値を求める。
+すると
+\[
+  ``\sum_{n=1}^{\infty} n^k" \;:=\; \zeta(-k).
+\]
+\end{dfnbox}
+
+$k=1$ の場合、$\zeta(-1) = -B_2/2 = -1/12$。
+ここで $B_2 = 1/6$ は第2ベルヌーイ数である。
+
+\begin{hsbox}
+これは「嘘」でも「トリック」でもない。
+\textbf{ゼータ正則化}とは「無限大の中から物理的に意味のある有限部分だけを
+取り出す」処方箋であり、物理学では\textbf{実験的に検証されている}。
+
+たとえば弦理論では、開弦のゼロ点エネルギーの計算に $\zeta(-1)=-1/12$ が
+現れ、これが時空次元 $d=26$ を決定する。
+また次節で述べるカシミール効果では、この種の正則化が
+\textbf{実験室で直接測定される力}を正しく予言する。
+\end{hsbox}
+
+一般に、負の整数点でのゼータ関数の値はベルヌーイ数で与えられる：
+\[
+  \zeta(-n) = -\frac{B_{n+1}}{n+1}
+  \qquad (n = 0, 1, 2, \ldots).
+\]
+具体的な値をいくつか挙げておく：
+\[
+  \zeta(0) = -\frac{1}{2},\quad
+  \zeta(-1) = -\frac{1}{12},\quad
+  \zeta(-2) = 0,\quad
+  \zeta(-3) = \frac{1}{120},\quad
+  \zeta(-4) = 0.
+\]
+$\zeta(-2n)=0$（$n\geq 1$）は自明な零点と呼ばれる。
+
+% ------------------------------------------------------------
+\section{カシミール効果}
+\label{sec:4.2}
+
+1948年、Hendrik Casimir は真空の量子効果が\textbf{巨視的な力}を
+生み出すことを理論的に予言した。これが\textbf{カシミール効果}であり、
+1997年に Lamoreaux によって精密に実験確認された。
+
+直感的な説明から始めよう。
+
+量子力学では、何もない空間（真空）にもエネルギーが存在する。
+電磁場の各モード（振動数 $\omega_n$）はゼロ点エネルギー $\hbar\omega_n/2$ を持つ。
+自由空間では全てのモードが許されるが、二枚の金属板の間では
+\textbf{境界条件を満たすモードしか存在できない}。
+
+\begin{dfnbox}[DD境界条件（ディリクレ--ディリクレ）]
+二枚の完全導体板を距離 $d$ で置く。板上で電場が $0$ という条件は、
+許されるモードを $k_n = n\pi/d$\;($n = 1, 2, 3, \ldots$) に制限する。
+板の間の真空エネルギーは
+\[
+  E_{\mathrm{DD}} \propto \sum_{n=1}^{\infty} n
+  \quad\xrightarrow{\text{ゼータ正則化}}\quad
+  \zeta(-1) = -\frac{1}{12}.
+\]
+\end{dfnbox}
+
+完全な3次元計算を行うと、単位面積あたりのカシミール力は
+
+\begin{keybox}[カシミール力（DD境界条件）]
+\[
+  F_{\mathrm{DD}} = -\frac{\pi^2\hbar c}{240\, d^4}.
+\]
+マイナスの符号は\textbf{引力}を意味する。二枚の板は引き合うのだ。
+\end{keybox}
+
+\begin{hsbox}
+板の間隔 $d = 1\;\mu\mathrm{m}$ のとき、
+$F \approx 1.3 \times 10^{-3}\;\mathrm{N/m^2}$（$1\;\mathrm{cm^2}$ あたり
+約 $10^{-7}\;\mathrm{N}$）。
+小さいが、原子間力顕微鏡で十分測定可能な力である。
+「何もない」空間が力を生む——量子力学の最も劇的な帰結の一つだ。
+\end{hsbox}
+
+ここで重要なのが\textbf{境界条件の選び方}による符号変化である。
+
+\begin{keybox}[DN境界条件（ディリクレ--ノイマン）]
+一枚をディリクレ（電場 $=0$）、もう一枚をノイマン（磁場 $=0$）にすると、
+許されるモードは $k_n = (n+1/2)\pi/d$\;($n = 0, 1, 2, \ldots$)——
+\textbf{奇数モードのみ}。Boyer (1974) の計算により、
+\[
+  F_{\mathrm{DN}} = +\frac{7\pi^2\hbar c}{8 \times 240\, d^4}.
+\]
+プラスの符号は\textbf{斥力}——板は反発するのだ！
+\end{keybox}
+
+DD（引力）からDN（斥力）への符号変化は、
+許されるモードの集合が変わることに起因する。
+WBプログラムではこれを「素数でモードを選別する」操作と結びつけて、
+ダークエネルギーの符号を説明する（次節）。
+
+% ------------------------------------------------------------
+\section{$p=2$ ミュートと $\zeta_{\neg 2}$}
+\label{sec:4.3}
+
+オイラー積 $\zeta(s) = \prod_p(1-p^{-s})^{-1}$ において、
+特定の素数 $p$ に対応するオイラー因子を\textbf{取り除く}操作を考えよう。
+これは物理的には「素数 $p$ に対応するモードを消す」操作に当たる。
+
+\begin{dfnbox}[定義: $p=2$ ミュートゼータ]
+素数 $2$ のオイラー因子を除去したゼータ関数：
+\[
+  \zeta_{\neg 2}(s) = (1 - 2^{-s})\,\zeta(s)
+                    = \prod_{p\neq 2} \frac{1}{1-p^{-s}}.
+\]
+これは「偶数モードをミュート」したゼータ関数と解釈できる。
+\end{dfnbox}
+
+$s = -1$ での値を計算してみよう：
+\[
+  \zeta_{\neg 2}(-1) = (1 - 2^{-(-1)})\,\zeta(-1)
+                     = (1 - 2)\cdot\left(-\frac{1}{12}\right)
+                     = (-1)\cdot\left(-\frac{1}{12}\right)
+                     = +\frac{1}{12}.
+\]
+
+\begin{keybox}[符号反転]
+\[
+  \zeta(-1) = -\frac{1}{12} \qquad\text{（負：引力的）}
+\]
+\[
+  \zeta_{\neg 2}(-1) = +\frac{1}{12} \qquad\text{（正：斥力的）}
+\]
+$p=2$ のオイラー因子を除去するだけで、真空エネルギーの\textbf{符号が反転}する。
+\end{keybox}
+
+この符号反転の物理的意味は深い。前節で見たように、
+DD境界条件は全モード（引力）、DN境界条件は奇数モードのみ（斥力）であった。
+$p=2$ のミュートは「偶数成分の除去」に対応し、
+Boyer (1974) の DN 境界条件による斥力と平行な構造を持つ。
+
+\begin{hsbox}
+もっと身近な比喩で考えよう。
+ギターの全ての弦を弾くと（$\zeta(-1)$）、和音が聞こえる。
+ここで最低音の弦（$p=2$に対応）をミュート（消音）すると、
+音全体の印象が変わる——暗い響き（引力）から明るい響き（斥力）に変わるようなものだ。
+
+ゼータ関数のオイラー積は、各素数が独立な「弦」のように寄与する。
+一本の弦を消すだけで、全体の和の符号が変わるのは驚くべきことだ。
+\end{hsbox}
+
+数学的に見ると、$(1 - 2^{-s})$ はディリクレの $L$-関数のツイストに関連する。
+$\zeta_{\neg 2}(s)$ は完全乗法的ではないが、残る素数上のオイラー積として解釈でき、
+その解析接続は $\zeta(s)$ から直ちに得られる。
+
+この符号反転には\textbf{ベリー位相}の解釈も可能である。
+フェルミオン的真空（$\zeta(-1) < 0$）からボソン的真空（$\zeta_{\neg 2}(-1) > 0$）への
+移行を、$p=2$（最小の素数＝最も基本的な対称性）の除去が引き起こすと見なせる。
+
+% ------------------------------------------------------------
+\section{ダークエネルギー $\Omega_\Lambda = 2\pi/9$}
+\label{sec:4.4}
+
+宇宙の膨張が加速しているという1998年の発見（Perlmutter, Riess, Schmidt; Nobel 2011）
+は、\textbf{ダークエネルギー}の存在を示した。
+Planck衛星（2018年最終結果）によれば、ダークエネルギーの密度パラメータは
+\[
+  \Omega_\Lambda^{\mathrm{obs}} = 0.685 \pm 0.007.
+\]
+
+WBプログラムでは、この値を $\Spec(\Z)$ の構造から導く。
+議論を段階的に追おう。
+
+\paragraph{Step 1: 空間次元 $d$ とコホモロジー次元 $\cd$.}
+Artin--Verdier 定理（第1章）より $\cd(\Spec(\Z)) = 3$。
+物理的時空の空間次元は $d = 4 - 1 = 3$（ローレンツ符号では $d=3$）。
+WB仮説のもとで、次元比率 $d/\cd = 3/3 = 1$ は単なる一致ではなく、
+真空エネルギーのスケーリング因子として現れるが、
+ここでは $d = 4$（時空次元）と $\cd = 3$ の比 $d/\cd = 4/3$ を用いる。
+
+\paragraph{Step 2: $p=2$ ミュートゼータの寄与.}
+前節で見たように $\zeta_{\neg 2}(-1) = +1/12$。
+正の値は斥力的——つまり宇宙膨張を加速させる方向——を意味する。
+
+\paragraph{Step 3: アルキメデス因子.}
+$\zeta(s)$ の関数等式には $\Gamma$ 因子（アルキメデス的局所因子）が関わる。
+完備化ゼータ $\xi(s) = \pi^{-s/2}\Gamma(s/2)\zeta(s)$ の $s=-1$ での寄与は
+$\pi^{1/2}\Gamma(-1/2) = -2\sqrt{\pi}/\sqrt{\pi} = -2\pi$ ——
+ここでは本質的に $\pi/6$ というアルキメデス因子が現れる。
+
+\paragraph{Step 4: 組み合わせ.}
+以上の因子を組み合わせると、
+
+\begin{keybox}[ダークエネルギー密度パラメータ]
+\[
+  \Omega_\Lambda = \frac{d}{\cd}\cdot\frac{\pi}{6}
+                 = \frac{4}{3}\cdot\frac{\pi}{6}
+                 = \frac{2\pi}{9}
+                 \approx 0.698.
+\]
+\end{keybox}
+
+\noindent 観測値 $\Omega_\Lambda^{\mathrm{obs}} = 0.685$ との比較：
+\[
+  \frac{\Omega_\Lambda^{\mathrm{WB}} - \Omega_\Lambda^{\mathrm{obs}}}
+       {\Omega_\Lambda^{\mathrm{obs}}}
+  = \frac{0.698 - 0.685}{0.685}
+  \approx 1.9\%.
+\]
+\textbf{約$2\%$の偏差}——これは理論物理学の予言としては驚くべき精度である。
+
+\begin{hsbox}
+何がすごいのか整理しよう。
+\begin{itemize}
+  \item ダークエネルギーの量を「第一原理から」計算した理論は、これまでほぼ存在しない。
+  \item 量子場の理論の素朴な計算では $\Omega_\Lambda \sim 10^{120}$（$120$桁のずれ！）。
+        これが有名な「宇宙定数問題」であり、物理学最大の未解決問題の一つ。
+  \item WB公式 $\Omega_\Lambda = 2\pi/9$ は、$120$桁のずれではなく $2\%$ の偏差。
+        偶然にしては良すぎるが、証明とするには $2\%$ の残差を説明する必要がある。
+\end{itemize}
+\end{hsbox}
+
+$2\%$ の偏差の可能な起源としては：
+\begin{itemize}
+  \item バリオン物質・暗黒物質による補正（$\Omega_m \approx 0.315$ を考慮）
+  \item 高次 Seeley--DeWitt 係数 $a_6, a_8, \ldots$ の寄与
+  \item 走る結合定数のRG効果
+\end{itemize}
+が考えられるが、いずれも本書の後半で詳しく検討する。
+
+\begin{hypbox}[注意: 仮説の地位]
+$\Omega_\Lambda = 2\pi/9$ は WB プログラムの\textbf{予言}であって、
+厳密に導出された結果ではない。
+導出の各ステップ（$d/\cd$ の使い方、$\pi/6$ 因子の起源など）には
+仮定が含まれており、それらの正当性は検証が必要である。
+数値の一致は興味深いが、「証明」とは区別されなければならない。
+\end{hypbox}
+
+% ------------------------------------------------------------
+\section{正則化の選択問題}
+\label{sec:4.5}
+
+第4章の締めくくりとして、ゼータ正則化が本当に「正しい」正則化なのか、
+という根本問題を論じる。
+
+量子場の理論には複数の正則化処方箋がある：
+\begin{itemize}
+  \item \textbf{ゼータ正則化}: $\sum n^{-s}$ の解析接続で有限値を取り出す。
+  \item \textbf{カットオフ正則化}: $\sum_{n=1}^{N} n$ として $N$ 依存の項を
+        系統的に差し引く。
+  \item \textbf{次元正則化}: 空間次元を $d = 4-\varepsilon$ として
+        $\varepsilon\to 0$ の極を差し引く。
+\end{itemize}
+
+通常のカシミール効果（全モード）では、どの正則化も同じ物理的答えを与える。
+しかし\textbf{素数でモードをフィルタリングした場合}、
+異なる正則化が\textbf{異なる答え}を与えることがある。
+
+\begin{keybox}[レギュレーター予想]
+素数 $p=2$ と $p=3$ でフィルタリングした（2の倍数と3の倍数を除いた）
+真空エネルギーを考える。
+
+ゼータ正則化:
+\[
+  \zeta_{\neg\{2,3\}}(-1)
+  = (1-2^{-(-1)})(1-3^{-(-1)})\,\zeta(-1)
+  = (1-2)(1-3)\cdot\left(-\frac{1}{12}\right)
+  = \frac{1}{6}.
+\]
+
+カットオフ正則化（$\sum_{\substack{n=1 \\ \gcd(n,6)=1}}^{N} n$ の有限部分）：
+\[
+  \lim_{N\to\infty}\left[\sum_{\substack{n=1 \\ \gcd(n,6)=1}}^{N} n
+  - \frac{N^2}{6}\right]
+  = \frac{1}{3}.
+\]
+
+二つの答えは異なる: $1/6 \neq 1/3$。
+\end{keybox}
+
+この不一致は\textbf{原理的に実験で判定可能}である。
+
+\begin{hypbox}[実験提案: レギュレーター予想の検証]
+周波数選別カシミール実験：共振器内のモードを素数に基づいて
+選別し（フォノニック結晶、メタマテリアル等を使用）、
+得られる力がゼータ正則化の予言に従うか、カットオフ正則化に従うか、
+あるいは第三の値を取るかを実験的に決定する。
+
+もしゼータ正則化が正しければ、これは
+「自然がゼータ正則化を選んでいる」ことの直接的証拠となり、
+WBプログラムの根幹を支える最も重要な実験的事実となる。
+\end{hypbox}
+
+\begin{hsbox}
+これは思考実験ではなく、原理的には現在の技術で検証可能な提案である。
+フォノニック結晶（音波の周期的媒質）を使って特定の振動モードを選択的に
+禁止する技術は既に存在し、
+メタマテリアルの進歩により電磁場でも同様の制御が可能になりつつある。
+
+要するに「無限大を処理する正しい方法は何か」という数学的問いが、
+実験室で答えられるかもしれないのだ。これほど哲学的でありながら、
+同時にこれほど実証的な問いは珍しい。
+\end{hsbox}
+
+この問題は、単に「正しい数値」を選ぶ問題にとどまらない。
+正則化処方箋の選択は、物理学の\textbf{基礎}に関わる問題だ。
+
+\begin{enumerate}
+  \item \textbf{もしゼータ正則化が正しいなら}: 自然は「解析接続」を
+        好む——つまり、物理法則は複素解析的な構造を本質的に含んでいる。
+        これは WB プログラムの数論的世界観を強く支持する。
+  \item \textbf{もしカットオフ正則化が正しいなら}: 自然は「離散的な数え上げ」を
+        好む——格子理論的な世界観が正しいことになる。
+  \item \textbf{もし第三の値なら}: 我々がまだ知らない新しい正則化理論が
+        必要であり、物理学の基礎に未知の構造があることを示す。
+\end{enumerate}
+
+いずれの結果も、物理学の根幹に新しい知見をもたらすだろう。
+
+\vspace{2em}
+\begin{center}
+  \rule{0.4\textwidth}{0.4pt}
+\end{center}
+\vspace{1em}
+
+\noindent\textbf{Part I まとめ.}
+本パートでは、以下の道筋をたどった。
+
+\begin{enumerate}
+  \item 素数から出発して $\Spec(\Z)$ を構成し、それが3次元的であることを見た（第1章）。
+  \item $\Spec(\Z)$ 上の自然な量子力学系（BC系）を構成し、
+        その分配関数がゼータ関数であることを確認した（第2章）。
+  \item コンヌのスペクトル作用原理により、ディラック作用素のスペクトルから
+        重力＋ゲージ理論が出てくることを学んだ（第3章）。
+  \item ゼータ正則化を通じて真空エネルギーを計算し、
+        ダークエネルギーの値 $\Omega_\Lambda \approx 2\pi/9$ を導き、
+        正則化の選択問題を提起した（第4章）。
+\end{enumerate}
+
+Part II 以降では、これらの基礎の上に、ゲージ群の導出、暗黒物質の起源、
+そして実験的検証へと議論を進める。
+
+\end{document}

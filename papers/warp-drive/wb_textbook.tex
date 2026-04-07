@@ -1,0 +1,125 @@
+% ============================================================
+%  算術的宇宙の物理学 ― Spec(Z) からワープドライブまで
+%  Wright Brothers Research Program 公開教科書
+%  wb_textbook.tex (master file)
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=25mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Wright Brothers テキストブック}
+\fancyhead[R]{\small\sffamily 算術的宇宙の物理学}
+\fancyfoot[C]{\thepage}
+\usepackage[unicode,pdfencoding=auto]{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\cdots{...}%
+  \def\Z{Z}%
+  \def\Q{Q}%
+  \def\R{R}%
+  \def\Spec{Spec}%
+  \def\Tr{Tr}%
+  \def\cd{cd}%
+  \def\Gal{Gal}%
+  \def\KMS{KMS}%
+  \def\\{}%
+  \def\quad{ }%
+  \def\textbf#1{#1}%
+}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+% ---- Theorem environments ----
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{definition}[theorem]{定義}
+\renewcommand{\proofname}{証明}
+
+% ---- tcolorbox: Part I style ----
+\newtcolorbox{dfnbox}[1][]{%
+  colback=blue!5,colframe=blue!50!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{keybox}[1][]{%
+  colback=green!5,colframe=green!50!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{hsbox}[1][高校生ノート]{%
+  colback=orange!5,colframe=orange!50!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{hypbox}[1][]{%
+  colback=purple!5,colframe=purple!50!black,fonttitle=\bfseries,title={#1}}
+
+% ---- tcolorbox: Part II-III style ----
+\newtcolorbox{keyresult}[1][]{%
+  colback=green!5,colframe=green!60!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{statusbox}[1][]{%
+  colback=blue!5,colframe=blue!50!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{warningbox}[1][]{%
+  colback=red!5,colframe=red!50!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{experimentbox}[1][]{%
+  colback=yellow!5,colframe=yellow!60!black,fonttitle=\bfseries,title={#1}}
+\newtcolorbox{gostopbox}[1][]{%
+  colback=red!5,colframe=red!60!black,fonttitle=\bfseries,title={#1}}
+
+% ---- Custom commands ----
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\cd}{\operatorname{cd}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\KMS}{\mathrm{KMS}}
+
+% ---- Map \chapter to \section for article class ----
+\newcommand{\chapter}[1]{\section{#1}}
+
+% ---- Environment fallbacks ----
+\newenvironment{rmk}{\paragraph{注意.}}{}
+
+% ---- Section formatting ----
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+% ---- Title page ----
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\Huge\bfseries 算術的宇宙の物理学}\\[1cm]
+{\LARGE Spec($\mathbb{Z}$) からワープドライブまで}\\[2cm]
+{\Large Wright Brothers Research Program}\\[1cm]
+{\large 公開教科書 第1版}\\[2cm]
+{\large 2026年4月}\\[3cm]
+{\normalsize GitHub: \texttt{isshii-jpeg/wright-brothers}}\\[0.5cm]
+{\small 本書はオープンアクセスです。自由に配布・引用できます。}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% PART I: 基礎理論
+% ============================================================
+\input{wb_textbook_body1}
+
+% ============================================================
+% PART II + III: 確立された結果 + 実験プログラム
+% ============================================================
+\input{wb_textbook_body2}
+
+\input{wb_textbook_body3}
+
+\end{document}

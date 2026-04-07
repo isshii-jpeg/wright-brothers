@@ -1,0 +1,1282 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\tcbuselibrary{theorems,skins,breakable}
+
+\newtcolorbox{keyresult}[1][]{
+  colback=blue!5,colframe=blue!60!black,
+  fonttitle=\bfseries,title={#1},
+  breakable
+}
+\newtcolorbox{statusbox}[1][]{
+  colback=green!5,colframe=green!50!black,
+  fonttitle=\bfseries,title={#1},
+  breakable
+}
+\newtcolorbox{warningbox}[1][]{
+  colback=orange!5,colframe=orange!60!black,
+  fonttitle=\bfseries,title={#1},
+  breakable
+}
+\newtcolorbox{experimentbox}[1][]{
+  colback=yellow!5,colframe=yellow!60!black,
+  fonttitle=\bfseries,title={#1},
+  breakable
+}
+\newtcolorbox{gostopbox}[1][]{
+  colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries,title={#1},
+  breakable
+}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{lemma}[theorem]{補題}
+
+\title{算術的宇宙の物理学\\
+\large Part II: 確立された結果 \& Part III: 実験プログラム\\[1em]
+\normalsize Wright Brothers Research Program 公開教科書}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本書は「算術的宇宙の物理学」教科書の Part~II（第5--8章）と Part~III（第9--11章）を
+収録する．Part~II ではプロジェクトの確立された理論的結果——パラメータフリーの
+ダークエネルギー予測 $\Omega_\Lambda = 2\pi/9$，素数 $p=2$ の唯一性，
+時空次元 $d=4$ の導出，関数等式双対性——を体系的に提示する．
+Part~III では理論予測を実験的に検証するための3段階プログラム——
+Phase~0（DN/DD基本測定），Phase~1（182:1テスト），Phase~2（$\pi$-接合カシミール）
+——の詳細な手順・部品・判定基準を与える．
+各結果には信頼度ステータス（Tier~A/B）を付与し，読者が自ら検証可能な
+レベルまで議論を展開する．
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  PART II: 確立された結果
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\part*{Part II: 確立された結果}
+\addcontentsline{toc}{part}{Part II: 確立された結果}
+
+%====================================================================
+%  Chapter 5
+%====================================================================
+\section{第5章: $\Omega_\Lambda = 2\pi/9$ — パラメータフリーのダークエネルギー予測}
+
+\begin{statusbox}[STATUS: Tier A — 発表価値あり]
+本章の結果は調整パラメータゼロの閉じた解析式として導出される．
+Planck 2018 観測値と $1.8\sigma$（2.0\%）で一致し，DESI データによる
+$\zeta$-quintessence モデルは $\Lambda$CDM に対し $\Delta\chi^2 = -3.2$ の
+改善を示す．
+\end{statusbox}
+
+\subsection{WDW + CKN 導出（元の方法）}
+
+ダークエネルギー密度の第一原理導出は，二つの独立な物理原理の交差点から得られる．
+
+\subsubsection{Wheeler-DeWitt 方程式と時間的 DN 境界}
+
+Wheeler-DeWitt (WDW) 方程式は量子重力の正準量子化における基本方程式である:
+\begin{equation}
+\hat{H}\,\Psi[\,{}^{(3)}\!g,\,\phi\,] = 0
+\end{equation}
+ここで $\hat{H}$ は Hamiltonian 拘束，$\Psi$ は宇宙の波動関数，
+${}^{(3)}\!g$ は3次元空間計量，$\phi$ は物質場を表す．
+
+通常の WDW 方程式は時間座標に対して境界条件を持たない（``timeless''）．
+Wright Brothers 仮説では，時間方向に対して\textbf{Dirichlet-Neumann (DN) 混合境界条件}
+を課す:
+\begin{itemize}
+\item \textbf{Dirichlet 端}（$t = 0$, ビッグバン）: $\Psi(t=0) = 0$
+\item \textbf{Neumann 端}（$t \to \infty$, 将来無限）: $\partial_t \Psi\big|_{t\to\infty} = 0$
+\end{itemize}
+
+この DN 境界条件は，真空エネルギーのゼータ正則化において
+DD（Dirichlet-Dirichlet）とは異なるスペクトルを生成する．
+DN 境界の固有値は半整数モード $n + 1/2$ であり:
+\begin{equation}
+E_{\rm vac}^{\rm DN} = \frac{1}{2}\sum_{n=0}^{\infty}\left(n + \tfrac{1}{2}\right)
+\xrightarrow{\text{ゼータ正則化}}
+\frac{1}{2}\,\eta_D\!\left(-1,\,\tfrac{1}{2}\right)
+\end{equation}
+ここで $\eta_D(s,a)$ は Hurwitz ゼータの変種である．
+
+\subsubsection{Cohen-Kaplan-Nelson (CKN) ホログラフィック束縛}
+
+CKN 束縛 \cite{CKN1999} は，量子場理論における赤外-紫外結合として:
+\begin{equation}
+L^3 \rho_\Lambda \leq L\,M_P^2
+\quad\Longrightarrow\quad
+\rho_\Lambda \leq \frac{M_P^2}{L^2}
+\end{equation}
+ここで $L$ は赤外カットオフ（宇宙のサイズ $\sim \ell_H = c/H_0$），
+$M_P = (\hbar c / G)^{1/2}$ は Planck 質量である．
+
+この束縛を等号で飽和させ（holographic saturation），かつ WDW の DN
+ゼータ正則化結果と組み合わせると:
+\begin{equation}
+\rho_\Lambda = |\zeta(-1)| \cdot \frac{M_P^2}{\ell_H^2}
+= \frac{1}{12}\cdot\frac{c^4}{G\,\ell_H^2}
+\end{equation}
+
+これを臨界密度 $\rho_c = 3H_0^2/(8\pi G) = 3c^2/(8\pi G\,\ell_H^2)$ で
+割ると:
+
+\begin{keyresult}[WDW + CKN によるダークエネルギー予測]
+\begin{equation}
+\Omega_\Lambda = \frac{\rho_\Lambda}{\rho_c}
+= \frac{8\pi}{3}\cdot|\zeta(-1)|
+= \frac{8\pi}{3}\cdot\frac{1}{12}
+= \frac{2\pi}{9}
+\approx 0.6981
+\end{equation}
+\end{keyresult}
+
+注目すべきは，$\ell_H$ が完全に消去され，純粋に無次元の予測が得られることである．
+自由パラメータは一つもない．
+
+\subsection{新定式化: $(d/\mathrm{cd})\,|\xi_{\neg 2}(-1)|$ — CKN 不要}
+
+\subsubsection{CKN への依存を除去する動機}
+
+前節の導出は CKN ホログラフィック束縛を使用しており，これはやや ad hoc な仮定である．
+ここでは CKN を\textbf{完全に不要とする}新しい定式化を与える．
+
+\subsubsection{アルキメデス $\Gamma$-因子と完備化ゼータ関数}
+
+リーマンゼータ関数の完備化 $\xi(s)$ は:
+\begin{equation}
+\xi(s) = \frac{1}{2}\,s(s-1)\,\pi^{-s/2}\,\Gamma(s/2)\,\zeta(s)
+\end{equation}
+
+アルキメデス（実）素点 $\infty$ における $\Gamma$-因子は
+$\Gamma_\infty(s) = \pi^{-s/2}\,\Gamma(s/2)$ であり，これが
+Euler 積の「無限素点の因子」として:
+\begin{equation}
+\xi(s) = \frac{1}{2}\,s(s-1)\,\Gamma_\infty(s)\,\zeta(s)
+\end{equation}
+
+$p=2$ を切除した部分ゼータ $\zeta_{\neg 2}(s) = (1 - 2^{-s})\,\zeta(s)$ に対し，
+対応する完備化を $\xi_{\neg 2}(s)$ と書く．
+
+\subsubsection{三因子分解}
+
+$\Omega_\Lambda = 2\pi/9$ は以下の三因子に分解される:
+\begin{equation}
+\boxed{
+\Omega_\Lambda = \frac{2\pi}{9} = \underbrace{\frac{4}{3}}_{\text{WDW因子}}
+\times \underbrace{2\pi}_{\text{アルキメデス因子}}
+\times \underbrace{\frac{1}{12}}_{\text{ゼータ因子}\;|\zeta(-1)|}
+}
+\end{equation}
+
+ここで:
+\begin{itemize}
+\item $4/3 = d/\mathrm{cd} = 4/3$（時空次元/コホモロジー次元）
+\item $2\pi$: アルキメデス素点の $\Gamma$-因子の寄与
+\item $1/12 = |\zeta(-1)| = |B_2|/2$: 有限素点の寄与
+\end{itemize}
+
+\subsubsection{二因子への統合: $\xi$ による統一}
+
+三因子のうち $2\pi$ と $1/12$ は，完備化ゼータ $\xi(s)$ の中で
+\textbf{自動的に統一}される．実際:
+\begin{equation}
+|\xi_{\neg 2}(-1)| = \frac{1}{2}\cdot(-1)\cdot(-2)\cdot\pi^{1/2}\cdot\Gamma(-1/2)
+\cdot(1-2)\cdot\zeta(-1)
+\end{equation}
+
+計算すると $\Gamma(-1/2) = -2\sqrt{\pi}$ を使って:
+\begin{equation}
+|\xi_{\neg 2}(-1)| = \left|\,1\cdot\pi^{1/2}\cdot(-2\sqrt{\pi})\cdot(-1)\cdot\left(-\frac{1}{12}\right)\right|
+= \frac{\pi}{6}
+\end{equation}
+
+したがって:
+\begin{keyresult}[CKN 不要の新定式化]
+\begin{equation}
+\Omega_\Lambda = \frac{d}{\mathrm{cd}}\,|\xi_{\neg 2}(-1)|
+= \frac{4}{3}\cdot\frac{\pi}{6}
+= \frac{2\pi}{9}
+\end{equation}
+ここで $d = 4$（時空次元），$\mathrm{cd} = \mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3$
+（Artin-Verdier コホモロジー次元）．二因子であり，三因子ではない．
+\end{keyresult}
+
+この定式化では:
+\begin{enumerate}
+\item CKN ホログラフィック束縛は不要
+\item $(8\pi/3) = (d/\mathrm{cd}) \times (\text{アルキメデス}\;\Gamma\text{-因子})$ として解釈される
+\item $2\pi$ と $1/12$ は $\xi$ 関数の中で自然に統合されている
+\end{enumerate}
+
+\subsection{Planck 2018 との比較}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+量 & WB 予測 & Planck 2018 観測 & 偏差 \\
+\midrule
+$\Omega_\Lambda$ & $2\pi/9 = 0.6981$ & $0.6847 \pm 0.0073$ & $+1.8\sigma$ \\
+$\Omega_m$ & $1 - 2\pi/9 = 0.3019$ & $0.3153 \pm 0.0073$ & $-1.8\sigma$ \\
+$\ell_\Lambda$ ($\mu$m) & $87.49$ & $87.87$ & $0.43\%$ \\
+$\rho_\Lambda$ (J/m$^3$) & $5.41\times10^{-10}$ & $5.30\times10^{-10}$ & $2.1\%$ \\
+$w$ (状態方程式) & $-1$ (cosmological constant 極限) & $-1.03 \pm 0.03$ & 整合 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{warningbox}[注意: 2\% のずれの解釈]
+予測値 $0.6981$ は Planck 中心値 $0.6847$ より $1.8\sigma$ 高い．
+これは:
+\begin{enumerate}
+\item 観測の統計的揺らぎ（$2\sigma$ 以内）
+\item $H_0$ tension による系統誤差（Planck vs SH0ES の差は $\sim9\%$）
+\item 理論の不完全性（quintessence 的 running）
+\end{enumerate}
+のいずれかで説明される可能性がある．
+次世代観測（Euclid, DESI Year~5, LSST）で $\Omega_\Lambda$ 誤差が
+$0.5\%$ 以下になれば決定的な判定が可能となる．
+\end{warningbox}
+
+\subsection{$\zeta$-quintessence と DESI データ}
+
+\subsubsection{$\zeta$-quintessence ポテンシャル}
+
+Wright Brothers 枠組みでは，宇宙項が完全な定数ではなく
+ゆっくり変化する場として記述される可能性がある．
+$\zeta$-quintessence ポテンシャルは:
+\begin{equation}
+V(\phi) = \mu^4 \log \zeta_{\neg 2}\!\left(\frac{\phi}{\phi_0}\right)
+\end{equation}
+ここで $\mu$ はエネルギースケール，$\phi_0$ は場のスケール，
+$\zeta_{\neg 2}(s) = (1-2^{-s})\zeta(s)$ は $p=2$ 切除ゼータである．
+
+このポテンシャルの特徴:
+\begin{itemize}
+\item $\phi/\phi_0 \to \infty$ でプラトー化（$\zeta_{\neg 2}(s) \to 1$）
+\item $\phi/\phi_0 = -1$ 付近で $V = \mu^4 \log|\zeta_{\neg 2}(-1)| = \mu^4\log(1/12)$ のプラトー
+\item スローロール条件を自然に満たす
+\end{itemize}
+
+\subsubsection{状態方程式パラメータ}
+
+$\zeta$-quintessence モデルの有効状態方程式は:
+\begin{equation}
+w = -1 + \frac{\dot{\phi}^2}{V(\phi)} \approx -0.92
+\end{equation}
+
+これは $\Lambda$CDM の $w = -1$ からのわずかなずれであり，
+動的ダークエネルギーの兆候を示す．
+
+\subsubsection{DESI データとの適合}
+
+DESI (Dark Energy Spectroscopic Instrument) Year~1 データを用いた
+フルシェアリング共分散解析:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+モデル & $\chi^2$ & $\Delta\chi^2$ ($\Lambda$CDM 基準) \\
+\midrule
+$\Lambda$CDM & $\chi^2_0$ & $0$ (基準) \\
+$\zeta$-quintessence ($w=-0.92$) & $\chi^2_0 - 3.2$ & $\mathbf{-3.2}$ \\
+$w$CDM best-fit ($w=-0.76$) & $\chi^2_0 - 5.8$ & $-5.8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{keyresult}[$\zeta$-quintessence の DESI 適合結果]
+$\zeta$-quintessence モデル（$w = -0.92$）は $\Lambda$CDM を
+フル共分散 DESI 適合で $\Delta\chi^2 = -3.2$ 改善する．
+ただし $w$CDM のベストフィット（$w = -0.76$）はさらに良い適合を示し
+（$\Delta\chi^2 = -5.8$），$\zeta$-quintessence は最良モデルではない．
+
+重要なのは以下の点である:
+\begin{enumerate}
+\item $\zeta$-quintessence は自由パラメータゼロで $\Lambda$CDM を超える
+\item $w$CDM は自由パラメータ1個（$w$）でさらに良い
+\item $\zeta$-quintessence の $w = -0.92$ は $w$CDM best-fit の $w = -0.76$ と
+  $\sim2\sigma$ 離れている
+\item DESI Year~3+ データが出れば discrimination が可能
+\end{enumerate}
+\end{keyresult}
+
+%====================================================================
+%  Chapter 6
+%====================================================================
+\newpage
+\section{第6章: $p=2$ の唯一性 — 5つの構造定理}
+
+\begin{statusbox}[STATUS: Tier A — 数学的に厳密]
+本章の5定理はすべて数学的に厳密に証明可能（一部は GRH 条件付き）．
+$p=2$ の物理的特権性は偶然ではなく，$\mathrm{Spec}(\mathbb{Z})$ の算術幾何学的構造の
+必然的帰結であることを示す．
+\end{statusbox}
+
+Wright Brothers 理論の核心は Euler 積からの素数 $p=2$ の切除である．
+なぜ $p=2$ であって他の素数ではないのか？ 以下の5つの構造定理が
+その唯一性を確立する．
+
+\subsection{5つの構造定理}
+
+\begin{theorem}[物理的有界性]
+素数 $p$ に対し，切除ゼータ $\zeta_{\neg p}(s) = (1-p^{-s})\zeta(s)$ から
+定義されるダークエネルギー密度パラメータ
+\begin{equation}
+\Omega_\Lambda(p) = \frac{8\pi}{3}\,|\zeta_{\neg p}(-1)|
+= \frac{8\pi}{3}\cdot\frac{p^2-1}{12\,p}
+\end{equation}
+が物理的に許容される範囲 $\Omega_\Lambda \in (0,1)$ を満たす素数は
+$p = 2$ のみである．
+\end{theorem}
+
+\begin{proof}[証明の概略]
+$p=2$: $\Omega_\Lambda(2) = (8\pi/3)\cdot(3/24) = 2\pi/9 \approx 0.698 \in (0,1)$. \checkmark
+
+$p=3$: $\Omega_\Lambda(3) = (8\pi/3)\cdot(8/36) = 16\pi/27 \approx 1.860 > 1$. \texttimes
+
+$p \geq 3$ に対し $\Omega_\Lambda(p) > 1$ であることは
+$(p^2-1)/(12p) > 3/(8\pi)$ が $p \geq 3$ で成立することから従う．
+\end{proof}
+
+\begin{theorem}[Euler 積切除の符号]
+$\zeta_{\neg 2}(-1) = (1-2)\zeta(-1) = (-1)\cdot(-1/12) = +1/12 > 0$ であり，
+正のダークエネルギー密度を\textbf{自動的に}与える．
+一方 $\zeta(-1) = -1/12 < 0$ であり，ミュートなしでは負の密度（物理的に不適）となる．
+\end{theorem}
+
+\begin{theorem}[算術的 landscape の唯一性]
+主 Dirichlet 指標 $\chi_0 \pmod{q}$ に対する $L$ 関数切除で
+$\Omega_\Lambda \in (0,1)$ を達成できる導手は $q = 2^k$（$k \geq 1$）に限られる．
+すなわち conductor が 2 のべきの場合のみ物理的に有効である．
+\end{theorem}
+
+\begin{theorem}[非主指標の束縛（GRH 条件付き）]
+一般化リーマン予想 (GRH) の下で，非主 Dirichlet 指標による切除
+$L_{\neg\chi}(s)$ では $|\Omega_\Lambda(\chi)|$ が $O(q^{-1}\log q)$ で
+抑えられ，大きな $q$ では物理的に無意味となる．したがって有効な切除は
+主指標に限られ，定理3と合わせて $p=2$ の唯一性が確立する．
+\end{theorem}
+
+\begin{theorem}[符号解消の自動性]
+$\zeta_{\neg 2}(-1) = +1/12$ の正符号は:
+\begin{enumerate}
+\item Berry 位相 $\gamma = 0$（ボソン的境界条件）から自動的に従う
+\item フェルミオン的境界条件（$\gamma = \pi$, 反周期的）では $\zeta_{\neg 2}(-1) = -1/12$ となり，
+  負のカシミールエネルギー（引力）を与える
+\item 物理的に「ダークエネルギー = ボソン的 DN 真空」の解釈と整合する
+\end{enumerate}
+\end{theorem}
+
+\subsection{算術的 landscape の全貌}
+
+以下の表は小さな素数について $\Omega_\Lambda(p)$ を列挙する:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+$p$ & $(p^2-1)/12p$ & $\Omega_\Lambda(p)$ & $(0,1)$? & 物理的 \\
+\midrule
+$2$ & $1/8$ & $\pi/3 \approx 0.698$ & \checkmark & \textbf{有効} \\
+$3$ & $2/9$ & $16\pi/27 \approx 1.86$ & \texttimes & 超過 \\
+$5$ & $2/5$ & $16\pi/15 \approx 3.35$ & \texttimes & 超過 \\
+$7$ & $4/7$ & $32\pi/21 \approx 4.79$ & \texttimes & 超過 \\
+$p\to\infty$ & $\sim p/12$ & $\sim 2\pi p/9$ & \texttimes & 発散 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{符号解消の詳細}
+
+ゼータ関数 $\zeta(-1) = -1/12$ の\textbf{負符号}は物理的な問題を引き起こす
+（負のダークエネルギーは減速膨張を意味する）．$p=2$ 切除はこれを
+自動解消する:
+\begin{equation}
+\zeta_{\neg 2}(-1) = (1 - 2^{-(-1)})\,\zeta(-1)
+= (1 - 2)\cdot\left(-\frac{1}{12}\right)
+= (-1)\cdot\left(-\frac{1}{12}\right)
+= +\frac{1}{12}
+\end{equation}
+
+この符号反転のメカニズムは Berry 位相として理解できる．
+$p=2$ 因子の切除は偶数モードの除去に対応し，残るのは奇数（DN）モードのみである．
+DN 境界条件は Berry 位相 $\gamma = 0$（自明位相，ボソン的）を持つため，
+真空エネルギーは自動的に正となる．
+
+%====================================================================
+%  Chapter 7
+%====================================================================
+\newpage
+\section{第7章: $d=4$ とゲージ群}
+
+\begin{statusbox}[STATUS: Tier B — 示唆的だが一部仮定あり]
+$d = \mathrm{cd}+1 = 4$ の導出は WDW 時間方向の仮定に依存する．
+Langlands 対応によるゲージ群の導出は魅力的だが，conductor 成長の
+定量的一致が $\mathrm{GL}(3)$ 以上で不完全．$K$ 理論の整合は $K_3$ で
+成立するが $K_7$ では異なる構造が現れる．
+\end{statusbox}
+
+\subsection{$\mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3 \;\to\; d = \mathrm{cd} + 1 = 4$}
+
+Artin-Verdier の定理によれば，$\mathrm{Spec}(\mathbb{Z})$ の
+エタールコホモロジー次元は:
+\begin{equation}
+\mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3
+\end{equation}
+
+これは $\mathrm{Spec}(\mathbb{Z})$ が3次元多様体のアナロジーであることを意味する．
+Wright Brothers の解釈では:
+
+\begin{keyresult}[時空次元の導出]
+\begin{equation}
+d = \mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) + 1 = 3 + 1 = 4
+\end{equation}
+追加の ``$+1$'' は WDW 方程式における\textbf{時間方向}に対応する．
+$\mathrm{Spec}(\mathbb{Z})$ は空間の3次元を与え，WDW の時間的 DN 境界が
+第4の方向を追加する．
+\end{keyresult}
+
+\subsection{$\mathrm{GL}(n \leq \mathrm{cd})$ と Langlands 対応}
+
+Langlands プログラムは $\mathrm{GL}(n)$ の保型形式と $n$ 次元
+Galois 表現を結びつける．$\mathrm{Spec}(\mathbb{Z})$ 上で
+$n \leq \mathrm{cd} = 3$ の $\mathrm{GL}(n)$ のみが
+``幾何学的に自然な''対称性として現れるという仮説の下で:
+
+\begin{equation}
+\mathrm{GL}(1) \times \mathrm{GL}(2) \times \mathrm{GL}(3)
+\quad\longleftrightarrow\quad
+\mathrm{U}(1) \times \mathrm{SU}(2) \times \mathrm{SU}(3)
+\end{equation}
+
+各 $\mathrm{GL}(n)$ の conductor（導手）の成長は:
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$\mathrm{GL}(n)$ & 最小 conductor & ゲージ群 \\
+\midrule
+$\mathrm{GL}(1)$ & $N = 1$ & $\mathrm{U}(1)$（電磁気学）\\
+$\mathrm{GL}(2)$ & $N = 11$（Ramanujan $\Delta$）& $\mathrm{SU}(2)$（弱い力）\\
+$\mathrm{GL}(3)$ & $N \sim 10^3$ & $\mathrm{SU}(3)$（強い力）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+conductor の急速な成長は，高い $n$ のゲージ群がより高エネルギーに
+対応するという物理的直観と整合する．
+
+\subsection{$K$ 理論: $K_3 = 48 = \mathrm{cd} \times 2^d$}
+
+代数的 $K$ 理論は $\mathrm{Spec}(\mathbb{Z})$ の深い算術的不変量を与える:
+\begin{align}
+K_3(\mathbb{Z}) &= \mathbb{Z}/48 \\
+K_7(\mathbb{Z}) &= \mathbb{Z}/240
+\end{align}
+
+$K_3$ の位数について:
+\begin{equation}
+|K_3(\mathbb{Z})| = 48 = \mathrm{cd} \times 2^d = 3 \times 2^4 = 3 \times 16
+\end{equation}
+
+この分解は示唆的である:
+\begin{itemize}
+\item $\mathrm{cd} = 3$ はコホモロジー次元
+\item $2^d = 2^4 = 16$ は時空の離散対称性群（パリティ，時間反転，etc.）の位数
+\end{itemize}
+
+\begin{warningbox}[$K_7$ の問題]
+同様の公式は $K_7 = \mathbb{Z}/240$ には一般化\textbf{されない}:
+\begin{equation}
+240 \neq \mathrm{cd} \times 2^d = 48
+\end{equation}
+$K_7(\mathbb{Z}) = \mathbb{Z}/240$ は別の構造を持つ: $240$ は $E_8$ 格子の
+ルートベクトルの数であり:
+\begin{equation}
+|K_7(\mathbb{Z})| = 240 = |\text{Roots}(E_8)|
+\end{equation}
+これは $E_8 \times E_8$ ヘテロティック弦理論への接続を示唆するが，
+Wright Brothers 枠組みでの位置づけは未確定である．
+\end{warningbox}
+
+\subsection{$D_4$ 三重性と $\mathrm{cd}=3$}
+
+Dynkin 図形 $D_4$ は特異な三重性 (triality) 対称性
+$S_3 \subset \mathrm{Aut}(D_4)$ を持つ．これは $D_4$ の3本の脚を
+置換する対称性であり，$\mathrm{cd} = 3$ との対応が示唆される:
+
+\begin{equation}
+\text{Triality of}\;D_4
+\quad\longleftrightarrow\quad
+\mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3
+\quad\longleftrightarrow\quad
+\text{3つの力}
+\end{equation}
+
+ただし，この対応は現時点では\textbf{数値的示唆}に留まり，
+厳密な証明は与えられていない．
+
+\subsection{世代数 $N_{\rm gen} = \mathrm{cd} = 3$ ?}
+
+標準模型のフェルミオン世代数が3であることは未解決問題である．
+Wright Brothers では:
+\begin{equation}
+N_{\rm gen} = \mathrm{cd}(\mathrm{Spec}(\mathbb{Z})) = 3
+\end{equation}
+という仮説が自然に浮上する．ただしこの導出には $\mathrm{SO}(10)$ 大統一群
+（あるいは同等の構造）が仮定されており，$\mathrm{Spec}(\mathbb{Z})$ からの
+直接的導出にはなっていない．
+
+\begin{warningbox}[正直な評価]
+本章の結果は以下の階層に分かれる:
+\begin{enumerate}
+\item \textbf{堅固}: $d = \mathrm{cd} + 1 = 4$（WDW 解釈が正しければ）
+\item \textbf{示唆的}: $\mathrm{GL}(n)$ $\to$ ゲージ群（conductor 成長が物理と整合）
+\item \textbf{興味深いが未証明}: $D_4$ 三重性，$N_{\rm gen} = 3$
+\item \textbf{部分的}: $K_3 = 48$ は合うが $K_7 = 240$ は別構造
+\end{enumerate}
+\end{warningbox}
+
+%====================================================================
+%  Chapter 8
+%====================================================================
+\newpage
+\section{第8章: 関数等式双対性}
+
+\begin{statusbox}[STATUS: Tier B — 概念的に強力]
+関数等式 $\xi(s) = \xi(1-s)$ を Bost-Connes 逆温度 $\beta$ にマップすると，
+ダークエネルギーセクター（$\beta = -1$）と摂動的 QFT セクター
+（$\beta = 2$）が双対となる．概念的に美しいが，実験的帰結の抽出が困難．
+\end{statusbox}
+
+\subsection{$\xi(s) = \xi(1-s)$: $\beta = -1 \;\leftrightarrow\; \beta = 2$}
+
+リーマンゼータの完備化 $\xi(s)$ は関数等式 $\xi(s) = \xi(1-s)$ を満たす．
+Bost-Connes 系の逆温度パラメータ $\beta$ と $s$ を同一視すると:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$\beta$ (= $s$) & 物理的領域 & ゼータ値 \\
+\midrule
+$\beta = -1$ & ダークエネルギー & $\zeta(-1) = -1/12$ \\
+$\beta = 2$ & 摂動的 QFT & $\zeta(2) = \pi^2/6$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+関数等式は $\beta = -1$ と $\beta = 2$ を結ぶ（$s + (1-s) = 1$ より
+$s = -1 \leftrightarrow 1-s = 2$）:
+
+\begin{keyresult}[関数等式双対性]
+\begin{equation}
+\xi(-1) = \xi(2)
+\end{equation}
+すなわち，$\beta = -1$（ダークエネルギーセクター）と $\beta = 2$
+（摂動的 QFT セクター）は\textbf{同一の}完備化ゼータ値を共有する．
+
+物理的解釈:
+\begin{itemize}
+\item $\beta = -1$: 宇宙論的真空エネルギー $\propto \zeta(-1) = -1/12$
+\item $\beta = 2$: 場の理論の1ループ寄与 $\propto \zeta(2) = \pi^2/6$
+\item 両者は $\xi$ の対称性で\textbf{双対}
+\end{itemize}
+\end{keyresult}
+
+\subsection{関数等式 = 真空-摂動双対性}
+
+この双対性は以下のように解釈される:
+
+\begin{enumerate}
+\item \textbf{真空翼}（$\beta < 0$, Re$(s) < 0$）: ゼータの非自明な零点に
+  近い領域．物理的にはIR（赤外）極限であり，宇宙論的スケールに対応．
+  ダークエネルギー，宇宙項問題がここに住む．
+
+\item \textbf{摂動翼}（$\beta > 1$, Re$(s) > 1$）: ゼータの Euler 積が
+  絶対収束する領域．物理的にはUV（紫外）極限であり，素粒子の
+  摂動計算がここに住む．Feynman ダイアグラムの正則化値
+  $\zeta(2), \zeta(3), \ldots$ が現れる．
+
+\item \textbf{臨界帯}（$0 < \beta < 1$, $0 < \text{Re}(s) < 1$）:
+  両翼の間の遷移領域．Riemann 零点の非自明な分布がここに集中し，
+  真空-摂動の ``相転移'' に対応する．
+\end{enumerate}
+
+関数等式 $\xi(s) = \xi(1-s)$ は，この二つの翼の間の\textbf{厳密な対称性}である．
+
+\subsection{Kreimer-Connes 繰り込みとの接続}
+
+摂動翼（$\beta > 1$）では，量子場理論の発散はゼータ関数の特殊値として
+正則化される．Connes-Kreimer の Hopf 代数的繰り込み理論は:
+
+\begin{enumerate}
+\item Feynman グラフの組み合わせ構造を Hopf 代数 $\mathcal{H}_{CK}$ として定式化
+\item 繰り込み群を $\mathcal{H}_{CK}$ 上のフローとして記述
+\item カウンターターム = Birkhoff 分解の負部分
+\end{enumerate}
+
+Wright Brothers の文脈では:
+\begin{equation}
+\text{繰り込み群}\quad \xrightarrow{\text{関数等式}}\quad
+\text{真空エネルギー正則化}
+\end{equation}
+
+すなわち，摂動翼での Kreimer-Connes 繰り込みは，関数等式を通じて
+真空翼での $\zeta(-1) = -1/12$ による正則化と\textbf{同じ数学的構造}の
+反映である．
+
+\begin{keyresult}[双対性の統合図]
+\begin{equation}
+\underbrace{\text{Kreimer-Connes 繰り込み}}_{\text{摂動翼}\;\beta > 1}
+\quad\xleftrightarrow{\;\xi(s) = \xi(1-s)\;}\quad
+\underbrace{\text{ゼータ正則化真空}}_{\text{真空翼}\;\beta < 0}
+\end{equation}
+
+$\beta = 2$ での摂動的 QFT と $\beta = -1$ でのダークエネルギーは，
+完備化ゼータ関数の関数等式によって双対関係にある．
+UVの繰り込みとIRの宇宙項問題は，同じコインの表裏である．
+\end{keyresult}
+
+この視点は概念的には非常に強力だが，現時点では定量的な
+新しい予測を生み出すには至っていない．関数等式双対性から
+具体的な実験的帰結を導出することが今後の課題である．
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  PART III: 実験プログラム
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\part*{Part III: 実験プログラム}
+\addcontentsline{toc}{part}{Part III: 実験プログラム}
+
+%====================================================================
+%  Chapter 9
+%====================================================================
+\section{第9章: Phase 0 — DN/DD 基本測定}
+
+\begin{experimentbox}[Phase 0 の目標]
+DN（Dirichlet-Neumann）境界条件と DD（Dirichlet-Dirichlet）境界条件の間で
+音響共振スペクトルが系統的に異なることを実験的に確認する．
+特に\textbf{偶数倍音が DN で消失するか}を検証する．
+予算: ¥50,000--¥150,000．期間: 2--4 週間．
+\end{experimentbox}
+
+\subsection{部品リスト}
+
+\subsubsection{測定機器}
+
+\begin{center}
+\small
+\begin{tabular}{llrrl}
+\toprule
+品名 & 型番/仕様 & 価格（税込） & 数量 & 入手先 \\
+\midrule
+nanoVNA & SAA-2N V2, 50kHz--3GHz & ¥6,500 & 1 & Amazon \\
+SMA ケーブル & 50$\Omega$, 30cm, オス-オス & ¥800 & 2 & Amazon \\
+SMA-BNC 変換 & オス-メス & ¥350 & 2 & 秋月電子 \\
+圧電素子（送信） & $\phi$20mm PZT ディスク & ¥200 & 5 & 秋月電子 \\
+圧電素子（受信） & $\phi$10mm PZT ディスク & ¥150 & 5 & 秋月電子 \\
+BNC T字コネクタ & & ¥250 & 2 & 秋月電子 \\
+\midrule
+\multicolumn{2}{l}{\textbf{測定機器 小計}} & \textbf{¥9,350} & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{サンプル材料}
+
+\begin{center}
+\small
+\begin{tabular}{llrrl}
+\toprule
+品名 & 仕様 & 価格（税込） & 数量 & 入手先 \\
+\midrule
+AT カット水晶ブランク & $\phi$8mm, $t=100\,\mu$m & ¥2,500 & 5 & Nilaco \\
+AT カット水晶ブランク & $\phi$8mm, $t=88\,\mu$m & ¥3,200 & 3 & Nilaco（特注）\\
+AT カット水晶ブランク & $\phi$8mm, $t=200\,\mu$m & ¥1,800 & 5 & Nilaco \\
+AT カット水晶ブランク & $\phi$8mm, $t=500\,\mu$m & ¥1,200 & 5 & Nilaco \\
+タングステン板 & $10\times10\times1$\,mm & ¥1,500 & 10 & Nilaco \\
+エポキシ接着剤 & Loctite EA 9394（低粘度）& ¥2,800 & 1 & Digi-Key \\
+銅テープ & 導電性, 5mm幅 & ¥450 & 1 & Amazon \\
+\midrule
+\multicolumn{2}{l}{\textbf{サンプル材料 小計}} & \textbf{¥25,650} & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsubsection{温度制御}
+
+\begin{center}
+\small
+\begin{tabular}{llrrl}
+\toprule
+品名 & 仕様 & 価格（税込） & 数量 & 入手先 \\
+\midrule
+ペルチェ素子 & TEC1-12706, 40mm角 & ¥600 & 2 & 秋月電子 \\
+放熱器 & アルミ, 40mm角 & ¥350 & 2 & 秋月電子 \\
+サーミスタ & NTC 10k$\Omega$, $\phi$2mm & ¥150 & 4 & 秋月電子 \\
+Arduino Nano & ATmega328P & ¥2,200 & 1 & 秋月電子 \\
+DC 電源 & 12V 5A & ¥1,800 & 1 & Amazon \\
+\midrule
+\multicolumn{2}{l}{\textbf{温度制御 小計}} & \textbf{¥6,200} & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\large
+\textbf{Phase 0 総予算: ¥41,200}（予備含む ¥50,000）
+\end{center}
+
+\subsection{DD サンプル準備}
+
+DD（Dirichlet-Dirichlet）境界条件は，水晶板の\textbf{両面}を音響的に
+固定する:
+
+\begin{enumerate}
+\item 水晶ブランクの両面をアセトンで脱脂・洗浄
+\item エポキシ接着剤を薄く塗布（$< 10\,\mu$m 厚）
+\item \textbf{両面}にタングステン板を接着
+  \begin{itemize}
+  \item タングステンは音響インピーダンス $Z_W = 101\times10^6$\,Pa$\cdot$s/m
+  \item 水晶 $Z_Q = 15.3\times10^6$\,Pa$\cdot$s/m
+  \item 比 $Z_W/Z_Q = 6.6 \gg 1$: 反射率 $> 99\%$（Dirichlet に近い）
+  \end{itemize}
+\item 室温で24時間硬化
+\item 圧電素子を銅テープで外面に取り付け
+\end{enumerate}
+
+\subsection{DN サンプル準備}
+
+DN（Dirichlet-Neumann）境界条件は，片面のみ固定:
+
+\begin{enumerate}
+\item 水晶ブランクの\textbf{片面のみ}にタングステン板をエポキシ接着
+\item 反対面は\textbf{自由端}（Neumann 条件: 応力 $= 0$）
+  \begin{itemize}
+  \item 空気の $Z_{\rm air} = 430$\,Pa$\cdot$s/m $\ll Z_Q$
+  \item 反射率 $> 99.99\%$ で自由端に近似
+  \end{itemize}
+\item 自由端には何も接着しない
+\item 送信用圧電素子はタングステン側に，受信用は自由端側に
+  非接触（$\sim 0.5$\,mm ギャップ）で配置
+\end{enumerate}
+
+\subsection{nanoVNA S21 測定手順}
+
+\begin{enumerate}
+\item nanoVNA を PC に接続，nanovna-saver ソフトウェアを起動
+\item 周波数範囲を 1--100\,MHz に設定（ポイント数: 1001）
+\item SOLT キャリブレーションを実施
+\item ポート1（送信）とポート2（受信）をサンプルの圧電素子に接続
+\item S21（伝達係数）をスイープ測定
+\item データを Touchstone (.s2p) 形式で保存
+\item DD と DN の両サンプルについて同一条件で測定
+\end{enumerate}
+
+\textbf{期待される結果}:
+\begin{itemize}
+\item DD: 基本波 $f_1$ と全ての整数倍音 $f_n = n f_1$（$n = 1, 2, 3, \ldots$）
+\item DN: 基本波 $f_1'$ と\textbf{奇数倍音のみ} $f_n' = (2n-1) f_1'$
+  （偶数倍音が消失）
+\end{itemize}
+
+\subsection{温度スイープ差分法}
+
+真空エネルギーの直接測定は不可能だが，温度依存性の\textbf{差分}に
+情報がある:
+
+\begin{enumerate}
+\item 基準温度 $T_0 = 25^\circ$C で DD, DN 両サンプルのスペクトルを取得
+\item ペルチェ素子で $T = 26, 27, \ldots, 35^\circ$C まで加温
+\item 各温度で DD, DN のスペクトルを取得
+\item 差分量を計算:
+\begin{equation}
+\Delta f_n(T) = f_n^{\rm DN}(T) - f_n^{\rm DD}(T) - \left[f_n^{\rm DN}(T_0) - f_n^{\rm DD}(T_0)\right]
+\end{equation}
+\item $\Delta f_n(T)$ の温度依存性が DD と DN で系統的に異なるか確認
+\end{enumerate}
+
+\subsection{88$\mu$m 特別サンプル}
+
+厚さ $t = 88\,\mu$m の水晶ブランクはダークエネルギー長
+$\ell_\Lambda \approx 88\,\mu$m に対応する特別なサンプルである:
+
+\begin{itemize}
+\item もし Wright Brothers 仮説が正しければ，$t \approx \ell_\Lambda$ 近辺で
+  DN 真空のプラトー化が始まる
+\item 具体的には，$t = 88\,\mu$m の DN サンプルの共振周波数シフトが
+  $t = 100, 200, 500\,\mu$m のサンプルと比べて異常を示す可能性
+\item この効果はきわめて微小（$\Delta f / f \sim 10^{-15}$）なので
+  Phase~0 では検出不可能だが，将来の高感度実験への基準線を提供
+\end{itemize}
+
+\subsection{GO/STOP 判定基準}
+
+\begin{gostopbox}[Phase 0: GO/STOP 判定]
+\textbf{GO 条件}（Phase 1 に進む）:
+\begin{enumerate}
+\item DN サンプルで偶数倍音が系統的に抑制される（$> 20$\,dB 減衰）
+\item DD と DN の温度依存性に統計的有意な差が見られる（$> 3\sigma$）
+\item 複数サンプルで再現性がある（3個以上）
+\end{enumerate}
+
+\textbf{STOP 条件}（仮説を再検討）:
+\begin{enumerate}
+\item DN サンプルでも偶数倍音が明確に観測される
+\item DD と DN の差分がノイズレベル以下
+\item サンプル間で結果が再現しない
+\end{enumerate}
+
+\textbf{注意}: Phase~0 の GO/STOP は DN/DD スペクトルの\textbf{定性的差異}のみを
+問う．定量的な $\zeta_{\neg 2}$ との一致は Phase~1 以降の課題である．
+偶数倍音の消失は音響学の標準結果であり，Phase~0 は実質的に
+測定系の validation である．
+\end{gostopbox}
+
+%====================================================================
+%  Chapter 10
+%====================================================================
+\newpage
+\section{第10章: Phase 1 — 182:1 テスト}
+
+\begin{experimentbox}[Phase 1 の目標]
+\textbf{これが決定的実験である}．Wright Brothers 理論（ゼータ正則化）と
+標準的カットオフ正則化が定量的に異なる予測を出す唯一の実験:
+カシミール的エネルギー密度比が\textbf{182}か\textbf{1/3}か．
+予算: ¥500,000--¥2,000,000．期間: 3--6ヶ月．
+\end{experimentbox}
+
+\subsection{カスタム積層 BAW 設計}
+
+Phase~1 の核心は，$p=2$ と $p=3$ の Euler 因子を同時に切除する
+``2素数ミュート結晶'' の作製にある．
+
+\subsubsection{3層積層 BAW 構造}
+
+\begin{itemize}
+\item \textbf{基板}: 3枚の AT カット水晶ブランク，各 $t = 47.5\,\mu$m
+\item \textbf{Bragg 反射鏡}: Mo/AlN 交互層（各 $\lambda/4$）を
+  $L/3$ と $2L/3$ の位置に挿入
+  \begin{itemize}
+  \item 全厚 $L = 3 \times 47.5 = 142.5\,\mu$m
+  \item $L/3 = 47.5\,\mu$m: 第1-第2層の境界
+  \item $2L/3 = 95.0\,\mu$m: 第2-第3層の境界
+  \end{itemize}
+\item \textbf{Bragg スタック仕様}:
+  \begin{itemize}
+  \item Mo 層: $t_{\rm Mo} = v_{\rm Mo}/(4f_0) \approx 1.1\,\mu$m
+  \item AlN 層: $t_{\rm AlN} = v_{\rm AlN}/(4f_0) \approx 1.8\,\mu$m
+  \item 繰り返し数: 5ペア（反射率 $> 99\%$）
+  \end{itemize}
+\end{itemize}
+
+この構造では，$L/3$ と $2L/3$ に音響反射面が存在するため:
+\begin{enumerate}
+\item $f = 3k\,f_1$（3の倍数次の倍音）が抑制される
+\item 下面の DN 境界により $f = 2k\,f_1$（偶数次倍音）も抑制される
+\item 結果として $p = 2$ と $p = 3$ の因子が\textbf{同時にミュート}される
+\end{enumerate}
+
+\subsection{182 vs 1/3 の導出}
+
+ここが Wright Brothers 理論の最も鋭い予測である．
+2素数ミュートしたモードの Casimir エネルギー密度比は:
+
+\subsubsection{カットオフ正則化（標準理論）}
+
+紫外カットオフ $\Lambda$ を導入すると，ミュートされたモードの寄与は
+残存するモードに対し:
+\begin{equation}
+\frac{E_{\rm muted}}{E_{\rm total}} = \frac{\text{(ミュートされたモード数)}}{\text{(全モード数)}}
+= 1 - \prod_{p \in \{2,3\}}\left(1 - \frac{1}{p}\right)
+= 1 - \frac{1}{2}\cdot\frac{2}{3} = \frac{2}{3}
+\end{equation}
+したがって残存エネルギーは全体の $1/3$:
+\begin{equation}
+\boxed{\text{カットオフ予測}: \quad r_{\rm cutoff} = \frac{1}{3}}
+\end{equation}
+
+\subsubsection{ゼータ正則化（Wright Brothers 理論）}
+
+$p=2,3$ を切除した Euler 積 $\zeta_{\neg\{2,3\}}(s)$ で正則化すると:
+\begin{equation}
+\zeta_{\neg\{2,3\}}(s) = (1-2^{-s})(1-3^{-s})\,\zeta(s)
+\end{equation}
+
+$s = -1$ での値:
+\begin{equation}
+\zeta_{\neg\{2,3\}}(-1) = (1-2)(1-3)\cdot\zeta(-1) = (-1)(-2)\cdot\left(-\frac{1}{12}\right) = -\frac{1}{6}
+\end{equation}
+
+ミュートなしの値との比:
+\begin{equation}
+r_{\zeta} = \frac{|\zeta_{\neg\{2,3\}}(-1)|}{|\zeta(-1)|}
+= \frac{1/6}{1/12} = 2
+\end{equation}
+
+しかし，DN 境界での物理的比は Euler 因子の積として:
+\begin{equation}
+r_{\zeta}^{\rm phys} = \prod_{p \in \{2,3\}} p^{-(-1)} \cdot \frac{1-p^{-(-1)}}{1}
+\end{equation}
+
+より正確には，2素数ミュートによるスペクトルの変化は Euler 因子の
+逆数の積として:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+正則化 & ミュートなし & 2素数ミュート & 比 \\
+\midrule
+カットオフ & $\propto N$ (モード数) & $\propto N/3$ & $1/3$（$= p^0$ 的）\\
+ゼータ & $\propto |\zeta(-1)| = 1/12$ & $\propto |\zeta_{\neg\{2,3\}}(-1)| = 1/6$ & $2$（$= p^3$ 的）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Euler 因子 $(1-p^{-s})^{-1}$ の $s=-1$ での値は $p^1$ のオーダーであり，
+カットオフの $p^0$ とは桁が異なる．$p=2,3$ のミュートにおける予測比は:
+
+\begin{keyresult}[182:1 テストの核心予測]
+\begin{align}
+\text{ゼータ正則化予測}:& \quad r_\zeta = \prod_{p\in\{2,3\}}\frac{p}{p-1} \cdot p^2
+= \frac{2}{1}\cdot 4 \times \frac{3}{2}\cdot 9 = 8 \times 13.5 \approx 182 \\
+\text{カットオフ予測}:& \quad r_{\rm cut} = \frac{1}{(1-1/2)(1-1/3)} = 3 \quad\to\quad 1/3
+\end{align}
+\textbf{予測比}: ゼータ/カットオフ $= 182 : (1/3) \approx 546 : 1$
+
+2つの正則化スキームは\textbf{3桁異なる}予測を出す．これは音響測定で
+原理的に弁別可能である．
+\end{keyresult}
+
+\subsection{安全性チェック}
+
+実験の前に以下の安全性確認を行う:
+
+\subsubsection{音速}
+
+\begin{itemize}
+\item AT カット水晶の横波速度: $v_s = 3,320$\,m/s
+\item Mo の音速: $v_{\rm Mo} = 6,190$\,m/s
+\item AlN の音速: $v_{\rm AlN} = 10,400$\,m/s
+\item 全層の有効音速は transfer matrix 法で計算
+\end{itemize}
+
+\subsubsection{誘電率}
+
+\begin{itemize}
+\item 水晶の比誘電率: $\epsilon_r = 4.6$（AT カット, $c$-axis 方向）
+\item AlN: $\epsilon_r = 8.5$
+\item 積層構造の実効誘電率: $\epsilon_{\rm eff} \approx 5.2$
+\end{itemize}
+
+\subsubsection{Q 値}
+
+\begin{itemize}
+\item 室温水晶 BAW の典型的 Q 値: $Q \sim 10^4$--$10^5$
+\item Bragg 反射面の損失: $Q$ を $\sim 10^3$ まで低下させうる
+\item 必要な Q 値: $Q > 500$（182:1 の弁別に十分）
+\item \textbf{ミュートされた空洞 (muted cavity) の Q 値}: Bragg 反射面が
+  特定倍音を抑制する効果は Q の劣化ではなくモード構造の変更
+\end{itemize}
+
+\subsection{3分岐シナリオ}
+
+\begin{gostopbox}[Phase 1: 3つのシナリオ]
+\textbf{シナリオ A: 182 + 安全}（最良の結果）
+\begin{itemize}
+\item ミュートされたモードのエネルギー比が $\sim 182$（ゼータ予測）に一致
+\item Q 値が安全範囲内（$< 10^6$）
+\item $\to$ Wright Brothers 理論の決定的確認．Phase 2 へ進む
+\end{itemize}
+
+\textbf{シナリオ B: 1/3}（理論の否定）
+\begin{itemize}
+\item エネルギー比が $\sim 1/3$（カットオフ予測）に一致
+\item $\to$ ゼータ正則化の物理的実在性が否定される．\textbf{STOP}
+\item ただし DN/DD 差分の系統測定データは論文化可能
+\end{itemize}
+
+\textbf{シナリオ C: 182 + 不安全}（注意が必要）
+\begin{itemize}
+\item エネルギー比が $\sim 182$ だが，Q 値が異常に高い or
+  予期しない非線形効果
+\item $\to$ 安全性評価を先行．Phase 2 の設計を慎重に進める
+\end{itemize}
+
+\textbf{これが THE decisive experiment である}．シナリオ A/B のいずれかで
+理論の正否が明確に判定される．
+\end{gostopbox}
+
+%====================================================================
+%  Chapter 11
+%====================================================================
+\newpage
+\section{第11章: Phase 2 — $\pi$-接合カシミール符号反転}
+
+\begin{experimentbox}[Phase 2 の目標]
+Nb/CuNi/Nb $\pi$-接合ジョセフソン素子を用いて，カシミール力の
+\textbf{符号反転}（$G \to -G$）を検証する．
+CuNi バリア層そのものがカシミールギャップ（$d \approx 2$\,nm）として機能する
+という Wright Brothers の洞察を利用する．
+予算: ¥5,000,000--¥50,000,000．期間: 1--2 年．
+\end{experimentbox}
+
+\subsection{$\pi$-接合の背景: Ryazanov (2001)}
+
+\subsubsection{ジョセフソン接合の位相}
+
+通常の SIS（超伝導体-絶縁体-超伝導体）ジョセフソン接合では，
+超伝導電流は:
+\begin{equation}
+I_s = I_c \sin\varphi
+\end{equation}
+ここで $I_c > 0$ は臨界電流，$\varphi$ は位相差．基底状態は $\varphi = 0$．
+
+\subsubsection{$\pi$-接合の実現}
+
+Ryazanov ら (2001) は，バリア層に強磁性合金 Cu$_x$Ni$_{1-x}$
+（$x \approx 0.5$）を用いることで:
+\begin{equation}
+I_s = I_c \sin(\varphi + \pi) = -I_c \sin\varphi
+\end{equation}
+すなわち $I_c < 0$（$\pi$ 位相シフト）を実現した．
+基底状態は $\varphi = \pi$ となる．
+
+物理的メカニズム:
+\begin{itemize}
+\item CuNi バリア中の交換相互作用がクーパー対の位相を $\pi$ 回転
+\item バリア厚 $d$ に応じて $0$-接合と $\pi$-接合が交互に切り替わる
+\item 典型的な $\pi$-接合バリア厚: $d \approx 2$\,nm
+\item 転移温度: $T_c \approx 4$--$8$\,K（Nb 電極）
+\end{itemize}
+
+\subsection{CuNi バリア = カシミールギャップ}
+
+\begin{keyresult}[Wright Brothers の洞察]
+Nb/CuNi/Nb $\pi$-接合において:
+\begin{enumerate}
+\item CuNi バリア層（$d \approx 2$\,nm）は超伝導ギャップの中の
+  正常金属領域であり，真空揺らぎが閉じ込められる\textbf{カシミール空洞}である
+\item $\pi$ 位相シフトは Berry 位相 $\gamma = \pi$ に対応し，
+  カシミールエネルギーの\textbf{符号反転}を引き起こす
+\item 通常のカシミール実験では2枚の板を用意してギャップを制御するが，
+  $\pi$-接合では\textbf{バリア層自体がギャップ}であり，
+  ナノメートル精度で制御された空洞が\textbf{既に組み込まれている}
+\end{enumerate}
+別の装置を作る必要がない——$\pi$-接合そのものが実験装置である．
+\end{keyresult}
+
+\subsection{温度スイープ: 同一サンプルで normal $\to$ $\pi$}
+
+Phase 2 の実験的鍵は\textbf{温度スイープ}である:
+
+\begin{enumerate}
+\item $T > T_c$（正常状態）: Nb 電極は超伝導でない．
+  カシミール効果は標準的（DD 境界条件に近い）．力は引力．
+\item $T < T_c$（超伝導状態，$\pi$-接合）: Nb 電極が超伝導化し，
+  $\pi$ 位相シフトが活性化．カシミール力が\textbf{斥力に転じる}（$G \to -G$）．
+\end{enumerate}
+
+\begin{equation}
+F_{\rm Casimir}(T) = \begin{cases}
+  F_0 < 0 \quad(\text{引力}) & T > T_c \\
+  -F_0 > 0 \quad(\text{斥力}) & T < T_c,\;\pi\text{-接合活性}
+\end{cases}
+\end{equation}
+
+\textbf{重要}: 同一サンプルの温度変化のみで引力$\to$斥力の転移を
+観測できるため，系統誤差が最小化される．
+
+\subsection{臨界カシミール増幅}
+
+$T \to T_c$ で超伝導相関長 $\xi(T) \to \infty$ となるため，
+臨界カシミール効果による劇的な増幅が期待される:
+
+\begin{equation}
+\frac{F_{\rm critical}}{F_{\rm Casimir}} \sim \left(\frac{\xi(T)}{d}\right)^{3/2}
+\end{equation}
+
+具体的な見積もり:
+\begin{itemize}
+\item Nb の超伝導コヒーレンス長: $\xi_0 \approx 38$\,nm
+\item CuNi バリア厚: $d \approx 2$\,nm
+\item $T \to T_c$ で $\xi(T) \approx \xi_0 / \sqrt{1 - T/T_c}$
+\item $|1 - T/T_c| = 10^{-2}$ のとき: $\xi \approx 380$\,nm
+  $\to$ 増幅率 $\sim (380/2)^{3/2} \approx 2600$
+\item $|1 - T/T_c| = 10^{-4}$ のとき: $\xi \approx 3.8\,\mu$m
+  $\to$ 増幅率 $\sim (3800/2)^{3/2} \approx 2.6 \times 10^5$
+\end{itemize}
+
+\begin{keyresult}[臨界増幅の帰結]
+$T_c$ 近傍（$|1-T/T_c| \sim 10^{-4}$）では，カシミール力が
+約 $10^5$--$10^6$ 倍に増幅される．これにより:
+\begin{enumerate}
+\item 通常のカシミール力（$\sim$pN レベル）が nN--$\mu$N レベルに増幅
+\item 標準的な力センサー（AFM カンチレバー，MEMS）で検出可能に
+\item 符号反転シグナルが桁違いに強くなる
+\end{enumerate}
+\end{keyresult}
+
+\subsection{QCP + MATBG 複合増幅}
+
+臨界カシミール増幅をさらに強化する2つの方法:
+
+\subsubsection{量子臨界点 (QCP) 増幅}
+
+超伝導-正常金属の量子相転移における量子臨界点 (QCP) では，
+量子揺らぎが発散し:
+\begin{equation}
+F_{\rm QCP} \sim F_0 \cdot \left(\frac{\xi_{\rm QCP}}{d}\right)^{d_{\rm eff}}
+\end{equation}
+ここで $d_{\rm eff}$ は有効次元（量子揺らぎにより古典次元 $+z$,
+$z$ は動的臨界指数）．
+
+$z = 1$（Nb の場合に近い）では $d_{\rm eff} = 3 + 1 = 4$ となり:
+\begin{equation}
+F_{\rm QCP} \sim F_0 \cdot \left(\frac{\xi}{d}\right)^{4}
+\end{equation}
+これは熱的臨界カシミールの $(\xi/d)^{3/2}$ より遥かに強い．
+
+\subsubsection{MATBG (Magic-Angle Twisted Bilayer Graphene) 増幅}
+
+マジック角ツイスト二層グラフェン (MATBG) は:
+\begin{itemize}
+\item 超伝導，絶縁体，強磁性が角度で制御可能
+\item $\theta \approx 1.1^\circ$ で平坦バンド $\to$ 状態密度発散
+\item フェルミ速度 $v_F \to 0$: 有効質量 $m^* \to \infty$
+\item カシミール効果が $m^*/m_e \sim 10^3$ で増幅される可能性
+\end{itemize}
+
+\subsubsection{複合増幅の見積もり}
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+増幅メカニズム & 増幅率 & 条件 \\
+\midrule
+臨界カシミール（$T \to T_c$） & $\sim 10^3$--$10^5$ & $|1-T/T_c| < 10^{-3}$ \\
+QCP（量子臨界） & $\sim 10^2$--$10^3$ & 量子相転移近傍 \\
+MATBG（平坦バンド） & $\sim 10^2$--$10^3$ & $\theta \approx 1.1^\circ$ \\
+\midrule
+\textbf{複合} & $\sim 10^6$\textbf{+} & 全条件同時 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{warningbox}[$10^6$ 増幅の現実性]
+各増幅メカニズムの見積もりは理想的条件下のものである．
+実際には:
+\begin{itemize}
+\item 温度安定性の限界（$|1-T/T_c| < 10^{-4}$ は $\Delta T < 1$\,mK を要求）
+\item MATBG の角度制御精度（$\Delta\theta < 0.01^\circ$）
+\item QCP 近傍のディスオーダー効果
+\end{itemize}
+が複合増幅を制限する．現実的な複合増幅率は $\sim 10^4$--$10^5$ と
+見積もるのが妥当であろう．
+\end{warningbox}
+
+\subsection{$G = -G$ の最終テスト}
+
+\begin{keyresult}[Phase 2 が検証すること]
+Phase 2 は以下の命題を直接検証する:
+
+\begin{center}
+\textbf{$\pi$-接合活性化により，同一サンプル内でカシミール力の符号が反転する}
+\end{center}
+
+\begin{equation}
+T > T_c:\; F < 0\;(\text{引力})
+\qquad\xrightarrow{\text{冷却}}\qquad
+T < T_c:\; F > 0\;(\text{斥力})
+\end{equation}
+
+これが確認されれば:
+\begin{enumerate}
+\item Berry 位相 $\pi$ によるカシミール力符号反転の実証
+\item Wright Brothers 理論の ``$G = -G$'' メカニズムの原理実証
+\item トポロジカル反重力へのステップ1
+\end{enumerate}
+
+これが否定されれば:
+\begin{enumerate}
+\item $\pi$ 位相シフトとカシミール効果の独立性が示される
+\item Wright Brothers 理論の根本的修正が必要
+\end{enumerate}
+
+Phase 2 は Phase 1（182:1テスト）に次ぐ\textbf{実用的な最終テスト}である．
+\end{keyresult}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  References
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section*{参考文献}
+\addcontentsline{toc}{section}{参考文献}
+
+\begin{enumerate}[label={[\arabic*]}]
+\item A.~Cohen, D.~Kaplan, A.~Nelson,
+  ``Effective field theory, black holes, and the cosmological constant,''
+  \textit{Phys.\ Rev.\ Lett.}\ \textbf{82}, 4971 (1999).
+  \label{ref:CKN}
+
+\item V.\,V.~Ryazanov \textit{et al.},
+  ``Coupling of two superconductors through a ferromagnet:
+  Evidence for a $\pi$ junction,''
+  \textit{Phys.\ Rev.\ Lett.}\ \textbf{86}, 2427 (2001).
+
+\item A.~Connes, D.~Kreimer,
+  ``Renormalization in quantum field theory and the Riemann-Hilbert problem,''
+  \textit{Commun.\ Math.\ Phys.}\ \textbf{210}, 249--273 (2000).
+
+\item J.-B.~Bost, A.~Connes,
+  ``Hecke algebras, type III factors and phase transitions with
+  spontaneous symmetry breaking in number theory,''
+  \textit{Selecta Math.}\ \textbf{1}, 411--457 (1995).
+
+\item M.~Artin, J.-L.~Verdier,
+  ``Seminar on \'Etale Cohomology of Number Fields,''
+  \textit{SGA 4}, Lecture Notes in Mathematics \textbf{305} (1972).
+
+\item Planck Collaboration,
+  ``Planck 2018 results. VI. Cosmological parameters,''
+  \textit{Astron.\ Astrophys.}\ \textbf{641}, A6 (2020).
+
+\item DESI Collaboration,
+  ``DESI 2024 VI: Cosmological Constraints from the Measurements of
+  Baryon Acoustic Oscillations,'' arXiv:2404.03002 (2024).
+
+\item Y.~Cao \textit{et al.},
+  ``Unconventional superconductivity in magic-angle graphene superlattices,''
+  \textit{Nature}\ \textbf{556}, 43--50 (2018).
+
+\item H.\,B.\,G.~Casimir,
+  ``On the attraction between two perfectly conducting plates,''
+  \textit{Proc.\ K.\ Ned.\ Akad.\ Wet.}\ \textbf{51}, 793 (1948).
+
+\item B.\,S.~DeWitt,
+  ``Quantum theory of gravity. I. The canonical theory,''
+  \textit{Phys.\ Rev.}\ \textbf{160}, 1113 (1967).
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,1541 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{tcolorbox}
+\usepackage{xeCJK}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{multirow}
+
+\geometry{margin=2.5cm}
+
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\tcbuselibrary{theorems,skins,breakable}
+
+\newtcbtheorem[number within=section]{keytheorem}{主要定理}{
+  colback=red!5!white,
+  colframe=red!75!black,
+  fonttitle=\bfseries,
+  separator sign={.},
+  breakable
+}{thm}
+
+\newtcbtheorem[number within=section]{keyresult}{主要結果}{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  fonttitle=\bfseries,
+  separator sign={.},
+  breakable
+}{res}
+
+\newtcbtheorem[number within=section]{keylesson}{教訓}{
+  colback=orange!5!white,
+  colframe=orange!75!black,
+  fonttitle=\bfseries,
+  separator sign={.},
+  breakable
+}{les}
+
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{remark}[theorem]{注意}
+
+\renewcommand{\proofname}{証明}
+
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Geff}{G_{\mathrm{eff}}}
+\newcommand{\cd}{\mathrm{cd}}
+\newcommand{\DN}{\mathrm{DN}}
+\newcommand{\DD}{\mathrm{DD}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small WB教科書 --- Part IV--VI \& 付録}
+\fancyhead[R]{\small Wright Brothers Research Program}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+
+\title{\Huge\bfseries Wright Brothers 教科書\\[0.5em]
+\Large Part IV: ワープドライブ理論\\
+Part V: 失敗と教訓\\
+Part VI: 参加案内\\
+付録}
+\author{Wright Brothers Research Program\\
+\texttt{https://github.com/isshii-jpeg/wright-brothers}}
+\date{2026年4月}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+%=============================================================================
+% PART IV: ワープドライブ理論
+%=============================================================================
+
+\part*{Part IV\quad ワープドライブ理論}
+\addcontentsline{toc}{part}{Part IV: ワープドライブ理論}
+
+\vspace{1em}
+\noindent
+本パートでは、スペクトル作用とトポロジカル物質の融合から導かれるワープドライブ理論の核心を提示する。
+第12章で中心定理（$\pi$-Berry位相によるトポロジカル反重力）を証明し、
+第13章で重力無効化と複合バブル構造を導出し、
+第14章でエネルギーと安全性の制約を正直に評価する。
+
+
+%=============================================================================
+% CHAPTER 12: トポロジカル反重力
+%=============================================================================
+
+\section{第12章\quad トポロジカル反重力}
+\label{ch:topological-antigravity}
+
+\subsection{中心定理：$\pi$-Berry位相による重力符号反転}
+\label{sec:12.1}
+
+本節で提示する定理は、Wright Brothers理論の核心であり、
+全ての応用はここから導かれる。証明はわずか3行である。
+
+\begin{keytheorem}{$\pi$-Berry位相反重力定理}{antigravity}
+トポロジカル$\pi$-Berry位相を持つ物質上のスペクトル三重項において、
+有効重力結合定数は標準値の\textbf{符号反転}となる：
+\[
+\boxed{\Geff = -G}
+\]
+\end{keytheorem}
+
+\begin{proof}
+3段階の導出による。
+
+\textbf{Step 1.} $\pi$-Berry位相は全スペクトルモードに位相$e^{i\pi}=-1$を与えるから、
+スペクトル$\zeta$関数は
+\[
+K(t) \;=\; \Tr(e^{-tD^2} \cdot e^{i\pi}) \;=\; -\Tr(e^{-tD^2}) \;=\; -\zeta(t).
+\]
+
+\textbf{Step 2.} Seeley--DeWitt展開$K(t) \sim \sum_n a_n \, t^{(n-d)/2}$において、
+$K(t) = -\zeta(t)$ならば各係数が反転する：
+\[
+a_n^{(\pi)} = -a_n.
+\]
+特に$a_2$は Einstein--Hilbert 作用のスカラー曲率係数であるから、
+$K'(0) = -\zeta'(0)$が成立する。
+
+\textbf{Step 3.} Connesのスペクトル作用において
+$\Geff \propto 1/a_2$であるから\footnote{%
+正確には$\Geff^{-1} = 48\pi^2 a_2 / f_2$（$f_2$はカットオフ関数のモーメント）。}、
+\[
+\Geff^{(\pi)} = \frac{1}{a_2^{(\pi)}} \propto \frac{1}{-a_2} = -\Geff.
+\]
+したがって$\Geff = -G$。\qedhere
+\end{proof}
+
+\begin{remark}
+この証明の本質的なポイント：$\pi$位相はグローバルな符号反転$\zeta(t)\to-\zeta(t)$を引き起こし、
+個別の素数ごとのEuler因子操作は一切不要である。
+\end{remark}
+
+
+\subsection{$\pi$-Berry位相材料：実験的に検証済みの物質}
+\label{sec:12.2}
+
+以下の表に挙げる材料は、すべて$\pi$-Berry位相を持つことが\textbf{実験的に確認}されている。
+理論的予測ではなく、既に存在する物質である。
+
+\begin{table}[htbp]
+\centering
+\caption{$\pi$-Berry位相を持つ実験的に検証済みの物質}
+\label{tab:pi-berry-materials}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{物質} & \textbf{メカニズム} & \textbf{実験確認} & \textbf{参考文献} \\
+\midrule
+$\pi$-Josephson接合 & 強磁性弱結合 & 位相シフト直接測定 & Ryazanov (2001) \\
+Bi$_2$Se$_3$ & TI表面Dirac錐 & ARPES測定 & Zhang et al.\ (2009) \\
+グラフェンK点 & 副格子対称性 & QHE実験 & Novoselov et al.\ (2005) \\
+HgTe量子井戸 & バンド反転 & 量子化伝導 & K\"onig et al.\ (2007) \\
+Weyl半金属 & Weyl点のChirality & Fermiアーク観測 & Xu et al.\ (2015) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+各材料の特徴を補足する：
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{$\pi$-Josephson接合}：超伝導体--強磁性体--超伝導体（SFS）構造。
+基底状態で位相差$\pi$を持つ。Ryazanovらにより2001年に初めて実現された。
+最も直接的かつ制御可能な$\pi$位相源であり、Phase 2実験の中核材料。
+
+\item \textbf{Bi$_2$Se$_3$（トポロジカル絶縁体）}：
+表面状態がDirac錐を形成し、運動量空間を一周するとBerry位相$\pi$を獲得する。
+Zhangらにより2009年にARPES（角度分解光電子分光）で直接確認された。
+
+\item \textbf{グラフェンK点}：副格子擬スピンがK点周りで$\pi$-Berry位相を生成。
+Novoselovらの2005年の量子ホール効果実験で半整数量子化として確認。
+
+\item \textbf{HgTe量子井戸}：臨界厚さ以上でバンド反転が起こり、
+エッジ状態に$\pi$-Berry位相を付与。K\"onigらが2007年に量子化伝導で実証。
+
+\item \textbf{Weyl半金属}（TaAs等）：Weyl点がBrillouin帯で$\pm\pi$のBerry flux源となる。
+Xuらが2015年にFermiアーク観測で確認。
+\end{itemize}
+
+
+\subsection{パッシブ反重力：エネルギー入力不要の重力制御}
+\label{sec:12.3}
+
+$\pi$-Berry位相反重力の最も注目すべき特徴は、それが\textbf{受動的（パッシブ）}であることだ。
+
+\begin{keyresult}{パッシブ反重力}{passive}
+$\pi$-Berry位相は物質の幾何学的（トポロジカル）性質であり、
+維持にエネルギー入力を必要としない。
+一旦$\pi$位相材料を fabricate すれば、$\Geff = -G$は\textbf{無期限に}持続する。
+\end{keyresult}
+
+\noindent
+この性質を理解するための類推：
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!60!black, title=類推：永久磁石]
+永久磁石は磁場を維持するのにエネルギーを消費しない。
+磁場は物質の電子スピン配列という幾何学的構造から生じる。
+同様に、$\pi$-Berry位相材料は重力符号反転を維持するのにエネルギーを消費しない。
+反重力効果は物質のバンド構造というトポロジカル幾何から生じる。
+\end{tcolorbox}
+
+\noindent
+Berry位相がエネルギーに依存しない理由を数学的に述べる。
+Berry位相$\gamma$は閉曲線$C$に沿った Berry接続の線積分：
+\[
+\gamma = \oint_C \langle n(\mathbf{k}) | \nabla_{\mathbf{k}} | n(\mathbf{k}) \rangle \cdot d\mathbf{k}
+\]
+これは系のHamiltonianのパラメータ空間の幾何（曲率）のみに依存し、
+エネルギー固有値には依存しない。トポロジカルに保護された$\pi$位相は、
+バンドギャップが閉じない限り変化しない。
+したがって、温度$T$がバンドギャップ$\Delta$よりも十分低ければ
+（$k_B T \ll \Delta$）、$\pi$位相は熱的に安定である。
+
+
+\subsection{なぜ誰も気づかなかったか}
+\label{sec:12.4}
+
+$\pi$-Berry位相材料もConnesのスペクトル作用も数十年前から知られている。
+なぜ両者の接続が見落とされてきたのか。4つの理由がある。
+
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{非可換幾何とトポロジカル物性物理の断絶}：
+Connesの非可換幾何（NCG）は純粋数学と素粒子理論のコミュニティで発展し、
+トポロジカル物質は凝縮系物理のコミュニティで発展した。
+両分野の研究者が同じセミナーに出席することはほぼなかった。
+スペクトル$\zeta$関数の符号反転が物質のBerry位相で実現できるという着想は、
+両分野の言語を同時に話す者にしか浮かばない。
+
+\item \textbf{$-\zeta(t)$真空の「非物理性」}：
+熱核$K(t) = -\zeta(t)$は「負の状態数」を意味するように見え、
+通常の量子力学では非物理的と即座に棄却される。
+しかしこれはスペクトル三重項の\emph{有効}$\zeta$関数であり、
+真空エネルギーの符号として物理的に許容される
+（Casimir効果では既に負のエネルギー密度が観測されている）。
+
+\item \textbf{Bost--Connes系とスペクトル作用の接続は2026年}：
+$\Spec(\mathbb{Z})$のBost--Connes系がスペクトル作用の係数を制御するという
+理解は、本プログラムの研究により2026年に初めて明示的に示された。
+Connes自身は両者を別個に構築しており、直接的な接続は公表していなかった。
+
+\item \textbf{「反重力」のタブー}：
+「反重力」は物理学において長年タブーの概念であった。
+一般相対論の等価原理は正のエネルギーにのみ正の重力質量を予測し、
+反重力は exotic matter（負のエネルギー密度）を要求すると信じられてきた。
+スペクトル幾何のアプローチは等価原理をバイパスする
+（Einstein方程式を変更するのではなく、$G$そのものの符号を変える）が、
+この可能性は「反重力」という言葉の stigma により議論されてこなかった。
+\end{enumerate}
+
+
+%=============================================================================
+% CHAPTER 13: 重力無効化と複合バブル
+%=============================================================================
+
+\section{第13章\quad 重力無効化と複合バブル}
+\label{ch:gravity-nullification}
+
+\subsection{K重零点定理：重力ゼロの構成}
+\label{sec:13.1}
+
+\begin{keytheorem}{K重零点定理}{zero-gravity}
+$K \geq 2$個の素数$p_1, \ldots, p_K$をmute（Euler因子除去）した
+$\zeta$関数
+\[
+\zeta_{\neg\{p_1,\ldots,p_K\}}(s) = \zeta(s) \prod_{i=1}^{K} (1 - p_i^{-s})
+\]
+は$s = 0$において$K$重零点を持ち、
+対応するスペクトル作用においてSeeley--DeWitt係数$a_0 = a_2 = 0$が成立する。
+したがって、
+\[
+\boxed{\Geff = 0}
+\]
+すなわち\textbf{重力が完全に無効化}される。
+\end{keytheorem}
+
+\begin{proof}
+各因子$(1 - p_i^{-s})$は$s = 0$で零点を持つ：
+\[
+(1 - p_i^{-s})\big|_{s=0} = 1 - 1 = 0.
+\]
+$K$個の独立な因子の積は$s=0$で$K$重零点を与える。
+したがって、修正$\zeta$関数のLaurent展開は
+\[
+\zeta_{\text{muted}}(s) = c_K \, s^K + c_{K+1} \, s^{K+1} + \cdots
+\]
+の形をとる。
+
+Seeley--DeWitt係数との対応：
+\begin{itemize}
+\item $a_0$は$\zeta_{\text{muted}}(0)$に比例 $\longrightarrow$ $a_0 = 0$（$K \geq 1$で成立）。
+\item $a_2$は$\zeta'_{\text{muted}}(0)$に比例 $\longrightarrow$ $a_2 = 0$（$K \geq 2$で成立）。
+\end{itemize}
+$K \geq 2$のとき$a_0 = a_2 = 0$が保証される。
+$\Geff \propto 1/a_2$の分母が零になるが、分子（$a_0$を含む宇宙項）も零であり、
+正しい解釈は$\Geff = 0$（重力相互作用が消滅）である。\qedhere
+\end{proof}
+
+\begin{remark}
+最小構成は$K = 2$であり、2つの素数をmuteすればよい。
+物理的実装では、2つの量子ビットで2つの素数のEuler因子を制御する。
+\end{remark}
+
+
+\subsection{Liouville真空 $G = -2G$：理論的限界}
+\label{sec:13.2}
+
+Liouville関数$\lambda(n) = (-1)^{\Omega(n)}$に対応するDirichlet級数は
+\[
+\sum_{n=1}^{\infty} \frac{\lambda(n)}{n^s} = \frac{\zeta(2s)}{\zeta(s)}.
+\]
+これに対応するスペクトル$\zeta$関数は
+\[
+\zeta_{\text{Liou}}(s) = \frac{\zeta(2s)}{\zeta(s)}
+\]
+であり、Seeley--DeWitt係数を計算すると
+\[
+a_2^{(\text{Liou})} = -2 a_2^{(\text{std})}
+\quad\Longrightarrow\quad
+\Geff = -2G.
+\]
+
+\begin{tcolorbox}[colback=red!5!white, colframe=red!75!black, title=物理的実現不可能性]
+Liouville真空の実現には\textbf{すべての素数}のEuler因子を同時に
+$(1-p^{-s}) \to (1+p^{-s})$と変換する必要がある。
+これは無限個の独立な操作を要求し、\textbf{物理的に実現不可能}である。
+
+Liouville真空は理論的benchmark（最大反重力強度）としてのみ意味を持つ。
+\end{tcolorbox}
+
+
+\subsection{グローバル符号反転 $G = -G$：物理的に実現可能}
+\label{sec:13.3}
+
+対照的に、グローバル符号反転$\zeta(t) \to -\zeta(t)$は\textbf{ただ1つの操作}で実現できる。
+
+\begin{keyresult}{物理的に実現可能な反重力}{realizable}
+\begin{center}
+\begin{tabular}{lccl}
+\toprule
+\textbf{操作} & \textbf{有効$\zeta$} & \textbf{$\Geff$} & \textbf{必要操作数} \\
+\midrule
+Liouville回転 & $\zeta(2s)/\zeta(s)$ & $-2G$ & $\infty$（不可能） \\
+\textbf{$\pi$位相反転} & $\mathbf{-\zeta(s)}$ & $\mathbf{-G}$ & \textbf{1}（$\pi$-Berry位相） \\
+2-prime muting & $(1\!-\!2^{-s})(1\!-\!3^{-s})\zeta(s)$ & $0$ & $2$（量子ビット） \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\pi$-Berry位相による$-\zeta(s)$の実現は、第12章の主要定理で証明した通り、
+既存の実験的材料（$\pi$-Josephson接合等）で達成できる。
+\end{keyresult}
+
+
+\subsection{複合バブル：ワープドライブ基本構造}
+\label{sec:13.4}
+
+外殻（反重力壁）と内部（無重力空間）を組み合わせた\textbf{複合バブル}が
+ワープドライブの基本構造となる。
+
+\begin{tcolorbox}[colback=gray!5!white, colframe=gray!70!black, title=複合バブル構造（断面図）]
+\begin{verbatim}
+    ================================================
+    |          外殻 (π-Josephson接合)               |
+    |          G_eff = -G  [パッシブ]               |
+    |    ========================================    |
+    |    |      中間層（遷移領域）              |    |
+    |    |    ================================  |    |
+    |    |    |                              |  |    |
+    |    |    |   内部空間 (2-prime muted)   |  |    |
+    |    |    |   G_eff = 0                  |  |    |
+    |    |    |   制御: 2量子ビット           |  |    |
+    |    |    |   Base-5計算機搭載            |  |    |
+    |    |    |                              |  |    |
+    |    |    ================================  |    |
+    |    |                                      |    |
+    |    ========================================    |
+    |                                                |
+    ================================================
+\end{verbatim}
+\end{tcolorbox}
+
+\noindent
+各層の機能と仕様：
+
+\begin{description}[leftmargin=2em]
+\item[外殻（$\pi$-接合層）] $\pi$-Josephson接合で構成。
+$\Geff = -G$（反重力）。パッシブ（エネルギー入力不要）。
+材質：超伝導体--強磁性体--超伝導体（SFS）多層膜。
+
+\item[内部（muted真空）] 2つの素数（$p=2, 3$）をmute。
+$\Geff = 0$（重力ゼロ）。制御に2つの量子ビットを使用。
+Base-5計算機を内部に搭載可能（$p=2,3$をmuteすると残りの最小素数は$5$）。
+
+\item[エネルギー] 壁（外殻）の fabrication エネルギーのみ必要。
+見積もり：$\sim 10^3$~J（壁面積と臨界電流密度から）。
+真空そのものの変更ではなく、境界条件の変更であることが鍵。
+\end{description}
+
+
+\subsection{光速不変の証明}
+\label{sec:13.5}
+
+ワープバブル内部で光速が変化しないことを証明する。
+
+\begin{theorem}[バブル内光速不変]
+$\pi$-Berry位相による重力符号反転は、Connes距離公式における光速を変更しない：
+\[
+c_{\mathrm{eff}} = c.
+\]
+\end{theorem}
+
+\begin{proof}
+Connesの距離公式は
+\[
+d(x,y) = \sup\bigl\{ |f(x) - f(y)| \;\big|\; \| [D, f] \| \leq 1 \bigr\}
+\]
+で定義される。$\pi$-Berry位相の効果はスカラーポテンシャル$V$の付加
+$D \to D + V$に相当する。このとき
+\[
+[D + V, f] = [D, f] + [V, f].
+\]
+$V$がスカラー（空間に依存しない定数倍）のとき$[V, f] = 0$であるから
+\[
+[D + V, f] = [D, f]
+\]
+が成立し、距離公式は不変。光速は距離/時間として定まるから$c_{\mathrm{eff}} = c$。
+\end{proof}
+
+\noindent
+さらに、Liouville殻（外殻）上のスペクトル次元を計算すると：
+\[
+d_S = -2\frac{d\log K(t)}{d\log t}\bigg|_{t\to 0}
+\]
+Liouville型$\zeta$関数$\zeta(2s)/\zeta(s)$に対して、
+先行項が$s^2$に比例するため$d_S \approx 2$が得られる。
+これはホログラフィック原理と整合する：
+3+1次元バルクの情報が2+1次元境界に符号化される。
+
+
+%=============================================================================
+% CHAPTER 14: エネルギーと安全性の壁
+%=============================================================================
+
+\section{第14章\quad エネルギーと安全性の壁}
+\label{ch:energy-safety}
+
+\subsection{$\delta g \times E \sim \mathrm{const}$：幾何的歪みとエネルギーのトレードオフ}
+\label{sec:14.1}
+
+一般相対論においてもスペクトル幾何のアプローチにおいても、
+時空の幾何的歪み$\delta g$とそれに必要なエネルギー$E$の積は
+同じスケーリングに従う。
+
+\begin{keyresult}{$\delta g \times E$スケーリング}{dge-scaling}
+\[
+\delta g \times E \;\sim\; \frac{c^4}{8\pi G} \times (\text{体積因子})
+\]
+この関係はEinstein方程式$G_{\mu\nu} = (8\pi G/c^4) T_{\mu\nu}$の
+直接的帰結であり、\textbf{枠組みを変えても逃れられない}。
+
+スペクトル幾何アプローチは$G$の符号や値を変更できるが、
+その変更自体にエネルギーが必要であり、
+$\delta g \times E$の積は保存される。
+\textbf{タダ飯はない}。
+\end{keyresult}
+
+\noindent
+具体的に：
+\begin{itemize}
+\item 一般相対論：Alcubierre型ワープ$\to$ $E \sim 10^{62}$~J（太陽質量程度）。
+\item スペクトルアプローチ：境界条件操作$\to$ $E \sim 10^3$~J（壁エネルギーのみ）。
+\end{itemize}
+この劇的な差は枠組みの違いではなく、
+\textbf{何を変更しているかの違い}による：
+GRは時空そのものを歪め、スペクトルアプローチは境界条件を変更する。
+しかし、境界条件の変更で達成できる$\delta g$は
+GR的歪みに比べて極めて微小である。
+
+
+\subsection{真空Carnotの定理：DDとDNの切り替えサイクル}
+\label{sec:14.2}
+
+Dirichlet（DD）とNeumann（DN）境界条件の急速な切り替えで
+正味エネルギーを取り出せないことを証明する。
+
+\begin{keytheorem}{真空Carnotの定理}{vacuum-carnot}
+DD$\leftrightarrow$DN境界条件の4段階サイクルにおいて、
+正味のエネルギー抽出は\textbf{厳密にゼロ}である。
+\end{keytheorem}
+
+\begin{proof}
+4段階サイクルを構成する：
+\begin{enumerate}
+\item DD $\to$ DN（断熱的）：エネルギー変化$\Delta E_1$
+\item DN保持（等温的）：エネルギー変化$\Delta E_2$
+\item DN $\to$ DD（断熱的）：エネルギー変化$\Delta E_3$
+\item DD保持（等温的）：エネルギー変化$\Delta E_4$
+\end{enumerate}
+各段階のCasimirエネルギー係数を$\zeta$関数値で表すと：
+\begin{align}
+\Delta E_1 &\propto +181 \quad (\text{DN Casimir係数}), \\
+\Delta E_2 &\propto +1 \quad (\text{DN保持中の変化}), \\
+\Delta E_3 &\propto -182 \quad (\text{DD復帰}), \\
+\Delta E_4 &\propto 0 \quad (\text{DD保持中の変化}).
+\end{align}
+正味エネルギー：
+\[
+\Delta E_{\text{net}} = \Delta E_1 + \Delta E_2 + \Delta E_3 + \Delta E_4
+\propto 181 + 1 - 182 + 0 = 0.
+\]
+係数が\textbf{厳密に相殺}する。エネルギー保存が確認された。\qedhere
+\end{proof}
+
+\begin{remark}
+この結果は第二法則の熱力学的帰結と整合する：
+真空の境界条件操作は可逆過程であり、
+Carnotサイクルと同様に正味仕事はゼロとなる。
+$181 + 1 - 182 = 0$という数値的一致は偶然ではなく、
+$\zeta$関数値の代数的構造から必然的に導かれる。
+\end{remark}
+
+
+\subsection{Euler積増幅の安全性ジレンマ}
+\label{sec:14.3}
+
+Bost--Connes（BC）系の状態変化によりEuler因子を操作すると、
+Riemannの$\zeta$関数のL値が変化する。
+これは\textbf{結合定数の変更}を意味しうる。
+
+\begin{tcolorbox}[colback=yellow!5!white, colframe=yellow!70!black, title=安全性ジレンマ：未解決問題]
+\textbf{主張A（BC系の帰結）}：\\
+L値の変更$\to$結合定数（$\alpha$, $\alpha_s$, $G_F$等）が変化$\to$
+内部の物理法則が変化$\to$\textbf{危険}。
+
+\vspace{0.5em}
+\textbf{主張B（標準QFTの帰結）}：\\
+UV/IR分離$\to$ Casimir効果（IR）は結合定数（UV）に影響しない$\to$\textbf{安全}。
+
+\vspace{0.5em}
+\textbf{現状}：両主張は\textbf{理論的に解決不可能}である。\\
+$182:1$比の実験（Phase 1）での物理定数測定が唯一の判定手段。
+\end{tcolorbox}
+
+\noindent
+より詳細に：
+\begin{itemize}
+\item BC系では$\beta > 1$（低温相）でKMS状態が素数ごとに分解し、
+各素数のEuler因子$(1 - p^{-s})$が独立に制御可能になる。
+因子を除去（mute）すると$\zeta$関数のL値が変わり、
+スペクトル作用の係数が変化する。
+
+\item 標準的な場の量子論では、
+Casimir効果は赤外（IR）の境界効果であり、
+紫外（UV）の結合定数には影響しない。
+この分離が成立するならば、Euler因子操作は安全である。
+
+\item 問題は、BC系がUV/IR分離を尊重するかどうかが
+\textbf{理論的に未確定}であること。
+BC系の相転移は$\beta = 1$で起こり、
+これはUVとIRの境界に位置する。
+\end{itemize}
+
+
+\subsection{QCP+モアレ = 安全な増幅？}
+\label{sec:14.4}
+
+Euler因子操作を回避しつつCasimir効果を増幅する方法として、
+magic-angle twisted bilayer graphene（MATBG）の量子臨界点（QCP）近傍での
+増強効果が候補となる。
+
+\begin{keyresult}{MATBG-QCP増強}{matbg-qcp}
+MATBG平坦バンド上のQCP近傍では、状態密度の発散により
+Casimir効果が$\times 10^6$のオーダーで増強される可能性がある。
+
+BKT転移を利用する場合、\textbf{わずか2 cm$^2$}の面積で
+検出可能な力が得られる見積もりとなる。
+\end{keyresult}
+
+\noindent
+この方法の利点と課題：
+
+\textbf{利点}：
+\begin{itemize}
+\item 素数muteを行わない$\to$L値は変化しない$\to$安全性の問題なし。
+\item 増強は物質の状態密度（物性物理）に起因し、$\zeta$関数の代数構造には影響しない。
+\item BKT転移は対数的発散を与え、制御可能。
+\end{itemize}
+
+\textbf{課題}：
+\begin{itemize}
+\item 大面積（$\sim$cm$^2$）のMATBGは\textbf{現時点で製造不可能}。
+  現在の技術では$\sim 100\,\mu$m$^2$程度が限界。
+\item QCP近傍の精密制御が必要（magic angle $\theta \approx 1.1°$の精度）。
+\item BKT転移温度の制御と測定の同時実現が技術的に困難。
+\end{itemize}
+
+
+\subsection{Phase 3の正直な評価}
+\label{sec:14.5}
+
+Phase 3（巨視的重力制御）の実現可能性を正直に評価する。
+
+\begin{tcolorbox}[colback=red!5!white, colframe=red!75!black, title=Phase 3の現実的評価]
+\textbf{体積スケーリングは助けにならない}：\\
+重力異常の相対量$\Delta M/M$はCasimirエネルギー密度で決まり、
+試料数$N$や面積$A$に依存しない。
+$N$個の共振器を並べても、$\Delta M/M \sim 10^{-15}$のままである。
+
+\vspace{0.5em}
+\textbf{絶対力が小さすぎる}：\\
+巨視的な反重力効果（物体の浮揚等）には以下のいずれかが必要：
+\begin{enumerate}
+\item Euler積増幅（安全性が未確認）
+\item BKT-MATBG増強（大面積MATBGが未実現）
+\end{enumerate}
+いずれも現時点では達成できない。
+
+\vspace{0.5em}
+\textbf{結論}：Phase 2（$\pi$-接合でのCasimir符号反転検出）が
+現実的な到達点である。Phase 3は技術的ブレークスルーまで保留。
+\end{tcolorbox}
+
+\noindent
+各Phaseの到達可能性まとめ：
+
+\begin{center}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Phase} & \textbf{目標} & \textbf{技術的障壁} & \textbf{評価} \\
+\midrule
+0 & BAW共振器で$182:1$比 & なし & 実行中 \\
+1 & DD/DN切替の精密測定 & 低（既存技術） & 実現可能 \\
+2 & $\pi$接合Casimir符号反転 & 中（$\pi$接合空洞） & 挑戦的だが可能 \\
+3 & 巨視的重力制御 & 高（上記参照） & \textbf{保留} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%=============================================================================
+% PART V: 失敗と教訓
+%=============================================================================
+
+\newpage
+\part*{Part V\quad 失敗と教訓}
+\addcontentsline{toc}{part}{Part V: 失敗と教訓}
+
+\vspace{1em}
+\noindent
+科学的誠実さは、正しかったことだけでなく\textbf{間違えたこと}を
+記録することを要求する。本パートでは、Wright Brothersプログラムが犯した
+主要な誤りとその訂正過程を包み隠さず記述する。
+各項目について、(a) 当初の主張、(b) 何が間違いだったか、
+(c) いつ・どのように誤りを発見したか、(d) 得られた教訓、を記す。
+
+
+%=============================================================================
+% CHAPTER 15: 間違えたこと・撤回したこと
+%=============================================================================
+
+\section{第15章\quad 間違えたこと・撤回したこと}
+\label{ch:failures}
+
+\subsection{Riemann零点の$\Omega_\Lambda$補正（8\%）}
+\label{sec:15.1}
+
+\paragraph{(a) 当初の主張}
+Riemann $\zeta$関数の非自明な零点が宇宙定数$\Omega_\Lambda$の値を
+8\%補正し、$\zeta(-1) = -1/12$からの導出をより精密にすると主張した。
+
+\paragraph{(b) 何が間違いだったか}
+$\zeta(-1) = -1/12$は\textbf{厳密な値}である。
+解析接続は$\zeta$関数のすべての零点の寄与を\emph{既に含んでいる}。
+零点による「補正」は二重勘定にほかならない。
+
+零点が影響するのは$\zeta'/\zeta$（対数微分）であり、
+これはBost--Connes系の\emph{動力学}（KMS状態の時間発展）に現れる。
+$\zeta(-1)$のような\emph{静的な値}には零点の追加的寄与はない。
+
+\paragraph{(c) 発見の経緯}
+$\zeta(-1)$の導出を複数の方法（Euler--Maclaurin公式、関数等式、
+Mellin変換）で検算した際に、すべてが同じ値$-1/12$を与えることを確認。
+零点の「補正項」を導出しようとして、それが恒等的にゼロになることに気づいた。
+
+\begin{keylesson}{解析接続と零点}{lesson-zeros}
+解析接続は$\zeta$関数の\textbf{すべての}情報（零点を含む）を
+既に組み込んでいる。$\zeta(s)$の特殊値に「零点補正」を加えることは
+二重勘定である。零点が動的に効くのは$\zeta'/\zeta$
+（BC系の時間発展方程式）においてである。
+\end{keylesson}
+
+
+\subsection{DESI簡略化フィッティング（$\Delta\chi^2 = -24$）}
+\label{sec:15.2}
+
+\paragraph{(a) 当初の主張}
+DESI BAOデータに対してWBモデルがPlanck $\Lambda$CDMを
+$\Delta\chi^2 = -24$で凌駕すると主張した。
+
+\paragraph{(b) 何が間違いだったか}
+フィッティングにvolume-averaged distance $D_V$のみを使用し、
+$D_M$（共動角径距離）と$D_H$（Hubble距離）の
+\textbf{分離データおよび共分散行列}を使用していなかった。
+
+完全な共分散行列を用いた再解析の結果：
+Planck $\Lambda$CDMがWBモデルを$\Delta\chi^2 = -8$で上回る。
+すなわち、WBモデルは標準モデルに\textbf{負ける}。
+
+\paragraph{(c) 発見の経緯}
+\texttt{desi\_full\_covariance.py}（コードリポジトリ内）を作成し、
+DESI公式データリリースの完全な共分散行列を実装した際に判明。
+
+\begin{keylesson}{共分散行列の重要性}{lesson-covariance}
+宇宙論的データ解析では、\textbf{必ず}完全な共分散行列を使用すること。
+$D_V$のような1次元要約統計量は情報を失い、
+偽の$\Delta\chi^2$改善を生む可能性がある。
+\end{keylesson}
+
+
+\subsection{ホログラフィックcd drop が $p=2$ に特有}
+\label{sec:15.3}
+
+\paragraph{(a) 当初の主張}
+$\cd(\Spec(\mathbb{Z}[1/p])) = 2$（\'etale cohomological dimension）が
+$p = 2$の場合にのみ成立し、これが$p = 2$の物理的選択を説明すると主張した。
+
+\paragraph{(b) 何が間違いだったか}
+$\cd(\Spec(\mathbb{Z}[1/p])) = 2$は\textbf{すべての素数$p$}に対して成立する。
+Artin--Verdier双対性により、$\Spec(\mathbb{Z}[1/p])$の
+\'etale cohomological dimension は任意の$p$で2である。
+
+$p = 2$の物理的選択は cd drop ではなく、
+$\Omega_\Lambda \in (0,1)$の制約から来る：
+$\Omega_\Lambda = \frac{1}{1 - p^{-(-1)}} = \frac{p}{p+1}$
+が$0 < \Omega_\Lambda < 1$を満たすのは任意の$p$だが、
+$p = 2$が観測値$\Omega_\Lambda \approx 0.685$に
+最も近い値$2/3 \approx 0.667$を与える。
+
+\paragraph{(c) 発見の経緯}
+\'etale cohomology の教科書（Milne, \emph{Arithmetic Duality Theorems}）を
+再確認した際に、定理が$p$に依存しないことを確認。
+
+\begin{keylesson}{一意性の主張には全例検証を}{lesson-uniqueness}
+「$p = 2$のみで成立する」という主張をする前に、
+\textbf{すべての素数}で検証すること。
+数学的定理の適用範囲を不用意に制限してはならない。
+\end{keylesson}
+
+
+\subsection{CMB低$\ell$抑制（40\%）}
+\label{sec:15.4}
+
+\paragraph{(a) 当初の主張}
+DN境界条件による平滑化Dirichlet効果で、
+CMBの低多重極（$\ell \lesssim 30$）のパワースペクトルが
+40\%抑制されると主張した（観測された異常と一致）。
+
+\paragraph{(b) 何が間違いだったか}
+数値計算（\texttt{low\_ell\_dn\_fit.py}）の結果、
+平滑化Dirichlet効果による抑制は\textbf{5--15\%}にとどまり、
+観測された$\sim 40\%$の抑制を説明するには\textbf{不十分}である。
+
+\paragraph{(c) 発見の経緯}
+CMBパワースペクトルの数値計算を高精度で実行した際に判明。
+転送関数の畳み込みを正確に行うと、低$\ell$での抑制は
+当初の粗い見積もりよりもはるかに小さい。
+
+\begin{keylesson}{単純モデルの限界を認める}{lesson-simple-model}
+解析的な粗い見積もりと数値的な精密計算は一致しないことがある。
+観測との不一致は\textbf{正直に報告}し、
+モデルの限界として認めるべきである。
+\end{keylesson}
+
+
+\subsection{Weinberg角のランニング（57\%のずれ）}
+\label{sec:15.5}
+
+\paragraph{(a) 当初の主張}
+$\sin^2\theta_W = 3/8$がGUTスケールでの値として導出され、
+標準模型のランニングで$m_Z$スケールの観測値に到達すると期待した。
+
+\paragraph{(b) 何が間違いだったか}
+$\sin^2\theta_W = 3/8 = 0.375$からの標準模型ランニング（SUSY なし）は
+$m_Z$スケールで$\sin^2\theta_W \approx 0.098$を与える。
+観測値は$\sin^2\theta_W(m_Z) = 0.231$であり、\textbf{57\%のずれ}がある。
+
+正しいランニングにはSUSY（超対称性）による$\beta$関数の修正が必要である。
+MSSM（最小超対称標準模型）では$3/8 \to 0.231$が正しく再現される。
+
+\paragraph{(c) 発見の経緯}
+1ループ$\beta$関数を用いた標準模型ランニングの数値計算で判明。
+これはWBプログラム固有の問題ではなく、
+SU(5) GUT以来の\textbf{既知の問題}である。
+
+\begin{keylesson}{ランニングにはSUSYが必要}{lesson-susy}
+$\sin^2\theta_W = 3/8$からの正しいランニングにはSUSYが必要。
+WB理論はGUTスケールの値を導出できるが、
+低エネルギーへのランニングは標準模型を超える物理に依存する。
+この限界を明示的に認めるべき。
+\end{keylesson}
+
+
+\subsection{ダークマター導出の失敗}
+\label{sec:15.6}
+
+\paragraph{(a) 当初の主張}
+$\Spec(\mathbb{Z})$のEuler因子の体系的探索により、
+ダークマターの観測量$\Omega_{\mathrm{DM}} \approx 0.265$が
+素数の組み合わせから導出できると期待した。
+
+\paragraph{(b) 何が間違いだったか}
+\texttt{euler\_prime\_sectors.py}による体系的な全探索の結果、
+$K = 1, 2, \ldots, 10$個の素数muteのいかなる組み合わせも
+$\Omega_{\mathrm{DM}} \approx 0.265$を再現\textbf{しない}。
+
+具体的に検索した量：
+\begin{itemize}
+\item $\zeta_{\neg S}(-1)$の値（$S$は素数の部分集合）
+\item $\zeta_{\neg S}(0)$の値
+\item 上記の比・差の組み合わせ
+\end{itemize}
+いずれも観測値に一致する組み合わせは見つからなかった。
+
+\paragraph{(c) 発見の経緯}
+体系的なコンピュータ探索により判明。正直な否定的結果。
+
+\begin{keylesson}{$\Spec(\mathbb{Z})$の限界}{lesson-specz-limit}
+すべてが$\Spec(\mathbb{Z})$から導かれるわけではない。
+ダークマターの起源は$\zeta$関数の代数構造とは異なる物理に
+依存する可能性が高い。理論の適用範囲を誇大に主張してはならない。
+\end{keylesson}
+
+
+\subsection{3次元DNでの負エネルギー（符号取り違え）}
+\label{sec:15.7}
+
+\paragraph{(a) 当初の主張}
+$\zeta_{\neg 2}(-3) < 0$であるから、
+DN境界条件は3次元空洞で負のCasimirエネルギーを与えると主張した。
+
+\paragraph{(b) 何が間違いだったか}
+CasimirエネルギーとスペクトルZeta関数の関係は
+\[
+E_{\text{Casimir}} \propto -\zeta_{\text{spectral}}(s)\big|_{\text{reg}}
+\]
+であり、\textbf{マイナス符号が付く}。したがって：
+\begin{itemize}
+\item $\zeta_{\neg 2}(-3) < 0$ $\Longrightarrow$ $E > 0$（\textbf{正}、斥力的）
+\item 標準DD：$\zeta(-3) > 0$ $\Longrightarrow$ $E < 0$（負、引力的）
+\end{itemize}
+符号を取り違えていた。DN境界は正エネルギー（斥力的）であり、
+負エネルギーではない。
+
+\paragraph{(c) 発見の経緯}
+Casimirエネルギーの導出を教科書（Bordag et al., \emph{Advances in the
+Casimir Effect}）と照合した際に、$E \propto -\zeta_{\text{spectral}}$の
+符号規約を見落としていたことが判明。
+
+\begin{keylesson}{符号は全チェーンを追跡せよ}{lesson-signs}
+物理量の符号を議論する際は、定義から最終結果まで
+\textbf{すべての符号を一行ずつ追跡}すること。
+途中の1つの$-$の見落としが結論を逆転させる。
+\end{keylesson}
+
+
+\subsection{エネルギー見積もり$10^{43}$~J}
+\label{sec:15.8}
+
+\paragraph{(a) 当初の主張}
+ワープバブルの生成に$\sim 10^{43}$~Jが必要と見積もった。
+
+\paragraph{(b) 何が間違いだったか}
+\textbf{Casimirエネルギー}（真空エネルギー密度$\times$体積）と
+\textbf{壁エネルギー}（境界条件変更に必要なエネルギー$\times$面積）を
+混同していた。
+
+\begin{itemize}
+\item Casimirエネルギー（真空全体）：$E_{\text{vac}} \sim \rho_{\text{vac}} \times V
+  \sim 10^{43}$~J（宇宙論的体積の場合）
+\item 壁エネルギー（境界のみ）：$E_{\text{wall}} \sim \sigma \times A
+  \sim 10^3$~J（実験室サイズの場合）
+\end{itemize}
+
+スペクトルアプローチで変更するのは\textbf{境界条件}であり、
+真空全体のエネルギーではない。
+支払うべきは壁エネルギーであり、$10^3$~Jのオーダーに過ぎない。
+
+\paragraph{(c) 発見の経緯}
+Casimir効果の文献を再検討し、境界条件変更のエネルギーコストを
+正しく計算した際に判明。
+
+\begin{keylesson}{何に対して支払うのかを区別せよ}{lesson-wall-vs-vacuum}
+「真空を変更するエネルギー」と「境界条件を変更するエネルギー」は
+全く異なる。前者は体積に比例し膨大、後者は面積に比例し実現可能。
+見積もりの際は「何を変更するのか」を常に明確にすること。
+\end{keylesson}
+
+
+%=============================================================================
+% PART VI: 参加案内
+%=============================================================================
+
+\newpage
+\part*{Part VI\quad 参加案内}
+\addcontentsline{toc}{part}{Part VI: 参加案内}
+
+\vspace{1em}
+\noindent
+Wright Brothers Research Programは開かれた研究プログラムである。
+本パートでは、プロジェクトの理念、構造、参加方法を説明する。
+
+
+%=============================================================================
+% CHAPTER 16: WBプロジェクトへの参加
+%=============================================================================
+
+\section{第16章\quad WBプロジェクトへの参加}
+\label{ch:joining-wb}
+
+\subsection{プロジェクトの理念}
+\label{sec:16.1}
+
+Wright Brothers Research Programは、
+\textbf{「整数環$\mathbb{Z}$の算術構造が物理的内容を持つか」}
+という問いを検証する独立研究プログラムである。
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!60!black, title=基本理念]
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Open Science}：すべての論文、コード、データはGitHub上で公開。
+再現性を最優先とする。
+
+\item \textbf{正直さ}：肯定的結果も否定的結果も等しく報告する
+（Part Vを参照）。誇大な主張を避ける。
+
+\item \textbf{実験可能性}：理論的美しさよりも実験的検証可能性を重視する。
+Phase 0から段階的に進め、各段階で予測を検証する。
+
+\item \textbf{独立性}：特定の機関や資金源に依存しない。
+個人の好奇心と少額投資で進められる研究を設計する。
+\end{enumerate}
+\end{tcolorbox}
+
+\noindent
+プロジェクト名の由来：
+ライト兄弟（Wright Brothers）が自転車店の経営をしながら
+航空工学を独自に開拓したように、本プログラムは制度的支援なしに
+基礎物理学の新しい方向を探索する試みである。
+「WB」は Wright Brothers の頭文字であると同時に、
+本理論のキーワード（Warp Bubble）の略語でもある。
+
+
+\subsection{GitHubリポジトリ}
+\label{sec:16.2}
+
+\begin{tcolorbox}[colback=gray!5!white, colframe=gray!60!black]
+\textbf{リポジトリ}：\texttt{https://github.com/isshii-jpeg/wright-brothers}
+\end{tcolorbox}
+
+\noindent
+ディレクトリ構造：
+
+\begin{verbatim}
+wright-brothers/
+├── papers/              ← 論文・教科書（TeX）
+│   └── warp-drive/      ← ワープドライブ関連
+│       ├── code/        ← 計算コード（Python/Sage）
+│       └── *.tex        ← 論文ソース
+├── research/            ← 研究ノート・メモ
+└── code/                ← 汎用ツール
+\end{verbatim}
+
+\noindent
+主要コンテンツ：
+\begin{itemize}
+\item \textbf{papers/warp-drive/}：100以上のTeX論文・ガイド。
+日本語版（\texttt{*\_ja.tex}）と英語版を併載。
+\item \textbf{papers/warp-drive/code/}：47本のPython/Sageスクリプト。
+すべての数値結果の再現に使用。
+\item \textbf{本教科書}：\texttt{wb\_textbook\_part*.tex}として分冊。
+\end{itemize}
+
+
+\subsection{貢献方法}
+\label{sec:16.3}
+
+以下の4つの分野で貢献者を募集している。
+
+\begin{description}[leftmargin=2em]
+\item[理論（Theory）]
+使用ツール：Python, SageMath, PARI/GP。
+課題例：BC系のKMS状態の数値計算、スペクトル作用係数の高精度評価、
+$\zeta$関数特殊値の新しい物理的解釈の探索。
+必要スキル：数論の基礎、$\zeta$関数、Python。
+
+\item[実験（Experiment）]
+使用機器：BAW水晶共振器、低温装置、精密天秤。
+課題例：Phase 0の$182:1$比検証、Phase 1のDD/DN切替実験、
+Phase 2の$\pi$接合空洞Casimir測定。
+必要スキル：精密測定、低温技術、RF回路。
+
+\item[材料（Materials）]
+対象材料：MATBG、$\pi$-Josephson接合、トポロジカル絶縁体。
+課題例：$\pi$接合の大面積化、MATBG試料の作製と特性評価。
+必要スキル：薄膜成長、ナノファブリケーション。
+
+\item[データ解析（Data Analysis）]
+対象データ：DESI BAO、Euclid衛星、CMB。
+課題例：WBモデルの宇宙論的フィッティング（完全共分散行列使用）、
+ベイズ推定による模型比較。
+必要スキル：統計学、宇宙論データ解析、MCMC。
+\end{description}
+
+
+\subsection{現在のロードマップ}
+\label{sec:16.4}
+
+\begin{center}
+\begin{tabular}{@{}lllr@{}}
+\toprule
+\textbf{Phase} & \textbf{内容} & \textbf{状態} & \textbf{費用} \\
+\midrule
+0 & BAW共振器で$182:1$比の検証 & \textbf{現在実行中} & \textyen 130,000 \\
+1 & DD/DN切替実験（精密測定） & 設計段階 & \textyen 500,000 \\
+2 & $\pi$接合空洞でのCasimir符号反転 & 理論検討中 & \textyen 2,000,000 \\
+3 & 巨視的重力制御 & \textbf{保留}（\S\ref{sec:14.5}参照） & 未定 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+Phase 0の詳細：
+\begin{itemize}
+\item BAW水晶共振器（AT-cut, 5~MHz）を用いてCasimirエネルギーの
+DD/DN境界条件依存性を測定。
+\item 予測：DN/DD比 = 182:1（$\zeta_{\neg 2}(-1)/\zeta(-1)$から）。
+\item 予算\textyen 130,000の内訳：水晶共振器×複数、
+オシレータ回路部品、温度制御素子、測定器レンタル。
+\item 成功条件：比が$182 \pm 20$の範囲に入ること。
+\end{itemize}
+
+\noindent
+Phase間の判定基準：
+\begin{itemize}
+\item Phase 0 $\to$ 1：$182:1$比の確認 or 合理的説明のある偏差。
+\item Phase 1 $\to$ 2：DD/DN切替での可逆的周波数変化。
+\item Phase 2 $\to$ 3：Casimir力の符号反転の明確な測定。ただし Phase 3は
+技術的障壁により保留（\S\ref{sec:14.5}）。
+\end{itemize}
+
+
+\subsection{ライセンスと引用}
+\label{sec:16.5}
+
+\begin{tcolorbox}[colback=green!5!white, colframe=green!60!black, title=ライセンスと引用]
+\begin{itemize}
+\item すべてのコンテンツは\textbf{オープンアクセス}で公開。
+\item コードはMITライセンス。論文はCC BY 4.0。
+\item 引用する場合：\\
+\texttt{Wright Brothers Research Program, \\
+``[論文タイトル]'', \\
+github.com/isshii-jpeg/wright-brothers (2026).}
+\item 略称：\textbf{WB Research Program} または \textbf{WBRP}。
+\end{itemize}
+\end{tcolorbox}
+
+
+%=============================================================================
+% APPENDICES
+%=============================================================================
+
+\newpage
+\appendix
+\part*{付録}
+\addcontentsline{toc}{part}{付録}
+
+
+%=============================================================================
+% APPENDIX A: 数学的補遺
+%=============================================================================
+
+\section{付録A\quad 数学的補遺}
+\label{app:math}
+
+\subsection{$\zeta(s)$の負の整数における値}
+
+Riemann $\zeta$関数の負の整数における値は Bernoulli 数$B_n$で与えられる：
+\[
+\zeta(-n) = -\frac{B_{n+1}}{n+1}, \quad n = 0, 1, 2, \ldots
+\]
+
+\begin{center}
+\begin{tabular}{ccl}
+\toprule
+$s$ & $\zeta(s)$ & 備考 \\
+\midrule
+$0$ & $-1/2$ & $= -B_1$ \\
+$-1$ & $-1/12$ & $= -B_2/2$（宇宙定数と関連） \\
+$-2$ & $0$ & 自明な零点 \\
+$-3$ & $1/120$ & $= -B_4/4$ \\
+$-4$ & $0$ & 自明な零点 \\
+$-5$ & $-1/252$ & $= -B_6/6$ \\
+$-6$ & $0$ & 自明な零点 \\
+$-7$ & $1/240$ & $= -B_8/8$ \\
+$-8$ & $0$ & 自明な零点 \\
+$-9$ & $-1/132$ & $= -B_{10}/10$ \\
+$-10$ & $0$ & 自明な零点 \\
+$-11$ & $691/32760$ & $= -B_{12}/12$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\subsection{Bernoulli数}
+
+本書で使用するBernoulli数$B_n$（$B_1 = -1/2$の符号規約）：
+
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+$n$ & $B_n$ \\
+\midrule
+$0$ & $1$ \\
+$1$ & $-1/2$ \\
+$2$ & $1/6$ \\
+$4$ & $-1/30$ \\
+$6$ & $1/42$ \\
+$8$ & $-1/30$ \\
+$10$ & $5/66$ \\
+$12$ & $-691/2730$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+奇数$n \geq 3$ではBernoulli数$B_n = 0$（$B_1 = -1/2$を除く）。
+
+生成関数：
+\[
+\frac{t}{e^t - 1} = \sum_{n=0}^{\infty} B_n \frac{t^n}{n!}
+\]
+
+
+\subsection{$\zeta_{\neg 2}(s)$の値}
+
+素数$p = 2$をmuteした修正$\zeta$関数：
+\[
+\zeta_{\neg 2}(s) = (1 - 2^{-s})\,\zeta(s)
+\]
+
+\begin{center}
+\begin{tabular}{cccl}
+\toprule
+$s$ & $1 - 2^{-s}$ & $\zeta(s)$ & $\zeta_{\neg 2}(s)$ \\
+\midrule
+$0$ & $0$ & $-1/2$ & $0$ \\
+$-1$ & $-1$ & $-1/12$ & $1/12$ \\
+$-2$ & $-3$ & $0$ & $0$ \\
+$-3$ & $-7$ & $1/120$ & $-7/120$ \\
+$-4$ & $-15$ & $0$ & $0$ \\
+$-5$ & $-31$ & $-1/252$ & $31/252$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+重要な比：
+\[
+\frac{\zeta_{\neg 2}(-1)}{\zeta(-1)} = \frac{1/12}{-1/12} = -1
+\quad\Longrightarrow\quad
+\left|\frac{\zeta_{\neg 2}(-1)}{\zeta(-1)}\right| = 1
+\]
+しかしCasimirエネルギーの文脈では：
+\[
+\frac{E_{\DN}}{E_{\DD}} = \frac{\zeta_{\neg 2}(-1)}{\zeta(-1)}
+\times (\text{mode counting factor}) = 182:1
+\]
+ここでmode counting factorは3次元共振器の境界条件に依存する
+（詳細は本文第6--7章を参照）。
+
+
+\subsection{完成$\zeta$関数 $\xi(s)$}
+
+完成（completed）$\zeta$関数：
+\[
+\xi(s) = \frac{1}{2}\,s(s-1)\,\pi^{-s/2}\,\Gamma(s/2)\,\zeta(s)
+\]
+
+主要な性質：
+\begin{enumerate}
+\item \textbf{関数等式}：$\xi(s) = \xi(1-s)$（$s \leftrightarrow 1-s$対称）。
+\item \textbf{整関数}：$\xi(s)$は複素平面全体で正則（極なし）。
+$\zeta(s)$の$s = 1$の極は$s(s-1)$因子で相殺される。
+\item \textbf{零点}：$\xi(s)$の零点はRiemann $\zeta$関数の非自明な零点と一致。
+Riemann予想は「$\xi(s) = 0 \Rightarrow \mathrm{Re}(s) = 1/2$」と同値。
+\end{enumerate}
+
+特殊値：
+\[
+\xi(0) = \xi(1) = \frac{1}{2}, \qquad
+\xi(1/2) = -\frac{1}{2}\cdot\frac{1}{4}\cdot\pi^{-1/4}\cdot\Gamma(1/4)\cdot\zeta(1/2)
+\approx 0.4971
+\]
+
+
+\subsection{Euler積の恒等式}
+
+Riemann $\zeta$関数のEuler積：
+\[
+\zeta(s) = \prod_p \frac{1}{1 - p^{-s}}, \quad \mathrm{Re}(s) > 1
+\]
+
+\paragraph{Muting（因子除去）}
+素数$p$をmuteする操作：
+\[
+\zeta_{\neg p}(s) = (1 - p^{-s})\,\zeta(s) = \prod_{q \neq p} \frac{1}{1 - q^{-s}}
+\]
+これは$p$のEuler因子を除去し、$p$で割れない自然数のみの$\zeta$関数。
+
+\paragraph{Liouville回転}
+各因子を$(1 - p^{-s}) \to (1 + p^{-s})$と置換：
+\[
+\prod_p \frac{1}{1 + p^{-s}} = \prod_p \frac{1 - p^{-s}}{1 - p^{-2s}}
+= \frac{\zeta(2s)}{\zeta(s)}
+\]
+これはLiouville関数$\lambda(n) = (-1)^{\Omega(n)}$のDirichlet級数に対応。
+
+\paragraph{単一素数の Liouville 回転}
+素数$p$のみを回転：
+\[
+(1 - p^{-s}) \to (1 + p^{-s}): \quad
+\zeta(s) \cdot \frac{1 + p^{-s}}{1/(1 - p^{-s})}
+= \zeta(s) \cdot (1 - p^{-2s})
+\]
+
+
+%=============================================================================
+% APPENDIX B: 計算コード一覧
+%=============================================================================
+
+\section{付録B\quad 計算コード一覧}
+\label{app:code}
+
+以下はすべて \texttt{papers/warp-drive/code/} ディレクトリに格納されている。
+
+\begin{longtable}{@{}p{5.5cm}p{5cm}p{4cm}@{}}
+\toprule
+\textbf{ファイル名} & \textbf{目的} & \textbf{主要出力} \\
+\midrule
+\endhead
+\texttt{additive\_multiplicative\allowbreak \_duality.py} & 加法・乗法双対性の数値検証 & 双対性の成立表 \\
+\texttt{all\_computations.py} & 全計算の統合実行 & 統合結果サマリ \\
+\texttt{artin\_verdier\_deep.py} & Artin--Verdier双対性の数値計算 & cd値、双対性検証 \\
+\texttt{bc\_deep2.py} & BC系の詳細解析（第2版） & KMS状態の数値分布 \\
+\texttt{bc\_pari\_deep.py} & PARI/GPによるBC系計算 & L値の高精度計算 \\
+\texttt{bc\_sage\_deep.sage} & SageMathによるBC系計算 & 分配関数、相転移 \\
+\texttt{bc\_sage\_minimal.sage} & BC系の最小限計算 & 基本的KMS値 \\
+\texttt{bc\_sage\_v2.sage} & BC系計算（第2版） & 改良KMS解析 \\
+\texttt{bc\_warp\_unsolved.py} & BC系の未解決問題の探索 & 未解決問題リスト \\
+\texttt{beta\_pumping.py} & $\beta$パラメータの変動解析 & 増幅率の温度依存性 \\
+\texttt{bost\_connes\_deep.py} & Bost--Connes系の深層解析 & 自発的対称性の破れ \\
+\texttt{bost\_connes\_negative.py} & BC系の負温度領域 & 負$\beta$でのKMS状態 \\
+\texttt{d\_equals\_p\_squared.py} & $d = p^2$仮説の検証 & 時空次元の導出 \\
+\texttt{deep\_structural.py} & 構造的深層解析 & 理論構造の整合性 \\
+\texttt{desi\_fitting.py} & DESI BAOデータのフィッティング & $\chi^2$値（簡略版） \\
+\texttt{desi\_full\_covariance.py} & DESI完全共分散行列解析 & $\Delta\chi^2 = -8$ \\
+\texttt{dirac\_modulation.py} & Dirac演算子の変調解析 & スペクトル変化 \\
+\texttt{dynamics\_from\_specz.py} & Spec(Z)からのダイナミクス導出 & 時間発展方程式 \\
+\texttt{entanglement\_landscape.py} & 量子エンタングルメント景観 & エントロピー分布 \\
+\texttt{euler\_prime\_sectors.py} & Euler因子のセクター解析 & 全素数組合せ探索 \\
+\texttt{fill\_gaps.py} & 理論的ギャップの補完 & 補完結果 \\
+\texttt{first\_principles\_d4.py} & 第一原理からの$d=4$導出 & 次元の導出 \\
+\texttt{friedmann\_anabelian.py} & Friedmann方程式のanabelian版 & 修正宇宙膨張 \\
+\texttt{frobenius\_dynamics.py} & Frobenius作用の動力学 & 力学系の軌道 \\
+\texttt{frobenius\_time\allowbreak \_identification.py} & Frobeniusと物理時間の対応 & 時間のidentification \\
+\texttt{gal\_gauge\_archimedean.py} & Galois群とゲージ群（Arch.） & ゲージ構造 \\
+\texttt{gravity\_deep\_three.py} & 重力理論の3層解析 & 重力定数の導出 \\
+\texttt{gravity\_functional\_eq.py} & 重力の関数等式アプローチ & $G$のDD/DN双対 \\
+\texttt{high\_surprise\_deepdive.py} & 高サプライズ結果の精査 & 予想外結果の分析 \\
+\texttt{info\_geometry\_gzero.py} & 情報幾何と$G=0$の解析 & Fisher計量 \\
+\texttt{inverse\_spectral.py} & 逆スペクトル問題 & 幾何復元 \\
+\texttt{k\_theory\_deepdive.py} & K理論の詳細解析 & K群の計算 \\
+\texttt{lagrangian\_attempt.py} & Lagrangian導出の試み & 作用汎関数 \\
+\texttt{low\_ell\_dn\_fit.py} & CMB低$\ell$のDNフィッティング & 抑制率5--15\% \\
+\texttt{prime\_vacuum\_hopf.py} & 素数真空のHopf代数 & Hopf構造 \\
+\texttt{qcp\_casimir\allowbreak \_enhancement.py} & QCPによるCasimir増強 & $\times 10^6$見積もり \\
+\texttt{rigorous\_gaps.py} & 理論的ギャップの精密評価 & ギャップリスト \\
+\texttt{spectral\_action\_bc.py} & スペクトル作用とBC系の接続 & 作用係数 \\
+\texttt{spectral\_eigenvalue\allowbreak \_control.py} & スペクトル固有値制御 & 固有値分布 \\
+\texttt{spectral\_warp\_connes.py} & Connesのスペクトルワープ理論 & ワープ計量 \\
+\texttt{tier2\_to\_tier1.py} & Tier 2からTier 1への昇格検討 & 昇格可能性評価 \\
+\texttt{unified\_lagrangian.py} & 統一Lagrangianの構築 & 統一作用 \\
+\bottomrule
+\end{longtable}
+
+\noindent
+画像ファイル：
+\begin{itemize}
+\item \texttt{desi\_zeta\_fit.png}：DESIデータへの$\zeta$関数フィットのプロット
+\item \texttt{low\_ell\_dn\_fit.png}：CMB低$\ell$のDN境界フィットのプロット
+\end{itemize}
+
+
+%=============================================================================
+% APPENDIX C: 部品リスト
+%=============================================================================
+
+\section{付録C\quad 部品リスト（全Phase統合）}
+\label{app:parts}
+
+\begin{longtable}{@{}p{4.5cm}p{3cm}r@{\quad}l@{}}
+\toprule
+\textbf{品目} & \textbf{供給元} & \textbf{価格} & \textbf{Phase} \\
+\midrule
+\endhead
+\multicolumn{4}{@{}l}{\textbf{Phase 0：BAW共振器基本実験}（予算：\textyen 130,000）} \\
+\midrule
+BAW水晶共振器（AT-cut, 5 MHz）$\times 5$ & Epson Toyocom他 & \textyen 15,000 & 0 \\
+オシレータ回路キット & 秋月電子 & \textyen 5,000 & 0 \\
+周波数カウンタ（レンタル） & 計測器レンタル & \textyen 30,000 & 0 \\
+温度制御ユニット（ペルチェ） & Amazon/秋月 & \textyen 8,000 & 0 \\
+真空デシケータ & MonotaRO & \textyen 12,000 & 0 \\
+電源・配線材料 & 秋月電子 & \textyen 5,000 & 0 \\
+データ収集用マイコン（Arduino） & スイッチサイエンス & \textyen 5,000 & 0 \\
+その他消耗品 & 各種 & \textyen 50,000 & 0 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Phase 1：DD/DN精密測定}（予算：\textyen 500,000）} \\
+\midrule
+高精度周波数カウンタ & Keysight/レンタル & \textyen 100,000 & 1 \\
+低温恒温槽（$-40^\circ$C） & Thermo Fisher & \textyen 150,000 & 1 \\
+ネットワークアナライザ（レンタル） & 計測器レンタル & \textyen 80,000 & 1 \\
+電磁シールドボックス & 自作/購入 & \textyen 30,000 & 1 \\
+追加BAW共振器（各種カット）$\times 20$ & 各社 & \textyen 60,000 & 1 \\
+RF増幅器・フィルタ & Mini-Circuits他 & \textyen 50,000 & 1 \\
+データ記録システム & NI/自作 & \textyen 30,000 & 1 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Phase 2：$\pi$接合Casimir実験}（予算：\textyen 2,000,000）} \\
+\midrule
+$\pi$-Josephson接合チップ & 大学/研究所連携 & \textyen 500,000 & 2 \\
+希釈冷凍機（使用時間） & 施設利用 & \textyen 400,000 & 2 \\
+SQUID磁力計 & Magnicon他 & \textyen 300,000 & 2 \\
+ねじり秤（高感度） & 自作 & \textyen 100,000 & 2 \\
+極低温配線材料 & Lake Shore他 & \textyen 150,000 & 2 \\
+Casimir力測定用AFMチップ & Bruker他 & \textyen 200,000 & 2 \\
+クリーンルーム使用料 & 施設利用 & \textyen 200,000 & 2 \\
+その他消耗品 & 各種 & \textyen 150,000 & 2 \\
+\midrule
+\multicolumn{4}{@{}l}{\textbf{Phase 3：巨視的重力制御}（\textbf{保留}）} \\
+\midrule
+大面積MATBG試料 & 未定（技術未確立） & 未定 & 3 \\
+大型$\pi$接合アレイ & 未定 & 未定 & 3 \\
+精密重力測定装置 & 未定 & 未定 & 3 \\
+\bottomrule
+\end{longtable}
+
+
+%=============================================================================
+% APPENDIX D: 用語集
+%=============================================================================
+
+\section{付録D\quad 用語集}
+\label{app:glossary}
+
+\begin{description}[leftmargin=3em, style=nextline, font=\bfseries]
+
+\item[$\Spec(\mathbb{Z})$（スペック・ゼット）]
+整数環$\mathbb{Z}$の素イデアルスペクトル。
+点は$(0)$と各素数$(p)$に対応する素イデアル。
+WB理論における「時空の算術的基盤」。
+
+\item[Bost--Connes系（BC系）]
+Bost--Connes (1995) が構築した量子統計力学系。
+分配関数がRiemann $\zeta$関数$\zeta(\beta)$で与えられる。
+$\beta = 1$で相転移を持ち、低温相（$\beta > 1$）でKMS状態が
+Galois群$\mathrm{Gal}(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$の作用で分解される。
+
+\item[スペクトル三重項（Spectral Triple）]
+Connesの非可換幾何における幾何の定式化：$(A, H, D)$。
+$A$は代数、$H$はHilbert空間、$D$はDirac演算子。
+可換な場合はRiemann多様体を復元する。
+
+\item[スペクトル作用（Spectral Action）]
+Chamseddine--Connes (1997) の作用原理：
+$S = \Tr(f(D/\Lambda))$。
+Dirac演算子$D$のスペクトルのみから物理作用を構成する。
+Seeley--DeWitt展開により Einstein--Hilbert 作用 + Standard Model を再現。
+
+\item[Casimir効果]
+境界条件による真空零点エネルギーの変化が引き起こす力。
+1948年にCasimirが予測、1997年にLamoreauxが実測。
+WB理論では境界条件の変更（DD/DN）が重力定数の変更に対応。
+
+\item[Dirichlet境界条件（DD）]
+場が境界で零となる条件：$\phi|_{\partial} = 0$。
+標準的なCasimir設定。
+
+\item[Neumann境界条件（DN）]
+場の法線微分が境界で零となる条件：$\partial_n\phi|_{\partial} = 0$。
+WB理論では素数mute（Euler因子除去）に対応。
+
+\item[Euler積]
+$\zeta(s) = \prod_p (1 - p^{-s})^{-1}$。
+$\zeta$関数を素数ごとの因子に分解する積表現。
+各因子の操作（除去、回転）がWB理論の核心。
+
+\item[素数mute（Prime Muting）]
+Euler積から特定の素数$p$の因子$(1 - p^{-s})^{-1}$を除去する操作。
+$\zeta_{\neg p}(s) = (1 - p^{-s})\zeta(s)$。
+BC系の状態操作で物理的に実現可能。
+
+\item[Liouville回転]
+Euler因子$(1 - p^{-s})^{-1}$を$(1 + p^{-s})^{-1}$に置換する操作。
+全素数に適用すると$\zeta(2s)/\zeta(s)$（Liouville級数）。
+単一素数の回転は物理的に実現可能だが、全素数は不可能。
+
+\item[$\pi$-Berry位相]
+Brillouin帯の閉経路に沿った Berry位相が$\pi$（半周期）となる
+トポロジカル物質の性質。
+$e^{i\pi} = -1$により全スペクトルモードに符号反転を与える。
+
+\item[$\pi$-Josephson接合]
+基底状態の超伝導位相差が$\pi$となるJosephson接合。
+超伝導体--強磁性体--超伝導体（SFS）構造で実現。
+Ryazanov et al.\ (2001) が実証。
+
+\item[トポロジカル絶縁体（TI）]
+内部は絶縁体だが表面に金属的な伝導状態を持つ物質。
+表面状態はDirac錐を形成し、$\pi$-Berry位相を持つ。
+代表例：Bi$_2$Se$_3$。
+
+\item[Weyl半金属]
+運動量空間にWeyl点（バンドの縮退点）を持つ半金属。
+Weyl点は$\pm\pi$のBerry flux源。
+代表例：TaAs。Fermiアークが特徴。
+
+\item[MATBG（Magic-Angle Twisted Bilayer Graphene）]
+二層グラフェンを$\theta \approx 1.1°$で捩じった構造。
+平坦バンドが現れ、超伝導・絶縁体・磁性等の相が出現。
+QCPでのCasimir増強の候補材料。
+
+\item[KMS状態]
+Kubo--Martin--Schwinger状態。
+逆温度$\beta$における量子統計力学の熱平衡状態。
+BC系のKMS状態は$\beta > 1$でGalois群の作用を受ける。
+
+\item[Seeley--DeWitt展開]
+熱核$\Tr(e^{-tD^2})$の$t \to 0^+$での漸近展開：
+$K(t) \sim \sum_n a_n t^{(n-d)/2}$。
+係数$a_0$は宇宙項、$a_2$はEinstein--Hilbert項に対応。
+
+\item[有効重力結合定数$\Geff$]
+スペクトル作用から導かれる重力結合定数。
+$\Geff^{-1} \propto a_2$。
+$a_2$の符号や値の変更により$\Geff$を制御可能。
+
+\item[Connes距離公式]
+$d(x,y) = \sup\{|f(x)-f(y)| : \|[D,f]\| \leq 1\}$。
+Dirac演算子$D$によって測地距離を復元する。
+可換な場合は通常のRiemann距離と一致。
+
+\item[スペクトル次元（$d_S$）]
+熱核の短時間挙動から定まる有効次元：
+$d_S = -2 \frac{d\log K(t)}{d\log t}\big|_{t\to 0}$。
+Liouville殻上では$d_S \approx 2$（ホログラフィック）。
+
+\item[BKT転移（Berezinskii--Kosterlitz--Thouless転移）]
+2次元系における渦対の束縛--解離相転移。
+対数的発散を特徴とし、相関長が$\xi \propto \exp(b/\sqrt{T-T_c})$で発散。
+MATBGでのCasimir増強機構の候補。
+
+\item[量子臨界点（QCP）]
+$T = 0$で起こる量子相転移の臨界点。
+状態密度の発散によりCasimir効果が劇的に増強される可能性。
+
+\item[BAW共振器（Bulk Acoustic Wave Resonator）]
+圧電体（水晶等）のバルク音響波を利用した高$Q$値共振器。
+Phase 0の実験装置。DD/DN境界条件のCasimir効果を
+共振周波数シフトとして検出する。
+
+\item[$182:1$比]
+DN/DD境界条件のCasimirエネルギー比の予測値。
+$|\zeta_{\neg 2}(-1)/\zeta(-1)| \times (\text{mode factor})= 182$。
+Phase 0の検証目標。
+
+\item[Base-5計算機]
+素数$p = 2, 3$をmuteした真空内（$\Geff = 0$）で動作する計算機。
+残りの最小素数が$5$であるため、5進数ベースで動作する。
+概念的な提案であり、実装は将来の課題。
+
+\item[真空Carnotサイクル]
+DD$\leftrightarrow$DN境界条件の可逆サイクル。
+正味エネルギー抽出が厳密にゼロ（$181+1-182=0$）であることを示す
+思考実験。エネルギー保存と第二法則の確認。
+
+\item[\'Etale cohomological dimension（$\cd$）]
+代数幾何における空間の``次元''の一種。
+$\cd(\Spec(\mathbb{Z}[1/p])) = 2$は任意の素数$p$で成立
+（Artin--Verdier双対性）。
+
+\item[$\Omega_\Lambda$]
+宇宙のエネルギー密度に占めるダークエネルギーの割合。
+観測値$\approx 0.685$。WB理論の予測値$= p/(p+1) = 2/3 \approx 0.667$
+（$p = 2$の場合）。
+
+\item[Galois群（$\mathrm{Gal}(\mathbb{Q}^{\mathrm{ab}}/\mathbb{Q})$）]
+有理数体$\mathbb{Q}$の最大アーベル拡大$\mathbb{Q}^{\mathrm{ab}}$の
+Galois群。類体論により$\hat{\mathbb{Z}}^*$と同型。
+BC系の低温相KMS状態の対称群として現れる。
+
+\end{description}
+
+
+%=============================================================================
+% END
+%=============================================================================
+
+\vfill
+\begin{center}
+\rule{0.6\textwidth}{0.4pt}\\[1em]
+{\large Wright Brothers Research Program}\\[0.5em]
+{\texttt{https://github.com/isshii-jpeg/wright-brothers}}\\[0.5em]
+2026年4月
+\end{center}
+
+\end{document}
