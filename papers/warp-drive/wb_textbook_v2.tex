@@ -1,0 +1,197 @@
+% ============================================================
+%  算術的宇宙の物理学 第2版
+%  ― Spec(Z) からスカラー・テンソル重力まで
+%  Wright Brothers Research Program 公開教科書
+%  wb_textbook_v2.tex (master file)
+% ============================================================
+\documentclass[11pt,a4paper]{report}
+
+% ---- Fonts (XeLaTeX) ----
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+% ---- Mathematics ----
+\usepackage{amsmath,amssymb,amsthm,mathtools,array}
+
+% ---- Layout ----
+\usepackage[margin=25mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- Tables & Lists ----
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+
+% ---- Graphics & Color ----
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning,decorations.pathmorphing}
+
+% ---- Hyperlinks ----
+\usepackage[unicode,pdfencoding=auto,
+  colorlinks=true,linkcolor=blue!60!black,
+  citecolor=green!50!black,urlcolor=purple!60!black]{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\cdots{...}%
+  \def\Z{Z}%
+  \def\Q{Q}%
+  \def\R{R}%
+  \def\Spec{Spec}%
+  \def\Tr{Tr}%
+  \def\cd{cd}%
+  \def\Gal{Gal}%
+  \def\KMS{KMS}%
+  \def\Mpl{M_Pl}%
+  \def\Geff{G_eff}%
+  \def\Lw{L_w}%
+  \def\\{}%
+  \def\quad{ }%
+  \def\textbf#1{#1}%
+}
+
+% ---- Headers ----
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Wright Brothers テキストブック 第2版}
+\fancyhead[R]{\small\sffamily 算術的宇宙の物理学}
+\fancyfoot[C]{\thepage}
+
+% ============================================================
+%  Theorem environments (日本語)
+% ============================================================
+\newtheorem{theorem}{定理}[chapter]
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{definition}[theorem]{定義}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{注意}
+\newtheorem{example}[theorem]{例}
+\renewcommand{\proofname}{証明}
+
+% ============================================================
+%  tcolorbox styles
+% ============================================================
+
+% 重要結果（緑）
+\newtcolorbox{keyresult}[1][]{%
+  colback=green!5,colframe=green!60!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% 定義ボックス（青）
+\newtcolorbox{dfnbox}[1][]{%
+  colback=blue!5,colframe=blue!50!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% 警告（赤）
+\newtcolorbox{warningbox}[1][]{%
+  colback=red!5,colframe=red!50!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% 実験（黄）
+\newtcolorbox{experimentbox}[1][]{%
+  colback=yellow!5,colframe=yellow!60!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% 高校生向け補足（オレンジ）
+\newtcolorbox{hsbox}[1][高校生ノート]{%
+  colback=orange!5,colframe=orange!50!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% 仮説ボックス（紫）
+\newtcolorbox{hypbox}[1][]{%
+  colback=purple!5,colframe=purple!50!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% ステータス（青）
+\newtcolorbox{statusbox}[1][]{%
+  colback=blue!5,colframe=blue!50!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% Go/Stop（赤）
+\newtcolorbox{gostopbox}[1][]{%
+  colback=red!5,colframe=red!60!black,
+  fonttitle=\bfseries,title={#1},breakable}
+
+% ============================================================
+%  Custom commands
+% ============================================================
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\cd}{\operatorname{cd}}
+\newcommand{\Gal}{\operatorname{Gal}}
+\newcommand{\KMS}{\mathrm{KMS}}
+\newcommand{\Mpl}{M_{\mathrm{Pl}}}
+\newcommand{\Geff}{G_{\mathrm{eff}}}
+\newcommand{\Lw}{\mathcal{L}_{\mathrm{w}}}
+
+% ---- Misc ----
+\setcounter{tocdepth}{2}
+
+% ============================================================
+\begin{document}
+
+% ---- Title page ----
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\Huge\bfseries 算術的宇宙の物理学}\\[0.8cm]
+{\Huge\bfseries 第2版}\\[1.2cm]
+{\LARGE Spec($\Z$) からスカラー・テンソル重力まで}\\[2.5cm]
+{\Large Wright Brothers Research Program 公開教科書}\\[2cm]
+{\large 2026年4月}\\[3cm]
+{\normalsize GitHub: \texttt{isshii-jpeg/wright-brothers}}\\[0.5cm]
+{\small 本書はオープンアクセスです。自由に配布・引用できます。}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  PART I: 算術的時空の3公理
+% ============================================================
+\part{算術的時空の3公理}
+\input{wb_textbook_v2_axioms}      % Ch 1--3: Spec(Z), 3 postulates, BC system
+
+% ============================================================
+%  PART II: 5つの定数
+% ============================================================
+\part{5つの定数}
+\input{wb_textbook_v2_constants}   % Ch 4--6: Ω_Λ, α_EM, mass ratios
+
+% ============================================================
+%  PART III: Berry位相スカラー・テンソル重力
+% ============================================================
+\part{Berry位相スカラー・テンソル重力}
+\input{wb_textbook_v2_scalar_tensor} % Ch 7--10: THE core new content
+
+% ============================================================
+%  PART IV: 反重力と重力工学
+% ============================================================
+\part{反重力と重力工学}
+\input{wb_textbook_v2_antigravity}  % Ch 11--13: G=-G, gravity dial, domain walls
+
+% ============================================================
+%  PART V: 実験プログラム
+% ============================================================
+\part{実験プログラム}
+\input{wb_textbook_v2_experiments}  % Ch 14--16: Phase P, Phase 0--3
+
+% ============================================================
+%  PART VI: 誠実な評価と未解決問題
+% ============================================================
+\part{誠実な評価と未解決問題}
+\input{wb_textbook_v2_honest}       % Ch 17--18: dependency network, failures, open problems
+
+\end{document}

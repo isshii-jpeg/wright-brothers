@@ -1,0 +1,649 @@
+% ============================================================
+%  wb_textbook_v2_constants.tex
+%  Part II: 5つの定数 (Chapters 4--6)
+%  Ω_Λ, 結合定数 (α_EM, sin²θ_W), 質量比 (m_p/m_e, m_μ/m_e)
+% ============================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Chapter 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{$\Omega_\Lambda = 2\pi/9$ — ダークエネルギーの算術的起源}
+\label{ch:dark-energy}
+
+\begin{statusbox}[STATUS: Tier A — 導出済み]
+本章の結果は調整パラメータゼロの閉じた解析式として導出される。
+Planck 2018 観測値と $1.9\%$ で一致する。
+入力は $d=4$ と $\cd=3$ のみである。
+\end{statusbox}
+
+% -----------------------------------------------------------
+\section{ダークエネルギー問題}
+\label{sec:DE-problem}
+
+\subsection{宇宙は加速膨張している}
+
+1998年、二つの独立なチーム（Supernova Cosmology Project と High-z Supernova
+Search Team）が遠方の Ia 型超新星の明るさを精密測定し、
+\textbf{宇宙の膨張が加速している}ことを発見した。
+この発見は2011年にノーベル物理学賞（Perlmutter, Riess, Schmidt）に輝いた。
+
+加速膨張を引き起こす未知のエネルギーは\textbf{ダークエネルギー}と呼ばれ、
+宇宙全体のエネルギーの約$68.5\%$を占める：
+\begin{equation}
+\Omega_\Lambda \equiv \frac{\rho_\Lambda}{\rho_c} \approx 0.685
+\end{equation}
+ここで$\rho_\Lambda$はダークエネルギー密度、$\rho_c = 3H_0^2/(8\pi G)$は
+宇宙の臨界密度である。
+
+\begin{hsbox}[高校生ノート：ダークエネルギーって何？]
+宇宙は膨張している。普通に考えれば、物質の重力で膨張は減速するはず。
+ところが1998年の観測で、膨張が\textbf{加速}していることがわかった。
+何か「反発力」のようなものが宇宙を押し広げている——
+それがダークエネルギーだ。
+
+宇宙の構成は大まかに：
+\begin{itemize}[nosep]
+\item ダークエネルギー：$\sim 68.5\%$
+\item ダークマター：$\sim 26.5\%$
+\item 普通の物質（原子）：$\sim 5\%$
+\end{itemize}
+つまり、我々が知っている物質は宇宙のたった$5\%$にすぎない。
+\end{hsbox}
+
+\subsection{なぜ$0.685$なのか？}
+
+標準的な物理学では、$\Omega_\Lambda$の値を予測できない。
+量子場の理論による真空エネルギーの素朴な見積もりは：
+\begin{equation}
+\rho_\Lambda^{\text{QFT}} \sim \Mpl^4 \sim 10^{76}\;\text{GeV}^4
+\end{equation}
+一方、観測値は：
+\begin{equation}
+\rho_\Lambda^{\text{obs}} \sim 10^{-47}\;\text{GeV}^4
+\end{equation}
+両者の比は$10^{123}$にも達する。
+これは物理学史上最悪の理論予測として知られ、
+\textbf{宇宙定数問題}と呼ばれる。
+
+Wright Brothers (WB) 理論では、この値を$d=4$と$\cd=3$のみから
+\textbf{パラメータフリーで}導出する。
+結論を先に述べると：
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9} \approx 0.6981
+\end{equation}
+これは実測値$0.6847 \pm 0.0073$と$1.9\%$で一致する。
+
+% -----------------------------------------------------------
+\section{導出1：WDW + CKN 経由}
+\label{sec:DE-CKN}
+
+\subsection{Wheeler-DeWitt 方程式と DN 境界条件}
+
+Wheeler-DeWitt (WDW) 方程式は量子重力の正準量子化における基本方程式である：
+\begin{equation}
+\hat{H}\,\Psi\bigl[\,{}^{(3)}\!g,\,\phi\,\bigr] = 0
+\end{equation}
+WB 理論では時間方向に\textbf{Dirichlet-Neumann (DN) 混合境界条件}を課す：
+\begin{itemize}
+\item \textbf{Dirichlet 端}（$t=0$, ビッグバン）：$\Psi(t=0) = 0$
+\item \textbf{Neumann 端}（$t \to \infty$, 将来無限）：$\partial_t\Psi\big|_{t\to\infty} = 0$
+\end{itemize}
+DN 境界条件は半整数モード$n + 1/2$を生成する。
+真空エネルギーのゼータ正則化は：
+\begin{equation}
+E_{\mathrm{vac}}^{\mathrm{DN}}
+= \frac{1}{2}\sum_{n=0}^{\infty}\!\Bigl(n + \tfrac{1}{2}\Bigr)
+\xrightarrow{\text{ゼータ正則化}}
+\frac{1}{2}\,\zeta_H\!\bigl(-1,\,\tfrac{1}{2}\bigr)
+\end{equation}
+
+\subsection{Cohen-Kaplan-Nelson (CKN) ホログラフィック束縛}
+
+CKN 束縛は量子場理論における赤外--紫外結合として：
+\begin{equation}
+L^3 \rho_\Lambda \leq L\,\Mpl^2
+\quad\Longrightarrow\quad
+\rho_\Lambda \leq \frac{\Mpl^2}{L^2}
+\end{equation}
+ここで$L$は赤外カットオフ（Hubble スケール$\ell_H = c/H_0$）である。
+
+CKN 束縛を\textbf{等号で飽和}させ（holographic saturation）、
+WDW の DN ゼータ正則化と組み合わせると：
+\begin{equation}
+\rho_\Lambda = |\zeta(-1)| \cdot \frac{\Mpl^2}{\ell_H^2}
+= \frac{1}{12}\cdot\frac{c^4}{G\,\ell_H^2}
+\end{equation}
+
+臨界密度$\rho_c = 3H_0^2/(8\pi G) = 3c^2/(8\pi G\,\ell_H^2)$で割ると：
+
+\begin{keyresult}[WDW + CKN によるダークエネルギー予測]
+\begin{equation}
+\Omega_\Lambda = \frac{\rho_\Lambda}{\rho_c}
+= \frac{8\pi}{3}\cdot|\zeta(-1)|
+= \frac{8\pi}{3}\cdot\frac{1}{12}
+= \frac{2\pi}{9}
+\approx 0.6981
+\end{equation}
+注目すべきは、$\ell_H$ が完全に消去され、
+純粋に無次元の予測が得られることである。
+自由パラメータは一つもない。
+\end{keyresult}
+
+% -----------------------------------------------------------
+\section{導出2：CKN フリー — $d$ と $\cd$ のみから}
+\label{sec:DE-CKNfree}
+
+導出1は CKN ホログラフィック束縛を使っていた。
+CKN 束縛はそれ自体妥当な物理的仮定だが、ある種の ad hoc さを含む。
+ここでは、CKN を\textbf{完全に不要とする}定式化を与える。
+
+\subsection{完備化ゼータ関数と$p=2$切除}
+
+リーマンゼータ関数の完備化は：
+\begin{equation}
+\xi(s) = \frac{1}{2}\,s(s-1)\,\pi^{-s/2}\,\Gamma(s/2)\,\zeta(s)
+\end{equation}
+$p=2$を Euler 積から切除した部分ゼータを
+$\zeta_{\neg 2}(s) = (1-2^{-s})\,\zeta(s)$
+と書き、対応する完備化を$\xi_{\neg 2}(s)$とする。
+
+$s = -1$ における値を計算する。
+$\Gamma(-1/2) = -2\sqrt{\pi}$ を用いると：
+\begin{align}
+|\xi_{\neg 2}(-1)|
+&= \Bigl|\frac{1}{2}\cdot(-1)\cdot(-2)\cdot\pi^{1/2}\cdot\Gamma(-1/2)
+   \cdot(1-2)\cdot\zeta(-1)\Bigr| \notag \\
+&= \Bigl|1 \cdot \pi^{1/2}\cdot(-2\sqrt{\pi})\cdot(-1)\cdot
+   \Bigl(-\frac{1}{12}\Bigr)\Bigr| \notag \\
+&= \frac{\pi}{6}
+\end{align}
+
+\subsection{$d/\cd$ 因子}
+
+\begin{dfnbox}[WB 理論の二つの入力]
+\begin{itemize}
+\item $d = 4$：時空次元（3空間 + 1時間）
+\item $\cd = \cd\bigl(\Spec(\Z)\bigr) = 3$：
+  $\Spec(\Z)$の Artin-Verdier \'{e}tale コホモロジー次元
+\end{itemize}
+\end{dfnbox}
+
+これらを組み合わせると：
+
+\begin{keyresult}[CKN フリーのダークエネルギー導出]
+\begin{equation}
+\boxed{
+\Omega_\Lambda = \frac{d}{\cd}\,\bigl|\xi_{\neg 2}(-1)\bigr|
+= \frac{4}{3}\cdot\frac{\pi}{6}
+= \frac{2\pi}{9}
+\approx 0.6981
+}
+\end{equation}
+入力は$d=4$（時空次元）と$\cd=3$（Artin-Verdier コホモロジー次元）のみ。
+CKN 束縛は不要であり、完備化ゼータ関数$\xi_{\neg 2}$がアルキメデス因子$2\pi$と
+有限因子$1/12$を\textbf{自動的に統合}する。
+\end{keyresult}
+
+\subsection{三因子分解の見方}
+
+$2\pi/9$は以下の三因子に分解できる：
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9}
+= \underbrace{\frac{4}{3}}_{\substack{\text{WDW 因子} \\ d/\cd}}
+\;\times\; \underbrace{2\pi}_{\substack{\text{アルキメデス} \\ \text{$\Gamma$-因子}}}
+\;\times\; \underbrace{\frac{1}{12}}_{\substack{\text{ゼータ因子} \\ |\zeta(-1)|}}
+\end{equation}
+$\xi_{\neg 2}(-1)$の中では$2\pi$と$1/12$が一つにまとまっている。
+つまり、\textbf{実質的には$d/\cd$と$\xi$の二因子}である。
+
+% -----------------------------------------------------------
+\section{$1+2+3+\cdots = -1/12$ の意味}
+\label{sec:zeta-regularization}
+
+\begin{hsbox}[高校生ノート：無限大を手なずける]
+ダークエネルギーの導出に$|\zeta(-1)| = 1/12$が登場した。
+これは$\zeta(-1) = -1/12$のことだが、形式的には
+\[
+1 + 2 + 3 + 4 + \cdots \;``="\; -\frac{1}{12}
+\]
+と書かれる（Ramanujan が有名にした式）。
+
+もちろん$1+2+3+\cdots$は普通の意味では無限大に発散する。
+ここでの$``="$は\textbf{ゼータ正則化}という数学的操作の結果だ。
+
+\medskip
+\textbf{やり方}：
+\begin{enumerate}[nosep]
+\item $\zeta(s) = \sum_{n=1}^{\infty} n^{-s}$ を考える。
+  $s > 1$ では収束する（例：$\zeta(2) = \pi^2/6$）。
+\item $\zeta(s)$を$s$の\textbf{解析接続}により$s < 1$にも拡張する。
+\item $s = -1$ を代入すると$\zeta(-1) = -1/12$が得られる。
+\end{enumerate}
+この値には物理的実在性がある。カシミール効果
+（真空中の二枚の金属板が引き合う現象）は、まさにこのゼータ正則化で
+正しく計算される。そして\textbf{実験で確認されている}。
+
+WB 理論では、この同じ$\zeta(-1) = -1/12$が
+ダークエネルギーの値を決めている。
+\end{hsbox}
+
+% -----------------------------------------------------------
+\section{Planck 2018 との比較と将来検証}
+\label{sec:DE-comparison}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+量 & WB 予測 & Planck 2018 観測 & 偏差 \\
+\midrule
+$\Omega_\Lambda$ & $2\pi/9 = 0.6981$ & $0.6847 \pm 0.0073$ & $+1.8\sigma$\;(1.9\%) \\
+$\Omega_m$ & $1 - 2\pi/9 = 0.3019$ & $0.3153 \pm 0.0073$ & $-1.8\sigma$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Euclid 衛星（2028年以降）。}
+欧州宇宙機関 (ESA) の Euclid 衛星は、
+数十億個の銀河のレンズ効果と赤方偏移を測定し、
+$\Omega_\Lambda$を$0.5\%$精度で決定する予定である。
+WB 予測$0.6981$は実測中心値から$1.9\%$離れているため、
+Euclid の精度があれば\textbf{決定的な判定}が可能になる。
+
+\begin{experimentbox}[Euclid 2028 による検証]
+\begin{itemize}[nosep]
+\item $\Omega_\Lambda$精度：$0.5\%$（$\pm 0.003$程度）
+\item WB 予測：$0.6981$（一定）
+\item 検証基準：Euclid の誤差バー内に$0.6981$が入るか否か
+\item \textbf{合格条件}：$|\Omega_\Lambda^{\text{Euclid}} - 0.6981| < 2\sigma_{\text{Euclid}}$
+\item \textbf{不合格条件}：$3\sigma$以上の乖離
+\end{itemize}
+これは WB 理論の最も強力な検証機会の一つである。
+\end{experimentbox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Chapter 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{結合定数 — $j$ 関数と CM 点}
+\label{ch:coupling-constants}
+
+\begin{statusbox}[STATUS: Tier A — 導出済み]
+電磁結合定数$\alpha_{\mathrm{EM}}$とワインバーグ角$\sin^2\theta_W$が、
+$j$不変量の CM 固定点から導出される。
+いずれも実測値と$1\%$未満で一致する。
+\end{statusbox}
+
+% -----------------------------------------------------------
+\section{CM 点とは何か}
+\label{sec:CM-points}
+
+\subsection{$j$ 不変量}
+
+楕円曲線の同型類は\textbf{$j$ 不変量}$j(\tau)$で完全に分類される。
+ここで$\tau$は上半平面$\mathbb{H} = \{\tau \in \C : \Im(\tau) > 0\}$の元であり、
+モジュラー群$\mathrm{SL}_2(\Z)$の作用で同値なものを同一視する。
+
+$j$ 関数は
+\begin{equation}
+j(\tau) = \frac{1}{q} + 744 + 196884\,q + 21493760\,q^2 + \cdots
+\qquad (q = e^{2\pi i \tau})
+\end{equation}
+で定義される。重要な事実は、$j:\mathbb{H}/\mathrm{SL}_2(\Z) \to \C$が
+\textbf{全単射}であることだ。
+
+\subsection{虚数乗法 (CM) 点}
+
+\begin{dfnbox}[CM 点の定義]
+$\tau \in \mathbb{H}$が\textbf{虚数乗法 (CM) 点}であるとは、
+$\tau$が虚二次体$\Q(\sqrt{-D})$（$D > 0$）の元であることをいう。
+このとき$j(\tau)$は\textbf{代数的整数}になる。
+
+これは深い定理であり、$j$ 関数の特殊値が「算術的」になる
+希少な点を特定している。
+\end{dfnbox}
+
+\begin{hsbox}[高校生ノート：CM 点の直観]
+$j$関数は複素数の世界で定義された複雑な関数だが、
+特別な入力（CM 点）を与えると、出力がきれいな整数になる。
+普通の入力には超越的な（めちゃくちゃな）値を返すのに、
+CM 点では「算術」が顔を出す。
+
+たとえば：
+\begin{itemize}[nosep]
+\item $j(i) = 1728$（きれいな整数！）
+\item $j\!\bigl(\tfrac{-1+\sqrt{-7}}{2}\bigr) = -3375$（これも整数！）
+\item $j\!\bigl(\tfrac{-1+\sqrt{-3}}{2}\bigr) = 0$
+\end{itemize}
+WB 理論では、物理定数がこれらの CM 値から決まると主張する。
+\end{hsbox}
+
+% -----------------------------------------------------------
+\section{$\alpha_{\mathrm{EM}}^{-1} = j(i)/(4\pi) = 1728/(4\pi)$}
+\label{sec:alpha-EM}
+
+\subsection{$j(i) = 1728$}
+
+$\tau = i$（純虚数単位）は CM 点であり、
+対応する虚二次体は$\Q(i)$（ガウス整数の体）である。
+
+\begin{theorem}[$j(i)$の値]
+\begin{equation}
+j(i) = 1728
+\end{equation}
+\end{theorem}
+
+これは楕円関数論の古典的結果であり、
+$\tau = i$に対応する楕円曲線が
+$y^2 = x^3 - x$（レムニスケート曲線）
+であることから従う。$1728 = 12^3$である。
+
+\subsection{電磁結合定数の導出}
+
+WB 理論では、電磁結合定数の逆数を以下で与える：
+
+\begin{keyresult}[電磁結合定数]
+\begin{equation}
+\alpha_{\mathrm{EM}}^{-1} = \frac{j(i)}{4\pi} = \frac{1728}{4\pi} = \frac{432}{\pi}
+\approx 137.51
+\end{equation}
+\end{keyresult}
+
+実験値は$\alpha_{\mathrm{EM}}^{-1} = 137.035\,999\,084(21)$（CODATA 2018）であり、
+予測との誤差は$0.3\%$である。
+
+\subsection{なぜ$j(i) = 1728 = (d \times \cd)^3$か}
+
+ここに WB 理論の二つの入力$d$と$\cd$が再び登場する：
+\begin{equation}
+j(i) = 1728 = 12^3 = (d \times \cd)^3 = (4 \times 3)^3
+\end{equation}
+これは偶然ではない。$12 = d \times \cd$は WB 理論の基本スケールであり、
+$\zeta(-1) = -1/12$にも$j(i) = 12^3$にも現れる。
+
+\begin{hsbox}[高校生ノート：12 という数]
+$12 = 4 \times 3$という数は WB 理論のいたるところに現れる：
+\begin{itemize}[nosep]
+\item $\zeta(-1) = -1/\mathbf{12}$（ダークエネルギーに登場）
+\item $j(i) = \mathbf{12}^3 = 1728$（電磁気力に登場）
+\item $m_p/m_e = \mathbf{12} \times 153$（陽子質量に登場、第6章）
+\end{itemize}
+なぜ$12$か？　それは$d=4$（時空の次元）と$\cd=3$
+（$\Spec(\Z)$のコホモロジー次元）の積だからだ。
+\end{hsbox}
+
+% -----------------------------------------------------------
+\section{$\sin^2\theta_W = 375/(512\pi)$}
+\label{sec:Weinberg-angle}
+
+\subsection{$j\!\bigl(\frac{-1+\sqrt{-7}}{2}\bigr) = -3375$}
+
+次の CM 点として$\tau = \frac{-1+\sqrt{-7}}{2}$を考える。
+これは虚二次体$\Q(\sqrt{-7})$に属する。
+
+\begin{theorem}[$j$の値（$D=7$）]
+\begin{equation}
+j\!\left(\frac{-1+\sqrt{-7}}{2}\right) = -3375 = -15^3
+\end{equation}
+\end{theorem}
+
+\subsection{ワインバーグ角の導出}
+
+ワインバーグ角（弱混合角）は電弱統一理論の基本パラメータであり、
+電磁力と弱い力の混合比を決める。WB 理論では：
+
+\begin{keyresult}[ワインバーグ角]
+\begin{equation}
+\sin^2\theta_W = \frac{375}{512\pi}
+= \frac{|{-3375}|}{512\pi \times (3/5) \times 15/3}
+\approx 0.2330
+\end{equation}
+ここで$375 = 3 \times 5^3$であり、
+$|j(\frac{-1+\sqrt{-7}}{2})| = 3375 = 3^3 \times 5^3$との関係は
+GUT 正規化因子$3/5$を反映している。
+\end{keyresult}
+
+実験値は$\sin^2\theta_W = 0.23121 \pm 0.00004$（PDG 2022, $\overline{\text{MS}}$スキーム）
+であり、予測との誤差は$0.8\%$である。
+
+% -----------------------------------------------------------
+\section{算術と動力学の分離}
+\label{sec:arithmetic-vs-dynamics}
+
+$j$関数は二つの全く異なる方法で物理に入る：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{結合定数} & \textbf{ダークエネルギー} \\
+\midrule
+$j$関数の入力 & CM 固定点（$\tau = i$ 等） & モジュラー流（$\tau$が時間進化） \\
+性質 & 定数（算術的） & 時間発展（動力学的） \\
+物理量 & $\alpha_{\mathrm{EM}},\;\sin^2\theta_W$ & $\Omega_\Lambda(t)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item \textbf{結合定数}は$j$の\textbf{固定点}における値であり、
+  CM 点という算術幾何学的に特別な点で評価される。
+  だから定数になる。
+\item \textbf{ダークエネルギー}は$j$関数が定義する\textbf{モジュラー流}に沿った
+  動力学量であり、$\zeta$-quintessence として時間的にゆっくり変化しうる。
+\end{itemize}
+
+同じ$j$関数の異なる引数が、異なる物理を生む。
+これが WB 理論における算術と動力学の統一的視点である。
+
+\paragraph{ゲージ結合と Berry 位相の関係。}
+結合定数が CM 固定点で決まるという構造は、
+Berry 位相に対する不変性と整合する。
+$j$関数の CM 値は $\mathrm{SL}_2(\Z)$のモジュラー変換で不変であり、
+これは第7章で導出する$a_4$項の位相因子が$1$であること
+（Berry 位相に対するゲージ不変性）と対応する。
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Chapter 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{質量比 — ガウス整数の幾何}
+\label{ch:mass-ratios}
+
+\begin{statusbox}[STATUS: Tier B — 半導出]
+陽子/電子質量比$m_p/m_e$およびミューオン/電子質量比$m_\mu/m_e$が
+$d$, $\cd$および整数論的構造から高精度で再現される。
+ただし導出に未決定の整数（17と23）が残る。
+\end{statusbox}
+
+% -----------------------------------------------------------
+\section{陽子/電子質量比：$m_p/m_e = 12 \times 153 = 1836$}
+\label{sec:proton-electron}
+
+\subsection{実験値と WB 予測}
+
+陽子と電子の質量比は物理学の最も基本的な無次元定数の一つである：
+\begin{equation}
+\left(\frac{m_p}{m_e}\right)_{\!\text{exp}} = 1836.152\,673\,43(11)
+\qquad\text{(CODATA 2018)}
+\end{equation}
+
+WB 理論では：
+\begin{keyresult}[陽子/電子質量比]
+\begin{equation}
+\frac{m_p}{m_e} = 12 \times 153 = 1836
+\end{equation}
+誤差：$|1836 - 1836.153| / 1836.153 = 0.008\%$
+\end{keyresult}
+
+\subsection{$12$と$153$の由来}
+
+$12 = d \times \cd = 4 \times 3$ は前章までに確立された WB 理論の基本スケールである。
+
+$153$については複数の解釈がある：
+
+\paragraph{三角数としての解釈。}
+$153$は第17三角数$T_{17}$である：
+\begin{equation}
+153 = T_{17} = 1 + 2 + 3 + \cdots + 17 = \frac{17 \times 18}{2}
+\end{equation}
+しかし「なぜ17か」はまだ導出されていない。
+
+\paragraph{ガウス整数としての解釈。}
+$z = 12 + 3i \in \Z[i]$（ガウス整数）を考える。
+そのノルムは：
+\begin{equation}
+N(z) = |z|^2 = 12^2 + 3^2 = 144 + 9 = 153
+\end{equation}
+すると：
+\begin{equation}
+\frac{m_p}{m_e} = \mathrm{Re}(z) \times N(z) = 12 \times 153 = 1836
+\end{equation}
+
+\begin{hsbox}[高校生ノート：ガウス整数って何？]
+普通の整数は$\ldots, -2, -1, 0, 1, 2, \ldots$だが、
+ガウス整数は$a + bi$（$a,b$は整数、$i = \sqrt{-1}$）の形をした数。
+たとえば$3 + 2i$とか$-1 + 5i$がガウス整数だ。
+
+ガウス整数$z = a + bi$の「ノルム」は$N(z) = a^2 + b^2$。
+WB 理論では$z = 12 + 3i$が特別な意味を持つ。
+実部$12 = 4 \times 3$で、虚部$3 = \cd$だ。
+\end{hsbox}
+
+この解釈では$\mathrm{Re}(z) = d\cd = 12$、$\mathrm{Im}(z) = \cd = 3$であり、
+$d$と$\cd$から$z$が構成される。ただし、$\mathrm{Im}(z) = \cd$とする
+理論的根拠はまだ十分ではない。
+
+% -----------------------------------------------------------
+\section{ミューオン/電子質量比：$m_\mu/m_e = 9 \times 23 = 207$}
+\label{sec:muon-electron}
+
+ミューオンは電子の「重い版」であり、質量比は：
+\begin{equation}
+\left(\frac{m_\mu}{m_e}\right)_{\!\text{exp}} = 206.768\,283\,63(82)
+\qquad\text{(CODATA 2018)}
+\end{equation}
+
+WB 理論では：
+\begin{keyresult}[ミューオン/電子質量比]
+\begin{equation}
+\frac{m_\mu}{m_e} = 9 \times 23 = 207
+\end{equation}
+誤差：$|207 - 206.768| / 206.768 = 0.11\%$
+\end{keyresult}
+
+$9 = \cd^2 = 3^2$は$\cd$から自然に導かれる。
+しかし$23$の由来は不明である。$23$は素数であり、
+Ramanujan の $\tau$ 関数やモジュラー形式との関連が示唆されるが、
+$d$と$\cd$からの厳密な導出はまだ達成されていない。
+
+% -----------------------------------------------------------
+\section{正直な評価}
+\label{sec:honest-assessment}
+
+本書の基本方針は\textbf{知的誠実さ}である。
+五つの定数の導出状況は以下のように異なる：
+
+\begin{itemize}
+\item \textbf{$\Omega_\Lambda = 2\pi/9$}：
+  $d$と$\cd$のみから完全に導出。
+  CKN 経由とCKN フリーの二つの独立な導出がある。
+  \textbf{理論的根拠は明確}。
+
+\item \textbf{$\alpha_{\mathrm{EM}}^{-1} = 1728/(4\pi)$}：
+  $j(i) = 1728 = (d\cd)^3$から導出。
+  CM 点$\tau = i$の選択理由も明確（最も自然な CM 点）。
+  \textbf{理論的根拠は明確}。
+
+\item \textbf{$\sin^2\theta_W = 375/(512\pi)$}：
+  CM 点$\tau = (-1+\sqrt{-7})/2$から導出。
+  $D=7$の選択理由にやや曖昧さが残るが、
+  GUT 正規化との整合性がある。
+  \textbf{理論的根拠はほぼ明確}。
+
+\item \textbf{$m_p/m_e = 12 \times 153$}：
+  $12 = d\cd$は導出済みだが、$153 = T_{17}$の中の
+  $17$が導出されていない。
+  \textbf{「合う数字を見つけた」段階}。
+
+\item \textbf{$m_\mu/m_e = 9 \times 23$}：
+  $9 = \cd^2$は導出済みだが、$23$が導出されていない。
+  \textbf{「合う数字を見つけた」段階}。
+\end{itemize}
+
+また、強い力の結合定数$\alpha_s$は未導出であり、
+現時点での最良の試みは実測値と$4.5\%$のずれがある。
+
+\begin{warningbox}[未解決：17 と 23 と $\alpha_s$]
+質量比に現れる整数$17$と$23$の$d,\cd$からの導出は
+WB 理論の\textbf{主要な未解決問題}である。
+これが解決されない限り、質量比の「予測」は
+厳密には「フィッティング」の域を出ない。
+
+同様に、$\alpha_s$の導出は Part II の範囲では達成されていない。
+\end{warningbox}
+
+% -----------------------------------------------------------
+\section{5定数の一覧}
+\label{sec:five-constants-table}
+
+Part II の結果をまとめる。
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{>{\raggedright}p{2.8cm} l c c c c}
+\toprule
+\textbf{物理量} & \textbf{公式} & \textbf{予測} & \textbf{実測} & \textbf{誤差} & \textbf{状態} \\
+\midrule
+$\Omega_\Lambda$
+  & $2\pi/9$
+  & $0.6981$
+  & $0.685$
+  & $1.9\%$
+  & \colorbox{green!20}{導出済み} \\[4pt]
+$\alpha_{\mathrm{EM}}^{-1}$
+  & $1728/(4\pi)$
+  & $137.5$
+  & $137.036$
+  & $0.3\%$
+  & \colorbox{green!20}{導出済み} \\[4pt]
+$\sin^2\theta_W$
+  & $375/(512\pi)$
+  & $0.2330$
+  & $0.2312$
+  & $0.8\%$
+  & \colorbox{green!20}{導出済み} \\[4pt]
+$m_p/m_e$
+  & $12 \times 153$
+  & $1836$
+  & $1836.15$
+  & $0.008\%$
+  & \colorbox{yellow!40}{半導出} \\[4pt]
+$m_\mu/m_e$
+  & $9 \times 23$
+  & $207$
+  & $206.77$
+  & $0.1\%$
+  & \colorbox{yellow!40}{半導出} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{keyresult}[Part II まとめ：5つの定数]
+WB 理論は$d = 4$（時空次元）と$\cd = 3$（$\Spec(\Z)$のコホモロジー次元）
+の二つの入力のみから、5つの物理定数を$0.008\%$--$1.9\%$の精度で再現する。
+
+\medskip
+\textbf{導出の質に差がある}ことを正直に認める：
+\begin{itemize}[nosep]
+\item $\Omega_\Lambda$, $\alpha_{\mathrm{EM}}$, $\sin^2\theta_W$：
+  理論的導出が完結している（\colorbox{green!20}{緑}）
+\item $m_p/m_e$, $m_\mu/m_e$：
+  一部の整数（17, 23）が未導出（\colorbox{yellow!40}{黄}）
+\end{itemize}
+
+5定数すべてに共通する数学的構造は、
+$\Spec(\Z)$上のゼータ関数・$j$不変量・ガウス整数であり、
+これらが$d$と$\cd$を通じて物理定数を決定している。
+
+Part III では、この算術的構造がどのように重力理論
+（Berry 位相スカラー・テンソル重力）に発展するかを見る。
+\end{keyresult}

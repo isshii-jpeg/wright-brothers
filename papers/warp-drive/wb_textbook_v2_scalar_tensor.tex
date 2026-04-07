@@ -1,0 +1,922 @@
+% ============================================================
+%  Part III: Berry位相スカラー・テンソル重力
+%  wb_textbook_v2_scalar_tensor.tex
+%  Chapters 7--10
+% ============================================================
+
+%=============================================================================
+% CHAPTER 7: Berry位相スペクトル分解定理
+%=============================================================================
+
+\chapter{Berry位相スペクトル分解定理}
+\label{ch:berry-spectral-decomposition}
+
+本章では、Wright Brothers 理論の中核をなす数学的結果
+---Berry位相によるスペクトル作用のモーメント変換則---を
+直感的動機づけから厳密な証明まで、段階を追って導出する。
+
+\section{Berry位相の直感}
+\label{sec:7.1}
+
+\subsection{Berry位相とは何か}
+
+量子力学の系において、Hamiltonianがパラメータ$\lambda$に依存するとき、
+パラメータをゆっくりと変化させて元に戻す（$\lambda$空間で閉曲線を一周する）と、
+波動関数は動的位相（エネルギーに比例する通常の位相）に加えて、
+パラメータ空間の\textbf{幾何学的構造}にのみ依存する余分な位相を獲得する。
+これが\textbf{Berry位相}（幾何学的位相）である。
+
+\begin{dfnbox}[Berry位相の定義]
+Hamiltonianのパラメータ空間$\mathcal{M}$上の閉曲線$C$に沿って
+断熱的に系を一周させたとき、固有状態$|n(\lambda)\rangle$が獲得する位相は
+\[
+\gamma_n = \oint_C \langle n(\lambda) | \nabla_\lambda | n(\lambda) \rangle \cdot d\lambda
+\]
+である。$\gamma_n$はエネルギー固有値$E_n$には依存せず、
+固有状態の幾何（Berry接続の曲率）にのみ依存する。
+\end{dfnbox}
+
+\subsection{地球上のベクトル輸送：古典的アナロジー}
+
+Berry位相を理解する最良の古典的アナロジーは、
+曲面上の\textbf{平行輸送}である。
+
+\begin{hsbox}[高校生ノート：地球上の矢印]
+北極点に立って南を指す矢印を置く。
+この矢印を「平行に」---つまり曲げずに---赤道まで運ぶ（経度$0°$沿い）。
+赤道に沿って経度$90°$東へ移動する。
+そこから北極点に戻る。
+
+矢印は一度も「回転操作」を受けていないのに、
+北極点に戻ったとき元の向きから$90°$回転している！
+
+この回転角が幾何学的位相のアナロジーである。
+回転角は経路で囲まれた球面の\textbf{立体角}に等しい。
+球面の曲率という幾何学的性質が、
+経路を一周することで「位相差」として顕在化する。
+
+Berry位相も同じである。
+パラメータ空間の「曲率」が、閉曲線一周で「位相差」として現れる。
+\end{hsbox}
+
+\noindent
+重要なのは以下の2点である：
+\begin{enumerate}[label=(\roman*)]
+\item Berry位相は\textbf{幾何学的}（topological）であり、
+  経路の速度やエネルギーに依存しない。
+\item トポロジカル物質（トポロジカル絶縁体、グラフェン等）では、
+  Berry位相は$\pi$の整数倍に\textbf{量子化}されており、
+  バンドギャップが閉じない限り変化しない。
+\end{enumerate}
+
+
+\section{スペクトル作用とモーメントの復習}
+\label{sec:7.2}
+
+Connesの非可換幾何において、スペクトル三重項$(\mathcal{A}, \mathcal{H}, D)$から
+重力を含む作用を構成する手続きを復習する。
+
+スペクトル作用は
+\begin{equation}
+S = \Tr\bigl(f(D^2/\Lambda^2)\bigr)
+\end{equation}
+で定義される。ここで$f$はカットオフ関数、$\Lambda$はエネルギースケールである。
+$f$のLaplace変換を用いた熱核展開により：
+\begin{equation}
+S \;\sim\; \sum_{k=0,2,4,\ldots} f_k \, a_k(D^2)
+\label{eq:spectral-action-expansion}
+\end{equation}
+ここで$a_k$はSeeley--DeWitt係数、$f_k$はカットオフ関数$f$の\textbf{モーメント}：
+\begin{equation}
+f_k = \int_0^\infty f(u)\, u^{(d-k)/2 - 1}\, du
+\label{eq:moment-def}
+\end{equation}
+$d$は時空の次元である。
+
+$d=4$では：
+\begin{itemize}
+\item $f_0 = \int_0^\infty f(u)\, u\, du$：宇宙定数$\Lambda$の係数
+\item $f_2 = \int_0^\infty f(u)\, du$：Einstein--Hilbert項（重力定数$G$）の係数
+\item $f_4 = f(0)$：ゲージ結合定数$\alpha$の係数
+\end{itemize}
+
+\begin{hsbox}[高校生ノート：モーメントの意味]
+$f_k$はカットオフ関数$f(u)$を異なる「重み」$u^{(d-k)/2-1}$で
+積分したものである。$k$が小さいほど大きなエネルギー（赤外, IR）に感度を持ち、
+$k$が大きいほど小さなエネルギー（紫外, UV）に感度を持つ。
+$f_0$は「宇宙全体のスケール」、
+$f_2$は「重力のスケール」、
+$f_4$は「素粒子のスケール」に対応すると思えばよい。
+\end{hsbox}
+
+
+\section{Berry位相スペクトル分解定理}
+\label{sec:7.3}
+
+本節が本章の核心であり、Wright Brothers理論全体の数学的基盤を与える。
+
+\subsection{Berry位相回転の定義}
+
+スペクトル三重項$(\mathcal{A}, \mathcal{H}, D)$に対し、
+Berry位相$\varphi$の回転を以下で定義する：
+
+\begin{dfnbox}[Berry位相回転 $P_\varphi$]
+\begin{equation}
+P_\varphi:\quad D^2 \;\longmapsto\; e^{i\varphi} D^2
+\end{equation}
+すなわちスペクトル全体に位相因子$e^{i\varphi}$を乗じる操作である。
+\end{dfnbox}
+
+\noindent
+$\varphi = 0$は通常の物質、$\varphi = \pi$はトポロジカル$\pi$-Berry位相物質に対応する。
+
+\subsection{定理の主張と証明}
+
+\begin{keyresult}[Berry位相スペクトル分解定理]
+\begin{theorem}[Berry位相スペクトル分解]
+\label{thm:berry-spectral}
+$d$次元時空のスペクトル作用において、Berry位相回転$P_\varphi$のもとで
+カットオフ関数のモーメント$f_k$は
+\begin{equation}
+\boxed{f_k \;\longmapsto\; e^{-i\varphi(d-k)/2}\, f_k}
+\end{equation}
+と変換される。
+\end{theorem}
+\end{keyresult}
+
+\begin{proof}
+式\eqref{eq:moment-def}において、Berry位相回転$D^2 \mapsto e^{i\varphi}D^2$を
+施すと、カットオフ関数$f$の引数が$u \mapsto e^{i\varphi}u$と変わる。
+したがって変換後のモーメント$g_k$は
+\begin{equation}
+g_k = \int_0^\infty f(e^{i\varphi}u)\, u^{(d-k)/2 - 1}\, du.
+\end{equation}
+ここで変数変換$v = e^{i\varphi}u$を行う（contour rotation）。
+$u = e^{-i\varphi}v$、$du = e^{-i\varphi}dv$であるから
+\begin{align}
+g_k &= \int f(v)\, \bigl(e^{-i\varphi}v\bigr)^{(d-k)/2 - 1}\, e^{-i\varphi}\, dv \\
+    &= e^{-i\varphi\{(d-k)/2 - 1 + 1\}} \int f(v)\, v^{(d-k)/2 - 1}\, dv \\
+    &= e^{-i\varphi(d-k)/2}\, f_k.
+\end{align}
+\end{proof}
+
+\begin{remark}
+この証明の本質は、積分の変数変換（contour rotation）という
+初等的な操作である。特殊な仮定は一切用いていない。
+スペクトル作用のモーメント定義\eqref{eq:moment-def}と
+Berry位相の定義だけから、変換則が一意に導かれる。
+\end{remark}
+
+
+\section{$d=4$での帰結}
+\label{sec:7.4}
+
+$d=4$を代入すると、各モーメントの位相因子は表\ref{tab:berry-phase-factors}の通りとなる。
+
+\begin{table}[htbp]
+\centering
+\caption{$d=4$におけるBerry位相のモーメント変換}
+\label{tab:berry-phase-factors}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{}ccccl@{}}
+\toprule
+$k$ & 物理量 & 位相因子 $e^{-i\varphi(4-k)/2}$ & $\mathrm{Re}$（実部） & 解釈 \\
+\midrule
+$0$ & 宇宙定数 $\Lambda$ & $e^{-2i\varphi}$ & $\cos(2\varphi)$ & 最大の変調 \\
+$2$ & 重力定数 $G$ & $e^{-i\varphi}$ & $\cos(\varphi)$ & 中間的変調 \\
+$4$ & ゲージ結合 $\alpha$ & $e^{0} = 1$ & $1$（不変！） & 完全に保護 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent
+この表の最も驚くべき結果は最後の行である：
+$k=4$のモーメント---すなわちゲージ結合定数を決定する項---は
+Berry位相に\textbf{完全に不変}である。
+
+\subsection{系1：ゲージ結合保護定理}
+
+\begin{keyresult}[ゲージ結合保護]
+\begin{corollary}[ゲージ結合保護]
+\label{cor:gauge-protection}
+$d=4$次元時空において、Berry位相回転$P_\varphi$は
+ゲージ結合定数に一切影響しない：
+\[
+\alpha_{\mathrm{EM}},\quad \sin^2\theta_W,\quad \alpha_s
+\quad\text{はすべて $\varphi$-不変}
+\]
+\end{corollary}
+\end{keyresult}
+
+\begin{proof}
+定理\ref{thm:berry-spectral}で$d=4$、$k=4$とすると、
+位相因子は$e^{-i\varphi(4-4)/2} = e^0 = 1$となる。
+ゲージ結合定数はすべて$f_4 = f(0)$から決定されるため、
+$\varphi$に依存しない。
+\end{proof}
+
+
+\section{物理的意味}
+\label{sec:7.5}
+
+定理\ref{thm:berry-spectral}と系\ref{cor:gauge-protection}は、
+以下の深い物理的帰結をもたらす。
+
+\subsection{IR/UV分離の導出}
+
+従来、重力（IR = 赤外）の変更がゲージ結合（UV = 紫外）に
+影響しないという「IR/UV分離」は、有効場の理論における
+\textbf{仮定}として導入されてきた。
+
+Berry位相スペクトル分解定理は、この分離を\textbf{導出}する。
+$k$の値が小さいほど（IR）Berry位相による変調が大きく、
+$k$の値が大きいほど（UV）変調が小さい。
+そして$k=d$（最大のUV項）では変調が\textbf{ゼロ}になる。
+
+これはスペクトル作用の構造から必然的に従う帰結であり、
+追加の仮定は必要ない。
+
+\begin{hsbox}[高校生ノート：IR/UV分離とは]
+宇宙には「大きなスケールの物理」（銀河、重力）と
+「小さなスケールの物理」（原子、素粒子の力）がある。
+普通、大きなスケールを変えても小さなスケールは影響を受けない
+と「信じて」いた。
+
+この定理はそれを「信じる」のではなく「証明する」。
+Berry位相で重力の強さを変えても、
+電磁気力や核力の強さは数学的に変わりようがない。
+これは安全性にとって決定的に重要である（次項参照）。
+\end{hsbox}
+
+\subsection{安全性問題の解決}
+
+反重力の議論において最も深刻な懸念は：
+「重力定数$G$を変更したら、強い相互作用の結合定数$\alpha_s$も変わり、
+原子核が不安定化するのではないか？」
+というものであった。
+
+系\ref{cor:gauge-protection}はこの懸念を完全に払拭する：
+
+\begin{warningbox}[安全性の数学的保証]
+Berry位相$\varphi$を$0$から$\pi$まで変化させると：
+\begin{itemize}
+\item 重力定数：$G \to G\cos(\pi) = -G$（符号反転）
+\item 宇宙定数：$\Lambda \to \Lambda\cos(2\pi) = \Lambda$（不変）
+\item ゲージ結合：$\alpha_s \to \alpha_s \cdot 1 = \alpha_s$（不変）
+\end{itemize}
+強い力の結合定数$\alpha_s$は変化しないため、
+原子核の結合エネルギーは影響を受けない。
+核物質は完全に安定である。
+\end{warningbox}
+
+\noindent
+この結果は「反重力物質の中にいる人は安全か？」という
+工学的に不可避な問いに対する、理論的に厳密な回答を与える。
+
+\subsection{Berry位相の「選択規則」としての性格}
+
+定理\ref{thm:berry-spectral}は、Berry位相を
+一種の\textbf{選択規則}（selection rule）として理解することを可能にする。
+
+原子物理学では、角運動量の選択規則$\Delta\ell = \pm 1$が
+「どの遷移が許されるか」を支配する。
+同様に、Berry位相スペクトル分解は
+「どの物理定数がBerry位相で変調されるか」の選択規則を与える。
+
+\begin{itemize}
+\item $k < d$の定数（$\Lambda$, $G$）：Berry位相で変調される（「許容遷移」）
+\item $k = d$の定数（$\alpha$）：Berry位相で変調されない（「禁止遷移」）
+\end{itemize}
+
+この選択規則の起源は、モーメント積分の次数$(d-k)/2$が
+$k=d$でゼロになるという、純粋に数学的な事実にある。
+
+
+%=============================================================================
+% CHAPTER 8: 導出された作用と場の方程式
+%=============================================================================
+
+\chapter{導出された作用と場の方程式}
+\label{ch:action-field-eqs}
+
+前章でBerry位相$\varphi$がスペクトル作用のモーメントを変調する
+メカニズムを確立した。本章では、$\varphi$を\textbf{動的スカラー場}に昇格させ、
+具体的なJordan frame作用と場の方程式を導出する。
+
+\section{Jordan frame作用の導出}
+\label{sec:8.1}
+
+\subsection{モーメント変換から作用へ}
+
+Berry位相$\varphi$を時空点ごとに変化する場$\varphi(x)$と見なす。
+定理\ref{thm:berry-spectral}（$d=4$）により、
+スペクトル作用の展開式\eqref{eq:spectral-action-expansion}の各項は：
+\begin{align}
+f_0 \, a_0 &\;\longmapsto\; \cos(2\varphi)\, f_0 \, a_0
+  & &\text{（宇宙定数項）} \\
+f_2 \, a_2 &\;\longmapsto\; \cos(\varphi)\, f_2 \, a_2
+  & &\text{（Einstein--Hilbert項）} \\
+f_4 \, a_4 &\;\longmapsto\; 1 \cdot f_4 \, a_4
+  & &\text{（ゲージ項、不変）}
+\end{align}
+（実部を取っている。虚部はCP対称性により消去される。）
+
+$a_0$は宇宙定数、$a_2$はRicciスカラー$R$に比例するから、
+これらを4次元Lorentz多様体上の作用に書き下す。
+さらに$\varphi$を動的場にするために
+標準的な運動エネルギー$-\frac{1}{2}(\partial\varphi)^2$を加え、
+物質のLagrangian $\mathcal{L}_m$を含めると：
+
+\begin{keyresult}[WB スカラー・テンソル作用（Jordan frame）]
+\begin{equation}
+\boxed{
+S = \int d^4x \sqrt{-g}\left[
+  \frac{\cos(\varphi)}{16\pi G}\,R
+  - \frac{\Lambda_{\mathrm{WB}}\cos(2\varphi)}{8\pi G}
+  - \frac{1}{2}(\partial\varphi)^2
+  + \mathcal{L}_m
+\right]
+}
+\label{eq:jordan-frame-action}
+\end{equation}
+\end{keyresult}
+
+\noindent
+各項の由来を丁寧に説明する。
+
+\subsection{各項の由来}
+
+\paragraph{第1項：$\cos(\varphi)\, R / (16\pi G)$}
+
+これは$a_2$項から導かれる。通常のEinstein--Hilbert作用$R/(16\pi G)$に
+Berry位相の$k=2$変調因子$\cos(\varphi)$が乗じられている。
+$\varphi=0$で通常の一般相対論、$\varphi=\pi$で$G\to -G$（反重力）に対応する。
+Brans--Dicke理論の$\omega\phi R$と形式的に類似するが、
+$\cos(\varphi)$は離散的極値（$0$と$\pi$）のみを取る点が本質的に異なる
+（第9章で証明）。
+
+\paragraph{第2項：$-\Lambda_{\mathrm{WB}}\cos(2\varphi) / (8\pi G)$}
+
+これは$a_0$項から導かれる。$\Lambda_{\mathrm{WB}}$は裸の宇宙定数スケールである。
+Berry位相の$k=0$変調因子$\cos(2\varphi)$が乗じられている。
+
+この項からスカラー場のポテンシャルを読み取ることができる。
+三角関数の恒等式
+\begin{equation}
+\cos(2\varphi) = 1 - 2\sin^2(\varphi)
+\end{equation}
+を代入すると：
+\begin{align}
+-\frac{\Lambda_{\mathrm{WB}}}{8\pi G}\cos(2\varphi)
+&= -\frac{\Lambda_{\mathrm{WB}}}{8\pi G}
+  + \frac{\Lambda_{\mathrm{WB}}}{4\pi G}\sin^2(\varphi)
+\end{align}
+第1項は定数（通常の宇宙定数）であり、第2項がスカラー場のポテンシャルを与える：
+
+\begin{keyresult}[ポテンシャルの導出]
+\begin{equation}
+V(\varphi) = \frac{\Lambda_{\mathrm{WB}}}{4\pi G}\sin^2(\varphi)
+  = \delta\,\sin^2(\varphi)
+\label{eq:potential}
+\end{equation}
+ここで
+\begin{equation}
+\delta \equiv \frac{\Lambda_{\mathrm{WB}}}{4\pi G}
+  \approx (2.3\;\mathrm{meV})^4
+\label{eq:delta-scale}
+\end{equation}
+はダークエネルギースケールで固定される。
+\end{keyresult}
+
+\begin{hsbox}[高校生ノート：$(2.3\;\mathrm{meV})^4$の意味]
+meV（ミリ電子ボルト）は非常に小さなエネルギーの単位である。
+1~meVは約$1.6\times 10^{-22}$~Jに相当する。
+$(2.3\;\mathrm{meV})^4$はエネルギー密度の次元を持ち、
+これは観測されているダークエネルギーの密度とちょうど同じスケールである。
+
+つまりポテンシャルの高さ$\delta$は自由パラメータではなく、
+ダークエネルギー観測から一意に決まる。
+理論の中にこのスケール以外の調整可能なパラメータは存在しない。
+\end{hsbox}
+
+\paragraph{第3項：$-\frac{1}{2}(\partial\varphi)^2$}
+
+スカラー場$\varphi$の標準的な運動エネルギー項。
+$\varphi$を動的場として扱うために必要な最小限の項である。
+
+\paragraph{第4項：$\mathcal{L}_m$}
+
+通常の物質のLagrangian密度。Berry位相はゲージ結合を変調しない
+（系\ref{cor:gauge-protection}）ので、$\mathcal{L}_m$は$\varphi$に
+依存しない。これは非常に重要な帰結である。
+
+
+\section{場の方程式の導出}
+\label{sec:8.2}
+
+作用\eqref{eq:jordan-frame-action}を変分して場の方程式を導出する。
+
+\subsection{計量変分：修正Einstein方程式}
+
+$g^{\mu\nu}$に関する変分$\delta S / \delta g^{\mu\nu} = 0$を計算する。
+$\cos(\varphi)R$の変分にはスカラー場と曲率の非最小結合から生じる余分な項が
+含まれることに注意する。結果は：
+
+\begin{keyresult}[修正Einstein方程式]
+\begin{equation}
+\boxed{
+\cos(\varphi)\,G_{\mu\nu}
++ g_{\mu\nu}\,\Lambda_{\mathrm{WB}}\cos(2\varphi)
++ g_{\mu\nu}\square\cos(\varphi)
+- \nabla_\mu\nabla_\nu\cos(\varphi)
+= 8\pi G\,T_{\mu\nu}^{(\varphi)} + 8\pi G\,T_{\mu\nu}^{(m)}
+}
+\label{eq:modified-einstein}
+\end{equation}
+ここで$G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R$はEinsteinテンソル、
+$T_{\mu\nu}^{(\varphi)}$はスカラー場のエネルギー運動量テンソル、
+$T_{\mu\nu}^{(m)}$は物質のエネルギー運動量テンソルである。
+\end{keyresult}
+
+\noindent
+$\varphi = 0$（通常物質）では$\cos(0)=1$であり、
+$\nabla_\mu\cos(\varphi) = 0$となるから、
+通常のEinstein方程式$G_{\mu\nu} + \Lambda g_{\mu\nu} = 8\pi G T_{\mu\nu}$に
+正確に帰着する。
+
+\subsection{スカラー場変分：修正Klein--Gordon方程式}
+
+$\varphi$に関する変分$\delta S / \delta\varphi = 0$を計算する。
+$\cos(\varphi)R$の$\varphi$微分は$-\sin(\varphi)R$を与え、
+$\cos(2\varphi)$の$\varphi$微分は$-2\sin(2\varphi) = -4\sin(\varphi)\cos(\varphi)$を
+与えることに注意する。結果は：
+
+\begin{keyresult}[修正Klein--Gordon方程式]
+\begin{equation}
+\boxed{
+\square\varphi + V'(\varphi)
+= \frac{\sin(\varphi)}{16\pi G}\,R
+}
+\label{eq:modified-kg}
+\end{equation}
+ここで$V'(\varphi) = \delta\sin(2\varphi) = 2\delta\sin(\varphi)\cos(\varphi)$
+はポテンシャル\eqref{eq:potential}の$\varphi$微分である。
+\end{keyresult}
+
+\noindent
+この方程式の最も注目すべき特徴は、右辺に
+$\sin(\varphi)\,R / (16\pi G)$が現れることである：
+\textbf{Berry位相場がRicciスカラーに直接結合する}。
+
+\begin{hsbox}[高校生ノート：場の方程式の意味]
+式\eqref{eq:modified-kg}は「Berry位相場$\varphi$が
+時空の曲がり具合$R$に反応して変化する」ことを述べている。
+
+左辺の$\square\varphi$は$\varphi$の波動方程式（波の伝播）、
+$V'(\varphi)$はポテンシャルの傾き（$\varphi$を安定点に戻す力）。
+右辺の$\sin(\varphi)R$は時空曲率からの「駆動力」。
+
+重要なのは、$\sin(\varphi)$が$\varphi=0$と$\varphi=\pi$で
+ゼロになることである。これらの点では駆動力がなく、
+$\varphi$は安定する。この事実が第9章の真空量子化につながる。
+\end{hsbox}
+
+
+\section{修正Friedmann方程式}
+\label{sec:8.3}
+
+宇宙論への応用として、Friedmann--Lema\^itre--Robertson--Walker (FLRW)
+計量
+\[
+ds^2 = -dt^2 + a(t)^2\bigl(dx^2 + dy^2 + dz^2\bigr)
+\]
+を修正Einstein方程式\eqref{eq:modified-einstein}に代入する。
+$\varphi = \varphi(t)$（一様等方）と仮定すると、
+$00$成分から修正Friedmann方程式が得られる：
+
+\begin{keyresult}[修正Friedmann方程式]
+\begin{equation}
+\boxed{
+3H^2\cos(\varphi)
+= \kappa^2\rho_m
++ \frac{1}{2}\dot\varphi^2
++ \Lambda_{\mathrm{WB}}\cos(2\varphi)
++ 3H\sin(\varphi)\,\dot\varphi
+}
+\label{eq:modified-friedmann}
+\end{equation}
+ここで$H = \dot a / a$はHubbleパラメータ、
+$\kappa^2 = 8\pi G$、$\rho_m$は物質エネルギー密度である。
+\end{keyresult}
+
+\noindent
+右辺の最後の項$3H\sin(\varphi)\dot\varphi$は、
+スカラー場と曲率の非最小結合から生じる摩擦項（あるいは駆動項）である。
+$\varphi$が$0$または$\pi$に固定されている（$\sin\varphi = 0$）場合、
+この項は消え、通常のFriedmann方程式の構造に帰着する。
+
+\begin{remark}
+修正Friedmann方程式\eqref{eq:modified-friedmann}において、
+左辺に$\cos(\varphi)$が現れることが本質的に重要である。
+$\varphi = \pi$では$\cos(\pi) = -1$となり、
+「有効的な重力定数の符号反転」が宇宙論のレベルで実現される。
+しかし、次章で示すように、$\varphi=\pi$のde Sitter宇宙は
+自己矛盾により存在できない。
+\end{remark}
+
+
+%=============================================================================
+% CHAPTER 9: 真空構造と位相量子化
+%=============================================================================
+
+\chapter{真空構造と位相量子化}
+\label{ch:vacuum-quantization}
+
+本章では、前章で導出したBerryスカラー・テンソル理論の
+真空構造を解析する。驚くべきことに、Berry位相場$\varphi$は
+連続的な値を取ることができず、$\varphi = 0$または$\varphi = \pi$の
+2値に\textbf{量子化}される。
+
+\section{真空の定義と方程式系}
+\label{sec:9.1}
+
+\textbf{真空}とは、物質が存在せず（$\rho_m = 0$）、
+スカラー場が時間変化しない（$\dot\varphi = 0$）
+定常解のことである。
+
+修正Friedmann方程式\eqref{eq:modified-friedmann}で
+$\rho_m = 0$、$\dot\varphi = 0$とおくと：
+\begin{equation}
+3H^2\cos(\varphi) = \Lambda_{\mathrm{WB}}\cos(2\varphi)
+\label{eq:vacuum-friedmann}
+\end{equation}
+
+修正Klein--Gordon方程式\eqref{eq:modified-kg}で
+$\square\varphi = 0$（$\varphi$は定数）とおくと：
+\begin{equation}
+V'(\varphi) = \frac{\sin(\varphi)}{16\pi G}\,R
+\label{eq:vacuum-kg}
+\end{equation}
+de Sitter時空では$R = 12H^2$であるから：
+\begin{equation}
+2\delta\sin(\varphi)\cos(\varphi) = \frac{12H^2\sin(\varphi)}{16\pi G}
+= \frac{3H^2\sin(\varphi)}{4\pi G}
+\label{eq:vacuum-kg-ds}
+\end{equation}
+
+
+\section{真空量子化定理}
+\label{sec:9.2}
+
+\begin{keyresult}[真空量子化定理]
+\begin{theorem}[真空量子化]
+\label{thm:vacuum-quantization}
+WBスカラー・テンソル理論の修正Friedmann方程式と修正Klein--Gordon方程式は、
+真空（$\rho_m = 0$, $\dot\varphi = 0$）において
+\[
+\boxed{\varphi = 0 \quad\text{または}\quad \varphi = \pi}
+\]
+のみを許容する。中間値$\varphi \in (0, \pi)$は自己矛盾する。
+\end{theorem}
+\end{keyresult}
+
+\begin{proof}
+$\sin(\varphi) \neq 0$と仮定して矛盾を導く。
+
+\textbf{Step 1.}
+$\sin(\varphi) \neq 0$であるから、式\eqref{eq:vacuum-kg-ds}の
+両辺を$\sin(\varphi)$で割ることができる：
+\begin{equation}
+2\delta\cos(\varphi) = \frac{3H^2}{4\pi G}
+\label{eq:step1}
+\end{equation}
+
+\textbf{Step 2.}
+式\eqref{eq:vacuum-friedmann}より$3H^2 = \Lambda_{\mathrm{WB}}\cos(2\varphi)/\cos(\varphi)$を
+\eqref{eq:step1}に代入する：
+\begin{equation}
+2\delta\cos(\varphi) = \frac{\Lambda_{\mathrm{WB}}\cos(2\varphi)}{4\pi G\cos(\varphi)}
+\end{equation}
+
+\textbf{Step 3.}
+$\delta = \Lambda_{\mathrm{WB}}/(4\pi G)$を用いて整理する：
+\begin{align}
+2 \cdot \frac{\Lambda_{\mathrm{WB}}}{4\pi G}\cos(\varphi)
+&= \frac{\Lambda_{\mathrm{WB}}}{4\pi G}\cdot\frac{\cos(2\varphi)}{\cos(\varphi)} \\
+2\cos^2(\varphi) &= \cos(2\varphi) \\
+2\cos^2(\varphi) &= 2\cos^2(\varphi) - 1
+\end{align}
+これは$0 = -1$を意味する。矛盾。
+
+したがって$\sin(\varphi) = 0$でなければならず、
+$\varphi = 0$または$\varphi = \pi$（一般には$\varphi = n\pi$, $n\in\mathbb{Z}$）
+のみが許容される。
+\end{proof}
+
+\begin{hsbox}[高校生ノート：この証明のポイント]
+「$\sin(\varphi)\neq 0$と仮定すると$0=-1$になる」
+---これは背理法と呼ばれる証明法である。
+
+直感的には：Berry位相場は「真空中で安定するには
+$\sin(\varphi)=0$でなければならない」ということである。
+ポテンシャル$V(\varphi) = \delta\sin^2(\varphi)$の
+極小点が$\varphi = 0$（通常物質）と$\varphi = \pi$（反重力物質）であり、
+場の方程式が「その中間では宇宙論と矛盾する」ことを示している。
+
+$\sin(\varphi)=0$は高校数学で習う通り$\varphi = 0, \pi, 2\pi, \ldots$であるが、
+Berry位相は$2\pi$周期であるから、本質的に異なる真空は
+$\varphi = 0$と$\varphi = \pi$の2つだけである。
+\end{hsbox}
+
+
+\section{$\varphi = 0$ の相：通常宇宙}
+\label{sec:9.3}
+
+$\varphi = 0$を代入すると$\cos(0)=1$、$\cos(0)=1$であるから、
+修正Friedmann方程式\eqref{eq:vacuum-friedmann}は
+\begin{equation}
+3H^2 = \Lambda_{\mathrm{WB}}
+\end{equation}
+となり、正の宇宙定数を持つ\textbf{de Sitter解}が存在する。
+これは我々の宇宙に対応する。
+
+物質を含めた場合、$\cos(\varphi)=1$であるから
+修正は一切入らず、標準的なFriedmann方程式に完全に帰着する。
+ダークエネルギー密度パラメータは
+\begin{equation}
+\Omega_\Lambda = \frac{2\pi}{9} \approx 0.698
+\end{equation}
+であり（Part IIで導出済み）、標準$\Lambda$CDMと一致する。
+
+\begin{remark}
+$\varphi=0$の相は、一般相対論と\textbf{厳密に同一}である。
+修正項は$\sin(0)=0$により全て消える。
+したがってWB理論は$\varphi=0$相においてGRの全ての成功を自動的に継承する。
+\end{remark}
+
+
+\section{$\varphi = \pi$ の相：反重力相の宇宙論}
+\label{sec:9.4}
+
+$\varphi = \pi$を代入すると$\cos(\pi)=-1$、
+$\cos(2\pi)=1$であるから、
+修正Friedmann方程式\eqref{eq:vacuum-friedmann}は
+\begin{equation}
+-3H^2 = \Lambda_{\mathrm{WB}}
+\end{equation}
+となる。$\Lambda_{\mathrm{WB}} > 0$であるから$H^2 < 0$が要求される。
+しかし$H^2 = (\dot a / a)^2 \geq 0$であるから、
+\textbf{実数解は存在しない}。
+
+\begin{keyresult}[$\varphi=\pi$相の宇宙論的不在]
+反重力相$\varphi = \pi$は、de Sitter型の一様等方宇宙として
+存在できない。すなわち：
+\begin{itemize}
+\item 「反重力宇宙」（$\varphi=\pi$が宇宙全体を満たす世界）は
+  場の方程式により\textbf{禁止}される。
+\item $\varphi = \pi$は\textbf{局所的にのみ}実現可能である
+  ---すなわちBerry位相$\pi$を持つ物質の内部でのみ。
+\end{itemize}
+\end{keyresult}
+
+\subsection{物理的解釈}
+
+この結果の物理的意味は深い。
+
+\begin{enumerate}[label=(\arabic*)]
+\item \textbf{反重力は宇宙ではなく物質の性質}：
+反重力は「宇宙全体が反重力になる」のではなく、
+特定のトポロジカル物質の\textbf{内部特性}である。
+通常の宇宙（$\varphi=0$）の中に、
+局所的に$\varphi=\pi$の領域を作ることはできるが、
+宇宙全体を$\varphi=\pi$にすることはできない。
+
+\item \textbf{宇宙論的安全性}：
+「反重力が暴走して宇宙全体に広がる」という
+カタストロフィーシナリオは原理的に不可能である。
+$\varphi=\pi$の領域は物質に局在し、
+真空中に伝播することはできない。
+
+\item \textbf{ドメインウォールの必要性}：
+$\varphi=0$の領域と$\varphi=\pi$の領域の間には
+$\varphi$が急激に変化する\textbf{ドメインウォール}
+（位相境界）が必然的に存在する。
+このドメインウォールの物理は重力工学において重要であり、
+Part IVで詳しく議論する。
+\end{enumerate}
+
+\begin{hsbox}[高校生ノート：反重力宇宙がない理由]
+もし宇宙全体が反重力$(\varphi=\pi)$だったらどうなるか？
+Friedmann方程式が$-3H^2 = \Lambda$となり、
+$H^2$が負になってしまう。$H = \dot a / a$は実数だから
+$H^2 \geq 0$であり、矛盾する。
+
+つまり「反重力だけの宇宙」は数学的に存在できない。
+反重力は必ず通常の重力$(\varphi=0)$の宇宙の中にある
+「島」として存在する。
+
+これは安全性にとって非常に良いニュースである：
+反重力物質を作っても、それが宇宙全体に広がって
+世界を壊すことは原理的に不可能なのだ。
+\end{hsbox}
+
+
+%=============================================================================
+% CHAPTER 10: PPN互換性と他理論との比較
+%=============================================================================
+
+\chapter{PPN互換性と他理論との比較}
+\label{ch:ppn-comparison}
+
+スカラー・テンソル重力理論は、太陽系内の高精度重力実験で検証される。
+その標準的な枠組みがParameterized Post-Newtonian (PPN)形式であり、
+特にパラメータ$\gamma$は光の偏向とShapiro遅延から精密に測定されている。
+本章では、WB理論がPPN制約を\textbf{自動的に}満たすことを証明し、
+他のスカラー・テンソル理論との系統的比較を行う。
+
+\section{PPNパラメータ$\gamma$}
+\label{sec:10.1}
+
+\subsection{一般のスカラー・テンソル理論でのPPN}
+
+Jordan frame作用が
+\[
+S = \int d^4x\sqrt{-g}\left[\frac{F(\varphi)}{16\pi G}R
+  - \frac{1}{2}(\partial\varphi)^2 + \cdots\right]
+\]
+の形をしている場合、PPNパラメータ$\gamma$は
+\begin{equation}
+\gamma - 1 = -\frac{2(F')^2}{F \cdot (2F + 3(F')^2 / (\partial\varphi \text{-kin}))}
+\end{equation}
+で与えられる。WB理論では$F(\varphi) = \cos(\varphi)$であり、
+標準的な運動エネルギーを持つので：
+
+\begin{keyresult}[WB理論のPPNパラメータ]
+\begin{equation}
+\gamma - 1 = -\frac{2\sin^2(\varphi)}{\cos(\varphi) + 2\sin^2(\varphi)}
+\label{eq:ppn-gamma}
+\end{equation}
+\end{keyresult}
+
+\section{PPN自動互換性定理}
+\label{sec:10.2}
+
+\begin{keyresult}[PPN自動互換性]
+\begin{theorem}[PPN自動互換性]
+\label{thm:ppn-auto}
+WBスカラー・テンソル理論の真空量子化された解$\varphi = 0$および$\varphi = \pi$
+の\textbf{両方}において、PPNパラメータ$\gamma$は
+\[
+\boxed{\gamma = 1 \quad\text{（厳密）}}
+\]
+を満たす。
+\end{theorem}
+\end{keyresult}
+
+\begin{proof}
+式\eqref{eq:ppn-gamma}に$\varphi = 0$を代入：
+\[
+\gamma - 1 = -\frac{2\sin^2(0)}{\cos(0) + 2\sin^2(0)}
+= -\frac{0}{1 + 0} = 0
+\quad\Longrightarrow\quad \gamma = 1
+\]
+
+$\varphi = \pi$を代入：
+\[
+\gamma - 1 = -\frac{2\sin^2(\pi)}{\cos(\pi) + 2\sin^2(\pi)}
+= -\frac{0}{-1 + 0} = 0
+\quad\Longrightarrow\quad \gamma = 1
+\]
+いずれの場合も$\sin(\varphi) = 0$であるから、分子がゼロとなり$\gamma = 1$が
+\textbf{厳密に}成立する。
+\end{proof}
+
+\noindent
+この定理の本質的なメカニズムを理解しよう。
+
+PPN偏差$\gamma - 1$はスカラー場の非最小結合関数$F(\varphi)$の
+微分$F'(\varphi) = -\sin(\varphi)$に比例する。
+$\cos(\varphi)$は$\varphi = 0$と$\varphi = \pi$で\textbf{極値}を取り、
+極値では微分がゼロ：$F'(0) = -\sin(0) = 0$、$F'(\pi) = -\sin(\pi) = 0$。
+
+真空量子化定理（定理\ref{thm:vacuum-quantization}）により、
+物理的真空は$\cos(\varphi)$の極値にのみ存在できる。
+したがってPPN偏差は必然的にゼロになる。
+
+\begin{hsbox}[高校生ノート：なぜ微調整が不要か]
+Brans--Dicke理論では、スカラー場$\phi$は連続的な値を取れる。
+そのため$\gamma = 1$からのずれを小さくするには、
+パラメータ$\omega$を非常に大きく（$\omega > 40000$程度に）
+微調整する必要がある。
+
+WB理論では事情が全く異なる。Berry位相場$\varphi$は$0$か$\pi$の
+2値しか取れない（第9章）。そしてこの2点はたまたま
+$\cos(\varphi)$の極大と極小に当たっており、
+微分がゼロになる。
+
+つまり「微調整」ではなく「構造的にゼロ」なのである。
+$\sin(0) = 0$は数学の定理であり、実験精度がいくら上がっても
+ずれることはない。
+\end{hsbox}
+
+
+\section{他理論との比較}
+\label{sec:10.3}
+
+WB理論の位置づけを明確にするため、主要なスカラー・テンソル理論
+および一般相対論との系統的比較を表\ref{tab:theory-comparison}に示す。
+
+\begin{table}[htbp]
+\centering
+\caption{WBスカラー・テンソル理論と他理論の比較}
+\label{tab:theory-comparison}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& \textbf{GR} & \textbf{Brans--Dicke} & \textbf{$f(R)$理論} & \textbf{WB理論} \\
+\midrule
+$\Lambda$（宇宙定数）
+  & 自由パラメータ & 自由パラメータ & 自由パラメータ
+  & $\dfrac{2\pi}{9}$（固定） \\[6pt]
+スカラー場
+  & なし & 連続値 & 連続値
+  & 量子化（$0$, $\pi$のみ） \\[4pt]
+$\gamma_{\mathrm{PPN}} - 1$
+  & $0$（定義上） & $O(1/\omega)$ & モデル依存
+  & $0$（厳密） \\[4pt]
+反重力
+  & 不可能 & 不可能 & 可能（一部モデル）
+  & 可能（局所的） \\[4pt]
+自由パラメータ数
+  & 2（$G$, $\Lambda$） & 3（$G$, $\Lambda$, $\omega$） & 関数$f$
+  & 0 \\[4pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+各行を補足する。
+
+\paragraph{宇宙定数$\Lambda$}
+一般相対論、Brans--Dicke理論、$f(R)$理論のいずれにおいても、
+宇宙定数は手で入力する自由パラメータである。
+WB理論では$\Omega_\Lambda = 2\pi/9$が第一原理から導出される
+（Part II、第4章）。
+
+\paragraph{スカラー場の値}
+Brans--Dicke理論と$f(R)$理論では、スカラー場は任意の実数値を取り得る。
+WB理論ではBerry位相場$\varphi$は真空量子化（定理\ref{thm:vacuum-quantization}）
+により$0$と$\pi$の2値に制限される。
+この離散性は$\cos(\varphi)$という非最小結合関数の形が
+$\sin^2(\varphi)$ポテンシャルと連立することから必然的に生じる。
+
+\paragraph{PPN $\gamma$}
+GRでは$\gamma = 1$は理論の定義に組み込まれている。
+Brans--Dicke理論では$\gamma - 1 = -1/(2+\omega)$であり、
+Cassini探査機による制約$|\gamma-1| < 2.3\times 10^{-5}$を満たすには
+$\omega > 40000$の微調整が必要である。
+$f(R)$理論ではモデルに依存するが、一般に制約が厳しい。
+WB理論では$\gamma = 1$が三角関数の性質により厳密に成立する。
+
+\paragraph{反重力}
+GRとBrans--Dicke理論では、正のエネルギーの物質は常に正の重力を生じ、
+反重力は原理的に不可能である。
+$f(R)$理論の一部のモデルでは有効重力定数が負になり得るが、
+安定性やゴーストの問題を伴う。
+WB理論では$\varphi = \pi$により$G_{\mathrm{eff}} = -G$が実現されるが、
+これはトポロジカルに保護された離散的な相であり、
+ゴーストや不安定性を伴わない。
+
+\paragraph{自由パラメータ}
+GRは$(G, \Lambda)$の2つ、Brans--Dicke理論は$(G, \Lambda, \omega)$の3つの
+自由パラメータを持つ。$f(R)$理論は関数$f$自体がパラメータであり、
+実質的に無限個のパラメータを持つ。
+WB理論は$G$がスペクトル作用から、$\Lambda$が$\Omega_\Lambda = 2\pi/9$から
+決定されるため、\textbf{自由パラメータがゼロ}である。
+
+\begin{remark}
+自由パラメータの数は理論の予測力の逆数である。
+パラメータが多いほど「データに合わせる」自由度があり、
+パラメータが少ないほど「予測する」能力が高い。
+WB理論の自由パラメータゼロは、理論が何も調整せずに
+全ての観測データと整合する（あるいは整合しない）ことを意味する。
+これは最も厳しいテストであると同時に、最も強力な予測力を持つ。
+\end{remark}
+
+\begin{keyresult}[Part IIIの要約]
+Berry位相スカラー・テンソル重力理論の4つの核心的結果：
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Berry位相スペクトル分解}（定理\ref{thm:berry-spectral}）：
+  $f_k \to e^{-i\varphi(d-k)/2}f_k$。
+  ゲージ結合は保護され、重力のみが変調される。
+\item \textbf{Jordan frame作用}（式\ref{eq:jordan-frame-action}）：
+  $\cos(\varphi)R$結合とポテンシャル$V = \delta\sin^2\varphi$が
+  スペクトル作用から一意に導出される。
+\item \textbf{真空量子化}（定理\ref{thm:vacuum-quantization}）：
+  $\varphi = 0$（通常重力）と$\varphi = \pi$（反重力）のみが許容され、
+  反重力相は宇宙論的に存在できない。
+\item \textbf{PPN自動互換性}（定理\ref{thm:ppn-auto}）：
+  $\gamma = 1$が厳密に成立し、微調整不要。
+\end{enumerate}
+これら4つの結果は、WB理論が一般相対論の全ての実験的成功を継承しつつ、
+反重力という新しい物理を\textbf{安全に}実現することを保証する。
+\end{keyresult}

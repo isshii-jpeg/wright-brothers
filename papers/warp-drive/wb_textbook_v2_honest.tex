@@ -1,0 +1,461 @@
+% ============================================================
+%  Part VI: 誠実な評価と未解決問題
+%  wb_textbook_v2_honest.tex
+%  Chapters 17--18
+% ============================================================
+
+% ============================================================
+% CHAPTER 17
+% ============================================================
+\chapter{仮説依存ネットワーク}
+\label{ch:dependency}
+
+\begin{keyresult}[本章の主題]
+WB理論は複数の仮説の\textbf{積み重ね}で構成されている。
+どの仮説が崩れると何が倒れるかを、依存関係図として明示する。
+科学理論の信頼性は、その透明性に比例する。
+\end{keyresult}
+
+% ------------------------------------------------------------
+\section{レベル0：数学的事実}
+\label{sec:17.1}
+
+以下は\textbf{証明済みの数学的定理}であり、物理的仮説とは独立に成立する。
+これらが崩れることはない。
+
+\begin{dfnbox}[数学的事実 M1--M6]
+\begin{description}[style=nextline, leftmargin=1.5cm]
+  \item[M1] リーマンゼータ関数の関数等式：
+    $\zeta(s) = 2^s \pi^{s-1}\sin(\pi s/2)\,\Gamma(1-s)\,\zeta(1-s)$。
+  \item[M2] オイラー積公式：
+    $\zeta(s) = \prod_p (1-p^{-s})^{-1}$（$\Re(s) > 1$）。
+  \item[M3] Connes の BC 系の分類定理：
+    BC 代数の KMS 状態は臨界温度 $\beta = 1$ で相転移を示す。
+  \item[M4] 非可換幾何学のスペクトル作用原理：
+    スペクトル三つ組 $(\mathcal{A}, \mathcal{H}, D)$ からボゾン作用が復元される。
+  \item[M5] Nielsen-Ninomiya 定理：
+    格子フェルミオンにはダブラーが存在する（ボソン系には不適用）。
+  \item[M6] Berry位相の量子化：
+    反転対称性の破れた系で Zak 位相は $0$ または $\pi$。
+\end{description}
+\end{dfnbox}
+
+% ------------------------------------------------------------
+\section{レベル1：物理的仮説}
+\label{sec:17.2}
+
+以下は\textbf{未証明の物理的仮説}である。実験で検証（または反証）される対象。
+
+\subsection{H1: 算術時空仮説}
+
+「時空は $\Spec(\Z)$ 上のアデール幾何として記述される」という中心仮説。
+これはさらに3つの下位仮説に分解される。
+
+\begin{hypbox}[H1: 算術時空（3公理に分解）]
+\begin{description}[style=nextline, leftmargin=2cm]
+  \item[H1a（離散性）] 時空の基本構造は離散的（$\Spec(\Z)$）であり、連続時空は創発的。
+  \item[H1b（素数独立）] 各素数 $p$ は\textbf{独立な}局所因子 $\Q_p$ を与える。
+        物理は全ての素数からの寄与の「積」（Euler積構造）として表される。
+  \item[H1c（民主主義）] 全ての素数は\textbf{等しい重み}で寄与する。
+        特別な素数は存在しない。
+\end{description}
+\end{hypbox}
+
+\subsection{H2: BC真空}
+
+\begin{hypbox}[H2: BC真空（$K = \zeta$）]
+Bost-Connes系の分配関数 $K(t)$ が宇宙の真空のスペクトルを記述する：
+\[
+  K(t) = \zeta(t) = \sum_{n=1}^{\infty} n^{-t} = \prod_p (1 - p^{-t})^{-1}.
+\]
+これは H1 の3公理から\textbf{導出される}（公理 $\to$ BC系 $\to$ $K = \zeta$）。
+\end{hypbox}
+
+\subsection{H3: スペクトル重力}
+
+\begin{hypbox}[H3: スペクトル重力]
+非可換幾何学のスペクトル作用原理が物理的に正しい：
+スペクトル三つ組 $(\mathcal{A}, \mathcal{H}, D)$ から Einstein 方程式が導出される。
+これは Connes-Chamseddine の定理（M4）の\textbf{物理的適用}を仮説とする。
+\end{hypbox}
+
+\subsection{H4: Berry位相 $\to$ 重力結合}
+
+\begin{hypbox}[H4: Berry位相と重力の結合]
+物質中のBerry位相 $\phi$ がスペクトル三つ組の自己同型を誘導し、
+有効重力定数を変調する：
+\[
+  f_k \;\to\; e^{-i\phi(d-k)/2}\, f_k
+  \qquad\Longrightarrow\qquad
+  \Geff = G\cos\phi.
+\]
+\end{hypbox}
+
+\subsection{H5: レギュレータ予想}
+
+\begin{hypbox}[H5: レギュレータ予想（182 vs 1/3）]
+BC系のスペクトルから導出されるDN/DDスペクトル比は $182:1$ であるが、
+物理的に観測される比は正則化（レギュレータ）効果により $1/3$ に近い値となる。
+この正則化の機構と数値が正しいかは未検証。
+\end{hypbox}
+
+% ------------------------------------------------------------
+\section{依存関係図}
+\label{sec:17.3}
+
+以下の図は、仮説間の論理的依存関係を示す。矢印は「$A \to B$」で
+「$A$ が成立しないと $B$ は（少なくとも現在の論証では）成立しない」を意味する。
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.8cm and 2.5cm,
+  hyp/.style={draw, rounded corners, minimum width=2.2cm, minimum height=0.7cm,
+              fill=purple!10, font=\small\bfseries},
+  math/.style={draw, rounded corners, minimum width=2.2cm, minimum height=0.7cm,
+               fill=green!10, font=\small},
+  pred/.style={draw, rounded corners, minimum width=2.8cm, minimum height=0.7cm,
+               fill=yellow!15, font=\small},
+  arr/.style={-{Stealth}, thick},
+]
+  % Math level
+  \node[math] (M3) {M3: BC分類};
+  \node[math, left=1.5cm of M3] (M2) {M2: Euler積};
+  \node[math, right=1.5cm of M3] (M4) {M4: スペクトル作用};
+  \node[math, right=1.5cm of M4] (M6) {M6: Berry量子化};
+
+  % Hypothesis level
+  \node[hyp, below=1.5cm of M2] (H1) {H1: 算術時空};
+  \node[hyp, below=1.5cm of M3] (H2) {H2: BC真空};
+  \node[hyp, below=1.5cm of M4] (H3) {H3: スペクトル重力};
+  \node[hyp, below=1.5cm of M6] (H4) {H4: Berry$\to$重力};
+  \node[hyp, below=0.8cm of H2] (H5) {H5: レギュレータ};
+
+  % Prediction level
+  \node[pred, below=2.5cm of H1] (OL) {$\Omega_\Lambda = 2\pi/9$};
+  \node[pred, right=0.5cm of OL] (aEM) {$\alpha_{\mathrm{EM}}$};
+  \node[pred, below=2.5cm of H3] (Geff) {$\Geff = -G$};
+  \node[pred, below=2.5cm of H4] (Cas) {カシミール反転};
+  \node[pred, below=1.5cm of H5] (r182) {182:1比};
+
+  % Arrows
+  \draw[arr] (M2) -- (H1);
+  \draw[arr] (M3) -- (H2);
+  \draw[arr] (H1) -- (H2);
+  \draw[arr] (M4) -- (H3);
+  \draw[arr] (M6) -- (H4);
+  \draw[arr] (H2) -- (H5);
+
+  \draw[arr] (H1) -- (OL);
+  \draw[arr] (H2) -- (OL);
+  \draw[arr] (H2) -- (aEM);
+  \draw[arr] (H3) -- (Geff);
+  \draw[arr] (H4) -- (Geff);
+  \draw[arr] (H4) -- (Cas);
+  \draw[arr] (H3) -- (Cas);
+  \draw[arr] (H5) -- (r182);
+
+\end{tikzpicture}
+\end{center}
+
+% ------------------------------------------------------------
+\section{否定シナリオ：何が崩れると何が倒れるか}
+\label{sec:17.4}
+
+仮説の否定が波及する範囲を整理する。
+
+\subsection{H3 が否定された場合}
+
+\begin{warningbox}[H3否定の波及]
+\textbf{スペクトル重力が物理的に成立しない場合}：
+\begin{itemize}
+  \item \textbf{全滅}：$\Geff = -G$（反重力）、カシミール符号反転、Berry位相インフレーション。
+        $\to$ 反重力関連の予測は\textbf{全て崩壊}する。
+  \item \textbf{生存}：$\Omega_\Lambda = 2\pi/9$、$\alpha_{\mathrm{EM}}$ の導出、$m_p/m_e$ の導出。
+        $\to$ これらは H1 + H2 から導出されており、H3 とは\textbf{独立}。
+\end{itemize}
+\textbf{要点}：反重力は死ぬが、宇宙定数の予測は生き残る。
+\end{warningbox}
+
+\subsection{H4 が否定された場合}
+
+\begin{warningbox}[H4否定の波及]
+\textbf{Berry位相が重力と結合しない場合}：
+\begin{itemize}
+  \item \textbf{全滅}：$\Geff = -G$（反重力）、重力ダイヤル、カシミール符号反転。
+        $\to$ 反重力の\textbf{工学的応用}は全て不可能。
+  \item \textbf{生存}：5定数の導出（$\Omega_\Lambda$, $\alpha_{\mathrm{EM}}$, $m_p/m_e$, $\theta_W$, $\delta_{\mathrm{CP}}$）。
+        $\to$ 定数の導出は Berry 位相工学とは\textbf{独立}な論理に基づく。
+\end{itemize}
+\textbf{要点}：重力制御の夢は消えるが、「なぜ物理定数がこの値か」への解答は生き残る。
+\end{warningbox}
+
+\subsection{H1c が否定された場合}
+
+\begin{warningbox}[H1c否定の波及]
+\textbf{素数の民主主義が成立しない場合}（一部の素数が特別な重みを持つ）：
+\begin{itemize}
+  \item \textbf{影響}：$\Omega_\Lambda = 2\pi/9$ の値が\textbf{ずれる}。
+        正確な値は重みの分布に依存。
+  \item \textbf{生存}：$\Omega_\Lambda$ が「何らかの数論的値」であることは維持される。
+        5定数間の\textbf{関係式}も多くが生存。
+  \item \textbf{判定}：Euclid 2028 の $\Omega_\Lambda$ 精密測定で決着。
+        $2\pi/9$ から有意にずれれば H1c は否定される。
+\end{itemize}
+\end{warningbox}
+
+\begin{hsbox}
+科学理論の美しさは「反証可能であること」にある。
+WB理論は多くの仮説の積み重ねだが、各仮説が\textbf{独立に}検証・反証可能な構造になっている。
+全てが正しい必要はなく、一部が崩れても他の部分が生き残る。
+これは「トランプの家」ではなく「レンガの壁」に近い構造である。
+\end{hsbox}
+
+
+% ============================================================
+% CHAPTER 18
+% ============================================================
+\chapter{失敗の記録と未解決問題}
+\label{ch:failures}
+
+\begin{warningbox}[本章の精神]
+科学では成功だけでなく\textbf{失敗を記録する}ことが不可欠である。
+失敗を隠蔽すれば、他の研究者が同じ誤りを繰り返す。
+本章はWBプログラムの失敗と未解決問題を正直に記録する。
+\end{warningbox}
+
+% ------------------------------------------------------------
+\section{失敗リスト}
+\label{sec:18.1}
+
+以下は、研究過程で発生した具体的な誤りと失敗を時系列で記録したものである。
+
+\subsection{失敗1：符号誤り（3D DN = 負エネルギーではなかった）}
+
+\begin{warningbox}[失敗1: 3D DN の符号]
+\textbf{誤り}：3次元のDirichlet-Neumann境界条件が負のカシミールエネルギーを
+与えると考え、これを反重力の証拠として議論した。
+
+\medskip
+\textbf{実際}：3D DN のカシミールエネルギーの符号は正（通常の引力）であった。
+符号が反転するのは特定の次元・幾何のみであり、3D の一般的な場合には当てはまらない。
+
+\medskip
+\textbf{教訓}：カシミール効果の符号は幾何と次元に強く依存する。
+安易な一般化は危険。
+\end{warningbox}
+
+\subsection{失敗2：$10^{43}$\,J 見積もり誤り}
+
+\begin{warningbox}[失敗2: 壁エネルギーの過大評価]
+\textbf{誤り}：ドメインウォールのエネルギーを $\sim 10^{43}$\,J と見積もり、
+実用的な反重力装置には天文学的エネルギーが必要と結論した。
+
+\medskip
+\textbf{実際}：正しい見積もりは $\sim 10^3$\,J（キロジュール程度）。
+プランクスケールの壁ではなく、ダークエネルギースケールの壁であることを
+見落としていた（40桁の過大評価！）。
+
+\medskip
+\textbf{教訓}：エネルギースケールの同定を慎重に行うこと。
+\end{warningbox}
+
+\subsection{失敗3：$G = -2G$（Liouville）は無限操作が必要}
+
+\begin{warningbox}[失敗3: Liouville モード]
+\textbf{誤り}：Liouville モードの共形因子を利用して $\Geff = -2G$ を
+実現できると考えた。
+
+\medskip
+\textbf{実際}：この操作には\textbf{無限回}の共形変換の合成が必要であり、
+物理的に実現不可能。有限回の操作では $\Geff = -2G$ は達成できない。
+
+\medskip
+\textbf{教訓}：数学的に形式的に成り立つ操作が物理的に実現可能とは限らない。
+\end{warningbox}
+
+\subsection{失敗4：ジャイロイドインフィルは Berry 位相 0}
+
+\begin{warningbox}[失敗4: ジャイロイド構造]
+\textbf{誤り}：3Dプリントのジャイロイドインフィルパターンがトポロジカル
+フォノニック結晶として機能すると期待した。
+
+\medskip
+\textbf{実際}：ジャイロイド構造は空間反転対称性を保存するため、
+Zak 位相（Berry 位相）は\textbf{厳密に $0$}。トポロジカルに自明。
+
+\medskip
+\textbf{教訓}：対称性の解析を設計前に行うこと。
+反転対称性を\textbf{破る}構造が必須。
+\end{warningbox}
+
+\subsection{失敗5：DESI $w_0 w_a$ フィット失敗}
+
+\begin{warningbox}[失敗5: 状態方程式のフィット]
+\textbf{誤り}：DESI（Dark Energy Spectroscopic Instrument）の $w_0$-$w_a$
+パラメータ化を、Berry 位相ポテンシャル $V(\phi)$ からフィットしようとした。
+
+\medskip
+\textbf{実際}：検討した\textbf{全てのポテンシャル形状}で、$w_a$ の傾斜が
+DESI データと合わない。$w_0 \approx -1$ は再現できるが、
+$w_a$ の非ゼロ成分（時間変化）は正しく再現できなかった。
+
+\medskip
+\textbf{教訓}：$\Lambda$CDM（$w_0 = -1$, $w_a = 0$）からのずれは、
+Berry 位相インフレーションの単純な版では説明困難。
+\end{warningbox}
+
+\subsection{失敗6：$\alpha_s$ の導出失敗}
+
+\begin{warningbox}[失敗6: 強い結合定数]
+\textbf{誤り}：電磁結合定数 $\alpha_{\mathrm{EM}}$ と同様の手法で
+強い結合定数 $\alpha_s$ を導出しようとした。
+
+\medskip
+\textbf{実際}：最良の試みでも実験値から\textbf{4.5\%のずれ}が残る。
+$\alpha_{\mathrm{EM}}$ の $0.3\%$ 精度に比べて大幅に悪い。
+
+\medskip
+\textbf{教訓}：$\alpha_s$ のランニング（エネルギースケール依存性）と
+非摂動論的効果が、単純な数論的導出を困難にしている可能性。
+\end{warningbox}
+
+\subsection{失敗7：$m_\mu / m_e$ の 23 が未導出}
+
+\begin{warningbox}[失敗7: ミュー粒子質量比の因子 23]
+\textbf{誤り}：$m_\mu / m_e \approx 206.768$ を完全に導出しようとした。
+
+\medskip
+\textbf{実際}：$m_\mu / m_e$ の値に現れる因子 $23$ の数論的起源が未解明。
+他の因子は $\zeta$ 関数の特殊値や $\pi$ から説明できるが、
+$23$ だけが「浮いて」いる。
+
+\medskip
+\textbf{教訓}：レプトン質量階層の完全な理解には、まだ欠けている要素がある。
+\end{warningbox}
+
+\subsection{失敗8：浮遊する球のSTL（印刷不可能）}
+
+\begin{warningbox}[失敗8: 印刷不可能な設計]
+\textbf{誤り}：フォノニック結晶の初期設計で、
+ユニットセル内の球が母材と接続されていない「浮遊する球」を含むSTLファイルを生成。
+
+\medskip
+\textbf{実際}：FDM 3Dプリンタでは、浮遊する構造は\textbf{印刷不可能}
+（サポート材を除去すると球が落下する）。
+球を細い柱で母材に接続する設計変更が必要だった。
+
+\medskip
+\textbf{教訓}：計算物理と製造工学の間にはギャップがある。
+印刷可能性（manufacturability）を設計段階で検討すること。
+\end{warningbox}
+
+% ------------------------------------------------------------
+\section{未解決問題}
+\label{sec:18.2}
+
+以下は現時点で解決されていない理論的課題である。
+
+\subsection{未解決問題1：$V(\phi)$ の厳密導出}
+
+\begin{dfnbox}[未解決: ポテンシャルの導出]
+Berry位相スカラー・テンソル理論のポテンシャル $V(\phi)$ を
+スペクトル三つ組 $(\mathcal{A}, \mathcal{H}, D)$ から\textbf{厳密に}導出すること。
+
+\medskip
+\textbf{現状}：$V(\phi)$ の定性的な形（2つの極小）は分かっているが、
+kinetic term の正規化を含めた定量的な形状が決まっていない。
+これにより、slow-roll パラメータ（$n_s$, $r$）の定量的予測ができない。
+
+\medskip
+\textbf{難しさ}：スペクトル作用の展開で、高次項の寄与が kinetic term の
+係数を修正する。この修正の正確な値は非可換幾何学の未解決問題と絡む。
+\end{dfnbox}
+
+\subsection{未解決問題2：$\alpha_s$}
+
+\begin{dfnbox}[未解決: 強い結合定数]
+QCD の結合定数 $\alpha_s(M_Z) \approx 0.1179$ を数論的に導出すること。
+
+\medskip
+\textbf{現状}：最良の試みで $4.5\%$ のずれ（失敗6参照）。
+$\alpha_{\mathrm{EM}}$ の $0.3\%$ 精度に遠く及ばない。
+
+\medskip
+\textbf{可能性}：$\alpha_s$ の大きさ（$\sim 0.1$、非摂動論的領域に近い）が
+単純な摂動論的数論的手法の適用を困難にしている可能性がある。
+非摂動論的効果（instanton、confinement）を数論的に取り込む必要があるかもしれない。
+\end{dfnbox}
+
+\subsection{未解決問題3：$\alpha_{\mathrm{EM}}$ の $0.3\%$ ずれ}
+
+\begin{dfnbox}[未解決: 電磁結合定数の微調整]
+導出値 $\alpha_{\mathrm{EM}}^{-1} \approx 137.02$ と実験値 $137.036$ の
+$0.3\%$ のずれの起源。
+
+\medskip
+\textbf{仮説}：ランニング効果（繰り込み群フロー）による補正。
+低エネルギーでの値は高エネルギーの「裸の値」からランニングで決まるが、
+WB理論が与えるのはどのスケールの値かが不明確。
+
+\medskip
+\textbf{検証方法}：ランニングの計算を行い、WB理論の値がどのエネルギースケールに
+対応するかを同定する。$\mu \sim M_{\mathrm{Pl}}$ での値なら、
+$\mu \sim m_e$ への繰り込み群フローで $0.3\%$ のずれが説明できるかもしれない。
+\end{dfnbox}
+
+\subsection{未解決問題4：$d = 4$ の導出}
+
+\begin{dfnbox}[未解決: なぜ4次元か]
+時空がなぜ4次元（$3+1$次元）であるかの導出。
+
+\medskip
+\textbf{現状}：WB理論は $d = 4$ を\textbf{仮定}しており、導出していない。
+$\Spec(\Z)$ は1次元であり、ここから $d = 4$ の時空が創発する機構は不明。
+
+\medskip
+\textbf{手がかり}：
+\begin{itemize}
+  \item $\Spec(\Z)$ のコホモロジー次元 $\cd(\Spec(\Z)) = 3$（Arakelov補正込み）
+        $\to$ これが $d = 3+1$ と関係する可能性。
+  \item 非可換幾何学の KO 次元が $d = 4 \pmod{8}$ を好む
+        $\to$ フェルミオンの自由度の制約。
+  \item 人間原理的議論：$d \neq 4$ では安定な原子・惑星軌道が存在しない。
+\end{itemize}
+
+\medskip
+\textbf{率直な評価}：これは数学と物理学の最も深い未解決問題の一つであり、
+WB理論の枠内で短期間に解決できる見込みは低い。
+しかし、$\Spec(\Z)$ のコホモロジー構造が鍵を握る可能性はある。
+\end{dfnbox}
+
+\begin{hsbox}
+「なぜ3次元空間なのか」は子供でも思いつく問いだが、
+物理学者にとっても答えのない根本問題である。
+前後左右上下の3方向＋時間の1方向で $3+1 = 4$ 次元。
+もし空間が2次元なら消化管が体を分断してしまうし、
+5次元以上なら惑星軌道が不安定になる。
+しかし「だから4次元」というのは答えではなく、結果の言い換えにすぎない。
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{まとめ：誠実さの価値}
+\label{sec:18.3}
+
+本章で列挙した8つの失敗と4つの未解決問題は、WB理論の\textbf{弱点}である。
+しかし弱点を公開することは弱さではなく、科学的\textbf{強さ}の証明である。
+
+\begin{keyresult}[WB理論の現在地]
+\begin{itemize}
+  \item \textbf{成功}：5つの物理定数の導出（$\Omega_\Lambda$, $\alpha_{\mathrm{EM}}$, $m_p/m_e$, $\theta_W$, $\delta_{\mathrm{CP}}$）、
+        Berry位相による $\Geff = G\cos\phi$ の定式化、
+        実験可能な予測の体系。
+  \item \textbf{失敗}：8件の具体的誤りを修正済み。
+  \item \textbf{未解決}：$V(\phi)$ の厳密導出、$\alpha_s$、$\alpha_{\mathrm{EM}}$ の微調整、$d = 4$ の起源。
+  \item \textbf{次のステップ}：Phase P 実験（{\yen}27,000、1ヶ月）で
+        Berry位相 $\pi$ の音響検出から開始。
+\end{itemize}
+
+これは完成された理論ではなく、\textbf{進行中の研究プログラム}である。
+読者には批判的な目で本書を読み、誤りを見つけたら報告してほしい。
+科学は協力によって進む。
+\end{keyresult}

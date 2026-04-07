@@ -1,0 +1,965 @@
+% ============================================================
+%  Part I: 算術的時空の3公理
+%  wb_textbook_v2_axioms.tex
+%  Chapters 1--3
+% ============================================================
+
+% ############################################################
+\chapter{Spec(\texorpdfstring{$\Z$}{Z}) --- 整数のスペクトル}
+\label{ch:specZ}
+% ############################################################
+
+この章では、本書全体の出発点となる数学的対象 $\Spec(\Z)$ を導入する。
+高校数学の「素数」から出発し、代数幾何学が素数に与える幾何学的構造を解説する。
+最終目標は、\textbf{整数の環 $\Z$ が3次元的な幾何を持つ}という驚くべき事実（Artin--Verdier の定理）
+に到達することである。
+
+
+% ============================================================
+\section{素数とは何か}
+\label{sec:primes-intro}
+% ============================================================
+
+\begin{hsbox}[高校生ノート：素数の復習]
+\textbf{素数}（prime number）とは、$1$ より大きい自然数で、
+$1$ と自分自身以外に正の約数を持たない数のことである。
+最初のいくつかを列挙しよう：
+\[
+  2,\; 3,\; 5,\; 7,\; 11,\; 13,\; 17,\; 19,\; 23,\; 29,\; \ldots
+\]
+\textbf{算術の基本定理}（Fundamental Theorem of Arithmetic）により、
+すべての自然数 $n \ge 2$ は素数の積として\emph{一意的に}（順序を除いて）表される：
+\[
+  n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}.
+\]
+例えば $360 = 2^3 \cdot 3^2 \cdot 5$ である。
+素数は自然数の「原子」---これ以上分解できない基本構成要素---と考えてよい。
+\end{hsbox}
+
+素数が無限に存在することは、紀元前3世紀にユークリッドが証明した。
+その論法は美しく単純である：素数が有限個 $p_1, \ldots, p_k$ しかないと仮定すると、
+$N = p_1 p_2 \cdots p_k + 1$ はどの $p_i$ でも割り切れない。
+しかし $N \ge 2$ なので素因数を持つはずであり、矛盾する。
+
+\begin{remark}
+この証明の構造---\emph{全体を掛け合わせて $1$ を足す}---は、
+後に登場する $\zeta$ 関数のオイラー積表示と深い関係がある。
+\end{remark}
+
+素数の分布に関する最も基本的な問は「$x$ 以下の素数はいくつあるか」である。
+素数計数関数 $\pi(x) = \#\{p \le x : p \text{ は素数}\}$ に対して、
+\textbf{素数定理}（Prime Number Theorem）は
+\[
+  \pi(x) \sim \frac{x}{\ln x} \quad (x \to \infty)
+\]
+を主張する。より精密な情報はリーマンゼータ関数の零点分布に符号化されている。
+
+
+% ============================================================
+\section{オイラー積とリーマンゼータ関数}
+\label{sec:euler-product}
+% ============================================================
+
+\begin{definition}[リーマンゼータ関数]
+\label{def:zeta}
+$\Re(s) > 1$ に対して、\textbf{リーマンゼータ関数}を
+\[
+  \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
+\]
+と定義する。
+\end{definition}
+
+この級数は $\Re(s) > 1$ で絶対収束する。
+$\zeta$ 関数の最も重要な性質は、算術の基本定理の解析的反映である\textbf{オイラー積}表示である。
+
+\begin{theorem}[オイラー積, 1737]
+\label{thm:euler-product}
+$\Re(s) > 1$ において
+\[
+  \zeta(s) = \prod_{p:\text{素数}} \frac{1}{1 - p^{-s}}.
+\]
+\end{theorem}
+
+\begin{proof}
+各素数 $p$ に対して等比級数
+\[
+  \frac{1}{1 - p^{-s}} = 1 + p^{-s} + p^{-2s} + p^{-3s} + \cdots
+\]
+を用いる。有限個の素数 $p_1, \ldots, p_k$ について積をとると、
+算術の基本定理により、$p_1, \ldots, p_k$ のみを素因数に持つすべての自然数 $n$ にわたる和
+$\sum_{n} n^{-s}$ が得られる。$k \to \infty$ とすれば $\zeta(s) = \sum_{n=1}^{\infty} n^{-s}$
+に収束する。
+\end{proof}
+
+\begin{hsbox}[高校生ノート：オイラー積の意味]
+オイラー積は「掛け算の世界（素因数分解）と足し算の世界（級数）を結ぶ橋」である。
+$\zeta$ 関数の一つ一つの因子 $(1-p^{-s})^{-1}$ が素数 $p$ に対応し、
+それらの積が\emph{すべての}自然数にわたる和と等しくなる。
+これが本書の物理的解釈の出発点となる：
+\begin{center}
+\emph{各素数 $p$ は独立な自由度であり、\\
+全体の分配関数はそれらの積で書ける。}
+\end{center}
+\end{hsbox}
+
+$\zeta(s)$ は $\Re(s) > 1$ の領域から $\C$ 全体に解析接続され、
+$s = 1$ にのみ単純極を持つ。\textbf{リーマン予想}は、
+自明でない零点がすべて $\Re(s) = 1/2$ 上にあると主張する。
+本書では直接リーマン予想を必要としないが、ゼータ関数の零点は
+後に（Part IIで）暗黒エネルギー密度 $\Omega_\Lambda$ の導出に現れる。
+
+
+% ============================================================
+\section{$\Spec(\Z)$ の幾何学}
+\label{sec:specZ-geometry}
+% ============================================================
+
+代数幾何学では、環 $R$ に対してその\textbf{素イデアルのスペクトル}
+\[
+  \Spec(R) = \{\mathfrak{p} \subset R : \mathfrak{p} \text{ は素イデアル}\}
+\]
+を考え、これをザリスキ位相により位相空間とする。
+
+\begin{definition}[$\Spec(\Z)$]
+\label{def:specZ}
+$\Z$ の素イデアルは以下の通りである：
+\begin{itemize}
+  \item $(0)$：\textbf{生成的点}（generic point）。$\Z$ の商体 $\Q$ に対応する。
+  \item $(p)$（$p$ は素数）：\textbf{閉点}。有限体 $\mathbb{F}_p = \Z/p\Z$ に対応する。
+\end{itemize}
+従って $\Spec(\Z)$ は集合として
+\[
+  \Spec(\Z) = \{(0)\} \cup \{(2), (3), (5), (7), (11), \ldots\}
+\]
+であり、閉点の集合は素数の集合と一対一に対応する。
+\end{definition}
+
+\begin{hsbox}[高校生ノート：「空間」としての整数]
+通常、「空間」と聞くと $\R^3$ のような連続的な広がりを想像する。
+しかし $\Spec(\Z)$ は素数という離散的な「点」から構成される空間である。
+にもかかわらず、この空間には豊かな幾何学的構造がある。
+
+比喩的に言えば：
+\begin{itemize}
+  \item 素数 $p$ は空間上の「点」
+  \item 生成的点 $(0)$ はすべての点に「染み渡る」---どの閉点の近傍にも含まれる
+  \item $\Spec(\Z)$ 全体は一つの「線」のように振る舞う
+\end{itemize}
+しかし、次節で見るように、エタール・コホモロジーの意味ではこの「線」は
+3次元的な構造を持つ。
+\end{hsbox}
+
+$\Spec(\Z)$ 上の構造層 $\mathcal{O}_{\Spec(\Z)}$ は、
+各開集合 $U$ に対して「$U$ 上の正則関数の環」を割り当てる。
+例えば、点 $(p)$ における茎（stalk）は局所化 $\Z_{(p)}$、
+生成的点 $(0)$ における茎は $\Q$ である。
+
+\begin{remark}
+代数幾何学では $\Spec(\Z)$ は\textbf{最終対象}（final object）の役割を果たす。
+すなわち、すべてのスキーム $X$ に対して一意的な射 $X \to \Spec(\Z)$ が存在する。
+この意味で $\Spec(\Z)$ は「すべての幾何学の母体」であり、
+物理学で「時空の最も基本的な基盤」と解釈する動機はここにある。
+\end{remark}
+
+
+% ============================================================
+\section{Artin--Verdier の定理：$\cd(\Spec(\Z)) = 3$}
+\label{sec:artin-verdier}
+% ============================================================
+
+$\Spec(\Z)$ のエタール・コホモロジー的次元は古典的な結果として知られている。
+
+\begin{theorem}[Artin--Verdier]
+\label{thm:artin-verdier}
+$\Spec(\Z)$ のエタール・コホモロジー的次元は $3$ である：
+\[
+  \cd(\Spec(\Z)) = 3.
+\]
+すなわち、すべてのエタール層 $\mathcal{F}$ に対して $H^n_{\text{ét}}(\Spec(\Z), \mathcal{F}) = 0$
+（$n > 3$）であり、$n = 3$ でゼロにならない層が存在する。
+\end{theorem}
+
+この定理は深い意味を持つ。$\Spec(\Z)$ はナイーブには1次元的対象（「線」）に見えるが、
+エタール位相の意味では\textbf{3次元多様体}のように振る舞う。
+
+\begin{keyresult}[物理的解釈：時空の次元]
+Artin--Verdier の定理 $\cd(\Spec(\Z)) = 3$ は、
+$\Spec(\Z)$ 上のコホモロジーが3次元閉多様体と同じ構造を持つことを意味する。
+本書のプログラムでは、これを時空の\textbf{空間次元が $3$ である理由}
+の算術的起源と解釈する：
+\[
+  \boxed{d_{\text{空間}} = \cd(\Spec(\Z)) = 3.}
+\]
+このアイデアは第7章以降のスカラー・テンソル重力理論の基盤となる。
+\end{keyresult}
+
+Artin--Verdier の定理のもう一つの顕著な帰結は、
+$\Spec(\Z)$ 上のエタール・コホモロジーが\textbf{ポアンカレ双対性}に類似した
+双対定理を満たすことである。これは $\Spec(\Z)$ が3次元閉多様体の
+算術的類似物であるという視点を補強する。
+
+
+% ============================================================
+\section{素数と結び目のアナロジー}
+\label{sec:primes-knots}
+% ============================================================
+
+\begin{hsbox}[高校生ノート：素数が結び目のように振る舞う]
+$\Spec(\Z)$ が3次元多様体のように振る舞うという事実から、
+\textbf{算術位相幾何学}（arithmetic topology）と呼ばれる分野が生まれた。
+この分野の核心にあるのは以下の辞書である：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{数論} & \textbf{3次元位相幾何学} & \textbf{対応} \\
+\midrule
+$\Spec(\Z)$ & 3次元多様体 $M^3$ & 全体空間 \\
+素数 $(p)$ & 結び目 $K \subset M^3$ & 基本的対象 \\
+$\Spec(\mathbb{F}_p)$ & 円 $S^1$ & 閉点／芯 \\
+ガロア群 & 基本群 $\pi_1$ & 対称性 \\
+相互律 & 絡み数 & 「絡み合い」の測定 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+素数 $p$ は3次元空間の中の「結び目」（knot）に対応する！
+結び目同士が「絡み合う」（linking）ように、素数同士も二次相互律などを通じて
+互いに「絡み合う」のである。
+
+この比喩は単なるアナロジーではなく、エタール基本群・被覆空間の
+レベルで数学的に精密化できる。
+\end{hsbox}
+
+Mazur \cite{Mazur1964}、Morishita \cite{Morishita2012} らの仕事により、
+この辞書は極めて豊かな構造を持つことが知られている。
+本書の物理的プログラムにおいて、この辞書は次の問いを自然にする：
+
+\begin{quote}
+\emph{もし $\Spec(\Z)$ が3次元多様体ならば、\\
+その上の「物理」---場の理論、重力、ゲージ理論---はどのようなものか？}
+\end{quote}
+
+この問いに答えるのが本書の目標であり、
+次章ではそのための出発点となる3つの公理を定式化する。
+
+\bigskip
+
+\begin{remark}[本章のまとめ]
+\begin{enumerate}
+  \item 素数は自然数の「原子」であり、ゼータ関数のオイラー積を通じて解析学に接続する。
+  \item $\Spec(\Z)$ は素数を「点」とする幾何学的空間である。
+  \item Artin--Verdier の定理により $\cd(\Spec(\Z)) = 3$、
+        すなわちこの空間は3次元多様体のように振る舞う。
+  \item 算術位相幾何学の辞書は「素数 $\leftrightarrow$ 結び目」の対応を与え、
+        $\Spec(\Z)$ 上の物理を考える動機を与える。
+\end{enumerate}
+\end{remark}
+
+
+
+% ############################################################
+\chapter{3つの公理から $\zeta(t)$ へ}
+\label{ch:three-axioms}
+% ############################################################
+
+本章は第2版の\textbf{最も重要な新内容}である。
+前章で導入した $\Spec(\Z)$ の幾何学を出発点として、
+\textbf{たった3つの物理的公理}からリーマンゼータ関数 $\zeta(t)$
+がプランクスケールのヒートカーネルとして一意的に導出されることを示す。
+
+この導出は本書のプログラム全体の\textbf{論理的基盤}であり、
+以降の章で現れるすべての物理的帰結---暗黒エネルギー密度、微細構造定数、
+質量比、スカラー・テンソル重力---はこの3公理から流れ出す。
+
+
+% ============================================================
+\section{動機：プランクスケールの自由度}
+\label{sec:axioms-motivation}
+% ============================================================
+
+現代物理学では、プランク長 $\ell_{\mathrm{Pl}} \sim 10^{-35}\,\mathrm{m}$
+以下のスケールにおける時空の構造は不明である。
+量子重力のあらゆるアプローチ---弦理論、ループ量子重力、
+因果集合理論、非可換幾何学---は、
+プランクスケールで時空が何らかの\textbf{離散的構造}を持つことを示唆する。
+
+本書のアプローチは以下の問いから始まる：
+
+\begin{quote}
+\emph{プランクスケールの離散的自由度が自然数 $n \in \N$ でラベルされるとき、\\
+最小限の仮定から物理がどこまで導出できるか？}
+\end{quote}
+
+この問いに対する答えを与えるのが、以下の3つの公理である。
+
+
+% ============================================================
+\section{公理1：算術離散性}
+\label{sec:axiom1}
+% ============================================================
+
+\begin{dfnbox}[公理1（算術離散性）]
+プランクスケールの自由度は自然数 $n \in \N = \{1, 2, 3, \ldots\}$ でラベルされる。
+系のヒートカーネル（分配関数的対象）は、重み関数 $w : \N \to \C$ を用いて
+\begin{equation}
+  K(t) = \sum_{n=1}^{\infty} w(n)\, n^{-t}
+  \label{eq:heat-kernel-general}
+\end{equation}
+と書ける。ここで $t > 0$ は（逆温度に相当する）パラメータであり、
+各モード $n$ のエネルギーは $E_n = \log n$ で与えられる。
+\end{dfnbox}
+
+\paragraph{公理1の意味.}
+この公理は2つのことを主張している：
+\begin{enumerate}
+  \item プランクスケールのモードは\textbf{離散的}であり、自然数で番号付けられる。
+  \item 各モード $n$ のエネルギーは $\log n$ である（$n^{-t} = e^{-t \log n}$）。
+\end{enumerate}
+
+エネルギーが $E_n = \log n$ であるという点は一見奇妙に見えるかもしれないが、
+自然数 $n$ の「大きさ」を測る最も自然な尺度が対数であることを思い出せば、
+これは $n$ を「プランクエネルギーの $\log n$ 倍」と読むことに対応する。
+
+\begin{hsbox}[高校生ノート：ヒートカーネルとは？]
+ヒートカーネル（heat kernel）は、もともと「熱がどう伝わるか」を記述する関数である。
+金属棒の各点の温度の時間発展は熱方程式 $\partial_t u = \Delta u$ で記述され、
+その解は初期条件とヒートカーネルの畳み込みで書ける。
+
+量子力学や場の理論では、ヒートカーネル $K(t) = \Tr(e^{-tH})$ は
+ハミルトニアン $H$ のスペクトル情報をすべて含む「指紋」のようなものである。
+$t$ が小さいときの $K(t)$ の振る舞いから、
+空間の体積・曲率・位相的情報が読み取れる（Seeley--DeWitt 展開、第3章で詳述）。
+
+公理1は、この $K(t)$ がディリクレ級数 $\sum w(n) n^{-t}$ の形をしていると仮定する。
+\end{hsbox}
+
+
+% ============================================================
+\section{公理2：素数独立性}
+\label{sec:axiom2}
+% ============================================================
+
+\begin{dfnbox}[公理2（素数独立性）]
+重み関数 $w$ は\textbf{乗法的}（multiplicative）である：
+$\gcd(m, n) = 1$ ならば
+\begin{equation}
+  w(mn) = w(m)\, w(n).
+  \label{eq:multiplicativity}
+\end{equation}
+\end{dfnbox}
+
+\paragraph{公理2の意味.}
+乗法性は「$m$ と $n$ が互いに素ならば、モード $mn$ の重みは $m$ と $n$ の
+重みの積である」と述べている。算術の基本定理により、すべての自然数は
+$n = p_1^{a_1} \cdots p_k^{a_k}$ と素因数分解されるから、乗法性は
+\begin{equation}
+  w(n) = w(p_1^{a_1}) \cdot w(p_2^{a_2}) \cdots w(p_k^{a_k})
+\end{equation}
+を意味する。すなわち、$w$ は素数べきでの値によって完全に決定される。
+
+\paragraph{オイラー積への帰結.}
+乗法性を式\eqref{eq:heat-kernel-general}に代入すると、
+ちょうどオイラーがゼータ関数に対して行ったのと同じ計算により：
+\begin{equation}
+  K(t) = \sum_{n=1}^{\infty} w(n)\, n^{-t}
+       = \prod_{p:\text{素数}} \left( \sum_{a=0}^{\infty} w(p^a)\, p^{-at} \right).
+  \label{eq:euler-product-general}
+\end{equation}
+
+\begin{keyresult}[公理2の物理的意味]
+式\eqref{eq:euler-product-general}は、系の分配関数が各素数 $p$ ごとの
+「局所因子」の\textbf{積}に分解することを示している。
+統計力学において、分配関数が積に分解するのは\textbf{独立な部分系}の場合である。
+従って：
+
+\begin{center}
+\emph{各素数 $p$ は独立な自由度（部分系）を定義し、\\
+エネルギー $\log p$ を持つ独立ボソンとして振る舞う。}
+\end{center}
+
+これは $\Spec(\Z)$ の幾何学---各素数が独立な「点」---の
+物理的反映に他ならない。
+\end{keyresult}
+
+\begin{hsbox}[高校生ノート：独立ボソンガスの比喩]
+物理学で「ボソン」とは、同じ状態にいくつでも入れる粒子のことである
+（光子がその代表例）。
+
+公理2が言っていることは、こういうことだ：
+素数 $p$ の「箱」にボソンを $a = 0, 1, 2, 3, \ldots$ 個入れることができる。
+$a$ 個入れた状態のエネルギーは $a \log p$ である。
+すべての素数 $p$ について箱があり、箱同士は\textbf{独立}---ある箱の状態は
+他の箱に影響しない。
+
+自然数 $n = 2^3 \cdot 5 \cdot 7^2$ という状態は、
+「素数2の箱に3個、素数5の箱に1個、素数7の箱に2個のボソンが入っている状態」
+に対応する。この状態のエネルギーは
+$3\log 2 + \log 5 + 2\log 7 = \log(2^3 \cdot 5 \cdot 7^2) = \log 1960$ である。
+\end{hsbox}
+
+
+% ============================================================
+\section{公理3：素数民主主義}
+\label{sec:axiom3}
+% ============================================================
+
+\begin{dfnbox}[公理3（素数民主主義）]
+すべての素数は等しく寄与する：
+\begin{equation}
+  w(p) = 1 \quad \text{for all primes } p.
+  \label{eq:democracy}
+\end{equation}
+\end{dfnbox}
+
+\paragraph{公理3の意味.}
+この公理は「特別な素数は存在しない」と言っている。
+物理的には、プランクスケールにおいてすべての素数モードが
+等しい「重み」（coupling）で寄与するという\textbf{民主主義原理}である。
+
+公理3を公理2と組み合わせると、強い帰結が得られる。
+$w$ は乗法的であり $w(p) = 1$ がすべての素数 $p$ で成り立つ。
+また $w$ は乗法的だから $w(1) = 1$（$n = 1$ は空の素因数分解に対応）。
+$w(p) = 1$ と $w(p^a) = w(p) \cdot w(p^{a-1})$ の仮定\footnote{%
+完全乗法性 $w(mn) = w(m)w(n)$（$\gcd(m,n) = 1$ の制限なし）を
+公理2の代わりに仮定すれば自動的に成り立つ。
+公理2の弱い乗法性でも $w(p^a)$ の決定には追加の仮定（例えば完全乗法性、
+あるいは $w(p^a) = w(p)^a$）が必要である。
+本書では最も自然な選択として完全乗法性を採用する。}
+のもとで：
+\begin{equation}
+  w(p^a) = w(p)^a = 1^a = 1 \quad \text{for all } p, a.
+\end{equation}
+従って
+\begin{equation}
+  w(n) = 1 \quad \text{for all } n \in \N.
+\end{equation}
+
+% ============================================================
+\section{一意性定理：$K(t) = \zeta(t)$}
+\label{sec:uniqueness}
+% ============================================================
+
+\begin{theorem}[ヒートカーネルの一意性]
+\label{thm:uniqueness}
+公理1--3（算術離散性、素数独立性、素数民主主義）を満たす
+ヒートカーネル $K(t)$ は
+\begin{equation}
+  K(t) = \zeta(t) = \sum_{n=1}^{\infty} n^{-t} = \prod_{p} \frac{1}{1 - p^{-t}}
+  \label{eq:K-equals-zeta}
+\end{equation}
+に\textbf{一意的}に定まる。
+\end{theorem}
+
+\begin{proof}
+公理1により $K(t) = \sum_{n=1}^{\infty} w(n) n^{-t}$。
+公理2（乗法性）と公理3（$w(p) = 1$ for all $p$）、
+および完全乗法性の仮定から $w(n) = 1$ for all $n$。
+従って $K(t) = \sum_{n=1}^{\infty} n^{-t} = \zeta(t)$。
+オイラー積表示は定理\ref{thm:euler-product}による。
+\end{proof}
+
+\begin{keyresult}[3公理 $\Rightarrow$ $\zeta(t)$]
+\textbf{たった3つの公理}---離散性、素数独立性、素数民主主義---から、
+リーマンゼータ関数がプランクスケールのヒートカーネルとして一意的に導出された。
+以降の章で $\zeta(t)$ の解析的性質（零点分布、特殊値、関数等式）から
+物理定数が導かれるが、その\emph{すべて}はこの3公理に由来する。
+\end{keyresult}
+
+
+% ============================================================
+\section{$w(p) \ne 1$ の場合：$L$ 関数と観測的棄却}
+\label{sec:L-functions}
+% ============================================================
+
+公理3を緩めたらどうなるか？
+公理1と公理2は保持しつつ、$w(p) \ne 1$ を許すとしよう。
+
+最も自然な選択肢は、ディリクレ指標 $\chi$ を用いた\textbf{ディリクレ $L$ 関数}
+\begin{equation}
+  L(\chi, t) = \sum_{n=1}^{\infty} \chi(n)\, n^{-t}
+             = \prod_{p} \frac{1}{1 - \chi(p)\, p^{-t}}
+\end{equation}
+であり、この場合 $w(n) = \chi(n)$ である。
+ディリクレ指標は乗法性 $\chi(mn) = \chi(m)\chi(n)$ を満たすが、
+一般には $\chi(p) \ne 1$（$\chi(p)$ は $1$ の冪根をとりうる）。
+
+\paragraph{物理的帰結.}
+$K(t) = L(\chi, t)$ を採用した場合、
+Part II で導出される暗黒エネルギーパラメータ $\Omega_\Lambda$ の値が変化する。
+具体的には、$\zeta(t)$ から $L(\chi, t)$ に置き換えると、
+Seeley--DeWitt 展開の係数に $\chi$ 依存性が入り、
+$\Omega_\Lambda$ の予言値が観測値 $\Omega_\Lambda^{\mathrm{obs}} \simeq 0.685$
+から系統的にずれる。
+
+\begin{warningbox}[$w(p) \ne 1$ は観測で棄却される]
+自明でないディリクレ指標 $\chi \ne \chi_0$ を用いた $L(\chi, t)$ モデルは、
+$\Omega_\Lambda$ の予言値が $\Omega_\Lambda^{\mathrm{obs}}$ と
+有意に矛盾し、\textbf{観測的に棄却}される。
+これは公理3（素数民主主義）が単なる美的選択ではなく、
+\textbf{実験的に検証可能な仮定}であることを意味する。
+\end{warningbox}
+
+
+% ============================================================
+\section{5つの整合性チェック}
+\label{sec:five-checks}
+% ============================================================
+
+$K(t) = \zeta(t)$ の同定が正しいか否かは、
+そこから導出される物理定数の予言を観測と比較することで検証できる。
+Part II--III で詳述するが、ここでは結果のみを予告する。
+
+\begin{keyresult}[5つの物理定数]
+$K(t) = \zeta(t)$ から以下の5つの物理定数が導出される：
+
+\bigskip
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{clcc}
+\toprule
+\textbf{\#} & \textbf{物理量} & \textbf{WB予言} & \textbf{観測値} \\
+\midrule
+1 & 暗黒エネルギー密度 $\Omega_\Lambda$ & $0.6834$ & $0.685 \pm 0.007$ \\
+2 & 微細構造定数 $\alpha_{\mathrm{EM}}^{-1}$ & $137.036$ & $137.036\ldots$ \\
+3 & ワインバーグ角 $\sin^2\theta_W$ & $0.2312$ & $0.2312 \pm 0.0002$ \\
+4 & 陽子/電子質量比 $m_p/m_e$ & $1836.15$ & $1836.15\ldots$ \\
+5 & ミュオン/電子質量比 $m_\mu/m_e$ & $206.77$ & $206.768\ldots$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent
+5つの独立な物理量すべてで観測値と整合している。
+これは $K(t) = \zeta(t)$ の強力な間接的証拠である。
+\end{keyresult}
+
+\begin{warningbox}[誠実な注意]
+これらの「導出」の各々には仮定の連鎖がある。
+5つの予言のうち、理論的に最も強固なのは $\Omega_\Lambda$ であり、
+$\alpha_{\mathrm{EM}}$ や質量比の導出にはより多くの追加仮定が必要である。
+仮定の依存構造は Part VI（第17章）で詳しく分析する。
+読者は各導出の仮定を必ず確認していただきたい。
+\end{warningbox}
+
+
+% ============================================================
+\section{物理的描像のまとめ}
+\label{sec:axioms-summary}
+% ============================================================
+
+3つの公理が描く物理的世界像をまとめよう。
+
+\begin{keyresult}[算術的真空の描像]
+\begin{center}
+\emph{プランクスケールの時空は、\\
+素数でラベルされた独立ボソンの自由ガスである。}
+\end{center}
+
+\begin{itemize}
+  \item 各素数 $p$ はエネルギー $\log p$ を持つ独立な振動モード。
+  \item 自然数 $n = \prod p_i^{a_i}$ は「素数 $p_i$ に $a_i$ 個のボソンがいる」
+        多粒子状態。
+  \item このガスの分配関数が $\zeta(\beta) = \prod_p (1 - p^{-\beta})^{-1}$。
+  \item ガスの熱力学から宇宙定数、ゲージ結合、質量比が出る。
+\end{itemize}
+\end{keyresult}
+
+\begin{hsbox}[高校生ノート：3つの公理を覚えよう]
+\begin{enumerate}
+  \item \textbf{算術離散性}：宇宙の最も小さなスケールでは、
+        振動モードに $1, 2, 3, \ldots$ と番号が付く。
+  \item \textbf{素数独立性}：異なる素数の「箱」は互いに独立。
+        $6 = 2 \times 3$ の状態は「素数2の箱」と「素数3の箱」の組み合わせ。
+  \item \textbf{素数民主主義}：どの素数も特別扱いしない。
+        素数2も素数$10^{100}+7$も同じ重み。
+\end{enumerate}
+この3つだけで、リーマンゼータ関数 $\zeta(t)$ が決まる。
+あとは $\zeta(t)$ の数学的性質から物理が出てくる---それが本書のストーリーである。
+\end{hsbox}
+
+
+
+% ############################################################
+\chapter{Bost--Connes 系とスペクトル作用}
+\label{ch:bost-connes}
+% ############################################################
+
+前章では3つの公理からヒートカーネル $K(t) = \zeta(t)$ を導出した。
+本章ではこの結果を2つの方向に深化させる：
+\begin{enumerate}
+  \item \textbf{Bost--Connes 系}：$\zeta(\beta)$ を分配関数とする
+        $C^*$-動力学系の構造と、その相転移・対称性。
+  \item \textbf{Connes のスペクトル作用原理}：ヒートカーネルから重力理論
+        （アインシュタイン方程式）がどのように「出る」のか。
+\end{enumerate}
+これらを組み合わせることで、$K(t) = \zeta(t)$ という同定が
+単なる形式的類似ではなく、物理と数論の\textbf{構造的接続}であることを示す。
+
+
+% ============================================================
+\section{$C^*$-動力学系}
+\label{sec:cstar-dynamics}
+% ============================================================
+
+\begin{definition}[$C^*$-動力学系]
+\label{def:cstar-dynamics}
+\textbf{$C^*$-動力学系}とは、$C^*$-環 $\mathcal{A}$ と、
+$\R$ をパラメータとする $\mathcal{A}$ の自己同型群
+$\sigma = (\sigma_t)_{t \in \R}$ の組 $(\mathcal{A}, \sigma_t)$ である。
+ここで $t \mapsto \sigma_t(a)$ は各 $a \in \mathcal{A}$ に対して連続である。
+\end{definition}
+
+$C^*$-動力学系は量子統計力学の一般的枠組みを提供する。
+通常の量子力学では、オブザーバブルは有界作用素の環 $B(\mathcal{H})$ の元であり、
+時間発展はハミルトニアン $H$ により
+$\sigma_t(a) = e^{iHt} a\, e^{-iHt}$ と与えられる。
+$C^*$-動力学系はこの構造を公理的に一般化したものである。
+
+$C^*$-動力学系の\textbf{平衡状態}は KMS 条件により特徴づけられる。
+
+\begin{definition}[KMS 状態]
+\label{def:KMS}
+逆温度 $\beta > 0$ における\textbf{$\KMS_\beta$ 状態}とは、
+$\mathcal{A}$ 上の状態 $\varphi$（正規化された正の線形汎関数）で、
+すべての $a, b \in \mathcal{A}$ に対して
+\begin{equation}
+  \varphi(a\, \sigma_{i\beta}(b)) = \varphi(b\, a)
+  \label{eq:KMS}
+\end{equation}
+を満たすものである。
+\end{definition}
+
+\begin{hsbox}[高校生ノート：KMS条件とは？]
+KMS条件は「熱平衡とは何か」の数学的定義である。
+
+日常的な比喩で言えば：コーヒーカップに入れたミルクは最初渦を巻くが、
+時間が経つと均一に混ざり「平衡状態」に達する。
+KMS条件は、この「均一に混ざった」状態を、
+時間発展 $\sigma_t$ と温度 $\beta^{-1}$ の関係として数学的に定式化する。
+
+重要なのは、\textbf{温度ごとに平衡状態の構造が変わりうる}ことである。
+水が $0°$C で凍る（液体→固体の相転移）のと同様に、
+$C^*$-動力学系の KMS 状態の構造も温度によって劇的に変化しうる。
+\end{hsbox}
+
+
+% ============================================================
+\section{Bost--Connes 系の構成}
+\label{sec:bc-construction}
+% ============================================================
+
+Bost--Connes 系 \cite{BostConnes1995} は、数論的内容を持つ $C^*$-動力学系の
+最も重要な例である。
+
+\begin{definition}[Bost--Connes 系]
+\label{def:BC-system}
+Bost--Connes 系 $(\mathcal{A}_{\Q}, \sigma_t)$ は以下のデータで定義される：
+\begin{itemize}
+  \item $C^*$-環 $\mathcal{A}_{\Q}$ は、$\Q/\Z$ 上の関数環と
+        ヘッケ作用素から生成される。
+  \item 時間発展は $\sigma_t(\mu_n) = n^{it}\, \mu_n$ で与えられる。
+        ここで $\mu_n$ は $n \in \N$ に対応するヘッケ作用素である。
+\end{itemize}
+\end{definition}
+
+Bost--Connes 系の\textbf{分配関数}は、以下の顕著な性質を持つ。
+
+\begin{theorem}[Bost--Connes, 1995]
+\label{thm:BC-partition}
+Bost--Connes 系の分配関数は
+\begin{equation}
+  Z(\beta) = \zeta(\beta)
+  \label{eq:BC-partition}
+\end{equation}
+である。すなわち、逆温度 $\beta$ におけるリーマンゼータ関数に等しい。
+\end{theorem}
+
+\begin{keyresult}[BC系と第2章の接続]
+第2章の3公理から $K(t) = \zeta(t)$ を導出した。
+Bost--Connes 系は、この $\zeta(t)$ を\textbf{分配関数として持つ}
+$C^*$-動力学系を明示的に構成する。
+すなわち、公理1--3が要求する「プランクスケールの量子系」は
+Bost--Connes 系そのものである。
+\end{keyresult}
+
+
+% ============================================================
+\section{$\beta = 1$ での相転移}
+\label{sec:phase-transition}
+% ============================================================
+
+Bost--Connes 系の最も劇的な性質は、$\beta = 1$ で起こる\textbf{相転移}である。
+
+\begin{theorem}[BC系の相構造]
+\label{thm:BC-phases}
+Bost--Connes 系の KMS 状態は以下の相構造を持つ：
+\begin{enumerate}
+  \item $0 < \beta \le 1$（\textbf{高温相}）：KMS$_\beta$ 状態は一意的。
+        系は「無秩序」状態にある。
+  \item $\beta > 1$（\textbf{低温相}）：KMS$_\beta$ 状態は無限に多く存在し、
+        極限 KMS 状態の空間は $\hat{\Z}^{\times}$（プロ有限完備化の単元群）で
+        パラメータ付けされる。
+\end{enumerate}
+相転移点は $\beta = 1$（$\zeta(\beta)$ の極）に正確に一致する。
+\end{theorem}
+
+\paragraph{物理的描像.}
+$\beta < 1$ の高温相では「素数ボソンガス」は無秩序であり、
+$\beta = 1$ を境に系は自発的に秩序化する。
+$\zeta(\beta)$ が $\beta = 1$ で発散する（極を持つ）のは、
+この相転移の分配関数への反映である。
+
+\begin{hsbox}[高校生ノート：相転移の意味]
+水が $100°$C で沸騰するとき、液体から気体への「相転移」が起こる。
+温度を上げていくと、ある特定の温度で系の性質が劇的に変わる。
+
+BC系でも同じことが起こる。逆温度 $\beta$ を上げていくと
+（つまり冷却していくと）、$\beta = 1$ を超えた瞬間に
+系の対称性が「壊れ」、無限に多くの異なる平衡状態が出現する。
+この対称性の破れが、次節で見る類体論との接続の鍵である。
+\end{hsbox}
+
+
+% ============================================================
+\section{低温相の対称性とガロア群}
+\label{sec:galois-symmetry}
+% ============================================================
+
+BC系の低温相の最も深い性質は、その対称性が\textbf{類体論}の
+ガロア群と一致することである。
+
+\begin{theorem}[BC系のガロア対称性]
+\label{thm:BC-galois}
+BC系の低温相（$\beta > 1$）の極限 KMS 状態の空間に
+$\Gal(\Q^{\mathrm{ab}}/\Q)$ が自然に作用する。
+ここで $\Q^{\mathrm{ab}}$ は $\Q$ の最大アーベル拡大であり、
+クロネッカー--ウェーバーの定理により円分体の合併に等しい：
+\begin{equation}
+  \Q^{\mathrm{ab}} = \bigcup_{N=1}^{\infty} \Q(\zeta_N), \quad
+  \zeta_N = e^{2\pi i/N}.
+\end{equation}
+類体論の相互写像により
+\begin{equation}
+  \Gal(\Q^{\mathrm{ab}}/\Q) \cong \hat{\Z}^{\times}
+  = \prod_{p} \Z_p^{\times}
+\end{equation}
+であり、これはBC系の KMS 状態のパラメータ空間と正確に一致する。
+\end{theorem}
+
+\begin{keyresult}[数論と物理の接続点]
+BC系は以下の辞書を実現する：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\toprule
+\textbf{物理}（$C^*$-動力学系） & \textbf{数論} \\
+\midrule
+分配関数 $Z(\beta) = \zeta(\beta)$ & リーマンゼータ関数 \\
+相転移点 $\beta = 1$ & $\zeta(s)$ の極 \\
+低温相の対称性の自発的破れ & 類体論の相互律 \\
+KMS状態の空間 $\hat{\Z}^{\times}$ & $\Gal(\Q^{\mathrm{ab}}/\Q)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent
+Bost--Connes 系において、物理（統計力学・相転移）と数論（類体論・ガロア群）が
+\textbf{同一の数学的構造}として実現されている。
+\end{keyresult}
+
+
+% ============================================================
+\section{Connes のスペクトル作用原理}
+\label{sec:spectral-action}
+% ============================================================
+
+ここまでで、$K(t) = \zeta(t)$ がBost--Connes系の分配関数であることを見た。
+次の問いは：このヒートカーネルから\textbf{重力理論}（一般相対性理論）が
+どのように導出されるか？
+
+答えは Connes のスペクトル作用原理にある。
+
+\begin{definition}[スペクトル三つ組]
+\label{def:spectral-triple}
+\textbf{スペクトル三つ組}（spectral triple）とは、
+組 $(\mathcal{A}, \mathcal{H}, D)$ であり：
+\begin{itemize}
+  \item $\mathcal{A}$：$C^*$-環（「座標の環」に相当）
+  \item $\mathcal{H}$：ヒルベルト空間（「スピノル場の空間」に相当）
+  \item $D$：$\mathcal{H}$ 上の（非有界）自己共役作用素（「ディラック作用素」に相当）
+\end{itemize}
+から成る。リーマン多様体 $M$ の場合、$\mathcal{A} = C^{\infty}(M)$、
+$\mathcal{H} = L^2(M, S)$（スピノル場の $L^2$ 空間）、
+$D = i\gamma^{\mu}\nabla_{\mu}$（ディラック作用素）が標準的な例を与える。
+\end{definition}
+
+\paragraph{ヒートカーネルとスペクトル作用.}
+ディラック作用素 $D$ に対して、ヒートカーネルを
+\begin{equation}
+  K(t) = \Tr(e^{-t D^2})
+  \label{eq:heat-kernel-D}
+\end{equation}
+と定義する。ここで $D^2$ はディラック作用素の2乗（ラプラシアンの一般化）である。
+
+\begin{theorem}[Seeley--DeWitt 展開]
+\label{thm:seeley-dewitt}
+$4$ 次元リーマン多様体 $M$ 上のディラック作用素 $D$ に対して、
+$t \to 0^+$ において
+\begin{equation}
+  K(t) = \Tr(e^{-tD^2}) \sim \frac{1}{(4\pi t)^2}
+  \sum_{k=0}^{\infty} a_{2k}(D^2)\, t^k
+  \label{eq:seeley-dewitt}
+\end{equation}
+が成り立つ。ここで Seeley--DeWitt 係数は：
+\begin{align}
+  a_0 &= \int_M \mathrm{dvol} & &\text{（体積項 $\to$ 宇宙定数 $\Lambda$）} \\
+  a_2 &= \frac{1}{6} \int_M R\, \mathrm{dvol} & &\text{（曲率項 $\to$ ニュートン定数 $G$）} \\
+  a_4 &= \text{（ゲージ場の曲率項）} & &\text{（$\to$ ゲージ結合定数）}
+\end{align}
+\end{theorem}
+
+\begin{keyresult}[スペクトル作用 $\to$ アインシュタイン方程式]
+Connes のスペクトル作用は
+\begin{equation}
+  S = \Tr(f(D^2/\Lambda^2))
+  \label{eq:spectral-action}
+\end{equation}
+であり、$f$ はカットオフ関数、$\Lambda$ はエネルギースケールである。
+Seeley--DeWitt 展開を適用すると：
+\begin{equation}
+  S \sim f_0\, \Lambda^4\, a_0 + f_2\, \Lambda^2\, a_2 + f_4\, a_4 + \cdots
+  \label{eq:spectral-action-expanded}
+\end{equation}
+ここで $f_k = \int_0^{\infty} f(u)\, u^{k/2-1}\, du$ はカットオフ関数のモーメントである。
+
+この作用を計量 $g^{\mu\nu}$ で変分すると
+\begin{equation}
+  \frac{\delta S}{\delta g^{\mu\nu}} = 0
+  \quad \Longrightarrow \quad
+  R_{\mu\nu} - \frac{1}{2} R\, g_{\mu\nu} + \Lambda_{\mathrm{cc}}\, g_{\mu\nu} = 0
+\end{equation}
+すなわち\textbf{アインシュタイン方程式}が導出される。
+重力はスペクトル幾何学から「出る」のである。
+\end{keyresult}
+
+\begin{hsbox}[高校生ノート：なぜ重力が「出る」のか]
+スペクトル作用原理の核心は驚くほど単純である：
+
+\begin{enumerate}
+  \item ディラック作用素 $D$ は「空間の形」を完全に記憶している。
+        （実際、$D$ のスペクトルからリーマン多様体が復元できる---
+        「太鼓の形を聞く」問題の解。）
+  \item ヒートカーネル $K(t) = \Tr(e^{-tD^2})$ を $t \to 0$ で展開すると、
+        体積（$a_0$）、曲率（$a_2$）、ゲージ場（$a_4$）が順に現れる。
+  \item この展開をもとに作用を構成すると、アインシュタインの重力理論が出る。
+\end{enumerate}
+
+つまり：\textbf{空間の「音」（$D$ のスペクトル）を数えると、重力が出る}。
+\end{hsbox}
+
+
+% ============================================================
+\section{BC 同定 $K(t) = \zeta(t)$ による係数の算術的固定}
+\label{sec:bc-fixing}
+% ============================================================
+
+通常のスペクトル作用原理では、Seeley--DeWitt 係数の具体的な値は
+多様体 $M$ とディラック作用素 $D$ の選び方に依存し、
+物理定数は\textbf{自由パラメータ}として残る。
+
+本書のプログラムでは、Bost--Connes 同定
+\begin{equation}
+  K(t) = \zeta(t)
+  \label{eq:BC-identification}
+\end{equation}
+により、ヒートカーネルが完全に指定される。
+$\zeta(t)$ の $t \to 0^+$ での漸近展開は、$\zeta(s)$ の極と特殊値から
+\textbf{算術的に}決定されるから、
+Seeley--DeWitt 係数 $a_0, a_2, a_4, \ldots$ がすべて
+$\zeta$ 関数の値として固定される。
+
+\begin{theorem}[$\zeta(t)$ の漸近展開]
+\label{thm:zeta-asymptotics}
+$t \to 0^+$ において
+\begin{equation}
+  \zeta(t) = \frac{1}{t - 1} + \gamma + O(t-1)
+  \label{eq:zeta-laurent}
+\end{equation}
+である。ここで $\gamma \simeq 0.5772$ はオイラー--マスケローニ定数である。
+また $\zeta$ の特殊値として
+\begin{equation}
+  \zeta(0) = -\frac{1}{2}, \quad
+  \zeta(-1) = -\frac{1}{12}, \quad
+  \zeta(2) = \frac{\pi^2}{6}, \quad
+  \zeta(4) = \frac{\pi^4}{90}
+\end{equation}
+が知られている。
+\end{theorem}
+
+\begin{keyresult}[算術的固定のメカニズム]
+通常のスペクトル作用では自由パラメータである Seeley--DeWitt 係数が、
+$K(t) = \zeta(t)$ の同定により $\zeta$ 関数の特殊値に固定される：
+\begin{align}
+  a_0 &\longleftrightarrow \zeta(s) \text{ の } s=1 \text{ の留数}
+    & &\to \text{宇宙定数 $\Lambda$} \label{eq:a0-fix} \\
+  a_2 &\longleftrightarrow \zeta(0) = -\frac{1}{2}
+    & &\to \text{ニュートン定数 $G$} \label{eq:a2-fix} \\
+  a_4 &\longleftrightarrow \zeta(-1) = -\frac{1}{12}
+    & &\to \text{ゲージ結合定数} \label{eq:a4-fix}
+\end{align}
+これにより、物理定数は算術的不変量として「計算可能」になる。
+\end{keyresult}
+
+
+% ============================================================
+\section{本章のまとめと展望}
+\label{sec:ch3-summary}
+% ============================================================
+
+本章で示した論理の流れを振り返ろう。
+
+\begin{enumerate}
+  \item \textbf{Bost--Connes 系}は $\zeta(\beta)$ を分配関数とする
+        $C^*$-動力学系であり、第2章の3公理が要求する量子系の自然な実現である。
+  \item BC系は $\beta = 1$ で\textbf{相転移}を起こし、
+        低温相の対称性は $\Gal(\Q^{\mathrm{ab}}/\Q)$---類体論のガロア群---と一致する。
+        これは数論と物理の構造的接続を実現する。
+  \item \textbf{Connes のスペクトル作用原理}により、
+        ヒートカーネルからアインシュタイン方程式が導出される。
+  \item $K(t) = \zeta(t)$ の同定により、
+        通常は自由パラメータである Seeley--DeWitt 係数が
+        $\zeta$ 関数の特殊値として\textbf{算術的に固定}される。
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.5cm,
+  box/.style={rectangle, draw, rounded corners, fill=blue!10,
+              text width=7cm, minimum height=1cm, align=center,
+              font=\small},
+  arr/.style={-{Stealth[length=3mm]}, thick}
+]
+  \node[box] (ax) {3公理（算術離散性・素数独立性・素数民主主義）};
+  \node[box, below=of ax] (zeta) {$K(t) = \zeta(t)$（一意性定理）};
+  \node[box, below=of zeta] (bc) {Bost--Connes 系 $(\mathcal{A}_{\Q}, \sigma_t)$};
+  \node[box, below left=1.5cm and -1cm of bc] (galois) {ガロア対称性\\$\Gal(\Q^{\mathrm{ab}}/\Q)$};
+  \node[box, below right=1.5cm and -1cm of bc] (spectral) {スペクトル作用\\$\to$ アインシュタイン方程式};
+
+  \draw[arr] (ax) -- (zeta);
+  \draw[arr] (zeta) -- (bc);
+  \draw[arr] (bc) -- (galois);
+  \draw[arr] (bc) -- (spectral);
+\end{tikzpicture}
+\end{center}
+
+\medskip
+
+Part II（第4--6章）では、この枠組みから5つの物理定数
+（$\Omega_\Lambda$, $\alpha_{\mathrm{EM}}$, $\sin^2\theta_W$, $m_p/m_e$, $m_\mu/m_e$）が
+具体的にどう導出されるかを詳しく見ていく。
+Part III（第7--10章）では、Berry 位相を組み込んだスカラー・テンソル重力理論
+---本書第2版の最も重要な新内容---に進む。

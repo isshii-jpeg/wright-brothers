@@ -1,0 +1,442 @@
+% ============================================================
+%  Part V: 実験プログラム
+%  wb_textbook_v2_experiments.tex
+%  Chapters 14--16
+% ============================================================
+
+% ============================================================
+% CHAPTER 14
+% ============================================================
+\chapter{Phase P --- フォノニック結晶でBerry位相$\pi$を検出}
+\label{ch:phase-p}
+
+\begin{experimentbox}[Phase P: Berry位相 $\pi$ の音響検出]
+\begin{tabular}{ll}
+\textbf{目標} & フォノニック結晶でバルクBerry位相 $\pi$ を音響測定で検出 \\
+\textbf{コスト} & 約 {\yen}27,000 \\
+\textbf{期間} & 1ヶ月 \\
+\textbf{必要設備} & 3Dプリンタ（Bambu Lab P1S推奨）、スピーカー、マイク \\
+\textbf{GO条件} & $\pi$ 位相ジャンプの観測
+\end{tabular}
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{なぜフォノン系か}
+\label{sec:14.1}
+
+第11章で説明したNielsen-Ninomiya定理の抜け穴を再確認する。
+
+電子（フェルミオン）系では、バルク全体のBerry位相を $\pi$ にすることが
+Nielsen-Ninomiya定理により困難である。一方、フォノン（ボソン）系には
+この制約が適用されない。
+
+フォノニック結晶を使う理由をまとめると：
+
+\begin{enumerate}[label=(\arabic*)]
+  \item \textbf{理論的根拠}：Nielsen-Ninomiya定理の制約を受けない（ボソン系）。
+  \item \textbf{製造容易性}：3Dプリンタで家庭製作可能。
+  \item \textbf{測定容易性}：音響測定は電子測定より遥かに安価で簡単。
+  \item \textbf{スケーラビリティ}：ユニットセルサイズ $\sim$ cm、巨視的な試料を作れる。
+\end{enumerate}
+
+\begin{hsbox}
+フォノニック結晶とは、音に対する「結晶」。
+普通の結晶が原子の周期配列で光の振る舞いを制御するように、
+フォノニック結晶は構造体の周期配列で音の振る舞いを制御する。
+3Dプリンタで作れるサイズ（$\sim$ cm）なので、ガレージ実験が可能。
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{Wilson loop 確認済み構造}
+\label{sec:14.2}
+
+Berry位相 $\pi$ を実現するフォノニック結晶の設計原理は以下の通りである。
+
+\subsection{2球体ユニットセル}
+
+ユニットセルは\textbf{2つの球体}から構成される。
+球体の半径が異なることで\textbf{反転対称性が破れ}、
+非自明なBerry位相が生じる。
+
+\begin{dfnbox}[設計パラメータ]
+\begin{itemize}
+  \item ユニットセルサイズ：$a \approx 20$\,mm（立方体）
+  \item 大球半径：$r_1 = 7$\,mm
+  \item 小球半径：$r_2 = 4$\,mm
+  \item 母材：PLA（3Dプリント用樹脂）
+  \item 球体は中空でも中実でもよい
+\end{itemize}
+\end{dfnbox}
+
+\subsection{Wilson loop 計算}
+
+Wilson loop（ウィルソンループ）は、バンドのBerry位相を計算する標準的手法である。
+ブリルアンゾーンの閉じたパスに沿ってBerry接続を積分する：
+\[
+  \mathcal{W} = \mathcal{P}\exp\left(-i\oint_{\mathcal{C}} \mathbf{A}(\mathbf{k})\cdot d\mathbf{k}\right),
+\]
+ここで $\mathbf{A}(\mathbf{k})$ はBerry接続、$\mathcal{P}$ は経路順序積である。
+
+この計算を上記の2球体構造に対して実行すると、
+最低音響バンドの Wilson loop 固有値が $e^{i\pi} = -1$ となることが確認されている。
+すなわち\textbf{Berry位相 $= \pi$}。
+
+\begin{keyresult}[Wilson loop の結果]
+2球体フォノニック結晶（反転対称性破れ）のWilson loop計算：
+\[
+  \phi_{\text{Berry}} = \arg\det\mathcal{W} = \pi.
+\]
+バルク全体でBerry位相 $\pi$ が実現している。
+\end{keyresult}
+
+% ------------------------------------------------------------
+\section{3Dプリント手順}
+\label{sec:14.3}
+
+\subsection{ワークフロー}
+
+\begin{enumerate}[label=\textbf{Step \arabic*:}]
+  \item \textbf{OpenSCAD でモデル作成}：
+        2球体ユニットセルを記述するOpenSCADスクリプトを作成。
+        $5 \times 5 \times 5 = 125$ ユニットセルの配列を生成。
+  \item \textbf{STL エクスポート}：
+        OpenSCADからSTLファイルを出力。
+        メッシュ品質は $\$fn = 32$ 以上を推奨。
+  \item \textbf{スライシング}：
+        Bambu Studioでスライス。レイヤー高さ 0.2\,mm。
+  \item \textbf{印刷}：
+        Bambu Lab P1S（または同等のFDMプリンタ）で印刷。
+        PLA使用、サポート材あり。印刷時間 $\sim$ 8時間。
+  \item \textbf{後処理}：
+        サポート材除去、表面の清掃。
+\end{enumerate}
+
+\begin{warningbox}[ジャイロイドインフィルは使用禁止]
+スライサーのインフィル（内部充填）パターンに\textbf{ジャイロイドを使ってはならない}。
+ジャイロイド構造は反転対称性を保つため、Berry位相が $0$ になってしまう。
+
+\medskip
+\textbf{正しいインフィル設定}：インフィル密度 100\%（中実）、
+または設計通りの中空構造を使用。スライサーのインフィルパターンに頼らないこと。
+\end{warningbox}
+
+% ------------------------------------------------------------
+\section{音響透過測定}
+\label{sec:14.4}
+
+\subsection{測定セットアップ}
+
+\begin{enumerate}[label=(\alph*)]
+  \item \textbf{音源}：スピーカー（周波数掃引 $1$--$20$\,kHz）。
+  \item \textbf{検出器}：マイクロフォン（無指向性、周波数応答 $\pm 3$\,dB）。
+  \item \textbf{配置}：音源 --- フォノニック結晶 --- 検出器（直線配置）。
+  \item \textbf{データ取得}：PCのサウンドカード + Python（scipy.signal）。
+\end{enumerate}
+
+\subsection{$\pi$ 位相ジャンプの検出}
+
+バンドギャップの上下でZak位相が $\pi$ だけジャンプする。
+これは透過波の\textbf{位相}を測定することで検出できる。
+
+具体的には、バンドギャップ直下の周波数 $f_-$ と直上の周波数 $f_+$ で
+透過波の位相差を測定する。Berry位相が $\pi$ の場合：
+\[
+  \Delta\varphi = \varphi(f_+) - \varphi(f_-) = \pi \quad (\text{mod } 2\pi).
+\]
+
+\begin{experimentbox}[Phase P の GO/STOP 判定]
+\begin{itemize}
+  \item \textbf{GO}：$\Delta\varphi = \pi \pm 0.3$\,rad が観測された場合。
+        $\to$ Berry位相 $\pi$ の存在が確認。Phase 0 へ進む。
+  \item \textbf{STOP}：$\Delta\varphi \approx 0$ の場合。
+        $\to$ 設計の見直し（球体サイズ比、格子定数）。
+\end{itemize}
+\end{experimentbox}
+
+
+% ============================================================
+% CHAPTER 15
+% ============================================================
+\chapter{Phase 0--3 --- DNからねじり天秤まで}
+\label{ch:phases-0-3}
+
+\begin{experimentbox}[実験フェーズの全体像]
+\begin{tabular}{lllr}
+\toprule
+フェーズ & 検証内容 & 主要装置 & 推定コスト \\
+\midrule
+Phase 0   & DN/DD基本測定  & ネットワークアナライザ & {\yen}130k \\
+Phase 0.5 & $\pi$-接合+BAW統合 & 水晶振動子 & \$10k \\
+Phase 1   & 182:1テスト    & BAW共振器 & \$50k \\
+Phase 2   & カシミール符号反転 & AFMカンチレバー & \$200k \\
+Phase 3   & ねじり天秤重力異常 & Cavendish型天秤 & \$500k \\
+\bottomrule
+\end{tabular}
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{Phase 0: DN/DD基本測定}
+\label{sec:15.1}
+
+Phase 0 はWB理論の最も基本的な予測を検証する。
+Dirichlet-Neumann (DN) 境界条件とDirichlet-Dirichlet (DD) 境界条件の
+スペクトルの差異を音響共振器で測定する。
+
+\begin{itemize}
+  \item \textbf{装置}：アルミニウム管（長さ $L \sim 1$\,m）+ マイク + スピーカー。
+  \item \textbf{DN条件}：一端開放、他端閉鎖。
+  \item \textbf{DD条件}：両端閉鎖。
+  \item \textbf{測定量}：共鳴周波数列 $f_n$ のパターン。
+  \item \textbf{推定コスト}：約 {\yen}130,000（ネットワークアナライザ含む）。
+\end{itemize}
+
+DN条件とDD条件では共鳴周波数のパターンが異なり、
+そのスペクトルの差がゼータ関数の零点構造を反映するかを確認する。
+
+% ------------------------------------------------------------
+\section{Phase 0.5: $\pi$-接合 + BAW統合}
+\label{sec:15.2}
+
+Phase Pで確認した $\pi$-Berry位相を、圧電素子（BAW: Bulk Acoustic Wave）の
+共振器と統合する。
+
+\begin{itemize}
+  \item \textbf{装置}：水晶振動子（AT-cut quartz）+ $\pi$-Berry結晶の接合体。
+  \item \textbf{目標}：$\pi$-Berry結晶が水晶振動子の共鳴周波数にシフトを与えるかを測定。
+  \item \textbf{予測}：Berry位相 $\pi$ による境界条件変化が、
+        共鳴周波数を $\Delta f / f \sim 10^{-6}$ 程度シフトさせる。
+  \item \textbf{推定コスト}：約 \$10,000。
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{Phase 1: 182:1 テスト}
+\label{sec:15.3}
+
+\begin{keyresult}[$K = \zeta$ の実験検証]
+Phase 1 は WB 理論の核心的予測を検証する。
+BC真空の分配関数 $K(t)$ がリーマンゼータ関数 $\zeta(t)$ と一致するならば、
+DN/DD スペクトル比が特定の値 $182:1$ に近い値を取るはずである。
+これは公理2の直接検証である。
+\end{keyresult}
+
+\begin{itemize}
+  \item \textbf{装置}：高精度BAW共振器（$Q > 10^6$）。
+  \item \textbf{測定}：DN境界とDD境界のスペクトルを高精度で比較。
+  \item \textbf{予測}：$\zeta$ 関数の Euler 積表現が物理的に成立するなら、
+        スペクトルの素数構造が $182:1$ の比として現れる。
+  \item \textbf{推定コスト}：約 \$50,000。
+  \item \textbf{意義}：成功すれば、数論（Euler積）が物理現象として実在する初の証拠。
+\end{itemize}
+
+\begin{hsbox}
+$182 = 2 \times 7 \times 13$。この数は $\zeta$ 関数の特殊値から計算で出てくるが、
+この数値そのものよりも「計算値と実測値が一致する」ことが重要。
+1/3 とのずれがレギュレータ効果で説明できるかが鍵になる（仮説 H5）。
+\end{hsbox}
+
+% ------------------------------------------------------------
+\section{Phase 2: $\pi$-接合カシミール符号反転}
+\label{sec:15.4}
+
+カシミール効果は、2枚の平行な導体板の間に量子真空のゆらぎが生む力である。
+通常は\textbf{引力}だが、Berry位相 $\pi$ の物質を使うと\textbf{斥力}に転じると予測される。
+
+\begin{itemize}
+  \item \textbf{装置}：AFM（原子間力顕微鏡）カンチレバー型カシミール力測定装置。
+  \item \textbf{試料}：一方の板をトポロジカル絶縁体（Bi$_2$Se$_3$等）に交換。
+  \item \textbf{予測}：カシミール力の符号反転（引力 $\to$ 斥力）。
+  \item \textbf{推定コスト}：約 \$200,000（AFM装置 + TI試料）。
+  \item \textbf{意義}：Berry位相が真空のゼロ点エネルギーに影響することの直接証拠。
+\end{itemize}
+
+\begin{warningbox}[技術的困難]
+カシミール力の精密測定は極めて難しい。表面粗さ、静電パッチ効果、温度効果など
+多くの系統誤差源がある。符号反転の確認には、通常金属板との比較測定が不可欠。
+\end{warningbox}
+
+% ------------------------------------------------------------
+\section{Phase 3: ねじり天秤重力異常}
+\label{sec:15.5}
+
+最終段階。$\pi$-Berry物質の近傍で、ニュートン重力定数 $G$ の
+異常（$\Geff \neq G$）をねじり天秤で直接検出する。
+
+\begin{itemize}
+  \item \textbf{装置}：Cavendish型ねじり天秤（感度 $\Delta G/G \sim 10^{-4}$）。
+  \item \textbf{試料}：$\pi$-Berry物質のバルク試料（$\sim$ cm$^3$）。
+  \item \textbf{測定}：$\pi$-Berry試料 vs 通常試料での重力力の比較。
+  \item \textbf{予測}：$\Geff = -G$（完全反転）。ただし、Berry位相が物質表面で
+        急速に $0$ に緩和する場合、効果は大幅に減衰する可能性。
+  \item \textbf{推定コスト}：約 \$500,000。
+  \item \textbf{意義}：$\Geff = -G$ の\textbf{直接検証}。成功すれば物理学のパラダイムシフト。
+\end{itemize}
+
+% ------------------------------------------------------------
+\section{GO/STOP判定フロー}
+\label{sec:15.6}
+
+各フェーズは前段階の成功を条件として進行する。
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.5cm,
+  box/.style={draw, rounded corners, minimum width=3cm, minimum height=0.8cm,
+              fill=blue!10, font=\small},
+  go/.style={-{Stealth}, thick, green!60!black},
+  stop/.style={-{Stealth}, thick, red!60!black},
+]
+  \node[box] (PP) {Phase P};
+  \node[box, right=2.5cm of PP] (P0) {Phase 0};
+  \node[box, right=2.5cm of P0] (P05) {Phase 0.5};
+  \node[box, below=1.2cm of PP] (P1) {Phase 1};
+  \node[box, right=2.5cm of P1] (P2) {Phase 2};
+  \node[box, right=2.5cm of P2] (P3) {Phase 3};
+
+  \draw[go] (PP) -- node[above,font=\scriptsize]{GO} (P0);
+  \draw[go] (P0) -- node[above,font=\scriptsize]{GO} (P05);
+  \draw[go] (P05) -- node[right,font=\scriptsize]{GO} (P1);
+  \draw[go] (P1) -- node[above,font=\scriptsize]{GO} (P2);
+  \draw[go] (P2) -- node[above,font=\scriptsize]{GO} (P3);
+
+  \node[below=0.3cm of PP, red!60!black, font=\scriptsize] {STOP: 再設計};
+  \node[below=0.3cm of P1, red!60!black, font=\scriptsize] {STOP: H5見直し};
+  \node[below=0.3cm of P2, red!60!black, font=\scriptsize] {STOP: H4見直し};
+\end{tikzpicture}
+\end{center}
+
+\begin{gostopbox}[判定基準のまとめ]
+\begin{itemize}
+  \item \textbf{Phase P STOP} $\to$ フォノニック結晶の再設計。理論自体は否定されない。
+  \item \textbf{Phase 1 STOP} $\to$ 仮説H5（レギュレータ予想）の見直し。$K = \zeta$ 自体は生存可能。
+  \item \textbf{Phase 2 STOP} $\to$ 仮説H4（Berry位相$\to$重力結合）の否定。5定数の導出は生存。
+  \item \textbf{Phase 3 STOP} $\to$ 仮説H3（スペクトル重力）の否定、または効果が検出限界以下。
+\end{itemize}
+\end{gostopbox}
+
+
+% ============================================================
+% CHAPTER 16
+% ============================================================
+\chapter{何を検証しているのか}
+\label{ch:what-we-test}
+
+\begin{keyresult}[本章の主題]
+各実験フェーズが理論体系のどの部分を検証しているかを明確にする。
+実験の成功/失敗が何を意味し、何を意味しないかの論理的整理。
+\end{keyresult}
+
+各実験は WB 理論の異なる「層」を検証する。ある実験が失敗しても、
+他の予測が無傷で生き残る場合がある。この構造を正確に理解することが重要である。
+
+% ------------------------------------------------------------
+\section{Phase P が検証するもの}
+\label{sec:16.1}
+
+\begin{experimentbox}[Phase P $\to$ Berry位相 $\pi$ の存在]
+\textbf{検証対象}：フォノニック結晶でバルクBerry位相 $\pi$ が実在すること。
+
+\medskip
+\textbf{WB公理との関係}：3公理とは\textbf{独立}。Berry位相 $\pi$ の存在は
+凝縮系物理学の範囲内の問題であり、算術的時空仮説の検証ではない。
+
+\medskip
+\textbf{成功の意味}：Nielsen-Ninomiya定理のボソン系抜け穴の実証。
+後続フェーズの\textbf{必要条件}が満たされる。
+
+\medskip
+\textbf{失敗の意味}：設計の問題であり、理論の否定ではない。再設計して再試行。
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{Phase 1 が検証するもの}
+\label{sec:16.2}
+
+\begin{experimentbox}[Phase 1 $\to$ Euler積の物理性（公理2の検証）]
+\textbf{検証対象}：BC真空の分配関数 $K(t)$ がリーマンゼータ関数 $\zeta(t)$ と
+一致するかどうか。具体的には、$182:1$ 比の検出。
+
+\medskip
+\textbf{WB公理との関係}：\textbf{公理2}（素数独立性）の直接検証。
+Euler積 $\zeta(s) = \prod_p (1-p^{-s})^{-1}$ が物理的スペクトルに反映されるかを問う。
+
+\medskip
+\textbf{成功の意味}：数論的構造（Euler積）が物理現象として実在する初の証拠。
+WB理論の数学的基盤が物理的に正しいことの強力な傍証。
+
+\medskip
+\textbf{失敗の意味}：仮説H5（レギュレータ予想：182 vs 1/3）の否定。
+ただし $K = \zeta$ 自体が否定されるわけではない（レギュレータの形が違うだけかもしれない）。
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{Phase 2 が検証するもの}
+\label{sec:16.3}
+
+\begin{experimentbox}[Phase 2 $\to$ Berry位相が真空に影響（スペクトル作用の検証）]
+\textbf{検証対象}：Berry位相 $\pi$ がカシミール効果（真空のゼロ点エネルギー）を
+変調するかどうか。
+
+\medskip
+\textbf{WB公理との関係}：スペクトル作用原理（仮説H3）の検証。
+スペクトル三つ組の自己同型が物理的真空に作用するかを問う。
+
+\medskip
+\textbf{成功の意味}：非可換幾何学のスペクトル作用が実験的に検証される初の事例。
+反重力理論への決定的一歩。
+
+\medskip
+\textbf{失敗の意味}：仮説H4（Berry位相 $\to$ 重力結合）の否定の可能性。
+ただし、5定数の導出（$\Omega_\Lambda$ 等）はBerry位相とは独立なので\textbf{生存}する。
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{Phase 3 が検証するもの}
+\label{sec:16.4}
+
+\begin{experimentbox}[Phase 3 $\to$ $\Geff = -G$（反重力の直接検証）]
+\textbf{検証対象}：$\pi$-Berry物質の近傍でニュートン重力定数の符号反転が起こるか。
+
+\medskip
+\textbf{WB公理との関係}：仮説H3（スペクトル重力）+ 仮説H4（Berry $\to$ 重力）の
+\textbf{組み合わせ}検証。両方が正しい場合のみ $\Geff = -G$ が実現。
+
+\medskip
+\textbf{成功の意味}：反重力の実証。物理学のパラダイムシフト。
+
+\medskip
+\textbf{失敗の意味}：H3またはH4（またはその両方）の否定。
+ただし $\Omega_\Lambda = 2\pi/9$ や $\alpha_{\mathrm{EM}}$ の導出は独立に生存する。
+\end{experimentbox}
+
+% ------------------------------------------------------------
+\section{Euclid 2028 が検証するもの}
+\label{sec:16.5}
+
+\begin{experimentbox}[Euclid 2028 $\to$ $\Omega_\Lambda = 2\pi/9$（公理3の検証）]
+\textbf{検証対象}：ダークエネルギー密度パラメータ $\Omega_\Lambda$ が
+$2\pi/9 \approx 0.6981$ であるかどうか。
+
+\medskip
+\textbf{WB公理との関係}：\textbf{公理3}（民主主義原理）の検証。
+$\Omega_\Lambda = 2\pi/9$ は3公理から直接導出される。
+
+\medskip
+\textbf{検証方法}：ESA Euclid衛星（2023年打ち上げ済み）のデータリリース（2028年予定）。
+弱重力レンズ + バリオン音響振動の組み合わせで $\Omega_\Lambda$ を $\pm 0.005$ の精度で決定予定。
+
+\medskip
+\textbf{成功の意味}：算術的時空仮説の宇宙論的予測が正しいことの証拠。
+$2\sigma$ 以内に $2\pi/9$ が含まれれば強力な支持。
+
+\medskip
+\textbf{失敗の意味}：公理3（民主主義）の否定、またはH1c（民主主義仮説の細部）の修正が必要。
+ただし、他の4定数の導出は $\Omega_\Lambda$ とは独立な論理で成り立つ部分もある。
+\end{experimentbox}
+
+\begin{hsbox}
+Euclid（ユークリッド）はESA（欧州宇宙機関）の宇宙望遠鏡。
+宇宙の大規模構造を精密に測定し、ダークエネルギーの性質を明らかにすることが目標。
+WB理論は「$\Omega_\Lambda$ はちょうど $2\pi/9$」と予測しており、
+これは現在の観測値 $0.685 \pm 0.013$ と $1\sigma$ 以内で一致している。
+Euclid のデータでこの一致が確認されるかが、2028年の最大の検証ポイントである。
+\end{hsbox}
