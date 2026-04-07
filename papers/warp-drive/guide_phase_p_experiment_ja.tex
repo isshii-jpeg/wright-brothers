@@ -87,6 +87,19 @@ STLファイル & \texttt{pi\_berry\_crystal.stl}（6.1\,MB） \\
 
 \subsection{印刷方法}
 
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=重要：ジャイロイドインフィルは使えない]
+Bambu Studioのジャイロイドインフィル設定は\textbf{Berry位相$\pi$を持たない}。
+Wilson loop計算で確認：ジャイロイドは反転対称性を保持しており、
+巻き数$= 0$、Berry位相$= 0$。
+
+必ず以下のOpenSCADファイルから生成したSTLを使うこと：
+\begin{itemize}
+\item \texttt{pi\_berry\_crystal.scad}（球形穴、3D結晶）
+\item \texttt{pi\_berry\_crystal\_cylinders.scad}（円筒穴、印刷容易）
+\end{itemize}
+OpenSCADでF6（レンダー）→ Export STL → Bambu Studioに読み込み。
+\end{tcolorbox}
+
 \subsubsection{方法A：2材料印刷（推奨）}
 
 デュアルエクストルーダの3Dプリンタで：
