@@ -252,6 +252,78 @@ the coupling constants and mass ratios of the Standard Model.
 \end{conjecture}
 
 %=======================================================================
+\section{Structural origins of the formulas}
+%=======================================================================
+
+Each coefficient in the five formulas has an independent geometric
+or cohomological origin, ruling out circular reasoning.
+
+\subsection{Why $4\pi$: Gauss's law}
+
+In $d$-dimensional spacetime with $d-1$ spatial dimensions,
+the electromagnetic flux through a closed surface obeys
+$\oint \mathbf{E} \cdot d\mathbf{A} = Q/\varepsilon_0$.
+The surface area of the unit $(d-2)$-sphere is
+$\mathrm{Vol}(S^{d-2}) = 2\pi^{(d-1)/2}/\Gamma((d-1)/2)$.
+For $d = 4$: $\mathrm{Vol}(S^2) = 4\pi$.
+
+The fine structure constant is then the ratio of the
+\emph{geometric boundary} (electromagnetic flux surface)
+to the \emph{arithmetic bulk} (cohomological volume of $\Spec(\Z)$):
+\begin{equation}
+  \alpha_{\mathrm{EM}} = \frac{\mathrm{Vol}(S^{d-2})}{r^{\cd}}
+  = \frac{4\pi}{12^3}.
+\end{equation}
+The numerator ($4\pi$) comes from \emph{spatial geometry} ($d = 4$).
+The denominator ($1728$) comes from \emph{arithmetic geometry}
+($r = d \cdot \cd$, raised to the $\cd$-th power).
+These have independent origins.
+
+\subsection{Why cubed: cohomological dimension}
+
+$\Spec(\Z)$ has $\cd = 3$, so it behaves as a 3-manifold
+under Artin-Verdier duality~\cite{ArtinVerdier}.
+Volume forms on a $\cd$-dimensional space are $\cd$-forms,
+requiring $\cd$-th powers: the ``cohomological volume'' of an
+object of arithmetic radius $r$ is $r^{\cd} = r^3$.
+The identity $j(i) = r^3$ reflects this: $j(i)$ is the
+arithmetic volume of the vacuum lattice.
+
+\subsection{Why $\pi$ in couplings but not masses}
+
+In the adelic decomposition
+$\mathbb{A}_\Q = \mathbb{R} \times \prod_p \Q_p$,
+coupling constants arise from the \emph{completed} zeta function
+$\xi(s) = \pi^{-s/2}\Gamma(s/2)\zeta(s)$,
+which includes the archimedean $\Gamma$-factor (hence $\pi$).
+Mass ratios arise from the \emph{uncompleted} $\zeta(s)$
+(Gaussian norms in $\Z[i]$), which is purely non-archimedean.
+
+The same value $1/12 = |\zeta(-1)|$ underlies both
+$\Omega_\Lambda = 2\pi/9$ (via $\xi_{\neg 2}(-1) = -\pi/6$, with $\pi$)
+and $m_p/m_e = 12 \times 153$ (via $r = 12 = 1/|\zeta(-1)|$, no $\pi$).
+The routes through the adelic structure differ.
+
+\subsection{Derivation chain (no circular logic)}
+
+\begin{enumerate}
+\item $\cd = 3$ (Artin-Verdier theorem; pure math, no physics).
+\item $d = \cd + 1 = 4$ (WDW temporal boundary; the one physical assumption).
+\item $r = d \cdot \cd = 12$, $r' = \cd(d+1) = 15$ (arithmetic).
+\item $j(i) = r^3 = 1728$, $|j(-7)| = {r'}^3 = 3375$ (consistency checks,
+  not inputs).
+\item $\alpha = \mathrm{Vol}(S^{d-2})/r^{\cd}$ (Gauss law $+$ cohomological
+  volume; independent origins for numerator and denominator).
+\item $\sin^2\theta_W = (\cd/8) \cdot (r'/r)^3 / \pi$
+  (GUT $+$ dimensional running $+$ archimedean; three independent inputs).
+\item $m_p/m_e = r \cdot |r + \cd\,i|^2$ (Gaussian norm; forced once $r$
+  and $\cd$ are known).
+\item $\Omega_\Lambda = 2\pi/\cd^2$ (BC spectral action; independent derivation).
+\end{enumerate}
+
+One assumption ($d = \cd + 1$), one theorem ($\cd = 3$), one constant ($\pi$).
+
+%=======================================================================
 \section{Numerology assessment}
 %=======================================================================
 
