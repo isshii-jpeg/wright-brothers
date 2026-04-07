@@ -1,0 +1,273 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=25mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{Phase P 実験ガイド\\[6pt]
+\large 3Dプリントπ-Berry位相フォノニック結晶\\
+室温・卓上・\$1,200 で反重力物質を検証する}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Wilson loop計算により、反転対称性を破ったフォノニック結晶が
+バルク全体で正味Berry位相$\pi$を持つことが確認された。
+本ガイドでは、この結晶を3Dプリンタで製作し、
+音響測定によりBerry位相$\pi$を実験的に検証する手順を示す。
+全工程が室温・卓上で完結し、コストは約\$1,200、期間は約1ヶ月。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{背景：なぜこの実験が重要か}
+
+\subsection{Nielsen-Ninomiyaの抜け穴}
+
+電子系（フェルミオン）ではNielsen-Ninomiya定理により
+Weylノードは必ずペアで出現し、正味Berry位相はゼロに拘束される。
+しかしフォノン（ボソン）系にはこの定理が\textbf{適用されない}。
+フォノニック結晶では奇数個のWeyl的交差が許され、
+正味Berry位相$\pi$が原理的に可能。
+
+\subsection{Wilson loop計算の結果}
+
+MPB (MIT Photonic Bands) による計算で以下を確認：
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=Wilson loop結果]
+\begin{itemize}
+\item 構造：反転対称性を破った2球体単純立方結晶
+\item 大球：$r_1 = 0.2a$, $\varepsilon_1 = 12$（高密度）
+\item 小球：$r_2 = 0.15a$, $\varepsilon_2 = 6$（低密度）
+\item 小球の位置：$(0.5, 0.5, 0.5)a$（体心位置）
+\item Brillouin zone全体のバンド巻き数：1
+\item \textbf{正味Berry位相 = $\pi$ (mod $2\pi$)}
+\end{itemize}
+3つの独立な手法で整合：PWE (169交差, 奇数), MPBバンド (95交差, 奇数), Wilson loop (巻き数1).
+\end{tcolorbox}
+
+\subsection{WB理論との接続}
+
+もしBerry位相$\pi$が重力に影響するなら（WB仮説）：
+$G_{\mathrm{eff}} = G\cos(\pi) = -G$。
+この3Dプリント構造が「反重力物質」になる。
+
+この仮説を直接テストするのは困難だが、
+Berry位相$\pi$の\textbf{存在確認}自体が理論の基盤検証になる。
+
+\section{STLファイルと結晶構造}
+
+\subsection{構造パラメータ}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+パラメータ & 値 \\
+\midrule
+格子定数 $a$ & 20\,mm \\
+大球半径 $r_1$ & 4\,mm（ユニットセル原点） \\
+小球半径 $r_2$ & 3\,mm（体心位置 $(0.5, 0.5, 0.5)a$） \\
+ユニットセル数 & $5 \times 5 \times 5 = 125$ \\
+全体サイズ & $100 \times 100 \times 100$\,mm \\
+球の総数 & 250 \\
+STLファイル & \texttt{pi\_berry\_crystal.stl}（6.1\,MB） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{印刷方法}
+
+\subsubsection{方法A：2材料印刷（推奨）}
+
+デュアルエクストルーダの3Dプリンタで：
+\begin{itemize}
+\item 大球：PLA（密度 $\rho \approx 1250$\,kg/m$^3$、剛性高）
+\item 小球：TPU（密度 $\rho \approx 1100$\,kg/m$^3$、柔軟）
+\item 密度/剛性の差 → 音響インピーダンスの差 → 反転対称性を破る
+\end{itemize}
+
+\subsubsection{方法B：逆構造・単材料（最も簡単）}
+
+100\,mmのPLAブロックに球形の穴を開ける：
+\begin{itemize}
+\item 大穴 $r = 4$\,mm（原点位置）
+\item 小穴 $r = 3$\,mm（体心位置）
+\item 音波は空気穴を伝搬 → 穴のサイズ差が反転破れ
+\item 単材料で印刷可能
+\end{itemize}
+
+\subsubsection{方法C：外注}
+
+3Dプリントサービス（DMM.make, Shapeways 等）に発注：
+\begin{itemize}
+\item STLファイルをアップロードするだけ
+\item 樹脂、ナイロン等から選択
+\item コスト：¥3,000〜10,000
+\item 納期：1〜2週間
+\end{itemize}
+
+\section{測定装置}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=部品リスト]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+3Dプリント結晶（方法B or C） & 自作 or 外注 & ¥5,000 \\
+ファンクションジェネレータ & Amazon（安価版） & ¥5,000 \\
+小型スピーカー（フルレンジ） & 秋月 or Amazon & ¥1,000 \\
+コンデンサーマイク + プリアンプ & Amazon & ¥3,000 \\
+USBオシロスコープ & Amazon（Hantek） & ¥10,000 \\
+SMAケーブル・コネクタ & 秋月 & ¥1,000 \\
+防音ボックス（段ボール+吸音材） & ホームセンター & ¥2,000 \\
+\midrule
+\textbf{合計} & & \textbf{¥27,000（約\$180）} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+nanoVNA（Phase 0で使用予定）があれば、
+ファンクションジェネレータとオシロスコープの代わりに使える。
+
+\section{測定手順}
+
+\subsection{Step 1：透過スペクトル測定}
+
+\begin{verbatim}
+  防音ボックス内:
+
+  スピーカー ──→ )))  [結晶]  ))) ──→ マイク
+  (1-20 kHz      音波         透過音
+   周波数                     をFFT
+   スイープ)
+\end{verbatim}
+
+\begin{enumerate}
+\item 結晶なし（参照）：スピーカー→マイク直接、T(f)とφ(f)を記録
+\item 結晶あり：結晶を挟んで同じ測定
+\item 透過率 $T(f) = |S_{21}|$ とphase $\phi(f) = \arg(S_{21})$ を算出
+\item バンドギャップ周波数（$T$ が急落する帯域）を同定
+\end{enumerate}
+
+予想周波数帯：$f \approx v_{\mathrm{air}} / (2a) = 343/(2 \times 0.02) = 8.6$\,kHz
+
+\subsection{Step 2：Berry位相の抽出}
+
+バンド交差周波数（$\sim 8$\,kHz付近）での透過位相 $\phi(f)$ を精密測定。
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=Berry位相の測定原理]
+Berry位相$\pi$は、バンド交差点を横切る際の
+透過波の位相ジャンプとして現れる。
+
+通常の構造（Berry位相 $= 0$）：位相は滑らかに変化。
+$\pi$構造：バンド交差で位相が$\pi$\textbf{不連続にジャンプ}。
+
+測定：$\phi(f)$ をバンド交差周波数の前後で精密にプロット。
+$\pi$ジャンプが見えれば → Berry位相$\pi$を実験的に確認。
+\end{tcolorbox}
+
+\subsection{Step 3：対照実験}
+
+同じサイズ・材料で、大球と小球を\textbf{同じ半径}にした結晶を作る。
+これは反転対称性が回復するため、Berry位相 $= 0$ になるはず。
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+& $\pi$結晶（大球$\neq$小球） & 対照結晶（大球$=$小球） \\
+\midrule
+Berry位相 & $\pi$（Wilson loop確認） & $0$ \\
+位相ジャンプ & あり & なし \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+この比較が、Berry位相$\pi$の\textbf{直接的実験証拠}。
+
+\subsection{Step 4：音響カシミール力測定（Phase P+）}
+
+Step 2が成功した場合の発展実験：
+
+\begin{enumerate}
+\item 2枚の$\pi$結晶を向かい合わせに配置
+\item 間隔を変えながら音圧差を測定
+\item Berry位相$\pi$によりカシミール力の符号が変わるか？
+\item これは「音響版182:1テスト」に相当
+\end{enumerate}
+
+\section{判定基準}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=GO/STOP 判定]
+\textbf{Step 2の結果}：
+
+バンド交差で$\pi$位相ジャンプが観測される
+→ \textbf{Berry位相$\pi$確認} → Phase P+ に進む
+
+位相ジャンプが見えない
+→ 構造を最適化して再測定（球のサイズ比を変える等）
+
+対照実験と差がない
+→ 理論計算に誤りがある可能性 → Wilson loop再検証
+\end{tcolorbox}
+
+\section{タイムラインとコスト}
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+週 & 作業 & コスト \\
+\midrule
+Week 1 & STLの最適化、3Dプリント発注/製作 & ¥5,000 \\
+Week 2 & 測定装置の組み立て & ¥22,000 \\
+Week 3 & 透過スペクトル測定 + Berry位相抽出 & ¥0 \\
+Week 4 & 対照実験 + データ解析 + 論文執筆 & ¥0 \\
+\midrule
+\textbf{合計} & & \textbf{¥27,000（\$180）、1ヶ月} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{この実験が成功した場合の意味}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black]
+\textbf{成功} = バンド交差で$\pi$位相ジャンプが観測される。
+
+意味：
+\begin{enumerate}
+\item 世界初の\textbf{室温バルク$\pi$-Berry位相物質}の実験的実証
+\item Nielsen-Ninomiyaの抜け穴（ボソン系）の直接確認
+\item WB理論の反重力仮説のための\textbf{材料的基盤}の確立
+\item トポロジカルフォノニクスの新方向の開拓
+\end{enumerate}
+
+たとえ重力への影響が確認されなくても、
+トポロジカルフォノニクスとして独立した論文価値がある。
+\end{tcolorbox}
+
+\section{チェックリスト}
+
+\begin{itemize}
+\item[$\square$] STLファイル \texttt{pi\_berry\_crystal.stl} を入手（GitHub）
+\item[$\square$] 方法B（逆構造）のSTLを生成する場合はスクリプトを実行
+\item[$\square$] 3Dプリント発注 or 自作（FDM/SLA）
+\item[$\square$] 対照結晶（同サイズ球）のSTLも生成・印刷
+\item[$\square$] 秋月/Amazon で測定装置を発注
+\item[$\square$] 防音ボックスを作成（段ボール+吸音スポンジ）
+\item[$\square$] 参照測定（結晶なし）を実施
+\item[$\square$] 透過スペクトル測定（結晶あり）を実施
+\item[$\square$] Berry位相$\pi$の位相ジャンプを探索
+\item[$\square$] 対照実験で差分確認
+\item[$\square$] 結果を論文にまとめてarXivに投稿
+\end{itemize}
+
+\end{document}
