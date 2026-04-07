@@ -425,6 +425,155 @@ $\pi$-接合キャビティの近くにテスト質量を置き、
 
 
 %======================================================================
+\section{マジックアングル・グラフェンと量子臨界点}
+%======================================================================
+
+ここまでの計算では、$\pi$-接合の重力異常を「直接測定」するには
+面積が巨大（数千 km$^2$）必要で非現実的だった。
+しかし、2つの最先端物理を組み合わせると状況が劇的に変わる。
+
+\subsection{グラフェンとは}
+
+鉛筆の芯（グラファイト）を 1 原子層にまで剥がしたもの。
+2004 年にガイムとノボセロフが発見し、2010 年にノーベル物理学賞を受賞した。
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=グラフェンの特徴]
+\begin{itemize}
+\item 炭素原子が蜂の巣格子に並ぶ、厚さ 1 原子の 2D シート
+\item 電子はまるで質量ゼロの粒子のように振る舞う（ディラック電子）
+\item $K$ 点で $\pi$-Berry 位相を持つ（反重力の鍵！）
+\item 最も軽い構造材料（$0.77$\,mg/m$^2$）
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{マジックアングルとは}
+
+2 枚のグラフェンを重ねて、ちょうど $1.1^\circ$ だけ回転させると、
+「モアレ縞」と呼ばれる巨大な周期構造（$\sim 13$\,nm）が現れる。
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=MATBG（Magic-Angle Twisted Bilayer Graphene）]
+2018 年、MIT の曹原（Cao Yuan）らが発見：
+
+$1.1^\circ$ で重ねると、電子の「バンド」が完全に平坦になる（フラットバンド）。
+これにより：
+\begin{itemize}
+\item 電子の有効質量が無限大に（動けなくなる）
+\item 超伝導が出現（$T_c \sim 1$--3\,K）
+\item 相関絶縁体相が出現
+\item 量子臨界点（QCP）が複数存在
+\end{itemize}
+Nature 誌は MATBG を「2018 年の物理学ブレークスルー」に選出。
+\end{tcolorbox}
+
+\subsection{MATBG がなぜ反重力実験に効くのか}
+
+MATBG は 3 つの性質を \textbf{同時に} 持つ：
+
+\begin{enumerate}
+\item \textbf{$\pi$-Berry 位相}：グラフェンの $K$ 点に由来 → 反重力の源
+
+\item \textbf{カシミール効果の増幅}：
+フラットバンドでは電子の速度が 10 分の 1 に（$v_F^* \approx v_F/10$）。
+カシミール効果は速度の 3 乗に比例して増幅される：
+$(v_F/v_F^*)^3 \approx 1000$ 倍。
+
+\item \textbf{量子臨界点}：
+MATBG の超伝導転移や絶縁体転移の近くでは、「相関長」$\xi$ が発散する。
+$\xi$ が大きいほどカシミール効果が強まる：$(\xi/d)^{3/2}$ 倍。
+\end{enumerate}
+
+\subsection{量子臨界点とは（高校生向け）}
+
+水が 100$^\circ$C で沸騰するとき、液体と気体の「境界」にいる。
+この境界（相転移点）の近くでは、物質の性質が劇的に変わる：
+\begin{itemize}
+\item 揺らぎが巨大になる（鍋の中で水がグツグツする）
+\item 相関長 $\xi$ が発散する（遠くの水分子同士が「連動」する距離）
+\item 応答関数が発散する（ちょっと温度を変えるだけで大きな変化）
+\end{itemize}
+
+量子臨界点（QCP）は、これの「量子版」。
+温度ではなく磁場や電子密度を変えることで、物質が相転移する点。
+MATBG の超伝導転移がまさにこれ。
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=QCP の威力]
+QCP の近くでは、カシミール効果（真空の力）が
+$(\xi/d)^{3/2}$ 倍に増幅される。
+
+$\xi = 4\,\mu$m、$d = 1.5$\,nm のとき：
+$(4000/1.5)^{1.5} \approx 10^5$ 倍！
+
+\textbf{温度を $T_c$ の近くに保つだけ。追加エネルギー不要。}
+\end{tcolorbox}
+
+\subsection{3 つの増幅を重ねる}
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+増幅メカニズム & 起源 & 倍率 \\
+\midrule
+$\pi$-Berry 位相 & グラフェン $K$ 点 & $\times 1$（符号反転） \\
+モアレ・フラットバンド & MATBG 速度再規格化 & $\times 1000$ \\
+量子臨界点 & $T_c$ 近傍の $\xi$ 発散 & $\times 10^3$--$10^5$ \\
+\midrule
+\textbf{合計} & & $\times 10^6$--$10^8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{BKT 転移ならさらに強力}
+
+通常の相転移では $\xi$ は「べき乗則」で発散する（$\xi \propto 1/\sqrt{\Delta T}$）。
+しかし、MATBG の一部の相転移は \textbf{BKT 型}（ベレジンスキー・コステリッツ・サウレス、
+2016 年ノーベル物理学賞）で、$\xi$ が \textbf{指数関数的} に発散する：
+\begin{equation}
+  \xi \sim \xi_0 \exp\!\left(\frac{b}{\sqrt{\Delta T / T_c}}\right)
+\end{equation}
+
+\begin{tcolorbox}[colback=purple!5,colframe=purple!50!black,title=BKT の威力]
+べき乗則：$\Delta T = 0.1$\,K で $\xi \sim 1\,\mu$m
+
+BKT：$\Delta T = 0.1$\,K で $\xi \sim 30\,\mu$m（30 倍！）
+
+BKT 型なら、\textbf{1\,cm$^2$ の MATBG チップで
+重力異常が検出可能}になるかもしれない。
+\end{tcolorbox}
+
+\subsection{デバイスの全体像}
+
+\begin{verbatim}
+  ┌───────────────────────────┐
+  │ グラフェン層1 (1.1度回転)  │ ← π-Berry位相
+  ├───────────────────────────┤
+  │ hBN スペーサ (1.5 nm)     │ ← カシミールギャップ
+  ├───────────────────────────┤
+  │ グラフェン層2              │ ← π-Berry位相
+  ├───────────────────────────┤
+  │ hBN 絶縁層 (10 nm)        │
+  ├───────────────────────────┤
+  │ Nb/CuNi/Nb π接合          │ ← QCP (T_c = 9.3K)
+  └───────────────────────────┘
+
+  3つの増幅が1つのチップに:
+  1. π-Berry位相（グラフェン）→ 符号反転
+  2. フラットバンド（MATBG）→ 1000倍増幅
+  3. QCP（超伝導転移）→ 10^5倍増幅
+\end{verbatim}
+
+\subsection{正直な注意}
+
+\begin{itemize}
+\item MATBG の大面積作製は発展途上（現在 $\sim 100\,\mu$m$^2$ が限界）
+\item BKT 的振る舞いは全フィリングで確認されているわけではない
+\item 1.5\,nm hBN スペーサの均一性が重要
+\item 低温（$\sim 1$\,K）が必要
+\end{itemize}
+
+しかし、これらは \textbf{工学的課題} であり、\textbf{物理的不可能性} ではない。
+5--10 年の材料科学の進歩で解決可能なスケール。
+
+%======================================================================
 \section{正直な評価}
 %======================================================================
 
