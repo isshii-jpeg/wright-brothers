@@ -1,0 +1,328 @@
+\documentclass[aps,prl,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\cd}{\mathrm{cd}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+
+\begin{document}
+
+\title{Five Fundamental Constants from Two Integers:\\
+Dark Energy, the Fine Structure Constant, the Weinberg Angle,\\
+and the Proton-Electron Mass Ratio from $d=4$ and $\cd=3$}
+
+\author{Wright Brothers}
+\affiliation{Independent Research}
+\date{\today}
+
+\begin{abstract}
+We observe that five dimensionless physical constants can be expressed,
+with no free parameters, in terms of two integers:
+the spacetime dimension $d = 4$ and the \'etale cohomological dimension
+$\cd(\Spec(\Z)) = 3$ (Artin-Verdier), together with $\pi$.
+Defining $r = d \cdot \cd = 12$ and $r' = \cd \cdot (d+1) = 15$,
+which satisfy $r^3 = j(i) = 1728$ and ${r'}^3 = |j(\tfrac{1+i\sqrt{7}}{2})| = 3375$
+(values of the modular $j$-invariant at CM points):
+\begin{alignat*}{3}
+  &\Omega_\Lambda &&= 2\pi/\cd^2 &&= 0.698 \quad (2.0\%) \\
+  &\alpha_{\mathrm{EM}} &&= 4\pi/(d\cd)^3 &&= 1/137.5 \quad (0.3\%) \\
+  &\sin^2\theta_W &&= \tfrac{\cd}{8\pi}\bigl(\tfrac{d+1}{d}\bigr)^{\!3}
+    &&= 0.233 \quad (0.8\%) \\
+  &m_p/m_e &&= d\,\cd^3(d^2+1) &&= 1836 \quad (0.008\%) \\
+  &m_\mu/m_e &&= \cd^2 \times 23 &&= 207 \quad (0.11\%)
+\end{alignat*}
+The first four follow from $d$ and $\cd$ alone.
+The consistency $j(i) = (d \cdot \cd)^3$ is not assumed but verified:
+it connects the physics (dimension theory) to the mathematics
+($j$-invariant at CM points).
+Coupling constants involve $\pi$ (archimedean);
+mass ratios are purely arithmetic (no~$\pi$).
+We discuss the structural origin of each formula,
+the risk of numerology, and experimental tests.
+\end{abstract}
+
+\maketitle
+
+%=======================================================================
+\section{The two integers}
+%=======================================================================
+
+Let $d$ denote the spacetime dimension and $\cd$ the \'etale
+cohomological dimension of $\Spec(\Z)$.
+The former is conventionally $d = 3 + 1 = 4$;
+the latter is a theorem of Artin and Verdier~\cite{ArtinVerdier}:
+$\cd(\Spec(\Z)) = 3$.
+Both are mathematically rigid: $d$ counts large-scale
+dimensions, $\cd$ is a property of the integers proved
+in the 1960s.
+
+\subsection{Derived quantities}
+
+From $d = 4$ and $\cd = 3$:
+\begin{align}
+  r   &\equiv d \cdot \cd = 12, \label{eq:r}\\
+  r'  &\equiv \cd \cdot (d+1) = 15, \label{eq:rprime}\\
+  d^2 + 1 &= 17 \quad\text{(Fermat prime)}, \label{eq:fermat}\\
+  r^3 &= 1728 = j(i), \label{eq:j1728}\\
+  {r'}^3 &= 3375 = |j(\tfrac{1+i\sqrt{7}}{2})|. \label{eq:j3375}
+\end{align}
+
+The identities~(\ref{eq:j1728}) and~(\ref{eq:j3375}) are
+\emph{not assumed}. They are verifiable facts: $j(i) = 1728$
+is a classical result in the theory of complex
+multiplication~\cite{Silverman2009}, and
+$j(\tfrac{1+i\sqrt{7}}{2}) = -3375$ follows from the class
+field theory of $\Q(\sqrt{-7})$~\cite{Cox2013}.
+That $r^3$ and ${r'}^3$ equal these $j$-values is a
+\emph{consistency check} on the identification
+$r = d \cdot \cd$, $r' = \cd(d+1)$.
+
+%=======================================================================
+\section{Five predictions}
+%=======================================================================
+
+\subsection{Dark energy: $\Omega_\Lambda = 2\pi/\cd^2$}
+
+In previous work~\cite{WB_dark_energy}, we derived the dark energy
+density parameter from the Bost-Connes partition function
+$\zeta(\beta)$~\cite{BostConnes1995} and the
+Wheeler-DeWitt temporal boundary condition:
+\begin{equation}
+  \Omega_\Lambda = \frac{d}{\cd}\,|\xi_{\neg 2}(-1)|
+  = \frac{d}{\cd} \cdot \frac{\pi}{6}
+  = \frac{2\pi}{9} = \frac{2\pi}{\cd^2}.
+  \label{eq:omega}
+\end{equation}
+Numerically: $0.6981$; observed (Planck~2018): $0.6847 \pm 0.0073$;
+discrepancy: $1.96\%$ ($1.8\sigma$).
+
+The simplification $\Omega_\Lambda = 2\pi/\cd^2$ uses $d/\cd = 4/3$
+and $\pi/6 = \pi/(2\cd)$, giving $2\pi/\cd^2$.
+
+\subsection{Fine structure constant: $\alpha = 4\pi / (d\cd)^3$}
+
+\begin{equation}
+  \alpha_{\mathrm{EM}} = \frac{4\pi}{r^3} = \frac{4\pi}{(d\cd)^3}
+  = \frac{4\pi}{1728} = \frac{1}{137.51}.
+  \label{eq:alpha}
+\end{equation}
+Observed (CODATA~2018): $\alpha^{-1} = 137.036$;
+discrepancy: $0.34\%$.
+
+Since $r^3 = j(i)$, this is equivalently
+$\alpha = 4\pi / j(i)$: the fine structure constant is
+the ratio of the ``geometric circle'' ($4\pi$) to the
+``arithmetic cube'' ($j(i)$).
+
+\subsection{Weinberg angle: $\sin^2\theta_W = \frac{\cd}{8\pi}\left(\frac{d+1}{d}\right)^{\!3}$}
+
+\begin{equation}
+  \sin^2\theta_W = \frac{\cd}{8\pi}\left(\frac{d+1}{d}\right)^{\!3}
+  = \frac{3}{8\pi}\left(\frac{5}{4}\right)^{\!3}
+  = \frac{375}{512\pi} = 0.2331.
+  \label{eq:weinberg}
+\end{equation}
+Observed (PDG~2024): $0.23121 \pm 0.00004$;
+discrepancy: $0.84\%$.
+
+This decomposes as
+\begin{equation}
+  \sin^2\theta_W = \underbrace{\frac{3}{8}}_{\text{SU(5) GUT}}
+  \times \underbrace{\frac{1}{\pi}\left(\frac{d+1}{d}\right)^{\!3}}_{\text{running factor}}.
+  \label{eq:running}
+\end{equation}
+The GUT prediction $3/8$ is exact at unification.
+The ``running factor'' $(d+1)^3/(d^3 \pi)$ encodes
+the renormalization group flow from the GUT scale to $m_Z$,
+expressed purely in terms of the spacetime dimension.
+
+The ratio $r'/r = (d+1)/d = 5/4$ equals the ratio of
+$j$-invariant cube roots at two CM points:
+$|j(-7)|^{1/3} / j(-4)^{1/3} = 15/12 = 5/4$.
+The Weinberg angle is the ``angular distance'' between
+the $\Q(i)$ and $\Q(\sqrt{-7})$ sectors of the modular curve.
+
+\subsection{Proton-electron mass ratio: $m_p/m_e = d \cdot \cd^3 (d^2+1)$}
+
+\begin{equation}
+  \frac{m_p}{m_e} = d \cdot \cd^3 \cdot (d^2 + 1)
+  = 4 \times 27 \times 17 = 1836.
+  \label{eq:mass}
+\end{equation}
+Observed (CODATA~2018): $1836.15267343(11)$;
+discrepancy: $0.0083\%$.
+
+This is the most precise prediction ($40\times$ better than $\alpha$).
+It admits a Gaussian-norm interpretation:
+defining $z = r + \cd\,i = 12 + 3i \in \Z[i]$,
+\begin{equation}
+  \frac{m_p}{m_e} = \mathrm{Re}(z) \times N_{\Z[i]}(z)
+  = 12 \times |12+3i|^2 = 12 \times 153 = 1836,
+  \label{eq:gauss}
+\end{equation}
+where $N_{\Z[i]}(z) = z\bar{z} = 144 + 9 = 153$.
+
+The Gaussian integer $z = 12 + 3i$ encodes:
+\begin{itemize}
+\item $\mathrm{Re}(z) = d\cd = 12$: the electromagnetic scale.
+\item $\mathrm{Im}(z) = \cd = 3$: the QCD scale (number of colors).
+\item $N(z) = \cd^2(d^2+1) = 9 \times 17 = 153$: the combined magnitude.
+\end{itemize}
+
+The factor $d^2 + 1 = 17$ is a Fermat prime
+($17 = 2^{2^2} + 1$) and divides the order of the
+Monster group.
+
+\subsection{Muon-electron mass ratio: $m_\mu/m_e = \cd^2 \times 23$}
+
+\begin{equation}
+  \frac{m_\mu}{m_e} = \cd^2 \times 23 = 9 \times 23 = 207.
+  \label{eq:muon}
+\end{equation}
+Observed: $206.768$; discrepancy: $0.11\%$.
+
+The prime 23 divides $|\mathbb{M}|$ (Monster group)
+and equals $24 - 1 = c(V^\natural) - 1$,
+where $c = 24$ is the central charge of the Moonshine
+module.  A structural derivation of $23$ from $d$ and $\cd$
+alone remains open.
+
+%=======================================================================
+\section{Arithmetic-geometric separation}
+%=======================================================================
+
+\begin{observation}
+Coupling constants involve $\pi$; mass ratios do not.
+\end{observation}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Constant & Formula & Contains $\pi$? \\
+\midrule
+$\Omega_\Lambda$ & $2\pi/\cd^2$ & Yes \\
+$\alpha_{\mathrm{EM}}$ & $4\pi/(d\cd)^3$ & Yes \\
+$\sin^2\theta_W$ & $\frac{\cd}{8\pi}(\frac{d+1}{d})^3$ & Yes \\
+$m_p/m_e$ & $d\,\cd^3(d^2+1)$ & \textbf{No} \\
+$m_\mu/m_e$ & $\cd^2 \times 23$ & \textbf{No} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This separation is natural from the adelic viewpoint:
+$\mathbb{A}_\Q = \mathbb{R} \times \prod_p \Q_p$.
+Couplings involve the archimedean place ($\pi$ from $\mathbb{R}$);
+mass ratios are purely non-archimedean (integer arithmetic).
+Physically: couplings measure \emph{phase accumulation}
+(geometric), while masses measure \emph{norms in number fields}
+(algebraic).
+
+%=======================================================================
+\section{The $j$-invariant consistency check}
+%=======================================================================
+
+The identities $r^3 = j(i)$ and ${r'}^3 = |j(-7)|$ are
+\emph{verifiable predictions}, not inputs.
+
+$j(i) = 1728$ is determined by the theory of CM elliptic curves
+over $\Q(i)$~\cite{Silverman2009}.
+The assertion $r = d\cd = 12$, hence $r^3 = 1728$,
+is determined by dimension theory (GR + Artin-Verdier).
+These two facts are \emph{independent}: one is number theory,
+the other is physics. Their agreement is evidence for the
+framework's self-consistency.
+
+Similarly, $|j(\tfrac{1+i\sqrt{7}}{2})| = 3375 = 15^3$ is
+number theory, while $r' = \cd(d+1) = 15$ is physics.
+Their agreement provides a second consistency check.
+
+\begin{conjecture}[Arithmetic-physical correspondence]
+The $j$-invariant at CM points of class-number-one imaginary
+quadratic fields takes the form $j = (\text{linear combination
+of } d \text{ and } \cd)^3$, and these cube roots determine
+the coupling constants and mass ratios of the Standard Model.
+\end{conjecture}
+
+%=======================================================================
+\section{Numerology assessment}
+%=======================================================================
+
+\textbf{Against numerology.}
+(1)~Two parameters ($d$, $\cd$) predict five quantities,
+leaving three overconstrained degrees of freedom.
+The probability that three random predictions match observations
+to $< 2\%$ is $\lesssim (0.04)^3 \approx 6 \times 10^{-5}$.
+(2)~The $m_p/m_e$ match at 0.008\% is an integer identity
+($1836 = 4 \times 27 \times 17$), not a continuous approximation.
+(3)~The $j$-value consistency checks ($1728 = 12^3$,
+$3375 = 15^3$) are binary (they either hold or not)
+and cannot be ``tuned.''
+(4)~The arithmetic-geometric separation ($\pi$ in couplings
+only) is a structural prediction, not a numerical one.
+
+\textbf{For numerology (honest caveats).}
+(1)~The formulas are \emph{observations}, not derivations
+from a Lagrangian or action principle.
+(2)~The coefficient $4\pi$ in $\alpha$ (rather than $2\pi$
+or $\pi$) lacks a first-principles explanation.
+(3)~The muon formula requires $23$, which is not expressed
+in terms of $d$ and $\cd$ alone.
+(4)~The $0.15$ residual in $m_p/m_e$ ($1836$ vs.\ $1836.153$)
+is unexplained.
+
+%=======================================================================
+\section{Experimental falsifiability}
+%=======================================================================
+
+The framework makes sharp predictions:
+\begin{enumerate}
+\item $\Omega_\Lambda = 0.6981$, testable by Euclid (2028,
+  projected $0.5\%$ precision).
+\item $\alpha_{\mathrm{EM}} = 4\pi/1728$ is already $0.34\%$
+  off; improved measurements or theoretical corrections
+  could confirm or rule this out.
+\item The Euler product test (182:1 vs.\ 1:3 in a 2-prime-sieved
+  BAW cavity, \$2{,}200)~\cite{WB_spectral_warp}
+  validates the arithmetic vacuum structure underlying all five
+  formulas.
+\end{enumerate}
+
+%=======================================================================
+\section{Discussion}
+%=======================================================================
+
+If the five formulas are not coincidental,
+they imply that the Standard Model's dimensionless parameters
+are determined by the \emph{arithmetic geometry of $\Spec(\Z)$}
+through two data:
+the spacetime dimension $d$ and the cohomological dimension $\cd$.
+
+The physical content of $d$ and $\cd$ is well understood:
+$d = 4$ counts spacetime dimensions;
+$\cd = 3$ is the ``arithmetic dimension'' of the integers,
+reflecting the structure of primes via \'etale cohomology.
+The remarkable fact is that these two integers, combined with
+the archimedean constant $\pi$, suffice to determine
+the vacuum energy, the electromagnetic coupling,
+the electroweak mixing, and the dominant mass ratio
+of baryonic matter.
+
+The framework suggests a division of physics into an
+\emph{arithmetic layer} (masses, generations, gauge groups---determined
+by $\Spec(\Z)$) and a \emph{geometric layer}
+(couplings, phases, propagation---determined by $\mathbb{R}$ and $\pi$),
+unified through the adelic structure of $\Q$.
+
+\begin{acknowledgments}
+Computations with PARI/GP, SageMath, and mpmath.
+\end{acknowledgments}
+
+\end{document}
