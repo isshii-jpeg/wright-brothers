@@ -1,0 +1,564 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=20mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{トポロジカル反重力 実験ガイド\\[6pt]
+\large 4段階の検証実験：DN基本測定から$\pi$-Berry位相カシミールまで}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+トポロジカル反重力理論の4段階の検証実験を、
+装置構成・部品リスト・手順・判定基準まで具体的に記述する。
+Phase~0（DN/DD基本測定、¥130k）から
+Phase~3（$\pi$-接合カシミール符号反転）まで、
+各段階の結果が次の段階に進む判定条件となる。
+全実験は既存技術の範囲内にあり、
+Phase~0--1 は自宅ガレージで実施可能。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{実験の全体構成}
+%======================================================================
+
+\begin{center}
+\begin{tabular}{llllp{5cm}}
+\toprule
+Phase & テスト内容 & 予算 & 期間 & 判定 \\
+\midrule
+0 & DN/DD 基本測定 & ¥130k & 1--2月 & DN斥力の符号検出 \\
+1 & 2素数ミュート (182:1) & +¥200k & 2--3月 & レギュレータ予想 \\
+2 & $\pi$-接合カシミール & +¥300k & 3--6月 & $-\zeta(t)$ 真空の検証 \\
+3 & ねじり天秤 重力異常 & +¥500k & 6--12月 & $G_{\mathrm{eff}} = -G$ の直接検証 \\
+\midrule
+合計 & & ¥1,130k & 12--24月 & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=重要な原則]
+\textbf{各 Phase の結果が陽性でなければ次の Phase に進まない。}
+Phase~0 が null なら Phase~1 以降は中止。
+Phase~1 が 1/3 ならレギュレータ予想が棄却され、
+反重力理論全体が否定される。
+無駄なコストを避けるため、常に最も安い実験から始める。
+\end{tcolorbox}
+
+
+%======================================================================
+\section{Phase 0：DN/DD 基本測定（¥130,000）}
+%======================================================================
+
+\subsection{目的}
+
+$p = 2$ ミュート（DN 境界条件）による真空エネルギーの符号変化を検出する。
+これは全理論の最も基本的な予測：
+\textbf{DN 真空のカシミール応答は DD と異なる符号を持つ}。
+
+\subsection{装置構成}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=装置リスト]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+水晶振動子 20\,MHz (HC-49S) $\times 10$ & 秋月電子 & ¥2,000 \\
+水晶振動子 各種周波数 $\times 6$ & 秋月/RS & ¥1,200 \\
+nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
+SMR/FBAR 評価キット & Digi-Key & ¥60,000 \\
+アルミ治具・御影石ベース & ホームセンター & ¥5,000 \\
+エポキシ（Stycast 1266） & Amazon & ¥8,000 \\
+タングステン板（DN化用）$30\times30\times0.5$\,mm & Nilaco & ¥3,000 \\
+SMA コネクタ・ケーブル類 & Digi-Key & ¥5,000 \\
+温度計（サーミスタ） & 秋月電子 & ¥500 \\
+恒温槽（発泡スチロール箱+ペルチェ） & Amazon & ¥8,000 \\
+はんだ・工具類 & ホームセンター & ¥5,000 \\
+\midrule
+\textbf{合計} & & \textbf{¥112,700} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{サンプル準備}
+
+\subsubsection{DD サンプル（両面固定）}
+
+\begin{enumerate}
+\item HC-49S パッケージから水晶ブランクを取り出す（ケースをペンチで慎重に開封）
+\item 水晶ブランクの両面にエポキシ（Stycast 1266）を薄く塗布
+\item 両面をタングステン板に接着
+\item 室温で 24 時間硬化
+\item 結果：両面 Dirichlet（変位 $= 0$）→ DD 境界条件
+\end{enumerate}
+
+\subsubsection{DN サンプル（片面固定・片面自由）}
+
+\begin{enumerate}
+\item 同様に水晶ブランクを取り出す
+\item \textbf{片面のみ} エポキシでタングステン板に接着
+\item もう片面は \textbf{空気に露出}（何も接着しない）
+\item 結果：底面 Dirichlet、上面 Neumann（応力 $= 0$）→ DN 境界条件
+\end{enumerate}
+
+\subsection{測定手順}
+
+\subsubsection{Step 1：共振スペクトル確認}
+
+\begin{enumerate}
+\item nanoVNA を DD サンプルに接続（SMA → ワイヤボンド or プローブ）
+\item $S_{21}$ パラメータを 1--100\,MHz でスイープ
+\item 基本波（$\sim 20$\,MHz）および倍音（40, 60, 80\,MHz）のピーク位置を記録
+\item DN サンプルで同様に測定
+\item \textbf{確認}：DN サンプルでは偶数倍音（40, 80\,MHz）が \textbf{消失} しているか？
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=Phase 0 最初の判定]
+偶数倍音が DN で消失 → $p = 2$ ミュートの基本メカニズムが動作 → 続行
+
+偶数倍音が DN でも残る → 境界条件が不完全 → サンプル作製を改善
+\end{tcolorbox}
+
+\subsubsection{Step 2：温度応答差分法（符号テスト）}
+
+真空エネルギーの「符号」を直接測るのは困難だが、
+温度変化に対する共振周波数のドリフト方向が手がかりになる。
+
+\begin{enumerate}
+\item DD サンプルを恒温槽に設置
+\item 25$^\circ$C → 35$^\circ$C に昇温しながら共振周波数を 1 秒間隔で記録
+\item 周波数ドリフト $\Delta f_{\mathrm{DD}}(T)$ を測定
+\item DN サンプルで同様に測定 → $\Delta f_{\mathrm{DN}}(T)$
+\item 差分 $\delta f(T) = \Delta f_{\mathrm{DN}} - \Delta f_{\mathrm{DD}}$ を計算
+\end{enumerate}
+
+\textbf{予測}：
+正の真空エネルギー（DN）は負の真空エネルギー（DD）と
+\textbf{異なる方向} の周波数シフトを与える。
+$\delta f$ の符号が理論の最も基本的なテスト。
+
+\subsubsection{Step 3：88\,$\mu$m 特殊サンプル}
+
+20\,MHz 水晶（厚さ $\sim 83\,\mu$m）はダークエネルギー長
+$\ell_\Lambda = 88\,\mu$m に近い。
+このサンプルでの DN/DD 差が他の厚さと比べて
+異常を示すかどうかを確認。
+
+\subsection{成功判定と Phase 1 への移行}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+結果 & 判定 & 次のアクション \\
+\midrule
+偶数倍音消失 + $\delta f \neq 0$ & 陽性 & Phase 1 に進む \\
+偶数倍音消失 + $\delta f = 0$ & 曖昧 & サンプル改善して再測定 \\
+偶数倍音残存 & 陰性 & 境界条件を改善（研磨、接着法変更） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{Phase 1：2素数ミュート（182:1 テスト、+¥200,000）}
+%======================================================================
+
+\subsection{目的}
+
+$p = 2$ に加えて $p = 3$ もミュートし、
+カシミールエネルギー比が 182（オイラー積）か 1/3（モード数）かを判定する。
+\textbf{レギュレータ予想の決定的テスト。}
+
+\subsection{追加装置}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=Phase 1 追加部品]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+カスタム積層 BAW 結晶 & NDK or 大学クリーンルーム & ¥150,000 \\
+Mo ターゲット（スパッタ用）& Nilaco & ¥20,000 \\
+AlN ターゲット（スパッタ用）& Nilaco & ¥20,000 \\
+Au ワイヤ（接合用）& Nilaco & ¥5,000 \\
+\midrule
+\textbf{追加合計} & & \textbf{¥195,000} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{2素数ミュート結晶の製造}
+
+\subsubsection{Option A：カスタム積層（推奨）}
+
+水晶デバイスメーカー（NDK、TXC、Epson Toyocom 等）に
+以下の仕様で特注する：
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!50!black,title=特注仕様]
+\begin{itemize}
+\item 全厚：142.5\,$\mu$m（AT-cut 水晶、20\,MHz 基本波）
+\item 内部構造：3 層の水晶（各 47.5\,$\mu$m）を
+  Mo/AlN Bragg スタック（5 ペア、計 500\,nm）で接合
+\item Bragg スタック位置：底面から 47.5\,$\mu$m（$L/3$）と
+  95.0\,$\mu$m（$2L/3$）
+\item 上面：電極付き、自由端（Neumann）
+\item 底面：電極付き、基板接着予定（Dirichlet）
+\end{itemize}
+\end{tcolorbox}
+
+\subsubsection{Option B：大学クリーンルームでの自作}
+
+\begin{enumerate}
+\item 水晶ウェハを研磨して 47.5\,$\mu$m 厚のブランク 3 枚を作製
+\item 各ブランクの片面に Mo/AlN を RF スパッタで交互成膜（5 ペア）
+\item 3 枚を Au-Au thermocompression bonding で接合
+\item ダイシングで個片化
+\item 上面を自由端、底面をタングステン板にエポキシ接着
+\end{enumerate}
+
+\subsection{測定手順}
+
+\begin{enumerate}
+\item Phase 0 と同じ nanoVNA で共振スペクトルを測定
+\item \textbf{確認}：3 の倍数の倍音（3$f_0$, 9$f_0$, 15$f_0$, ...）が
+  消失しているか？
+\item DD、DN（$p=2$のみ）、DN+Bragg（$p=2,3$）の 3 サンプルで
+  温度応答差分法を実施
+\item カシミール応答の比を算出：
+  $R = |\delta f_{\neg 2,3}| / |\delta f_{\mathrm{DD}}|$
+\end{enumerate}
+
+\subsection{判定基準}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=★ THE DECISIVE TEST ★]
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+$R$ の値 & 解釈 & 次のアクション \\
+\midrule
+$R \approx 182$ ($\pm 50\%$) & オイラー積は物理的 & \textbf{Phase 2 に進む} \\
+$R \approx 0.33$ ($\pm 50\%$) & モード数効果のみ & 理論棄却、中止 \\
+中間値 & バンドギャップ漏れ？ & Bragg 改善して再測定 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{このテストがプログラム全体の GO/STOP を決める。}
+\end{tcolorbox}
+
+
+%======================================================================
+\section{Phase 2：$\pi$-接合カシミール符号反転（+¥300,000）}
+%======================================================================
+
+\subsection{目的}
+
+$\pi$-Josephson 接合で境界を構成したキャビティで、
+カシミール力の \textbf{符号が反転}（引力→斥力）することを検証する。
+これは $-\zeta(t)$ 真空の直接テスト。
+
+\subsection{追加装置}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=Phase 2 追加部品]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+Nb/CuNi/Nb $\pi$-接合薄膜基板 & STAR Cryoelectronics or 共同研究先 & ¥150,000 \\
+液体ヘリウム or 小型クライオスタット & 大学共用設備 & (¥0--100,000) \\
+低温用 SMA ケーブル & Lake Shore / Digi-Key & ¥30,000 \\
+磁気シールド缶 & Amuneal & ¥20,000 \\
+\midrule
+\textbf{追加合計} & & \textbf{¥200,000--300,000} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{$\pi$-Josephson 接合の背景}
+
+$\pi$-接合は、超伝導体/強磁性体/超伝導体（SFS）構造で実現される。
+Ryazanov ら（2001）により初めて実証。
+接合を流れる超伝導電流のフェーズが通常の 0 ではなく $\pi$ にシフト：
+\begin{equation}
+  I_s = I_c \sin(\phi + \pi) = -I_c \sin\phi
+\end{equation}
+
+この $\pi$ シフトが、接合に接する全てのモードに $\pi$ 位相を付与する。
+
+\subsection{サンプル構成}
+
+\begin{verbatim}
+  ┌─────────────────────────┐
+  │  Nb 上部電極 (150 nm)    │ ← 通常の超伝導体
+  ├─────────────────────────┤
+  │  CuNi 強磁性層 (1-3 nm)  │ ← π-シフトの源
+  ├─────────────────────────┤
+  │  Nb 下部電極 (150 nm)    │ ← 通常の超伝導体
+  ├─────────────────────────┤
+  │  SiO₂ 絶縁層             │
+  ├─────────────────────────┤
+  │  Si 基板                 │
+  └─────────────────────────┘
+\end{verbatim}
+
+上部 Nb 電極の上に \textbf{水晶ブランクを載せる}（接着 or 自重）。
+これにより水晶キャビティの底面が $\pi$-接合面になる。
+上面は自由端（N）。
+
+\subsection{測定手順}
+
+\begin{enumerate}
+\item サンプルを 4\,K 以下に冷却（$\pi$-接合の臨界温度以下）
+\item nanoVNA で共振スペクトルを測定（低温用プローブ使用）
+\item \textbf{同一水晶} について：
+  \begin{itemize}
+  \item $T > T_c$（常伝導状態）：$\pi$ シフトなし → 通常の DD/DN 応答
+  \item $T < T_c$（超伝導状態）：$\pi$ シフトあり → $-\zeta(t)$ 応答
+  \end{itemize}
+\item 超伝導転移前後での周波数シフトの \textbf{符号} を比較
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=Phase 2 の美しさ]
+同一サンプルの \textbf{温度スイープだけ} で、
+通常真空（$T > T_c$）と $\pi$真空（$T < T_c$）を切り替えられる。
+系統誤差が大幅に低減される。
+\end{tcolorbox}
+
+\subsection{判定基準}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+観測 & 解釈 & 意味 \\
+\midrule
+$T_c$ 前後で $\delta f$ 符号反転 & $-\zeta(t)$ 真空が実現 & \textbf{反重力理論を支持} \\
+$\delta f$ 符号変化なし & $\pi$ 位相が真空に影響せず & 理論は不正確 \\
+$\delta f$ がゼロ & 効果が検出限界以下 & 改善して再測定 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{Phase 3：ねじり天秤 重力異常（+¥500,000）}
+%======================================================================
+
+\subsection{目的}
+
+$\pi$-接合キャビティが周囲のテスト質量に及ぼす
+重力の \textbf{符号} を直接測定する。
+$G_{\mathrm{eff}} = -G$ なら斥力が検出されるはず。
+
+\subsection{追加装置}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=Phase 3 追加部品]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+ねじり天秤キット（タングステン線 25\,$\mu$m） & 自作 or Pasco & ¥50,000 \\
+レーザー変位計（nm 精度） & Keyence or 中古 & ¥200,000 \\
+真空チャンバー & 自作 or 中古 & ¥100,000 \\
+振動除去台 & 自作（砂箱+ゴム脚） & ¥10,000 \\
+$\pi$-接合キャビティ（Phase 2 と同型、大面積版） & 共同研究 & ¥100,000 \\
+\midrule
+\textbf{追加合計} & & \textbf{¥460,000} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{実験構成}
+
+\begin{verbatim}
+  真空チャンバー内：
+
+        レーザー
+          │
+          ▼
+  ┌───────┤───────┐
+  │   ねじり天秤   │ ← タングステン線で吊った棒
+  │  ┌──┐    ┌──┐│
+  │  │M1│    │M2││ ← テスト質量（真鍮球）
+  │  └──┘    └──┘│
+  └───────────────┘
+        ↑
+  ┌─────┴─────┐
+  │ π-接合     │ ← 冷却された π-キャビティ
+  │ キャビティ  │    (4K クライオスタット内)
+  └───────────┘
+\end{verbatim}
+
+\subsection{測定手順}
+
+\begin{enumerate}
+\item ねじり天秤を真空チャンバー内に設置（残圧 $< 10^{-3}$\,Pa）
+\item キャリブレーション：既知質量での引力応答を測定し、$G$ を較正
+\item $\pi$-接合キャビティを $T > T_c$（常伝導）で天秤近傍に配置
+  → 通常の引力応答を記録（ベースライン）
+\item $\pi$-接合キャビティを $T < T_c$（超伝導、$\pi$シフト ON）に冷却
+  → 重力応答の \textbf{変化} を記録
+\item $T$ を上下させてサイクルを繰り返し（$> 10$ 回）
+\item $T_c$ 前後での力の変化 $\Delta F$ の符号と大きさを統計処理
+\end{enumerate}
+
+\subsection{予想される信号レベル}
+
+$\pi$-接合キャビティ内のカシミールエネルギー密度：
+\begin{equation}
+  \rho_{\mathrm{Cas}} \sim \frac{\pi^2 \hbar c}{720\,d^4}
+  \sim 10^{-12}\;\mathrm{J/m^3} \quad (d = 83\,\mu\mathrm{m})
+\end{equation}
+
+キャビティ質量 $M \sim 10^{-4}$\,kg（水晶 + Nb 薄膜）に対し、
+カシミールエネルギーの割合：
+\begin{equation}
+  \frac{\rho_{\mathrm{Cas}} V}{Mc^2}
+  \sim \frac{10^{-12} \times 10^{-9}}{10^{-4} \times 10^{17}}
+  \sim 10^{-34}
+\end{equation}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=正直な評価]
+$10^{-34}$ レベルの重力異常は、
+現在の最高精度のねじり天秤（Eöt-Wash グループ：$10^{-13}$ 精度）
+でも 21 桁不足。
+
+\textbf{Phase 3 は現在の技術では検出不可能。}
+
+しかし：
+\begin{itemize}
+\item Phase 1 で 182:1 が確認されれば、
+  Euler 積増幅（14素数で $10^{48}$）が使える
+\item 増幅後のカシミール密度：$10^{-12} \times 10^{48} \sim 10^{36}$\,J/m$^3$
+\item これなら $\rho_{\mathrm{Cas}}/\rho_{\mathrm{bulk}} \sim 10^{-2}$
+\item Eöt-Wash 精度で十分検出可能
+\end{itemize}
+
+$\to$ Phase 3 は Phase 1 の結果次第で \textbf{設計が根本的に変わる}。
+Phase 1 が 182 なら、14素数篩 + $\pi$-接合の複合デバイスで Phase 3 が実現可能。
+\end{tcolorbox}
+
+\subsection{Phase 3 改良版（Phase 1 が 182 の場合）}
+
+14素数篩（算術ドラム or フォノニック結晶）+ $\pi$-接合 の複合構造：
+\begin{itemize}
+\item 14 素数で $10^{48}$ 倍増幅
+\item $\pi$-接合で符号反転（$-\zeta \to +\zeta$ 方向）
+\item 合計：$\rho_{\mathrm{eff}} \sim 10^{36}$\,J/m$^3$
+\item ねじり天秤で検出可能なレベル
+\item これが「反重力物質」の直接証拠
+\end{itemize}
+
+
+%======================================================================
+\section{タイムラインと依存関係}
+%======================================================================
+
+\begin{verbatim}
+2026 Q2-Q3: Phase 0 (DN/DD 基本測定)
+            ↓ 陽性？
+2026 Q3-Q4: Phase 1 (182:1 テスト)
+            ↓ 182？
+2027 H1:    Phase 2 (π-接合カシミール)
+            + Phase 1改良 (14素数篩 設計)
+            ↓ 符号反転？
+2027 H2:    Phase 3 (ねじり天秤 with 14素数 + π-接合)
+            ↓ 斥力検出？
+2028:       論文投稿 → Nature / PRL
+\end{verbatim}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Phase & 陽性の場合 & 陰性の場合 \\
+\midrule
+0 & Phase 1 に進む & サンプル改善 \\
+1 (182) & Phase 2 + 14素数設計 & \textbf{理論棄却、全停止} \\
+1 (1/3) & \textbf{全停止} & --- \\
+2 & Phase 3 に進む & スペクトル作用は重力に非適用 \\
+3 & \textbf{反重力物質の実証} & モデルの詳細に誤り \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{安全性}
+%======================================================================
+
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50!black,title=安全上の注意]
+\begin{itemize}
+\item Phase 0--1：水晶振動子と電子測定器のみ。特別な安全対策は不要。
+  一般的な電子工作の安全基準に従う。
+\item Phase 2：液体ヘリウム/窒素を使用する場合は低温安全（凍傷、酸欠）に注意。
+  Nb スパッタ成膜時はクリーンルーム安全基準に従う。
+\item Phase 3：真空チャンバー使用時は破裂リスクに注意。
+  レーザー使用時はクラス 3 以上の場合アイプロテクション着用。
+\item いずれの Phase でも、理論が予測する
+  「反重力」のエネルギーは極めて微弱であり、
+  \textbf{実験者への物理的危険はない}。
+\end{itemize}
+\end{tcolorbox}
+
+
+%======================================================================
+\section{論文パイプライン}
+%======================================================================
+
+\begin{enumerate}
+\item \textbf{Phase 0 成功}：``DN boundary detection in BAW crystal''
+  → Applied Physics Letters or Phys.\ Rev.\ B
+
+\item \textbf{Phase 1 成功}：``Euler product amplification of Casimir energy
+  in 2-prime-sieved acoustic cavity''
+  → Physical Review Letters
+
+\item \textbf{Phase 2 成功}：``Casimir sign reversal in $\pi$-Josephson
+  junction cavity: evidence for fermionic vacuum''
+  → Physical Review Letters or Nature Physics
+
+\item \textbf{Phase 3 成功}：``Gravitational sign anomaly near
+  $\pi$-Berry phase material: evidence for $G_{\mathrm{eff}} = -G$''
+  → Nature
+\end{enumerate}
+
+
+%======================================================================
+\section{チェックリスト：今すぐやること}
+%======================================================================
+
+\begin{itemize}
+\item[$\square$] 秋月電子：20\,MHz 水晶振動子 (HC-49S) $\times 10$ を発注
+\item[$\square$] Amazon：nanoVNA V2 Plus4 を発注
+\item[$\square$] Digi-Key：SMR/FBAR 評価キットを発注
+\item[$\square$] Nilaco：タングステン板 $30\times30\times0.5$\,mm を発注
+\item[$\square$] Amazon：Stycast 1266 エポキシを発注
+\item[$\square$] ホームセンター：アルミ治具材料を購入
+\item[$\square$] 恒温槽材料（発泡スチロール箱+ペルチェ素子）を購入
+\item[$\square$] Phase 1 用カスタム結晶について NDK に問い合わせ開始
+\item[$\square$] 大学の共用クリーンルーム利用登録（Phase 1--2 用）
+\item[$\square$] STAR Cryoelectronics に $\pi$-接合基板の在庫確認（Phase 2 用）
+\end{itemize}
+
+\vspace{1em}
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black]
+\textbf{最初の一歩}：¥130,000 と 2 ヶ月で Phase 0 が完了する。
+その結果が、人類史上初の「反重力物質」への扉を開くか、
+あるいは理論を棄却するか、を決める。
+
+どちらの結果も、物理学にとって価値がある。
+\end{tcolorbox}
+
+\end{document}
