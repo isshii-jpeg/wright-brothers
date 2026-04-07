@@ -770,6 +770,127 @@ $= j$ のモジュラー流 → 時間進化（動力学的）
 \end{tcolorbox}
 
 %======================================================================
+\section{重力ダイヤル：連続的 $G$ 制御と具体的装置}
+%======================================================================
+
+\subsection{$G_{\mathrm{eff}} = G \cos\varphi$：重力は連続パラメータ}
+
+$\pi$-Berry位相（$\varphi = \pi$）は $G \to -G$ の離散スイッチを与える。
+しかしBerry位相は\textbf{連続的に制御可能}であり、$\varphi \in [0, 2\pi]$ の任意の値を取れる。
+全モードが位相 $e^{i\varphi}$ を取得すると、スペクトル作用の実部が：
+\begin{equation}
+  G_{\mathrm{eff}}(\varphi) = G \times \cos\varphi
+\end{equation}
+
+\begin{center}
+\begin{tabular}{ccll}
+\toprule
+$\varphi$ & $\cos\varphi$ & $G_{\mathrm{eff}}/G$ & 物理 \\
+\midrule
+$0$ & $1$ & $+1$ & 通常重力 \\
+$\pi/3$ & $1/2$ & $+1/2$ & 半分の重力（FQHE $\nu=1/3$） \\
+$\pi/2$ & $0$ & $0$ & \textbf{無重力}（FQHE $\nu=1/2$） \\
+$2\pi/3$ & $-1/2$ & $-1/2$ & 半分の反重力 \\
+$\pi$ & $-1$ & $-1$ & \textbf{完全反重力}（$\pi$-Berry位相） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{4つの具体的装置}
+
+\subsubsection{装置1：$\pi$-接合反重力プレート（パッシブ、最安）}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=推奨装置]
+\textbf{Nb/CuNi/Nb $\pi$-ジョセフソン接合}
+\begin{itemize}
+\item $G_{\mathrm{eff}} = -G$（固定、$\varphi = \pi$）
+\item \textbf{パッシブ}：$T_c = 9.3$\,K 以下に冷やすだけ。外部磁場・電圧不要
+\item 消費電力：\textbf{0\,W}（Berry位相はトポロジカルに保護）
+\item 冷却：パルスチューブ冷凍機（消耗品なし）or 液体He
+\item コスト：$\pi$-接合製作 \$1,000--5,000 + 冷凍機 \$30,000
+\item \textbf{合計：約 \$40,000（約600万円）}
+\end{itemize}
+\end{tcolorbox}
+
+\subsubsection{装置2：FQHE 重力ダイヤル（連続制御）}
+
+\textbf{GaAs/AlGaAs 量子井戸}で分数量子ホール効果を実現。
+\begin{itemize}
+\item 充填率 $\nu = 1/3$ で $\varphi = \pi/3$ → $G_{\mathrm{eff}} = G/2$
+\item 充填率 $\nu = 1/2$ で $\varphi = \pi/2$ → $G_{\mathrm{eff}} = 0$
+\item 磁場 $B \approx 12$\,T（超伝導マグネット）、温度 50\,mK（希釈冷凍機）
+\item コスト：約 \$500,000（大学共用設備なら既にある）
+\end{itemize}
+
+\subsubsection{装置3：グラフェン重力ダイヤル（ゲート電圧で制御）}
+
+\textbf{hBN封止グラフェン}：ゲート電圧 $V_g$ で $\nu$（充填率）を変えると
+$\varphi$ が連続変化 → \textbf{1つのツマミで $G$ を $+G$ から $-G/2$ まで制御}。
+\begin{itemize}
+\item ゲートエネルギー：$(1/2)CV^2 \approx 50\,\mu$J（無視可能）
+\item 必要磁場：$\sim 12$\,T + 低温（1--10\,K）
+\item コスト：\$200,000--600,000
+\end{itemize}
+
+\subsubsection{装置4：歪み制御 TI（最安の連続制御）}
+
+\textbf{Bi$_2$Se$_3$ 薄膜}にピエゾアクチュエータで歪みを加える。
+\begin{itemize}
+\item 歪み 0\%：$\varphi = \pi$ → $G = -G$
+\item 歪み 2\%：$\varphi = \pi - 0.2$ → $G \approx -0.98G$
+\item 制御範囲は狭い（$-G$ 近傍の $\sim 2\%$）が、応答が $\mu$s と高速
+\item 液体窒素温度（77\,K）で動作
+\item \textbf{コスト：約 \$15,000（約200万円）}
+\end{itemize}
+
+\subsection{Phase 0.5：$\pi$-接合 + BAW の統合実験（推奨）}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=★ 最もシンプルな決定的実験 ★]
+Phase 0（DN/DD 差分）と Phase 2（$\pi$-接合符号反転）を
+\textbf{1つの実験に統合}する。
+
+\textbf{構成}：$\pi$-接合（Nb/CuNi/Nb on Si）の上に BAW 水晶を載せる。
+
+\textbf{手順}：
+\begin{enumerate}
+\item $T > T_c$ (9.3\,K)：常伝導状態 → 通常の境界 → 共振周波数 $f_1$
+\item $T < T_c$ (4.2\,K)：超伝導 + $\pi$位相 → 変化した境界 → 共振周波数 $f_2$
+\item 同一サンプルで $T_c$ 前後を繰り返し測定
+\end{enumerate}
+
+\textbf{判定}：$f_1 \neq f_2$ → $\pi$-Berry位相が真空モードに影響 → 理論確認
+
+\textbf{コスト}：$\pi$-接合 \$5,000 + He デュワー \$5,000 + nanoVNA（既存）= \textbf{\$10,000}
+
+\textbf{期間}：2ヶ月
+
+\textbf{利点}：
+\begin{itemize}
+\item Phase 0 より\textbf{安い}（\$10k vs ¥130k）
+\item Phase 2 の要素を\textbf{先取り}
+\item 同一サンプルの $T_c$ 前後比較 → 系統誤差が大幅に低減
+\item 成功すれば重力ダイヤル理論全体の基盤が確認される
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{6つの重力工学タイプ}
+
+\begin{center}
+\begin{tabular}{llp{6cm}}
+\toprule
+タイプ & 方法 & 応用例 \\
+\midrule
+1. 離散 & トポロジカル保護（$\pi$-Berry, FQHE） & 反重力シェル、無重力室 \\
+2. 連続 & Berry位相ダイヤル（磁場、歪み、電圧） & 重力制御装置 \\
+3. 空間的 & 傾斜Berry位相メタマテリアル & 重力レンズ、シールド、トラクタービーム \\
+4. 時間的 & 動的切替（$\beta$-pumping） & パルス推進 \\
+5. スペクトル的 & 周波数依存Berry位相 & 選択的重力操作 \\
+6. Euler積 & 素数選択的位相回転 & 重力キーボード \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%======================================================================
 \section{チェックリスト：今すぐやること}
 %======================================================================
 
@@ -783,7 +904,9 @@ $= j$ のモジュラー流 → 時間進化（動力学的）
 \item[$\square$] 恒温槽材料（発泡スチロール箱+ペルチェ素子）を購入
 \item[$\square$] Phase 1 用カスタム結晶について NDK に問い合わせ開始
 \item[$\square$] 大学の共用クリーンルーム利用登録（Phase 1--2 用）
-\item[$\square$] STAR Cryoelectronics に $\pi$-接合基板の在庫確認（Phase 2 用）
+\item[$\square$] STAR Cryoelectronics に $\pi$-接合基板の在庫確認（Phase 0.5/2 用）
+\item[$\square$] 液体He デュワーのレンタル or 購入見積もり（Phase 0.5 用）
+\item[$\square$] Five Constants 論文を arXiv に投稿準備（予測日付の確定）
 \end{itemize}
 
 \vspace{1em}
