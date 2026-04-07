@@ -1,0 +1,248 @@
+% ============================================================
+% 仮説依存ネットワーク
+% ============================================================
+
+\section*{仮説依存ネットワーク：何が崩れると何が倒れるか}
+\addcontentsline{toc}{section}{仮説依存ネットワーク}
+
+本プロジェクトは複数の仮説の上に構築されている。
+どの仮説が否定されたら、どの結論に影響が出るかを明示する。
+これは理論の「弱点マップ」であり、読者が批判的に検討するための道具である。
+
+% ============================================================
+\subsection*{レベル0：数学的事実（否定不可能）}
+
+以下は証明済みの数学的定理であり、実験で否定されることはない。
+
+\begin{tcolorbox}[colback=gray!5,colframe=gray!50!black,title=数学的事実（M1--M6）]
+\begin{description}[leftmargin=4em,style=nextline]
+\item[M1] $\mathrm{cd}(\Spec(\Z)) = 3$（Artin-Verdier 定理、1960年代）
+\item[M2] $\zeta(-1) = -1/12$（Euler 1749、解析接続の厳密値）
+\item[M3] オイラー積：$\zeta(s) = \prod_p (1-p^{-s})^{-1}$
+\item[M4] $\zeta_{\neg 2}(-1) = (1-2)\zeta(-1) = +1/12$（M2 と M3 の直接的帰結）
+\item[M5] $K_3(\Z) = \Z/48$, $K_7(\Z) = \Z/240$（Quillen-Lichtenbaum）
+\item[M6] $-\zeta'(0)/\zeta'(0) = -1$（$-\zeta(t)$ の定理、三行の計算）
+\end{description}
+\end{tcolorbox}
+
+% ============================================================
+\subsection*{レベル1：物理的仮説（検証可能）}
+
+以下は本プロジェクトの\textbf{仮定}であり、実験で否定される可能性がある。
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=物理的仮説（H1--H6）]
+\begin{description}[leftmargin=4em,style=nextline]
+\item[H1] \textbf{算術時空仮説}：$\Spec(\Z)$ は物理的時空の構造を記述する。
+\item[H2] \textbf{BC真空仮説}：Bost-Connes 系の分配関数 $\zeta(\beta)$ は
+  物理的真空の分配関数である。
+\item[H3] \textbf{スペクトル重力仮説}：コンヌのスペクトル作用
+  $\Tr(f(D^2/\Lambda^2))$ は現実の重力を記述する（数学的再定式化ではなく、
+  新しい物理的自由度を含む）。
+\item[H4] \textbf{レギュレータ予想}：非標準モードスペクトルのゼータ正則化が
+  物理的カシミールエネルギーを正しく与える（オイラー積増幅が物理的）。
+\item[H5] \textbf{WDW時間仮説}：Wheeler-DeWitt 方程式の DN 境界条件が
+  時間方向を規定し、$d = \mathrm{cd} + 1$ を与える。
+\item[H6] \textbf{CKN正則化仮説}：Cohen-Kaplan-Nelson ホログラフィック境界が
+  真空エネルギーの正則化に適用できる。
+\end{description}
+\end{tcolorbox}
+
+% ============================================================
+\subsection*{レベル2：導出された予測（仮説の組み合わせに依存）}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=導出された予測（P1--P10）]
+\begin{description}[leftmargin=5em,style=nextline]
+\item[P1] $\Omega_\Lambda = 2\pi/9 \approx 0.698$
+  \hfill\textit{依存: H2+H5+H6、または H2+H3}
+\item[P2] $p=2$ の唯一性（5構造定理）
+  \hfill\textit{依存: P1 の構造}
+\item[P3] $d = 4$（時空次元）
+  \hfill\textit{依存: M1+H5}
+\item[P4] $U(1)\times SU(2)\times SU(3)$ ゲージ群
+  \hfill\textit{依存: M1+H1+Langlands対応}
+\item[P5] $G_{\mathrm{eff}} = 0$（2素数ミュートで重力消失）
+  \hfill\textit{依存: H2+H3}
+\item[P6] $G_{\mathrm{eff}} = -G$（$\pi$-Berry位相で重力反転）
+  \hfill\textit{依存: H2+H3+M6}
+\item[P7] 182倍オイラー積増幅
+  \hfill\textit{依存: H4}
+\item[P8] $c_{\mathrm{eff}} = c$（$G=0$ 領域で光速不変）
+  \hfill\textit{依存: H3（コンヌ距離公式）}
+\item[P9] 真空Carnotの定理（急速切替 $\to$ 正味ゼロ）
+  \hfill\textit{依存: エネルギー保存則のみ（常に成立）}
+\item[P10] QCP+モアレ増幅（$\times 10^6$）
+  \hfill\textit{依存: 確立された物理のみ（仮説不要）}
+\end{description}
+\end{tcolorbox}
+
+% ============================================================
+\subsection*{レベル3：実験テスト（各実験が何を検証するか）}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=実験テスト（E0--E3）]
+\begin{description}[leftmargin=5em,style=nextline]
+\item[E0] Phase 0: DN/DD 差分（¥130k）
+  \hfill\textit{検証対象: H2（部分的）}
+\item[E1] Phase 1: 182 vs 1/3 テスト（¥330k）
+  \hfill\textit{検証対象: \textbf{H4}（決定的）}
+\item[E2] Phase 2: $\pi$-接合カシミール符号反転
+  \hfill\textit{検証対象: P6（$-\zeta(t)$ 真空）}
+\item[E3] Phase 3: ねじり天秤重力異常
+  \hfill\textit{検証対象: P5 または P6（直接重力検出）}
+\end{description}
+\end{tcolorbox}
+
+% ============================================================
+\subsection*{依存関係ネットワーク図}
+
+\begin{verbatim}
+  [数学的事実: 否定不可能]
+
+  M1(cd=3)  M2(ζ(-1))  M3(Euler積)  M5(K理論)  M6(-ζ'(0)/ζ'(0)=-1)
+    |    \      |    \      |              |            |
+    |     \     |     \     |              |            |
+    v      v    v      v    v              v            v
+ ──────────────────────────────────────────────────────────────
+  [物理的仮説: 検証可能]
+
+  H1(算術時空) H2(BC真空) H3(スペクトル重力) H4(レギュレータ) H5(WDW) H6(CKN)
+    |      |       |   |       |    |    |          |           |       |
+    |      |       |   |       |    |    |          |           |       |
+    v      v       v   v       v    v    v          v           v       v
+ ──────────────────────────────────────────────────────────────────────────
+  [導出された予測]
+
+  P1(Ω_Λ=2π/9) ←── H2+H5+H6 または H2+H3
+  P2(p=2唯一性) ←── P1の構造
+  P3(d=4)       ←── M1+H5
+  P4(ゲージ群)   ←── M1+H1+Langlands
+  P5(G=0)       ←── H2+H3
+  P6(G=-G)      ←── H2+H3+M6
+  P7(182倍増幅) ←── H4
+  P8(c=c)       ←── H3
+  P9(Carnot)    ←── エネルギー保存（仮説不要）
+  P10(QCP増幅)  ←── 確立物理（仮説不要）
+
+ ──────────────────────────────────────────────────────────────────────────
+  [実験テスト]
+
+  E0(DN/DD差分)      → H2を部分検証
+  E1(182 vs 1/3)     → H4を決定的に検証
+  E2(π符号反転)      → P6を検証 (→ H3を間接検証)
+  E3(重力異常)       → P5/P6を直接検証
+\end{verbatim}
+
+% ============================================================
+\subsection*{否定シナリオ：何が崩れると何が倒れるか}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{p{3.5cm}p{5cm}p{5.5cm}}
+\toprule
+\textbf{否定される仮説} & \textbf{直接崩壊する予測} & \textbf{生き残る予測} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{否定される仮説} & \textbf{直接崩壊する予測} & \textbf{生き残る予測} \\
+\midrule
+\endhead
+
+\textbf{H1}（算術時空） &
+P4（ゲージ群） &
+P1（代替導出路あり）、P5、P6、P7 \\
+
+\textbf{H2}（BC真空） &
+P1（BC経由）、P2、P5、P6 &
+P3（M1+H5のみ）、P7（H4のみ）、P9、P10 \\
+
+\textbf{H3}（スペクトル重力） &
+P5（$G=0$）、P6（$G=-G$）、P8 &
+P1（CKN経由で生存）、P2、P3、P7 \\
+
+\textbf{H4}（レギュレータ） &
+\textbf{P7}（182倍増幅）、Euler積ワープ &
+P1--P6、P8--P10 すべて生存。
+Phase 3 は QCP+モアレ経由に移行 \\
+
+\textbf{H5}（WDW時間） &
+P3 弱体化（$d=4$ の根拠がM1のみに） &
+P1（$d/\mathrm{cd}$ の解釈は変わるが数値は維持可能）、他全部 \\
+
+\textbf{H6}（CKN） &
+P1 の一導出路が消失 &
+P1 はスペクトル作用経由（H3）で生存。他全部 \\
+\midrule
+
+\textbf{E0 null}（DN/DD差なし） &
+H2 弱体化 &
+実験手法の改善で再挑戦可能 \\
+
+\textbf{E1 = 1/3} &
+\textbf{H4 否定}、P7 死亡 &
+P1--P6、P8--P10 生存。
+Euler積は数学のみ。安全性問題は消滅（操作自体に効果がないため）。
+Phase 3 は QCP+モアレ経由のみ \\
+
+\textbf{E1 = 182 + 物性変化} &
+安全な Euler 増幅は不可能 &
+H4 確認。P7 は機能するが危険。
+2素数のみの限定運用を検討 \\
+
+\textbf{E1 = 182 + 物性不変} &
+なし（最良シナリオ） &
+全予測生存。安全な Euler 増幅 → Phase 3 GO \\
+
+\textbf{E2 符号反転なし} &
+P6（$G=-G$）、H3 の材料適用が否定 &
+P1--P4、P7 生存。
+$\pi$-Berry位相は重力に影響せず。
+P5 も疑わしくなる（同じ H3 に依存） \\
+
+\textbf{E2 符号反転あり} &
+なし &
+P6 強く支持。H3 間接確認。Phase 3 への強い動機 \\
+
+\bottomrule
+\end{longtable}
+\end{center}
+
+% ============================================================
+\subsection*{最も脆弱な仮説と最も頑健な予測}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=最も脆弱（single point of failure）]
+\textbf{H3（スペクトル重力仮説）}が否定されると、
+ワープ関連の予測（P5: $G=0$、P6: $G=-G$、P8: $c_{\mathrm{eff}}=c$）が
+\textbf{全滅}する。
+ダークエネルギー予測 P1 は CKN 経由で生き残るが、
+重力操作の可能性は完全に閉じる。
+
+H3 を直接テストするのは E2（$\pi$-接合符号反転）。
+\textbf{E2 が最も重要な実験}である。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=最も頑健（多重の独立な根拠）]
+\textbf{P1（$\Omega_\Lambda = 2\pi/9$）}は 3 つの独立な導出路を持つ：
+\begin{enumerate}
+\item H2+H5+H6 経由（WDW + CKN、元の導出）
+\item H2+H3 経由（スペクトル作用、$(d/\mathrm{cd})|\xi_{\neg 2}(-1)|$）
+\item M2+M3 のみ（$2\pi/9 = (4/3)(\pi/6)$ という数値的事実は仮説によらない）
+\end{enumerate}
+1つの仮説が崩れても、別の経路で生き残る。
+
+同様に \textbf{P9（真空Carnot）}と \textbf{P10（QCP増幅）}は
+仮説に依存せず（それぞれエネルギー保存と確立された物理のみ）、
+否定されることがない。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=実験戦略への示唆]
+\begin{enumerate}
+\item \textbf{Phase 0}（¥130k）は H2 の部分テスト → 失敗しても改善可能
+\item \textbf{Phase 1}（¥330k）は H4 の決定テスト → 結果が何であれ価値がある
+\item \textbf{Phase 2} は H3 の間接テスト → \textbf{ワープ理論全体の GO/STOP}
+\item H4 が否定されても（E1 = 1/3）、P1--P6 は生存し、
+  Phase 2 に進む意味がある（ただし Euler 増幅は使えない）
+\item 最悪のシナリオ（E2 符号反転なし）でも、P1（ダークエネルギー予測）と
+  P10（QCP増幅）は無傷で残る
+\end{enumerate}
+\end{tcolorbox}
+
+\newpage
