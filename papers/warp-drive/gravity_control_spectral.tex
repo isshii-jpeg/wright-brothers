@@ -344,14 +344,42 @@ and DN boundary condition (implementing $p = 2$ muting).
   = |(1 - 2^3)(1 - 3^3)| = 7 \times 26 = 182.
 \end{equation}
 
-The alternative (non-Euler, mode-counting) prediction is $1/3$.
-A factor of 546 separates the two predictions.
+\subsection{Why 182 vs.\ $1/3$: two regularizations}
+
+Both predictions are mathematically exact but arise from different
+regularization schemes applied to the same mode sum:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& Cutoff & Zeta \\
+\midrule
+Evaluation point of $(1-p^{-s})$ & $p^0 = 1$ & $p^3$ ($s = -3$) \\
+$p=2$ factor & $1 - 1/2 = 1/2$ & $1 - 8 = -7$ \\
+$p=3$ factor & $1 - 1/3 = 2/3$ & $1 - 27 = -26$ \\
+Product (ratio) & $1/3$ & $182$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The cutoff regularization treats the mode sum as a smooth density
+($\sum_{n \in \text{sieve}} n^3 / \sum_{\text{all}} n^3 \to 1/3$)
+and is ``blind'' to arithmetic structure.
+Zeta regularization preserves the Euler product through analytic
+continuation: each factor $(1 - p^{-s})$ is evaluated at $s = -3$,
+giving $(1 - p^3)$, which grows rapidly with $p$.
+
+In standard (unmuted) Casimir physics, zeta regularization
+gives the experimentally verified result $E = -\pi^2\hbar c/(720 d^3)$.
+However, the \emph{ratio} between two different spectral geometries
+has not been tested for non-standard mode spectra.
+The 182-vs-$1/3$ experiment is the first such test.
 
 \textbf{Cost:} \$2{,}200.
 \textbf{Timeline:} 4--6 months.
-If the ratio is $182 \pm 50\%$: Theorems~1 and~2 are
-physically realizable, and the combined warp bubble
-architecture is experimentally grounded.
+A factor of 546 separates the two predictions---easily
+distinguishable if systematic errors are controlled to within
+one order of magnitude (temperature-sweep differential method).
 
 %=======================================================================
 \section{Discussion}

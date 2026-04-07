@@ -231,12 +231,31 @@ The expected signal is extremely small
 ($\Delta F / F \sim \rho_{\mathrm{Cas}} / \rho_{\mathrm{bulk}} \ll 1$),
 but the \emph{sign} is the key observable.
 
-\subsection{Test 3: Combined with 2-prime muting}
+\subsection{Test 3: The 182 vs.\ $1/3$ discriminator}
 
-The Euler product test (182:1 ratio in a 2-prime-sieved BAW
-cavity~\cite{WB_spectral_warp}) validates the spectral action
-framework.  If positive, the $\pi$-junction test follows as the
-next step.
+The Euler product test validates the spectral action framework
+via the Casimir energy ratio in a 2-prime-sieved BAW cavity.
+Both predictions are mathematically exact:
+\begin{align}
+  \text{Zeta:} \quad &
+  \frac{|\zeta_{\neg\{2,3\}}(-3)|}{|\zeta(-3)|}
+  = |(1 - 2^3)(1 - 3^3)| = 182, \\
+  \text{Cutoff:} \quad &
+  \frac{\sum_{\gcd(n,6)=1}^N n^3}{\sum_{n=1}^N n^3}
+  \to \bigl(1 - \tfrac{1}{2}\bigr)\bigl(1 - \tfrac{1}{3}\bigr) = \tfrac{1}{3}.
+\end{align}
+The 546-fold discrepancy arises because zeta regularization evaluates
+the Euler factor $(1 - p^{-s})$ at $s = -3$ (giving $1 - p^3$),
+while the cutoff evaluates it at $s = 0$ (giving $1 - 1/p$).
+The former ``sees'' the arithmetic structure; the latter does not.
+
+Standard Casimir experiments confirm zeta regularization for
+absolute energies, but \emph{ratios between different spectral
+geometries} are untested.
+This experiment---at a cost of \$2{,}200---is the first such test.
+If 182: proceed to $\pi$-junction tests.
+If $1/3$: the spectral action framework is falsified for
+non-standard mode spectra.
 
 %=======================================================================
 \section{Relation to known physics}

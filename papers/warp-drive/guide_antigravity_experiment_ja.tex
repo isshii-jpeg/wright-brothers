@@ -242,6 +242,60 @@ Au ワイヤ（接合用）& Nilaco & ¥5,000 \\
   $R = |\delta f_{\neg 2,3}| / |\delta f_{\mathrm{DD}}|$
 \end{enumerate}
 
+\subsection{182 と 1/3 の理論的根拠}
+
+2つの予測値はどちらも数学的に厳密だが、異なる物理的仮定に基づく。
+
+\subsubsection{182 の由来（ゼータ正則化）}
+
+Euler 積の恒等式（厳密）：
+\begin{equation}
+  \zeta_{\neg\{2,3\}}(-3) = (1 - 2^3)(1 - 3^3) \times \zeta(-3)
+  = (-7)(-26) \times \frac{1}{120} = \frac{182}{120}
+\end{equation}
+
+比：$|\zeta_{\neg\{2,3\}}(-3)| / |\zeta(-3)| = 182$。
+これは inclusion-exclusion（包除原理）と完全に一致する：
+$\sum_{gcd(n,6)=1} n^{-s} = (1-2^{-s})(1-3^{-s})\zeta(s)$。
+
+\subsubsection{1/3 の由来（カットオフ正則化）}
+
+カットオフ $N$ までのモードの $n^3$ 和の比（厳密）：
+\begin{equation}
+  \frac{\sum_{n \leq N,\; \gcd(n,6)=1} n^3}{\sum_{n=1}^N n^3}
+  \xrightarrow{N \to \infty}
+  \Bigl(1 - \tfrac{1}{2}\Bigr)\Bigl(1 - \tfrac{1}{3}\Bigr) = \frac{1}{3}
+\end{equation}
+
+数値検証：$N = 10000$ で比 $= 0.3331 \approx 1/3$。
+
+\subsubsection{なぜ 546 倍の差が生じるか}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+& カットオフ & ゼータ \\
+\midrule
+Euler 因子の評価点 & $p^0 = 1$ & $p^3$（$s = -3$ での解析接続） \\
+$p = 2$ の寄与 & $1 - 1/2 = 1/2$ & $1 - 8 = -7$ \\
+$p = 3$ の寄与 & $1 - 1/3 = 2/3$ & $1 - 27 = -26$ \\
+積 & $1/3$ & $182$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+カットオフ正則化は算術構造を「見ない」（各モードを滑らかに扱う）。
+ゼータ正則化は解析接続を通じて Euler 因子 $(1-p^{-s})$ の $s=-3$ での値を「感じる」。
+\textbf{どちらが物理的に正しいかは実験でのみ判定できる}（レギュレータ予想）。
+
+\subsubsection{実測上の注意}
+
+実験で直接測定するのは「カシミールエネルギーの比」ではなく、
+共振周波数の温度応答差分 $\delta f$ の比である。
+$\delta f$ はカシミール寄与のほか、熱膨張・弾性定数変化・電極質量効果を含む。
+系統誤差を 1 桁以内に抑えれば、182 と 1/3（546 倍の差 $= 2.7$ 桁）は
+十分に区別可能である。
+
 \subsection{判定基準}
 
 \begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=★ THE DECISIVE TEST ★]
