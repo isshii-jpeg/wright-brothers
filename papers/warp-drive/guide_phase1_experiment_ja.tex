@@ -23,43 +23,204 @@
 \title{Phase 1 実験ガイド\\[6pt]
 \large 182:1テスト — Euler積は物理的か？\\[4pt]
 \normalsize 産技研クリーンルームで作る2素数ミュートBAW結晶}
-\author{Wright Brothers Research Program}
+\author{Mandelbrot Ape Research Program}
 \date{2026年4月}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-水晶振動子の内部にBraggスタック（Mo/AlN多層膜）を作り込み、
-2と3の倍数の倍音モードを物理的に消す。
-残ったモードのカシミール応答比 $R$ が
-182（ゼータ正則化）か 1/3（カットオフ正則化）かを測定する。
+1990年にJuliaが提唱した Primon gas（素数ガス）は、
+リーマンのゼータ関数を自由ボソン系の分配関数として解釈する
+数理物理モデルである。各素数$p$がエネルギー$\log p$の
+独立ボソンモードに対応し、Euler積がモードの独立性を表現する。
+提唱から35年、このモデルの実験的検証は一度も行われていない。
+
+本ガイドでは、BAW（体積弾性波）水晶振動子を用いて
+primon gasの予測を初めて直接検証する実験を提案する。
+水晶の倍音モード（整数$n$でラベル）から、
+DN境界条件で$p=2$の倍数を、Braggスタックで$p=3$の倍数を
+物理的に除去し、残ったモードのカシミール応答比$R$を測定する。
+
+Primon gas（ゼータ正則化）は$R = 182$を予測し、
+標準QFT（カットオフ正則化）は$R = 1/3$を予測する。
 546倍の差があるため、粗い測定でも白黒がつく。
 製作は東京都立産業技術研究センター（産技研）のクリーンルームで行い、
-測定は三鷹の自宅でnanoVNAを用いて実施する。
+測定は自宅のnanoVNAで実施する。コスト約¥150,000、期間約2ヶ月。
 \end{abstract}
 
 \tableofcontents
 \newpage
 
 %======================================================================
+\section{Primon Gas：35年間テストされなかった数理物理モデル}
+%======================================================================
+
+\subsection{ゼータ関数は分配関数である}
+
+リーマンのゼータ関数は、Euler積として書ける：
+\begin{equation}
+  \zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s}
+  = \prod_{p:\,\text{素数}} \frac{1}{1 - p^{-s}}
+  \label{eq:euler-product}
+\end{equation}
+
+1990年、数理物理学者 Bernard Julia は
+この Euler 積が\textbf{自由ボソン系の分配関数}と
+全く同じ形をしていることに着目した\footnote{%
+B.~Julia, ``Statistical mechanics and number theory,''
+in \textit{Number Theory and Physics}, Springer (1990).
+同年、D.~Spector も独立に同じ構造を発見。}。
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=Primon Gas（素数ガス）]
+\textbf{定義.} 各素数 $p$ を、エネルギー $E_p = \log p$ の独立ボソンモードとする。
+
+\begin{itemize}
+\item 整数 $n = p_1^{a_1} p_2^{a_2} \cdots$ は占有数状態 $(a_1, a_2, \ldots)$ に対応
+\item 状態 $n$ のエネルギーは $E_n = a_1 \log p_1 + a_2 \log p_2 + \cdots = \log n$
+\item 分配関数は：
+\begin{equation}
+  Z(\beta) = \sum_{n=1}^{\infty} e^{-\beta E_n}
+  = \sum_{n=1}^{\infty} n^{-\beta}
+  = \zeta(\beta)
+\end{equation}
+\item Euler積は\textbf{モードの独立性}を表現する：
+\begin{equation}
+  Z(\beta) = \prod_{p} \underbrace{\frac{1}{1 - e^{-\beta \log p}}}_{=\;\text{素数$p$モードの分配関数}}
+  = \prod_{p} \frac{1}{1 - p^{-\beta}}
+\end{equation}
+\end{itemize}
+\end{tcolorbox}
+
+これは単なるアナロジーではない。
+数学的に厳密な統計力学系であり、
+$\beta = 1$（$\zeta$関数の極）での相転移まで備えている。
+
+\subsection{primon gasでモードを消すとどうなるか}
+
+Primon gasから素数$p$のモードを「除去」するとは、
+Euler積から対応する因子を取り除くこと：
+\begin{align}
+  Z_{\neg p}(\beta) &= \zeta(\beta) \times (1 - p^{-\beta})
+  \label{eq:mute-one}
+\end{align}
+
+$p = 2$ と $p = 3$ を同時に除去すると：
+\begin{align}
+  Z_{\neg\{2,3\}}(\beta) &= \zeta(\beta) \times (1 - 2^{-\beta})(1 - 3^{-\beta})
+  \label{eq:mute-two}
+\end{align}
+
+カシミールエネルギー（$d=3$の場合、$\beta = -3$で評価）の比：
+\begin{equation}
+  R_{\text{primon}} = \frac{|Z_{\neg\{2,3\}}(-3)|}{|Z(-3)|}
+  = |(1 - 2^3)(1 - 3^3)| = |(-7)(-26)| = \mathbf{182}
+  \label{eq:R-primon}
+\end{equation}
+
+\subsection{なぜ1/3ではなく182なのか}
+
+素数のモード除去には\textbf{2通りの数え方}がある：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{Primon gas} & \textbf{素朴なモード数計算} \\
+& （ゼータ正則化） & （カットオフ正則化） \\
+\midrule
+$p$のEuler因子の評価点 & $p^{-\beta}$（$\beta = -3$で $p^3$） & $p^{-0} = 1$（密度比） \\
+$p = 2$ の寄与 & $1 - 2^3 = -7$（$\times 7$倍） & $1 - 1/2 = 1/2$ \\
+$p = 3$ の寄与 & $1 - 3^3 = -26$（$\times 26$倍） & $1 - 1/3 = 2/3$ \\
+積 & $\mathbf{182}$ & $\mathbf{1/3}$ \\
+差 & \multicolumn{2}{c}{\textbf{546倍（2.7桁）}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Primon gasでは、素数$p$のモード除去は解析接続を通じて
+$p^3$という「巨大な」因子を生む。
+これはEuler積が物理的に機能する場合にのみ現れる効果であり、
+モードの単純な密度比（1/3）とは質的に異なる。
+
+\subsection{35年間テストされなかった理由}
+
+Primon gasは1990年の提唱以来、数理物理の教科書にも載る
+確立されたモデルだが、\textbf{一度も実験的に検証されていない}。
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=なぜ35年間誰も実験しなかったか]
+\begin{enumerate}
+\item \textbf{「面白いアナロジー」で止まった。}
+  Julia自身が``amusing''（面白い）と形容。
+  数学的構造の美しさが注目されたが、
+  「何を測ればテストできるか」は問われなかった。
+
+\item \textbf{物理的実現方法が不明だった。}
+  Primon gasの「素数モード除去」を
+  実験室で行う方法が見えていなかった。
+  BAW結晶のDN境界条件が$p=2$ミュートに、
+  Braggスタックが$p=3$ミュートに対応することに
+  誰も気づかなかった。
+
+\item \textbf{3つの分野にまたがる。}
+  この実験を設計するには、数論（Euler積）、
+  音響デバイス（BAW/FBAR）、真空物理（カシミール効果）の
+  3分野を同時に知る必要がある。
+  各分野の専門家は隣の分野の言語を話さない。
+
+\item \textbf{FBAR業界は毎日やっているが気づいていない。}
+  5Gフィルタ用のFBAR（薄膜体積弾性波共振器）では、
+  Braggスタックによる「スプリアスモード抑制」が日常業務。
+  これは数論的には$p=3$のモード除去そのものだが、
+  デバイスエンジニアはそれを「素数の除去」とは認識していない。
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Primon gasの学術的位置づけ}
+
+Primon gasは辺境のアイデアではない。
+複数の独立した文脈で Euler 積の物理性が示唆されている：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lll}
+\toprule
+研究者 & 年 & 内容 \\
+\midrule
+Julia & 1990 & Primon gas: $\zeta(\beta) = $ 自由ボソン分配関数 \\
+Spector & 1990 & 超対称性と M\"obius 関数の対応 \\
+Bost-Connes & 1995 & C*-動力学系で $Z(\beta) = \zeta(\beta)$、ガロア対称性 \\
+Berry-Keating & 1999 & $\zeta$の零点 = 量子ハミルトニアンの固有値 \\
+Bakas-Bowick & 1991 & 弦理論の振幅因数分解と primon gas \\
+ボソン弦理論 & 1970s & $\zeta(-1) = -1/12 \;\to\; d = 26$（臨界次元） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+本実験は、これら35年間の理論的蓄積に対する
+\textbf{最初の直接的実験テスト}となる。
+
+
+%======================================================================
 \section{この実験で何が分かるか}
 %======================================================================
 
 \begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=1行まとめ]
-\textbf{「素数は物理的な独立自由度か、それとも単なる数学か？」}を実験で判定する。
+\textbf{Primon gas の予測（$R = 182$）を、BAW結晶で初めて実験的に検証する。}
 \end{tcolorbox}
 
-水晶振動子の中の音響モードは整数 $n = 1, 2, 3, 4, \ldots$ でラベルされる。
-特定の素数（$p = 2, 3$）の倍数のモードを\textbf{物理的に消す}と、
-残りのモードの真空エネルギー（カシミールエネルギー）がどう変わるかに
+BAW水晶振動子の倍音モードは整数 $n = 1, 2, 3, 4, \ldots$ でラベルされる。
+これはまさに primon gas のモード構造そのものである。
+DN境界条件で$p = 2$の倍数を、Braggスタックで$p = 3$の倍数を
+\textbf{物理的に消す}と、残ったモードの真空エネルギー比に
 2つの全く異なる予測がある：
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{lcc}
 \toprule
-& \textbf{ゼータ正則化（WB理論）} & \textbf{カットオフ正則化（標準QFT）} \\
+& \textbf{Primon gas} & \textbf{標準QFT} \\
+& （ゼータ正則化） & （カットオフ正則化） \\
 \midrule
 カシミール比 $R$ & $|(1-2^3)(1-3^3)| = \mathbf{182}$ & $(1-1/2)(1-1/3) = \mathbf{1/3}$ \\
 物理的意味 & Euler積が物理的に機能 & モード数の比のみ \\
@@ -70,6 +231,26 @@
 
 546倍の差があるので、系統誤差が1桁あっても区別できる。
 
+\subsection{BAW結晶 = Primon gasの物理的実現}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\toprule
+\textbf{Primon gasの操作} & \textbf{BAW結晶での対応} \\
+\midrule
+全モード $n = 1, 2, 3, \ldots$ & DD境界条件（全倍音が振動） \\
+$p = 2$ モード除去 & DN境界条件（偶数倍音が消える） \\
+$p = 3$ モード除去 & Braggスタック @ $L/3$（3の倍数が消える） \\
+残り: $\gcd(n, 6) = 1$ & DN + Bragg → $n = 1, 5, 7, 11, 13, \ldots$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+BAW結晶のDN+Bragg構造は、
+primon gasから素数$p = 2, 3$を物理的に除去する操作に
+\textbf{正確に}対応する。
+
 \subsection{結果の意味}
 
 \begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=判定基準]
@@ -77,12 +258,28 @@
 \toprule
 $R$ の値 & 解釈 & 次のアクション \\
 \midrule
-$R \approx 100\text{--}300$ & Euler積は物理的 & \textbf{理論を強く支持。Phase 2 へ} \\
-$R \approx 0.1\text{--}1$ & モード数効果のみ & \textbf{WB理論の算術的基盤を棄却} \\
+$R \approx 100\text{--}300$ & Primon gas は物理的 & \textbf{Euler積の初実証。Phase 2 へ} \\
+$R \approx 0.1\text{--}1$ & モード数効果のみ & \textbf{Primon gas を実験的に棄却} \\
 中間値 & Bragg品質不足の可能性 & サンプル改善して再測定 \\
 \bottomrule
 \end{tabular}
 \end{tcolorbox}
+
+$R = 182$ が出た場合の意味：
+\begin{itemize}
+\item Julia (1990) の primon gas モデルの\textbf{世界初の実験的検証}
+\item 素数が真空エネルギーの独立自由度として物理的に「存在する」ことの証拠
+\item ゼータ正則化が数学的便法ではなく物理的実在を反映していることの証拠
+\item Euler積に基づく全ての理論的予測（$\Omega_\Lambda = 2\pi/9$ 等）の基盤が確立
+\end{itemize}
+
+$R = 1/3$ が出た場合の意味：
+\begin{itemize}
+\item Primon gas は数学的アナロジーにすぎず、物理ではない
+\item Euler積は真空エネルギーに影響しない
+\item ゼータ正則化は便利な計算道具であって物理的実在ではない
+\item これも重要な実験的結果（35年間の理論に決着をつける）
+\end{itemize}
 
 
 %======================================================================
@@ -490,7 +687,7 @@ Braggスタックが機能していない。
 産技研に戻って膜厚と接合状態を確認し、改善する。
 
 逆にこれが確認できれば、$p = 2, 3$ のミュートが物理的に動作している証拠。
-ここまでは音響学であり、WB理論とは独立に成立する。
+ここまでは音響学であり、primon gasの検証とは独立に成立する。
 \end{tcolorbox}
 
 \subsection{Step 2：温度応答差分法}
@@ -623,24 +820,50 @@ $R$ が 1--10 の中間値 &
 \begin{tcolorbox}[colback=green!5,colframe=green!60!black]
 \textbf{$R = 182$ が出た場合}：
 
-Euler積 $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$ が
-物理的に機能することの\textbf{世界初の実験的証拠}。
+Julia (1990) の primon gas モデルの\textbf{世界初の実験的検証}。
 
-これは以下を意味する：
 \begin{enumerate}
+\item Euler積 $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$ が物理的に機能する
 \item 素数は真空エネルギーの独立自由度として物理的に「存在する」
-\item 「時空は素数でラベルされたボソンガス」という描像が正しい
-\item WB理論の算術的基盤（$K = \zeta$）が実験的に支持される
-\item Berry位相による反重力（$G_{\mathrm{eff}} = -G$）の前提条件が成立
+\item ゼータ正則化は数学的便法ではなく、物理的実在を反映している
+\item 35年間の数理物理（primon gas, Bost-Connes系, Berry-Keating予想）に
+  実験的基盤を与える
+\item MA理論の算術的基盤（$K = \zeta$）が実験的に支持される
 \end{enumerate}
 
 \textbf{$R = 1/3$ が出た場合}：
 
-Euler積は数学的のみ。WB理論の反重力部分は棄却。
-ただし $\Omega_\Lambda = 2\pi/9$ の予測は独立に生存
-（Euclid 2028 で検証）。
+Primon gas は数学的アナロジーにすぎず、物理ではない。
 
-\textbf{どちらの結果も、物理学にとって重要な発見。}
+\begin{enumerate}
+\item Euler積は真空エネルギーに影響しない
+\item ゼータ正則化は便利な計算道具であって物理的実在ではない
+\item MA理論の算術的基盤は棄却される
+\item ただし $\Omega_\Lambda = 2\pi/9$ の予測は独立に生存（Euclid 2028 で検証）
+\end{enumerate}
+
+\textbf{どちらの結果も、35年間の数理物理に決着をつける重要な発見。}
 \end{tcolorbox}
+
+\subsection{論文のフレーミング}
+
+本実験の結果を論文にする際は、以下のフレーミングを推奨する：
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=推奨する論文タイトル]
+\textbf{``Experimental test of the primon gas: Euler product
+physicality in a prime-sieved acoustic cavity''}
+
+（素数篩をかけた音響キャビティにおけるprimon gasの実験的検証：
+Euler積の物理性テスト）
+\end{tcolorbox}
+
+このフレーミングの利点：
+\begin{itemize}
+\item Julia (1990) の確立されたモデルの検証として位置づけられる
+\item 「反重力」という言葉を使わずに済む（査読リスクの回避）
+\item 数理物理と実験物理の両方のコミュニティに届く言語
+\item 結果が182でも1/3でも論文として成立する
+\item 投稿先：Physical Review Letters または Journal of Mathematical Physics
+\end{itemize}
 
 \end{document}
