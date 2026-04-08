@@ -1,0 +1,646 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=22mm]{geometry}
+\usepackage{xeCJK}
+\usepackage{enumitem}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\pdfstringdefDisableCommands{%
+  \def\pi{pi}%
+  \def\zeta{zeta}%
+  \def\mathrm#1{#1}%
+  \def\textbf#1{#1}%
+  \def\\{ }%
+}
+
+\title{Phase 1 実験ガイド\\[6pt]
+\large 182:1テスト — Euler積は物理的か？\\[4pt]
+\normalsize 産技研クリーンルームで作る2素数ミュートBAW結晶}
+\author{Wright Brothers Research Program}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+水晶振動子の内部にBraggスタック（Mo/AlN多層膜）を作り込み、
+2と3の倍数の倍音モードを物理的に消す。
+残ったモードのカシミール応答比 $R$ が
+182（ゼータ正則化）か 1/3（カットオフ正則化）かを測定する。
+546倍の差があるため、粗い測定でも白黒がつく。
+製作は東京都立産業技術研究センター（産技研）のクリーンルームで行い、
+測定は三鷹の自宅でnanoVNAを用いて実施する。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{この実験で何が分かるか}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=1行まとめ]
+\textbf{「素数は物理的な独立自由度か、それとも単なる数学か？」}を実験で判定する。
+\end{tcolorbox}
+
+水晶振動子の中の音響モードは整数 $n = 1, 2, 3, 4, \ldots$ でラベルされる。
+特定の素数（$p = 2, 3$）の倍数のモードを\textbf{物理的に消す}と、
+残りのモードの真空エネルギー（カシミールエネルギー）がどう変わるかに
+2つの全く異なる予測がある：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcc}
+\toprule
+& \textbf{ゼータ正則化（WB理論）} & \textbf{カットオフ正則化（標準QFT）} \\
+\midrule
+カシミール比 $R$ & $|(1-2^3)(1-3^3)| = \mathbf{182}$ & $(1-1/2)(1-1/3) = \mathbf{1/3}$ \\
+物理的意味 & Euler積が物理的に機能 & モード数の比のみ \\
+差 & \multicolumn{2}{c}{\textbf{546倍（2.7桁）}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+546倍の差があるので、系統誤差が1桁あっても区別できる。
+
+\subsection{結果の意味}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=判定基準]
+\begin{tabular}{lll}
+\toprule
+$R$ の値 & 解釈 & 次のアクション \\
+\midrule
+$R \approx 100\text{--}300$ & Euler積は物理的 & \textbf{理論を強く支持。Phase 2 へ} \\
+$R \approx 0.1\text{--}1$ & モード数効果のみ & \textbf{WB理論の算術的基盤を棄却} \\
+中間値 & Bragg品質不足の可能性 & サンプル改善して再測定 \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+
+%======================================================================
+\section{結晶の構造と設計図}
+%======================================================================
+
+\subsection{全体像}
+
+\begin{verbatim}
+         ┌─────────────────────────┐
+         │  電極 (Au 100 nm)        │ ← 上面：自由端 (Neumann)
+         ├─────────────────────────┤
+    47.5 │                         │ ← 水晶ブランク #3
+    μm   │   AT-cut quartz         │
+         ├═══ Mo/AlN × 5ペア ═══════┤ ← Braggスタック #2 (位置: 2L/3)
+    47.5 │                         │
+    μm   │   AT-cut quartz         │ ← 水晶ブランク #2
+         ├═══ Mo/AlN × 5ペア ═══════┤ ← Braggスタック #1 (位置: L/3)
+    47.5 │                         │
+    μm   │   AT-cut quartz         │ ← 水晶ブランク #1
+         ├─────────────────────────┤
+         │  電極 (Au 100 nm)        │ ← 底面：タングステン板に接着 (Dirichlet)
+         └─────────────────────────┘
+             全厚 ≈ 143 μm
+\end{verbatim}
+
+\subsection{各層の仕様}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+部品 & 仕様 & 役割 \\
+\midrule
+水晶ブランク $\times 3$ & AT-cut, 47.5\,$\mu$m厚, 10$\times$10\,mm & 音響キャビティ \\
+Braggスタック $\times 2$ & Mo(50\,nm)/AlN(50\,nm) $\times$ 5ペア = 500\,nm & $3f_0$ 反射壁 \\
+上部電極 & Au 100\,nm & 電気接続 \\
+底部電極 & Au 100\,nm & 電気接続 + 基板接着面 \\
+Au バンプ & 直径50\,$\mu$m, 高さ5\,$\mu$m & 接合用 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜこの構造が必要か}
+
+\begin{itemize}
+\item \textbf{DN境界条件}（上面自由、底面固定）：
+  偶数倍音（$n = 2, 4, 6, \ldots$）を消す → $p = 2$ ミュート
+\item \textbf{Braggスタック @ $L/3$ と $2L/3$}：
+  3の倍数の倍音（$n = 3, 9, 15, \ldots$）の定在波が
+  Bragg面で反射されて存在できなくなる → $p = 3$ ミュート
+\item 結果：$\gcd(n, 6) = 1$ のモード（$n = 1, 5, 7, 11, 13, \ldots$）だけが残る
+\end{itemize}
+
+\subsection{対照サンプル}
+
+同時に以下の2つも作る：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+サンプル & 構造 & 残るモード \\
+\midrule
+A: DD（対照） & 水晶1枚、両面固定 & $n = 1, 2, 3, 4, \ldots$（全部） \\
+B: DN（$p=2$のみ） & 水晶1枚、片面自由 & $n = 1, 3, 5, 7, \ldots$（奇数） \\
+C: DN+Bragg（本命） & 3層積層、片面自由 & $n = 1, 5, 7, 11, \ldots$（$\gcd(n,6)=1$） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A と B は Phase 0 の機能を兼ねる。
+
+
+%======================================================================
+\section{必要な材料と部品}
+%======================================================================
+
+\subsection{事前に発注するもの}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=材料リスト（Phase 1 結晶製作用）]
+\begin{tabular}{llrl}
+\toprule
+品名 & 入手先 & 価格 & 備考 \\
+\midrule
+AT-cut 水晶ブランク & MTI Corp / 信光社 & ¥15,000 & 研磨済み 50\,$\mu$m厚 \\
+\quad（10$\times$10\,mm $\times$ 10枚） & & & 予備含む \\
+Mo スパッタターゲット & Nilaco / 高純度化学 & ¥20,000 & 2'' $\phi$, 純度 99.95\% \\
+AlN スパッタターゲット & Nilaco / 高純度化学 & ¥20,000 & 2'' $\phi$, 純度 99\% \\
+Au スパッタターゲット & Nilaco & ¥15,000 & 電極 + 接合バンプ用 \\
+タングステン板 & Nilaco & ¥3,000 & 30$\times$30$\times$0.5\,mm \\
+エポキシ（Stycast 1266） & Amazon & ¥8,000 & 底面接着用 \\
+SMAコネクタ・ケーブル & 秋月電子 & ¥3,000 & \\
+\midrule
+\textbf{材料小計} & & \textbf{¥84,000} & \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{測定装置（自宅用）}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=測定装置リスト]
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
+恒温槽（発泡スチロール + ペルチェ） & Amazon + ホームセンター & ¥8,000 \\
+サーミスタ温度計 & 秋月電子 & ¥500 \\
+はんだ・工具類 & ホームセンター & ¥5,000 \\
+\midrule
+\textbf{装置小計} & & \textbf{¥28,500} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{産技研利用料}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=産技研（都内中小企業料金の例）]
+\begin{tabular}{llr}
+\toprule
+装置 & 型番 & 概算利用料 \\
+\midrule
+マグネトロンスパッタ & S9241 & ¥3,000/h $\times$ 6h = ¥18,000 \\
+薄膜段差計 & S9291 & ¥1,500/h $\times$ 2h = ¥3,000 \\
+フリップチップボンダ & S9113 & ¥2,000/h $\times$ 3h = ¥6,000 \\
+ダイシングソー & S9221 & ¥2,000/h $\times$ 2h = ¥4,000 \\
+ライセンス講習 & --- & ¥5,000（初回のみ） \\
+\midrule
+\textbf{産技研小計} & & \textbf{¥36,000} \\
+\bottomrule
+\end{tabular}
+
+※ 料金は都内中小企業の場合の概算。個人利用の場合は技術相談時に確認。
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=合計コスト]
+\begin{center}
+\Large
+\textbf{材料 ¥84,000 + 装置 ¥28,500 + 産技研 ¥36,000 = 約¥150,000}
+\end{center}
+\end{tcolorbox}
+
+
+%======================================================================
+\section{Phase 1：事前準備（三鷹にて）}
+%======================================================================
+
+\subsection{仕様の確定}
+
+以下の設計パラメータを紙1枚にまとめておく（産技研に持参）：
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=設計仕様書（持参用）]
+\begin{itemize}[leftmargin=*]
+\item \textbf{基板}：AT-cut水晶ブランク、研磨済み、50\,$\mu$m厚、10$\times$10\,mm
+  \begin{itemize}
+  \item 最終目標は47.5\,$\mu$m厚。50\,$\mu$mで購入し、
+    スパッタ前に段差計で実測。±5\,$\mu$m以内なら許容
+  \end{itemize}
+\item \textbf{Braggスタック}：Mo(50\,nm) / AlN(50\,nm) を交互に5ペア = 全厚500\,nm
+  \begin{itemize}
+  \item 目的：20\,MHz帯（3倍音 = 60\,MHz）の音響Bragg反射
+  \item Mo：音響インピーダンス 65\,MRayl（高）
+  \item AlN：音響インピーダンス 34\,MRayl（低）
+  \item 高/低の交互積層 → 3倍音の定在波を反射
+  \end{itemize}
+\item \textbf{電極}：Au 100\,nm（上面・底面）
+\item \textbf{接合}：Au-Au thermocompression @ 300°C, 10\,MPa
+  \begin{itemize}
+  \item 代替案：エポキシ接着（精度は下がるが簡単）
+  \end{itemize}
+\item \textbf{ダイシング}：5$\times$5\,mm角に切り出し
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{材料の発注}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{水晶ブランク}（最重要、納期2--3週間）
+  \begin{itemize}
+  \item MTI Corporation: \texttt{https://www.mtixtl.com}
+    → AT-cut quartz wafer, 50\,$\mu$m, 10$\times$10\,mm
+  \item 国内：信光社に問い合わせ
+  \item 10枚セットで購入（歩留まりを考慮）
+  \end{itemize}
+\item \textbf{スパッタターゲット}（納期1--2週間）
+  \begin{itemize}
+  \item Nilaco: Mo ターゲット (2'' $\phi$)、AlN ターゲット (2'' $\phi$)、Au ターゲット
+  \item 高純度化学研究所も選択肢
+  \end{itemize}
+\item \textbf{その他}（Amazon / 秋月で即日--1週間）
+  \begin{itemize}
+  \item nanoVNA V2 Plus4, Stycast 1266, タングステン板, SMAケーブル
+  \end{itemize}
+\end{enumerate}
+
+\subsection{産技研への技術相談予約}
+
+\begin{enumerate}[leftmargin=*]
+\item 産技研HP → 「技術相談」 → 「微細加工・薄膜」で予約
+\item 相談内容の概要：
+  \begin{quote}
+  「50\,$\mu$m厚のAT-cut水晶ブランク上に、Mo/AlNの多層膜（各50\,nm、5ペア）を
+  マグネトロンスパッタで成膜したい。
+  成膜後、3枚の水晶をAu-Au thermocompressionで接合し、
+  ダイシングで5\,mm角に切り出したい。
+  水晶が割れないための条件（基板温度、成膜レート、ハンドリング）を
+  相談したい。」
+  \end{quote}
+\item 設計仕様書を事前にメール添付
+\end{enumerate}
+
+
+%======================================================================
+\section{Phase 2：初回訪問（技術相談 + ライセンス講習）}
+%======================================================================
+
+\subsection{技術相談（1--2時間）}
+
+担当エンジニアに以下を確認：
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{スパッタ条件}：
+  \begin{itemize}
+  \item Mo：DCスパッタ or RFスパッタ？ パワー？ Arガス圧？
+  \item AlN：RFスパッタ（反応性）。N$_2$分圧？ 基板温度？
+  \item 50\,$\mu$m水晶が割れない最大基板温度は？（通常200°C以下を推奨）
+  \item 成膜レート → 50\,nm成膜に何分かかるか
+  \end{itemize}
+\item \textbf{接合方法}：
+  \begin{itemize}
+  \item フリップチップボンダで Au-Au thermocompression が可能か？
+  \item 必要なAuバンプの仕様（厚さ、配置）
+  \item 水晶の位置合わせ精度は？（$L/3$ の位置を±5\,$\mu$m以内に）
+  \item 代替案：UV硬化エポキシでの接着は？
+  \end{itemize}
+\item \textbf{ダイシング}：
+  \begin{itemize}
+  \item 積層水晶（計143\,$\mu$m厚）のダイシングは可能か？
+  \item ブレード種類、送り速度、冷却水の影響
+  \end{itemize}
+\end{enumerate}
+
+\subsection{ライセンス講習}
+
+以下の装置のライセンスを取得する（各装置1--3時間）：
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+装置 & 型番 & 用途 \\
+\midrule
+マグネトロンスパッタ & S9241 & Mo, AlN, Au 成膜 \\
+薄膜段差計 & S9291 & 膜厚の確認 \\
+フリップチップボンダ & S9113 & 3枚の水晶の接合 \\
+ダイシングソー & S9221 & チップの切り出し \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{所要時間}：1日（午前に相談、午後に講習2--3台分）。
+残りの装置は2回目の訪問で講習。
+
+
+%======================================================================
+\section{Phase 3：製作本番（クリーンルーム作業）}
+%======================================================================
+
+\begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=作業フロー（1--2日間）]
+\begin{enumerate}[leftmargin=*]
+\item 成膜（スパッタ）：4--6時間
+\item 膜厚確認（段差計）：1時間
+\item 接合（フリップチップ or エポキシ）：2--3時間
+\item ダイシング：1--2時間
+\end{enumerate}
+合計：8--12時間（1--2日間の訪問）
+\end{tcolorbox}
+
+\subsection{Step 1：Braggスタックの成膜}
+
+\begin{enumerate}[leftmargin=*]
+\item 水晶ブランクをスパッタ装置のホルダーにセット
+  \begin{itemize}
+  \item 50\,$\mu$mの水晶は非常に割れやすい。ピンセットで端を持ち、
+    ホルダーに\textbf{静かに}載せる
+  \item 基板加熱は OFF（室温成膜）。熱応力で割れるリスクを避ける
+  \end{itemize}
+\item Mo を 50\,nm 成膜
+  \begin{itemize}
+  \item DCスパッタ、Ar 0.5\,Pa、パワー 100--200\,W（エンジニアの指示に従う）
+  \item 成膜レート $\sim$5\,nm/min → 約10分
+  \end{itemize}
+\item ターゲットを AlN に交換、AlN を 50\,nm 成膜
+  \begin{itemize}
+  \item RFスパッタ、Ar + N$_2$ 混合ガス
+  \item 成膜レート $\sim$3\,nm/min → 約17分
+  \end{itemize}
+\item Mo → AlN → Mo → AlN → Mo の順に5ペア繰り返す
+  \begin{itemize}
+  \item 合計10層、各50\,nm = 全厚 500\,nm
+  \item 所要時間：約2.5時間/ブランク
+  \end{itemize}
+\item \textbf{3枚}のブランクに対して片面ずつ成膜
+  \begin{itemize}
+  \item ブランク\#1：片面に Bragg + 裏面に Au電極
+  \item ブランク\#2：両面に Bragg
+  \item ブランク\#3：片面に Bragg + 裏面に Au電極
+  \end{itemize}
+\end{enumerate}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=注意：水晶の取り扱い]
+50\,$\mu$m水晶は\textbf{紙より薄い}。
+\begin{itemize}
+\item 必ずプラスチックピンセット（帯電防止）を使う
+\item 吸着ペン（真空ピンセット）があれば最良
+\item 搬送はゲルパック（粘着シート付きケース）に載せて行う
+\item 落とした時点でほぼ確実に割れる。予備を多めに用意
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Step 2：膜厚確認}
+
+\begin{enumerate}[leftmargin=*]
+\item 各ブランクの Bragg 面を薄膜段差計（S9291）で測定
+\item 全厚 500\,nm $\pm$ 50\,nm 以内なら OK
+\item 1層あたり 50\,nm $\pm$ 10\,nm を目標
+\item 大きくずれている場合はスパッタ条件を調整して再成膜
+\end{enumerate}
+
+\subsection{Step 3：3枚の接合}
+
+\textbf{Option A：Au-Au thermocompression（推奨）}
+
+\begin{enumerate}[leftmargin=*]
+\item ブランク\#1 の Bragg 面に Au バンプ（5\,$\mu$m厚）をスパッタ
+  \begin{itemize}
+  \item パターニングが必要な場合はメタルマスクを使用
+  \item パターニング不要なら全面 Au 成膜でも可
+  \end{itemize}
+\item フリップチップボンダにブランク\#1（Bragg面上）をセット
+\item ブランク\#2 の下面 Bragg を\#1 の Au バンプに位置合わせ
+\item 300°C、10\,MPa で 30 分加圧 → Au-Au 接合
+\item 同様に、\#2 の上面 Bragg と\#3 の下面 Bragg を接合
+\end{enumerate}
+
+\textbf{Option B：UV硬化エポキシ接着（簡易版）}
+
+\begin{enumerate}[leftmargin=*]
+\item Bragg面に極薄のUV硬化エポキシを塗布（スピンコート or ディップ）
+\item 2枚を重ねて位置合わせ
+\item UV照射で硬化（数分）
+\item 繰り返して3枚を積層
+\item \textbf{注意}：エポキシ層の厚さがBragg機能に影響する。
+  10\,$\mu$m以下が望ましいが、制御が難しい
+\end{enumerate}
+
+\subsection{Step 4：ダイシング}
+
+\begin{enumerate}[leftmargin=*]
+\item 接合済みの積層水晶をダイシングテープに固定
+\item ダイシングソーで 5$\times$5\,mm 角に切り出し
+\item 送り速度は低め（0.5\,mm/s以下）— 水晶は脆い
+\item 1枚の積層ウェハ（10$\times$10\,mm）から 4 チップ取れる
+\item 最低3チップ確保（測定用2 + 予備1）
+\end{enumerate}
+
+
+%======================================================================
+\section{Phase 4：測定（三鷹の自宅にて）}
+%======================================================================
+
+\subsection{サンプルの準備}
+
+3種類のサンプルを用意する：
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{サンプルA（DD対照）}：
+  市販の水晶振動子（HC-49Sパッケージ、20\,MHz）をそのまま使用。
+  両面が電極で固定 → DD境界条件
+\item \textbf{サンプルB（DN, $p=2$ミュート）}：
+  HC-49Sから水晶ブランクを取り出し、片面のみタングステン板に接着。
+  上面は空気に露出 → DN境界条件
+\item \textbf{サンプルC（DN+Bragg, $p=2,3$ミュート）}：
+  産技研で作った積層チップ。底面をタングステン板に接着。
+  上面は自由端 → DN + Bragg
+\end{enumerate}
+
+\subsection{Step 1：共振スペクトルの確認}
+
+\begin{enumerate}[leftmargin=*]
+\item nanoVNA を各サンプルに接続（SMAケーブル → プローブ）
+\item $S_{21}$ パラメータを 1--200\,MHz でスイープ
+\item 基本波（$\sim$20\,MHz）と倍音のピークを記録
+\item \textbf{確認事項}：
+  \begin{itemize}
+  \item サンプルB：偶数倍音（40, 80, 120\,MHz...）が消えているか？
+    → $p = 2$ ミュートの確認
+  \item サンプルC：偶数倍音 AND 3の倍数の倍音（60, 180\,MHz...）が
+    消えているか？ → $p = 3$ ミュートの確認
+  \end{itemize}
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=最初のチェックポイント]
+サンプルCで 3 の倍数の倍音が消えていなければ、
+Braggスタックが機能していない。
+産技研に戻って膜厚と接合状態を確認し、改善する。
+
+逆にこれが確認できれば、$p = 2, 3$ のミュートが物理的に動作している証拠。
+ここまでは音響学であり、WB理論とは独立に成立する。
+\end{tcolorbox}
+
+\subsection{Step 2：温度応答差分法}
+
+\begin{enumerate}[leftmargin=*]
+\item 恒温槽（発泡スチロール箱 + ペルチェ素子）にサンプルを設置
+\item 25°C → 35°C に昇温しながら共振周波数を 1 秒間隔で記録
+  \begin{itemize}
+  \item nanoVNA の連続スイープ機能を使用
+  \item Python スクリプトで自動記録すると楽（pyserial + nanovna-saver）
+  \end{itemize}
+\item 各サンプルの周波数ドリフトを測定：
+  \begin{itemize}
+  \item $\Delta f_{\mathrm{A}}(T)$：DD（全モード）
+  \item $\Delta f_{\mathrm{B}}(T)$：DN（$p=2$ミュート）
+  \item $\Delta f_{\mathrm{C}}(T)$：DN+Bragg（$p=2,3$ミュート）
+  \end{itemize}
+\item 差分を計算：
+  \begin{align}
+    \delta f_{\mathrm{B}} &= \Delta f_{\mathrm{B}} - \Delta f_{\mathrm{A}} \\
+    \delta f_{\mathrm{C}} &= \Delta f_{\mathrm{C}} - \Delta f_{\mathrm{A}}
+  \end{align}
+\item \textbf{比を算出}：
+  \begin{equation}
+    \boxed{\; R = \frac{|\delta f_{\mathrm{C}}|}{|\delta f_{\mathrm{A}}|} \;}
+  \end{equation}
+\end{enumerate}
+
+\subsection{Step 3：繰り返しと統計処理}
+
+\begin{enumerate}[leftmargin=*]
+\item 昇温・降温サイクルを各サンプルで最低5回繰り返す
+\item $R$ の平均値と標準偏差を算出
+\item $R > 10$ なら 182 側（ゼータ正則化）を強く支持
+\item $R < 1$ なら 1/3 側（カットオフ正則化）を支持
+\item $1 < R < 10$ なら Bragg の品質改善が必要
+\end{enumerate}
+
+
+%======================================================================
+\section{タイムライン}
+%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llrl}
+\toprule
+期間 & 作業 & コスト & 場所 \\
+\midrule
+Week 1--2 & 材料発注、設計仕様書作成 & ¥84,000 & 自宅 \\
+Week 2 & 産技研に技術相談予約 & ¥0 & 電話/Web \\
+Week 3 & 初回訪問（相談 + 講習） & ¥5,000 & 産技研 \\
+Week 4 & nanoVNA着、恒温槽組立 & ¥28,500 & 自宅 \\
+Week 5--6 & 製作本番（成膜 + 接合 + ダイシング） & ¥31,000 & 産技研 \\
+Week 7 & 配線、共振スペクトル確認 & ¥0 & 自宅 \\
+Week 8 & 温度応答測定 $\times$ 5サイクル & ¥0 & 自宅 \\
+Week 9 & データ解析、$R$ の算出 & ¥0 & 自宅 \\
+\midrule
+\textbf{合計} & & \textbf{¥148,500} & \textbf{約2ヶ月} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{失敗した場合のトラブルシューティング}
+%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{p{4.5cm}p{4cm}p{4.5cm}}
+\toprule
+\textbf{症状} & \textbf{原因} & \textbf{対処} \\
+\midrule
+水晶がスパッタ中に割れた &
+  基板加熱 or 応力 &
+  室温成膜に切替。成膜レートを下げる \\
+\midrule
+3倍音が消えない &
+  Bragg反射率不足 &
+  Mo/AlNの膜厚を増やす（50→80\,nm）、ペア数を増やす（5→7） \\
+\midrule
+$\delta f$ がゼロ &
+  カシミール信号が nanoVNA の分解能以下 &
+  温度範囲を広げる（20→40°C）。より安定な周波数カウンタを使う \\
+\midrule
+$R$ が 1--10 の中間値 &
+  Bragg不完全 or 接合界面での漏れ &
+  接合方法を改善。Option A（thermocompression）に切替 \\
+\midrule
+サンプルB で偶数倍音が消えない &
+  DN 境界条件が不完全 &
+  接着面を研磨。エポキシの塗布を均一にする \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{チェックリスト}
+%======================================================================
+
+\begin{itemize}
+\item[$\square$] 設計仕様書を作成
+\item[$\square$] MTI / 信光社に水晶ブランクを発注
+\item[$\square$] Nilaco に Mo, AlN, Au ターゲットを発注
+\item[$\square$] Amazon で nanoVNA, Stycast, タングステン板を発注
+\item[$\square$] 産技研に技術相談を予約
+\item[$\square$] 初回訪問：技術相談完了
+\item[$\square$] ライセンス講習完了（スパッタ、段差計、ボンダ、ダイサー）
+\item[$\square$] 製作訪問：Mo/AlN Bragg 成膜完了
+\item[$\square$] 薄膜段差計で膜厚確認（500\,nm $\pm$ 50\,nm）
+\item[$\square$] 3枚接合完了
+\item[$\square$] ダイシング完了（5$\times$5\,mm $\times$ 3チップ以上）
+\item[$\square$] 自宅：サンプル A, B, C の配線完了
+\item[$\square$] nanoVNA で共振スペクトル確認
+\item[$\square$] サンプルB：偶数倍音が消えていることを確認
+\item[$\square$] サンプルC：3の倍数の倍音も消えていることを確認
+\item[$\square$] 温度応答測定（5サイクル以上）
+\item[$\square$] $R = |\delta f_C| / |\delta f_A|$ を算出
+\item[$\square$] $R > 10$ or $R < 1$ → 判定
+\item[$\square$] 結果を論文にまとめて arXiv に投稿
+\end{itemize}
+
+
+%======================================================================
+\section{この実験の意味（再確認）}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black]
+\textbf{$R = 182$ が出た場合}：
+
+Euler積 $\zeta(s) = \prod_p (1 - p^{-s})^{-1}$ が
+物理的に機能することの\textbf{世界初の実験的証拠}。
+
+これは以下を意味する：
+\begin{enumerate}
+\item 素数は真空エネルギーの独立自由度として物理的に「存在する」
+\item 「時空は素数でラベルされたボソンガス」という描像が正しい
+\item WB理論の算術的基盤（$K = \zeta$）が実験的に支持される
+\item Berry位相による反重力（$G_{\mathrm{eff}} = -G$）の前提条件が成立
+\end{enumerate}
+
+\textbf{$R = 1/3$ が出た場合}：
+
+Euler積は数学的のみ。WB理論の反重力部分は棄却。
+ただし $\Omega_\Lambda = 2\pi/9$ の予測は独立に生存
+（Euclid 2028 で検証）。
+
+\textbf{どちらの結果も、物理学にとって重要な発見。}
+\end{tcolorbox}
+
+\end{document}
