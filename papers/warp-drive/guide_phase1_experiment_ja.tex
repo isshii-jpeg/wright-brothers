@@ -354,12 +354,292 @@ A と B は Phase 0 の機能を兼ねる。
 
 
 %======================================================================
-\section{必要な材料と部品}
+\section{3段階アプローチ：自宅から産技研へ}
 %======================================================================
 
-\subsection{事前に発注するもの}
+本実験は3段階に分けて進める。
+Step 0--1 は\textbf{自宅のみ}・\textbf{既製品のみ}で実施可能。
+Step 2（産技研）に進むのは、Step 1 で原理実証が成功した場合のみ。
 
-\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=材料リスト（Phase 1 結晶製作用）]
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{clrrl}
+\toprule
+& \textbf{段階} & \textbf{コスト} & \textbf{期間} & \textbf{場所} \\
+\midrule
+Step 0 & Phase 0（DN倍音消失の確認） & ¥18,200 & 1週間 & 自宅のみ \\
+Step 1 & エポキシ簡易3層（原理実証） & +¥23,000 & 2週間 & 自宅のみ \\
+Step 2 & Mo/AlN Bragg（本番） & +¥110,000 & 1ヶ月 & 産技研 \\
+\midrule
+& \textbf{合計} & \textbf{¥151,200} & \textbf{2ヶ月} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+%======================================================================
+\section{Step 0：市販水晶で Phase 0（¥18,200・1週間）}
+\label{sec:step0}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=Step 0 の目的]
+市販の水晶振動子だけで「DN境界条件が偶数倍音を消す」ことを確認する。
+これは実験装置のバリデーションであり、primon gas とは独立の音響学的事実。
+\textbf{nanoVNA + 水晶10個 = ¥18,200。今すぐ始められる。}
+\end{tcolorbox}
+
+\subsection{部品リスト}
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
+HC-49S 20\,MHz 水晶振動子 $\times 10$ & 秋月電子 & ¥200 \\
+タングステン板 30$\times$30$\times$0.5\,mm & Nilaco & ¥3,000 \\
+\midrule
+\textbf{合計} & & \textbf{¥18,200} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{手順}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{サンプルA（DD）の作製}：
+  HC-49S をそのまま使う。両面が電極で固定されている → DD境界条件。
+
+\item \textbf{サンプルB（DN）の作製}：
+  \begin{enumerate}
+  \item ペンチで HC-49S のケースを慎重に開封
+  \item 水晶ブランクを取り出す（約 83\,$\mu$m厚、直径 $\sim$8\,mm）
+  \item \textbf{片面のみ}をエポキシ（100均の2液エポキシで可）でタングステン板に接着
+  \item もう片面は空気に露出 → DN境界条件
+  \end{enumerate}
+
+\item \textbf{倍音スペクトル測定}：
+  \begin{enumerate}
+  \item nanoVNA を SMAケーブル経由でサンプルに接続
+  \item $S_{21}$ を 1--200\,MHz でスイープ
+  \item 基本波（$\sim$20\,MHz）と倍音ピークの位置・振幅を記録
+  \end{enumerate}
+
+\item \textbf{判定}：
+  \begin{itemize}
+  \item サンプルA（DD）：$n = 1, 2, 3, 4, 5, \ldots$ の全倍音が見えるか？
+  \item サンプルB（DN）：偶数倍音（$n = 2, 4, 6, \ldots$）が消えているか？
+  \end{itemize}
+\end{enumerate}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=Step 0 の GO/STOP]
+\textbf{偶数倍音がDNで消えている} → $p = 2$ ミュートが動作。Step 1 に進む。
+
+\textbf{偶数倍音が残っている} → DN境界条件が不完全。
+接着方法を改善（エポキシの厚さ、研磨、接着面の均一性）して再測定。
+\end{tcolorbox}
+
+
+%======================================================================
+\section{Step 1：エポキシ簡易3層積層（+¥23,000・2週間）}
+\label{sec:step1}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=Step 1 の目的]
+市販水晶ブランク3枚をエポキシで接着し、
+3倍音の抑制が原理的に機能するかを確認する。
+\textbf{産技研のクリーンルームは不要。自宅のキッチンテーブルでできる。}
+\end{tcolorbox}
+
+\subsection{原理}
+
+Mo/AlN Braggスタック（音響インピーダンス比 $Z_{\rm Mo}/Z_{\rm AlN} \approx 1.9$）
+の代わりに、水晶とエポキシの界面（$Z_{\rm quartz}/Z_{\rm epoxy} \approx 2.5$）を
+音響反射面として利用する。
+
+\begin{center}
+\begin{tabular}{lrl}
+\toprule
+材料 & 音響インピーダンス (MRayl) & \\
+\midrule
+AT-cut 水晶 & 15.2 & \\
+Stycast 1266 エポキシ & 6.1 & （硬化後） \\
+Mo & 65 & （Bragg本番用） \\
+AlN & 34 & （Bragg本番用） \\
+\midrule
+インピーダンス比 & & 反射率 \\
+\midrule
+水晶/エポキシ & 2.5 & $\sim$25\% \\
+Mo/AlN & 1.9 & $\sim$15\%（1層あたり） \\
+Mo/AlN $\times$ 5ペア & --- & $> 90\%$（多層干渉） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+エポキシ1層の反射率（$\sim$25\%）は Mo/AlN Bragg（$>90\%$）より低い。
+しかし\textbf{3倍音が「完全に消える」必要はない}。
+$R$ が 182 か 1/3 か（546倍の差）を判別するには、
+3倍音が部分的に抑制されるだけで傾向が見える。
+
+\subsection{構造}
+
+\begin{verbatim}
+         ┌─────────────────────────┐
+         │                         │ ← 上面：空気に露出 (Neumann)
+    50   │   水晶ブランク #3        │
+    μm   │   (市販 AT-cut)          │
+         ├── エポキシ ~10μm ───────┤ ← 音響反射面 @ 2L/3
+    50   │                         │
+    μm   │   水晶ブランク #2        │
+         ├── エポキシ ~10μm ───────┤ ← 音響反射面 @ L/3
+    50   │                         │
+    μm   │   水晶ブランク #1        │
+         ├─────────────────────────┤
+         │  タングステン板に接着     │ ← 底面 (Dirichlet)
+         └─────────────────────────┘
+             全厚 ≈ 170 μm
+\end{verbatim}
+
+\subsection{部品リスト}
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+品名 & 入手先 & 価格 \\
+\midrule
+AT-cut 水晶ブランク 50\,$\mu$m $\times$ 10枚 & MTI Corp & ¥15,000 \\
+Stycast 1266 エポキシ & Amazon & ¥8,000 \\
+\midrule
+\textbf{追加合計} & & \textbf{¥23,000} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+（nanoVNA, タングステン板は Step 0 で購入済み）
+
+\subsection{手順}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{水晶ブランクの準備}：
+  \begin{itemize}
+  \item MTI Corp から研磨済み AT-cut 水晶ブランク
+    （50\,$\mu$m厚、10$\times$10\,mm）を購入
+  \item 予備含めて10枚。50\,$\mu$mは薄くて割れやすいので、
+    最初の数枚は練習用
+  \end{itemize}
+
+\item \textbf{エポキシの塗布}：
+  \begin{itemize}
+  \item Stycast 1266 を混合（主剤:硬化剤 = 100:28、重量比）
+  \item 爪楊枝の先に微量を取り、水晶ブランク\#1の表面に薄く塗布
+  \item \textbf{目標厚さ：10\,$\mu$m以下}。
+    厚すぎるとエポキシ層自体が音響共振器になり、モード構造が複雑化する
+  \item コツ：エポキシを塗った後、2枚のブランクで挟んで
+    軽い重り（コイン等）で押さえる → 薄く均一に広がる
+  \end{itemize}
+
+\item \textbf{2層接着}：
+  \begin{itemize}
+  \item ブランク\#1（エポキシ面）にブランク\#2を重ねる
+  \item 位置合わせは目視で OK（水晶が透明なので見える）
+  \item 25°C で24時間硬化
+  \end{itemize}
+
+\item \textbf{3層接着}：
+  \begin{itemize}
+  \item 硬化した\#1+\#2 の上面にエポキシを薄く塗布
+  \item ブランク\#3を重ねる
+  \item 再度24時間硬化
+  \end{itemize}
+
+\item \textbf{DN境界条件の設定}：
+  \begin{itemize}
+  \item 3層積層体の底面をタングステン板にエポキシで接着
+  \item 上面は空気に露出（Neumann）
+  \item → サンプルC'（簡易版DN+Bragg）の完成
+  \end{itemize}
+
+\item \textbf{倍音スペクトル測定}：
+  \begin{itemize}
+  \item nanoVNA で $S_{21}$ を 1--100\,MHz でスイープ
+  \item サンプルA（DD）、B（DN）、C'（簡易3層DN）を比較
+  \item 3の倍数の倍音（$3f_0, 9f_0, 15f_0, \ldots$）が
+    C'で抑制されているか？
+  \end{itemize}
+\end{enumerate}
+
+\subsection{期待される結果}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lccc}
+\toprule
+倍音 $n$ & サンプルA (DD) & サンプルB (DN) & サンプルC' (簡易3層) \\
+\midrule
+1 & 強 & 強 & 強 \\
+2 & 強 & \textbf{消失} & \textbf{消失} \\
+3 & 強 & 強 & \textbf{弱?} \\
+4 & 強 & \textbf{消失} & \textbf{消失} \\
+5 & 強 & 強 & 強 \\
+6 & 強 & \textbf{消失} & \textbf{消失} \\
+7 & 強 & 強 & 強 \\
+9 & 強 & 強 & \textbf{弱?} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+エポキシ界面の反射率は約25\%なので、3倍音は「完全に消える」のではなく
+「弱くなる」可能性が高い。
+これでも原理実証としては十分：3の倍数だけが選択的に弱くなれば、
+Bragg効果が機能している証拠。
+
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=Step 1 の GO/STOP]
+\textbf{3倍音が選択的に抑制されている（他の奇数倍音より明らかに弱い）}
+→ エポキシBraggが機能。Step 2（産技研）で本番製作に進む価値あり。
+
+\textbf{3倍音の抑制が見えない}
+→ エポキシ層が薄すぎる or 厚すぎる。厚さを調整して再試行。
+  それでも抑制されない場合、エポキシでは反射率不足。
+  → Step 2（Mo/AlN本番）が必須。
+
+\textbf{3倍音が完全に消えている}
+→ 大成功。このサンプルで温度応答測定（$R$の算出）まで進められる可能性あり。
+  Step 2 が不要になるかもしれない。
+\end{tcolorbox}
+
+\subsection{Step 1 で $R$ まで測れる場合}
+
+もし3倍音が十分抑制されていれば、
+Step 0 と同じ温度応答差分法で $R$ を概算できる：
+
+\begin{enumerate}[leftmargin=*]
+\item 恒温槽（発泡スチロール箱 + ペルチェ、¥8,000）を組み立て
+\item サンプル A, B, C' を順に 25°C → 35°C で測定
+\item $\delta f$ の比 $R$ を算出
+\item $R > 10$ なら 182 側の強い示唆
+\item $R < 1$ なら 1/3 側の強い示唆
+\end{enumerate}
+
+ただしエポキシ Bragg の反射率が不完全なため、
+$R$ は「真の値」と「1」の中間になる可能性がある：
+\begin{itemize}
+\item 真の値が 182 → 抑制率25\%で $R \approx 50\text{--}100$（十分区別可能）
+\item 真の値が 1/3 → 抑制率25\%で $R \approx 0.3\text{--}0.5$（これも区別可能）
+\end{itemize}
+
+546倍の差があるおかげで、不完全な Bragg でも方向性は分かる。
+
+
+%======================================================================
+\section{Step 2：産技研での本番製作}
+%======================================================================
+
+Step 0--1 が成功した場合、Mo/AlN Braggスタックによる
+精密版を産技研で製作する。
+
+\subsection{事前に発注するもの（Step 2 追加分）}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=材料リスト（産技研 Mo/AlN Bragg 製作用）]
 \begin{tabular}{llrl}
 \toprule
 品名 & 入手先 & 価格 & 備考 \\
@@ -424,7 +704,7 @@ nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
 
 
 %======================================================================
-\section{Phase 1：事前準備（三鷹にて）}
+\section{Step 2a：事前準備（三鷹にて）}
 %======================================================================
 
 \subsection{仕様の確定}
@@ -493,7 +773,7 @@ nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
 
 
 %======================================================================
-\section{Phase 2：初回訪問（技術相談 + ライセンス講習）}
+\section{Step 2b：初回訪問（技術相談 + ライセンス講習）}
 %======================================================================
 
 \subsection{技術相談（1--2時間）}
@@ -544,7 +824,7 @@ nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
 
 
 %======================================================================
-\section{Phase 3：製作本番（クリーンルーム作業）}
+\section{Step 2c：製作本番（クリーンルーム作業）}
 %======================================================================
 
 \begin{tcolorbox}[colback=yellow!5,colframe=yellow!60!black,title=作業フロー（1--2日間）]
@@ -647,7 +927,7 @@ nanoVNA V2 Plus4 & Amazon & ¥15,000 \\
 
 
 %======================================================================
-\section{Phase 4：測定（三鷹の自宅にて）}
+\section{Step 2d / Step 1+：測定（自宅にて）}
 %======================================================================
 
 \subsection{サンプルの準備}
@@ -733,23 +1013,39 @@ Braggスタックが機能していない。
 
 \begin{center}
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{llrl}
+\begin{tabular}{llrll}
 \toprule
-期間 & 作業 & コスト & 場所 \\
+期間 & 作業 & コスト & 場所 & 段階 \\
 \midrule
-Week 1--2 & 材料発注、設計仕様書作成 & ¥84,000 & 自宅 \\
-Week 2 & 産技研に技術相談予約 & ¥0 & 電話/Web \\
-Week 3 & 初回訪問（相談 + 講習） & ¥5,000 & 産技研 \\
-Week 4 & nanoVNA着、恒温槽組立 & ¥28,500 & 自宅 \\
-Week 5--6 & 製作本番（成膜 + 接合 + ダイシング） & ¥31,000 & 産技研 \\
-Week 7 & 配線、共振スペクトル確認 & ¥0 & 自宅 \\
-Week 8 & 温度応答測定 $\times$ 5サイクル & ¥0 & 自宅 \\
-Week 9 & データ解析、$R$ の算出 & ¥0 & 自宅 \\
+Week 1 & nanoVNA + HC-49S 購入 & ¥18,200 & 自宅 & Step 0 \\
+Week 1 & DD/DN倍音スペクトル測定 & ¥0 & 自宅 & Step 0 \\
 \midrule
-\textbf{合計} & & \textbf{¥148,500} & \textbf{約2ヶ月} \\
+Week 2 & 水晶ブランク + エポキシ発注 & ¥23,000 & 自宅 & Step 1 \\
+Week 3 & 3層エポキシ積層 + 硬化 & ¥0 & 自宅 & Step 1 \\
+Week 3--4 & 3倍音抑制の確認 + $R$ 概算 & ¥0 & 自宅 & Step 1 \\
+\midrule
+Week 4 & 産技研に技術相談予約 & ¥0 & 電話 & Step 2 \\
+Week 5 & 材料発注（Mo, AlN, Au） & ¥55,000 & 自宅 & Step 2 \\
+Week 6 & 初回訪問（相談 + 講習） & ¥5,000 & 産技研 & Step 2 \\
+Week 7--8 & 本番製作（成膜 + 接合 + ダイシング） & ¥31,000 & 産技研 & Step 2 \\
+Week 9 & 配線 + 共振スペクトル確認 & ¥0 & 自宅 & Step 2 \\
+Week 10 & 温度応答測定 $\times$ 5サイクル & ¥0 & 自宅 & 測定 \\
+Week 11 & データ解析、$R$ の算出 & ¥0 & 自宅 & 解析 \\
+\midrule
+\multicolumn{2}{l}{\textbf{Step 0 のみ}} & \textbf{¥18,200} & \textbf{1週間} & \\
+\multicolumn{2}{l}{\textbf{Step 0 + 1}} & \textbf{¥41,200} & \textbf{3--4週間} & \\
+\multicolumn{2}{l}{\textbf{全 Step（0+1+2）}} & \textbf{¥151,200} & \textbf{約2.5ヶ月} & \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=最初の一歩]
+\textbf{¥18,200 と 1 週間} で Step 0 が完了する。
+偶数倍音の消失を確認し、実験系が動作することを検証できる。
+
+Step 1 の結果次第では、\textbf{¥41,200 で $R$ の概算値が得られる可能性がある}。
+産技研に行く必要があるかどうかは、Step 1 の結果で判断する。
+\end{tcolorbox}
 
 
 %======================================================================
