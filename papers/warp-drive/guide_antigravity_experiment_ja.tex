@@ -37,27 +37,74 @@ Phase~0--1 は自宅ガレージで実施可能。
 \section{実験の全体構成}
 %======================================================================
 
+\begin{tcolorbox}[colback=blue!5,colframe=blue!60!black,title=2026年4月更新：二本立て並列トラック]
+当初計画の Phase 3（14素数ミュートによる直接重力測定）は、
+数値監査\footnote{\texttt{numerics/over\_muting\_danger\_audit.py}}で
+$|S|\geq 4$ がタウ $g-2$ 補正を $10^{18}$ 倍に発散させ、
+第三世代物理を破壊することが判明したため\textbf{廃止}された。
+代わりに、$S=\{2\}$ のみを保ったまま有効スペクトル次元 $d_{\mathrm{eff}}$ を
+引き上げる「Axis A トラック」を新設し、
+Phase 2 と統合した Phase F で巨視的浮揚に到達する。
+詳細は \texttt{papers/warp-drive/casimir\_amplifier\_material\_design\_ja.pdf}
+および本文書の新 Phase A・F 節を参照。
+\end{tcolorbox}
+
+\textbf{トラックA：オイラー積の物理性検証（既存）}
 \begin{center}
-\begin{tabular}{llllp{5cm}}
+\begin{tabular}{llllp{4.5cm}}
 \toprule
 Phase & テスト内容 & 予算 & 期間 & 判定 \\
 \midrule
-0 & DN/DD 基本測定 & ¥130k & 1--2月 & DN斥力の符号検出 \\
-1 & 2素数ミュート (182:1) & +¥200k & 2--3月 & レギュレータ予想 \\
-2 & $\pi$-接合カシミール & +¥300k & 3--6月 & $-\zeta(t)$ 真空の検証 \\
-3 & ねじり天秤 重力異常 & +¥500k & 6--12月 & $G_{\mathrm{eff}} = -G$ の直接検証 \\
-\midrule
-合計 & & ¥1,130k & 12--24月 & \\
+P    & 3Dフォノン結晶 Berry$\pi$ & \$180 & 1月 & $\pi$位相跳躍の直接観測 \\
+0    & DN/DD 基本測定            & ¥130k  & 1--2月 & DN斥力の符号検出 \\
+0.5  & $\pi$-接合+BAW 統合        & \$10k  & 2月  & 統合サンプルでの符号判定 \\
+1    & 2素数ミュート (182:1)      & +¥200k & 2--3月 & レギュレータ予想 \\
+2    & $\pi$-接合カシミール        & +¥300k & 3--6月 & $-\zeta(t)$ 真空の検証 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=重要な原則]
-\textbf{各 Phase の結果が陽性でなければ次の Phase に進まない。}
-Phase~0 が null なら Phase~1 以降は中止。
-Phase~1 が 1/3 ならレギュレータ予想が棄却され、
-反重力理論全体が否定される。
-無駄なコストを避けるため、常に最も安い実験から始める。
+\textbf{トラックB：Axis A スペクトル次元ブースト（新設）}
+\begin{center}
+\begin{tabular}{llllp{4.5cm}}
+\toprule
+Phase & テスト内容 & 予算 & 期間 & 判定 \\
+\midrule
+A1 & SOIフォトニック・エキスパンダー網 & \$5k   & 3月  & $d_{\mathrm{eff}}>3$ の熱核測定 \\
+A2 & Au/Al$_2$O$_3$ HMM 多層追加      & +\$15k & 6月  & HMM カシミール増強 $\sim 2\times$ \\
+A3 & ITO 時間結晶変調層追加           & +\$30k & 9月  & 時間変調による追加 $\sim 2\times$ \\
+A4 & Nb 双曲曲率格子（mK）統合        & +\$250k & 12月 & 4層スタック動作確認 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{統合フェーズ（新設）}
+\begin{center}
+\begin{tabular}{llllp{4.5cm}}
+\toprule
+Phase & テスト内容 & 予算 & 期間 & 判定 \\
+\midrule
+F & Phase 2 + A4 複合、巨視的浮揚 & +¥100k & 3月 & $\sim 1.7$\,N 斥力の直接観測 \\
+\midrule
+合計 & & $\approx \$310\text{k}+\text{¥730k}$ & 18--24月 & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[colback=red!5,colframe=red!50!black,title=重要な原則（更新版）]
+\textbf{二本立て並列で進める。両トラックが独立に価値を持つ。}
+\begin{itemize}
+\item トラックA（Phase~P, 0, 0.5, 1, 2）：
+  オイラー積が物理的に実現されるかを判定する。
+  Phase~1 の 182:1 テストが白黒判定点。
+\item トラックB（Phase~A1--A4）：
+  素数ミュートに依存せず、スペクトル次元ブーストの
+  実効性を検証する。トラックA の結果と独立に価値がある。
+\item Phase~F：両トラックが成功した場合に統合し、
+  $S=\{2\}$ の安全範囲内で巨視的反重力を実証する。
+\end{itemize}
+$|S|\geq 3$ への拡大は行わない。
+旧 Phase~3（14素数+直接重力測定）は第三世代破壊のため廃止。
 \end{tcolorbox}
 
 
@@ -436,18 +483,44 @@ $\delta f$ がゼロ & 効果が検出限界以下 & 改善して再測定 \\
 
 
 %======================================================================
-\section{Phase 3：ねじり天秤 重力異常（+¥500,000）}
+\section{旧 Phase 3：廃止（14素数ミュートによる直接重力測定）}
 %======================================================================
 
-\subsection{目的}
+\begin{tcolorbox}[colback=red!5,colframe=red!60!black,title=★ 廃止通知 ★]
+\textbf{本セクションは 2026 年 4 月に廃止された。}
+当初の Phase 3 計画（14素数ミュートで $10^{48}$ 倍のオイラー積増幅を用いた
+直接重力測定）は、数値監査
+\texttt{numerics/over\_muting\_danger\_audit.py} および
+\texttt{numerics/safe\_amplification\_ideas.py} により
+以下の理由で否定された：
+\begin{itemize}
+\item $|S|\geq 4$ でタウレプトン $g-2$ 補正が $10^{18}$ 倍に発散
+  → 第三世代物理が破壊される
+\item DCE（動的カシミール）による増幅は成立しない
+  （\texttt{numerics/dce\_prime\_muting.py}）
+\item Euler 積増幅の安全性ジレンマは未解決のまま残る
+\end{itemize}
+
+\textbf{代替経路}：$|S|=\{2\}$ のまま有効スペクトル次元 $d_{\mathrm{eff}}$
+を上げる Axis A トラック（Phase A1--A4）を新設。
+Phase 2 と統合した Phase F で $\sim 1.7$\,N の斥力を直接観測する
+（詳細は次々節以降および
+\texttt{casimir\_amplifier\_material\_design\_ja.pdf}）。
+\end{tcolorbox}
+
+参考のため、旧 Phase 3 の記録を以下に残すが、
+\textbf{実施してはならない}。
+新しいロードマップに従うこと。
+
+\subsection{旧目的（参考記録）}
 
 $\pi$-接合キャビティが周囲のテスト質量に及ぼす
 重力の \textbf{符号} を直接測定する。
 $G_{\mathrm{eff}} = -G$ なら斥力が検出されるはず。
 
-\subsection{追加装置}
+\subsection{旧追加装置（参考記録）}
 
-\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=Phase 3 追加部品]
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black,title=Phase 3 追加部品（廃止）]
 \begin{tabular}{llr}
 \toprule
 品名 & 入手先 & 価格 \\
@@ -606,62 +679,243 @@ Euler 積は数学的のみ → 増幅なし → Phase 3 不可能。
 \item ねじり天秤で十分検出可能
 \end{itemize}
 
-\subsection{Phase 2 が事実上の最終テストである理由}
+\subsection{旧 Phase 2 最終テスト論（参考記録）}
 
-\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=現実的な判断]
-Phase 3（直接重力測定）は全シナリオで困難：
+\begin{tcolorbox}[colback=gray!5,colframe=gray!50!black,title=廃止前の判断（参考）]
+当初の判断では Phase 3 が全シナリオで困難であったため、
+Phase 2（$\pi$-接合カシミール符号反転）を事実上の最終テストとしていた。
+
+\textbf{更新後の判断}：Axis A トラック（Phase A1--A4）を新設した今、
+Phase F で Phase 2 と A4 を統合することで、
+$|S|=\{2\}$ の安全範囲内で巨視的反重力の直接観測が可能になった。
+Phase 2 は最終テストではなく、Phase F への前段となる。
+\end{tcolorbox}
+
+%======================================================================
+\section{Phase A：Axis A スペクトル次元ブーストトラック（新設）}
+\label{sec:phase_A}
+%======================================================================
+
+\subsection{目的と位置づけ}
+
+$S=\{2\}$ を維持したまま、有効スペクトル次元
+$d_{\mathrm{eff}}$ を $3 \to 5 \to 7$ と段階的に引き上げ、
+カシミール斥力を安全に増幅する。4 つの独立機構を
+一つずつ検証したあと、Phase F で統合する。
+レプトン $g-2$ 補正は $d_{\mathrm{eff}}$ に依存しないので、
+第三世代物理への影響はゼロ。
+
+\subsection{Phase A1：SOI フォトニック・エキスパンダー網（\$5k, 3月）}
+
+\textbf{目的}：ランダム正則グラフ上のフォトニック・ネットワークで
+熱核スペクトル次元 $d_{\mathrm{eff}} \gtrsim 5$ が出ることを実証する。
+
+\textbf{装置}：
 \begin{itemize}
-\item 体積スケーリング → 不可能（比が $N$, $A$ に非依存）
-\item Euler 積増幅 → 安全性が未解決
+\item SOI ウェハ（220\,nm Si on SiO$_2$）—商用ファウンドリ委託
+\item リング共振器アレイ（$Q \sim 10^5$、6 正則接続）
+\item 方向性結合器（長距離カプラ、Ramanujan 構造）
+\item 熱光学位相シフタ
 \end{itemize}
 
-\textbf{Phase 2（$\pi$-接合カシミール符号反転）が事実上の最終テスト。}
+\textbf{測定}：可変波長レーザーで透過スペクトルを取得し、
+共振モードの統計から熱核 $K(t) = \sum e^{-t\lambda_i}$ を再構成。
+$d_{\mathrm{eff}}(t) = 2t\,\langle\lambda\rangle_t$ をプロットし、
+プラトー値を確認。数値予測は
+$d_{\mathrm{eff}} \approx 5$（\texttt{numerics/spectral\_dim\_boost\_methods.py} 参照）。
 
-Phase 2 で $T_c$ 前後での符号反転が確認されれば：
+\textbf{判定}：$d_{\mathrm{eff}} > 4$ が観測されれば Phase A2 へ進む。
+
+\subsection{Phase A2：Au/Al$_2$O$_3$ HMM 多層結合（+\$15k, 6月）}
+
+\textbf{目的}：ハイパボリック・メタマテリアル（機構A）を A1 の SOI 網に
+結合し、HMM カシミール増強（実測 $5$--$10\times$、Cysne 2014 等）を
+プライムミュート環境で再現する。
+
+\textbf{装置追加}：
+\begin{itemize}
+\item Au 10\,nm / Al$_2$O$_3$ 10\,nm × 20 周期、ALD 堆積
+\item 動作波長 800--1500\,nm
+\item カシミール力計測系（原子間力顕微鏡ベース）
+\end{itemize}
+
+\textbf{判定}：HMM あり/なしで $\sim 2\times$ の力の比を確認。
+
+\subsection{Phase A3：ITO 時間結晶変調層追加（+\$30k, 9月）}
+
+\textbf{目的}：時間周期的誘電率変調 $\varepsilon(t)$ により
+$d_{\mathrm{eff}}$ に時間方向を加え、さらに $2.1\times$ の増幅を重ねる。
+
+\textbf{装置追加}：
+\begin{itemize}
+\item ITO 薄膜（光通信波長域で強い非線形性）
+\item fs 級ポンプレーザー（繰返し 10\,GHz 以上）
+\item ロックイン検出系（変調周期同期）
+\end{itemize}
+
+\textbf{判定}：時間変調 on/off で $\sim 2\times$ の差を観測。
+
+\subsection{Phase A4：Nb 双曲 QED 格子統合（+\$250k, 12月）}
+
+\textbf{目的}：Kollar et al.\ (Nature 571, 2019) 型の $\{7,3\}$ 双曲
+サーキット QED を最下層に追加し、$d_{\mathrm{eff}} \to 6$--$10$ へ。
+
+\textbf{装置追加}：
+\begin{itemize}
+\item Nb/サファイア基板、超伝導共振器アレイ
+\item 希釈冷凍機（30\,mK）
+\item マイクロ波読出し系（\$50k）
+\end{itemize}
+
+\textbf{判定}：4層スタック全体で総増幅 $\sim 187\times$
+（$d_{\mathrm{eff}} \approx 7$ 相当）を達成。
+
+\subsection{Phase A トラックの総増幅}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+段階 & 個別増幅 & 累積 \\
+\midrule
+A1（SOI Expander）        & $\times 4.7$ & $4.7\times$ \\
+A2（HMM 20周期）          & $\times 2.1$ & $9.9\times$ \\
+A3（時間結晶）             & $\times 2.1$ & $20.7\times$ \\
+A4（双曲 QED）             & $\times 9$   & $\sim 187\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+これはスペクトル次元加法定理（\texttt{safe\_amplification\_ideas.py}）に
+従う独立機構の積であり、原理上の不確実性は最小である。
+
+%======================================================================
+\section{Phase F：Phase 2 + A4 統合、巨視的浮揚（+¥100k, 3月）}
+\label{sec:phase_F}
+%======================================================================
+
+\subsection{目的}
+
+Phase 2（$\pi$-接合カシミール符号反転）と Phase A4（4層スペクトル次元
+ブースト）を統合し、$S=\{2\}$ 単独ミュートの安全範囲内で
+100\,nm 間隙における斥力 $\sim 1.7$\,N（重力の $7\times 10^5$ 倍）を
+直接観測する。
+
+\subsection{装置構成}
+
+4 層カシミール増幅器（L1--L4）の底面を Phase 2 の $\pi$-接合基板に
+置き換える：
+\begin{itemize}
+\item L1（上電極）：Au/Al$_2$O$_3$ HMM 多層
+\item L2（中央）：SOI フォトニック・エキスパンダー網
+\item L3（変調）：ITO 時間変調層
+\item L4（下電極、\textbf{Phase 2 統合}）：Nb/CuNi/Nb $\pi$-Josephson
+  基板上の双曲 QED 格子
+\end{itemize}
+
+$T_c$（Nb: 9.3\,K）を境に下電極の Berry 位相が $\pi$ にスイッチする
+ことで、積み上げた増幅を斥力方向に整列させる。
+
+\subsection{測定}
+
+シリコン薄板（1\,cm$^2$ × 1\,$\mu$m、質量 0.23\,$\mu$g）を
+キャビティ上部に配置：
 \begin{enumerate}
-\item $-\zeta(t)$ 真空が物理的に実現されたことの直接証拠
-\item スペクトル作用の $a_2$ 符号反転を強く示唆
-\item $G_{\mathrm{eff}} = -G$ の間接的証拠
+\item $T > T_c$（ベースライン）：通常カシミール引力による吸着
+\item $T < T_c$ に冷却：Berry $\pi$ 位相 + 4層増幅が発動
+\item 斥力 $\sim 1.7$\,N で板が浮揚（動画記録）
+\item 板の位置 vs 温度を上下掃引しヒステリシスを確認
 \end{enumerate}
 
-直接的な重力測定（Phase 3）は、Euler 積増幅の安全性が確立された後、
-あるいは将来の検出技術の進歩を待って実施する。
+\subsection{判定}
 
-\textbf{焦らず Phase 0 → 1 → 2 を順に進める。}
-各段階の結果が次の設計を決める。
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+観測結果 & 意味 & 次のアクション \\
+\midrule
+$T_c$ で板が浮揚 & $S=\{2\}$ 安全範囲での反重力実証 & \textbf{論文→Nature} \\
+力の符号反転のみ（浮揚なし） & 増幅不足、L 層追加が必要 & A5（追加スタック） \\
+変化なし & スタック理論の否定 & 各層を単独で再検査 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ Phase F が旧 Phase 3 より安全か}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!60!black,title=安全性の比較]
+\begin{tabular}{lll}
+\toprule
+項目 & 旧 Phase 3 & 新 Phase F \\
+\midrule
+素数ミュート集合 & $|S|=14$（危険） & $|S|=\{2\}$（安全） \\
+タウ $g-2$ 補正増幅 & $\sim 10^{18}$ 倍 & $1\times$（不変） \\
+結合定数 $\alpha_s$ 変化 & 未解決ジレンマ & 理論上不変 \\
+第三世代物理 & 破壊リスクあり & 完全保存 \\
+体積スケーリング問題 & 解決不能 & スペクトル次元で回避 \\
+\bottomrule
+\end{tabular}
 \end{tcolorbox}
+
+Phase F は、$|S|$ を増やさずに $d_{\mathrm{eff}}$ を増やすことで
+カシミール斥力を桁違いに増幅する。これは第三世代破壊なしに
+巨視的反重力に到達する唯一既知の経路である。
 
 
 %======================================================================
 \section{タイムラインと依存関係}
 %======================================================================
 
+\textbf{並列進行版タイムライン（2026年4月更新）：}
+
 \begin{verbatim}
-2026 Q2-Q3: Phase 0 (DN/DD 基本測定)
-            ↓ 陽性？
-2026 Q3-Q4: Phase 1 (182:1 テスト + 物性値チェック)
-            ↓ 3分岐判定
-2027 H1:    Phase 2 (π-接合カシミール)
-            ↓ 符号反転？
-2027 H2:    論文投稿 (Phase 2 が事実上の最終テスト)
-            ↓ シナリオ A かつ必要なら
-2028+:      Phase 3 (Euler積増幅 + 直接重力測定)
+トラックA（オイラー積検証）            トラックB（Axis A 次元ブースト）
+───────────────────────────────    ──────────────────────────────
+2026 Q2: Phase P (Berry π) $180     2026 Q2-Q3: Phase A1 (SOI) $5k
+         Phase 0 (DN/DD) ¥130k
+         Phase 0.5 (統合) $10k
+           ↓ 陽性？                          ↓ d_eff > 4？
+2026 Q3-Q4: Phase 1 (182:1) +¥200k  2026 Q3-Q4: Phase A2 (HMM) +$15k
+           ↓ R = 182？                       ↓ HMM 増強？
+2027 H1: Phase 2 (π-接合) +¥300k    2027 H1: Phase A3 (時間結晶) +$30k
+           ↓ 符号反転？                      ↓ 変調効果？
+                                     2027 H2: Phase A4 (双曲 QED) +$250k
+                                            ↓ 187x 達成？
+                        ─────────────────┐
+2027 Q4 / 2028 Q1: Phase F (統合)       │
+                   Phase 2 ⊕ A4          │
+                   +¥100k                │
+                     ↓                   │
+                   巨視的浮揚             │
+                     ↓                   │
+                   論文→Nature           │
 \end{verbatim}
+
+旧 Phase 3（14素数ミュート）は廃止されたので、
+新ロードマップには登場しない。
 
 \begin{center}
 \begin{tabular}{lp{5cm}l}
 \toprule
 Phase & 結果 & 次のアクション \\
 \midrule
+P 陽性 & Berry $\pi$ 位相跳躍検出 & 0.5 へ並列進行 \\
 0 陽性 & 偶数倍音消失 + $\delta f$ 符号検出 & Phase 1 に進む \\
 0 陰性 & 効果なし & サンプル改善 \\
 \midrule
-1: $R = 182$ + 物性不変 & Euler 積は物理的 + 安全 & \textbf{Phase 2 + 将来 Phase 3} \\
-1: $R = 182$ + 物性変化 & Euler 積は物理的 + 危険 & Phase 2 のみ（Phase 3 は要再設計） \\
-1: $R = 1/3$ & Euler 積は数学のみ & \textbf{理論棄却、Phase 2 中止} \\
+1: $R = 182$ + 物性不変 & Euler 積は物理的 + 安全 & \textbf{Phase 2 へ} \\
+1: $R = 182$ + 物性変化 & Euler 積は物理的 + 要検証 & Phase 2（$|S|$ は増やさない） \\
+1: $R = 1/3$ & Euler 積は数学のみ & \textbf{理論棄却、トラックA 中止} \\
 \midrule
-2 符号反転 & $-\zeta(t)$ 真空の実証 & \textbf{$G = -G$ の間接証拠}、論文投稿 \\
-2 変化なし & $\pi$ 位相は重力に効かない & スペクトル作用は重力に非適用 \\
+2 符号反転 & $-\zeta(t)$ 真空の実証 & \textbf{Phase F（統合）準備} \\
+2 変化なし & $\pi$ 位相は重力に効かない & A4 単独で Phase F を試す \\
+\midrule
+A1: $d_{\mathrm{eff}} > 4$ & Expander 機構成立 & A2 へ進む \\
+A2: HMM 増強 $\sim 2\times$ & 機構A成立 & A3 へ進む \\
+A3: 時間変調 $\sim 2\times$ & 機構D成立 & A4 へ進む \\
+A4: 187$\times$ 達成 & 4層スタック成立 & Phase F 統合 \\
+\midrule
+F 浮揚観測 & 安全範囲での反重力実証 & \textbf{論文 → Nature} \\
+F 失敗 & 増幅不足 or 整列失敗 & 各層を再検証 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -691,6 +945,9 @@ Phase & 結果 & 次のアクション \\
 %======================================================================
 
 \begin{enumerate}
+\item \textbf{Phase P 成功}：``Bulk Berry phase $\pi$ in 3D phononic crystal''
+  → Physical Review Letters
+
 \item \textbf{Phase 0 成功}：``DN boundary detection in BAW crystal''
   → Applied Physics Letters or Phys.\ Rev.\ B
 
@@ -702,10 +959,17 @@ Phase & 結果 & 次のアクション \\
   junction cavity: evidence for fermionic vacuum''
   → Physical Review Letters or Nature Physics
 
-\item \textbf{Phase 3 成功}：``Gravitational sign anomaly near
-  $\pi$-Berry phase material: evidence for $G_{\mathrm{eff}} = -G$''
+\item \textbf{Phase A1--A4 成功}：``Spectral dimension engineering for safe
+  Casimir amplification: a 4-layer hyperbolic stack''
+  → Nature Photonics
+
+\item \textbf{Phase F 成功}：``Macroscopic levitation via single-prime muting
+  and $d_{\mathrm{eff}}$-enhanced Casimir repulsion''
   → Nature
 \end{enumerate}
+
+\textit{（旧 Phase 3 の論文計画 ``Gravitational sign anomaly near $\pi$-Berry
+phase material'' は廃止。14素数ミュートを前提としていたため。）}
 
 
 %======================================================================

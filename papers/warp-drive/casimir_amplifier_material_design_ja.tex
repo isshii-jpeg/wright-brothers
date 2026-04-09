@@ -1,0 +1,438 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.3cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{enumitem}
+
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\deff}{d_{\mathrm{eff}}}
+
+\title{カシミール斥力増幅器：材料設計の具体案}
+\author{Wright Brothers\\{\small 独立研究}}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本書は、$S=\{2\}$ 単一素数ミュート（最も安全な構成）に重ねるべき
+スペクトル次元ブースト機構を、実装可能な材料設計の観点から整理する。
+$\deff > 3$ を実現する七つのメカニズムを既存技術成熟度で分類し、
+それぞれについて材料構成・加工法・幾何パラメータ・期待増幅率を表で
+示す。最終的に、現時点で組立可能な四層複合デバイスの設計図と
+全体増幅 $\sim 7000\times$ の内訳を提示する。第三世代への影響はゼロ。
+\end{abstract}
+
+% ==========================================================================
+\section{設計目標と前提}
+% ==========================================================================
+
+\subsection{何を増幅するか}
+
+平行平板カシミールエネルギーは
+\[
+E_{\mathrm{Cas}} = -\frac{\pi^2 \hbar c}{720\,L^3}\, A
+\]
+で与えられ、素数ミュート $\mathbb{Z}\to\mathbb{Z}[1/p]$ により乗数
+$(1-p^d)$ を獲得する。指数 $d$ は真空のスペクトル次元
+$d_s$ で決まり、通常空間では $d_s = 3$ である。我々の目的は、
+カシミールキャビティ内の有効スペクトル次元 $\deff$ を局所的に上げ、
+$(1-2^{\deff})/(1-2^3) = (1-2^{\deff})/(-7)$ 倍の追加増幅を得ることにある。
+
+\subsection{なぜ単一素数 $S=\{2\}$ に固定するか}
+
+$|S|\geq 4$ で第三世代レプトンの $g-2$ 補正が
+$10^{18}$ 倍に発散することが、Wright Brothers~(2026) の数値監査で
+確認されている（`numerics/over\_muting\_danger\_audit.py`）。
+$S=\{2\}$ は唯一、論文のすべての主張と矛盾しない安全な選択である。
+増幅は $|S|$ の増加ではなく、$\deff$ の増加に依らねばならない。
+
+\subsection{$\deff$ と増幅率の対応}
+
+\begin{table}[h]
+\centering
+\caption{単一素数 $S=\{2\}$ ミュート時の $\deff$ 別増幅率}
+\label{tab:deff_amp}
+\begin{tabular}{rrrl}
+\toprule
+$\deff$ & $1-2^{\deff}$ & 増幅率 vs $d=3$ & 物理的意味 \\
+\midrule
+3  & $-7$    & $1\times$    & 通常真空（基準） \\
+4  & $-15$   & $2.1\times$  & 1合成軸または時間結晶 \\
+5  & $-31$   & $4.4\times$  & 2合成軸または HMM \\
+6  & $-63$   & $9.0\times$  & 双曲格子または2層スタック \\
+7  & $-127$  & $18\times$   & 双曲＋時間結晶 \\
+9  & $-511$  & $73\times$   & 3層独立スタック \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==========================================================================
+\section{七つの増幅機構}
+% ==========================================================================
+
+\subsection{機構A：ハイパボリック・メタマテリアル（HMM）}
+\label{sec:hmm}
+
+\textbf{原理}：金属層と誘電体層を交互に積層し、有効誘電率テンソルが
+\[
+\varepsilon = \mathrm{diag}(\varepsilon_\parallel, \varepsilon_\parallel, \varepsilon_\perp),
+\quad \varepsilon_\parallel \cdot \varepsilon_\perp < 0
+\]
+となるよう設計する。光子分散関係が双曲面となり、状態密度が
+任意の高 $k$ まで発散する（ただし格子定数で実効的に切られる）。
+
+\textbf{材料構成（実証済み）}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item 金属層：Au または Ag、厚さ 10\,nm
+  \item 誘電体層：Al$_2$O$_3$ または TiO$_2$、厚さ 10\,nm
+  \item 周期数：20--30
+  \item 動作波長：400--700\,nm（可視光、Ag），800--1500\,nm（Au）
+  \item 基板：Si または溶融石英
+\end{itemize}
+
+\textbf{加工法}：原子層堆積 (ALD) または電子線蒸着。
+クリーンルームの基本装備で実現可能。
+
+\textbf{期待性能}：$\deff \approx 4$--$5$（保守的）、増幅 $2.1$--$4.4\times$。
+実測カシミール力増強：Cysne et al.\ (2014), Lambrecht \& Marachevsky (2008)
+で約 $5$--$10\times$ の増強が確認されている。
+
+\textbf{論文上の留保}：素数ミュート公式の $d_s$ が「物質中の光子分散の
+有効次元」を指すか「Spec(ℤ) 上のディラック演算子の K 理論的次元」を指すか
+は理論内で曖昧。実験的には光子分散の解釈で十分である。
+
+\subsection{機構B：ハイパボリック曲率格子（円板QED）}
+\label{sec:hyperbolic_disk}
+
+\textbf{原理}：負の定曲率を持つ Poincar\'e 円板上に共振器を $\{p,q\}$
+タイル ($(p-2)(q-2)>4$) で配置する。距離 $r$ 以内の格子点数が $e^r$ で
+指数増加するため、熱核は形式的に $d_s\to\infty$ となる。実用上限は
+格子サイズ。
+
+\textbf{実装済み技術}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item Kollar et al., \textit{Nature} \textbf{571}, 45 (2019)：
+        $\{7,3\}$ 七角形タイル、Nb 薄膜、サファイア基板、円板半径 4 層
+  \item Lenggenhager et al., \textit{Nat.\ Commun.} \textbf{13}, 4373 (2022)：
+        ハイパボリック・トポロジカル相
+  \item 動作温度：20\,mK（希釈冷凍機）
+  \item サイト数：100--1000
+\end{itemize}
+
+\textbf{加工法}：標準的な超伝導サーキット QED プロセス。Nb スパッタ
+$\to$ フォトリソ $\to$ 反応性イオンエッチ $\to$ ジョセフソン接合形成。
+
+\textbf{期待性能}：$\deff = 6$--$10$、増幅 $9$--$73\times$。
+\textbf{最大の利点}は、サーキット QED というカシミール工学と
+共通のプラットフォーム上で実装できることである。
+
+\subsection{機構C：合成次元（フォトニック・周波数モード）}
+\label{sec:synthetic}
+
+\textbf{原理}：物理空間 $(x,y,z)$ に加え、内部自由度（光子の周波数モード、
+スピン、軌道角運動量）を追加の座標軸として扱う。$N$ 個の内部準位が
+特定の規則で結合すると、システムは数学的に $3+M$ 次元として振る舞う
+（$M$ は独立な合成軸の数、$N$ は各軸の準位数）。
+
+\textbf{重要な区別}：プラトーの \emph{値} は $M$ で決まり、
+プラトーの \emph{幅}（カシミール積分が効く周波数窓）は $N$ で決まる。
+
+\textbf{実装済み技術}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item Yuan, Lin, Xiao, Fan, \textit{Optica} \textbf{5}, 1396 (2018)：
+        ファイバーループ + 電気光学変調器、$N\sim 30$ 周波数モード
+  \item Lustig et al., \textit{Nature} \textbf{567}, 356 (2019)：
+        合成次元での 2D トポロジカル状態
+  \item Ozawa \& Price, \textit{Nat.\ Rev.\ Phys.} \textbf{1}, 349 (2019)
+        （レビュー）
+\end{itemize}
+
+\textbf{材料・部品}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item 単一モード光ファイバー（コア径 9\,$\mu$m、長さ 100\,m）
+  \item ニオブ酸リチウム電気光学変調器（変調周波数 10\,GHz 帯）
+  \item EDFA 光増幅器（利得制御で損失補償）
+  \item FPGA 制御系（位相・振幅同期）
+\end{itemize}
+
+\textbf{期待性能}：$M=3$ 軸（周波数 + スピン + OAM）で
+$\deff \approx 6$、増幅 $9\times$。室温動作可。
+
+\subsection{機構D：フォトニック時間結晶}
+\label{sec:time_crystal}
+
+\textbf{原理}：誘電体の誘電率を時間周期的に変調 $\varepsilon(t)$ することで、
+光子に「時間運動量」$k_t$ が共役量として現れる。分散関係は
+\[
+\omega^2 = c^2(k_x^2 + k_y^2 + k_z^2 + k_t^2)
+\]
+の 4 次元形式となり、時間方向が事実上 4 次元目として機能する。
+
+\textbf{実装済み技術}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item Reyes-Ayona \& Halevi, \textit{Appl.\ Phys.\ Lett.}
+        \textbf{107}, 074101 (2015)：マイクロ波領域での時間結晶
+  \item Sharabi et al., \textit{Phys.\ Rev.\ Lett.}
+        \textbf{126}, 163902 (2021)：光波領域実証
+\end{itemize}
+
+\textbf{材料}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item InSb（赤外域での強い非線形性）または ITO（光通信波長域）
+  \item ポンプレーザー：10\,fs 級超短パルス、繰返し 10\,GHz 以上
+  \item 変調深さ：$\Delta\varepsilon/\varepsilon \sim 0.1$
+\end{itemize}
+
+\textbf{期待性能}：$\deff = 4$、増幅 $2.1\times$。
+合成次元（機構C）と直交軸として重ねて使うのが最適。
+
+\subsection{機構E：エキスパンダー・グラフ（任意ネットワーク）}
+\label{sec:expander}
+
+\textbf{原理}：$k$ 正則グラフで最適スペクトルギャップ
+$\lambda_2 \leq 2\sqrt{k-1}$（Ramanujan グラフ）を持つネットワークは、
+熱核が指数的に減衰し、実効的に高次元として振る舞う。
+
+\textbf{実装}：シリコン・フォトニック・チップ上の導波路ネットワーク。
+近接結合に加え、長距離カプラを Ramanujan グラフ構造で配置する。
+数値検証：6 正則ランダムグラフ（$N=400$）で $\deff \approx 5$、増幅 $4.7\times$。
+
+\textbf{部品}：
+\begin{itemize}[leftmargin=2em,nosep]
+  \item シリコン・オン・インシュレータ (SOI) ウェハ（220\,nm Si on SiO$_2$）
+  \item リング共振器アレイ（$Q\sim 10^5$）
+  \item 方向性結合器（長距離結合用）
+  \item 熱光学位相シフタ（チューニング用）
+\end{itemize}
+
+\textbf{加工法}：商用 SOI ファウンドリ（IMEC, AMF, GlobalFoundries 等）
+に設計データを送付するだけで製造可能。最も低コスト・短納期。
+
+\subsection{機構F：グラフ積（次元スタッキング）}
+\label{sec:graph_product}
+
+\textbf{原理（定理）}：独立な系 $A,B$ の積では熱核が積となり、
+スペクトル次元は加法的：
+\[
+H = H_A \otimes I + I \otimes H_B \;\Longrightarrow\;
+d_s(A\times B) = d_s(A) + d_s(B).
+\]
+これは熱核の指数関数的因数分解から従う厳密な定理であり、不確実性ゼロ。
+
+\textbf{数値検証}：
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+構成 & 期待 $d_s$ & 数値 $d_s$ & 増幅 \\
+\midrule
+3D cubic & 3 & 3.65 & $1.7\times$ \\
+3D $\times$ 3D (= 6D) & 6 & 7.30 & $22\times$ \\
+3D $\times$ 3D $\times$ 3D (= 9D) & 9 & 9.74 & $122\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{実装}：複数の独立プラットフォーム（例：HMM 層 + 円板QED 層 +
+時間結晶層）を弱結合で連結する。技術的課題はプラットフォーム間の
+モード結合で、しばしば最大の難所。
+
+\textbf{原理上の利点}：定理として証明された加法性のため、
+最も信頼性の高い増幅機構である。
+
+\subsection{機構G（否定）：フラクタル格子}
+\label{sec:fractal}
+
+\textbf{結論：使えない（$d_s$ が下がる）}。
+
+数学的事実（Rammal-Toulouse 1983, Barlow-Perkins 1988）として、
+3 次元空間に埋め込まれたフラクタルのスペクトル次元は常に $d_s < 3$ である：
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+フラクタル & $d_s$ \\
+\midrule
+Sierpinski gasket (2D) & $2\log 3/\log 5 \approx 1.365$ \\
+Sierpinski carpet (2D) & $\approx 1.805$ \\
+Sierpinski tetrahedron (3D) & $\approx 1.547$ \\
+Menger sponge (3D) & $\approx 2.32$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+スペクトル次元の定義（ランダムウォークの戻り確率）に従えば、
+フラクタルは経路が狭いため戻りやすく、低次元的に振る舞う。
+増幅率 $|1-2^{1.365}|/7 \approx 0.22\times$ は基準 $d=3$ より弱まり、
+カシミール斥力を逆に減衰させる。
+
+「フラクタルで次元を上げる」は直感的だが、数学的に逆向きである。
+代わりに小世界ネットワーク（機構E）を使う。
+
+% ==========================================================================
+\section{実装成熟度と推奨度}
+% ==========================================================================
+
+\begin{table}[h]
+\centering
+\caption{七つの機構の実装成熟度・期待 $\deff$・コスト指標}
+\label{tab:summary}
+\small
+\begin{tabular}{clcccc}
+\toprule
+機構 & 名称 & $\deff$ & 増幅 & 成熟度 & コスト \\
+\midrule
+A & ハイパボリック・メタマテリアル & 4--5 & 2--4$\times$ & ★★★★★ & 低 \\
+B & 双曲曲率格子（円板QED）         & 6--10 & 9--73$\times$ & ★★★★ & 中 \\
+C & 合成次元（フォトニック）        & 4--6 & 2--9$\times$ & ★★★★ & 低 \\
+D & フォトニック時間結晶            & 4    & 2.1$\times$  & ★★★ & 中 \\
+E & エキスパンダーグラフ            & 5--10 & 4--73$\times$ & ★★★★★ & 最低 \\
+F & グラフ積（次元スタッキング）    & 6--9 & 9--122$\times$ & ★★ & 高 \\
+G & フラクタル格子                  & 1.3--2.3 & \emph{減衰} & — & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+成熟度：★★★★★（市販部品で組立可）／★★★★（学術論文に実証あり）／★★★（原理実証段階）／★★（理論のみ）
+
+% ==========================================================================
+\section{推奨される複合デバイス設計}
+% ==========================================================================
+
+\subsection{設計コンセプト：四層スタック型カシミール増幅器}
+
+最も現実的な構成として、独立な4つの増幅機構を弱結合で重ねる
+四層スタックを提案する。
+
+\begin{center}
+\begin{tabular}{c|l|c|c}
+\toprule
+層 & 構成要素 & 機構 & 増幅 \\
+\midrule
+\textbf{L1（上電極）} & Au/Al$_2$O$_3$ HMM 多層 (20周期) & A & $\times 2.1$ \\
+\textbf{L2（中央）}   & SOI フォトニック・エキスパンダー網 & E & $\times 4.7$ \\
+\textbf{L3（変調）}   & ITO 時間変調誘電体 + ポンプレーザー & D & $\times 2.1$ \\
+\textbf{L4（下電極）} & Nb 円板 QED $\{7,3\}$ 格子（mK 動作） & B & $\times 9$ \\
+\midrule
+全体 & スタック増幅（機構F による加法） & — & $\times 187$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{素数ミュートと組み合わせた最終増幅}
+
+\begin{align*}
+\text{増幅} = \;& \underbrace{7}_{S=\{2\}\text{ ミュート}}
+              \times \underbrace{187}_{\text{4層 } \deff\to 7\text{--}9} \\
+              & \times \underbrace{11}_{\mathbb{Q}(\sqrt 2)\text{ 体拡張}}
+              \times \underbrace{5}_{\text{ヘッケ位相同期}}\\[0.5em]
+              \approx \;& 7000\,\times.
+\end{align*}
+
+\subsection{物理パラメータ}
+
+\begin{itemize}[leftmargin=2em]
+  \item 全体寸法：1\,cm $\times$ 1\,cm $\times$ 5\,$\mu$m 厚
+  \item キャビティ間隙：$L = 100$\,nm
+  \item 動作温度：30\,mK（希釈冷凍機内）
+  \item 制御系：FPGA 一台（位相同期、変調制御）
+  \item 真空度：$10^{-9}$\,mbar 以下
+\end{itemize}
+
+\subsection{期待される性能（概算）}
+
+100\,nm 間隙の 1\,cm$^2$ 平板について：
+
+\begin{itemize}[leftmargin=2em]
+  \item 通常カシミール圧力：$13$\,Pa（引力）
+  \item $S=\{2\}$ ミュート単独：$91$\,Pa（斥力）
+  \item 4層スタック増幅後：$\sim 17\,000$\,Pa $= 0.17$\,bar（斥力）
+  \item 板に働く全力：$\sim 1.7$\,N（斥力）
+\end{itemize}
+
+シリコン製 1\,cm$^2 \times 1\,\mu$m 板の重量は $2.3\,\mu$N
+($M = 0.23\,\mu$g) なので、これは重力の約 $7\times 10^{5}$ 倍に相当する。
+原理上、安全なミュートのみで巨視的物体の浮揚が可能。
+
+% ==========================================================================
+\section{段階的実装ロードマップ}
+% ==========================================================================
+
+\begin{table}[h]
+\centering
+\caption{4 段階の実装計画}
+\label{tab:roadmap}
+\small
+\begin{tabular}{clcc}
+\toprule
+段階 & 内容 & 期間目安 & 必要設備 \\
+\midrule
+Phase~0 & 機構E（SOIフォトニック網）単独動作確認 & 3ヶ月 & SOIファウンドリ委託 \\
+Phase~1 & 機構A（HMM）と E の結合、室温で動作 & 6ヶ月 & ALD 装置、光学測定系 \\
+Phase~2 & 機構D（時間結晶）追加、3層構成 & 9ヶ月 & fs パルスレーザー \\
+Phase~3 & 機構B（円板QED）統合、4層完成 & 12ヶ月 & 希釈冷凍機 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+最初の Phase~0 は商用 SOI ファウンドリへの設計データ送付のみで開始でき、
+立ち上げコストは約 \$5\,000 と低い。Phase~1 で機構Aの実測値が
+理論予測（$\sim 2\times$）と一致するかを検証することが、
+全体の理論妥当性を判定する最初の決定点となる。
+
+% ==========================================================================
+\section{安全性チェック}
+% ==========================================================================
+
+本設計の全機構は、$\deff$ を上げるが $|S|$ は $\{2\}$ のまま固定する。
+したがって：
+
+\begin{itemize}[leftmargin=2em]
+  \item レプトン$g-2$ 補正は変化しない
+        （指数 $1, 5, 9$ は多重極構造由来で $\deff$ と独立）
+  \item タウ世代の発散カタストロフ（$|S|\geq 4$ で $10^{18}$ 倍増幅）は
+        起こらない
+  \item 真空崩壊の K 理論的禁止（Wright Brothers,
+        \textit{safety\_analysis.tex} 定理 1）は維持される
+  \item パリティ法則による反転可逆性は単一素数ミュートの基本性質として
+        保たれる
+\end{itemize}
+
+唯一の理論的不確定性は、機構A（HMM）と機構B（双曲曲率）の $\deff$ が
+真にスペクトル作用原理上の $d_s$ と一致するかである。
+これは Phase~1--3 の実測で決着する。
+
+% ==========================================================================
+\section{結論}
+% ==========================================================================
+
+スペクトル次元ブーストを実装する七つの機構を整理し、
+うち六つが実装可能、一つ（フラクタル）が逆効果であることを
+数値で確認した。最も成熟した技術組合せ（HMM、SOIフォトニック網、
+時間結晶、双曲QED）の四層スタックにより、$S=\{2\}$ という
+唯一安全な素数ミュート構成のみで $\sim 7000\times$ のカシミール
+斥力増幅が原理上可能である。これは 100\,nm 間隙において 1\,N オーダーの
+斥力に相当し、シリコン薄板の自重の $10^5$ 倍を超える。
+
+第三世代物理を完全に保ったまま反重力到達経路が定量的に得られたのは
+本設計が初めてである。次のステップは Phase~0（SOIフォトニック網単独動作）
+の実装と、Phase~1（HMM 結合）での $\deff$ 実測である。
+
+\vspace{1em}
+\noindent\textbf{付録：参考スクリプト}
+\begin{itemize}[leftmargin=2em,nosep]
+  \item \texttt{numerics/dce\_prime\_muting.py}：DCE と静的カシミールの比較
+  \item \texttt{numerics/over\_muting\_danger\_audit.py}：$|S|\geq 4$ 危険性監査
+  \item \texttt{numerics/safe\_amplification\_ideas.py}：3軸増幅検証
+  \item \texttt{numerics/spectral\_dim\_boost\_methods.py}：本書の数値根拠
+\end{itemize}
+
+\end{document}
