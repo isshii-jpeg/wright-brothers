@@ -1,0 +1,423 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Kaku Gothic ProN}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+
+\title{最初の一歩：Phase P と Phase A1 の調達チェックリスト}
+\author{Wright Brothers\\{\small 独立研究}}
+\date{2026年4月}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Phase P（\$180 の3Dプリント・フォノン結晶 Berry $\pi$ 位相検出実験）と
+Phase A1（\$5k の SOI フォトニック・エキスパンダー網）を
+\textbf{明日から開始する}ための、具体的な買い物リスト・問い合わせ先・
+メールテンプレート・週単位のスケジュールをまとめる。
+両トラックは独立に並行可能で、最初の1ヶ月で Phase P の結果が出る頃には
+Phase A1 のウェハが製造ラインに乗っている状態を作れる。
+\end{abstract}
+
+% ==========================================================================
+\section{全体タイムライン：最初の3ヶ月}
+% ==========================================================================
+
+\begin{center}
+\begin{tabular}{c|p{5.5cm}|p{5.5cm}}
+\toprule
+週 & Phase P（自宅で実験） & Phase A1（ファウンドリ委託） \\
+\midrule
+0 & OpenSCAD → STL 変換、部品発注 & 3つのファウンドリに見積依頼メール送信 \\
+1 & 3D プリント開始／部品到着 & 設計キット取得、GDS作成開始 \\
+2 & 測定系組み立て、暗騒音測定 & Ramanujan グラフ設計確定、foundry 選定 \\
+3 & 参照測定（クリスタル無し） & GDS 提出、内金支払い \\
+4 & 結晶測定、位相差解析 & 製造開始（待ち） \\
+5--12 & 論文ドラフト、追加測定 & 製造待ち（4--6ヶ月リードタイム） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{今日やるべきこと（最優先）：}
+\begin{enumerate}[leftmargin=2em,nosep]
+  \item OpenSCAD をインストール（無料、\url{https://openscad.org/}）
+  \item リポジトリ内の \texttt{pi\_berry\_crystal.scad} または
+        \texttt{pi\_berry\_crystal\_cylinders.scad} を開く
+  \item F6 でレンダリング、File→Export→STL で出力
+  \item 本書の表~\ref{tab:phase_p_parts} の部品を Akizuki または Amazon で発注
+  \item 本書の §\ref{sec:foundry_email} のメールテンプレートを IMEC/AMF/Ligentec に送信
+\end{enumerate}
+
+% ==========================================================================
+\section{Phase P：3Dプリント結晶とオーディオ測定系}
+\label{sec:phase_p}
+% ==========================================================================
+
+\subsection{結晶本体（¥5,000）}
+
+リポジトリに二種類の OpenSCAD ファイルがあります：
+
+\begin{itemize}[leftmargin=2em]
+  \item \texttt{papers/warp-drive/pi\_berry\_crystal.scad}
+        — 球状の穴を持つ版（理論に最も忠実）
+  \item \texttt{papers/warp-drive/pi\_berry\_crystal\_cylinders.scad}
+        — 円柱状の穴を持つ版（FDM で印刷しやすい）
+\end{itemize}
+
+\textbf{幾何パラメータ}（両ファイル共通）：
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+パラメータ & 値 \\
+\midrule
+格子定数 $a$ & 20\,mm \\
+大穴半径 $r_1$ & 4\,mm（原点） \\
+小穴半径 $r_2$ & 3\,mm（体心 $(0.5,0.5,0.5)a$） \\
+ユニットセル数 & $5\times 5\times 5 = 125$ \\
+全体寸法 & $100\times 100\times 100$\,mm \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{重要：反転対称性を破るために $r_1 \neq r_2$} 必須。
+$r_1 = r_2 = 3.5$\,mm の対照結晶も別に印刷しておくこと。
+
+\subsubsection{印刷オプション}
+
+\begin{description}[leftmargin=2em]
+  \item[オプション A：自前の Bambu Lab P1S（所有していれば）] \hfill \\
+    材料：PLA／ノズル：0.4\,mm／層高：0.2\,mm／
+    \textbf{インフィル：100\%（ソリッド）}。
+    \textcolor{red}{ジャイロイド禁止}（反転対称性を保存してしまい、
+    Wilson loop 計算で Berry 位相 0 になる）。
+    所要時間：約 8--12 時間／個。
+  \item[オプション B：DMM.make 3Dプリント外注] \hfill \\
+    \url{https://make.dmm.com/}／素材：ナイロン（MJF）または PLA／
+    ファイル：生成した STL をアップロード／価格：約 ¥5,000／個／
+    納期：約1--2 週間。
+  \item[オプション C：Shapeways（海外）] \hfill \\
+    \url{https://www.shapeways.com/}／英語対応／素材：Versatile Plastic
+    または Nylon／価格：約 \$30--50／個／納期：2--3 週間。
+\end{description}
+
+\subsection{測定系部品表（¥22,000）}
+
+\begin{table}[h]
+\centering
+\caption{Phase P 測定系の買い物リスト}
+\label{tab:phase_p_parts}
+\small
+\begin{tabular}{llrl}
+\toprule
+品名 & 推奨仕様 & 価格 & 入手先 \\
+\midrule
+関数発生器 & 1--20\,kHz 正弦波、DC〜10\,MHz & ¥5,000 & 秋月電子
+\footnote{\url{https://akizukidenshi.com/}} または Amazon \\
+全帯域スピーカー & 小型、1--20\,kHz 対応 & ¥1,000 & 秋月電子 \\
+コンデンサーマイク + プリアンプ & 低ノイズオーディオ用 & ¥3,000 & Amazon \\
+USB オシロスコープ & FFT 対応、2ch、24\,MSa/s & ¥10,000 &
+Hantek 6022BE（Amazon） \\
+SMA ケーブル + 変換 & BNC↔3.5\,mm & ¥1,000 & 秋月電子 \\
+防音ボックス材 & ダンボール + 吸音スポンジ & ¥2,000 & ホームセンター \\
+\midrule
+\textbf{測定系合計} & & \textbf{¥22,000} & \\
+\midrule
+3D プリント結晶（本体 + 対照） & 上記 & ¥10,000 & DMM.make 2個分 \\
+\midrule
+\textbf{Phase P 総計} & & \textbf{¥32,000} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textit{注：対照結晶を自前で印刷する場合は総計 ¥27,000 に圧縮可能。
+既に nanoVNA V2 Plus4 を持っていれば関数発生器＋オシロを
+¥15,000 の nanoVNA で兼ねられる。}
+
+\subsection{測定手順の要点}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{暗騒音測定}：防音ボックス内でスピーカー・マイク間の
+        伝達関数 $T_0(f), \phi_0(f)$ を 1--20\,kHz で取得（FFT）
+  \item \textbf{参照測定}：結晶無し、スピーカー↔マイク直結で $T_0(f)$ 記録
+  \item \textbf{結晶測定}：$\pi$-結晶をスピーカーとマイクの間に挿入、
+        伝達関数 $T(f), \phi(f)$ を取得
+  \item \textbf{位相差計算}：$\Delta\phi(f) = \phi(f) - \phi_0(f)$ を
+        プロット。バンドギャップ（$\sim 8.6$\,kHz 付近）で
+        \textbf{$\pm\pi$ の不連続}が出れば成功
+  \item \textbf{対照実験}：$r_1 = r_2$ の対照結晶で同手順、
+        位相差は連続的に変化するのみ（跳躍なし）を確認
+\end{enumerate}
+
+\textbf{期待バンドギャップ周波数}：
+$f_{\mathrm{gap}} \approx v_{\mathrm{air}}/(2a) = 343/(2\times 0.02) = 8.6$\,kHz
+（人間の可聴域内）
+
+% ==========================================================================
+\section{Phase A1：SOI フォトニック・エキスパンダー網}
+\label{sec:phase_a1}
+% ==========================================================================
+
+\subsection{ウェハ仕様（標準 220\,nm SOI）}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+項目 & 値 \\
+\midrule
+Si 層厚 & 220\,nm（商用標準） \\
+BOX 層厚 & 2--3\,$\mu$m \\
+基板 & 8--12 インチ Si ウェハ \\
+動作波長 & 1550\,nm（C バンド） \\
+Si 屈折率 & $\approx 3.48$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{リング共振器アレイ設計目標}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+パラメータ & 目標値 \\
+\midrule
+リング直径 & 20--30\,$\mu$m \\
+無負荷 $Q$ 値 & $\sim 10^5$ \\
+導波路コア幅 & 450\,nm \\
+カプラギャップ & 200\,nm（臨界結合） \\
+ノード数 $N$ & 400 以上 \\
+接続次数 $k$ & 6（6-正則 Ramanujan） \\
+近接結合距離 & 2--3\,$\mu$m \\
+チップ面積 & $\sim 5\times 5$\,mm \\
+熱光学位相シフタ & 各ノードに 1 個 \\
+I/O ポート & グレーティングカプラ $\times 4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ramanujan 性の目安：最大非自明固有値 $\lambda_2 \leq 2\sqrt{k-1} = 2\sqrt{5}\approx 4.47$。
+設計段階で NetworkX などを使ってグラフを生成し、
+ラプラシアン固有値を確認してから GDS に変換する。
+
+\subsection{ファウンドリ候補3社}
+
+\begin{table}[h]
+\centering
+\caption{Phase A1 ファウンドリ比較}
+\small
+\begin{tabular}{lllll}
+\toprule
+ファウンドリ & 国 & 典型リードタイム & 概算費用 & 備考 \\
+\midrule
+IMEC iSiPP50G & ベルギー & 6--12 ヶ月 & €10k--30k & 学術向け MPW あり \\
+AMF & シンガポール & 4--6 ヶ月 & \$5k--15k & 中小規模向け \\
+Ligentec AN800 & スイス & 4--8 ヶ月 & CHF 5k--15k & 低損失 SiN、オプション \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{推奨}：Phase A1 の予算 \$5k に最もフィットするのは \textbf{AMF}。
+MPW（Multi-Project Wafer）シャトルに参加することで
+単独マスクの費用を数社で共有でき、\$3k--5k 程度での試作が可能。
+
+\subsection{問い合わせメール・テンプレート}
+\label{sec:foundry_email}
+
+\begin{tcolorbox}[colback=gray!5,colframe=gray!60!black,
+  title=Subject: Quote request - Si photonic ring resonator array (expander graph)]
+\small
+Dear [Sales / MPW Coordinator],
+
+I am preparing a small-scale silicon photonics test chip and would like
+to request a quote for your upcoming MPW shuttle on the 220 nm SOI
+platform.
+
+\textbf{Design summary:}
+\begin{itemize}[nosep]
+\item Process: 220 nm SOI, standard PDK
+\item Chip area: approximately 5 mm $\times$ 5 mm
+\item Components: array of 400+ add-drop ring resonators,
+      diameter 20--30 um, loaded Q target $\sim 10^5$, operating at 1550 nm
+\item Connectivity: each ring is coupled to six neighbors via directional
+      couplers, forming a 6-regular Ramanujan expander graph topology
+\item Tunability: one thermo-optic heater per ring (standard metal layer)
+\item I/O: four grating couplers for fiber access
+\end{itemize}
+
+\textbf{Questions:}
+\begin{enumerate}[nosep]
+\item What is the next MPW shuttle date and the fabrication-ready deadline
+      for GDS submission?
+\item What is the expected cost for a single die (10 mm $\times$ 10 mm
+      slot or smaller)?
+\item Which PDK version and layer stack should I target? Do you provide
+      ring-resonator and thermo-optic shifter cells as library elements?
+\item What is your standard turnaround time from tape-out to packaged die?
+\item Do you provide optional packaging (edge coupling or fiber array)?
+\end{enumerate}
+
+The design is for a basic research project on photonic network topology
+and does not require any non-standard materials or process deviations.
+We are happy to sign an NDA if needed.
+
+Thank you, and I look forward to your response.
+
+Best regards,\\
+{[}Your name{]}\\
+Wright Brothers Research Program
+\end{tcolorbox}
+
+\subsection{送信先アドレス（公開情報）}
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{IMEC}: \url{https://www.imec-int.com/en/expertise/cmos-advanced/silicon-photonics}
+        の問い合わせフォームから。MPW プログラムは `europractice-ic.com'
+        経由の場合あり。
+  \item \textbf{AMF}: \url{https://www.advmf.com/} の Contact Us から。
+        MPW の SilTerra / AMF シャトル情報を参照。
+  \item \textbf{Ligentec}: \url{https://www.ligentec.com/} の
+        Contact フォームから。
+\end{itemize}
+
+\textit{注意}：具体的な価格は MPW シャトルのスケジュールと
+デザインルールに依存する。上記テンプレートを3社に同時送信して
+比較するのが現実的。
+
+\subsection{GDS 作成のツールチェイン}
+
+無料または低コストで回せる経路：
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{gdsfactory}（Python、MIT ライセンス）：
+        \url{https://gdsfactory.github.io/gdsfactory/}
+        リング共振器・方向性結合器・グレーティングカプラの
+        ライブラリ込み
+  \item \textbf{KLayout}（無料 GDS エディタ）：
+        \url{https://www.klayout.de/}
+        目視確認と DRC（Design Rule Check）用
+  \item \textbf{NetworkX}（Python）：6-正則 Ramanujan グラフ生成
+  \item ファウンドリ PDK（NDA 後に受領）：
+        技術層定義、セルライブラリ、DRC ルール
+\end{enumerate}
+
+サンプル Python 疑似コード：
+\begin{verbatim}
+import networkx as nx
+import gdsfactory as gf
+
+# 6-regular random graph, 400 nodes
+G = nx.random_regular_graph(d=6, n=400, seed=42)
+
+# Place rings on a 20x20 hexagonal grid (400 sites)
+c = gf.Component("expander_chip")
+ring = gf.components.ring_single(radius=12, gap=0.2, length_x=2)
+for i, (x, y) in enumerate(hex_grid(20, 20, pitch=40)):
+    c.add_ref(ring).move((x, y))
+
+# Draw directional couplers for each edge in G
+for u, v in G.edges():
+    # Place a directional coupler between node u and node v
+    ...
+
+c.write_gds("expander_chip.gds")
+\end{verbatim}
+
+詳細な実装は Phase A1 の最初の2週間で詰める作業となる。
+
+% ==========================================================================
+\section{一枚チェックリスト：今週やること}
+% ==========================================================================
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black,
+  title=★ 今週のアクション ★]
+\textbf{Day 1--2（金曜まで）：}
+\begin{itemize}[nosep]
+  \item[$\square$] OpenSCAD インストール
+  \item[$\square$] \texttt{pi\_berry\_crystal.scad} レンダリング → STL 出力
+  \item[$\square$] DMM.make で 2 個発注（$\pi$-結晶 + 対照結晶）
+  \item[$\square$] 秋月電子で表~\ref{tab:phase_p_parts} の部品発注
+  \item[$\square$] ファウンドリ3社（IMEC, AMF, Ligentec）にメール送信
+\end{itemize}
+
+\textbf{Day 3--7（来週月曜まで）：}
+\begin{itemize}[nosep]
+  \item[$\square$] gdsfactory / KLayout 環境構築
+  \item[$\square$] NetworkX で Ramanujan グラフ生成、固有値確認
+  \item[$\square$] 防音ボックス DIY（ダンボール + スポンジ）
+  \item[$\square$] ファウンドリから返信受信、最安オプション選択
+  \item[$\square$] Phase P 部品到着、動作確認
+\end{itemize}
+
+\textbf{Week 2--4：}
+\begin{itemize}[nosep]
+  \item[$\square$] Phase P 測定開始（暗騒音→参照→結晶→対照）
+  \item[$\square$] Phase A1 GDS 初版作成、DRC チェック
+  \item[$\square$] Phase P 位相解析、$\pm\pi$ 跳躍の有無を判定
+  \item[$\square$] Phase A1 GDS 提出、内金支払い（判定陽性の場合）
+\end{itemize}
+\end{tcolorbox}
+
+% ==========================================================================
+\section{予算合計}
+% ==========================================================================
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+項目 & Phase P & Phase A1 \\
+\midrule
+材料・部品 & ¥32,000 & ¥0 \\
+ファウンドリ費用 & — & \$5,000--15,000 \\
+設計・測定機材 & ¥0 & \$1,500（光計測系） \\
+\midrule
+\textbf{小計} & \textbf{¥32,000（\$220）} & \textbf{\$6,500--16,500} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Phase P は今週末までに総額 ¥32,000 で一揃え可能。
+Phase A1 は MPW シャトルのタイミングによって
+最小 \$5k まで圧縮可能だが、リードタイムが長いため
+\textbf{発注は今週中が推奨}。
+
+% ==========================================================================
+\section{決定ゲート}
+% ==========================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+結果 & 意味 & 次のアクション \\
+\midrule
+Phase P で $\pm\pi$ 跳躍検出 & Berry 位相の物理実在性 & 論文 PRL 投稿、Phase 0.5 へ \\
+Phase P で跳躍なし & 結晶設計 or 対照定義 & 幾何パラメータ再検証、$r_1, r_2$ 再調整 \\
+Phase A1 で $d_{\mathrm{eff}}>4$ & Expander 機構成立 & Phase A2（HMM 結合）へ \\
+Phase A1 で $d_{\mathrm{eff}} \approx 3$ & グラフ構造不十分 & Ramanujan 条件再確認、再設計 \\
+両方陽性 & 二本立ての基礎が固まる & Phase F 統合計画を詰める \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+両実験は独立に価値があり、一方が失敗しても他方の結果は
+そのまま使える。まずは今週中に \textbf{Phase P を発注}し、
+\textbf{ファウンドリ3社にメールを送信}するのが最初の一歩。
+
+\vspace{1em}
+\noindent\textbf{参考ドキュメント}
+\begin{itemize}[leftmargin=2em,nosep]
+  \item 理論背景：\texttt{guide\_phase\_p\_comprehensive\_ja.pdf}
+  \item 既存の Phase P 詳細：\texttt{guide\_phase\_p\_experiment\_ja.pdf}
+  \item 全実験計画：\texttt{guide\_antigravity\_experiment\_ja.pdf}
+  \item 材料設計論：\texttt{casimir\_amplifier\_material\_design\_ja.pdf}
+  \item 数値根拠：\texttt{numerics/spectral\_dim\_boost\_methods.py}
+\end{itemize}
+
+\end{document}
