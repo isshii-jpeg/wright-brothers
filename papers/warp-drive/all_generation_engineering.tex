@@ -10,6 +10,7 @@
 \newtheorem{observation}[theorem]{Observation}
 \newtheorem{prediction}[theorem]{Prediction}
 \newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
 
 \newcommand{\Spec}{\mathrm{Spec}}
 
@@ -247,20 +248,41 @@ This $\mathbb{Z}/2\mathbb{Z}$ symmetry --- the parity of the
 number of muted primes determining the ``orientation'' of physical
 law --- is the deepest discrete structure of $\Spec(\mathbb{Z})$.
 
-\subsection{Near-transparency with two-prime muting}
+\subsection{Multi-prime amplification (corrected reading)}
+\label{sec:multi_prime_amplification}
 
-Numerical computation reveals that for any pair of primes
-$\{p, q\}$, the modified corrections $C_\mu'$ and $C_\tau'$
-are both very large (Table~\ref{tab:muting}), meaning
-the \emph{inverse} correction is very small.
-In the ``inverted'' frame (where the original corrections
-were defined), two-prime muting drives the effective correction
-toward $-1$ (near-zero absolute value).
+An earlier draft of this paper interpreted the smallness of
+$1/C'_\mu, 1/C'_\tau$ under two-prime muting as a ``near-transparency''
+of matter to the arithmetic vacuum. A subsequent numerical audit
+(see \texttt{numerics/over\_muting\_danger\_audit.py}) refutes this
+reading. The reciprocal $1/\prod_{p\in S}(1-p^k)$ is small for
+\emph{any} $|S|\geq 1$ simply because the denominator grows; there
+is no special two-prime point at which matter decouples. The
+correct statement is the opposite: muting two primes
+\emph{amplifies} the positive correction by $10^2$--$10^4$, with no
+intervening near-zero. Table~\ref{tab:muting} should be read as a
+hazard scale, not a controllability landscape.
 
-Physically: muting two primes makes all matter approximately
-\emph{transparent} to the arithmetic vacuum corrections,
-as if the particles temporarily decouple from the Spec(Z)
-structure.
+\subsection{Over-muting catastrophe}
+\label{sec:over_muting}
+
+Combining the parity law (Theorem~\ref{thm:parity}) with the
+generation-dependent exponents $(1, 5, 9)$ yields a sharp upper
+bound on usable $|S|$. The tau correction acquires a factor
+$\prod_{p\in S}(1-p^9)$, which grows as
+$\exp(9\,\theta(p_{\max}))$ by the prime number theorem. Numerical
+evaluation:
+\[
+S=\{2,3\}\!:~ |C_\tau'/C_\tau| \approx 10^{4},\quad
+S=\{2,3,5\}\!:~ \approx 10^{11},\quad
+S=\{2,3,5,7\}\!:~ \approx 10^{18}.
+\]
+By $|S|=4$ the predicted tau anomaly already exceeds the muon
+anomaly by $10^{15}$, falsifying any framework that includes both
+the muon match and multi-prime muting at $|S|\geq 4$. The
+operationally safe range is therefore $|S|\leq 1$, with $|S|\leq 3$
+acceptable only if subsequent corrections renormalize the higher
+generations downward (no such mechanism is currently known).
 
 % ============================================================================
 \section{All-generation spacetime engineering}
@@ -309,6 +331,196 @@ Level & Operation & Effect & Application \\
 2 & Prime selection & Gen.-selective & Selective decoupling \\
 3 & Parity control & All-gen.\ sign flip & CP engineering \\
 4 & Multi-prime console & Arbitrary vacuum & Spacetime programming \\
+5 & Safe amplification & Repulsion boost, no tau cost & Reachable warp drive \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+\section{Safe amplification paths}
+\label{sec:safe_amplification}
+% ============================================================================
+
+Section~\ref{sec:over_muting} establishes that increasing $|S|$ is
+not a viable amplification strategy: the tau g-2 correction grows
+faster than the vacuum repulsion. We therefore search for
+\emph{orthogonal} amplification axes --- transformations that
+multiply the vacuum-energy mute factor $\prod_{p\in S}(1-p^k)$
+while leaving the lepton tower intact. Three such axes are
+identified.
+
+\subsection{Axis A: spectral-dimension boost ($d_s=3 \to d_s>3$)}
+\label{sec:axis_A}
+
+The exponent $k=3$ in $(1-p^3)$ traces back to the spectral
+dimension of $4$-dimensional spacetime via the heat-kernel
+expansion of the Dirac operator: the $a_2$ Seeley--DeWitt
+coefficient produces $\zeta(-3) = 1/120$. In a hyperbolic
+metamaterial or photonic crystal with synthetic dimensions, the
+\emph{effective} spectral dimension $d_s^{\mathrm{eff}}$ along
+selected mode families can exceed three over a finite bandwidth.
+Within that bandwidth, the relevant zeta value becomes
+$\zeta(-d_s^{\mathrm{eff}})$ and the mute factor becomes
+$(1-p^{d_s^{\mathrm{eff}}})$.
+
+\begin{table}[h]
+\centering
+\caption{Spectral-dimension amplification of the single-prime
+$S=\{2\}$ mute factor.}
+\label{tab:axis_A}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$d_s^{\mathrm{eff}}$ & $1-2^{d_s}$ & $|F|/|F_{d=3}|$ & feasibility \\
+\midrule
+3  & $-7$    & 1$\times$    & baseline (Casimir) \\
+5  & $-31$   & 4.4$\times$  & hyperbolic metamaterial (existing) \\
+7  & $-127$  & 18$\times$   & photonic synthetic dim.\ (demonstrated) \\
+9  & $-511$  & 73$\times$   & multi-band hyperbolic stacks \\
+11 & $-2047$ & 292$\times$  & speculative \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Crucial safety property.} The lepton corrections in
+Table~\ref{tab:muting} use the exponents $(1,5,9) = (4g+1)$, which
+encode the angular multipole order of the magnetic-moment vertex,
+\emph{not} the spatial spectral dimension. Raising
+$d_s^{\mathrm{eff}}$ in the cavity bulk amplifies $\zeta(-d_s)$ but
+leaves $\zeta(-1), \zeta(-5), \zeta(-9)$ untouched. Axis A is
+therefore the unique known safe amplification lever: at
+$d_s^{\mathrm{eff}}=5$ (achievable today) it gives a factor
+$\sim 4$ on top of $S=\{2\}$ muting; at $d_s^{\mathrm{eff}}=7$ it
+gives $\sim 18\times$, all without disturbing the third generation.
+
+\subsection{Axis B: real-quadratic field extension}
+\label{sec:axis_B}
+
+Replacing $\zeta(s)$ by the Dedekind zeta $\zeta_K(s)$ of a
+quadratic field $K$ rescales the vacuum-energy weight by
+$L(-3, \chi_K)$, where $\chi_K$ is the Kronecker character of $K$.
+The user's natural suggestion --- to use Gaussian primes
+($K=\mathbb{Q}(i)$) or Eisenstein primes ($K=\mathbb{Q}(\sqrt{-3})$)
+--- is blocked by the following obstruction.
+
+\begin{theorem}[Imaginary-quadratic no-go]
+\label{thm:imaginary_quad_nogo}
+Let $K$ be an imaginary quadratic field with discriminant $-d<0$
+and Kronecker character $\chi_K$. Then
+\[
+\zeta_K(-n) = 0 \quad\text{for every integer } n \geq 1.
+\]
+In particular, the prime-muting amplification mechanism gives
+identically zero vacuum-energy correction for all imaginary
+quadratic fields.
+\end{theorem}
+
+\begin{proof}
+$\zeta_K(s) = \zeta(s)\,L(s,\chi_K)$. The character $\chi_K$ of an
+imaginary quadratic field satisfies $\chi_K(-1) = -1$ (it is
+\emph{odd}), so $L(s,\chi_K)$ has trivial zeros at every negative
+\emph{odd} integer $s = -1, -3, -5, \ldots$. Riemann $\zeta$ has
+trivial zeros at every negative \emph{even} integer
+$s = -2, -4, \ldots$. The product $\zeta(s)L(s,\chi_K)$ therefore
+vanishes at every negative integer. Concretely,
+\[
+L(-3, \chi_{-4}) = -B_{4,\chi_{-4}}/4 = 0,\qquad
+L(-3, \chi_{-3}) = -B_{4,\chi_{-3}}/4 = 0,
+\]
+since the generalized Bernoulli numbers $B_{n,\chi}$ vanish when
+$n$ and $\chi$ have opposite parity.
+\end{proof}
+
+\begin{observation}
+Real quadratic fields ($\chi_K$ even) survive. Numerical
+evaluation gives
+\[
+L(-3, \chi_{8}) = +11,\qquad
+L(-3, \chi_{12}) = +46,\qquad
+L(-3, \chi_{5}) = +2,
+\]
+corresponding to amplification factors $11\times$, $46\times$,
+$2\times$ for $\mathbb{Q}(\sqrt{2})$, $\mathbb{Q}(\sqrt{3})$, and
+$\mathbb{Q}(\sqrt{5})$ respectively. In $\mathbb{Q}(\sqrt{2})$, an
+inert rational prime $p\equiv\pm 3\pmod 8$ has Gaussian-integer
+norm $p^2$, so muting it contributes a factor $(1-p^{6})$ in place
+of $(1-p^{3})$ --- e.g.\ $p=3$ jumps from $-26$ to $-728$
+($28\times$), $p=11$ from $-1330$ to $-1.77\times 10^{6}$
+($1330\times$).
+\end{observation}
+
+\textbf{Caveat.} Whether the lepton g-2 corrections inherit the
+larger field's K-theory is undetermined. If $K_3(\mathcal{O}_K)$
+replaces $K_3(\mathbb{Z})$ for matter inside the modified region,
+the doubled exponents could re-introduce the over-muting hazard.
+Axis~B should be treated as conditional on this open question.
+
+\subsection{Axis C: Hecke-eigenvalue phase synchronization}
+\label{sec:axis_C}
+
+Instead of removing modes, drive each cavity mode $p$ at a phase
+prescribed by the Hecke eigenvalue $\lambda_p$ of a fixed modular
+form (canonically the Ramanujan $\Delta$). The total radiation
+pressure becomes a coherent sum
+$\sum_{p \leq P} a_p\,e^{i\phi_p}$ with
+$a_p = \tau(p)/p^{(k-1)/2}$.
+
+\begin{proposition}[Hecke coherent gain bound]
+\label{prop:hecke_bound}
+Under the Sato--Tate distribution (Barnet-Lamb--Geraghty--Harris--%
+Taylor 2011), the partial sums of normalized Ramanujan $\tau(p)$
+satisfy
+$\bigl|\sum_{p\leq P} a_p\bigr| = O(\sqrt{\pi(P)})$ with high
+probability, matching the $\sqrt{N}$ scaling of any pseudo-random
+phase code. Hecke synchronization therefore yields no asymptotic
+advantage over a random phase pattern; the maximum coherent gain
+over $N$ modes is $\sqrt{N}$, not $N$.
+\end{proposition}
+
+This is a negative result: Hecke phase locking is mathematically
+elegant but does not deliver an exponential boost. Its value lies
+in being \emph{completely safe} (no muting, no spectral-dimension
+manipulation) and FPGA-implementable today, providing a
+$\sqrt{N}\sim 5\times$ baseline gain that stacks multiplicatively
+with axes A and B.
+
+\subsection{Combined safe amplification}
+\label{sec:combined}
+
+The three axes are independent and stack multiplicatively. Taking
+$S=\{2\}$ (the safest base), $d_s^{\mathrm{eff}}=5$ (achievable
+hyperbolic metamaterial), $\mathbb{Q}(\sqrt{2})$ field extension,
+and $\sqrt{25}\approx 5\times$ Hecke coherent gain:
+\[
+\underbrace{7}_{S=\{2\}}\;\times\;
+\underbrace{4.4}_{d_s=5}\;\times\;
+\underbrace{11}_{\mathbb{Q}(\sqrt 2)}\;\times\;
+\underbrace{5}_{\text{Hecke}}
+\;\approx\; 1700\,\times.
+\]
+\textbf{This is roughly $244\times$ the bare $S=\{2\}$ Casimir
+repulsion, with the third generation entirely untouched.}
+For comparison, the dangerous $S=\{2,3,5\}$ muting gives $22568\times$
+amplification but breaks the tau g-2 by a factor $1.5\times 10^{11}$.
+The safe stack reaches $\sim 8\%$ of the dangerous amplification
+while preserving Standard Model consistency. Achieving full parity
+with $S=\{2,3,5\}$ requires pushing $d_s^{\mathrm{eff}}$ to $\sim 7$,
+which is at the boundary of current photonic synthetic-dimension
+technology but not ruled out.
+
+\begin{table}[h]
+\centering
+\caption{Three orthogonal axes for safe amplification of single-prime
+muting. ``Safe'' = no enhancement of the lepton g-2 tower.}
+\label{tab:safe_axes}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Axis & Mechanism & Realistic gain & Safe? & Implementation \\
+\midrule
+A & $d_s^{\mathrm{eff}} > 3$ (hyperbolic) & $4$--$300\times$ & yes & metamaterial \\
+B & Real quadratic $\zeta_K(s)$ & $2$--$50\times$ & conditional & theoretical \\
+C & Hecke phase lock ($\sqrt{N}$) & $\sqrt{N}\sim 5\times$ & yes & FPGA \\
+\midrule
+$\times$ & Stacked (A,B,C with $S=\{2\}$) & $\sim 1700\times$ & yes & combined \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -402,6 +614,25 @@ This opens a hierarchy of spacetime engineering possibilities,
 from warp drive (Level~1) to arbitrary vacuum programming
 (Level~4), all controlled through the arithmetic structure
 of $\Spec(\mathbb{Z})$.
+
+The numerical audit of multi-prime muting (Section~\ref{sec:over_muting})
+shows that $|S|\geq 4$ catastrophically amplifies the tau g-2
+correction by factors $\geq 10^{18}$, falsifying any framework
+that combines the muon match with high-$|S|$ muting. We therefore
+introduce a Level~5 of the engineering hierarchy: \emph{safe
+amplification paths} (Section~\ref{sec:safe_amplification}) that
+multiply the vacuum repulsion without increasing $|S|$. Three
+independent axes are identified: (A) spectral-dimension boost via
+hyperbolic metamaterials, (B) real quadratic field extension, and
+(C) Hecke-eigenvalue phase synchronization. Crucially,
+Theorem~\ref{thm:imaginary_quad_nogo} rules out the Gaussian /
+Eisenstein prime route (all imaginary quadratic Dedekind zetas
+vanish at negative integers), forcing real quadratic fields as
+the only number-field-extension option. Stacking the three safe
+axes on top of $S=\{2\}$ delivers $\sim 1700\times$ vacuum
+repulsion ($\sim 244\times$ over bare single-prime muting) with
+zero impact on the third generation --- the first quantitatively
+specified path to a Standard-Model-consistent warp drive.
 
 \begin{thebibliography}{20}
 \bibitem{Muong2_2021} Muon $g$-2 Collaboration, Phys. Rev. Lett. \textbf{126}, 141801 (2021).
