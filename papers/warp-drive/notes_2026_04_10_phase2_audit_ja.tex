@@ -907,6 +907,189 @@ Pate 装置での予測 swing は $\sim 10$ MHz。WB 仮説不要で、Boyer 50 
 \end{tcolorbox}
 
 %======================================================================
+\section{Setup C：YBCO 混合状態カシミール（Inui 2021 路線）}
+%======================================================================
+
+\textbf{Inui, N.\ ``Casimir Effect between Superconducting Plates in the Mixed State,''
+Quantum Reports \textbf{3}, 731--745 (2021), DOI: 10.3390/quantum3040046}
+が新しい第 4 の Setup を生む。これは LN$_2$ 温度で動作し、磁場 $B$ を
+連続制御パラメータとして使う点で、既存 3 Setup にはない強みを持つ。
+
+\subsection{Inui 論文の核心}
+
+Type-II 超伝導 YBCO 平板間のカシミール力を、混合状態
+（$B_{c1} < B < B_{c2}$、Abrikosov 渦糸格子の存在領域）で計算。
+Lifshitz 理論を Coffey--Clem の渦糸動力学と結合させ、
+$\varepsilon(i\xi)$ を磁場 $B$ の関数として陽に書き下した。
+
+\paragraph{物質パラメータ（YBCO, Table 1）.}
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+$T_c$        & 88.2 K \\
+$T_{c2}$     & 87 K \\
+$\lambda_0$  & 140 nm（London 侵入長）\\
+$B_{c2,0}$   & 112 T \\
+$\kappa_0$   & $2.1\times 10^4$ N/m$^2$（渦糸復元力定数）\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{誘電関数（混合状態、TM モード、式 30）.}
+\[
+  \varepsilon_x(i\xi) = 1 + \frac{\omega_p^2}{\xi^2} + \frac{\omega_D^2}{\xi(\xi+\alpha)}
+\]
+ここで $\omega_p$ は plasma 周波数、$\omega_D$ は Drude 周波数、$\alpha$ は渦糸動力学
+パラメータ。$B$ の上昇と共に $\omega_p$ は減少（Cooper 対の体積分数減少）し、
+$\omega_D$ は最初増加してから減少（渦糸寄与の競合）。
+
+\paragraph{主要結果（図 5）.}
+規格化カシミール力 $\eta_C \equiv P(a,T)/P_C(a)$（理想完全導体板間との比）：
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$a$ & $T$ & $B$ & $\eta_C$ \\
+\midrule
+$1\,\mu$m & 10 K & 0  & 0.55 \\
+$1\,\mu$m & 10 K & 30 T & 0.49 \\
+$1\,\mu$m & 10 K & 60 T & 0.44 \\
+\midrule
+\multicolumn{4}{l}{$\Delta\eta_C \approx 0.11$、約 \textbf{20\% の連続変化}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Phase 2 にとってのスケール分離}
+
+Inui 予測は \textbf{Bimonte と WB の中間スケール}を埋める重要な参照点：
+
+\[
+\boxed{\;
+\begin{array}{lcl}
+\text{Bimonte 2005 (Nb 転移)} & \sim 10^{-4}    & \text{ppm レベル}\\[2pt]
+\text{Inui 2021 (YBCO mixed state)} & \sim 0.2        & \text{中間スケール}\\[2pt]
+\text{WB grading（仮にあれば）}      & \sim 1          & $O(1)$
+\end{array}
+\;}
+\]
+
+3 段階のスケール分離があるので、実験で出る効果がどこに乗るかで機構を区別できる。
+
+\subsection{物理的意味：渦糸 = リアルな位相欠陥}
+
+YBCO 混合状態では Abrikosov 渦糸（量子化磁束 $\phi_0 = h/2e$）が格子状に並ぶ。
+これは凝縮位相秩序の中の \textbf{本物のトポロジカル欠陥}。WB の grading 仮説と
+直接結びつく：
+
+\begin{itemize}
+\item $\pi$-接合 = 1 個の大きな位相欠陥（Setup A の出発点）
+\item 渦糸格子 = 多数の小さな位相欠陥（Setup C の出発点）
+\end{itemize}
+
+\textbf{磁場 $B$ を変えることで「位相欠陥密度」を連続変調できる}。
+WB 予測（grading が存在するなら）と Inui 予測（純 Lifshitz）が違うスケールで
+分離する。
+
+\subsection{装置構成案}
+
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.50\textwidth}r}
+\toprule
+品目 & 仕様 & 価格 \\
+\midrule
+YBCO 薄膜 $\times$ 2 & 商用品（Ceraco, THEVA など） & ¥200k \\
+LN$_2$ デュワー & 卓上、20 L 級 & ¥100k \\
+電磁石 or 永久磁石 & $B \leq 2$ T（共用設備借用可） & ¥0--500k \\
+力測定系 & AFM-style or MEMS Casimir 秤 & ¥200k--500k \\
+配向固定治具 & $ab$ 面・$c$ 軸の管理 & ¥50k \\
+\midrule
+\textbf{合計} & & \textbf{¥550k--1.35M} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{期間}：2--3 月。LN$_2$ で動くので運用コスト最小。
+
+\subsection{測定プロトコル}
+
+\begin{enumerate}
+\item YBCO 薄膜 2 枚を $a = 1\,\mu$m の間隔で対向させる（$ab$ 面同士）
+\item 全体を LN$_2$ デュワーに浸し $T = 77$ K に保つ
+\item $B$ を 0 から 2 T までゆっくりスイープ
+\item 各 $B$ で平衡カシミール力 $F(B)$ を測定
+\item Inui 式 (4)+(30) で計算した $F_{\rm Inui}(B)$ と比較
+\item 残差 $F_{\rm meas}(B) - F_{\rm Inui}(B)$ を抽出
+  $\to$ Lifshitz 外の機構の寄与
+\end{enumerate}
+
+\subsection{4 つの結果シナリオ}
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+観測 & 解釈 \\
+\midrule
+$\eta_C(B)$ が Inui 予測と一致 & grading 機構なし、Lifshitz 完備 \\
+$\eta_C(B)$ が Inui より大きく動く & grading あり、渦糸密度に比例？ \\
+$\eta_C(B)$ が符号反転 & $O(1)$ grading、\textbf{WB 強支持} \\
+$\eta_C(B)$ が Inui と逆向き & 新しい未知機構、要追跡 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{4 Setup の統合戦略}
+
+Inui 路線を加えた最終形：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{p{0.18\textwidth}p{0.20\textwidth}p{0.18\textwidth}p{0.10\textwidth}p{0.13\textwidth}}
+\toprule
+Setup & 検証対象 & 信号スケール & 温度 & コスト \\
+\midrule
+A (Pate + $\pi$-接合) & L5 直接 & $\sim 10$ MHz swing & 10 mK & ¥1--3M \\
+B (Pate + DBR)        & Boyer 符号反転 & $\sim 10$ MHz swing & 10 mK & ¥1--3M \\
+B' (室温 MEMS + DBR)  & Boyer 古典版 & pN レベル & 室温 & ¥500k--1M \\
+\textbf{C (LN$_2$ YBCO + B)} & \textbf{渦糸 grading} & \textbf{$\sim 20\%$ 連続} & \textbf{77 K} & \textbf{¥550k--1.35M} \\
+\midrule
+\multicolumn{5}{l}{Phase F (統合)：上記の陽性結果を組み合わせて巨視的浮揚試験へ} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Setup C の独自性}：
+\begin{itemize}
+\item 唯一「連続パラメータ $B$ でスキャンできる」経路。Inui の理論曲線を baseline
+  として grading 寄与を引き算で抽出可能。
+\item 唯一 LN$_2$ で動く Setup。冷却インフラが既存設備で済む。
+\item 渦糸密度を連続制御できる唯一の Setup。「位相欠陥密度依存性」を直接プローブ
+  できる。
+\end{itemize}
+
+\subsection{残る論点}
+
+\begin{enumerate}
+\item Inui は YBCO で計算したが、\textbf{実験は誰もしていない}。実験的足場としては
+  Bimonte 2005（Nb）と Pate 2025（Al）の間の未踏領域。Setup C 自体が原著論文に
+  なる可能性。
+\item YBCO は anisotropic（$\varepsilon_x \neq \varepsilon_z$）。Inui は式 (30)--(31) で
+  扱っているが、実装時は $ab$ 面・$c$ 軸の配向を厳密に管理する必要。
+\item High-$B$ では $\omega_p$ が急減（図 3a）し、低周波 Drude 寄与が増える。
+  Casimir 関連スペクトル（DC$\sim$UV）の中で重要な周波数帯がどこかを
+  Inui 式 (4) で陽にチェックする必要。
+\item 磁場印加が機械測定にノイズを与える。MEMS 系はローレンツ力カップリングが
+  あるので、Setup C は AFM 系か音響系の方が向いているかもしれない。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=§8 の一行まとめ]
+Inui 2021 の YBCO 混合状態カシミール理論は、\textbf{Bimonte と WB の中間スケール
+（$\sim 20\%$）を埋める}重要な参照点。LN$_2$ 動作 + 連続磁場制御という他の Setup に
+ない強みを持つ第 4 の経路（Setup C）を生む。コスト ¥1M 以下、Inui 自身の計算が
+未実験なので原著論文化も狙える。
+\end{tcolorbox}
+
+%======================================================================
 \section{4/10 時点のアクション含意}
 %======================================================================
 
@@ -942,6 +1125,10 @@ Pate 装置での予測 swing は $\sim 10$ MHz。WB 仮説不要で、Boyer 50 
 \item Phase F の Setup A（$\pi$-接合電極）と Setup B（数論的多層膜電極）を
   \textbf{並行に走らせる}ことを明示的に決定する。両者は L5 を独立にチェックする
   相補的実験で、結果の組み合わせが情報量最大になる。
+\item Setup C（YBCO 混合状態カシミール、§8）を低コスト並行経路として追加検討する。
+  LN$_2$ 動作で ¥1M 以下、Inui 2021 予測が未実験なので Setup C 単独でも
+  publishable。Inui 予測（$\sim 20\%$）からの逸脱を grading 寄与の量的プローブと
+  して使う。
 \end{enumerate}
 
 \end{document}
