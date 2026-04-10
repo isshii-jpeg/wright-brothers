@@ -19,3 +19,7 @@ missfont.log
 
 # OS files
 .DS_Store
+
+# Third-party textbook materials (copyrighted, kept locally only)
+Optics_of_Aperiodic_Structures_*.pdf
+aperiodic structures/

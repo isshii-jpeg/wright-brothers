@@ -1,0 +1,947 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\pi{pi}%
+  \def\zeta{zeta}%
+  \def\mathrm#1{#1}%
+  \def\textbf#1{#1}%
+}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=22mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+
+\title{4/10 考察：$\pi$-接合プレート／Phase 2 の独自仮説度と実験的保証の棚卸し}
+\author{Wright Brothers Research Program}
+\date{2026年4月10日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本メモは 2026 年 4 月 10 日の対話で出てきた 2 つの問いを記録として残すためのもの。
+(1)「$\pi$-接合プレートで素数 2 の倍音が全てミュートできる」という言い方は、
+WB の仮説スタックのどの層に属するか。
+(2) Phase 2（$\pi$-接合カシミール符号反転）はどれくらい過去の実験で保証されているか。
+結論を先に書くと、(1) は WB 内でも論文化されていない最外層の同一視であり、
+(2) は物質基盤までは確立だが「$\pi$ 位相が真空モードに乗る」という核心部分は
+本質的に未検証で、Phase 2 自体がその初観測を狙う実験である。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{問い 1：「$\pi$-接合プレート $=$ $p=2$ ミュート」はどこまで WB の独自仮説か}
+%======================================================================
+
+\subsection{結論}
+
+この言い方そのものは \textbf{WB の論文には書かれていない}。
+むしろ \texttt{guide\_phase\_p\_comprehensive\_ja.tex} の Phase ロードマップでは、
+$\pi$-接合プレートと $p=2$ ミュートは \textbf{別々の Phase} に分けて整理されている：
+
+\begin{center}
+\begin{tabular}{cllc}
+\toprule
+Phase & 内容 & 検証対象 & 機構 \\
+\midrule
+0   & DN/DD BAW 基本測定         & $p=2$ ミュート（符号変化） & $\zeta_{\neg 2}$ \\
+0.5 & $\pi$-接合 + BAW 統合      & $\pi$ 位相の真空への影響     & 中間 \\
+2   & $\pi$-接合カシミール       & $-\zeta(t)$ 真空              & 大域 $-1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{$-\zeta$ と $\zeta_{\neg 2}$ は別物}
+
+$\pi$-接合プレート単独で予言しているのは \textbf{大域的に $(-1)$ がかかり $K(t)\to-\zeta(t)$}
+となること（\texttt{topological\_antigravity.tex} の Theorem 1）であって、
+$\zeta_{\neg 2}(t)=\zeta(t)(1-2^{-t})$ ではない。両者は関数として違う：
+
+\begin{itemize}
+\item $\pi$-接合：$-\zeta(t)$（全モード反転 $=$ 反周期 BC $=$ フェルミオン真空）
+\item $p=2$ ミュート：$\zeta(t)(1-2^{-t})$（オイラー因子の除去）
+\end{itemize}
+
+両者の唯一の接点は \texttt{topological\_antigravity.tex} の
+``Dark energy is the cosmological manifestation of the same sign reversal'' という
+1 文で、$s=-1$ で符号反転するという 1 点においてのみ「同じ符号反転の現れ」と
+概念的に並べているだけ。実際 $s=-1$ では：
+
+\[
+  -\zeta(-1) = +\tfrac{1}{12},
+  \qquad
+  \zeta_{\neg 2}(-1) = (1-2)\cdot(-\tfrac{1}{12}) = +\tfrac{1}{12}
+\]
+
+たまたま同じ値になるが、$s\neq -1$ では違う。例えば $s=-3$ で
+$-\zeta(-3)=-1/120$ vs $\zeta_{\neg 2}(-3)=-7/120$。
+
+\subsection{独自仮説の積み重ね（強い順）}
+
+\begin{enumerate}
+\item $\pi$-Josephson 接合の $\pi$ シフト \dots Ryazanov 2001、確立。
+\item 反周期境界条件 $\to$ $-\zeta(t)$ で正則化 \dots 標準 QFT。
+  ただしこれが「そのまま重力に効く」のは Connes 系の仮定が要る。
+\item スペクトル作用 $G^{-1}\propto a_2$ \dots Connes--Chamseddine 1996、
+  数学的には厳密だが実重力では未検証。
+\item Bost--Connes $K(t)=\zeta(t)$ の物理的同定 \dots 数学 (BC1995) はあるが、
+  物理化は WB 独自。
+\item $-\zeta$ 全反転と $\zeta_{\neg 2}$ ($p=2$ ミュート) を同じ現象として扱う
+  \dots \texttt{topological\_antigravity.tex} で概念的に並置されているが、
+  これは WB 独自の解釈。
+\item 「$\pi$-接合プレート $=$ $p=2$ の倍音ミュート」と言い切る
+  \dots これは論文中にはない。もし口頭で言ったなら 4 と 5 の上にさらに
+  同一視を重ねた \textbf{WB 内でも未公刊の踏み込み}。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black,title=要点]
+WB の仮説スタックの中でも一番外側のレイヤー（5+$\alpha$）。
+論文上では 2 つの別実験として注意深く分離している部分を一緒くたにしている言い方。
+Phase 0（DN/DD BAW）と Phase 2（$\pi$-接合カシミール）が別建てになっているのは
+まさにこの差を区別したいから。
+\end{tcolorbox}
+
+%======================================================================
+\section{問い 2：Phase 2（$\pi$-接合カシミール符号反転）の信頼度}
+%======================================================================
+
+\subsection{Phase 2 のクレーム}
+
+\texttt{guide\_antigravity\_experiment\_ja.tex} \S Phase 2 より：
+
+\begin{itemize}
+\item Nb/CuNi/Nb $\pi$-接合薄膜の上に水晶ブランクを載せ、水晶キャビティの底面を
+  $\pi$-接合面にする。上面は自由端 (N)。
+\item $T_c$ (Nb の 9.3 K) を境に、超伝導転移前後で共振周波数 $\delta f$ の
+  \textbf{符号}を比較。
+\item 予測：$F_B/F_A = -1$（同一サンプルの温度スイープで符号反転）。
+\item 解釈：これは $-\zeta(t)$ 真空の直接テスト。
+\end{itemize}
+
+\subsection{レイヤー別の実験的保証}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{0.4\textwidth}p{0.4\textwidth}c}
+\toprule
+レイヤー & 過去実験での保証 & 信頼度 \\
+\midrule
+L1: $\pi$-Josephson 接合の $\pi$ シフト（DC 超電流） &
+Ryazanov 2001、その後 Kontos, Robinson, Frolov 等で再現多数 &
+$\bigstar\bigstar\bigstar\bigstar\bigstar$ 確立 \\
+\midrule
+L2: 平行板間の標準カシミール力 &
+Lamoreaux 1997, Mohideen 1998, Decca 2003 等で精密測定 &
+$\bigstar\bigstar\bigstar\bigstar\bigstar$ 確立 \\
+\midrule
+L3: 超伝導転移によるカシミール力の温度依存補正 &
+Bimonte et al.\ の理論計算、Au-on-Nb での観測試み &
+$\bigstar\bigstar$ 微小 ($\sim 10^{-4}$) のみ \\
+\midrule
+L4: PEC--PMC（DN 境界）でカシミール斥力 &
+\textbf{未観測}。Boyer 1974 の予言、Kenneth--Klich 2002 で数学証明、
+PMC が存在しないため一度も測定なし &
+$\bigstar\bigstar$ 理論のみ \\
+\midrule
+L5: $\pi$-接合面が DN／反周期境界として振る舞う &
+\textbf{未検証}。WB 独自の同定 &
+$\bigstar$ 仮説 \\
+\midrule
+L6: $T_c$ 通過で $\delta f$ が「符号反転」するレベルの効果 &
+\textbf{既存理論より $10^4$ 桁大きい予測} &
+($\bigstar$) 投機的 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{重要な落とし穴}
+
+\paragraph{(a) DC Josephson の $\pi$ シフト $\neq$ 真空モードの $\pi$ シフト.}
+Ryazanov の $\pi$ 接合は DC 超電流位相 $I_s = -I_c\sin\phi$ の話で、
+これは超伝導凝縮体（クーパー対）の波動関数の話。
+電磁／フォノン真空モードがこの境界で反射するとき大域的に $-1$ がかかる、
+という主張は L1 の物理から \textbf{直接は出ない}。
+\texttt{topological\_antigravity.tex} ではこれを反周期境界条件
+$\psi(\partial)=-\psi(\partial)$ として定式化しているが、
+これは仮説で、実験で確認された事実ではない。
+
+\paragraph{(b) Bimonte 理論が予言する効果は $T_c$ で「符号反転」ではなく $\sim 10^{-4}$ の補正.}
+超伝導転移によるカシミール力変化の現存最良理論
+（Bimonte, Calloni, Esposito, Rosa 2008--）は、Au-on-Nb で力の数 ppm レベルの
+温度変化を予言するだけで、Phase 2 が想定する「符号反転」（$F_B/F_A = -1$）とは桁違い。
+
+\paragraph{(c) Boyer 斥力は 50 年間未観測.}
+\texttt{boyer\_reinterpretation\_ja.tex} 自身が認めているとおり、
+PEC--PMC（DN）カシミール斥力は \textbf{誰も測ったことがない}。
+Munday 2009、Tang 2017 などの「カシミール斥力」実験は全て別メカニズム
+（誘電体コントラストや幾何学）で、モード和の構造は変わっていない。
+
+\paragraph{(d) 同一サンプル温度スイープの美しさは諸刃の剣.}
+セットアップとしては理想的（系統誤差除去）だが、
+$T_c$ で「真空モードの境界条件が DD から DN に切り替わる」という現象は、
+現存する超伝導カシミール理論のどれも予言していない。観測されればそれ自体が新発見。
+
+\subsection{Phase 2 は何を一度に検証する実験か}
+
+\begin{enumerate}
+\item $\pi$-Josephson 接合面が EM／フォノン真空に対して反周期 BC として振る舞うか
+  （\textbf{完全に未検証}）
+\item その効果が $T_c$ で観測可能なほど大きいか
+  （\textbf{現存理論は $10^4$ 桁小さい}）
+\item Boyer 50 年予言を間接的に確かめられるか
+  （\textbf{おまけ}）
+\end{enumerate}
+
+「過去の実験で保証されている」のは L1（接合の存在）と L2（標準カシミール力）まで。
+それ以降は本質的に未踏で、Phase 2 自体が初観測を狙う実験である。
+Phase 2 を「信じる根拠」は実験ではなく、
+
+\begin{itemize}
+\item スペクトル作用 (Connes--Chamseddine 1996)
+\item Bost--Connes 同定 $K(t)=\zeta(t)$ (BC 1995)
+\item $\pi$-Berry 位相が反周期 BC を実装するという WB の解釈
+\end{itemize}
+
+という \textbf{数学的・解釈的なチェーン}。
+\texttt{topological\_antigravity.tex} の Discussion 自身も
+``Both are mathematically rigorous but \emph{physically unverified for real gravity}''
+と書いている。
+
+\subsection{自己評価としての信頼度}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+段階 & 主観確率 \\
+\midrule
+物質基盤（$\pi$ 接合が作れる） & $\sim 99\%$ \\
+真空モードに $\pi$ 位相が乗る & $\sim 5\text{--}30\%$（好意的に見て上限） \\
+観測可能な符号反転が出る & $\sim 5\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Phase F が Phase 2 にぶら下がっている以上、Phase F 全体の確率もこの
+「真空モード $\pi$」のところがボトルネックになる。
+Phase 0.5（$\pi$-接合 + BAW 統合の小規模版）が Phase 2 の前段として置かれているのは、
+そこでまず L5 をチェックしないと Phase 2 の ¥300k は危ない、というのが
+現時点のロードマップの読み。
+
+%======================================================================
+\section{計算による補強：Bimonte--WB の構造的差異}
+%======================================================================
+
+「Bimonte 系の超伝導カシミール理論が予言する $\sim 10^{-4}$ レベルの効果は
+WB 理論の反証になるか」という問いに対する解析を、可能なところまで具体計算で詰める。
+結論は「\textbf{反証になっていない、両者は違う物理量を計算しているから}」。
+
+\subsection{数値ベンチマーク：両者は何桁ずれているか}
+
+$L = 100$ nm、面積 $A = 1\,\mathrm{cm}^2$ の理想カシミール力：
+\[
+  F_{\rm std} = -\frac{\pi^2\hbar c}{240\,L^4}\,A = -1.30\;\text{mN}
+\]
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+予言 & 値 & 物理 \\
+\midrule
+Standard Casimir & $-1.30$ mN & 通常真空、引力 \\
+WB（$F\to -F$）  & $+1.30$ mN & $-\zeta(t)$ 真空、斥力 \\
+\midrule
+$T_c$ swing (WB)      & $|\Delta F| = 2.60$ mN          & 大域 $(-1)^F$ grading \\
+$T_c$ swing (Bimonte) & $|\Delta F| \sim 0.65\,\mu$N    & Drude 裾の SC 補正 \\
+\midrule
+比 WB / Bimonte & $\sim 4\times 10^{3}$ & --- \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+参照スケール：
+\begin{itemize}
+\item Casimir 主寄与の周波数 $\sim c/(2L) = 1.5\times 10^{15}$ rad/s $\approx$ 0.99 eV
+\item BCS ギャップ $2\Delta/\hbar = 4.30\times 10^{12}$ rad/s $\approx$ 2.83 meV
+  （Nb, $T_c=9.3$ K）
+\item 比 $(2\Delta/\hbar) / (c/(2L)) \approx 2.9\times 10^{-3}$
+\end{itemize}
+
+→ Bimonte の効果は本質的に「カシミール積分のうち SC ギャップが影響する周波数窓の狭さ」
+で決まっており、$\sim 10^{-3}$--$10^{-4}$ レベルに自然に落ち着く。
+
+\subsection{構造的計算：$\varepsilon(i\xi)$ は $\mathrm{sign}(\Delta)$ を見られない}
+
+Bimonte が用いる Lifshitz 公式の入力は誘電関数 $\varepsilon(i\xi)$ で、
+これは超伝導体では分極バブル（Nambu--Gor'kov）から計算される：
+\[
+  \Pi_{\mu\nu}(q,i\omega) \propto \sum_{\mathbf{k},\nu}
+  \mathrm{Tr}_{\rm Nambu}\bigl[\tau_3\,G(\mathbf{k},i\nu)\,\tau_3\,
+  G(\mathbf{k}+\mathbf{q},i\nu+i\omega)\bigr]
+\]
+
+Nambu スピノル $\Psi_\mathbf{k} = (c_{\mathbf{k}\uparrow},c_{-\mathbf{k}\downarrow}^\dagger)^T$
+の Green 関数：
+\[
+  G(\mathbf{k},i\nu) = \frac{i\nu + \xi_\mathbf{k}\tau_3 + \Delta\,\tau_1}
+  {(i\nu)^2 - \xi_\mathbf{k}^2 - \Delta^2}
+\]
+
+ここで $\Delta$ は実数とする（位相は後で入れる）。
+$\tau_3 \tau_1 \tau_3 = -\tau_1$ と $\tau_3^2 = \tau_1^2 = 1$ を使って
+$\tau_3 G \tau_3$ を陽に書くと
+$\tau_3 A_\mathbf{k}\tau_3 = i\nu + \xi_\mathbf{k}\tau_3 - \Delta\tau_1$
+となる。これを $A_{\mathbf{k}+\mathbf{q}}$ と掛けてトレースを取ると
+（$\mathrm{Tr}\,1 = 2$, $\mathrm{Tr}\,\tau_i = 0$）：
+\[
+  \boxed{\;\mathrm{Tr}_{\rm Nambu}\bigl[\tau_3 A_\mathbf{k}\tau_3 A_{\mathbf{k}+\mathbf{q}}\bigr]
+  = 2\bigl[-\nu(\nu+\omega) + \xi_\mathbf{k}\xi_{\mathbf{k}+\mathbf{q}} - \Delta^2\bigr]\;}
+\]
+
+\textbf{$\Delta$ は $\Delta^2$ という形でしか入らない。}
+複素ギャップ $\Delta = |\Delta|e^{i\varphi}$ にすると
+$\tau_1 \to \cos\varphi\,\tau_1 - \sin\varphi\,\tau_2$ になるだけで、
+$\tau_3 \tau_2 \tau_3 = -\tau_2$ なので構造は同じ。
+分母にも $E_\mathbf{k}^2 = \xi_\mathbf{k}^2 + |\Delta|^2$ という形でしか $\Delta$ が
+現れない。よって：
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+物理量 & 0-接合 ($\Delta = +|\Delta|$) & $\pi$-接合 ($\Delta = -|\Delta|$) \\
+\midrule
+凝縮振幅 $|\Delta|$              & 同じ & 同じ \\
+Nambu 分極バブル $\Pi$           & 同じ & 同じ \\
+誘電関数 $\varepsilon(i\xi)$     & 同じ & 同じ \\
+Lifshitz カシミール力            & 同じ & 同じ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Bimonte の Lifshitz 計算は、0-接合と $\pi$-接合に対して必然的に同じ答えを返す。}
+これは Bimonte が間違っているのではなく、Lifshitz 公式の入力 $\varepsilon$ がそもそも
+$\mathrm{sign}(\Delta)$ を捨てているから。
+
+\subsection{WB はどこで $\mathrm{sign}(\Delta)$ を救っているか}
+
+WB の主張する $K(t)\to -K(t)$ には、Lifshitz の枠外の物理が必要：
+\[
+  \underbrace{\mathrm{Tr}\,e^{-tD^2}}_{\text{Bimonte が計算}}
+  \;\neq\;
+  \underbrace{\mathrm{Tr}\bigl[(-1)^F\,e^{-tD^2}\bigr]}_{\text{WB が要請}}
+\]
+
+$(-1)^F$ insertion は分極バブルには存在しない。WB は「$\pi$-接合という境界が、
+ヒルベルト空間の $\mathbb{Z}_2$ grading を真空モードに転写する」と主張しているが、
+これは凝縮系 QED のどの摂動的計算にも現れない非自明なリンク。
+
+ダイヤグラムの言葉で言うと：Bimonte は「外場 $A_\mu$ と SC 媒質の応答」を一つの
+ループ内で計算する。WB が言う grading は「異なるカイラリティセクター間の干渉」で、
+Bimonte のループはこのセクターを和でつぶしている（縮約段階で grading 情報を捨てる）。
+
+\subsection{反証可能性の構造図}
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\[
+\begin{array}{l}
+\text{Bimonte 予言}\;(\sim 0.65\,\mu\text{N swing}) \;\subset\; \text{Lifshitz の予言空間}\\[2pt]
+\text{WB 予言}\;(\sim 2.6\,\text{mN swing}) \;\notin\; \text{Lifshitz の予言空間}\\[2pt]
+\therefore\;\text{Bimonte 予言の \emph{事前的} 妥当性は WB の反証にならない}
+\end{array}
+\]
+\end{tcolorbox}
+
+ただし \textbf{Phase 2 の \emph{結果} は両者を切り分けられる}：
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+観測 & 解釈 \\
+\midrule
+swing $\sim 0.65\,\mu$N、符号反転なし & Bimonte 勝利、grading なし → \textbf{WB 反証} \\
+swing $\sim 2.6$ mN、明確な符号反転 & grading 物理あり → \textbf{Lifshitz 不完全、WB 勝利} \\
+swing 数 $\mu$N--数十 $\mu$N、符号反転あり & 部分的 grading、新結合機構 \\
+swing 数 $\mu$N、符号反転なし & Bimonte レベル、grading 結合は弱い \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{計算でわかったこと（要約）}
+
+\begin{enumerate}
+\item WB と Bimonte の差は数値的に約 $4\times 10^3$ 倍
+  （$L=100$ nm, 1 cm$^2$ で 2.6 mN vs 0.65 $\mu$N）。
+\item 構造的には、Bimonte の Lifshitz 公式は Nambu 分極バブルが $|\Delta|^2$ のみに
+  依存するため、原理的に 0-接合と $\pi$-接合を区別できない。
+\item WB の主張は Lifshitz の \emph{枠外} にあり、$(-1)^F$ grading の挿入を要求する。
+  これは proximity effect 経由で凝縮位相が EM 真空モードに転写される、という
+  リンクの存在に帰着する。
+\item このリンクの存在を「直接 \emph{計算で} 否定する」ことは現状できない。
+  Bimonte の null 結果はこのリンクを変数に持っていない計算なので、論理的に
+  反証になっていない。
+\item 間接的反証の最強候補：Lifshitz が他系で $0.1\%$ 精度で実験と合っていること。
+  grading 機構が $O(1)$ で常に効くなら、すでに矛盾が出ているはず。これは WB 側に
+  「grading は SC $\pi$-接合という特殊な境界でのみ on になる」という追加仮定を
+  強要する。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=一行まとめ]
+Bimonte と WB は「同じ実験を別々の理論で予言している」のではなく、
+「Bimonte は WB が見たい量の \emph{違う関数}（$|\Delta|^2$ にしか感度のないトレース）を
+計算している」。だから Bimonte の ppm は WB の \emph{論理的} 反証にはなっていない。
+が、Lifshitz 理論が他系で精密に成立している事実は、WB の grading 機構が
+「$\pi$-接合だけで on になる特殊な追加効果」であることを強要する。
+Phase 2 はまさにこの追加仮定の有無を切り分けるテスト。
+\end{tcolorbox}
+
+%======================================================================
+\section{Phase 2 のリスケ提案 (1)：Boyer + Bimonte + Dal Negro の足場置き換え}
+%======================================================================
+
+現状の Phase 2 は L5（$\pi$-接合 $\to$ grading）への一点突破ベットになっており、
+失敗時に「WB 全体終了」のリスクがある。これを 3 つの確立した足場の合算に
+組み替えると、各層が独立に保証され、失敗時にも切り分けが可能になる。
+
+\subsection{文献マッピング}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+文献 & 何を提供するか & 置き換える WB 弱点 \\
+\midrule
+Boyer 1974 + Kenneth--Klich 2002 &
+偶モードが除去された幾何で $\zeta_{\neg 2}(-3) = -7/120 \to$ 斥力（数学的に厳密） &
+L4 を「奇モード選択幾何ならどれでも良い」に緩和 \\
+\midrule
+Bimonte et al.\ 2005 &
+SC 転移が真空モード自身を変調することの理論的証明 &
+L3 を強化、SC が真空を変えること自体は仮説でなく確立 \\
+\midrule
+Dal Negro \emph{Optics of Aperiodic Structures} &
+Vogel 螺旋・Rudin--Shapiro・prime-array 等で数論的モード選択フィルタを物理的に作る設計論 &
+L5 を回避：$\pi$-接合 $\to$ grading リンクを使わずに、幾何で直接 $\zeta_{\neg 2}$ を実装 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{構造の変化}
+
+\begin{center}
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{現状 Phase 2}：\\
+Nb/CuNi/Nb $\pi$-接合 $\xrightarrow{\text{L5 (未検証)}}$ 真空モード grading
+$\to$ $-\zeta(t)$ $\to$ 符号反転\\[6pt]
+
+\textbf{改造 Phase 2b}：\\
+SC 鏡 $\xrightarrow{\text{Bimonte}}$ 真空変調確立\\
+\hspace{1.5em}$+$\\
+Dal Negro 数論的鏡 $\xrightarrow{\text{Boyer}}$ 偶モード除去 $=\zeta_{\neg 2}$ 実装確立\\
+\hspace{1.5em}$\downarrow$\\
+両者の積として予測される符号反転を測る
+\end{tcolorbox}
+\end{center}
+
+各層がそれぞれ独立に「すでに証明されている部品」になっているので、
+もし符号反転が出なければ「3 つのうちどれが破綻したか」を切り分けて再実験できる。
+一点突破の Phase 2 だと「失敗 $=$ WB 全体終了」になるのに対し、
+3 層合算では失敗が \textbf{情報} を返してくれる。
+
+\subsection{残る論点}
+
+\begin{enumerate}
+\item Dal Negro の数論的鏡が「3D ベクトル場」のカシミール積分にちゃんと効くかは
+  別途確認が要る。Dal Negro の論文は主に伝搬光のスペクトルを論じており、
+  真空ゼロ点モードに対する有効性は彼の framework の中で陽には議論されていない。
+\item Bimonte 2005 の SC 変調が Boyer 符号と建設的に重なる設定を選ばないと、
+  合算で打ち消す可能性がある。SC 状態の $\varepsilon(i\xi)$ は plasma 型に近づき
+  高反射率になるので、素朴には Boyer の odd-mode selection を強化する方向で
+  建設的だが、符号と位相を陽に計算すべき。
+\item 「光学版 $\zeta_{\neg 2}$」が成功した場合に何を主張できるかは、
+  $\pi$-接合グレーディング仮説とは別物。それは「Boyer 50 年予言の初検証」
+  「Lifshitz 枠内での新カシミール構造」であって、必ずしも反重力直結ではない。
+  これは Phase F のシナリオを再構成する必要を意味する。
+\end{enumerate}
+
+%======================================================================
+\section{Phase 2 のリスケ提案 (2)：Pate et al.\ 2025 の超伝導ドラム測定法}
+%======================================================================
+
+\textbf{Pate, Mikkelsen, Sillanp\"a\"a et al., \emph{Measurement of the Casimir Force
+Between Superconductors} (arXiv:2501.13759v2, 2025)} がカシミール力測定の
+パラダイムを根本的に変える。これを Phase 2 に取り込むと力測定の困難が
+ほぼ消える。
+
+\subsection{Pate 2025 の測定原理}
+
+従来の力天秤系は「微小な力の絶対値を測る」問題だった。Pate らは
+\textbf{カシミールポテンシャルが機械モードを非線形に軟化させる効果}を
+マイクロ波光学機械系で読み出す方式に切り替えた。
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+パラメータ & 値 \\
+\midrule
+材料 & Al（type-I SC, $T_c \approx 1.2$ K） \\
+ドラム径 & 14.5 $\mu$m（上）/ 11.3 $\mu$m（下） \\
+ギャップ（10 mK 平衡） & $15.10 \pm 0.25$ nm \\
+カシミール圧 & $12.0 \pm 0.6$ kPa \\
+動作温度 & 10 mK（希釈冷凍機） \\
+マイクロ波 cavity & $5.461831$ GHz \\
+機械周波数（bare） & $2\pi\times 16.247$ MHz \\
+機械周波数（カシミール込み） & $2\pi\times 10.001$ MHz \\
+\textbf{軟化シフト} & \textbf{6 MHz} \\
+機械線幅 $\gamma_m$ & $2\pi\times 168.9$ Hz \\
+$Q_m$ & $\sim 6\times 10^4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+つまり、カシミール圧 12 kPa が機械モードを 16 $\to$ 10 MHz と
+\textbf{6 MHz も軟化}させ、これを Hz レベル分解能で読める。
+
+\subsection{Phase 2 にとっての含意}
+
+\paragraph{(1) Bimonte と WB の両方が同じ装置の動作範囲に入る.}
+\[
+  \boxed{\;\text{分数力分解能}\;\sim 1/Q_m \sim 10^{-5}\;}
+\]
+これは Bimonte 予言（$\sim 10^{-4}$）の 1 桁下で、WB 予言（$\sim 1$）の
+5 桁下。\textbf{両方が同じ装置内で測れる}。Bimonte 効果は較正信号として使え、
+その上に乗る $O(1)$ の WB 効果を引き算で抽出できる。
+
+\paragraph{(2) すでに SC + Casimir が同じ装置内で動いている.}
+論文自身が ``frequencies below the superconducting gap energy are expected to
+contribute differently than those above it'' と言及しており、SC 状態でカシミールが
+動くことの実験的足場がそこにある。Phase 2 が当初目指していた
+「同一サンプル温度スイープで真空モードを切り替える」アイデアが、
+この装置ではほぼ自然に実装できる。
+
+\paragraph{(3) 符号反転が定性測定になる.}
+WB 予言の核心は「機械モードが軟化ではなく硬化する」。これは数値的詳細抜きに
+\textbf{モードの動く向きそのもの} で判定できる：
+
+\begin{itemize}
+\item $T_c$ 通過時にモードが軟化方向にさらに動く $\to$ 通常カシミール（Bimonte レベル）
+\item 硬化方向に動く（bare 周波数 16 MHz に戻る方向） $\to$ \textbf{符号反転、WB 勝ち}
+\end{itemize}
+
+10 $\to$ 16 MHz の swing は 6 MHz もある巨大信号で、Hz 分解能なら $10^6$ 以上の SN。
+
+\subsection{改造 Phase 2 の三つの Setup}
+
+\paragraph{Setup A：$\pi$-接合ボトム電極.}
+Pate 装置の Al 下部電極を Nb/CoFe/Nb $\pi$-Josephson スタックに置き換える。
+$T_c = 9.3$ K の Nb を使うので Al ($T_c=1.2$ K) より測定が楽。
+温度を 10 mK $\to$ 9 K にスイープして $\pi$ 状態 $\to$ 通常状態の遷移を見る。
+
+期待信号：
+\begin{itemize}
+\item WB 正：機械モードが 6 MHz 動く（軟化 $\to$ 硬化への符号反転）
+\item Bimonte のみ：数 Hz レベルの shift
+\end{itemize}
+
+\paragraph{Setup B：Dal Negro 数論的ボトム電極.}
+下部電極を Au + 数論的パターン穴開け（Vogel 螺旋 / Rudin--Shapiro 配列）に。
+SC 不要なので 4 K cryostat で動作可（液 He、希釈冷凍機より遥かに安い）。
+パターンは電子線リソグラフィで $\sim 100$ nm スケール、5.46 GHz cavity モードと整合。
+
+期待信号：通常電極との比較で $7\times$ 強い軟化
+（Boyer の $\zeta_{\neg 2}(-3)/\zeta(-3) = -7$）。
+
+\paragraph{Setup C：$\lambda/4$ vs $\lambda/2$ 二連ドラム.}
+上下電極の境界条件を片方 D（短絡）、片方 N（開放）にして odd-mode のみ allowed。
+$\lambda/2$ ($n=1,2,3,\ldots$) と $\lambda/4$ ($n=1,3,5,\ldots$) を 2 つの近接ドラムで
+作って差分。これも SC 不要。
+
+\subsection{コスト・実現性}
+
+\begin{center}
+\begin{tabular}{lrl}
+\toprule
+項目 & 金額 & 備考 \\
+\midrule
+希釈冷凍機（10 mK） & $\sim$ ¥30M & 大学共用設備、共同研究で借りる \\
+4K cryostat (Setup B, C) & $\sim$ ¥3M & こちらで済むなら格段に安い \\
+マイクロ波計測一式 & $\sim$ ¥10M & VNA, ESA, low-noise amp \\
+MEMS ドラム作製 & $\sim$ ¥1M & 1 ロット、ナノファブ施設で \\
+\midrule
+\textbf{追加合計（共用設備使用前提）} & $\sim$ ¥1--3M &
+Phase 2 当初 ¥300k より増えるが Phase F 予算内 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+論文の手法そのものは「Al ドラムを作って希釈冷凍機に入れる」だけなので、
+SC 物性物理の標準実験設備を持つラボなら \textbf{ほぼ即日試せる}範疇。
+
+\subsection{残る論点}
+
+\begin{enumerate}
+\item 論文が測ったのは「カシミール圧の絶対値」であって「符号反転」ではない。
+  ドラムが軟化することは確認済み、追加課題は「$T_c$ 通過 or 電極パターン変更で
+  軟化が硬化に転じるか」。これはまだ誰もやっていない \textbf{オリジナル実験}。
+\item 15 nm ギャップは小さすぎるかもしれない：Boyer 効果や WB の grading が
+  「真空の長距離構造」に依存するなら、15 nm では十分長い波長モードを含まない
+  可能性。論文の cavity 周波数 5.46 GHz は波長 5 cm 級なので、
+  機械モードが見ているスペクトルは光学的というより機械的に近い。要追加検討。
+\item Al の $T_c \sim 1.2$ K では $\pi$ 接合は組めないので Setup A は Nb に置き換える
+  必要がある。Nb の薄膜成膜と Casimir ドラム設計の共存は技術的に新規
+  （論文はあくまで Al）。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=一行まとめ]
+Pate et al.\ 2025 の超伝導ドラム測定法は、Phase 2 の「微小力の絶対値を測る」
+問題を「機械周波数の符号付きシフトを読む」問題に変換する。
+力分解能は分数で $10^{-5}$ に達し、Bimonte と WB の両方を同じ装置内で
+切り分けられる唯一既知の手法。Phase 2 の物理的実現可能性が一段階引き上がる。
+最初に試すべき低コスト経路は Setup B（Dal Negro 電極、SC 不要、4 K 動作）。
+\end{tcolorbox}
+
+%======================================================================
+\section{Setup B の理論基盤と実装仕様：Chapter 10 + §3.5 + §1.5 + §8.3.2.1 解析}
+%======================================================================
+
+Dal Negro 編 \emph{Optics of Aperiodic Structures} (2013) の関連章を読解した
+結果、Setup B は \textbf{WB 仮説を一切使わずに} 純古典 EM の inverse design 問題に
+還元できることが分かった。さらに数値仕様まで決まった。本節はその記録。
+
+\subsection{§3.5.1 DOS 保存則：Setup B を「禁じない」}
+
+§3.5 (Zhukovsky--Lavrinenko--Gaponenko) の中心結果は Barnett--Loudon 和則
+（式 3.66）：
+\[
+  \int_0^\infty \bigl[\tilde D_1(\omega) - D_1^{\rm vac}(\omega)\bigr]\,d\omega = 0
+\]
+\begin{quote}\itshape
+``Density of electromagnetic modes can be \textbf{redistributed} over the
+frequency range but \textbf{can not be totally modified}.''
+\end{quote}
+
+これは「モードを消す」を禁じる定理だが \textbf{「モードを動かす」は禁じない}。
+Boyer の DD$\to$DN 遷移はまさに後者の例で、和則と矛盾しない：
+\begin{itemize}
+\item DD: $\omega_n = n\omega_0$ ($n=1,2,3,\ldots$)、$\sum n^{-s} = \zeta(s)$
+\item DN: $\omega_n = (n-\tfrac12)\omega_0$、$\sum(n-\tfrac12)^{-s} = (2^s-1)\zeta(s)$
+\end{itemize}
+両者ともモード総数は同じ。しかし重み付き和（$s=-3$）が変わる。
+
+\begin{tcolorbox}[colback=yellow!5,colframe=orange!60!black]
+\textbf{結論}：Setup B は理論的に可能。和則は「再配置」を許す。
+\end{tcolorbox}
+
+\subsection{Chapter 10 の Akkermans 公式 (Eq.\ 10.40)}
+
+Akkermans--Dunne--Levy が示した中心結果：
+\[
+  \zeta_H(s) - \zeta_{H_0}(s) = \frac{1}{\pi}\int_0^\infty dE\;E^{-s}\,\frac{d\delta(E)}{dE}
+\]
+ここで $\delta(E)$ は構造の S 行列全位相シフト（$\delta = \pi \cdot \Delta N$ の規約）。
+これは \textbf{1D 多層膜の透過位相シフトを測れば、その構造の \emph{スペクトルゼータ} が
+完全に決まる}という驚くべき関係。
+
+検算（単一束縛状態 $E_b$）：
+\begin{itemize}
+\item LHS: $\zeta_H(s) - \zeta_{H_0}(s) = E_b^{-s}$
+\item RHS: $\delta(E) = \pi\theta(E-E_b)$、$d\delta/dE = \pi\delta(E-E_b)$、
+  積分 $= E_b^{-s}$ \checkmark
+\end{itemize}
+
+\textbf{Setup B の課題はこの式の \emph{逆問題} に還元される}：
+\begin{quote}
+$\delta(E)$ の関数形が、目標 $\zeta_{\rm DN}(s) - \zeta_{\rm DD}(s) = (2^{2s}-2)\zeta(2s)$
+を再現するような多層膜を設計せよ。
+\end{quote}
+
+これは WB の grading 仮説を一切使わない \textbf{純古典的な inverse design 問題}。
+
+\subsection{目標位相シフト関数 $\delta_{\rm target}(E)$ の陽的計算}
+
+参照系（DD 共振器、$L=\pi$）：$E_n^{\rm DD} = n^2$、計数 $N_{\rm DD}(E) = \lfloor\sqrt E\rfloor$。
+目標系（DN 共振器）：$E_n^{\rm DN} = (n-\tfrac12)^2$、計数 $N_{\rm DN}(E) = \lfloor\sqrt E + \tfrac12\rfloor$。
+
+$\Delta N(E) = N_{\rm DN}(E) - N_{\rm DD}(E)$ の振る舞いを区間ごとに数値計算：
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+$E$ の区間 & $N_{\rm DD}$ & $N_{\rm DN}$ & $\Delta N$ \\
+\midrule
+$[0.25, 1.00)$  & 0 & 1 & 1 \\
+$[1.00, 2.25)$  & 1 & 1 & 0 \\
+$[2.25, 4.00)$  & 1 & 2 & 1 \\
+$[4.00, 6.25)$  & 2 & 2 & 0 \\
+$[6.25, 9.00)$  & 2 & 3 & 1 \\
+$[9.00, 12.25)$ & 3 & 3 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+すなわち $\Delta N(E)$ は 0 と 1 を交互に取る矩形波。位相シフトは：
+\[
+  \boxed{\;
+  \frac{d\delta_{\rm target}}{dE}
+  = \pi\!\left[\sum_{n=1}^\infty \delta\!\bigl(E - (n-\tfrac12)^2\bigr)
+            - \sum_{n=1}^\infty \delta(E - n^2)\right]\;}
+\]
+$(n-\tfrac12)^2$ で $+\pi$、$n^2$ で $-\pi$ の位相飛び。
+
+\textbf{整合性検証}：Eq.\ 10.40 に代入：
+\begin{align*}
+\text{RHS}
+&= \frac{1}{\pi}\int E^{-s}\frac{d\delta}{dE}dE
+ = \sum_n (n-\tfrac12)^{-2s} - \sum_n n^{-2s}\\
+&= (2^{2s}-1)\zeta(2s) - \zeta(2s) = (2^{2s}-2)\zeta(2s)\\
+\text{LHS}
+&= \zeta_{\rm DN}(s) - \zeta_{\rm DD}(s) = (2^{2s}-2)\zeta(2s) \quad\checkmark
+\end{align*}
+
+\subsection{Boyer 比 $-7/8$ の解析的・数値的検証}
+
+$s = -3$（3D Casimir）における Hurwitz ゼータ：
+\[
+  \zeta(-3) = -\frac{B_4}{4} = -\frac{-1/30}{4} = \frac{1}{120}
+\]
+\[
+  B_4(\tfrac12) = \tfrac{1}{16} - \tfrac{1}{4} + \tfrac{1}{4} - \tfrac{1}{30}
+                = \tfrac{1}{16} - \tfrac{1}{30} = \tfrac{7}{240}
+\]
+\[
+  \zeta(-3, \tfrac12) = -\frac{B_4(1/2)}{4} = -\frac{7}{960}
+\]
+
+3D 平行板 Casimir エネルギー比：
+\[
+  \frac{E_{\rm DN}/A}{E_{\rm DD}/A}
+  = \frac{-\zeta(-3,\tfrac12)}{-\zeta(-3)}
+  = \frac{+7/960}{-1/120}
+  = -\frac{7}{8}
+\]
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\textbf{Boyer 比}：$F_{\rm DN}/F_{\rm DD} = -7/8$。
+符号反転 + 大きさ 7/8 倍。これは Boyer (1974) の予言、Kenneth--Klich (2002)
+で厳密に証明済み。\textbf{WB 仮説不要}。
+\end{tcolorbox}
+
+\subsection{Pate ドラム装置への定量予測}
+
+Pate 装置の機械周波数：
+\begin{itemize}
+\item bare（カシミールなし）: $\omega_{\rm bare}/2\pi = 16.247$ MHz
+\item 観測（標準カシミール下）: $\omega_{\rm meas}/2\pi = 10.001$ MHz
+\item Casimir 軟化寄与: $\Delta\omega^2_{\rm DD} = \omega_{\rm bare}^2 - \omega_{\rm meas}^2
+  \approx 6.47\times 10^{15}$ (rad/s)$^2$
+\end{itemize}
+
+Setup B（DN 等価ボトム電極）の予測：
+\[
+  \Delta\omega^2_{\rm DN} = -\frac{7}{8}\Delta\omega^2_{\rm DD}
+  \approx -5.66\times 10^{15}\;\text{(rad/s)}^2
+\]
+
+新しい機械周波数：
+\[
+  \omega_{\rm new}^2 = \omega_{\rm bare}^2 - \Delta\omega^2_{\rm DN}
+  \quad\Rightarrow\quad
+  f_{\rm new} \approx 20.185\;\text{MHz}
+\]
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+測定 & 機械周波数 & bare からのシフト \\
+\midrule
+カシミールなし (bare)        & 16.247 MHz & 0 \\
+標準 DD カシミール（軟化）   & 10.001 MHz & $-6.246$ MHz \\
+\textbf{Setup B (DN 等価、硬化)} & \textbf{20.185 MHz} & \textbf{$+3.938$ MHz} \\
+\midrule
+\textbf{DD $\to$ DN swing}   & --- & \textbf{$10.184$ MHz} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black]
+\textbf{予測信号}：機械モードが \textbf{6 MHz の軟化}（DD）から
+\textbf{4 MHz の硬化}（DN）に切り替わる。総 swing $\sim 10$ MHz。
+Pate 装置の Hz レベル分解能（$\gamma_m \sim 169$ Hz）に対して
+\textbf{10⁵ レベルの SN}。
+\end{tcolorbox}
+
+\subsection{物理実装：DBR 多層膜の設計仕様}
+
+目標位相シフト $d\delta/dE = \pi[\sum\delta(E-(n-\tfrac12)^2) - \sum\delta(E-n^2)]$ は、
+分布 Bragg 反射器（DBR）の各 stop-band 端での $\pi$ 位相飛びと自然に対応する。
+
+Transfer matrix 計算（$n_L = 1.45$ (SiO$_2$)、$n_H = 2.10$ (Ta$_2$O$_5$)、
+$N_{\rm pairs}=15$、$\lambda/4$ 設計）の結果：
+
+\begin{center}
+\begin{tabular}{rrr}
+\toprule
+$k/(2\pi/\lambda_0)$ & $|r|^2$ & $\arg(r)/\pi$ \\
+\midrule
+0.50 & 0.228 & $-0.758$ \\
+0.95 & 1.000 & $-0.235$ \\
+\textbf{1.00} & \textbf{1.000} & \textbf{$-0.006$} \\
+1.05 & 1.000 & $+0.235$ \\
+1.50 & 0.228 & $+0.758$ \\
+2.00 & 0.000 & --- \\
+3.00 & 1.000 & $+0.000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item Bragg 中心 $k_0 = 2\pi/\lambda_0$ で $|r|^2 = 1$ かつ $\arg(r) \approx 0$
+  $\to$ \textbf{PMC 等価境界条件}（Boyer の DN 鏡）
+\item Stop-band の幅は $\sim \pm 5\%$ で十分広い
+\item 反射位相が $-\pi/2$ から $+\pi/2$ へ滑らかに変化 $\to$ 各 stop-band 端で
+  $\pi$ 位相シフト
+\end{itemize}
+
+具体的な材料寸法（Pate cavity 5.46 GHz が「基本モード」になるよう設計）：
+\[
+  \lambda_0 = \frac{c}{2 \times 5.46\,\text{GHz}} = 27.45\;\text{mm}
+\]
+\begin{itemize}
+\item SiO$_2$ 層厚 $d_L = \lambda_0/(4 n_L) = 4.733$ mm
+\item Ta$_2$O$_5$ 層厚 $d_H = \lambda_0/(4 n_H) = 3.268$ mm
+\end{itemize}
+
+\textbf{注意}：Pate 装置は 15 nm 真空ギャップでの光学カシミールなので、
+上記の \emph{microwave-scale} DBR は概念計算。実装版は Casimir 関連波長
+（DC$\sim$UV）に対して \textbf{broadband DN 振る舞い}が必要 $\to$
+\textbf{fractal Cantor} または \textbf{self-similar Fibonacci} スタックが第 1 候補
+（Chapter 10 §10.6.5--10.6.6 で具体的計算が示されている）。
+
+\subsection{§8.3.2.1 と §1.5：素数アレイの実験的足場}
+
+\paragraph{§8.3.2.1 (Forestiere et al.)：Prime number array 実証済み.}
+Ag ナノ粒子（$r=50$ nm、$d_{\rm min} = 25$ nm）を素数位置に配列したアレイが
+2013 年時点で作製・測定されている。広帯域な field enhancement、coprime/Ulam
+配列との明確な区別。図 8.7 の遠方場散乱で「単純な Fourier 光学からの逸脱」を
+示すと報告。\textbf{素数構造の Casimir 真空への寄与は、原理的に同じ装置で
+測れる}。
+
+\paragraph{§1.5 (Dal Negro)：Riemann ζ そのものの物理化.}
+著者自身が Riemann ζ 関数の critical line 上の値を Fourier 解析し、
+multifractal 構造を示している。「数論的構造が物理的散乱の語彙で書ける」ことの
+直接実演。Setup B の哲学的基盤。
+
+\subsection{Setup B 実装プロトコル T1--T8}
+
+\begin{center}
+\begin{tabular}{p{0.06\textwidth}p{0.88\textwidth}}
+\toprule
+段階 & 内容 \\
+\midrule
+T1 & 目標 zeta を定義：$\zeta_{\rm DN}(s) - \zeta_{\rm DD}(s) = (2^{2s}-2)\zeta(2s)$ \\
+T2 & Akkermans 式 (10.40) の逆問題：$\delta_{\rm target}(E)$ を算出済み
+  $\to$ $\Delta N(E)$ は 0/1 の矩形波 \\
+T3 & 候補 3 種を並行設計：
+  (a) DBR 多層膜（数値仕様上記）、
+  (b) Cantor 自己相似スタック（broadband 用）、
+  (c) Fibonacci スタック（自己相似スペクトル） \\
+T4 & 各候補の transfer matrix を Chapter 10 §10.5--10.6 の式 (10.83--10.95) で計算 \\
+T5 & 計算した $\delta(E)$ と $\delta_{\rm target}$ を比較し最良候補を選定 \\
+T6 & 数値最適化：層厚 $d_i$・屈折率 $n_i$ を変数として
+  $\|\delta(E) - \delta_{\rm target}\|$ を最小化 \\
+T7 & 最適構造を Pate ドラムの底面電極として fabricate
+  （電子線リソグラフィ + スパッタ） \\
+T8 & 機械モード周波数を測定。予測：
+  $f_{\rm meas} \approx 10.0$ MHz から $f_{\rm DN} \approx 20.2$ MHz への
+  swing（差 $\sim 10$ MHz） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{WB 仮説からの完全独立とその意味}
+
+Setup B のオリジナル版では「$\pi$-接合 $\to$ grading $\to$ $-\zeta(t)$」という
+WB 独自リンク (L5) が不可欠だった。Chapter 10 + §3.5 の解析で \textbf{L5 を完全に
+バイパスできる}：
+
+\begin{tcolorbox}[colback=blue!5,colframe=blue!50!black]
+\[
+\boxed{\;
+\begin{array}{c}
+\text{多層膜の } \delta(E) \;\xrightarrow{\text{Akkermans Eq.\ 10.40}}\; \zeta_H(s)\\[4pt]
+\text{これは古典 EM 理論で完全に決まる}\\[4pt]
+\text{WB 仮説不要}
+\end{array}
+\;}
+\]
+\end{tcolorbox}
+
+つまり Setup B は次の 3 つを一挙に達成する：
+\begin{enumerate}
+\item \textbf{Boyer 50 年予言の初検証}（PEC--PMC カシミール斥力の直接測定）
+\item \textbf{数論的アペリオディック構造の Casimir 真空への直接効果の初観測}
+\item \textbf{Phase F に向けた最大のリスク（L5）の解消}
+\end{enumerate}
+
+これが成功しても WB の反重力理論は \emph{直接} 立証されない（Boyer は古典 EM 内の
+現象だから）。しかし \textbf{Phase F の Setup A（$\pi$-接合電極）と並行して走らせる
+ことで、L5 を独立にチェック可能}になる：
+
+\begin{itemize}
+\item Setup B のみ陽性、Setup A 陰性 $\to$ 古典 Boyer 効果のみ存在、grading は無し
+\item Setup A 陽性 $\to$ grading 機構の存在の直接証拠、WB 理論強化
+\item 両方陽性 $\to$ 効果の積で巨大信号、Phase F へ自然移行
+\item 両方陰性 $\to$ Pate 測定法自体の見直し（装置依存性）
+\end{itemize}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=§7 の一行まとめ]
+Akkermans Eq.\ 10.40 と DOS 和則の組み合わせで、Setup B は
+\textbf{純古典 inverse design 問題}に還元される。目標位相シフトは
+$\delta_{\rm target}/\pi = $ 矩形波（0/1 交替）、Boyer 比は $-7/8$、
+Pate 装置での予測 swing は $\sim 10$ MHz。WB 仮説不要で、Boyer 50 年予言の
+初検証 + Phase F の最大リスク解消を一挙に達成する経路。
+\end{tcolorbox}
+
+%======================================================================
+\section{4/10 時点のアクション含意}
+%======================================================================
+
+\begin{enumerate}
+\item Phase 2 を「最終テスト」と呼ばないこと。Phase 0.5 で L5 を予備的に切り分ける
+  順序の重要性を、これまで以上に明示的に書く価値がある。
+\item 「$\pi$-接合プレートで $p=2$ がミュートできる」という言い方を口頭でも避ける。
+  $-\zeta(t)$ と $\zeta_{\neg 2}(t)$ は概念的に近いが、実験的にはまったく別の
+  対象を測ることになる。
+\item Phase 0（DN/DD BAW、$\zeta_{\neg 2}$ 検証）と Phase 2（$-\zeta$ 検証）の
+  どちらが「先に」当たるかは、L5 の物理がどちらに近いかを切り分ける鍵。
+  順序づけは現状のままで良いが、両者の独立性を強調するべき。
+\item Bimonte 系の超伝導カシミール理論との $\sim 10^3$--$10^4$ 桁ギャップは
+  Phase 2 計画書に「我々は何を Bimonte よりも積極的に主張しているか」という形で
+  書き残す。具体的には：「Lifshitz 公式は Nambu 分極バブル経由で
+  $|\Delta|^2$ にしか感度を持たないため、$\pi$-接合と 0-接合を区別できない。
+  WB は proximity effect 経由で grading 情報が EM 真空モードに転写されると
+  主張しており、これは Lifshitz の枠外にある追加リンクを要求する」（§4 参照）。
+  これがないと、追試者が Bimonte の予測値を見て「Phase 2 は失敗扱い」にしかねない。
+\item Phase 2 を Pate et al.\ 2025 のマイクロ波光学機械ドラム方式に乗せ換えることを
+  検討する（§6）。最初に試すべきは Setup B（Dal Negro 数論的電極、SC 不要、
+  4 K 動作）で、これは WB 独自仮説をほぼ使わずに Boyer の符号反転を直接見られる。
+  Setup A（$\pi$-接合電極、Nb 化）は希釈冷凍機アクセスがあれば WB の核心部を
+  直接テストできる。並行して進める価値あり。
+\item Boyer + Bimonte 2005 + Dal Negro の文献群（§5）を Phase 2 計画書の
+  「先行研究」セクションに正式に組み込み、L5 への一点突破ベットから 3 層合算への
+  移行を文書化する。
+\item §7 の解析結果を Setup B 設計仕様書として独立 PDF にまとめる。具体的には：
+  目標位相シフト $\delta_{\rm target}(E)$、DBR 数値仕様（材料 SiO$_2$/Ta$_2$O$_5$、
+  層厚、Bragg 中心周波数）、Pate 装置での予測信号 swing $\sim 10$ MHz、
+  Cantor/Fibonacci 候補のリスト。これを実装担当者（実験家）への
+  ハンドオフ文書として使う。
+\item Phase F の Setup A（$\pi$-接合電極）と Setup B（数論的多層膜電極）を
+  \textbf{並行に走らせる}ことを明示的に決定する。両者は L5 を独立にチェックする
+  相補的実験で、結果の組み合わせが情報量最大になる。
+\end{enumerate}
+
+\end{document}
