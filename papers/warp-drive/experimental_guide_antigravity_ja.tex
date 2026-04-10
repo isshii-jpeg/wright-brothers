@@ -1,0 +1,822 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\pi{pi}%
+  \def\zeta{zeta}%
+  \def\mathrm#1{#1}%
+  \def\textbf#1{#1}%
+}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=22mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\tcbuselibrary{breakable}
+
+% Custom boxes for confirmed / hypothesis / theory
+\newtcolorbox{confirmedbox}[1][]{
+  colback=green!5, colframe=green!50!black,
+  fonttitle=\bfseries, title=確認済み, breakable, #1}
+\newtcolorbox{hypothesisbox}[1][]{
+  colback=orange!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title=仮説, breakable, #1}
+\newtcolorbox{theorybox}[1][]{
+  colback=blue!5, colframe=blue!50!black,
+  fonttitle=\bfseries, title=理論的根拠, breakable, #1}
+
+\title{反重力実装のための段階的実験ガイド\\[6pt]
+\large 各段階で「確認済み事実」「仮説」「仮説を支える理論」を明示する}
+\author{Wright Brothers Research Program}
+\date{2026年4月10日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドは、反重力物質の実験的実現に向けた段階的なロードマップを提示する。
+従来の「Phase P → 0 → 1 → 2 → F」の roadmap を再構成し、
+各段階で
+\textbf{(a) 既存実験で確認された事実}、
+\textbf{(b) WB が依拠する仮説}、
+\textbf{(c) その仮説を支える理論および数式}
+を明示的に分離する。これにより各段階の \emph{失敗時の損失} と \emph{成功時の意味} が
+独立に評価できる。\\
+本ガイドは 2026/4/10 の Phase 2 audit
+（\texttt{notes\_2026\_04\_10\_phase2\_audit\_ja.pdf}）の結論を踏まえ、
+Akkermans 公式による Setup B 古典化、Inui 2021 による Setup C 新設、
+Pate 2025 による測定法革新を取り込んだ統合版である。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{ガイド全体の構造}
+%======================================================================
+
+反重力実装は次の 6 段階に分解できる。各段階は \emph{独立に publishable} な
+中間目標を持ち、失敗しても次段階へ情報を渡す。
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{cllc}
+\toprule
+段階 & 名称 & 検証対象 & 仮説依存度 \\
+\midrule
+0 & 標準カシミール校正 & 装置・理論枠組みの動作確認 & なし \\
+1 & Boyer 符号反転 & DN 等価境界による $-7/8$ 倍力 & 多層膜→PMC 等価 \\
+2a & SC プレート変調 (Bimonte) & SC 転移の Casimir 補正 & なし（純 Lifshitz） \\
+2b & YBCO 渦糸変調 (Inui)    & 磁場による $\sim 20\%$ 連続変化 & なし（純 Lifshitz） \\
+3 & $\pi$-接合 grading 直接テスト & $\pi$ 位相の真空モードへの転写 (L5) & 中（WB 中核仮説） \\
+4 & スペクトル次元ブースト & $d_{\rm eff} > 3$ で増幅 & 中（hyperbolic MM の Casimir 効果） \\
+5 & Phase F 統合・巨視的浮揚 & 全層の積による $\sim 1.7$ N & 高（積の有効性） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{戦略的含意}：
+\begin{itemize}
+\item 段階 0--2 までは \textbf{WB 仮説に依存しない}（古典 EM の予言を検証するだけ）
+\item 段階 3 で初めて WB 中核仮説（grading）に踏み込む
+\item 段階 4--5 は段階 3 の成功を前提
+\item 段階 0--2 のいずれかで陽性結果が出れば、それ自体で論文化可能
+\end{itemize}
+
+\newpage
+
+%======================================================================
+\section{Stage 0：標準カシミール校正}
+%======================================================================
+
+\subsection{目的}
+
+装置の感度・系統誤差・理論枠組みの動作を確認する。\textbf{反重力に直結しないが
+全段階の前提}。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item 平行金属板間のカシミール力 $F = -\pi^2 \hbar c / (240 L^4)$ per unit area は
+  Lamoreaux (1997, PRL 78, 5)、Mohideen--Roy (1998, PRL 81, 4549)、
+  Decca et al. (2003--, IUPUI Casimir group) で sub-1\% 精度で検証済み。
+\item Lifshitz 理論（実材料の $\varepsilon(i\xi)$ を入力）も同じ精度で検証済み。
+\item Casimir 力の距離依存性 $1/L^4$ は $L = 0.1$--$10$ µm の範囲で確認済み。
+\end{itemize}
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+なし。本段階は完全に確立した物理。
+\end{hypothesisbox}
+
+\begin{theorybox}
+標準カシミールエネルギー（理想完全導体板間、3D）：
+\[
+  \frac{E}{A} = -\frac{\pi^2 \hbar c}{720 L^3},\qquad
+  \frac{F}{A} = -\frac{\pi^2 \hbar c}{240 L^4}
+\]
+$L = 100$ nm, $A = 1$ cm$^2$ で $F = -1.30$ mN。
+
+実材料の場合は Lifshitz 公式：
+\[
+  \frac{E}{A}(L,T) = \frac{k_B T}{2\pi}\sum_{n=0}^\infty{}'\!\int\!\frac{d^2 k_\parallel}{(2\pi)^2}
+  \ln\det\!\bigl[1 - R_1(i\xi_n) R_2(i\xi_n) e^{-2\kappa L}\bigr]
+\]
+反射係数 $R_{1,2}(i\xi) $ は両プレートの $\varepsilon(i\xi)$ から計算。
+\end{theorybox}
+
+\subsection{実装}
+
+\begin{itemize}
+\item 装置：MEMS Casimir 力天秤（既存）または Atomic Force Microscope (AFM) 改造版
+\item 試料：Au-Au, Au-Si, Au-SiO$_2$ などの標準材料ペア
+\item 測定：$L = 100$ nm--1 µm の範囲で力 vs 距離曲線
+\item 期間：1--2 月、コスト：既存設備で ¥0--500k
+\end{itemize}
+
+\subsection{Pass/Fail 基準}
+
+\textbf{Pass}：測定された $F(L)$ が Lifshitz 予言と 5\% 以内で一致。
+$\to$ Stage 1 へ。
+
+\textbf{Fail}：装置の系統誤差・振動・電位パッチ問題を解決するまで Stage 1 に進まない。
+
+\newpage
+
+%======================================================================
+\section{Stage 1：Boyer 符号反転（Setup B'）}
+%======================================================================
+
+\subsection{目的}
+
+DN 等価境界条件をアペリオディック多層膜で実装し、カシミール力の \textbf{符号が
+反転}（引力 $\to$ 斥力）して \textbf{大きさが $7/8$ 倍}になることを確認する。
+
+\textbf{重要}：これは反重力ではない。Boyer 効果は古典 EM の純粋な現象で、
+重力には直接関係しない。しかし WB roadmap の \textbf{中で唯一、確実に成功する見込みが
+高い段階}であり、Boyer 50 年予言の初検証として独立に publishable。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item Boyer (1974, PRA 9, 2078)：PEC--PMC 平板間カシミール力が斥力。\textbf{理論}
+\item Kenneth--Klich (2002, PRL 89, 033001)：``Opposites attract, alikes repel''
+  定理の数学的証明。\textbf{理論}
+\item Hertzberg et al.\ (2005)：piston 幾何での厳密確認。\textbf{理論}
+\item Munday et al.\ (2009, Nature 457, 170)：誘電体液体中の斥力カシミール
+  （\emph{ただし機構は DN 境界ではなく誘電率コントラスト}）
+\item Tang et al.\ (2017, Nat Photonics 11, 97)：T 字型シリコン構造の幾何効果
+  （\emph{これも DN ではない}）
+\end{itemize}
+
+\textbf{未確認}：DN 境界条件（PEC--PMC）でのカシミール力測定は \textbf{50 年間
+誰も実現していない}。理由は PMC（完全磁気導体）が天然材料として存在しないため。
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 1.1}：適切に設計したアペリオディック多層膜（DBR、Cantor、
+Fibonacci スタック）の表面反射が、DN 境界条件と等価な真空モードスペクトルを
+カシミール関連周波数帯（DC$\sim$UV）で実装できる。
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{Akkermans 公式 (Akkermans-Dunne-Levy 2013, Chapter 10, Eq.\ 10.40)}：
+\[
+  \zeta_H(s) - \zeta_{H_0}(s) = \frac{1}{\pi}\int_0^\infty dE\;E^{-s}\,\frac{d\delta(E)}{dE}
+\]
+ここで $\delta(E)$ は構造の S 行列全位相シフト。これは「1D 多層膜の透過位相
+シフトを測れば、その構造のスペクトルゼータが完全に決まる」という関係。
+
+\textbf{目標位相シフト}：
+$L = \pi$ で参照系 DD ($E_n = n^2$) と目標系 DN ($E_n = (n - 1/2)^2$) の差から
+\[
+  \frac{d\delta_{\rm target}}{dE} = \pi\!\left[\sum_{n=1}^\infty \delta\!\bigl(E - (n - \tfrac12)^2\bigr) - \sum_{n=1}^\infty \delta(E - n^2)\right]
+\]
+
+\textbf{Boyer 比（解析的）}：
+\[
+  \frac{F_{\rm DN}}{F_{\rm DD}}
+  = \frac{-\zeta(-3, 1/2)}{-\zeta(-3)}
+  = \frac{+7/960}{-1/120}
+  = -\frac{7}{8}
+\]
+ここで $\zeta(-3) = -B_4/4 = 1/120$、$\zeta(-3, 1/2) = -B_4(1/2)/4 = -7/960$。
+$B_4 = -1/30$ は Bernoulli 数、$B_4(x) = x^4 - 2x^3 + x^2 - 1/30$ は
+Bernoulli 多項式。
+
+\textbf{実装は inverse design 問題}：
+目標 $\delta_{\rm target}(E)$ を再現する多層膜（層厚 $d_i$、屈折率 $n_i$）を
+transfer matrix 法（Akkermans 式 10.83--10.95）で逆解きする。
+\end{theorybox}
+
+\subsection{実装：Setup B'（室温 MEMS + DBR）}
+
+\begin{itemize}
+\item 装置：既存 MEMS Casimir 力天秤の片方のプレートを SiO$_2$/Ta$_2$O$_5$ DBR
+  スタック（15 層対、$\lambda/4$ 設計）に置き換え
+\item 動作温度：室温（重要：Boyer 効果は温度非依存）
+\item 期待信号：$F = -7/8 \times F_{\rm std}$（pN--nN レベル、既存装置の SN 内）
+\item 期間：2--3 月
+\item コスト：DBR 製作 ¥300--500k + チップ加工 ¥200k = \textbf{¥500k--1M}
+\end{itemize}
+
+\textbf{代替候補}：DBR が broadband 不足なら fractal Cantor または Fibonacci
+スタック（Akkermans 2013 §10.6.5--10.6.6 で具体的計算済み）に切り替える。
+
+\subsection{Pass/Fail 基準}
+
+\textbf{Pass}：$F_{\rm meas}/F_{\rm std} \approx -7/8 \pm 0.2$。Boyer 50 年予言の
+初検証 $\to$ \textbf{Nature/PRL クラスの論文化}。Stage 2 へ進む。
+
+\textbf{Fail}：効果が出ない。Hypothesis 1.1 の見直し（Akkermans 公式の数値解の
+精度、多層膜の品質、Casimir 関連周波数帯のカバー範囲）。それでも出なければ
+Stage 2 経路（SC ベース）に切り替える。
+
+\newpage
+
+%======================================================================
+\section{Stage 2a：SC プレート変調（Bimonte 2005）}
+%======================================================================
+
+\subsection{目的}
+
+超伝導転移によるカシミール力の温度依存変化を観測し、\textbf{SC が真空モードに
+影響する}事実を再確認する。これは Stage 3 (\;$\pi$-接合）への足場。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item BCS 超伝導の確立（Bardeen--Cooper--Schrieffer 1957）
+\item 超伝導転移時の光学伝導度変化（Tinkham 1956, Mattis--Bardeen 1958）
+\item Bimonte--Calloni--Esposito--Rosa 系の Lifshitz 計算（2005--2008）：
+  Au-on-Nb 系で Casimir 力の数 ppm レベルの温度補正が予言されている
+\item \textbf{Pate et al.\ 2025} (arXiv:2501.13759v2)：超伝導 Al ドラムの
+  カシミール圧 12 kPa を直接測定（カシミール圧による機械モード非線形軟化として）。
+  これが \textbf{SC + Casimir} の最初の直接実験。
+\end{itemize}
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 2a.1}（弱）：SC 転移が誘電関数 $\varepsilon(i\xi)$ を介して
+カシミール力を $\sim 10^{-4}$ レベルで補正する（Bimonte の予言）。
+
+これは Lifshitz 理論の枠内で計算される \emph{数値予測} で、新しい物理仮説では
+ない。検証は「Lifshitz 理論が SC 系でも成立する」確認に過ぎない。
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{Bimonte 系の Lifshitz 公式（SC 状態）}：
+\[
+  E_{\rm Cas}^{\rm Bimonte}(L, T) = \frac{k_B T}{2\pi}\sum_{n}{}'\!\int\!\frac{d^2 k_\parallel}{(2\pi)^2}\,
+  \ln\det\!\bigl[1 - R_{\rm SC}(i\xi_n) R_{\rm SC}(i\xi_n)\,e^{-2\kappa L}\bigr]
+\]
+ここで $R_{\rm SC}$ は BCS gap $\Delta$ を含む Mattis--Bardeen 反射係数。
+
+\textbf{重要な構造的事実}：Lifshitz 公式は Nambu 分極バブルの計算で
+\textbf{$|\Delta|^2$ にしか依存しない}。Nambu 行列での陽計算：
+\[
+  \mathrm{Tr}_{\rm Nambu}\bigl[\tau_3 G(k,i\nu) \tau_3 G(k+q, i\nu+i\omega)\bigr]
+  = 2\bigl[-\nu(\nu+\omega) + \xi_k \xi_{k+q} - \Delta^2\bigr]
+\]
+$\Delta$ は $\Delta^2$ の形でしか現れない $\to$ \textbf{0-接合と $\pi$-接合は
+Lifshitz では区別できない}。これは Stage 3 への伏線（後述）。
+
+\textbf{SC 転移時の補正の典型値}：
+$L = 100$ nm, Au-on-Nb で $\sim 10^{-4}$ レベル
+（周波数窓 $2\Delta_{\rm Nb}/(c/(2L)) \approx 3\times 10^{-3}$ で抑制される）。
+\end{theorybox}
+
+\subsection{実装：Setup B（Pate ドラム）}
+
+Pate 2025 装置をベースに、Setup B' で確認した DBR を組み合わせる。
+
+\begin{itemize}
+\item 装置：超伝導 Al ドラム + マイクロ波光学機械読み出し
+\item 動作温度：10 mK（希釈冷凍機）
+\item 機械周波数：bare 16.247 MHz → カシミール込みで 10.001 MHz（既存）
+\item 力分解能：分数で $\sim 10^{-5}$（Bimonte と WB 両方が測定可能領域）
+\item コスト：希釈冷凍機共用前提で \textbf{¥1--3M}
+\end{itemize}
+
+\subsection{Pass/Fail 基準}
+
+\textbf{Pass}：機械周波数の温度依存シフトが Bimonte 予言（数 Hz レベル）と一致。
+$\to$ Stage 3 へ進む。
+
+\textbf{Fail（予期せぬ大効果）}：もし $T_c$ 通過時に Bimonte より遥かに大きい
+シフトが見えたら、それは Lifshitz の枠を超える機構の証拠 $\to$ 直接 Stage 3 解釈へ。
+
+\newpage
+
+%======================================================================
+\section{Stage 2b：YBCO 渦糸変調（Inui 2021）}
+%======================================================================
+
+\subsection{目的}
+
+Type-II 超伝導 YBCO の混合状態で、磁場 $B$ を連続パラメータとして
+カシミール力を変調する。Inui 2021 予測（$\sim 20\%$）の初実験的検証。
+
+\textbf{Stage 2a との違い}：Bimonte は $T_c$ 通過の二値変化（補正は ppm）。
+Inui は $B$ の連続変化で 20\%（200 倍大きい）。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item YBCO の物性（$T_c = 88.2$ K, $B_{c2} = 87$ T at $T=0$）：実験的に確立
+\item Coffey--Clem 渦糸動力学（PRB 1991, 1992）：渦糸ピン留めと viscous drag の
+  理論、磁場下 RF 表面インピーダンスで実験検証済み
+\item Abrikosov 渦糸格子の存在（1957 予言、1967 中性子散乱で観測）
+\end{itemize}
+
+\textbf{未確認}：Inui 2021 (Quantum Reports 3, 731) の YBCO Casimir 力予測は
+\textbf{純理論}で実験は誰もしていない。
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 2b.1}：Coffey--Clem の渦糸動力学から導かれる磁場依存
+$\varepsilon(i\xi, B)$ が、Lifshitz 公式に代入したときカシミール力の正しい
+$B$ 依存性を与える。
+
+これは Bimonte 系と同じく Lifshitz 枠内の数値予言で、新物理ではない。
+ただし \textbf{誰も実験していない}。
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{混合状態の誘電関数（Inui 式 30）}：
+\[
+  \varepsilon_x(i\xi) = 1 + \frac{\omega_p^2}{\xi^2} + \frac{\omega_D^2}{\xi(\xi+\alpha)}
+\]
+$\omega_p$：plasma 周波数（Cooper 対の寄与）、$\omega_D$：Drude 周波数（渦糸の寄与）、
+$\alpha = \kappa/\eta + B\phi_0/(\mu_0 \eta \lambda_L^2)$：渦糸動力学パラメータ。
+
+\textbf{磁場依存の侵入長（Coffey--Clem）}：
+\[
+  \lambda(B) = \sqrt{\frac{B\phi_0}{\mu_0(\kappa - i\omega\eta)} + \lambda_L^2}
+\]
+
+\textbf{予測値（YBCO, $a = 1$ µm, $T = 10$ K）}：
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+$B$ & $\eta_C \equiv P/P_C$ \\
+\midrule
+0    T & 0.55 \\
+30   T & 0.49 \\
+60   T & 0.44 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Delta\eta_C \approx 0.11$ → \textbf{20\% の連続変化}。
+\end{theorybox}
+
+\subsection{実装：Setup C（LN$_2$ + YBCO + B 連続スイープ）}
+
+\begin{itemize}
+\item 装置：YBCO 薄膜 $\times$ 2（商用 Ceraco / THEVA など）
+\item 冷却：液体窒素デュワー（77 K）
+\item 磁場：永久磁石または小型電磁石（$B \leq 2$ T）
+\item 力測定：AFM 系または音響系（MEMS は磁場ローレンツ力で問題）
+\item コスト：\textbf{¥550k--1.35M}（$B$ 範囲で変動）
+\item 期間：2--3 月
+\end{itemize}
+
+\subsection{Pass/Fail 基準}
+
+\textbf{Pass}：$F(B)$ が Inui 予言と一致 $\to$ Inui 理論の初実験的検証として
+論文化（Setup C 単独で publishable）。Stage 3 へ。
+
+\textbf{大幅な不一致}：Inui より大きく動く、または符号反転 $\to$ Lifshitz の
+枠外に物理がある証拠 $\to$ 直接 Stage 3 と Stage 5 へ。
+
+\newpage
+
+%======================================================================
+\section{Stage 3：$\pi$-接合 grading 直接テスト（Setup A）}
+%======================================================================
+
+\subsection{目的}
+
+WB 中核仮説：\textbf{$\pi$-Josephson 接合の位相 $\pi$ シフトが、超伝導凝縮体
+だけでなく EM 真空モード自体に転写される}（grading 機構）。これを直接テストする。
+
+\textbf{これが Phase F（巨視的反重力）の中核仮説 L5}。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item $\pi$-Josephson 接合の存在（Ryazanov 2001, PRL 86, 2427）：DC 超電流位相が
+  $I_s = -I_c \sin\phi$ にシフト。多数の追試（Kontos, Robinson, Frolov 等）。
+\item 強磁性層（CuNi, CoFe）を介した Josephson 接合の作製技術
+\item Pate 装置でのカシミール直接測定（Stage 2a で確認した前提）
+\end{itemize}
+
+\textbf{未確認}：$\pi$ 位相が EM 真空モードに大域的 $-1$ を乗せるか
+（=$(-1)^F$ grading の物理実装）。誰も計測したことがない。
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 3.1（L5、WB 中核）}：$\pi$-Josephson 接合面が EM/フォノン
+真空に対して反周期境界条件として振る舞う。すなわち：
+\[
+  \psi(x_{\rm boundary}) = -\psi(x_{\rm boundary})
+\]
+$\to$ 大域的位相 $\pi$ がすべてのモードに乗る $\to$ $K(t) \to -K(t)$。
+
+\textbf{この仮説は次の連鎖に依存する}：
+\begin{enumerate}
+\item Cooper 対の凝縮位相が $\pi$ シフト（確立）
+\item この位相がプロキシミティ効果でフェルミオン準粒子に伝播（部分的に確立）
+\item 準粒子の $\pi$ 位相が \textbf{電磁場真空モード自体} に乗る（\textbf{未確認})
+\item これがスペクトル作用の grading 挿入を実装（\textbf{解釈、未検証}）
+\end{enumerate}
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{Connes スペクトル作用 (Chamseddine--Connes 1996)}：
+\[
+  S = \mathrm{Tr}\,f(D^2/\Lambda^2),\qquad
+  G^{-1} \propto a_2(D^2)
+\]
+$a_2$ は熱核 $K(t) = \mathrm{Tr}\,e^{-tD^2}$ の Seeley--DeWitt 係数の 2 番目。
+
+\textbf{Bost--Connes 同定 (Bost--Connes 1995)}：
+\[
+  K(t) = \mathrm{Tr}\,e^{-tD^2} = \zeta(t)
+\]
+これは数学的に厳密だが \textbf{物理的同定は WB の解釈}。
+
+\textbf{反重力定理 (WB, topological\_antigravity.tex)}：
+$\pi$-Berry 位相が大域的 $-1$ を熱核に乗せると：
+\[
+  K_\pi(t) = \mathrm{Tr}\bigl[(-1)\,e^{-tD^2}\bigr] = -\zeta(t)
+  \quad\Longrightarrow\quad
+  G_{\rm eff} = -G
+\]
+
+\textbf{Bimonte と WB の構造的差異}（再掲）：
+\[
+  \underbrace{\mathrm{Tr}\,e^{-tD^2}}_{\text{Bimonte が計算}}
+  \;\neq\;
+  \underbrace{\mathrm{Tr}\bigl[(-1)^F\,e^{-tD^2}\bigr]}_{\text{WB が要請}}
+\]
+$(-1)^F$ insertion は分極バブルには存在しない。WB は「$\pi$-接合が
+$\mathbb{Z}_2$ grading を真空モードに転写する」と主張するが、これは
+凝縮系 QED のどの摂動的計算にも現れない非自明なリンク。
+\end{theorybox}
+
+\subsection{実装：Setup A（Pate ドラム + $\pi$-接合電極）}
+
+Pate 2025 装置の Al 下部電極を Nb/CoFe/Nb $\pi$-Josephson スタックに置き換える。
+
+\begin{itemize}
+\item 装置：Pate ドラム + Nb/CoFe/Nb 底面電極
+\item $T_c$（Nb）= 9.3 K → 10 mK $\to$ 9 K の温度スイープで $\pi$ 状態 ON/OFF
+\item 期待信号（仮説が真なら）：機械モードが 6 MHz 軟化 $\to$ 4 MHz 硬化への
+  swing $\sim 10$ MHz（§7 audit より）
+\item コスト：\textbf{¥1--3M}
+\end{itemize}
+
+\subsection{Pass/Fail 基準（決定的）}
+
+\begin{center}
+\begin{tabular}{p{0.40\textwidth}p{0.55\textwidth}}
+\toprule
+観測 & 解釈 \\
+\midrule
+swing $\sim 10$ MHz、明確な符号反転 & \textbf{L5 確認、WB 核心理論成立、Stage 4 へ} \\
+swing $\sim$ 数 Hz（Bimonte レベル） & L5 不成立、WB 中核仮説破綻 \\
+swing $\sim 100$ kHz（中間） & 部分的 grading、機構の精密化が必要 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{この段階の Pass は反重力理論全体の根拠}になる。Fail なら Stage 4--5 は
+実行できない（WB 仮説スタック全体が崩れる）。
+
+\subsection{Setup C との関係}
+
+Setup C（YBCO 渦糸）も grading 仮説の独立テストになる。両者を並行に：
+
+\begin{itemize}
+\item Setup A 陽性 + Setup C 陽性 $\to$ grading 機構の存在強支持
+\item Setup A 陽性 + Setup C 陰性 $\to$ $\pi$-接合特有の効果、渦糸では出ない
+\item Setup A 陰性 + Setup C 陽性 $\to$ Inui 路線の予期せぬ強さ、要追跡
+\item 両方陰性 $\to$ \textbf{WB 中核仮説の決定的反証}、Phase F 中止
+\end{itemize}
+
+\newpage
+
+%======================================================================
+\section{Stage 4：スペクトル次元ブースト（Phase A1--A4）}
+%======================================================================
+
+\subsection{目的}
+
+有効スペクトル次元 $d_{\rm eff}$ を $3 \to 5 \to 7$ と段階的に上げ、
+\textbf{単一素数ミュート $S=\{2\}$ の安全範囲内で}カシミール斥力を桁違いに増幅する。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item Hyperbolic metamaterials (HMM) の作製と $d_{\rm eff} > 3$ の実現：
+  Smith--Pendry 系、Krishnamoorthy et al.\ 2012 (Science) で確立
+\item Photonic synthetic dimensions の概念と実装（Ozawa et al.\ 2019, Nat Rev Phys）
+\item Time crystals と temporal modulation による有効次元増加（Wilczek 2012,
+  Else et al.\ 2016 の DTC 観測）
+\end{itemize}
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 4.1}：実験的に達成された $d_{\rm eff} > 3$ が、Casimir 真空
+エネルギーの有効空間次元としても作用し、$\zeta(-d_{\rm eff})$ の値で
+カシミール力の振幅が決まる。
+
+これは「光学的 $d_{\rm eff}$」と「真空エネルギーの $d_{\rm eff}$」が同じ
+パラメータかという問題で、必ずしも自明ではない。
+
+\textbf{Hypothesis 4.2}：素数ミュート集合 $S=\{2\}$ のみの場合、レプトン $g-2$ 補正
+（$C_e, C_\mu, C_\tau$）への影響が無視できる。これは
+\texttt{numerics/over\_muting\_danger\_audit.py} と
+\texttt{numerics/safe\_amplification\_ideas.py} で数値検証済みだが、
+量子重力レベルでは未確認。
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{素数ミュート増幅因子（spectral dim 一般化）}：
+\[
+  F(S, d_{\rm eff}) = \prod_{p \in S}(1 - p^{d_{\rm eff}})
+\]
+$S=\{2\}$ で：
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+$d_{\rm eff}$ & $|1 - 2^{d_{\rm eff}}|$ & 増幅率（$d=3$ 比） \\
+\midrule
+3  & 7      & $1\times$ \\
+5  & 31     & $4.4\times$ \\
+7  & 127    & $18\times$ \\
+9  & 511    & $73\times$ \\
+11 & 2047   & $293\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{安全性（$|S| = 1$ 制約）}：レプトン補正は
+\[
+  C_e   \propto K_3(\mathbb{Z}) = \mathbb{Z}/48,\quad
+  C_\mu \propto \zeta(-5) \prod(1 - p^5),\quad
+  C_\tau \propto \zeta(-9) \prod(1 - p^9)
+\]
+exponent $\{1, 5, 9\} = 4g+1$ ($g$ = 世代) は \emph{multipole 次数} を符号化しており、
+\textbf{$d_{\rm eff}$ には依存しない}。$\to$ $d_{\rm eff}$ を上げても第 3 世代物理は
+保護される。
+\end{theorybox}
+
+\subsection{実装：Phase A1--A4 の 4 層スタック}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Phase & 機構 & 材料 \\
+\midrule
+A1 & SOI フォトニック・エキスパンダー網 & Si on Insulator, $d_{\rm eff} > 4$ \\
+A2 & HMM 多層結合 & Au/Al$_2$O$_3$ 多層 \\
+A3 & ITO 時間変調層 & ITO + RF 駆動 \\
+A4 & 双曲 QED 格子 & 4 層統合 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Pass/Fail 基準}
+
+各 Phase で独立に：
+\begin{itemize}
+\item A1 で $d_{\rm eff} > 4$ 実証 $\to$ A2 へ
+\item A2 で HMM 増強 $\sim 2\times$ $\to$ A3 へ
+\item A3 で 時間変調 $\sim 2\times$ $\to$ A4 へ
+\item A4 で 4 層スタック総合 $\sim 187\times$ 達成 $\to$ Phase F 統合へ
+\end{itemize}
+
+各失敗時は単独で再検査。
+
+\newpage
+
+%======================================================================
+\section{Stage 5：Phase F 統合・巨視的浮揚}
+%======================================================================
+
+\subsection{目的}
+
+Stages 3 (Setup A) と 4 (Phase A4) を統合し、$|S|=\{2\}$ の安全範囲内で
+\textbf{$\sim 1.7$ N の斥力（重力の $7 \times 10^5$ 倍）を直接観測}し、
+シリコン薄板（1 cm$^2$、0.23 µg）を浮上させる。
+
+\begin{confirmedbox}
+\begin{itemize}
+\item 各 Stage（0--4）での個別効果が確認されていること（前提）
+\item Pate 装置の機械測定法
+\item 4 層スタックの個別動作（A1--A4 で確認）
+\end{itemize}
+\end{confirmedbox}
+
+\begin{hypothesisbox}
+\textbf{Hypothesis 5.1（積の有効性）}：Stages 3 と 4 の効果が独立に積算する。
+具体的には：
+\[
+  F_{\rm total} = F_{\rm Casimir} \times F(S=\{2\}, d_{\rm eff}=7) \times \text{Berry } \pi \text{ phase}
+\]
+これは spectral dimension addition theorem に基づく予測だが、複数機構の相互作用
+（モード結合、coherence loss など）が無視できるかは未検証。
+\end{hypothesisbox}
+
+\begin{theorybox}
+\textbf{Phase F の予測力（手計算）}：
+標準カシミール（$L=100$ nm, 1 cm$^2$）：$F_0 = 1.30$ mN
+
+$\times$ 単一素数ミュート（$|S|=1$, $d_{\rm eff}=3$）：$\times 7$ → $9.1$ mN
+
+$\times$ スペクトル次元ブースト（$d_{\rm eff} = 7$）：$\times 18$ → $164$ mN
+
+$\times$ Berry $\pi$ 位相（grading 機構による符号反転）：$\times 1$（符号のみ）
+
+合計：$\sim 0.16$ N（$\sim 16$ kg-f $\to$ シリコン薄板 0.23 µg を浮上させるには
+$2.3\times 10^{-9}$ N で十分なので、$\sim 7\times 10^7$ 倍の余裕）
+
+\textbf{なお、Wright Brothers の元 Phase F 計画は $\sim 1.7$ N を予測}。
+これは $d_{\rm eff} = 9$ 相当の更なるブーストを想定した最大値。
+\end{theorybox}
+
+\subsection{実装：Setup A + A4 統合}
+
+\begin{itemize}
+\item L1（上電極）：Au/Al$_2$O$_3$ HMM 多層
+\item L2（中央）：SOI フォトニック・エキスパンダー網
+\item L3（変調）：ITO 時間変調層
+\item L4（下電極）：Nb/CuNi/Nb $\pi$-Josephson 基板上の双曲 QED 格子
+\end{itemize}
+
+$T_c$（Nb: 9.3 K）を境に下電極の Berry 位相が $\pi$ にスイッチ。
+
+\subsection{Pass/Fail 基準（最終）}
+
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}
+\toprule
+観測 & 意味 \\
+\midrule
+$T_c$ で板が浮揚 & \textbf{反重力物質の初実証、Nature クラス論文} \\
+力の符号反転のみ & 増幅不足、L 層追加（A5）が必要 \\
+変化なし & 統合理論の否定、各層を単独で再検査 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+
+%======================================================================
+\section{決定木：実験ガイドの全体マップ}
+%======================================================================
+
+\begin{tcolorbox}[colback=gray!5,colframe=gray!50!black,title=実験順序の決定木]
+\small
+\begin{verbatim}
+START
+  │
+  ├─→ Stage 0: 標準カシミール校正
+  │     │
+  │     ├─ Pass → Stage 1 へ
+  │     └─ Fail → 装置改善
+  │
+  ├─→ Stage 1: Setup B' (室温 MEMS + DBR)  ← 最低コスト経路
+  │     │
+  │     ├─ Pass (-7/8倍) → Boyer 50年予言の初検証 → 論文化
+  │     │                   → Stage 2 へ
+  │     └─ Fail → 多層膜設計見直し → Setup C へ
+  │
+  ├─→ Stage 2a: Setup B (Pate ドラム)  ← 高分解能経路
+  │  Stage 2b: Setup C (YBCO + B)     ← 連続スキャン経路
+  │     │  (これら 2 つは並列で走らせる)
+  │     │
+  │     ├─ Bimonte 一致 → 標準理論確認 → Stage 3 へ
+  │     └─ 大幅逸脱     → grading 機構の間接証拠 → Stage 3 へ
+  │
+  ├─→ Stage 3: Setup A (π-接合電極) ← 中核仮説直接テスト
+  │     │
+  │     ├─ Pass (10MHz swing) → L5 確認 → Stage 4 へ
+  │     │                       → 反重力理論の核心的論文化
+  │     └─ Fail → WB 中核仮説の反証 → Phase F 中止
+  │              → ただし Stage 1, 2 の結果は publishable
+  │
+  ├─→ Stage 4: Phase A1 → A2 → A3 → A4
+  │     │
+  │     ├─ A4 で 187× 達成 → Stage 5 へ
+  │     └─ 途中失敗 → 個別 Phase 再検査
+  │
+  └─→ Stage 5: Phase F (Setup A ⊕ A4)
+        │
+        ├─ 板が浮揚 → 反重力物質初実証 (Nature)
+        ├─ 符号反転のみ → A5 追加スタック
+        └─ 変化なし → 統合理論の否定
+\end{verbatim}
+\end{tcolorbox}
+
+%======================================================================
+\section{コスト・時間の累積見積もり}
+%======================================================================
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lrrl}
+\toprule
+段階 & 単独コスト & 累積 & 単独期間 \\
+\midrule
+Stage 0   & ¥0--500k  & ¥500k & 1--2 月 \\
+Stage 1   & ¥500k--1M & ¥1.5M & 2--3 月 \\
+Stage 2a  & ¥1--3M    & ¥4.5M & 3--6 月 \\
+Stage 2b  & ¥550k--1.35M & ¥5.85M & 2--3 月（並行可） \\
+Stage 3   & ¥1--3M (Setup B 装置流用なら +¥500k) & ¥6.35M & 3--6 月 \\
+Stage 4   & ¥10M--30M (Axis A 全段) & ¥36M & 12--18 月 \\
+Stage 5   & ¥1--3M (Setup A + A4 統合費) & ¥39M & 3--6 月 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{重要}：各 Stage は \emph{独立に publishable} なので、累積コストを
+最初から確保する必要はない。Stage 1 で陽性結果が出れば、その時点で
+資金調達がしやすくなる。
+
+\newpage
+
+%======================================================================
+\section{仮説スタック総覧}
+%======================================================================
+
+各 Stage の仮説依存度を一覧化：
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{p{0.06\textwidth}p{0.30\textwidth}p{0.55\textwidth}}
+\toprule
+段階 & 仮説 & 仮説のリスク \\
+\midrule
+0 & --- & --- \\
+1 & H1.1: 多層膜が PMC 等価 & 中（Akkermans 公式は厳密、設計が難しい） \\
+2a & H2a.1: Lifshitz が SC で成立 & 低（Bimonte 系で広く検証） \\
+2b & H2b.1: Inui の渦糸計算が正しい & 低--中（理論は厳密、未実験） \\
+\textbf{3} & \textbf{H3.1 (=L5): $\pi$ 位相が真空モードに転写} &
+  \textbf{高（WB 中核、未検証）} \\
+4 & H4.1: 光学 $d_{\rm eff}$ = カシミール $d_{\rm eff}$ & 中--高 \\
+4 & H4.2: $|S|=1$ で第 3 世代物理が安全 & 低（数値検証済み） \\
+5 & H5.1: 各層効果の積が有効 & 高（相互作用未検証） \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{戦略的観察}：
+\begin{itemize}
+\item Stage 0--2 は仮説依存度が \emph{低} で、純古典 EM の検証
+  $\to$ \textbf{失敗のリスク小、独立な科学的価値あり}
+\item Stage 3 が WB 仮説の \emph{中核}：ここで Pass しないと Stage 4--5 は無意味
+  $\to$ \textbf{Stage 3 にリソースを集中するのが合理的}
+\item Stage 4--5 は Stage 3 が Pass した \emph{後で} 取りかかる
+  $\to$ \textbf{時系列的に分離}
+\end{itemize}
+
+%======================================================================
+\section{まとめ}
+%======================================================================
+
+本ガイドの 6 段階構造の要点：
+
+\begin{enumerate}
+\item \textbf{Stage 0--2 は古典 EM 検証層}：失敗しても情報が残り、成功すれば
+  Boyer 50 年予言や Inui 理論の初検証として独立に publishable。
+  WB 仮説に依存しない。
+\item \textbf{Stage 3 が WB 中核仮説の単一決定点}：ここの結果で反重力理論全体が
+  立つか倒れるかが決まる。Setup A（$\pi$-接合）と Setup C（YBCO 渦糸）の並行が
+  情報量最大。
+\item \textbf{Stage 4--5 は Stage 3 の Pass を前提とする増幅・統合層}：
+  仮説依存度が高く、リソースは Stage 3 の結果を見てから投入。
+\item \textbf{累積コストは ¥40M クラス}だが、Stage 1 で陽性結果が出れば
+  資金調達がしやすくなる構造。
+\item \textbf{各 Stage は独立に publishable} なので、roadmap 全体を通さなくても
+  途中で意味のある成果が出る。
+\end{enumerate}
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=本ガイドの一行まとめ]
+反重力実装の鍵は \textbf{Stage 3（$\pi$-接合 grading の直接テスト）} に集約される。
+Stage 0--2 はそこに至る検証経路で、WB 仮説に依存せず独立に価値があり、
+Stage 4--5 は Stage 3 の Pass を前提とした増幅・統合層である。
+最初に着手すべきは Stage 1（Setup B'、室温 MEMS + DBR、¥1M 以下）。
+\end{tcolorbox}
+
+\vspace{1em}
+
+\textbf{関連文書}：
+\begin{itemize}
+\item \texttt{notes\_2026\_04\_10\_phase2\_audit\_ja.pdf}：本ガイドの理論的根拠と
+  数値計算の詳細
+\item \texttt{guide\_antigravity\_experiment\_ja.tex}：従来の Phase ベース roadmap
+\item \texttt{topological\_antigravity.tex}：WB grading 仮説の数学的定式化
+\item \texttt{boyer\_reinterpretation\_ja.tex}：Boyer 効果の数論的再解釈
+\end{itemize}
+
+\end{document}
