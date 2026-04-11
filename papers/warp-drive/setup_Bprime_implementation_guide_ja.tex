@@ -1,0 +1,1288 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\pdfstringdefDisableCommands{%
+  \def\pi{pi}%
+  \def\zeta{zeta}%
+  \def\mathrm#1{#1}%
+  \def\textbf#1{#1}%
+}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage[margin=22mm]{geometry}
+\usepackage{xeCJK}
+\setCJKmainfont{Hiragino Mincho ProN}
+\setCJKsansfont{Hiragino Sans}
+\tcbuselibrary{breakable}
+
+% Custom boxes
+\newtcolorbox{tipbox}[1][]{
+  colback=yellow!5, colframe=orange!60!black,
+  fonttitle=\bfseries, title=コツ, breakable, #1}
+\newtcolorbox{warnbox}[1][]{
+  colback=red!5, colframe=red!60!black,
+  fonttitle=\bfseries, title=警告, breakable, #1}
+\newtcolorbox{candidatebox}[1][]{
+  colback=blue!3, colframe=blue!50!black,
+  fonttitle=\bfseries, title={#1}, breakable}
+
+\title{Setup B' 実装ガイドブック\\[6pt]
+\large 室温 MEMS + DBR による Boyer 符号反転実験の完全マニュアル\\[4pt]
+\normalsize 独立研究者・アマチュア向け、共同研究先アプローチ戦略付き}
+\author{Wright Brothers Research Program}
+\date{2026年4月11日}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本ガイドブックは、Stage 1（Boyer 符号反転）の Setup B'（室温 MEMS + DBR）を
+\textbf{独立研究者・アマチュア}が実際に走らせるための完全マニュアルである。
+
+実験の本質は「標準カシミール力測定装置の片方の電極を、Akkermans 公式で
+逆設計した DBR 多層膜に置き換え、力の符号と大きさを比較する」こと。
+予算はシナリオ A（共同研究前提）で約 ¥1M、期間は 6 ヶ月。
+
+本書の中核は \textbf{候補共同研究先の詳細プロフィール}と
+\textbf{独立研究者からの具体的アプローチ戦略}である。各候補者を
+「アマチュアへのオープンさ」「アプローチのしやすさ」の評価軸で
+1--5 のスコアでランク付けし、それぞれに最適化された連絡方法・
+提案書テンプレート・初回メール例を提供する。
+
+成功への鍵は「反重力」を前面に出さず、\textbf{「Boyer (1974) の 50 年未検証の
+予言を、Akkermans 公式によるオイラー積的解釈で初検証する」}という
+古典的に正しく、知的に興味深い切り口で提案することである。
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%======================================================================
+\section{はじめに：このガイドの読者と目的}
+%======================================================================
+
+\subsection{想定読者}
+
+\begin{itemize}
+\item 独立研究者・アマチュア物理愛好家で、自前の実験設備を持たない人
+\item 大学・研究所の物理学者と \textbf{共同研究} を立ち上げたい人
+\item 既存の Casimir 力測定装置を活用して \textbf{新しい実験} を提案したい人
+\item 「アカデミアの常識」を理解せずにいきなりアプローチして失敗したくない人
+\end{itemize}
+
+\subsection{このガイドが扱わないこと}
+
+\begin{itemize}
+\item Casimir 力の基礎物理（既存の教科書を参照、例：Milonni \emph{The Quantum Vacuum}）
+\item 装置の詳細製作技術（共同研究先の専門領域）
+\item WB 反重力理論の詳細（\texttt{topological\_antigravity.tex} を参照）
+\end{itemize}
+
+\subsection{重要な前提}
+
+\textbf{Setup B' は反重力を直接検証する実験ではない}。
+本実験は古典電磁気学の枠内で完結する Boyer (1974) の 50 年未検証予言を
+DBR 多層膜で初実験的に確かめるものである。
+
+\begin{tipbox}
+共同研究先にアプローチするとき「反重力」「ワープドライブ」といった用語を
+\textbf{絶対に最初に出してはいけない}。Boyer 効果の初検証としてピッチすれば、
+古典物理として完全に正当な提案となり、受け入れられる確率が桁違いに上がる。
+反重力との関係は、共同研究が軌道に乗ってから（あるいは論文投稿後に）
+\emph{副次的な}話題として触れる程度に留める。
+\end{tipbox}
+
+\newpage
+
+%======================================================================
+\section{実験の概要：30 秒で}
+%======================================================================
+
+\subsection{提案する実験}
+
+標準の MEMS / AFM 系カシミール力測定装置を用い、片方の電極を：
+
+\begin{itemize}
+\item \textbf{制御群}：Au コート Si プレート（標準的な金属電極）
+\item \textbf{処理群}：SiO$_2$/Ta$_2$O$_5$ 多層 DBR
+  （Akkermans 公式で逆設計、DN 等価境界条件を実装）
+\end{itemize}
+
+の 2 種類で交換し、カシミール力 $F(L)$ を $L = 100$ nm$\sim$1 µm の範囲で
+測定して比較する。
+
+\subsection{予測}
+
+理論予測（Boyer 1974, Kenneth--Klich 2002 で厳密化）：
+\[
+  \frac{F_{\rm DBR}}{F_{\rm Au}} = -\frac{7}{8} = -0.875
+\]
+すなわち：
+\begin{itemize}
+\item 符号反転（引力 $\to$ 斥力）
+\item 大きさは Au-Au の $7/8$ 倍
+\end{itemize}
+
+\subsection{50 年未検証の理由}
+
+Boyer 1974 が予言した PEC--PMC（完全電気導体--完全磁気導体）境界条件での
+カシミール斥力は、PMC が天然材料として存在しないために誰も実現したことがない。
+本実験は \textbf{DBR 多層膜が PMC 等価境界条件を実装する}という新しい
+洞察（Akkermans 公式 + 数論的逆設計）を使うことで、この 50 年来の問題を
+解く。
+
+\subsection{独立した科学的価値}
+
+たとえ反重力理論が間違っていても、本実験単体で：
+
+\begin{itemize}
+\item Boyer 50 年未検証予言の初検証
+\item Akkermans 公式の物理応用としての初実装
+\item PMC 等価境界の新規工学的実現
+\end{itemize}
+
+これらは \textbf{Nature / PRL クラスの論文}になりうる単独価値を持つ。
+
+\newpage
+
+%======================================================================
+\section{理論的根拠（要点のみ）}
+%======================================================================
+
+\subsection{Boyer ratio の導出}
+
+理想 PEC 板間（DD 境界）：
+\[
+  E_{\rm DD}/A = -\frac{\pi^2 \hbar c}{720 L^3}\;,\qquad F_{\rm DD}/A = -\frac{\pi^2 \hbar c}{240 L^4}
+\]
+
+PEC--PMC 板間（DN 境界）：モードが整数 $n$ から半整数 $(n-1/2)$ に変わる。
+これにより：
+\[
+  \frac{F_{\rm DN}}{F_{\rm DD}} = \frac{-\zeta(-3,1/2)}{-\zeta(-3)}
+                                = \frac{+7/960}{-1/120} = -\frac{7}{8}
+\]
+
+ここで $\zeta(-3) = 1/120$ は Riemann ゼータ、$\zeta(-3, 1/2) = -7/960$ は
+Hurwitz ゼータ（Bernoulli 多項式 $B_4(1/2)$ から計算）。
+
+\subsection{DBR が PMC 等価になる理由：Akkermans 公式}
+
+Akkermans--Dunne--Levy (2013) の式：
+\[
+  \zeta_H(s) - \zeta_{H_0}(s) = \frac{1}{\pi}\int_0^\infty dE\,E^{-s}\,\frac{d\delta(E)}{dE}
+\]
+
+これは「1D 多層膜の S 行列位相シフト $\delta(E)$ から、その構造のスペクトル
+ゼータが完全に決まる」という関係。逆に解けば、目標スペクトル（DN 等価）を
+実装するための位相シフトが計算でき、それを再現する多層膜層厚を inverse design
+できる。
+
+\subsection{設計仕様（参考値）}
+
+\begin{itemize}
+\item 材料：SiO$_2$ ($n_L = 1.45$) / Ta$_2$O$_5$ ($n_H = 2.10$)
+\item 層数：15--30 ペア
+\item Bragg 中心波長 $\lambda_0$：実験距離 $L$ に対して $\lambda_0 \approx 2L \times \sqrt{\varepsilon_{\rm eff}}$
+  程度（$L = 100$ nm なら $\lambda_0 \sim 280$ nm 近辺、UV-A 帯）
+\item 設計目標：Bragg 中心で $|r|^2 \approx 1$、$\arg(r) \approx 0$（PMC 等価）
+\item 詳細は \texttt{notes\_2026\_04\_10\_phase2\_audit\_ja.pdf} §7 を参照
+\end{itemize}
+
+\newpage
+
+%======================================================================
+\section{必要な装置・材料リスト}
+%======================================================================
+
+\subsection{A: カシミール力測定装置（最大項目）}
+
+\begin{center}
+\begin{tabular}{p{0.20\textwidth}p{0.45\textwidth}p{0.25\textwidth}}
+\toprule
+オプション & 内容 & コスト \\
+\midrule
+A1 既存 AFM 流用 & 共用施設の Bruker / JPK / Asylum AFM、カスタム球プローブ装着 & ¥0--¥200k（プローブのみ） \\
+A2 MEMS トーション秤 & Decca-IUPUI 系、MEMS ファブで製作 & ¥500k--¥2M \\
+A3 商用 AFM 新規購入 & Bruker Dimension Icon 等 & ¥10--15M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{独立研究者向け推奨：A1}。共同研究先の AFM を借用する。
+
+\subsection{B: DBR 多層膜（実験の核心）}
+
+\begin{itemize}
+\item \textbf{材料}：SiO$_2$/Ta$_2$O$_5$ または TiO$_2$/SiO$_2$
+\item \textbf{表面粗さ}：$< 1$ nm RMS（ion-beam sputtering 必須）
+\item \textbf{基板}：fused silica または Si、$\lambda/10$ 平坦度
+\item \textbf{調達先}：
+  \begin{itemize}
+  \item \textbf{Layertec GmbH}（独）：custom DBR、¥300--500k、納期 6--8 週
+  \item \textbf{Newport / MKS}：standard supermirror、¥200--400k
+  \item \textbf{Advanced Thin Films}（米）：IBS、¥500k--1M
+  \item \textbf{LIGO/KAGRA レガシー}：重力波検出器の余剰品、共同研究で ¥0
+  \end{itemize}
+\end{itemize}
+
+\subsection{C: 参照プレート}
+
+Au コート Si or fused silica、表面粗さ $< 1$ nm RMS、Au 厚 200 nm。
+コスト：¥50--100k。
+
+\subsection{D--G: 周辺装置}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+項目 & 仕様 & 中古コスト \\
+\midrule
+D 真空チャンバー    & $10^{-6}$ Torr、$\sim 30$ cm 径、turbo + scroll & ¥200--500k \\
+E 振動絶縁          & 空圧除振台 (Newport / Thorlabs)              & ¥500k or 借用 \\
+F1 ピエゾステージ    & Z 軸 nm 精度（PI / Aerotech）                 & ¥500k--1M \\
+F2 Kelvin 補正回路   & DC バイアス源 + 制御                          & ¥150k \\
+G ロックインアンプ   & SR830 / Zurich MFLI                           & ¥300k--1M \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+シナリオ A では D--G は \textbf{全て共同研究先の既存設備を借用}する。
+
+\newpage
+
+%======================================================================
+\section{予算 3 シナリオ}
+%======================================================================
+
+\subsection{シナリオ A：最安構成（既存ラボとの共同研究、推奨）}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+項目 & 金額 \\
+\midrule
+DBR 多層膜（Layertec custom） & ¥400k \\
+Au 球プローブ + 参照 Au プレート & ¥150k \\
+Kelvin 補正回路（自作 or 既製） & ¥100k \\
+消耗品（ガス、配線、洗浄液） & ¥100k \\
+旅費・滞在費（3 月、海外想定） & ¥300k \\
+\midrule
+\textbf{合計} & \textbf{¥1.05M} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{前提}：AFM、真空チャンバー、ピエゾ、ロックイン、振動絶縁を全て共同研究先で借用。
+
+\subsection{シナリオ B：自前構築（中規模、参考）}
+
+\begin{center}
+\begin{tabular}{lr}
+\toprule
+項目 & 金額 \\
+\midrule
+DBR 多層膜 & ¥500k \\
+カスタム MEMS or 高性能 AFM プローブ & ¥1M \\
+中古真空チャンバー + ポンプ & ¥500k \\
+ピエゾステージ & ¥800k \\
+ロックインアンプ（中古） & ¥300k \\
+振動絶縁テーブル & ¥500k \\
+Kelvin 補正系 & ¥150k \\
+消耗品 & ¥200k \\
+人件費（6 月） & ¥1M \\
+\midrule
+\textbf{合計} & \textbf{¥4.95M} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{シナリオ C：完全新規（参考、非推奨）}
+
+シナリオ B の装置を全て新品で揃えた場合：\textbf{合計約 ¥24M}。
+独立研究者には現実的でない。
+
+\subsection{推奨選択}
+
+\textbf{シナリオ A 一択}。本実験の本質的価値は装置ではなく DBR 設計と
+力測定の再解釈にあるので、装置投資は無駄。共同研究先の選定がすべて。
+
+\newpage
+
+%======================================================================
+\section{候補共同研究先の詳細プロフィール（本ガイドの中核）}
+%======================================================================
+
+\subsection{評価軸について}
+
+各候補者を以下 5 軸で 1--5 スコアで評価する。
+
+\begin{center}
+\begin{tabular}{p{0.30\textwidth}p{0.62\textwidth}}
+\toprule
+評価軸 & 意味 \\
+\midrule
+\textbf{科学的適合性} & その人の研究内容が Setup B' に直接関係するか \\
+\textbf{装置適合性} & 必要な実験設備（AFM/MEMS, DBR 評価系）を持っているか \\
+\textbf{オープンさ} & アマチュア・非伝統的研究への態度 \\
+\textbf{アプローチ容易性} & 連絡しやすさ、返信率、ゲートキーピングの少なさ \\
+\textbf{成功時の影響力} & その人と組んだ場合の論文の影響力・可視性 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{重要な注意}：以下の評価は \emph{公開情報}（発表論文、所属機関の広報、
+公開講演、起業活動等）から推測したものである。各個人の実際の性向・スタンスは
+直接接触して確認するしかない。\textbf{これは絶対視すべき格付けではなく、
+最初のアプローチ順序を決めるための参考に過ぎない}。
+
+\vspace{1em}
+
+\subsection{総合ランキング（独立研究者向け）}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{cllc}
+\toprule
+順位 & 候補者 & 所属 & 総合 \\
+\midrule
+\textbf{1} & Davide Iannuzzi      & Vrije Univ.\ Amsterdam / Optics11 (蘭) & ★★★★★ \\
+2 & Alexander O.\ Sushkov & Boston Univ. (米)         & ★★★★$\frac{1}{2}$ \\
+3 & Jeremy N.\ Munday    & UC Davis (米)              & ★★★★ \\
+4 & Steve K.\ Lamoreaux  & Yale Univ. (米)            & ★★★$\frac{1}{2}$ \\
+5 & Ho Bun Chan          & HKUST (香港)               & ★★★ \\
+6 & Umar Mohideen        & UC Riverside (米)          & ★★★ \\
+7 & Ricardo S.\ Decca    & IUPUI (米)                 & ★★$\frac{1}{2}$ \\
+\midrule
+8 & 国内候補：理研、NTT 物性研、産総研 & --- & ★★ (個別調査要) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{独立研究者には上位 3 名を強く推奨}。以下、各候補者の詳細プロフィール。
+
+\newpage
+
+%======================================================================
+\section{候補 1：Davide Iannuzzi（最有力）}
+%======================================================================
+
+\begin{candidatebox}[Davide Iannuzzi]
+\textbf{所属}：Vrije Universiteit Amsterdam（VU Amsterdam）、
+LaserLaB 物理学部教授。同時に \textbf{Optics11} の共同創業者・CEO。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Iannuzzi, Lisanti, Capasso (2004) PNAS 101, 4019}：
+  ``Effect of hydrogen-switchable mirrors on the Casimir force.''
+  \textbf{鏡の状態変化でカシミール力を変調する初実験}。これがまさに本実験の
+  系譜。
+\item Iannuzzi 系の MEMS Casimir 力測定論文多数
+\end{itemize}
+
+\textbf{現在の研究}：ファイバー光学センサー、医療応用、Casimir は副業的継続
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★★ \\
+装置適合性      & ★★★★★ \\
+オープンさ      & ★★★★★ \\
+アプローチ容易性 & ★★★★ \\
+成功時の影響力  & ★★★★ \\
+\midrule
+\textbf{総合}   & \textbf{★★★★★} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ最有力か}
+
+\paragraph{1. 直接の系譜.}
+Iannuzzi 2004 (PNAS) は \emph{まさに本実験の前駆}：「鏡の状態を変えてカシミール
+力を変調する」という発想を実装した最初の論文。Setup B' は彼の 2004 論文の
+\emph{拡張} として完全に位置付けられる。提案を受けたとき、彼は 30 秒で
+本質を理解する。
+
+\paragraph{2. 起業家マインド.}
+Optics11 の共同創業者・CEO。ファイバー光センサー製品を世界中の研究機関に
+販売している。\textbf{学術ゲートキーピングが薄く、外部からの提案を機会とみる
+傾向}が強い。アマチュア起業家の発想にも開かれている可能性が高い。
+
+\paragraph{3. 産業化志向.}
+``Boyer 50 年予言の初検証'' という具体的な成果に直結する提案は、
+産業化志向の研究者にとって魅力的（PRL/Nature 級の単独成果）。
+
+\paragraph{4. 装置完備.}
+VU Amsterdam の Casimir 系装置は世界トップクラスで、AFM、MEMS、真空系、
+振動絶縁を全て持っている。
+
+\subsection{アプローチ戦略：3 ステップ}
+
+\paragraph{Step 1：論文を準備する.}
+arXiv にプレプリントを 1 本投稿する。タイトル例：
+
+\begin{quote}
+\itshape
+``Akkermans inverse design of artificial magnetic conductors for the
+experimental verification of Boyer's 50-year-old prediction of repulsive
+Casimir forces''
+\end{quote}
+
+内容は本ガイドの §3 + §7（Akkermans 公式 + DBR 設計）を 6--8 ページにまとめる。
+Wright Brothers 名義で出す。これは \textbf{calling card} になる。
+
+\paragraph{Step 2：個人メールを送る.}
+Iannuzzi の VU Amsterdam の公開メールアドレスに、簡潔な個人メールを送る。
+テンプレートは §15 にある。重要なポイント：
+
+\begin{itemize}
+\item \textbf{冒頭で 2004 PNAS 論文を引用}し、それの自然な拡張だと位置付ける
+\item arXiv 番号を入れる
+\item ``反重力'' は一切書かない
+\item \textbf{DBR は自分が手配する}（彼にコストを負わせない）
+\item ``あなたの研究室を 2 週間訪問させてもらえないか''と聞く
+\end{itemize}
+
+\paragraph{Step 3：返信があったら 30 分のオンライン会議.}
+オンライン会議で：
+\begin{itemize}
+\item Akkermans 解析の数値結果（PDF 1 枚）を画面共有
+\item DBR の Layertec 見積もりを提示
+\item 「測定は完全にあなたの装置と手順で。私は DBR と労力を提供する」
+\item 共著論文の \textbf{第一著者を Iannuzzi にする}と明言
+\end{itemize}
+
+\subsection{成功確率の自己評価}
+
+公開情報からの主観的見積もり：\textbf{30--50\%}。
+これは独立研究者からの提案としては \emph{極めて高い}。
+
+理由：(1) 2004 論文の直接拡張、(2) Optics11 経由の起業家マインド、
+(3) 提案者がコストを負担、(4) 結果が PRL/Nature 級。
+
+\textbf{失敗するとしたら}：本人が現在ファイバーセンサー事業で多忙すぎて
+アカデミック実験への時間が取れない場合。その場合は彼の研究室の博士課程
+学生・ポスドクに紹介してもらう道がある。
+
+\newpage
+
+%======================================================================
+\section{候補 2：Alexander O.\ Sushkov}
+%======================================================================
+
+\begin{candidatebox}[Alexander Sushkov]
+\textbf{所属}：Boston University 物理学部 Associate Professor。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Sushkov, Kim, Dalvit, Lamoreaux (2011) Nature Phys.\ 7, 230}：
+  ``Observation of the thermal Casimir force.''
+  熱カシミール効果の初観測。
+\item 各種カシミール精密測定論文
+\end{itemize}
+
+\textbf{他の研究}：
+\begin{itemize}
+\item \textbf{CASPEr（Cosmic Axion Spin Precession Experiment）}：
+  超軽量 axion ダークマター探索。NMR + 精密磁場測定。
+\item 原子物理、精密測定、基礎物理一般
+\end{itemize}
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★ \\
+装置適合性      & ★★★★ \\
+オープンさ      & ★★★★★ \\
+アプローチ容易性 & ★★★★ \\
+成功時の影響力  & ★★★★$\frac{1}{2}$ \\
+\midrule
+\textbf{総合}   & \textbf{★★★★$\frac{1}{2}$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ第 2 候補か}
+
+\paragraph{1. 「fringe topics を真剣にやる」で有名.}
+Sushkov は \textbf{未検出の axion ダークマター} という超ハイリスク・
+超ハイリターン研究に長年コミットしている。これは \emph{ほとんどの主流
+物理学者がやらない種類の研究}で、彼が新規・非伝統的提案に対して
+\textbf{構造的にオープン}であることを示している。
+
+\paragraph{2. Lamoreaux の弟子.}
+Sushkov 2011 Nature Phys.\ の共著者は Lamoreaux（候補 4）。Lamoreaux 系列の
+Casimir 文化を継承しつつ、より広い基礎物理に展開している。Boyer 50 年予言
+という \textbf{古典的に正当だが未検証}の課題は、彼の研究スタイルに完全に合致。
+
+\paragraph{3. 若い世代.}
+Decca や Mohideen より若く、新しい実験提案に時間を割く余裕がある。
+
+\subsection{アプローチ戦略}
+
+\paragraph{Step 1：CASPEr との接続を作る.}
+最初のメールで「Boyer 効果の精密測定は、CASPEr で培ったあなたの基礎物理測定の
+専門知識に直結する」と書く。彼の主要研究との相補性を強調する。
+
+\paragraph{Step 2：論文 + Akkermans 計算結果.}
+arXiv 論文を添えるのは Iannuzzi の場合と同じ。加えて、Akkermans 公式の
+数値解の Python コードを GitHub で公開して、リンクを提供する。
+Sushkov は \textbf{コードを書く実験家}なので、再現可能な計算は強い説得材料。
+
+\paragraph{Step 3：``リスク共有''の提案.}
+「私は DBR と Layertec 見積もりを持参します。実験が失敗しても、Akkermans
+公式の物理応用としての論文化は可能です（JPhys A など）。リスクを最小化
+するための提案です」と明示する。
+
+\subsection{成功確率}
+
+\textbf{20--35\%}。Iannuzzi より低いのは、Sushkov の主戦場が axion で、
+Casimir は副業的だから。しかし「提案を理解する能力」と「アマチュアへの
+寛容さ」は最高クラス。
+
+\newpage
+
+%======================================================================
+\section{候補 3：Jeremy N.\ Munday}
+%======================================================================
+
+\begin{candidatebox}[Jeremy Munday]
+\textbf{所属}：UC Davis 電気・コンピュータ工学部教授。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Munday, Capasso, Parsegian (2009) Nature 457, 170}：
+  ``Measured long-range repulsive Casimir-Lifshitz forces.''
+  \textbf{斥力カシミール力の初測定}（液体中の誘電率コントラストによる）。
+\item Casimir 力の精密測定多数（Capasso 系の系譜）
+\end{itemize}
+
+\textbf{現在の研究}：太陽電池、ナノフォトニクス、放射冷却。Casimir は継続的副業。
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★$\frac{1}{2}$ \\
+装置適合性      & ★★★★ \\
+オープンさ      & ★★★$\frac{1}{2}$ \\
+アプローチ容易性 & ★★★$\frac{1}{2}$ \\
+成功時の影響力  & ★★★★ \\
+\midrule
+\textbf{総合}   & \textbf{★★★★} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ第 3 候補か}
+
+\paragraph{1. 唯一の「斥力カシミール初測定」の実施者.}
+Munday 2009 Nature は \emph{現在のところ唯一の斥力カシミールの実験報告}で、
+Setup B' の提案を最も深く理解できる人物。\textbf{ただし機構は誘電率コントラストで、
+DN 境界ではない}ので、Setup B' は彼の 2009 論文の \emph{別経路の補完}として
+位置付けられる。
+
+\paragraph{2. Capasso 系の出身.}
+Federico Capasso（Harvard）系列。Capasso 自身よりは若く、アクセスしやすい。
+
+\paragraph{3. 工学部所属.}
+工学部の人は応用志向が強く、「具体的に何ができるか」を重視する傾向。
+実装可能な提案に乗りやすい。
+
+\subsection{アプローチ戦略}
+
+\paragraph{Step 1：``Munday 2009 を超えて''というフレーミング.}
+\begin{quote}
+\itshape
+``Your 2009 Nature paper showed repulsive Casimir via dielectric contrast,
+but the original Boyer prediction (PEC--PMC) has never been verified.
+We propose to verify Boyer's specific mechanism using Akkermans-designed DBR.''
+\end{quote}
+彼自身の論文を出発点として尊重し、その「未踏領域」に進む提案だと位置付ける。
+
+\paragraph{Step 2：応用面を強調.}
+工学部所属なので、純粋な基礎物理よりも \textbf{応用可能性} を強調する：
+``DN 等価境界の制御は将来的にナノフォトニクス・カシミール工学に応用可能''。
+
+\paragraph{Step 3：UC Davis の学生にコンタクト経路を作る.}
+Munday 本人が忙しいなら、彼の学生・ポスドクに先にアプローチする。
+研究室サイトで現メンバーを確認し、似た研究をしている人にメール。
+
+\subsection{成功確率}
+
+\textbf{15--30\%}。Iannuzzi と Sushkov より低いのは、(1) 工学部志向が強く
+基礎物理 50 年予言の検証への熱意が読みにくい、(2) 現在の主戦場（太陽電池等）
+からカシミールへの再注目が必要だから。
+
+\newpage
+
+%======================================================================
+\section{候補 4：Steve K.\ Lamoreaux}
+%======================================================================
+
+\begin{candidatebox}[Steve Lamoreaux]
+\textbf{所属}：Yale University 物理学部教授。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Lamoreaux (1997) PRL 78, 5}：
+  カシミール力の現代的初測定。歴史的論文。
+\end{itemize}
+
+\textbf{他の研究}：axion ダークマター探索（ADMX 系）、hidden photon、
+中性子の電気双極子モーメント探索など、\textbf{基礎物理探索の重鎮}。
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★ \\
+装置適合性      & ★★★ \\
+オープンさ      & ★★★★ \\
+アプローチ容易性 & ★★ \\
+成功時の影響力  & ★★★★★ \\
+\midrule
+\textbf{総合}   & \textbf{★★★$\frac{1}{2}$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ第 4 候補か}
+
+\paragraph{1. 歴史的名声.}
+Lamoreaux の名前が論文に入れば PRL クラスは確実、Nature も視野。
+\emph{現代カシミール物理の創始者} の一人としての権威。
+
+\paragraph{2. 基礎物理のフロンティア常駐.}
+axion・hidden photon・EDM 等、\textbf{未確認・非主流の基礎物理を真剣にやる}
+ことで知られる。Boyer 50 年予言の検証は彼の興味の中心軸。
+
+\paragraph{3. ただし忙しい・高名.}
+これが弱点。連絡しても返信が来ない可能性が高い。学生・ポスドクのフィルタを
+通る必要がある。
+
+\subsection{アプローチ戦略}
+
+\paragraph{Step 1：Sushkov 経由で間接接触.}
+Lamoreaux への直接アプローチより、\textbf{Sushkov（候補 2）経由でのリファラル}
+を狙う。Sushkov は Lamoreaux の弟子で、Sushkov に提案が響けば
+Lamoreaux に紹介してくれる可能性がある。
+
+\paragraph{Step 2：会議で接触.}
+APS March Meeting や DAMOP などの会議で、彼の発表後の Q\&A セッションで
+1 つ良い質問をする。これがフックになる。
+
+\paragraph{Step 3：直接メール（最後の手段）.}
+メール本文は短く、目的を 3 文以内に圧縮する：
+\begin{quote}
+\itshape
+``Boyer 1974's PEC--PMC repulsive Casimir prediction has never been
+experimentally verified. We have an Akkermans-based DBR design that
+implements the equivalent boundary condition. Would you have 30 minutes
+for a Zoom call to discuss feasibility?''
+\end{quote}
+arXiv 論文へのリンクのみ添付。長いメールは捨てられる。
+
+\subsection{成功確率}
+
+\textbf{5--15\%}。Iannuzzi の半分以下。ただし \emph{成功した場合の影響力} は最大。
+独立研究者の最初の選択肢としては推奨しない（他の候補と並行して試す）。
+
+\newpage
+
+%======================================================================
+\section{候補 5：Ho Bun Chan}
+%======================================================================
+
+\begin{candidatebox}[Ho Bun Chan]
+\textbf{所属}：Hong Kong University of Science and Technology (HKUST)
+物理学部教授。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Tang, Wang, Rodriguez, Reid, Johnson, Chan (2017) Nat.\ Photonics
+  11, 97}：``Measurement of non-monotonic Casimir forces between silicon
+  nanostructures.'' \textbf{幾何効果による斥力 Casimir の測定}。
+\item 各種 MEMS Casimir 測定論文
+\end{itemize}
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★$\frac{1}{2}$ \\
+装置適合性      & ★★★★ \\
+オープンさ      & ★★★ \\
+アプローチ容易性 & ★★★ \\
+成功時の影響力  & ★★★ \\
+\midrule
+\textbf{総合}   & \textbf{★★★} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{なぜ候補か}
+
+幾何構造による斥力 Casimir を測定した \textbf{Munday 2009 と並ぶ貴重な実験家}。
+また、HKUST はアジアの研究機関なので、欧米の Casimir コミュニティとは
+やや独立した文化を持ち、新規提案に対する反応が読みにくい（オープンの可能性も
+ガチガチの可能性もある）。
+
+\subsection{アプローチ戦略}
+
+英語メールで Iannuzzi と同じテンプレートを使う。違いは：
+\begin{itemize}
+\item Tang 2017 を冒頭で引用
+\item ``幾何効果と DN 境界効果は補完的''と位置付ける
+\item HKUST 訪問の費用負担を明確に提示（自己負担）
+\end{itemize}
+
+\subsection{成功確率}
+
+\textbf{10--20\%}。
+
+\newpage
+
+%======================================================================
+\section{候補 6：Umar Mohideen}
+%======================================================================
+
+\begin{candidatebox}[Umar Mohideen]
+\textbf{所属}：UC Riverside 物理・天文学部教授。
+
+\textbf{Casimir 関連論文}：
+\begin{itemize}
+\item \textbf{Mohideen, Roy (1998) PRL 81, 4549}：
+  AFM ベースの精密 Casimir 測定。Lamoreaux 1997 と並ぶ初期の重要論文。
+\item Klimchitskaya, Mostepanenko らとの精密測定論文多数
+\end{itemize}
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★ \\
+装置適合性      & ★★★★★ \\
+オープンさ      & ★★$\frac{1}{2}$ \\
+アプローチ容易性 & ★★ \\
+成功時の影響力  & ★★★★ \\
+\midrule
+\textbf{総合}   & \textbf{★★★} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{プロファイル}
+
+カシミール測定の最高峰の一人。\textbf{装置と精度では世界トップ}。しかし
+Klimchitskaya--Mostepanenko 系の理論的な細部にこだわる文化に属し、
+\textbf{新規・非伝統的な提案には保守的}な可能性がある。
+
+\textbf{推奨度}：他の候補が全て失敗した場合の保険。最初に attack しない。
+
+\subsection{アプローチ戦略}
+
+\paragraph{Step 1：彼の最近の論文を精読する.}
+Mohideen と Klimchitskaya--Mostepanenko の最近 5 年分の論文を読み、
+彼らが何を「正しい」「間違っている」と主張しているか把握する。彼らの理論的
+立場と矛盾しない形で提案を構成する。
+
+\paragraph{Step 2：理論的に厳密な提案書.}
+Iannuzzi よりも \textbf{遥かに厳密で長い}提案書を準備する。
+Akkermans 公式の導出、誤差バジェット、系統誤差解析を全て付ける。
+``アマチュア''風の簡潔な提案では捨てられる可能性が高い。
+
+\paragraph{Step 3：Klimchitskaya 経由を狙う.}
+Mohideen 本人ではなく、共同研究者の Galina Klimchitskaya（理論家、ロシア）に
+先にコンタクトする方法もある。彼女が興味を示せば Mohideen にもつながる。
+
+\subsection{成功確率}
+
+\textbf{5--15\%}。
+
+\newpage
+
+%======================================================================
+\section{候補 7：Ricardo S.\ Decca}
+%======================================================================
+
+\begin{candidatebox}[Ricardo Decca]
+\textbf{所属}：Indiana University--Purdue University Indianapolis (IUPUI)
+物理学部教授。
+
+\textbf{Casimir 関連}：
+\begin{itemize}
+\item MEMS torsion balance を用いた sub-pN 級の精密 Casimir 測定
+\item Klimchitskaya--Mostepanenko 系の主要実験家
+\item Drude vs plasma model 論争の主要プレイヤー
+\end{itemize}
+\end{candidatebox}
+
+\subsection{評価}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+評価軸 & スコア \\
+\midrule
+科学的適合性    & ★★★★ \\
+装置適合性      & ★★★★★ \\
+オープンさ      & ★$\frac{1}{2}$ \\
+アプローチ容易性 & ★$\frac{1}{2}$ \\
+成功時の影響力  & ★★★$\frac{1}{2}$ \\
+\midrule
+\textbf{総合}   & \textbf{★★$\frac{1}{2}$} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{プロファイル}
+
+\textbf{装置と測定技術では世界最高峰}。MEMS torsion balance の決定版。
+ただし Mohideen 系列と同じく Klimchitskaya--Mostepanenko 文化に属し、
+\textbf{独立研究者からの提案に対する開放度は低い可能性が高い}。
+
+\textbf{推奨度}：独立研究者の最初の選択肢としては不適。
+ただし、Iannuzzi/Sushkov 経由で彼に紹介されれば話は別。
+
+\subsection{アプローチ戦略}
+
+\textbf{直接アプローチは推奨しない}。他の候補が成功して論文が出た後、
+論文の追試・拡張の文脈で接触するのが現実的。
+
+\newpage
+
+%======================================================================
+\section{国内候補（理研、NTT、産総研）}
+%======================================================================
+
+\subsection{総評}
+
+日本国内の Casimir 力測定を直接の専門とするグループは少ない。
+ただし \textbf{隣接領域}（MEMS、超伝導 cQED、ナノフォトニクス）には
+強いグループが存在する。
+
+\subsection{候補機関}
+
+\paragraph{理研 CEMS（創発物性科学研究センター）.}
+\begin{itemize}
+\item 量子物理・物性理論の総合拠点
+\item 中村泰信（量子情報）系列で SQUID 系の経路（Setup B''）には強い
+\item Setup B' の AFM カシミール測定には直接の専門家は少ないかもしれない
+\item アプローチ：Web 公開の連絡先からメール。日本語可。
+\end{itemize}
+
+\paragraph{NTT 物性科学基礎研究所（厚木）.}
+\begin{itemize}
+\item MEMS、超伝導回路、ナノファブの強力なインフラ
+\item 産業研究所なので外部との共同研究には独自のプロセスがある
+\item アプローチ：技術提案として正式に申し込む
+\end{itemize}
+
+\paragraph{産業技術総合研究所（産総研）.}
+\begin{itemize}
+\item 計測標準研究部門が精密測定の専門家を抱える
+\item Casimir 測定の前例があるかは要調査
+\item アプローチ：産総研の「技術相談」窓口経由が比較的開かれている
+\end{itemize}
+
+\subsection{独立研究者にとっての国内候補のメリット・デメリット}
+
+\paragraph{メリット.}
+\begin{itemize}
+\item 言語障壁ゼロ
+\item 訪問・打ち合わせコストが低い
+\item 同じタイムゾーン
+\end{itemize}
+
+\paragraph{デメリット.}
+\begin{itemize}
+\item 国内の Casimir 専門家層が薄い（欧米と比較）
+\item 産業研究所はアマチュア提案に冷淡な傾向
+\item 大学は所属確認・信用情報を求められる場合が多い
+\end{itemize}
+
+\textbf{推奨}：海外候補（特に Iannuzzi）と並行してアプローチする「保険」として
+扱う。
+
+\newpage
+
+%======================================================================
+\section{アマチュア $\to$ アカデミアへのアプローチ：一般的なコツ}
+%======================================================================
+
+\subsection{大原則}
+
+\begin{tipbox}
+\textbf{アカデミア研究者は ``proof of seriousness'' を求めている}。
+あなたが時間を投資して理解した証拠と、あなた自身がコストを負担する意思を
+示せば、内容が良ければ多くの研究者は反応する。
+\end{tipbox}
+
+\subsection{やってはいけない 7 つの NG}
+
+\begin{enumerate}
+\item \textbf{``反重力''や ``ワープドライブ'' を冒頭に書く}
+  $\to$ 即座に pseudoscience フォルダ行き
+\item \textbf{``私の理論を検証してください''}
+  $\to$ 押しつけと受け取られる。``共同で'' を強調する
+\item \textbf{長すぎるメール（500 単語超）}
+  $\to$ 読まずに削除される
+\item \textbf{メールに添付ファイル多数}
+  $\to$ ウイルスと混同される。リンクで提供
+\item \textbf{所属詐称}
+  $\to$ 即発覚、信用ゼロ
+\item \textbf{``Nobel 級''などの誇張表現}
+  $\to$ 即座に怪しい人扱い
+\item \textbf{返信を急かす}
+  $\to$ 返信率が下がる。1 ヶ月待つ
+\end{enumerate}
+
+\subsection{逆に効果的な 7 つの行動}
+
+\begin{enumerate}
+\item \textbf{arXiv プレプリントを先に出す}
+  $\to$ 物理学者は arXiv 番号で「真面目さ」を即座に評価する
+\item \textbf{相手の論文を 1 つ正確に引用}
+  $\to$ 相手の研究を読んでいる証拠
+\item \textbf{具体的な提案（装置、予算、期間、役割分担）}
+  $\to$ 「話を聞くだけ」と違い真剣味が伝わる
+\item \textbf{自己負担の明示（DBR は私が手配します）}
+  $\to$ 相手のリスクを下げる
+\item \textbf{論文の第一著者を相手にする}と最初に明言
+  $\to$ アカデミア通貨である「論文業績」を相手に渡す
+\item \textbf{オンライン会議の打診（30 分）}
+  $\to$ 対面より圧倒的に承諾率が高い
+\item \textbf{失敗時の代替論文化経路を用意}
+  $\to$ ``失敗しても何か論文になる''は研究者を安心させる
+\end{enumerate}
+
+\subsection{独立研究者特有の壁と回避策}
+
+\paragraph{壁 1：所属がない.}
+回避：``Independent Researcher'' と書く。pseudonymity（Wright Brothers）は
+GitHub プロフィールと arXiv プレプリントが揃っていれば許容される。
+``Bourbaki'' も ``Wright Brothers'' も前例がある。
+
+\paragraph{壁 2：funding がない.}
+回避：DBR を自前で買う。これだけで既に「fund を持ち込む collaborator」になる。
+¥500k は欧米の研究予算では微々たるもの。
+
+\paragraph{壁 3：論文業績がない.}
+回避：arXiv プレプリントが業績代わり。
+具体的には Akkermans 解析の Python コードを GitHub 公開し、それと
+関連付けた arXiv 論文 1 本があれば、最低限の信頼は得られる。
+
+\paragraph{壁 4：visa / 訪問問題.}
+回避：Zoom 会議で済ませる。実験は相手のラボでやってもらい、データを送って
+もらう。実装フェーズだけ短期訪問（観光ビザの範囲内）。
+
+\newpage
+
+%======================================================================
+\section{段階的実行プラン（独立研究者向け）}
+%======================================================================
+
+\subsection{Phase A：準備（1--2 ヶ月）}
+
+\begin{enumerate}
+\item Akkermans 公式の数値解を Python で実装、GitHub 公開
+  \begin{itemize}
+  \item リポジトリ名例：\texttt{akkermans-boyer-inverse-design}
+  \item README で目的を明示、再現可能なノートブックを置く
+  \end{itemize}
+\item arXiv プレプリントを 1 本書く（6--8 ページ）
+  \begin{itemize}
+  \item タイトル：``Akkermans inverse design of artificial magnetic
+    conductors for the experimental verification of Boyer's repulsive
+    Casimir prediction''
+  \item arXiv カテゴリ：quant-ph（または cond-mat.mes-hall）
+  \end{itemize}
+\item Layertec / Newport から DBR の見積もりを取る
+  \begin{itemize}
+  \item 設計仕様：本ガイド §3.3 と §7
+  \item 見積書を PDF で保管
+  \end{itemize}
+\item 候補者上位 5 名の最近 3 年の論文を読破
+\end{enumerate}
+
+\subsection{Phase B：アプローチ（1--3 ヶ月）}
+
+\begin{enumerate}
+\item \textbf{Wave 1}：Iannuzzi にメール送信（候補 1）
+  \begin{itemize}
+  \item 1 ヶ月待つ
+  \item 返信あり $\to$ オンライン会議
+  \item 返信なし $\to$ Wave 2 へ
+  \end{itemize}
+\item \textbf{Wave 2}：Sushkov, Munday に同時メール（候補 2, 3）
+  \begin{itemize}
+  \item 並列で 1 ヶ月待つ
+  \item 1 つでも返信あれば Wave 3 を保留
+  \end{itemize}
+\item \textbf{Wave 3}：Lamoreaux, Chan, 国内候補に並行メール
+  \begin{itemize}
+  \item ここまでで 3 ヶ月経過
+  \item どこかから返信があれば共同研究合意へ
+  \end{itemize}
+\end{enumerate}
+
+\subsection{Phase C：合意形成（1 ヶ月）}
+
+\begin{enumerate}
+\item オンライン会議で技術内容を擦り合わせ
+\item 役割分担、論文オーサーシップ、データ所有権を明文化
+\item 簡易 MoU（覚書）を作成・署名
+\item DBR 発注、Layertec へ ¥400k 送金
+\end{enumerate}
+
+\subsection{Phase D：実験（2--3 ヶ月）}
+
+\begin{enumerate}
+\item DBR 到着、光学評価
+\item 共同研究先で校正測定（Au-Au 標準）
+\item DBR 測定本番
+\item データ解析、誤差評価
+\end{enumerate}
+
+\subsection{Phase E：論文化（2--3 ヶ月）}
+
+\begin{enumerate}
+\item ドラフト（共同研究先 PI が筆頭著者）
+\item 内部レビュー、再測定
+\item Nature/PRL 投稿
+\end{enumerate}
+
+\textbf{合計期間：8--12 ヶ月}。
+
+\newpage
+
+%======================================================================
+\section{代替プラン（全員に断られた場合）}
+%======================================================================
+
+\subsection{Plan B：DIY 化}
+
+シナリオ B（自前構築、¥5M 級）に切り替え、独立研究者の自宅 / レンタル
+スペースで実験を組む。
+
+\textbf{ハードル}：
+\begin{itemize}
+\item AFM の自作は事実上不可能（精度が出ない）
+\item MEMS チップの自作は MEMS ファブとの契約が必要
+\item 振動絶縁・真空・温度制御の同時管理が必要
+\end{itemize}
+
+\textbf{現実的選択}：自作よりも \textbf{中古 AFM の購入}（eBay などで $20k--$50k 程度）。
+JEOL や Park Systems の旧モデルなら入手可能。
+
+\subsection{Plan C：別実験への切り替え}
+
+Setup B' を諦め、より低コスト・より自前で可能な実験に切り替える：
+
+\begin{itemize}
+\item \textbf{Phase P}（Berry phase $\pi$ phononics、¥27k）：3D プリント結晶で
+  $\pi$ Berry 位相のフォノニック実装。WB の既存ガイド
+  \texttt{guide\_phase\_p\_comprehensive\_ja.tex} を参照。
+\item \textbf{LC 回路実験}：単純な LC 共振器でエッジ状態を観測する
+  ¥5k 級実験。\texttt{guide\_complete\_beginners\_ja.tex} 参照。
+\end{itemize}
+
+これらは Setup B' より直接性は低いが、\textbf{自前で完結} できる。
+
+\subsection{Plan D：ブログ・arXiv ベースの公開議論}
+
+実験は諦め、arXiv プレプリント + 個人ブログで提案を公開し、誰かが拾って
+くれるのを待つ。これは長期的（年単位）戦略だが、完全に独立で進められる。
+
+\newpage
+
+%======================================================================
+\section{テンプレート：初回メール}
+%======================================================================
+
+\subsection{Iannuzzi 向け（最有力候補用）}
+
+\begin{tcolorbox}[colback=white,colframe=blue!50!black,title={英語メール例（カスタマイズ前）},breakable]
+\small\ttfamily
+Subject: A direct experimental extension of your 2004 PNAS paper:
+Akkermans-designed DBR for Boyer's repulsive Casimir prediction\\
+
+Dear Prof.\ Iannuzzi,\\
+
+Your 2004 PNAS paper (Iannuzzi, Lisanti, Capasso) showed that the
+Casimir force can be modulated by changing the optical state of one
+mirror. This established the conceptual route I would like to extend.\\
+
+Boyer's 1974 prediction that PEC--PMC boundaries give a repulsive
+Casimir force has never been experimentally verified, because PMCs
+do not exist as natural materials. Using the Akkermans--Dunne--Levy
+formula (Optics of Aperiodic Structures, 2013, Ch.\ 10), we have
+inverse-designed a SiO2/Ta2O5 DBR multilayer that implements the
+DN-equivalent boundary condition over the relevant Casimir frequency
+range. Predicted result: $F_{\rm DBR}/F_{\rm Au} = -7/8$.\\
+
+Preprint with full derivation, transfer-matrix code, and design
+specifications: arXiv:XXXX.YYYYY\\
+GitHub (reproducible Python): github.com/wright-brothers/akkermans-boyer\\
+
+I am an independent researcher and would like to propose a
+collaboration where your group performs the measurement using your
+existing AFM/MEMS Casimir setup, while I provide:\\
+\hphantom{xx}- the DBR (already quoted at Layertec, EUR 3000, paid by me),\\
+\hphantom{xx}- all theoretical/numerical analysis,\\
+\hphantom{xx}- travel and labor for any in-lab work.\\
+
+You and your group would be the lead authors on the resulting paper.
+Even if the predicted sign reversal is not observed, the experiment
+would be the first direct test of the Boyer 50-year prediction in
+the PEC--PMC channel and is independently publishable in PRL or
+Nature class.\\
+
+Would you have 30 minutes for a Zoom call in the next two weeks?\\
+
+Best regards,\\
+Wright Brothers\\
+Independent Researcher\\
+[email address]\\
+\end{tcolorbox}
+
+\subsection{Sushkov 向け（CASPEr との接続版）}
+
+ほぼ Iannuzzi 向けと同じテンプレート。違いは冒頭：
+
+\begin{tcolorbox}[colback=white,colframe=blue!50!black,breakable]
+\small\ttfamily
+Subject: Boyer's 50-year unverified Casimir prediction --- Akkermans-designed
+DBR test, complementing your CASPEr precision measurement expertise\\
+
+Dear Prof.\ Sushkov,\\
+
+Your work on CASPEr and the thermal Casimir force (Sushkov et al.\ 2011,
+Nature Phys.) demonstrates exactly the kind of precision foundational
+physics measurement that the proposed experiment requires.\\
+
+Boyer's 1974 prediction... [以下、Iannuzzi 向けと同じ]
+\end{tcolorbox}
+
+\subsection{Munday 向け（Nature 2009 拡張版）}
+
+\begin{tcolorbox}[colback=white,colframe=blue!50!black,breakable]
+\small\ttfamily
+Subject: Boyer's PEC--PMC Casimir prediction: a complementary route to
+your 2009 Nature paper\\
+
+Dear Prof.\ Munday,\\
+
+Your 2009 Nature paper showed repulsive Casimir forces via dielectric
+contrast in fluids. This is, to my knowledge, the only direct experimental
+demonstration of Casimir repulsion. We propose to test the *other*
+classical mechanism for Casimir repulsion --- Boyer's 1974 PEC--PMC
+prediction, which has never been verified...\\
+\end{tcolorbox}
+
+\textbf{重要}：これらは「テンプレート」です。送信前に各候補の最近の論文を
+読んで、相手の \emph{現在の研究} に接続する 1--2 文を追加すること。
+
+\newpage
+
+%======================================================================
+\section{チェックリスト}
+%======================================================================
+
+\subsection{Phase A 準備チェックリスト}
+
+\begin{itemize}
+\item[$\square$] arXiv プレプリント完成、投稿済み
+\item[$\square$] arXiv 番号を取得
+\item[$\square$] GitHub リポジトリ公開
+\item[$\square$] Akkermans Python コード再現性確認
+\item[$\square$] Layertec から DBR 見積もり取得（PDF 保管）
+\item[$\square$] 候補上位 5 名の連絡先確認
+\item[$\square$] 候補上位 5 名の最近 3 年論文読破
+\item[$\square$] 各候補向けにカスタマイズしたメールドラフト
+\item[$\square$] DBR 購入資金 ¥500k の準備（または親類・支援者からの調達）
+\item[$\square$] 訪問用パスポート有効期限確認
+\end{itemize}
+
+\subsection{Phase B アプローチチェックリスト}
+
+\begin{itemize}
+\item[$\square$] Wave 1（Iannuzzi）送信日の記録
+\item[$\square$] 1 ヶ月後にフォローアップ送信、または Wave 2 へ
+\item[$\square$] Wave 2（Sushkov, Munday）送信日の記録
+\item[$\square$] Wave 3（Lamoreaux, Chan, 国内）送信日の記録
+\item[$\square$] 全 send/receive を spreadsheet で追跡
+\end{itemize}
+
+\subsection{Phase C 合意形成チェックリスト}
+
+\begin{itemize}
+\item[$\square$] オンライン会議実施
+\item[$\square$] 役割分担文書化
+\item[$\square$] オーサーシップ合意
+\item[$\square$] データ所有権明文化
+\item[$\square$] MoU 署名
+\item[$\square$] DBR 発注
+\end{itemize}
+
+%======================================================================
+\section{まとめ}
+%======================================================================
+
+\begin{tcolorbox}[colback=green!5,colframe=green!50!black,title=本ガイドの一行まとめ]
+Setup B' は \textbf{¥1M 程度・8--12 ヶ月}で実施可能な「Boyer 50 年予言の初検証」
+実験である。独立研究者の最大の障害は装置でも資金でもなく、\textbf{適切な
+共同研究先の確保}である。最有力候補は Davide Iannuzzi (Vrije Univ.\ Amsterdam
+/ Optics11)。彼の 2004 PNAS 論文の自然な拡張として位置付け、自費で DBR を
+持ち込み、論文の筆頭著者を彼に渡す形で提案すれば成功確率は 30--50\%。
+``反重力'' は絶対に最初に出さない。
+\end{tcolorbox}
+
+\vspace{2em}
+
+\textbf{関連文書}：
+\begin{itemize}
+\item \texttt{experimental\_guide\_antigravity\_ja.pdf}：6 段階の実験ロードマップ
+\item \texttt{notes\_2026\_04\_10\_phase2\_audit\_ja.pdf}：Akkermans 解析の数値詳細
+\item \texttt{topological\_antigravity.tex}：WB 反重力理論の数学的定式化
+\item \texttt{boyer\_reinterpretation\_ja.tex}：Boyer 効果の数論的再解釈
+\end{itemize}
+
+\vspace{2em}
+
+\textbf{重要な注意（再掲）}：本ガイドの候補者プロフィールは公開情報からの
+主観的推測である。各人物の実際の応答性は接触するまで分からない。
+本ガイドは順序付けの参考に過ぎず、最終判断は読者自身の調査と直接接触に
+基づくべきである。
+
+\end{document}
