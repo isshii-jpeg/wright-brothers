@@ -233,6 +233,107 @@ transfer matrix 法（Akkermans 式 10.83--10.95）で逆解きする。
 精度、多層膜の品質、Casimir 関連周波数帯のカバー範囲）。それでも出なければ
 Stage 2 経路（SC ベース）に切り替える。
 
+\subsection{補注：Setup B'-DBR は Hurwitz ゼータ、Setup B'-etalon がリテラル $\zeta_{\neg 2}$}
+
+\textbf{重要な数学的区別}：DBR 版が実装するのは Hurwitz ゼータ
+$\zeta(s, 1/2) = (2^s - 1)\zeta(s)$（半整数モード）であって、
+\emph{リテラルな}オイラー積素数ミュート $\zeta_{\neg 2}(s) = (1 - 2^{-s})\zeta(s)$
+（奇整数モード）ではない。両者は長さスケール変換（$L \to 2L$）により物理的に
+等価だが、$p=3$ 以降への一般化は DBR 版では不可能（$\lambda/3$ 鏡という概念は
+機能しない）。
+
+\textbf{リテラルな $\zeta_{\neg 2}$ を 3D 光学カシミールで実現する方法}が WB の
+既存コード \texttt{research/04\_warp\_drive/exp\_etalon\_prime\_muting.py} に
+計算されている：\textbf{Fabry-Perot エタロンを片方の壁に使う}。
+
+\subsection{代替実装：Setup B'-etalon（Fabry-Perot エタロン、\emph{リテラル} $\zeta_{\neg 2}$）}
+
+\begin{theorybox}
+\textbf{原理}：カシミール cavity（長さ $a$）の片方の壁を、\textbf{光学厚さ $a/2$
+の Fabry-Perot エタロン}に置き換える。エタロンの FSR $= c/(2d) = c/a = 2f_1$
+（$f_1 = c/(2a)$ は cavity 基本モード周波数）。
+
+透過率 $T(f) = 1/(1 + F \sin^2(\pi f/\text{FSR}))$ に $f = nf_1$ を代入：
+\[
+  \sin^2(n\pi/2) = \begin{cases} 0 & n \text{ 偶数}\to T \approx 1\text{（素通り→脱出→ミュート）}\\
+                                   1 & n \text{ 奇数}\to T \approx 1/(1+F)\text{（反射→閉じ込め→生存）}\end{cases}
+\]
+Finesse $F = 30$（標準的な商用エタロン）で偶モード透過 $\approx 1$、
+奇モード透過 $\approx 0.032$ $\to$ \textbf{原理的に完璧な偶奇分離}。
+
+残る真空モード集合：$\{1, 3, 5, 7, 9, \ldots\} \times f_1$
+$\to$ 正確に $\zeta_{\neg 2}(s) = \sum_{n \text{ odd}} n^{-s}$ を実装。
+\end{theorybox}
+
+\paragraph{数値予測（$a = 1\,\mu$m で）.}
+\begin{itemize}
+\item 標準カシミール圧：$P_{\rm std} = -\pi^2\hbar c/(240\,a^4) \approx -1.3\times 10^{-3}$ Pa
+\item エタロン版：$P_{\rm odd} = +(\pi^2\hbar c)/(2 a^4) \times (7/120) \approx +1.05\times 10^{-2}$ Pa
+\item \textbf{比}：$P_{\rm odd}/P_{\rm std} \approx \mathbf{-8}$（符号反転 + 8 倍大きく）
+\item $|\Delta P|/|P_{\rm std}| \approx 900\%$、AFM 既存精度 0.1\% $\to$ \textbf{SN $\sim 9000$}
+\end{itemize}
+
+\paragraph{エタロン厚さの数値仕様.}
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+cavity 長さ $a$ & エタロン厚 $d=a/2$ & 基本モード $f_1$ \\
+\midrule
+200 nm  & 100 nm & 750 THz (λ=400 nm, 紫外) \\
+500 nm  & 250 nm & 300 THz (λ=1 µm, 近 IR) \\
+1000 nm & 500 nm & 150 THz (λ=2 µm, 中 IR) \\
+2000 nm & 1 µm   & 75 THz  (λ=4 µm, 中 IR) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+$a = 1\,\mu$m が実装しやすい：エタロン厚 500 nm は光学薄膜技術の標準範囲、
+基本モード波長 2 µm は近赤外で通常の光学材料が使える。
+
+\paragraph{実装上の困難（Setup B'-DBR に対して）.}
+\begin{itemize}
+\item \textbf{自立エタロン}：通常のエタロンはガラス基板（mm 厚）上に成膜するが、
+  カシミール実験では基板が邪魔になる。解決策：
+  \begin{enumerate}
+  \item \textbf{Si$_3$N$_4$ メンブレン（$\sim 50$ nm）を基板に}：MEMS/NEMS で標準技術
+  \item \textbf{球--平面配置}の近接場測定（AFM 系で普通）
+  \end{enumerate}
+\item \textbf{エタロン厚精度}：$d$ の誤差は FSR のズレを生むので、$\Delta d/d < 10\%$
+  程度の精度が必要（偶数モードの透過が劣化する）
+\item \textbf{Finesse $F$ の確保}：ミラー反射率 $R \approx 0.77$ で $F = 30$。
+  標準的な光学薄膜で容易
+\end{itemize}
+
+\paragraph{Setup B'-DBR との比較.}
+\begin{center}
+\begin{tabular}{p{0.25\textwidth}p{0.30\textwidth}p{0.35\textwidth}}
+\toprule
+比較項目 & Setup B'-DBR & \textbf{Setup B'-etalon} \\
+\midrule
+実装する関数 & Hurwitz $\zeta(s, 1/2)$ & \textbf{リテラル $\zeta_{\neg 2}(s)$} \\
+Boyer 比 & $-7/8$（Hurwitz） & \textbf{$-8$（Riemann 切断）} \\
+$p=3$ 一般化 & 不可能 & \textbf{エタロン厚さ変更で可能}（$d = a/3$）\\
+$p=2,3$ 同時ミュート & 不可能 & \textbf{エタロン 2 段重ねで可能} \\
+部品入手 & Layertec custom DBR $\sim$¥400k & \textbf{商用エタロン $\sim$¥50--200k} \\
+エタロン実現性 & 既存商用品 & 自立型 or Si$_3$N$_4$ 基板化が必要 \\
+乗法性検証 & 不可能 & \textbf{可能} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{戦略的位置付け.}
+\textbf{Setup B'-etalon は Setup B'-DBR より理論的に強い}：
+\begin{enumerate}
+\item リテラルな $\zeta_{\neg 2}$ を実装 $\to$ WB の「オイラー積は物理法則」主張を
+  直接テストできる
+\item $p=3$ 変種でエタロン厚 $d = a/3$ $\to$ $\zeta_{\neg 3}$ の初測定
+\item エタロン 2 段重ねで $p=2, 3$ 同時ミュート $\to$ \textbf{乗法性の検証}
+\end{enumerate}
+
+ただし自立型 $\sim$500 nm 厚エタロンの作製が MEMS レベルの追加技術を要求する。
+\textbf{独立研究者にとっては DBR 版の方がハードルが低い}が、共同研究先に
+NEMS/MEMS ファブ能力があれば etalon 版を優先すべき。
+
 \subsection{代替実装：Setup B''（SQUID CPW 素数フィルタ、cQED 経路）}
 
 Setup B' の DBR は broadband 3D 光学カシミールを狙うが、\textbf{1D GHz cQED で
@@ -937,15 +1038,16 @@ START
 \toprule
 段階 & 単独コスト & 累積 & 単独期間 \\
 \midrule
-Stage 0                       & ¥0--500k      & ¥500k  & 1--2 月 \\
-Stage 1 / Setup B' (DBR 室温) & ¥500k--1M     & ¥1.5M  & 2--3 月 \\
-Stage 1 / Setup B'' (SQUID CPW) & ¥6M--11M    & ¥12.5M & 12 月（並行可） \\
-Stage 2a                      & ¥1--3M        & ¥15.5M & 3--6 月 \\
-Stage 2b                      & ¥550k--1.35M  & ¥16.85M & 2--3 月（並行可） \\
-Stage 3 / Setup A (Pate $\pi$-接合) & ¥1--3M  & ¥19.85M & 3--6 月 \\
-Stage 3 / Setup A' ($\pi$-SQUID 対照) & ¥1--2M (chip 共通化) & ¥21.85M & 3--4 月 \\
-Stage 4                       & ¥10M--30M     & ¥51.85M & 12--18 月 \\
-Stage 5                       & ¥1--3M + SG 借用 & ¥54.85M & 3--6 月 \\
+Stage 0                            & ¥0--500k      & ¥500k  & 1--2 月 \\
+Stage 1 / Setup B'-DBR             & ¥500k--1M     & ¥1.5M  & 2--3 月 \\
+Stage 1 / Setup B'-etalon          & ¥200k--800k   & ¥2.3M  & 2--3 月（並行可） \\
+Stage 1 / Setup B'' (SQUID CPW)    & ¥6M--11M      & ¥13.3M & 12 月（並行可） \\
+Stage 2a                           & ¥1--3M        & ¥16.3M & 3--6 月 \\
+Stage 2b                           & ¥550k--1.35M  & ¥17.65M & 2--3 月（並行可） \\
+Stage 3 / Setup A                  & ¥1--3M        & ¥20.65M & 3--6 月 \\
+Stage 3 / Setup A' ($\pi$-SQUID)   & ¥1--2M        & ¥22.65M & 3--4 月 \\
+Stage 4                            & ¥10M--30M     & ¥52.65M & 12--18 月 \\
+Stage 5                            & ¥1--3M + SG 借用 & ¥55.65M & 3--6 月 \\
 \bottomrule
 \end{tabular}
 \end{center}
